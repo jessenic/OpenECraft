@@ -261,6 +261,7 @@ pub fn default_for_symbol(prj: &Project, sym: &str) -> &'static FunctionDef {
             Func::Interruption => "fn.interruption",
             Func::Terminal => "fn.terminal",
             Func::Plug(_) => "fn.plug_pair",
+            Func::Plc if def.digital_input() == Some(false) => "fn.plc_do",
             Func::Plc => "fn.plc_di",
             _ => match crate::parts::kind_of_symbol(sym) {
                 Some(kind) => return ROWS.iter().position(|r| r.3 == kind),

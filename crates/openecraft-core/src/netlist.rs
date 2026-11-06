@@ -540,7 +540,7 @@ pub fn pin_designation(prj: &Project, pin: PinRef) -> String {
         Func::Potential => format!("={}", s.label),
         Func::Interruption => format!("»{}", s.label),
         Func::Terminal | Func::Plug(_) => format!("{}:{}", s.tag, s.label),
-        Func::Plc => format!("{}:{}", s.tag, s.label),
+        Func::Plc if def.plc_channel.is_none() => format!("{}:{}", s.tag, s.label),
         _ => {
             let pl = s.pins.get(pin.pin).map(String::as_str).unwrap_or("");
             if pl.is_empty() {

@@ -100,3 +100,39 @@ pub struct PortRef {
     pub station: String,
     pub port: String,
 }
+
+impl Scheme {
+    /// Address of channel `n` (counted from the start byte; Rockwell: from 0 in the slot).
+    pub fn format(self, input: bool, start_byte: u32, n: u32, slot: u32) -> String {
+        let (byte, bit) = (start_byte + n / 8, n % 8);
+        match (self, input) {
+            (Scheme::Siemens, true) => format!("I{byte}.{bit}"),
+            (Scheme::Siemens, false) => format!("Q{byte}.{bit}"),
+            (Scheme::Iec, true) => format!("%IX{byte}.{bit}"),
+            (Scheme::Iec, false) => format!("%QX{byte}.{bit}"),
+            (Scheme::Rockwell, true) => format!("Local:{slot}:I.Data.{n}"),
+            (Scheme::Rockwell, false) => format!("Local:{slot}:O.Data.{n}"),
+        }
+    }
+}
+
+pub fn card_address(prj: &super::Project, card: &str, input: bool, n: u32) -> String {
+    let data = prj.plc_cards.get(card).cloned().unwrap_or_default();
+    let start = if input { data.start_byte } else { data.output_byte.unwrap_or(data.start_byte) };
+    prj.plc.stations.iter().find(|s| s.name == data.station).map(|s| s.scheme).unwrap_or_default().format(
+        input,
+        start,
+        n,
+        data.slot.trim().parse().unwrap_or(0),
+    )
+}
+
+impl crate::symbols::PlcChannel {
+    pub fn address_for(&self, prj: &super::Project, card: &str) -> String {
+        if self.address.is_empty() {
+            card_address(prj, card, self.input, u32::from(self.index))
+        } else {
+            self.address.clone()
+        }
+    }
+}

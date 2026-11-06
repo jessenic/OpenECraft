@@ -155,7 +155,8 @@ impl App {
                             ui.horizontal(|ui| {
                                 let preview = symbol_icon(ui, &self.session.prj, key, egui::vec2(64.,48.));
                                 let title = v["symbol"]["name"].as_str().unwrap_or(key);
-                                let button = ui.button(title).on_hover_text(v["description"].as_str().unwrap_or(""));
+                                let caption = v["symbol"]["plc_channel"]["designation"].as_str().map(|channel| format!("{title} · {channel}"));
+                                let button = ui.button(caption.as_deref().unwrap_or(title)).on_hover_text(v["description"].as_str().unwrap_or(""));
                                 if preview.clicked() || button.clicked() {
                                     pick = Some(Pick::Variant(part.number.clone(), key.to_owned()));
                                 }

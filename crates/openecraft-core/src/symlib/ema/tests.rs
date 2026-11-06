@@ -1,6 +1,63 @@
 use super::*;
 
 #[test]
+fn digital_channels_keep_their_card_bit_and_terminal_when_placed_out_of_order() {
+    use crate::{model::Project, netlist::Netlist, ops, plc, unplaced};
+    let source = |direction, index, pin| {
+        format!(
+            r#"<MacroVariant MacroFuncType="1" VariantId="{index}" ReferencePoint="0/0/0">
+        <ESymLib ID="0" Name="SPECIAL"/><O4><O26><O17 A1261="0" A1262="13" A1263="0" A1381="300" A1382="1" A1383="{direction}" A185="{pin}">
+        <S61x183 A1061="1"/><P11 P20405="BOOL" P20407="Channel {index}" P20011="??_??@Sensor;"/><S53x5 A501="0/0" A771="20400"/>
+        </O17></O26></O4></MacroVariant>"#
+        )
+    };
+    for (direction, input, prefix) in [(2, true, "I"), (3, false, "Q")] {
+        let text = format!(r#"<EplanPxfRoot Name="Card" Type="WindowMacro">{}{}</EplanPxfRoot>"#, source(direction, 1, 1), source(direction, 2, 5));
+        let variants = decode(&text).unwrap();
+        let mut prj = Project::new_default();
+        import_project(&mut prj, &variants);
+        let place = |p: &mut Project, v: &Variant, x| {
+            let def = p.symbol(&v.symbol.key).unwrap();
+            let s = ops::new_symbol(p, 0, &Default::default(), &def, super::p(x, 40.), 0, false);
+            p.pages[0].symbols.push(s);
+        };
+        place(&mut prj, &variants[1], 8.);
+        let card = prj.pages[0].symbols[0].tag.clone();
+        assert_eq!(prj.pages[0].symbols[0].pins, ["5"]);
+        assert_eq!(prj.pages[0].symbols[0].label, format!("{prefix}0.1"));
+        assert_eq!(unplaced::plc_channels(&prj)[0].pins, ["1"]);
+        place(&mut prj, &variants[0], 80.);
+        assert_eq!(prj.pages[0].symbols[1].tag, card);
+        assert!(unplaced::plc_channels(&prj).is_empty());
+        prj.plc_cards.entry(card.clone()).or_default().start_byte = 4;
+        assert_eq!(plc::readdress(&mut prj, &card), 2);
+        let back: Project = serde_json::from_value(serde_json::to_value(&prj).unwrap()).unwrap();
+        let points = plc::points(&back, &Netlist::build(&back, true));
+        assert_eq!(points.len(), 2);
+        assert!(points.iter().all(|p| p.input == input && p.function_text == "Sensor"));
+        assert_eq!(points[1].address, format!("{prefix}4.1"));
+        assert_eq!((&*points[1].channel, &*points[1].terminal), ("Channel 2", "5"));
+        let mut legacy = Project::new_default();
+        let old = decode(&text.replace("P20405=\"BOOL\"", "")).unwrap();
+        import_project(&mut legacy, &old);
+        place(&mut legacy, &old[1], 8.);
+        let previous_tag = legacy.pages[0].symbols[0].tag.clone();
+        let authored = decode(&text.replace("P20405=", "P20400=\"remote_address\" P20405=")).unwrap();
+        import_project(&mut legacy, &authored);
+        assert_eq!(legacy.pages[0].symbols[0].tag, previous_tag);
+        assert_eq!(legacy.pages[0].symbols[0].label, "remote_address");
+        legacy.pages[0].symbols[0].label = "OperatorAddress".into();
+        import_project(&mut legacy, &variants);
+        assert_eq!(legacy.pages[0].symbols[0].label, "OperatorAddress");
+        place(&mut prj, &variants[0], 100.);
+        assert_ne!(prj.pages[0].symbols[2].tag, card);
+        let supply = decode(&text.replace("A1382=\"1\"", "A1382=\"2\"")).unwrap();
+        assert!(supply.iter().all(|v| v.symbol.plc_channel.is_none()));
+        assert!(decode(&text.replace("MacroFuncType=\"1\"", "MacroFuncType=\"4\"")).unwrap().iter().all(|v| v.symbol.plc_channel.is_none()));
+    }
+}
+
+#[test]
 fn placeholder_preserves_selected_set_and_escaped_values() {
     let control = r#"<O106 A1261="0" A1262="323" A1892="mode" A1896="X;Y"><P11 P19301="active"/><S114x1894 A2011="active" A2012="left\;value;."/><S109x1895 R1906="17/2"><S115x1904 A1911="511" A1913="X"/></S109x1895></O106>"#;
     let v = decode(&MACRO.replace("<O4><O26>", &format!("<O4><O26>{control}")).replace("<S31x5 ", "<S31x5 A406=\"1\" ")).unwrap();

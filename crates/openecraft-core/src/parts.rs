@@ -119,6 +119,15 @@ pub fn add_to_device(prj: &mut Project, db: &PartsDb, tag: &str, number: &str, c
     }
 }
 
+/// Every channel of a physical card shares its one BOM entry.
+pub fn assign_placed_part(prj: &mut Project, db: &PartsDb, sym: &str, tag: &str, number: &str) {
+    if prj.symbol(sym).is_some_and(|d| d.plc_channel.is_some())
+        && prj.devices.get(tag).is_some_and(|d| d.parts.iter().any(|r| r.number == number)) {
+        return;
+    }
+    add_to_device(prj, db, tag, number, 1);
+}
+
 /// Resolves a part: project parts first, then the database.
 pub fn lookup<'a>(prj: &'a Project, db: Option<&'a PartsDb>, number: &str) -> Option<&'a Part> {
     prj.parts.iter().find(|p| p.number == number).or_else(|| db.and_then(|d| d.get(number)))
@@ -253,7 +262,7 @@ pub fn placed_functions(prj: &Project, tag: &str) -> Vec<(FnKind, Vec<String>, u
     let mut v = Vec::new();
     for pg in &prj.pages {
         for s in pg.symbols.iter().filter(|s| s.tag == tag) {
-            if let Some(k) = kind_of_symbol(&s.sym) {
+            if let Some(k) = placed_kind(prj, &s.sym) {
                 v.push((k, s.pins.clone(), s.id));
             }
         }
@@ -305,11 +314,18 @@ pub fn usage(prj: &Project, db: Option<&PartsDb>, tag: &str) -> BTreeMap<FnKind,
 pub fn placed_kinds(prj: &Project) -> std::collections::HashMap<&str, Vec<FnKind>> {
     let mut m: std::collections::HashMap<&str, Vec<FnKind>> = std::collections::HashMap::new();
     for s in prj.pages.iter().flat_map(|pg| pg.symbols.iter()) {
-        if let Some(k) = kind_of_symbol(&s.sym) {
+        if let Some(k) = placed_kind(prj, &s.sym) {
             m.entry(s.tag.as_str()).or_default().push(k);
         }
     }
     m
+}
+
+fn placed_kind(prj: &Project, key: &str) -> Option<FnKind> {
+    kind_of_symbol(key).or_else(|| {
+        let input = prj.symbol(key)?.digital_input()?;
+        Some(if input { FnKind::PlcInput } else { FnKind::PlcOutput })
+    })
 }
 
 /// [`usage`] with the kinds of the placed functions given (see [`placed_kinds`]).

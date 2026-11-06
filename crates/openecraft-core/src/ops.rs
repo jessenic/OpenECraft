@@ -32,7 +32,9 @@ impl PlaceCtx {
             }
             Func::Terminal => self.last_strip = Some(s.tag.clone()),
             Func::Plc => {
-                self.last_plc.insert(s.sym.clone(), s.tag.clone());
+                if def.plc_channel.is_none() {
+                    self.last_plc.insert(s.sym.clone(), s.tag.clone());
+                }
             }
             Func::Plug(_) => self.last_plug = Some(s.tag.clone()),
             _ => {}
@@ -236,8 +238,17 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
             s.label = next_plug_pin(prj, &s.tag, kind);
         }
         Func::Plc => {
-            s.tag = ctx.last_plc.get(def.key).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter));
-            s.label = next_plc_address(prj, &s.tag, !def.default_label.starts_with('Q'));
+            if let Some(c) = &def.plc_channel {
+                let previous = prj.latest_imported_card(&c.family)
+                    .filter(|tag| !prj.channel_placed(tag, &c.family, c.input, c.index));
+                s.tag = ctx.last_plc.get(def.key).map(String::as_str).or(previous).map(str::to_owned)
+                    .unwrap_or_else(|| prj.next_tag(&structure, def.letter));
+                s.label = c.address_for(prj, &s.tag);
+                s.function_text = c.function_text.clone();
+            } else {
+                s.tag = ctx.last_plc.get(def.key).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter));
+                s.label = next_plc_address(prj, &s.tag, !def.default_label.starts_with('Q'));
+            }
         }
         Func::Potential | Func::Interruption => {}
     }

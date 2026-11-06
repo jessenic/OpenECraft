@@ -412,8 +412,9 @@ impl App {
     /// its device.
     pub(super) fn placed(&mut self, page_i: usize, id: u64, number: &str) {
         let page = &self.session.prj.pages[page_i];
-        if let Some(tag) = page.symbols.iter().find(|s| s.id == id).map(|s| s.tag.clone()).filter(|t| !t.is_empty()) {
-            parts::add_to_device(&mut self.session.prj, &self.parts_db, &tag, number, 1);
+        if let Some(s) = page.symbols.iter().find(|s| s.id == id && !s.tag.is_empty()) {
+            let (key, tag) = (s.sym.clone(), s.tag.clone());
+            parts::assign_placed_part(&mut self.session.prj, &self.parts_db, &key, &tag, number);
         }
     }
 

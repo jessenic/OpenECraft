@@ -417,6 +417,11 @@ impl App {
             Ok(list) => {
                 let n = list.len();
                 for p in list {
+                    if !p.eplan_variants.is_empty() {
+                        if let Some(old) = self.session.prj.parts.iter_mut().find(|old| old.number == p.number) {
+                            old.eplan_variants = p.eplan_variants.clone();
+                        }
+                    }
                     for value in &p.eplan_variants {
                         if let Ok(v) = serde::Deserialize::deserialize(value.as_ref()) {
                             if let Some(m) = openecraft_core::macros::eplan_window(&v) {

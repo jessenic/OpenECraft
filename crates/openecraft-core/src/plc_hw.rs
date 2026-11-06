@@ -33,18 +33,7 @@ impl Scheme {
         Scheme::ALL.into_iter().find(|k| k.key().eq_ignore_ascii_case(s.trim()))
     }
 
-    /// Address of channel `n` (counted from the start byte; Rockwell: from 0 in the slot).
-    pub fn format(self, input: bool, start_byte: u32, n: u32, slot: u32) -> String {
-        let (byte, bit) = (start_byte + n / 8, n % 8);
-        match (self, input) {
-            (Scheme::Siemens, true) => format!("I{byte}.{bit}"),
-            (Scheme::Siemens, false) => format!("Q{byte}.{bit}"),
-            (Scheme::Iec, true) => format!("%IX{byte}.{bit}"),
-            (Scheme::Iec, false) => format!("%QX{byte}.{bit}"),
-            (Scheme::Rockwell, true) => format!("Local:{slot}:I.Data.{n}"),
-            (Scheme::Rockwell, false) => format!("Local:{slot}:O.Data.{n}"),
-        }
-    }
+
 }
 
 /// Parses `I1.7`, `E1.7`, `%IX1.7`, `Q0.0`, `A0.0`, `%QX0.0`, `Local:3:I.Data.5`.
@@ -230,9 +219,9 @@ fn parse_num(s: &str) -> Option<u32> {
 pub fn used(prj: &Project, card: &str) -> (u32, u32) {
     let (mut i, mut o) = (0, 0);
     for s in prj.pages.iter().flat_map(|p| p.symbols.iter()).filter(|s| s.tag == card) {
-        match s.sym.as_str() {
-            "plc_in" => i += 1,
-            "plc_out" => o += 1,
+        match prj.symbol(&s.sym).and_then(|d| d.digital_input()) {
+            Some(true) => i += 1,
+            Some(false) => o += 1,
             _ => {}
         }
     }
@@ -295,18 +284,14 @@ pub fn scheme_of(prj: &Project, card: &str) -> Scheme {
 }
 
 /// Address of channel `n` of a card in the scheme of its station.
-pub fn card_address(prj: &Project, card: &str, input: bool, n: u32) -> String {
-    let data = prj.plc_cards.get(card).cloned().unwrap_or_default();
-    let start = if input { data.start_byte } else { data.output_byte.unwrap_or(data.start_byte) };
-    scheme_of(prj, card).format(input, start, n, parse_num(&data.slot).unwrap_or(0))
-}
+pub use crate::model::plc_hw::card_address;
 
 /// Converts the addresses of all points to the schemes of their stations (same
 /// channel). Returns the number of changed addresses.
 pub fn convert_addresses(prj: &mut Project) -> usize {
     let mut changes = Vec::new();
     for (pi, pg) in prj.pages.iter().enumerate() {
-        for (si, s) in pg.symbols.iter().enumerate().filter(|(_, s)| s.sym == "plc_in" || s.sym == "plc_out") {
+        for (si, s) in pg.symbols.iter().enumerate().filter(|(_, s)| prj.symbol(&s.sym).and_then(|d| d.digital_input()).is_some()) {
             let Some(a) = parse_address(&s.label) else { continue };
             let data = prj.plc_cards.get(&s.tag).cloned().unwrap_or_default();
             let start = if a.input { data.start_byte } else { data.output_byte.unwrap_or(data.start_byte) };

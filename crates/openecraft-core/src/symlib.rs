@@ -24,6 +24,7 @@ impl Default for UserSymbol {
         UserSymbol {
             key: String::new(),
             ema_revision: None,
+            plc_channel: None,
             name: "New symbol".into(),
             library: "User".into(),
             letter: "A".into(),
@@ -83,6 +84,7 @@ pub(crate) fn to_def(u: &UserSymbol) -> SymbolDef {
         library: intern(&u.library),
         letter: intern(&u.letter),
         func: u.func,
+        plc_channel: u.plc_channel.clone(),
         prims: u.prims.clone(),
         pins: u.pins.iter().map(|x| PinDef { pos: x.pos, label: intern(&x.label) }).collect(),
         bridges: u.bridges.iter().copied().filter(|(a, b)| *a < u.pins.len() && *b < u.pins.len()).collect(),
@@ -148,6 +150,9 @@ pub fn fingerprint(list: &[UserSymbol]) -> u64 {
     for u in list {
         (&u.key, &u.name, &u.library, &u.letter, &u.default_label, u.auto_number, u.show_tag, u.show_pin_labels).hash(&mut h);
         format!("{:?}", u.func).hash(&mut h);
+        if let Some(channel) = &u.plc_channel {
+            channel.hash(&mut h);
+        }
         for p in &u.prims {
             hash_prim(p, &mut h);
         }
@@ -246,6 +251,7 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
         library: "User".into(),
         letter: def.letter.into(),
         func: def.func,
+        plc_channel: def.plc_channel.clone(),
         default_label: def.default_label.into(),
         auto_number: def.auto_number,
         show_tag: def.show_tag,

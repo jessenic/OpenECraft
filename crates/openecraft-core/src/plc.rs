@@ -17,6 +17,8 @@ pub struct Point {
     pub card: String,
     pub address: String,
     pub input: bool,
+    pub channel: String,
+    pub terminal: String,
     pub function_text: String,
     /// Devices connected to the point.
     pub connected: String,
@@ -72,7 +74,8 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
         if pg.kind != PageKind::Schematic {
             continue;
         }
-        for (si, s) in pg.symbols.iter().enumerate().filter(|(_, s)| is_plc(&symbols, s)) {
+        for (si, s) in pg.symbols.iter().enumerate() {
+            let Some(def) = symbols.get(&s.sym).filter(|d| d.func == Func::Plc) else { continue };
             let connected = nl
                 .pin_net
                 .get(&(s.id, 0))
@@ -109,7 +112,9 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
                 id: s.id,
                 card: s.tag.clone(),
                 address: s.label.clone(),
-                input: s.sym == "plc_in",
+                input: def.digital_input().unwrap_or(s.sym == "plc_ai"),
+                channel: def.plc_channel.as_ref().map(|c| c.designation.clone()).unwrap_or_default(),
+                terminal: s.pins.first().cloned().unwrap_or_default(),
                 function_text: crate::text::function_text(prj, pi, s).replace('\n', " "),
                 connected,
                 location: crate::frame::reference(prj, pi, s.pos),
@@ -130,7 +135,7 @@ pub fn readdress(prj: &mut Project, card: &str) -> usize {
         let mut list: Vec<(usize, usize)> = Vec::new();
         for (pi, pg) in prj.pages.iter().enumerate() {
             for (si, s) in pg.symbols.iter().enumerate() {
-                if is_plc(&symbols, s) && s.tag == card && s.sym == if input { "plc_in" } else { "plc_out" } {
+                if s.tag == card && symbols.get(&s.sym).and_then(|d| d.digital_input()) == Some(input) {
                     list.push((pi, si));
                 }
             }
@@ -139,8 +144,15 @@ pub fn readdress(prj: &mut Project, card: &str) -> usize {
             let (sa, sb) = (&prj.pages[a.0].symbols[a.1], &prj.pages[b.0].symbols[b.1]);
             a.0.cmp(&b.0).then(sa.pos.x.total_cmp(&sb.pos.x)).then(sa.pos.y.total_cmp(&sb.pos.y))
         });
-        for (n, (pi, si)) in list.into_iter().enumerate() {
-            let addr = crate::plc_hw::card_address(prj, card, input, n as u32);
+        let reserved: HashSet<_> = list.iter().filter_map(|&(pi, si)| {
+            let def = symbols.get(&prj.pages[pi].symbols[si].sym)?;
+            def.plc_channel.as_ref().map(|c| u32::from(c.index))
+        }).collect();
+        let mut next = (0..).filter(|n| !reserved.contains(n));
+        for (pi, si) in list {
+            let def = symbols.get(&prj.pages[pi].symbols[si].sym);
+            let ordinal = def.as_ref().and_then(|d| d.plc_channel.as_ref()).map_or_else(|| next.next().unwrap(), |c| u32::from(c.index));
+            let addr = crate::plc_hw::card_address(prj, card, input, ordinal);
             let s = &mut prj.pages[pi].symbols[si];
             if s.label != addr {
                 s.label = addr;

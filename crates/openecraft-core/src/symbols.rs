@@ -260,6 +260,18 @@ pub struct PinDef {
     pub label: &'static str,
 }
 
+/// A single digital channel represented by a vendor macro. The channel index is
+/// zero based and independent of its physical terminal designation.
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct PlcChannel {
+    pub family: String,
+    pub input: bool,
+    pub index: u16,
+    pub designation: String,
+    pub address: String,
+    pub function_text: String,
+}
+
 #[derive(Clone, Debug)]
 pub struct SymbolDef {
     pub key: &'static str,
@@ -270,6 +282,7 @@ pub struct SymbolDef {
     /// Default identifying letter (IEC 81346 style).
     pub letter: &'static str,
     pub func: Func,
+    pub plc_channel: Option<PlcChannel>,
     pub prims: Vec<Prim>,
     pub pins: Vec<PinDef>,
     /// Pins that are internally connected (terminals).
@@ -284,6 +297,14 @@ pub struct SymbolDef {
 }
 
 impl SymbolDef {
+    pub fn digital_input(&self) -> Option<bool> {
+        match self.key {
+            "plc_in" => Some(true),
+            "plc_out" => Some(false),
+            _ => self.plc_channel.as_ref().map(|c| c.input),
+        }
+    }
+
     pub fn pin_world(&self, idx: usize, pos: P, rot: u8, mirror: bool) -> P {
         pos + self.pins[idx].pos.transform(rot, mirror)
     }
@@ -483,6 +504,7 @@ impl Def {
             library: "",
             letter: self.letter,
             func: self.func,
+            plc_channel: None,
             prims: std::mem::take(&mut b.prims),
             pins: std::mem::take(&mut b.pins),
             bridges: self.bridges,

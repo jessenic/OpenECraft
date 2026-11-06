@@ -527,6 +527,12 @@ impl Reader<'_> {
             return;
         }
         let stored = owner.child("P11").and_then(|p| p.attribute(&key));
+        if id == "20400" && native_pins && self.result.symbol.plc_channel.is_some() {
+            if let Some(pos) = pos {
+                self.result.symbol.prims.push(Prim::Field { kind: crate::symbols::FieldKind::Label, pos: f.at(pos), size, anchor: Anchor::Left });
+            }
+            return;
+        }
         let source = if stored.is_none() && sub == "0" {
             match id {
                 "20038" => owner.attribute("A185"),
@@ -596,7 +602,7 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
         };
         let mut functions = Vec::new();
         v.descendants("O17", &mut functions);
-        let tags: BTreeSet<_> = functions.into_iter().filter_map(device_tag).collect();
+        let tags: BTreeSet<_> = functions.iter().copied().filter_map(device_tag).collect();
         let mut r = Reader {
             definitions: defs.into_iter().filter_map(|e| Some((e.attribute("A1")?, e))).collect(),
             libraries: v.all("ESymLib").filter_map(|e| Some((e.attribute("ID")?, e.attribute("Name")?))).collect(),
@@ -618,10 +624,35 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
             budget: 250_000,
             logic: Default::default(),
         };
+        let mut expected_pin = None;
+        if function_type == 1 && !r.split_devices {
+            let contacts: Vec<_> = functions.iter().copied().filter(|el| el.attribute("A185").is_some_and(|s| !s.trim().is_empty())).collect();
+            if let [el] = contacts.as_slice() {
+                if r.libraries.get(el.attribute("A1261").unwrap_or("")) == Some(&"SPECIAL") && el.attribute("A1262") == Some("13") {
+                    if let Some(channel) = digital_channel(el, &identity) {
+                        // A verified native endpoint must belong to this function.
+                        let pin = el.attribute("A185").unwrap_or("").trim();
+                        let expected = if plug(el).is_empty() { pin.to_owned() } else { format!("{}.{pin}", plug(el)) };
+                        r.result.symbol.plc_channel = Some(channel);
+                        expected_pin = Some(expected);
+                    }
+                }
+            } else if contacts.iter().any(|el| digital_channel(el, &identity).is_some()) {
+                r.result.warnings.insert("multiple contact functions; PLC channel assignment requires separate points".into());
+            }
+        }
         if matches!(function_type, 1 | 2 | 4 | 6) {
             r.walk(v, Frame { origin: p(-origin.x, origin.y), x: p(1., 0.), y: p(0., -1.) }, 0)?;
         } else {
             r.result.warnings.insert(format!("representation {function_type}"));
+        }
+        if r.result.symbol.plc_channel.is_some() {
+            if matches!(r.result.symbol.pins.as_slice(), [pin] if Some(&pin.label) == expected_pin.as_ref()) {
+                r.result.symbol.func = crate::symbols::Func::Plc;
+            } else {
+                r.result.symbol.plc_channel = None;
+                r.result.warnings.insert("PLC channel requires one mapped terminal".into());
+            }
         }
         r.logic.finish(&mut r.result);
         for device in &mut r.result.devices {
@@ -651,6 +682,32 @@ fn revision(symbol: &UserSymbol) -> String {
     format!("{:016x}", super::fingerprint(std::slice::from_ref(symbol)))
 }
 
+fn digital_channel(el: &Element, family: &str) -> Option<crate::symbols::PlcChannel> {
+    let props = el.child("P11")?;
+    if el.attribute("A1381") != Some("300") || el.attribute("A1382") != Some("1") || props.attribute("P20405")? != "BOOL" {
+        return None;
+    }
+    let input = match el.attribute("A1383")? {
+        "2" => true,
+        "3" => false,
+        _ => return None,
+    };
+    let designation = props.attribute("P20407")?.trim();
+    let index = designation.strip_prefix("Channel ").unwrap_or(designation).parse::<u16>().ok()?.checked_sub(1)?;
+    Some(crate::symbols::PlcChannel {
+        family: family.into(),
+        input,
+        index,
+        designation: designation.into(),
+        address: props.attribute("P20400").unwrap_or("").trim().into(),
+        function_text: display_text(props.attribute("P20011").unwrap_or("")),
+    })
+}
+
+fn compatible_function(old: &UserSymbol, new: &UserSymbol) -> bool {
+    old.func == new.func || (matches!(old.func, crate::symbols::Func::Main { .. }) && new.plc_channel.is_some())
+}
+
 /// Refresh unedited graphics only when every existing electrical endpoint is preserved.
 pub fn install(symbols: &mut Vec<UserSymbol>, variants: &[Variant]) -> usize {
     let mut added = 0;
@@ -663,7 +720,7 @@ pub fn install(symbols: &mut Vec<UserSymbol>, variants: &[Variant]) -> usize {
                 && old.ema_revision.as_ref().is_some_and(|r| r == &revision(old))
                 && old.pins == symbol.pins
                 && old.bridges == symbol.bridges
-                && old.func == symbol.func
+                && compatible_function(old, symbol)
             {
                 *old = symbol.clone();
             }
@@ -682,7 +739,7 @@ pub fn import_project(project: &mut crate::model::Project, variants: &[Variant])
         let Some(old) = project.symbols.iter_mut().find(|s| s.key == new.key) else { continue };
         if new.ema_revision == old.ema_revision
             || old.ema_revision.as_ref().is_none_or(|r| r != &revision(old))
-            || old.func != new.func
+            || !compatible_function(old, new)
             || (new.prims.is_empty() && new.pins.is_empty())
         {
             continue;
@@ -716,12 +773,35 @@ pub fn import_project(project: &mut crate::model::Project, variants: &[Variant])
             }
         }
         *old = new.clone();
+        if let Some(channel) = &new.plc_channel {
+            let tags: BTreeSet<_> = project.pages.iter().flat_map(|p| &p.symbols).filter(|s| s.sym == new.key).map(|s| s.tag.clone()).collect();
+            for tag in tags {
+                let address = channel.address_for(project, &tag);
+                for s in project.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|s| s.sym == new.key && s.tag == tag) {
+                    if s.label.is_empty() {
+                        s.label = address.clone();
+                    }
+                    if s.function_text.is_empty() {
+                        s.function_text = channel.function_text.clone();
+                    }
+                }
+            }
+        }
     }
     install(&mut project.symbols, variants)
 }
 
 /// Resolve a part representation before placement and carry its definition into the project.
 pub fn part_symbol(project: &mut crate::model::Project, part: &openecraft_parts::Part, key: Option<&str>) -> Option<(&'static str, Vec<String>)> {
+    part_symbol_for_card(project, part, key, None)
+}
+
+pub fn part_symbol_for_card(
+    project: &mut crate::model::Project,
+    part: &openecraft_parts::Part,
+    key: Option<&str>,
+    card: Option<&str>,
+) -> Option<(&'static str, Vec<String>)> {
     let mut candidates = part
         .eplan_variants
         .iter()
@@ -730,14 +810,43 @@ pub fn part_symbol(project: &mut crate::model::Project, part: &openecraft_parts:
             None => v["function_type"].as_u64() == Some(1),
         })
         .filter(|v| v["devices"].as_array().is_none_or(Vec::is_empty));
-    let selected = candidates
+    let first = candidates
         .clone()
         .find(|v| v["symbol"]["pins"].as_array().is_some_and(|pins| !pins.is_empty()))
         .or_else(|| candidates.find(|v| v["symbol"]["prims"].as_array().is_some_and(|g| !g.is_empty())))?;
-    let v = Variant::deserialize(selected.as_ref()).ok()?;
-    let k = v.symbol.key.clone();
-    install(&mut project.symbols, &[v]);
-    let def = project.symbol(&k)?;
+    let mut selected = first;
+    if let Some(family) = first["symbol"]["plc_channel"]["family"].as_str() {
+        let card = card.or_else(|| project.latest_imported_card(family)).map(str::to_owned);
+        // Install the sibling definitions as well, so the PLC navigator can offer the unused channels.
+        let mut channels = Vec::new();
+        for value in &part.eplan_variants {
+            if value["symbol"]["plc_channel"]["family"].as_str() == Some(family) {
+                let metadata = crate::symbols::PlcChannel::deserialize(&value["symbol"]["plc_channel"]).ok()?;
+                let sym = &value["symbol"];
+                let current = project.symbols.iter().find(|s| Some(s.key.as_str()) == sym["key"].as_str());
+                if !current.is_some_and(|s| s.ema_revision.as_deref() == sym["ema_revision"].as_str()) {
+                    let variant = Variant::deserialize(value.as_ref()).ok()?;
+                    import_project(project, &[variant]);
+                }
+                channels.push((value, metadata));
+            }
+        }
+        if key.is_none() {
+            channels.sort_by_key(|(_, c)| c.index);
+            selected = channels
+                .iter()
+                .find(|(_, c)| card.as_deref().is_none_or(|tag| !project.channel_placed(tag, family, c.input, c.index)))
+                .or_else(|| channels.first())?
+                .0;
+        }
+    }
+    let sym = &selected["symbol"];
+    let k = sym["key"].as_str()?;
+    if !project.symbols.iter().any(|s| s.key == k && s.ema_revision.as_deref() == sym["ema_revision"].as_str()) {
+        let v = Variant::deserialize(selected.as_ref()).ok()?;
+        install(&mut project.symbols, &[v]);
+    }
+    let def = project.symbol(k)?;
     Some((def.key, def.pins.iter().map(|p| p.label.to_owned()).collect()))
 }
 

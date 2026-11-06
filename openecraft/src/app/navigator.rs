@@ -412,6 +412,9 @@ impl App {
                         if let Some(p) = p {
                             let kind = if p.input { "DI" } else { "DO" };
                             let mut text = format!("{}  {kind}  {}", p.address, p.function_text);
+                            if !p.channel.is_empty() {
+                                text = format!("{} ({})  {text}", p.channel, p.terminal);
+                            }
                             if !p.connected.is_empty() {
                                 text = format!("{text}  › {}", p.connected);
                             }

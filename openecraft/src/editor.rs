@@ -1375,6 +1375,7 @@ impl Editor {
         let mut ctx = self.place_ctx.clone();
         if let Some(tag) = &self.place_tag {
             ctx.last_main.insert(def.letter.to_string(), tag.clone());
+            ctx.last_plc.insert(def.key.into(), tag.clone());
         }
         let mut s = ops::new_symbol(prj, page_i, &ctx, &def, sn, self.place_rot, self.place_mirror);
         if let (Some(tag), true) = (&self.place_tag, def.func.has_tag()) {

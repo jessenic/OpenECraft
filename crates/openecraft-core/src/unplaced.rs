@@ -37,13 +37,31 @@ pub fn part_symbol(part: &parts::Part) -> Option<(&'static str, Vec<String>)> {
 pub fn plc_channels(prj: &Project) -> Vec<Unplaced> {
     let mut out = Vec::new();
     for card in crate::plc::cards(prj) {
+        let mut families = HashSet::new();
+        let mut occupied = HashSet::new();
+        for s in prj.pages.iter().flat_map(|p| &p.symbols).filter(|s| s.tag == card) {
+            let Some(def) = prj.symbol(&s.sym) else { continue };
+            if let Some(c) = &def.plc_channel {
+                families.insert(c.family.clone());
+                occupied.insert((c.family.clone(), c.input, c.index));
+            }
+        }
+        for symbol in &*prj.symbols {
+            let Some(c) = symbol.plc_channel.as_ref().filter(|c| families.contains(&c.family)) else { continue };
+            if !occupied.insert((c.family.clone(), c.input, c.index)) { continue; }
+            let Some(def) = prj.symbol(&symbol.key) else { continue };
+            let label = c.address_for(prj, &card);
+            let pin = symbol.pins.first().map(|pin| pin.label.as_str()).unwrap_or("");
+            let title = format!("{}  {}  ({pin})", c.designation, label);
+            out.push(Unplaced { tag: card.clone(), symbol: def.key, label, pins: symbol.pins.iter().map(|p| p.label.clone()).collect(), title });
+        }
         let Some(desc) = crate::plc_hw::description_of(prj, &card) else { continue };
         let placed: HashSet<crate::plc::AddressKey> =
             prj.pages.iter().flat_map(|p| p.symbols.iter()).filter(|s| s.tag == card).map(|s| crate::plc::address_key(&s.label)).collect();
         for (input, n, symbol) in [(true, desc.inputs, "plc_in"), (false, desc.outputs, "plc_out")] {
             for ch in 0..n {
                 let addr = crate::plc_hw::card_address(prj, &card, input, ch);
-                if !placed.contains(&crate::plc::address_key(&addr)) {
+                if !placed.contains(&crate::plc::address_key(&addr)) && !out.iter().any(|p| p.tag == card && p.label == addr) {
                     out.push(Unplaced { tag: card.clone(), symbol, label: addr.clone(), pins: Vec::new(), title: addr });
                 }
             }

@@ -550,19 +550,28 @@ fn place_part(prj: &mut Project, a: &Args) -> Result<Value, String> {
             return Ok(json!({"part":number,"ids":ids,"macro":m.name}));
         }
     }
-    let choice = openecraft_core::symlib::ema::part_symbol(prj, &part, key);
+    let choice = openecraft_core::symlib::ema::part_symbol_for_card(prj, &part, key, tag);
     let (symbol, pins) = choice
         .or_else(|| if key.is_none() { openecraft_core::unplaced::part_symbol(&part) } else { None })
         .ok_or_else(|| tr_fmt!("Part {} has no function with a symbol", number))?;
     let def = symbol_def(prj, symbol)?;
-    let mut sym = ops::new_symbol(prj, i, &PlaceCtx::default(), &def, pos, rot, a.flag("mirror"));
+    if let (Some(tag), Some(c)) = (tag, &def.plc_channel) {
+        if prj.channel_placed(tag, &c.family, c.input, c.index) {
+            return Err(tr_fmt!("{} is already placed on PLC card {}", c.designation, tag));
+        }
+    }
+    let mut ctx = PlaceCtx::default();
+    if let Some(tag) = tag {
+        ctx.last_plc.insert(def.key.into(), tag.into());
+    }
+    let mut sym = ops::new_symbol(prj, i, &ctx, &def, pos, rot, a.flag("mirror"));
     if let Some(tag) = tag {
         sym.tag = tag.into();
     }
     if pins.len() == sym.pins.len() {
         sym.pins = pins;
     }
-    parts::add_to_device(prj, &db, &sym.tag, &number, 1);
+    parts::assign_placed_part(prj, &db, &sym.sym, &sym.tag, &number);
     let mut out = symbol_json(&prj.symbol_table(), &sym);
     out["part"] = json!(number);
     prj.pages[i].symbols.push(sym);

@@ -214,7 +214,8 @@ pub fn point_of<'a>(prj: &Project, points: &'a [PlacedPoint], s: &SymbolInst, pi
         return points.iter().find(|p| p.terminal == s.label && p.pin == side).or_else(stud);
     }
     let name = match def.func {
-        Func::Plc | Func::Plug(_) => s.label.as_str(),
+        Func::Plc if def.plc_channel.is_none() => s.label.as_str(),
+        Func::Plug(_) => s.label.as_str(),
         _ => s.pins.get(pin).map(String::as_str).or_else(|| def.pins.get(pin).map(|d| d.label))?,
     };
     points.iter().find(|p| p.terminal.is_empty() && p.pin == name)
