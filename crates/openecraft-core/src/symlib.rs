@@ -13,6 +13,7 @@ use std::hash::{Hash, Hasher};
 use std::sync::{Arc, Mutex, OnceLock};
 pub use crate::model::symlib::{UserPin, UserSymbol};
 pub mod ema;
+mod front_view;
 
 /// Keys of user symbols start with this prefix.
 pub const PREFIX: &str = "user:";
@@ -176,9 +177,12 @@ type Defs = Arc<HashMap<String, Arc<SymbolDef>>>;
 /// The user symbols of one project by key, rebuilt when the list changes. A
 /// [`Project`] carries one; clones of a project share it until their symbols differ.
 #[derive(Clone, Default)]
-pub struct SymbolCache(Arc<Mutex<Option<(crate::model::symlib::SymbolList, Defs)>>>);
+pub struct SymbolCache(Arc<Mutex<Option<(crate::model::symlib::SymbolList, Defs)>>>, front_view::FrontCache);
 
 impl SymbolCache {
+    pub(crate) fn front_view(&self, part: &openecraft_parts::Part) -> Option<openecraft_parts::Shared<openecraft_parts::Model2d>> {
+        part.model_2d.clone().or_else(|| self.1.get(part))
+    }
     /// The symbols of a project with the user symbols `list`, as a snapshot.
     pub fn table(&self, list: &crate::model::symlib::SymbolList) -> Symbols {
         if list.is_empty() {
