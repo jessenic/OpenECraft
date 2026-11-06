@@ -34,6 +34,19 @@ fn analog_pair_is_one_symbolic_channel_even_when_the_reference_comes_first() {
     let channel = vs[0].symbol.plc_channel.as_ref().unwrap();
     assert_eq!(channel.designation, "U1");
     assert!(channel.analog.as_ref().unwrap().data_type.is_empty());
+    let unnumbered = source.replace("AI Standard Channel 1.Value", "AI Standard");
+    let single = decode(&unnumbered).unwrap();
+    assert_eq!(single[0].symbol.plc_channel.as_ref().unwrap().index, 0);
+    let second = unnumbered.split_once("<MacroVariant").unwrap().1.split_once("</MacroVariant>").unwrap().0;
+    let ambiguous = unnumbered.replace(
+        "</EplanPxfRoot>",
+        &format!("<MacroVariant{}</MacroVariant></EplanPxfRoot>", second.replace("VariantId=\"0\"", "VariantId=\"1\"").replace("U1", "U2")),
+    );
+    assert!(decode(&ambiguous).unwrap().iter().all(|v| v.symbol.plc_channel.is_none()));
+    let numbered = source.replace("AI Standard Channel 1.Value", "Ch. 2.Ch. 2 Al Inputs.Value").replace("U1+", "+I2");
+    let numbered = decode(&numbered).unwrap();
+    let channel = numbered[0].symbol.plc_channel.as_ref().unwrap();
+    assert_eq!((&*channel.designation, channel.index), ("I2", 1));
 }
 
 #[test]

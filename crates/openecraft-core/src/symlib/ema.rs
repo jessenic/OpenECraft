@@ -584,6 +584,16 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
     }
     let name = root.attribute("Name").filter(|s| !s.is_empty()).ok_or("Missing EMA name")?;
     let identity = source.filter(|s| !s.is_empty()).map(|s| s.replace('\\', "/").to_lowercase()).unwrap_or_else(|| name.to_owned());
+    // Some exports name a single value without numbering it. Only assign index
+    // zero if the entire multi-line macro has one distinct measurement.
+    let mut measurements = BTreeSet::new();
+    for view in root.all("MacroVariant").filter(|v| v.attribute("MacroFuncType") == Some("1")) {
+        let mut functions = Vec::new();
+        view.descendants("O17", &mut functions);
+        for el in functions.into_iter().filter(|el| analog_input_direction(el).is_some()) {
+            measurements.insert((terminal_name(el), el.attribute("A186"), el.child("P11").and_then(|p| p.attribute("P20407"))));
+        }
+    }
     let mut seen = BTreeSet::new();
     let mut out = Vec::new();
     for v in root.all("MacroVariant") {
@@ -631,7 +641,7 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
         let mut analog_pins = Vec::new();
         if function_type == 1 && !r.split_devices {
             let contacts: Vec<_> = functions.iter().copied().filter(|el| el.attribute("A185").is_some_and(|s| !s.trim().is_empty())).collect();
-            if let Some(channel) = analog_channel(&contacts, &identity, &r.libraries) {
+            if let Some(channel) = analog_channel(&contacts, &identity, &r.libraries, measurements.len() == 1) {
                 analog_pins = contacts.iter().map(|el| terminal_name(el)).collect();
                 r.result.symbol.plc_channel = Some(channel);
             } else if let [el] = contacts.as_slice() {
@@ -720,27 +730,42 @@ fn digital_channel(el: &Element, family: &str) -> Option<crate::symbols::PlcChan
     })
 }
 
-/// The typed SPECIAL contact carries the value. Other contacts in the same
-/// representation can carry its reference or supply, including before the signal.
-fn analog_channel(contacts: &[&Element], family: &str, libraries: &BTreeMap<&str, &str>) -> Option<crate::symbols::PlcChannel> {
-    let mut signals = contacts.iter().copied().filter(|el| {
-        el.attribute("A1381") == Some("300") && matches!(el.attribute("A1382"), Some("1" | "99")) && matches!(el.attribute("A1383"), Some("4" | "5"))
-    });
+/// Generic bridge and multimeter contacts require an explicit measured variable.
+fn analog_input_direction(el: &Element) -> Option<bool> {
+    if el.attribute("A1381") != Some("300") {
+        return None;
+    }
+    match (el.attribute("A1382")?, el.attribute("A1383")?) {
+        ("1" | "99", "4") => Some(true),
+        ("1" | "99", "5") => Some(false),
+        ("3", "1") => {
+            let props = el.child("P11")?;
+            let value = props.attribute("P20407")?.trim();
+            let input = matches!(value, "AIBridge Inputs.Value" | "RMB Value (INT32).Value" | "SAI Inputs.Value");
+            (input && matches!(props.attribute("P20405"), Some("DINT" | "INT" | "REAL"))).then_some(true)
+        }
+        _ => None,
+    }
+}
+
+fn analog_channel(
+    contacts: &[&Element],
+    family: &str,
+    libraries: &BTreeMap<&str, &str>,
+    single_measurement: bool,
+) -> Option<crate::symbols::PlcChannel> {
+    let mut signals = contacts.iter().copied().filter(|el| analog_input_direction(el).is_some());
     let el = signals.next()?;
     if signals.next().is_some() || libraries.get(el.attribute("A1261")?) != Some(&"SPECIAL") || el.attribute("A1262") != Some("13") {
         return None;
     }
-    let input = match el.attribute("A1383")? {
-        "4" => true,
-        "5" => false,
-        _ => return None,
-    };
+    let input = analog_input_direction(el)?;
     let props = el.child("P11")?;
     let data_type = props.attribute("P20405").unwrap_or("");
-    if !matches!(data_type, "" | "INT" | "UINT" | "WORD" | "DINT" | "UDINT" | "DWORD" | "REAL" | "LREAL") {
+    if !matches!(data_type, "" | "INT" | "UINT" | "WORD" | "DINT" | "UDINT" | "DWORD" | "LINT" | "ULINT" | "REAL" | "LREAL") {
         return None;
     }
-    let source_channel = props.attribute("P20407")?;
+    let source_channel = props.attribute("P20407")?.trim();
     let number = if let Some((_, number)) = source_channel.split_once("Channel ") {
         number.split('.').next()?.trim()
     } else if !input && source_channel == "AO Outputs.Analog output" {
@@ -752,16 +777,26 @@ fn analog_channel(contacts: &[&Element], family: &str, libraries: &BTreeMap<&str
             return None;
         }
         channel
+    } else if let Some((channel, field)) = source_channel.strip_prefix("Ch. ").and_then(|s| s.split_once(".Ch. ")) {
+        if field.split_whitespace().next()? != channel {
+            return None;
+        }
+        channel
+    } else if let Some((group, _)) = source_channel.strip_prefix('I').and_then(|v| v.split_once(" Current")) {
+        group
+    } else if single_measurement && !source_channel.is_empty() {
+        "1"
     } else {
         return None;
     };
     let index = number.parse::<u16>().ok()?.checked_sub(1)?;
     if contacts.iter().filter(|c| !std::ptr::eq(**c, el)).filter_map(|c| c.child("P11")).any(|p| {
-        p.attribute("P20407").is_some_and(|name| !name.is_empty() && name != source_channel) || p.attribute("P20405").is_some_and(|t| !t.is_empty())
+        p.attribute("P20407").is_some_and(|name| !name.trim().is_empty() && name.trim() != source_channel)
+            || p.attribute("P20405").is_some_and(|t| !t.is_empty())
     }) {
         return None;
     }
-    let label = el.attribute("A186")?.trim().trim_end_matches('+').trim();
+    let label = el.attribute("A186")?.trim().trim_matches('+').trim();
     if label.is_empty() {
         return None;
     }
