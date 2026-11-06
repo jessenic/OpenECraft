@@ -1,6 +1,40 @@
 use super::*;
 
 #[test]
+fn card_variants_form_one_loose_entry_or_one_catalog_device() {
+    use openecraft_core::{
+        parts::Part,
+        symbols::{Func, PlcChannel},
+        symlib::UserSymbol,
+    };
+    let mut p = Project::default();
+    let mut part = Part { number: "BEC.EL1008".into(), ..Default::default() };
+    for i in 0..8 {
+        let key = format!("user:ema:EL1008:1:{i}");
+        let channel = PlcChannel {
+            family: "EL1008".into(),
+            input: true,
+            index: i,
+            designation: format!("Channel {}", i + 1),
+            address: String::new(),
+            function_text: String::new(),
+            analog: None,
+            digital_terminal: None,
+        };
+        p.symbols.push(UserSymbol { key: key.clone(), func: Func::Plc, plc_channel: Some(channel), ..Default::default() });
+        part.eplan_variants.push(serde_json::json!({"symbol":{"key":key,"plc_channel":{}}}).into());
+    }
+    p.symbols.push(UserSymbol { key: "user:ema:EL1008:4:0".into(), ..Default::default() });
+    part.eplan_variants.push(serde_json::json!({"symbol":{"key":"user:ema:EL1008:4:0"}}).into());
+    let mut db = PartsDb { parts: vec![] };
+    let loose = listed_user_symbols(&p, &db);
+    assert_eq!(loose.len(), 1);
+    assert_eq!(loose[0].key, "user:ema:EL1008:1:0");
+    db.parts.push(part);
+    assert!(listed_user_symbols(&p, &db).is_empty());
+}
+
+#[test]
 fn keys_round_trip() {
     for e in [Entry::Symbol("coil".into()), Entry::Macro("Motor star-delta".into()), Entry::Part("3RT2016:1BB41".into())] {
         assert_eq!(Entry::from_key(&e.key()), Some(e));

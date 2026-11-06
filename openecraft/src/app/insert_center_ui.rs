@@ -10,7 +10,7 @@ impl Entry {
     /// The key of a symbol entry, as the editor places it.
     fn symbol_key(&self, prj: &Project) -> Option<&'static str> {
         match self {
-            Entry::Symbol(k) => prj.symbol(k).map(|d| d.key),
+            Entry::Symbol(k) => prj.next_picker_symbol(k),
             _ => None,
         }
     }
@@ -28,21 +28,13 @@ enum Pick {
 const DEVICES_SHOWN: usize = 200;
 
 impl App {
-    /// Registered symbols of the project symbol library, sorted by library and name.
-    pub(super) fn user_symbols(&self) -> Vec<symbols::SymbolRef> {
-        // Place catalog cards from their single device entry. Loose EMA symbols remain available.
-        let represented: std::collections::HashSet<&str> = self.session.prj.parts.iter().chain(&self.parts_db.parts)
-            .filter(|p| p.eplan_variants.iter().any(|v| !v["symbol"]["plc_channel"].is_null()))
-            .flat_map(|p| &p.eplan_variants).filter_map(|v| v["symbol"]["key"].as_str()).collect();
-        let mut v: Vec<symbols::SymbolRef> = self.session.prj.symbols.iter().filter(|s| !represented.contains(s.key.as_str())).filter_map(|u| self.session.prj.symbol(&u.key)).collect();
-        v.sort_by(|a, b| a.library.cmp(b.library).then(natural_cmp(a.name, b.name)));
-        v
-    }
-
     /// Title, further texts to search and icon of an entry.
     fn entry_texts(&self, e: &Entry) -> Option<(String, String, Icon)> {
         match e {
-            Entry::Symbol(k) => self.session.prj.symbol(k).map(|d| (tr(d.name).to_string(), format!("{} {} {}", d.name, d.letter, d.category.title()), Icon::Symbol)),
+            Entry::Symbol(k) => self.session.prj.symbol(k).map(|d| {
+                let title = if d.plc_channel.is_some() { d.name.rsplit_once(" (").map_or(d.name,|(name,_)|name) } else { d.name };
+                (tr(title).to_string(), format!("{} {} {}", d.name, d.letter, d.category.title()), Icon::Symbol)
+            }),
             Entry::Macro(n) => self.macro_lib.get(n).map(|m| (m.name.clone(), format!("{} {}", m.category, m.description), Icon::Macro)),
             Entry::Part(n) => parts::lookup(&self.session.prj, Some(&self.parts_db), n).map(|p| (p.number.clone(), format!("{} {} {}", p.description, p.manufacturer, p.group), Icon::Parts)),
         }
@@ -88,7 +80,7 @@ impl App {
                 }
             }
             // Symbols: the user's libraries, then the built-in categories.
-            let user = self.user_symbols();
+            let user = crate::insert_center::listed_user_symbols(&self.session.prj, &self.parts_db);
             let mut libs: Vec<&str> = user.iter().map(|d| d.library).collect();
             libs.dedup();
             let groups = libs
@@ -268,13 +260,12 @@ impl App {
                                 // Symbols can be dragged into the page as well.
                                 let lbl = if let Entry::Part(number) = e {
                                     openecraft_ui::part_editor::drag_row(ui, true, number, label)
-                                } else { match e.symbol_key(&self.session.prj) {
-                                    Some(symbol) => {
-                                        let payload = crate::editor::PlacePayload { symbol, tag: String::new(), label: String::new(), pins: Vec::new() };
-                                        super::drag_source(ui, ui.make_persistent_id(("ic_drag", symbol)), payload, label)
-                                    }
-                                    None => label(ui),
-                                }};
+                                } else if let Some(symbol) = e.symbol_key(&self.session.prj) {
+                                    let payload = crate::editor::PlacePayload { symbol, tag: String::new(), label: String::new(), pins: Vec::new() };
+                                    super::drag_source(ui, ui.make_persistent_id(("ic_drag", symbol)), payload, label)
+                                } else {
+                                    label(ui)
+                                };
                                 if letter.is_empty() && !about.is_empty() {
                                     ui.add(egui::Label::new(RichText::new(&about).small().weak()).truncate());
                                 }
@@ -334,8 +325,9 @@ impl App {
     fn insert_entry(&mut self, e: Entry) {
         match &e {
             Entry::Symbol(k) => {
-                let Some(key) = self.session.prj.symbol(k).map(|d| d.key) else { return };
+                let Some(key) = self.session.prj.next_picker_symbol(k) else { return };
                 self.set_tool(Tool::Place(key));
+                self.editor.place_tag = None;
                 self.editor.place_rot = 0;
                 self.editor.place_mirror = false;
             }

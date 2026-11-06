@@ -36,6 +36,16 @@ fn repeating_a_card_uses_each_channel_then_starts_a_new_device() {
     assert_ne!(tags[0], tags[8]);
     assert_ne!(tags[8], tags[9]);
     assert!(prj.devices.values().all(|d| d.parts.len() == 1 && d.parts[0].count == 1));
+    let mut loose = Project::new_default();
+    import_project(&mut loose, &vs);
+    for i in 0..9 {
+        let key = loose.next_picker_symbol(&vs[0].symbol.key).unwrap();
+        let def = loose.symbol(key).unwrap();
+        let s = ops::new_symbol(&mut loose, 0, &Default::default(), &def, p(40., 40.), 0, false);
+        assert_eq!(s.label, format!("I0.{}", i % 8));
+        loose.pages[0].symbols.push(s);
+    }
+    assert_ne!(loose.pages[0].symbols[0].tag, loose.pages[0].symbols[8].tag);
 }
 
 #[test]

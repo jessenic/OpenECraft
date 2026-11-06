@@ -65,6 +65,35 @@ pub struct UserPin {
 }
 
 impl super::Project {
+    /// Resolve the single Insert center entry for a standalone channel macro.
+    /// Its individual definitions still supply the distinct pin locations and graphics.
+    pub fn next_picker_symbol(&self, key: &str) -> Option<&'static str> {
+        let def = self.symbol(key)?;
+        let Some(c) = &def.plc_channel else { return Some(def.key) };
+        let card = self.latest_imported_card(&c.family, None);
+        let used: std::collections::HashSet<_> = self
+            .pages
+            .iter()
+            .flat_map(|page| &page.symbols)
+            .filter(|s| Some(s.tag.as_str()) == card)
+            .filter_map(|s| {
+                let d = self.symbol(&s.sym)?;
+                let point = d.plc_channel.as_ref().filter(|point| point.family == c.family)?;
+                Some((point.input, point.index))
+            })
+            .collect();
+        let next = self
+            .symbols
+            .iter()
+            .filter_map(|s| {
+                let point = s.plc_channel.as_ref().filter(|point| point.family == c.family)?;
+                Some(((used.contains(&(point.input, point.index)), point.index), s))
+            })
+            .min_by_key(|(order, _)| *order)?
+            .1;
+        self.symbol(&next.key).map(|d| d.key)
+    }
+
     pub(crate) fn latest_imported_card(&self, family: &str, article: Option<&str>) -> Option<&str> {
         self.pages
             .iter()

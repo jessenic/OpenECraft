@@ -3,6 +3,11 @@
 //! `*` / `?` placeholders, with favorites and the recently used entries first. No UI
 //! code: `app/insert_center_ui.rs` draws it and places what is chosen.
 
+use openecraft_core::{
+    model::{natural_cmp, Project},
+    parts::PartsDb,
+    symbols::SymbolRef,
+};
 use serde::{Deserialize, Serialize};
 
 /// Storage key of the favorites and recently used entries.
@@ -111,6 +116,42 @@ impl InsertCenter {
         }
         Ok(n)
     }
+}
+
+/// Registered symbols of the project symbol library, sorted by library and name.
+pub fn listed_user_symbols(prj: &Project, db: &PartsDb) -> Vec<SymbolRef> {
+    // Place catalog cards from their single device entry. Loose EMA symbols remain available.
+    let represented: std::collections::HashSet<&str> = prj
+        .parts
+        .iter()
+        .chain(&db.parts)
+        .filter(|p| p.eplan_variants.iter().any(|v| !v["symbol"]["plc_channel"].is_null()))
+        .flat_map(|p| &p.eplan_variants)
+        .filter_map(|v| v["symbol"]["key"].as_str())
+        .collect();
+    let mut families = std::collections::BTreeMap::new();
+    for sym in prj.symbols.iter().filter(|s| !represented.contains(s.key.as_str())) {
+        if let Some(c) = &sym.plc_channel {
+            let first = families.entry(c.family.as_str()).or_insert((c.index, &sym.key));
+            if c.index < first.0 {
+                *first = (c.index, &sym.key);
+            }
+        }
+    }
+    let mut v: Vec<SymbolRef> = prj
+        .symbols
+        .iter()
+        .filter(|s| {
+            if represented.contains(s.key.as_str()) {
+                return false;
+            }
+            let family = s.key.strip_prefix("user:ema:").and_then(|k| k.rsplit_once(':')).and_then(|(k, _)| k.rsplit_once(':')).map(|(f, _)| f);
+            family.and_then(|f| families.get(f)).is_none_or(|(_, first)| *first == &s.key)
+        })
+        .filter_map(|u| prj.symbol(&u.key))
+        .collect();
+    v.sort_by(|a, b| a.library.cmp(b.library).then(natural_cmp(a.name, b.name)));
+    v
 }
 
 #[cfg(test)]

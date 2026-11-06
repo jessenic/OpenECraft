@@ -1406,6 +1406,10 @@ impl Editor {
             self.place_tag = None;
             self.set_tool(Tool::Select);
             self.selection.insert(id);
+        } else if out.placed_part.is_none() && def.plc_channel.is_some() {
+            if let Some(next) = prj.next_picker_symbol(key) {
+                self.tool = Tool::Place(next);
+            }
         }
     }
 
