@@ -563,6 +563,7 @@ fn import_eplan_symbols(s: &mut Session, a: &Args) -> Result<Value, String> {
     for part in parts {
         if let Some(old) = project.parts.iter_mut().find(|p| p.number == part.number) {
             old.eplan_variants = part.eplan_variants;
+            old.mounting_data.rail = part.mounting_data.rail;
             old.eplan_macro = part.eplan_macro;
         } else {
             project.parts.push(part);
@@ -570,6 +571,7 @@ fn import_eplan_symbols(s: &mut Session, a: &Args) -> Result<Value, String> {
     }
     if !numbers.is_empty() {
         openecraft_core::parts::link_unassigned_plc_parts(project, &openecraft_core::parts::PartsDb { parts: Vec::new() }, None);
+        project.refresh_rail_mounts();
     }
     let report: Vec<_> = variants
         .iter()

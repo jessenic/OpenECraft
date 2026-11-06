@@ -538,6 +538,35 @@ impl Default for Part {
 }
 
 impl Part {
+    /// Source values take precedence. The supplied Beckhoff XML uses zero even
+    /// for housings with a documented off-center clip. Drawings 0000000304,
+    /// 0000000305 and 0000004049 place the rail axis 63.8 mm below the top.
+    pub fn effective_rail_mount(&self) -> crate::RailMount {
+        let mut rail = self.mounting_data.rail;
+        if rail.center_offset != 0. || (self.height - 100.).abs() > 0.1 || (self.depth - 68.).abs() > 0.1 {
+            return rail;
+        }
+        let Some(model) = self.number.strip_prefix("BEC.") else { return rail };
+        let terminal = (self.width - 12.).abs() < 0.1
+            && ["EL1", "EL2", "EL3", "EL4"].iter().any(|prefix| model.starts_with(prefix))
+            && self.eplan_variants.iter().any(|v| {
+                if v["function_type"].as_u64() != Some(4) {
+                    return false;
+                }
+                let Some(pins) = v["symbol"]["pins"].as_array() else { return false };
+                matches!(pins.len(), 8 | 16)
+                    && (1..=pins.len()).all(|n| {
+                        let label = n.to_string();
+                        pins.iter().any(|p| p["label"].as_str() == Some(label.as_str()))
+                    })
+            });
+        let coupler = model == "EK1100" && (self.width - 44.1).abs() < 0.2;
+        if terminal || coupler {
+            rail.center_offset = 63.8 - self.height / 2.;
+        }
+        rail
+    }
+
     /// Width, height and depth: the mounting data, or the size of the 3D model when
     /// the part has no mounting data. `None` without either.
     pub fn size(&self) -> Option<[f32; 3]> {

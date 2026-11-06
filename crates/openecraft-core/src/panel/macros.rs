@@ -167,6 +167,7 @@ pub fn insert_macro(prj: &mut Project, enc: usize, m: &PanelMacro, face: Face, a
                 Some(d) => {
                     taken.insert(d.tag.clone());
                     it.tag = d.tag;
+                    it.rail_mount = part_by_number(prj, &d.part).map(|p| p.effective_rail_mount()).unwrap_or_default();
                 }
                 None => {
                     it.kind = ItemKind::Accessory;

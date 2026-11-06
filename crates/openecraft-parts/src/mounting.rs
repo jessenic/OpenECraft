@@ -72,9 +72,24 @@ fn is_zero(v: &f32) -> bool {
     *v == 0.0
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct RailMount {
+    /// Positive when the rail centerline is below the center of the device.
+    pub center_offset: f32,
+    /// Distance from the top surface of the rail to the rear of the device.
+    pub clip_on: f32,
+}
+
+impl RailMount {
+    pub fn is_centered(&self) -> bool { *self == Self::default() }
+}
+
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct MountingData {
+    #[serde(skip_serializing_if = "RailMount::is_centered")]
+    pub rail: RailMount,
     /// Free space for ventilation and wiring around the part, mm (0: none).
     #[serde(skip_serializing_if = "is_zero")]
     pub clearance_top: f32,

@@ -2867,9 +2867,8 @@ impl PanelUi {
             }
             (Tool::PlaceDevice(tag), _, Some(q)) => {
                 let (w, h) = panel::device_size(prj, tag).map(|s| (s.w, s.h)).unwrap_or((panel::DEFAULT_DEVICE.0, panel::DEFAULT_DEVICE.1));
-                let mut ghost = PanelItem { kind: ItemKind::Device, x: panel::snap(q.x - w / 2.0), y: panel::snap(q.y - h / 2.0), w, h, face: self.face, ..Default::default() };
-                panel::snap_device(e, &mut ghost);
-                g.rect(p(ghost.x, ghost.y) + m, p(ghost.x + w, ghost.y + h) + m, 0.6, Ink::Ghost, false);
+                let ghost = panel::device_preview(prj,e,tag,p(q.x-w/2.,q.y-h/2.),self.face);
+                g.rect(p(ghost.x, ghost.y) + m, p(ghost.x + ghost.w, ghost.y + ghost.h) + m, 0.6, Ink::Ghost, false);
                 g.text(ghost.center() + m, tag, (w.min(h) * 0.22).clamp(3.0, 9.0), openecraft_core::symbols::Anchor::Center, render::VAnchor::Middle, Ink::Ghost);
             }
             _ => {}
@@ -2915,7 +2914,7 @@ impl PanelUi {
                 let mut ids = self.selection.clone();
                 for rail in e.items.iter().filter(|i| i.kind == ItemKind::Rail && self.selection.contains(&i.id)) {
                     for dev in e.items.iter().filter(|i| i.kind == ItemKind::Device && i.z > 0.0) {
-                        if rail.rect().contains(dev.center()) {
+                        if rail.rect().contains(dev.rail_anchor()) {
                             ids.insert(dev.id);
                         }
                     }

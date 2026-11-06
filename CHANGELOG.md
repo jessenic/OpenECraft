@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Use the DIN-rail clip position from imported mounting data when placing cabinet devices. Matching Beckhoff terminal housings and the EK1100 use the documented 63.8 mm rail datum.
+
 - Snap cabinet devices flush to a nearby neighbor on the mounting plate while placing or moving a single module. The placement preview shows the snapped position.
 
 - Show imported EPLAN artwork on cabinet fronts. An assigned front view takes priority, followed by a mounting representation and then a fitted overview illustration.

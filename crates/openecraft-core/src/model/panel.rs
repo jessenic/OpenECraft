@@ -146,6 +146,8 @@ pub struct PanelItem {
     pub d: f32,
     /// Base height above the plate (devices on a rail sit on the rail).
     pub z: f32,
+    #[serde(default, skip_serializing_if = "openecraft_parts::RailMount::is_centered")]
+    pub rail_mount: openecraft_parts::RailMount,
     /// Round cutout (diameter = width).
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub round: bool,
@@ -165,6 +167,39 @@ pub struct PanelItem {
     /// Cutouts in the wall of a room: a door or a window.
     #[serde(skip_serializing_if = "Opening::is_cutout")]
     pub opening: Opening,
+}
+
+impl super::Project {
+    /// Refresh saved rail datums. Only move devices actually seated on a rail
+    /// at their old datum; free or manually offset placements keep their position.
+    pub fn refresh_rail_mounts(&mut self) {
+        let mounts: std::collections::HashMap<_, _> = self.parts.iter().map(|p| (p.number.as_str(), p.effective_rail_mount())).collect();
+        for e in &mut self.layout.enclosures {
+            for i in 0..e.items.len() {
+                let item = &e.items[i];
+                let Some(&new) = mounts.get(item.part.as_str()) else { continue };
+                if item.kind != ItemKind::Device || item.rail_mount == new {
+                    continue;
+                }
+                let anchor = item.rail_anchor();
+                let seated = e.items.iter().any(|r| {
+                    r.kind == ItemKind::Rail
+                        && r.face == item.face
+                        && r.horizontal()
+                        && anchor.x >= r.x
+                        && anchor.x <= r.x + r.w
+                        && (anchor.y - r.center().y).abs() < 0.01
+                        && (item.z + item.rail_mount.clip_on - r.z - r.d).abs() < 0.01
+                });
+                let item = &mut e.items[i];
+                if seated {
+                    item.y += item.rail_mount.center_offset - new.center_offset;
+                    item.z += item.rail_mount.clip_on - new.clip_on;
+                }
+                item.rail_mount = new;
+            }
+        }
+    }
 }
 
 /// What a cutout is: an opening for cables, fans, … or a door or window in the wall of

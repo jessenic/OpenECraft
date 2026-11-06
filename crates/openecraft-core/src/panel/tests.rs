@@ -33,6 +33,43 @@ fn devices_snap_flush_on_either_side_only_when_the_space_is_free() {
 }
 
 #[test]
+fn rail_datum_controls_preview_snap_and_old_project_recovery() {
+    let mut prj = Project::new_default();
+    let card = crate::parts::Part {
+        number: "BEC.EL3174".into(),
+        width: 12.,
+        height: 100.,
+        depth: 68.,
+        eplan_variants: vec![
+            serde_json::json!({"function_type":4,"symbol":{"pins":(1..=16).map(|n| serde_json::json!({"label":n.to_string()})).collect::<Vec<_>>()}})
+                .into(),
+        ],
+        ..Default::default()
+    };
+    let db = crate::parts::PartsDb { parts: vec![card] };
+    for tag in ["-A1", "-A2"] {
+        crate::parts::add_to_device(&mut prj, &db, tag, "BEC.EL3174", 1);
+    }
+    let mut e = Enclosure::default();
+    e.items.push(PanelItem { kind: ItemKind::Rail, id: 100, x: 0., y: 82.5, w: 200., h: 35., d: 7.5, ..Default::default() });
+    prj.layout.enclosures.push(e);
+    let ghost = device_preview(&prj, &prj.layout.enclosures[0], "-A1", p(40., 50.), Face::Plate);
+    let id = place_device(&mut prj, 0, "-A1", p(40., 50.)).unwrap();
+    let placed = prj.layout.enclosures[0].item(id).unwrap();
+    assert_eq!((placed.x, placed.y, placed.z), (ghost.x, ghost.y, ghost.z));
+    assert!((placed.y - 36.2).abs() < 0.001);
+    assert_eq!(placed.z, 7.5);
+    let next = place_device(&mut prj, 0, "-A2", p(54., 52.)).unwrap();
+    let other = prj.layout.enclosures[0].item(next).unwrap();
+    assert_eq!((other.x, other.rail_anchor().y), (52., 100.));
+    let legacy = prj.layout.enclosures[0].items.iter_mut().find(|s| s.id == id).unwrap();
+    legacy.y = 50.;
+    legacy.rail_mount = Default::default();
+    let reopened = Project::from_json(&prj.to_json()).unwrap();
+    assert!((reopened.layout.enclosures[0].item(id).unwrap().y - 36.2).abs() < 0.001);
+}
+
+#[test]
 fn device_size_from_parts() {
     let prj = demo_project();
     // Contactor 45 x 74 x 73 plus front auxiliary block (40 deep)

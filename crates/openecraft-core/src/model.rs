@@ -1386,6 +1386,7 @@ impl Project {
             }
         }
         self.migrate_part_assignments();
+        self.refresh_rail_mounts();
         if self.pages.is_empty() {
             let id = self.new_id();
             self.pages.push(Page::new(id, "1", "Schematic", PageKind::Schematic));

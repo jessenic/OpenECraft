@@ -164,6 +164,9 @@ pub(crate) fn read_with_library(bytes: &[u8], mappings: &[openecraft_core::symli
             }
         }
     }
+    for part in &mut parts {
+        part.mounting_data.rail = part.effective_rail_mount();
+    }
     Ok(Edz { parts, files: out })
 }
 

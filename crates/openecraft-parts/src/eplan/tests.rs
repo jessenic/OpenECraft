@@ -1,5 +1,22 @@
 use super::*;
 
+#[test]
+fn rail_offsets_follow_the_article_and_matching_beckhoff_housing() {
+    let xml = r#"<partsmanagement><part P_ARTICLE_PARTNR="BEC.EL3174" P_ARTICLE_HEIGHT="100" P_ARTICLE_WIDTH="12" P_ARTICLE_DEPTH="68" P_ARTICLE_MIDDLEOFFSET="-4" P_ARTICLE_SNAPHEIGHT="2"/></partsmanagement>"#;
+    let mut p = from_eplan_xml(xml).unwrap().remove(0);
+    p.eplan_variants.push(
+        serde_json::json!({"function_type":4,"symbol":{"pins":(1..=16).map(|i|serde_json::json!({"label":i.to_string()})).collect::<Vec<_>>()}})
+            .into(),
+    );
+    assert_eq!(p.effective_rail_mount(), crate::RailMount { center_offset: -4., clip_on: 2. });
+    let saved = from_eplan_xml(&to_eplan_xml(&[p.clone()])).unwrap();
+    assert_eq!(saved[0].mounting_data.rail, p.mounting_data.rail);
+    p.mounting_data.rail.center_offset = 0.;
+    assert!((p.effective_rail_mount().center_offset - 13.8).abs() < 0.001);
+    p.number = "BEC.EP3174".into();
+    assert_eq!(p.effective_rail_mount().center_offset, 0.);
+}
+
 const SAMPLE: &str = r#"<?xml version="1.0" encoding="utf-8"?>
 <partsmanagement>
   <part P_ARTICLE_PARTNR="SIE.3RT2015-1BB41" P_ARTICLE_TYPENR="3RT2015-1BB41" P_ARTICLE_MANUFACTURER="SIE"

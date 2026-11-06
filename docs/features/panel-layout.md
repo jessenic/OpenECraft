@@ -1,5 +1,11 @@
 # Panel layout, rooms and 3D routing
 
+### Imported cards on horizontal DIN rails
+
+OpenECraft aligns the device's clip to the rail centerline. For Beckhoff's 12 × 100 × 68 mm EL I/O housings with 8 or 16 terminals, and the matching EK1100 coupler, the rail center is 63.8 mm from the top. For example, a rail centered at Y = 100 mm puts the top at Y = 36.2 mm. The 35.4 mm dimension is the housing opening for the nominal 35 mm rail. The importer retains a nonzero article center offset and clip-on height. It applies the drawing-based center offset only to matching housings when the catalog center offset is zero. [8-pin terminal](https://download.beckhoff.com/download/technical_drawings/Fieldbus_Components/EtherCAT_Terminal/pdf/ethercat-_busterminal_12mm_8_pin.pdf) · [16-pin terminal](https://download.beckhoff.com/download/technical_drawings/Fieldbus_Components/EtherCAT_Terminal/pdf/ethercat-_busterminal_12mm_16_pin.pdf) · [EK1100 housing](https://download.beckhoff.com/download/technical_drawings/Fieldbus_Components/EtherCAT_Coupler/pdf/ethercat-coupler_44mm_2xrj45_8pin.pdf)
+
+A card placed or moved within 4 mm of a free neighboring edge snaps flush to it on the same mounting plate. The placement preview shows the result. Cabinet artwork uses the assigned front view first, then an imported mounting representation. If those are absent, a vendor overview supplies an illustration fitted inside the physical footprint.
+
 Enclosures with their devices at real size in 2D and 3D (in the spirit of EPLAN Pro
 Panel), virtual wiring through the ducts, drilling and NC data, enclosure climate,
 line-ups, rooms of the building with their floor-standing equipment and pipe runs,

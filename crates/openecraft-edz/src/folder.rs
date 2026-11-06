@@ -87,6 +87,7 @@ pub fn read_with_library(path: &Path, data: &[u8], mappings: &[openecraft_core::
             }
             let (data, variants) = &cache[source];
             part.eplan_variants.clone_from(variants);
+            part.mounting_data.rail = part.effective_rail_mount();
             files.push(EdzFile {
                 part: part.number.clone(),
                 name: source.file_name().unwrap_or_default().to_string_lossy().into_owned(),
@@ -149,6 +150,7 @@ impl Folder {
             let data = bytes(path)?;
             let variants = ema::decode_source(&text(&data), Some(&part.eplan_macro), mappings)?;
             part.eplan_variants = variants.iter().map(|v| serde_json::json!(v).into()).collect();
+            part.mounting_data.rail = part.effective_rail_mount();
             files.push(EdzFile {
                 part: number.into(),
                 name: path.file_name().unwrap_or_default().to_string_lossy().into_owned(),
