@@ -65,7 +65,7 @@ fn unpack_with_limit(bytes: &[u8], limit: u64) -> Result<Vec<(String, Vec<u8>)>,
 }
 
 /// Text of an XML file (UTF-8 or UTF-16 with byte order mark).
-fn text(data: &[u8]) -> String {
+pub(crate) fn text(data: &[u8]) -> String {
     match data {
         [0xFF, 0xFE, rest @ ..] => String::from_utf16_lossy(&rest.as_chunks::<2>().0.iter().map(|c| u16::from_le_bytes(*c)).collect::<Vec<_>>()),
         [0xFE, 0xFF, rest @ ..] => String::from_utf16_lossy(&rest.as_chunks::<2>().0.iter().map(|c| u16::from_be_bytes(*c)).collect::<Vec<_>>()),
@@ -119,6 +119,10 @@ fn add(out: &mut Vec<EdzFile>, part: &str, item_type: &str, path: &str, data: &[
 
 /// Reads an EDZ file: its parts with their files.
 pub fn read(bytes: &[u8]) -> Result<Edz, String> {
+    read_with_library(bytes,&[])
+}
+
+pub(crate) fn read_with_library(bytes: &[u8], mappings: &[openecraft_core::symlib::UserSymbol]) -> Result<Edz,String> {
     let files = unpack(bytes)?;
     let is_xml = |path: &str| path.to_lowercase().ends_with(".xml") && !path.eq_ignore_ascii_case("manifest.xml");
     let texts: Vec<String> = files.iter().filter(|(p, _)| is_xml(p)).map(|(_, d)| text(d)).collect();
@@ -149,6 +153,17 @@ pub fn read(bytes: &[u8]) -> Result<Edz, String> {
             }
         }
     }
+    for file in &out {
+        if !file.name.to_ascii_lowercase().ends_with(".ema") { continue; }
+        let source = text(&file.data);
+        if let Some(part) = parts.iter_mut().find(|p| p.number == file.part) {
+            let reference = (file_name(&part.eplan_macro).eq_ignore_ascii_case(&file.name)).then_some(part.eplan_macro.as_str());
+            match openecraft_core::symlib::ema::decode_source(&source,reference,mappings) {
+                Ok(variants) => part.eplan_variants.extend(variants.iter().map(|v| openecraft_parts::Shared::new(serde_json::json!(v)))),
+                Err(error) => part.eplan_variants.push(serde_json::json!({"source": file.name, "error": error}).into()),
+            }
+        }
+    }
     Ok(Edz { parts, files: out })
 }
 
@@ -158,7 +173,7 @@ pub fn import(bytes: &[u8]) -> Result<Vec<Part>, String> {
     if is_edz(bytes) {
         read(bytes).map(|e| e.parts)
     } else {
-        openecraft_parts::import(&String::from_utf8_lossy(bytes))
+        openecraft_parts::import(&text(bytes))
     }
 }
 

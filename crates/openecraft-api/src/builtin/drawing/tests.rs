@@ -2,6 +2,40 @@ use super::*;
 use crate::builtin::testing::*;
 use openecraft_core::analysis::Analysis;
 
+#[test]
+fn reciprocal_ground_transfers_form_one_net_after_project_reopen() {
+    let mut s=new_session();
+    let contact=|number:&str,pos:&str,rule:&str|format!(r#"<O17 A1="17/{number}" A1261="0" A1262="13" A1263="0" A185="{number}"><P150 P20013="Q"/><P11 P20406="X1"/><S40x1201 A762="{pos}"/><S61x183 A1061="0" A1063="0"><S16x1062 A161="1" A163="{rule}"/></S61x183></O17>"#);
+    let xml=format!(r#"<EplanPxfRoot Name="drive" Type="WindowMacro"><MacroVariant MacroFuncType="1" VariantId="0" ReferencePoint="0/0/0"><ESymLib ID="0" Name="SPECIAL"/>{}{}{}</MacroVariant></EplanPxfRoot>"#,contact("1","0/0","&quot;X1:2&quot;"),contact("2","8/0","&quot;X1:1&quot;"),contact("3","16/0",""));
+    let imported=run(&mut s,"import_ema",json!({"xml":xml})).unwrap();
+    run(&mut s,"place_symbol",json!({"page":"1","symbol":imported["variants"][0]["symbol"]["key"],"x":80,"y":80,"rotation":90,"tag":"-Q1"})).unwrap();
+    run(&mut s,"place_symbol",json!({"page":"1","symbol":"coil","x":144,"y":80,"tag":"-K1"})).unwrap();
+    run(&mut s,"connect",json!({"page":"1","from":"-Q1:X1.1","to":"-K1:A1"})).unwrap();
+    let prj=Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let net=openecraft_core::netlist::Netlist::build(&prj,false);
+    let drive=prj.pages[0].symbols[0].id;let coil=prj.pages[0].symbols[1].id;
+    assert_eq!(net.pin_net[&(drive,1)],net.pin_net[&(coil,0)]);
+    assert_ne!(net.pin_net[&(drive,2)],net.pin_net[&(coil,0)]);
+}
+
+#[test]
+fn imported_contact_can_be_placed_and_wired() {
+    let mut s = new_session();
+    let xml = r#"<EplanPxfRoot Type="WindowMacro" Name="input"><MacroVariant MacroFuncType="1" VariantId="0" ReferencePoint="0/0/0"><ESymLib ID="0" Name="SPECIAL"/><O17 A185="1" A1261="0" A1262="13" A1263="0"><S61x183 A1061="1"/><S40x1201 A762="8/-8"/></O17></MacroVariant></EplanPxfRoot>"#;
+    let report = run(&mut s, "import_ema", json!({"xml":xml})).unwrap();
+    assert_eq!(report["added"], 1);
+    let key = &report["variants"][0]["symbol"]["key"];
+    run(&mut s, "place_symbol", json!({"page":"1","x":80,"y":80,"tag":"-A1","symbol":key,"rotation":90})).unwrap();
+    run(&mut s, "place_symbol", json!({"page":"1","x":140,"y":80,"tag":"-K1","symbol":"coil"})).unwrap();
+    assert!(run(&mut s, "connect", json!({"page":"1","from":"-A1:1","to":"-K1:A1"})).is_ok());
+    let project = Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let net = openecraft_core::netlist::Netlist::build(&project, false);
+    let symbols = &project.pages[0].symbols;
+    assert_eq!(net.pin_net[&(symbols[0].id, 0)], net.pin_net[&(symbols[1].id, 0)]);
+    assert_eq!(symbols[0].pins, ["1"]);
+    assert!(openecraft_core::svg::page_svg(&project, 0).contains("<circle"));
+}
+
 /// Messages of the project checks (like the `check` tool of the command line).
 fn issues(s: &mut Session) -> Vec<String> {
     let prj = s.project().unwrap();

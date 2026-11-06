@@ -53,6 +53,8 @@ pub struct InsertCenter {
     pub tiles: bool,
     #[serde(skip)]
     pub query: String,
+    #[serde(skip)]
+    pub variant_part: Option<String>,
 }
 
 impl InsertCenter {

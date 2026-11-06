@@ -26,7 +26,7 @@ fn layer_combo(ui: &mut egui::Ui, salt: &str, layer: &mut String, names: &[Strin
 }
 
 /// Own colour of an item (none: the layer's or the normal colour).
-fn color_field(ui: &mut egui::Ui, color: &mut Option<[u8; 3]>) {
+pub(super) fn color_field(ui: &mut egui::Ui, color: &mut Option<[u8; 3]>) {
     ui.horizontal(|ui| {
         let mut own = color.is_some();
         if ui.checkbox(&mut own, tr("Own colour")).changed() {

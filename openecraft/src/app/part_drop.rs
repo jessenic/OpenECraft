@@ -47,7 +47,7 @@ impl App {
     /// Places the main function of a local part as a new device with the part.
     fn place_dropped(&mut self, ctx: &egui::Context, page_i: usize, number: &str, at: P, imported: bool) {
         let Some(part) = parts::lookup(&self.session.prj, Some(&self.parts_db), number).cloned() else { return };
-        let Some((symbol, pins)) = openecraft_core::unplaced::part_symbol(&part) else {
+        let Some((symbol, pins)) = openecraft_core::symlib::ema::part_symbol(&mut self.session.prj, &part, None).or_else(|| openecraft_core::unplaced::part_symbol(&part)) else {
             self.notify_warning(ctx, tr_fmt!("{} has no function with a symbol; assign it to a device in its properties", number));
             return;
         };

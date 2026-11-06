@@ -9,6 +9,9 @@ use serde::{Deserialize, Serialize};
 #[serde(default)]
 pub struct UserSymbol {
     pub key: String,
+    /// Fingerprint of the last imported EMA definition; used to preserve local edits.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ema_revision: Option<String>,
     pub name: String,
     /// Library (group in the symbol list), e.g. the company name.
     pub library: String,

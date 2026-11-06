@@ -447,6 +447,7 @@ const CLIP_MAGIC: &str = "openecraft-clipboard-v1";
 pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
     Clip {
         magic: CLIP_MAGIC.into(),
+        anchor: None,
         function: page.function.clone(),
         installation: page.installation.clone(),
         location: page.location.clone(),
@@ -536,7 +537,7 @@ impl Clip {
 /// How far [`paste`] moves the items of `clip` for the point `at`: the top left corner
 /// goes to `at`, in steps of the connection point grid.
 pub fn paste_offset(clip: &Clip, at: P) -> P {
-    (at - clip.bounds().min).snap(GRID)
+    (at - clip.anchor.unwrap_or_else(|| clip.bounds().min)).snap(GRID)
 }
 
 /// Pastes the clip so that its top-left corner lands on `at`. Tags move into the

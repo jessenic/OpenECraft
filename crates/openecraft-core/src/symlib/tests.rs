@@ -85,7 +85,7 @@ fn hit_test_prefers_pins_and_moves_elements() {
     assert_eq!(hit(&u, p(20.0, 20.0), 0.5), None);
     translate(&mut u.prims[1], p(2.0, 0.0));
     assert_eq!(u.prims[1], Prim::Line { a: p(2.0, -8.0), b: p(2.0, -4.0), dashed: false });
-    let text = Prim::Text { pos: p(0.0, 0.0), text: "ABC".into(), size: 2.0, anchor: Anchor::Left };
+    let text = Prim::Text { pos: p(0.0, 0.0), text: "ABC".into(), size: 2.0, anchor: Anchor::Left, angle: None, color:None };
     assert_eq!(prim_distance(&text, p(1.0, 0.0)), 0.0);
     assert!(prim_distance(&text, p(-3.0, 0.0)) > 2.9);
 }

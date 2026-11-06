@@ -216,8 +216,8 @@ impl Session {
 
     /// Updates the local copy with a server reply.
     /// The parts of an EDZ file to upload; its files wait for the upload.
-    pub fn import_edz(&mut self, bytes: &[u8]) -> Result<Vec<Part>, String> {
-        let edz = openecraft_edz::read(bytes)?;
+    pub fn import_package(&mut self, path: &str, bytes: &[u8]) -> Result<Vec<Part>, String> {
+        let edz = openecraft_edz::folder::read_file(std::path::Path::new(path),bytes)?;
         self.pending_files = edz.files;
         Ok(edz.parts)
     }

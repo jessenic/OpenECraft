@@ -308,7 +308,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
             let prim = &mut u.prims[i];
             let kind = match prim {
                 Prim::Line { .. } => tr("Line"),
-                Prim::Poly { .. } => tr("Polyline / rectangle"),
+                Prim::Poly { .. } | Prim::Path {..} => tr("Polyline / rectangle"),
                 Prim::Circle { .. } => tr("Circle"),
                 Prim::Text { .. } => tr("Text"),
                 Prim::Field { .. } => tr("Field"),
@@ -322,7 +322,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     ui.checkbox(dashed, "");
                     ui.end_row();
                 }
-                Prim::Poly { pts, closed, fill } => {
+                Prim::Poly { pts, closed, fill } | Prim::Path { pts, closed, fill, .. } => {
                     ui.label(tr("Points"));
                     ui.label(pts.len().to_string());
                     ui.end_row();
@@ -333,7 +333,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     });
                     ui.end_row();
                 }
-                Prim::Circle { c, r, fill } => {
+                Prim::Circle { c, r, fill, .. } => {
                     point_edit(ui, tr("Centre"), c, 0.1);
                     ui.label(tr("Radius"));
                     ui.add(egui::DragValue::new(r).speed(0.1).range(0.1..=100.0));
@@ -342,7 +342,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     ui.checkbox(fill, "");
                     ui.end_row();
                 }
-                Prim::Text { pos, text, size, anchor } => {
+                Prim::Text { pos, text, size, anchor, .. } => {
                     ui.label(tr("Text"));
                     ui.text_edit_singleline(text);
                     ui.end_row();
@@ -366,6 +366,28 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     anchor_edit(ui, anchor);
                 }
             });
+            match prim {
+                Prim::Path { width, color, dashed, .. } => {
+                    super::drawing_ui::color_field(ui,color);
+                    ui.horizontal(|ui| {
+                        ui.label(tr("Width"));
+                        ui.add(egui::DragValue::new(width).speed(0.05).range(0.01..=10.));
+                        ui.checkbox(dashed,tr("Dashed"));
+                    });
+                }
+                Prim::Text { angle,color,.. } => {
+                    super::drawing_ui::color_field(ui,color);
+                    let mut degrees=angle.unwrap_or_default();
+                    ui.horizontal(|ui| {
+                        ui.label(tr("Angle"));
+                        if ui.add(egui::DragValue::new(&mut degrees).range(-360.0..=360.)).changed() {
+                            *angle=Some(degrees);
+                        }
+                    });
+                }
+                Prim::Circle { color,.. } => super::drawing_ui::color_field(ui,color),
+                _ => (),
+            }
             delete = icons::text_button(ui, Icon::Delete, tr("Delete element")).clicked();
         }
         _ => {
@@ -499,7 +521,7 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
         }
         (SymTool::Text, Some(q)) if clicked => {
             let text = if se.text.trim().is_empty() { "Text".to_string() } else { se.text.clone() };
-            u.prims.push(Prim::Text { pos: q, text, size: 2.0, anchor: Anchor::Left });
+            u.prims.push(Prim::Text { pos: q, text, size: 2.0, anchor: Anchor::Left, angle: None, color:None });
             se.hit = Some(Hit::Prim(u.prims.len() - 1));
         }
         (SymTool::TagField | SymTool::LabelField, Some(q)) if clicked => {
@@ -513,7 +535,7 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
                 let prim = match se.tool {
                     SymTool::Line => Prim::Line { a, b: q, dashed: false },
                     SymTool::Rect => Prim::Poly { pts: vec![a, p(q.x, a.y), q, p(a.x, q.y)], closed: true, fill: false },
-                    _ => Prim::Circle { c: a, r: a.dist(q), fill: false },
+                    _ => Prim::Circle { c: a, r: a.dist(q), fill: false, color:None },
                 };
                 u.prims.push(prim);
                 se.hit = Some(Hit::Prim(u.prims.len() - 1));

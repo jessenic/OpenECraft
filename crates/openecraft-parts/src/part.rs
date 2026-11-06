@@ -421,6 +421,12 @@ pub struct Part {
     pub mounting_data: MountingData,
     // Logic
     pub functions: Vec<FunctionTemplate>,
+    /// Group symbol macro reference in a vendor's loose parts XML.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub eplan_macro: String,
+    /// Portable EPLAN representations including the native graphics and conversion diagnostics.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub eplan_variants: Vec<Shared<serde_json::Value>>,
     /// Part numbers of accessories.
     pub accessories: Vec<String>,
     /// The part is an accessory: it only works attached to one of the parts it fits
@@ -510,6 +516,8 @@ impl Default for Part {
             mounting: String::new(),
             mounting_data: MountingData::default(),
             functions: Vec::new(),
+            eplan_macro: String::new(),
+            eplan_variants: Vec::new(),
             accessories: Vec::new(),
             accessory: false,
             accessory_mount: AccessoryMount::Auto,

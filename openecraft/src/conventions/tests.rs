@@ -213,7 +213,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("review", &["geom", "model", "render", "structure", "symbols"]),
     ("compare", &["model", "panel", "revision", "structure"]),
     ("config", &["macros", "model"]),
-    ("macros", &["model", "ops"]),
+    ("macros", &["model", "ops", "symlib"]),
     ("page_templates", &["model", "ops", "structure"]),
     ("subproject", &["model", "options", "structure", "symlib"]),
     ("graphics", &["document", "geom", "model"]),

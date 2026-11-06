@@ -38,6 +38,31 @@ pub struct MacroVariant {
 /// Name of the variant a macro holds in its own items when none is given.
 pub const FIRST_VARIANT: &str = "A";
 
+/// A PXF window with several identified devices becomes a native multi-object macro.
+/// Its individual definitions are installed with the variant's symbol library.
+pub fn eplan_window(v: &crate::symlib::ema::Variant) -> Option<Macro> {
+    if v.devices.is_empty() {
+        return None;
+    }
+    let mut clip = Clip { anchor: Some(Default::default()), ..Clip::new() };
+    for (symbol, tag, pos) in
+        std::iter::once((&v.symbol, "", Default::default())).chain(v.devices.iter().map(|d| (&d.symbol, d.tag.as_str(), d.position)))
+    {
+        if symbol.prims.is_empty() && symbol.pins.is_empty() {
+            continue;
+        }
+        clip.symbols.push(SymbolInst {
+            id: clip.symbols.len() as u64 + 1,
+            sym: symbol.key.clone(),
+            tag: tag.into(),
+            pos,
+            pins: symbol.pins.iter().map(|p| p.label.clone()).collect(),
+            ..Default::default()
+        });
+    }
+    Some(Macro { name: v.symbol.name.clone(), category: "EPLAN".into(), description: v.description.clone(), clip, ..Default::default() })
+}
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Default)]
 #[serde(default)]
 pub struct Macro {

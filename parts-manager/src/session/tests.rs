@@ -223,7 +223,7 @@ fn files_of_an_edz_file_are_attached_after_its_parts_are_uploaded() {
     s.pending_files = vec![file];
     assert_eq!(s.apply(&Reply::Imported(Err("denied".into()))), None);
     assert!(s.pending_files.is_empty(), "a failed upload drops the files");
-    assert!(s.import_edz(b"no archive").is_err());
+    assert!(s.import_package("part.edz", b"no archive").is_err());
 }
 
 #[test]

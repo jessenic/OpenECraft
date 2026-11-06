@@ -3504,7 +3504,9 @@ dependencies = [
 name = "openecraft-edz"
 version = "0.1.0"
 dependencies = [
+ "openecraft-core",
  "openecraft-parts",
+ "serde_json",
  "sevenz-rust2",
 ]
 

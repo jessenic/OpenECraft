@@ -5,6 +5,9 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Import embedded 2D graphics from EPLAN window macros into the project symbol library. EDZ parts carry their converted variants and per-variant diagnostics through the parts server.
+- Import additional SPECIAL contact forms and verified reciprocal potential transfers. Report unresolved source objects and their terminal designations per representation. Explicit reimport preserves placed wire endpoints and instance pin labels when compatible contacts are added.
+
 ## [0.1.0] - 2026-11-04
 
 The first release: an electrical CAE editor for Windows, Linux, macOS and the browser,

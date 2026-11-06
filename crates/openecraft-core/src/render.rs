@@ -410,9 +410,30 @@ pub fn draw_prims(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink) {
                 let v: Vec<P> = pts.iter().map(|q| tf(*q)).collect();
                 d.poly(&v, *closed, SYMBOL_W, ink, *fill);
             }
-            Prim::Circle { c, r, fill } => d.circle(tf(*c), *r, SYMBOL_W, ink, *fill),
-            Prim::Text { pos, text, size, anchor } => {
-                d.text(tf(*pos), text, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink)
+            Prim::Circle { c, r, fill, color } => d.circle(tf(*c), *r, SYMBOL_W, if ink == Ink::Line {color.map(Ink::Color).unwrap_or(ink)} else {ink}, *fill),
+            Prim::Path { pts, closed, fill, width, color, dashed } => {
+                let pen = if ink==Ink::Line {color.map(Ink::Color).unwrap_or(ink)} else {ink};
+                let points: Vec<_> = pts.iter().map(|q| tf(*q)).collect();
+                if *dashed && !*fill {
+                    for pair in points.windows(2) { d.line(pair[0],pair[1],*width,pen,true); }
+                    if *closed && points.len()>2 { d.line(points[points.len()-1],points[0],*width,pen,true); }
+                } else {
+                    d.poly(&points,*closed,*width,pen,*fill);
+                }
+            }
+            Prim::Text { pos, text, size, anchor, angle, color } => {
+                let text_ink = if ink==Ink::Line {color.map(Ink::Color).unwrap_or(text_ink)} else {text_ink};
+                if let Some(angle) = angle {
+                    let mut style = TextStyle::plain(*size, *anchor, VAnchor::Middle);
+                    style.angle = (if s.mirror { 180. - angle } else { *angle }) - 90. * s.rot as f32;
+                    let (sin,cos) = angle.to_radians().sin_cos();
+                    for (i,line) in text.lines().enumerate() {
+                        let offset = p(sin,cos) * (i as f32 * size * 1.25);
+                        d.styled_text(tf(*pos + offset),line,&style,text_ink);
+                    }
+                } else {
+                    d.text(tf(*pos), text, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink);
+                }
             }
             Prim::Field { kind, pos, size, anchor } => {
                 let t = match kind {

@@ -114,7 +114,19 @@ the device. Floor-standing parts stand upright on the floor of a room.
   connection point definitions connection points (connection points on plugs as
   `X10.1`), drilling patterns mounting holes.
 - **EDZ** (EPLAN Data Portal archives, 7-Zip): the parts XML inside is read as above,
-  together with clearances, power loss and the datasheet link. Parts management and the
-  editor import the parts; the parts manager and `parts_import` also store the picture
-  and the EPLAN macros (`.ema`, kept as they are, not shown) with the part on the parts
-  server.
+  together with clearances, power loss and the datasheet link. Embedded 2D window
+  macros become project symbols. Parts Manager and `parts_import` also store the
+  original files as attachments. The project and server part records carry the
+  converted definitions and diagnostics.
+
+### Placing an EPLAN symbol
+
+Open **Import parts** and select the EDZ or the vendor's article XML. On desktop, article XML can load a companion EMA from the same directory. Under **Insert center → Devices**, search for the part, select it, then select the variant before placing it. Each row has a preview and lists unresolved properties or library references. A loose EMA can also be opened using **Import symbol library**. Explicitly tagged multi-device windows can be placed as native macros.
+
+The decoder reads PXF window macros, embedded drawing blocks, affine transforms, basic vector graphics, text and selected property fields. Its built-in SPECIAL mappings cover PLC and device contacts 13, 17 and 20, plug and bus contact forms 34, 35 and 37, two-sided form 22 with a common designation, and overview form 40. These forms use the contact drawings in the 2007 EPLAN IEC symbol overview, pp. 1–2. Physical XYZ connection points continue to belong to the panel model.
+
+The importer reads local pin-slot and quoted plug/designation potential-transfer references. Reciprocal, unambiguous references between mapped static contacts on the same device create native bridges. One-way rules, missing targets, uncertain device identities and unsupported device behavior remain diagnostics. The importer keeps autoconnect breaks, cable/shield metadata, and connection definition points separately from wire segments. The source XML does not necessarily contain a routed source-to-target wire list. [EPLAN connection point logic](https://www.eplan.help/en-us/Infoportal/Content/Plattform/2022/Content/htm/xfctdefbrowsergui_d_anschlusslogik.htm)
+
+Expand **Unresolved placements** for a part variant to view the master, source object, plug and terminal designations. For a file or a whole vendor folder, `cargo run -p openecraft-edz --example inspect -- PATH --references` streams JSON lines with native pins, outstanding references, connection controls and transfer status per representation. Coordinates on unresolved placements are insertion points. A verified native definition with key `user:eplan-lib:LIBRARY:NUMBER:VARIANT` supplies explicit pin anchors. Unregistered PDF artwork can be kept under `user:pdf-review:LIBRARY:NUMBER` for comparison and does not participate in mapping.
+
+Partial variants can be inspected and placed. Missing master symbols, unsupported properties, placeholder states and other unhandled objects are reported. Embedded layer settings and explicit pen widths and predefined colors carry over. Custom palettes, exact dash patterns and fills can differ from EPLAN. Automatic reconstruction of a complete EPLAN project's wiring and 3D model conversion are outside the 2D decoder. Reimport refreshes unedited graphics with compatible endpoints. Local edits and existing pin geometries take precedence over a conflicting revision.

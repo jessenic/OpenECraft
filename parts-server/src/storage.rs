@@ -442,8 +442,8 @@ impl Store {
 
 /// Part data without the models, and the models (stored apart, so lists stay small).
 pub(crate) fn split_models(part: &Part) -> (Part, Option<serde_json::Value>) {
-    let models = (part.model_2d.is_some() || part.model_3d.is_some() || !part.connection_points.is_empty()).then(|| {
-        serde_json::json!({ "model_2d": part.model_2d, "model_3d": part.model_3d, "connection_points": part.connection_points })
+    let models = (part.model_2d.is_some() || part.model_3d.is_some() || !part.connection_points.is_empty() || !part.eplan_variants.is_empty()).then(|| {
+        serde_json::json!({ "model_2d": part.model_2d, "model_3d": part.model_3d, "connection_points": part.connection_points, "eplan_variants": part.eplan_variants })
     });
     (brief(part), models)
 }
@@ -453,6 +453,7 @@ pub(crate) fn join_models(mut part: Part, models: Option<&str>) -> Part {
         part.model_2d = serde_json::from_value(m["model_2d"].clone()).unwrap_or(None);
         part.model_3d = serde_json::from_value(m["model_3d"].clone()).unwrap_or(None);
         part.connection_points = serde_json::from_value(m["connection_points"].clone()).unwrap_or_default();
+        part.eplan_variants = serde_json::from_value(m["eplan_variants"].clone()).unwrap_or_default();
     }
     part
 }

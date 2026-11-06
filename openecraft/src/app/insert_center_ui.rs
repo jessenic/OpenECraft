@@ -20,6 +20,7 @@ impl Entry {
 enum Pick {
     Insert(Entry),
     Favorite(Entry),
+    Variant(String, String),
     Unplaced(openecraft_core::unplaced::Unplaced),
 }
 
@@ -123,7 +124,7 @@ impl App {
             let mut devices: Vec<Entry> = Vec::new();
             let mut found = 0;
             for p in self.session.prj.parts.iter().chain(self.parts_db.parts.iter()) {
-                if p.functions.is_empty() {
+                if p.functions.is_empty() && p.eplan_variants.is_empty() {
                     continue;
                 }
                 if searching && !self.insert_center.matches(&[&p.number, &p.description, &p.manufacturer, &p.group]) {
@@ -143,6 +144,44 @@ impl App {
                 .show(ui, |ui| {
                     ui.weak(tr("Parts with functions: the device gets the part, its first function is placed."));
                     self.entry_rows(ui, &devices, &mut pick);
+                    if let Some(part) = self.insert_center.variant_part.as_ref().and_then(|n| parts::lookup(&self.session.prj, Some(&self.parts_db), n)) {
+                        ui.separator();
+                        ui.strong(&part.number);
+                        for v in &part.eplan_variants {
+                            let Some(key) = v["symbol"]["key"].as_str() else {
+                                ui.weak(v.to_string());
+                                continue;
+                            };
+                            ui.horizontal(|ui| {
+                                let preview = symbol_icon(ui, &self.session.prj, key, egui::vec2(64.,48.));
+                                let title = v["symbol"]["name"].as_str().unwrap_or(key);
+                                let button = ui.button(title).on_hover_text(v["description"].as_str().unwrap_or(""));
+                                if preview.clicked() || button.clicked() {
+                                    pick = Some(Pick::Variant(part.number.clone(), key.to_owned()));
+                                }
+                            });
+                            if let Some(warnings) = v["warnings"].as_array().filter(|list| !list.is_empty()) {
+                                ui.weak(warnings.iter().filter_map(|w| w.as_str()).collect::<Vec<_>>().join(", "));
+                            }
+                            if let Some(missing)=v["unresolved"].as_array().filter(|refs|!refs.is_empty()){
+                                egui::CollapsingHeader::new(tr_fmt!("Unresolved placements ({})",missing.len())).id_salt((&part.number,key,"unresolved")).show(ui,|ui|{
+                                    for r in missing {
+                                        let master=r["master"].as_str().unwrap_or("");
+                                        let designations=r["designations"].as_array().into_iter().flatten().filter_map(|p|p.as_str()).collect::<Vec<_>>().join("; ");
+                                        ui.horizontal(|ui|{
+                                            if let Some((lib_id,_))=master.rsplit_once('/') {
+                                                let review=format!("user:pdf-review:{}",lib_id.replace('/',":"));
+                                                if self.session.prj.symbol(&review).is_some(){
+                                                    symbol_icon(ui,&self.session.prj,&review,egui::vec2(48.,32.)).on_hover_text(tr("Reference artwork without pin anchors"));
+                                                }
+                                            }
+                                            ui.label(format!("{}  {}  {}  {}",master,r["object"].as_str().unwrap_or(""),r["plug"].as_str().unwrap_or(""),designations)).on_hover_text(r["reason"].as_str().unwrap_or(""));
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
                     if found > devices.len() {
                         ui.colored_label(crate::style::warning(), tr_fmt!("{} of {} devices shown – refine the search", devices.len(), found));
                     }
@@ -170,6 +209,7 @@ impl App {
         match pick {
             Some(Pick::Insert(e)) => self.insert_entry(e),
             Some(Pick::Favorite(e)) => self.insert_center.toggle_favorite(&e),
+            Some(Pick::Variant(number,key)) => self.arm_part(&number,Some(&key)),
             Some(Pick::Unplaced(u)) => {
                 self.set_tool(Tool::Place(u.symbol));
                 self.editor.place_tag = Some(u.tag.clone());
@@ -302,13 +342,40 @@ impl App {
                 }
             }
             Entry::Part(n) => {
-                let Some(p) = parts::lookup(&self.session.prj, Some(&self.parts_db), n) else { return };
-                let Some((sym, pins)) = openecraft_core::unplaced::part_symbol(p) else { return };
-                self.set_tool(Tool::Place(sym));
-                self.editor.place_once = Some((String::new(), pins));
-                self.editor.place_part = Some(n.clone());
+                let Some(p) = parts::lookup(&self.session.prj, Some(&self.parts_db), n).cloned() else { return };
+                if p.eplan_variants.is_empty() {
+                    self.arm_part(n,None);
+                } else {
+                    self.insert_center.variant_part = Some(n.clone());
+                    for data in p.eplan_variants {
+                        if let Ok(v) = serde::Deserialize::deserialize(data.as_ref()) {
+                            openecraft_core::symlib::ema::install(&mut self.session.prj.symbols,&[v]);
+                        }
+                    }
+                }
             }
         }
         self.insert_center.used(&e);
+    }
+
+    fn arm_part(&mut self, number: &str, key: Option<&str>) {
+        let Some(p) = parts::lookup(&self.session.prj, Some(&self.parts_db), number).cloned() else { return };
+        if let Some(v) = p.eplan_variants.iter().find(|v| key.is_some() && v["symbol"]["key"].as_str() == key && v["devices"].is_array()) {
+            if let Ok(variant) = serde::Deserialize::deserialize(v.as_ref()) {
+                if let Some(m) = openecraft_core::macros::eplan_window(&variant) {
+                    openecraft_core::symlib::ema::install(&mut self.session.prj.symbols, &[variant]);
+                    let values = Default::default();
+                    self.set_tool(Tool::Insert);
+                    self.editor.insert = Some(m.resolve(&values));
+                    self.editor.insert_macro = Some((m, values));
+                    return;
+                }
+            }
+        }
+        let choice = openecraft_core::symlib::ema::part_symbol(&mut self.session.prj, &p, key);
+        let Some((sym, pins)) = choice.or_else(|| if key.is_none() { openecraft_core::unplaced::part_symbol(&p) } else { None }) else { return };
+        self.set_tool(Tool::Place(sym));
+        self.editor.place_once = Some((String::new(), pins));
+        self.editor.place_part = Some(number.into());
     }
 }

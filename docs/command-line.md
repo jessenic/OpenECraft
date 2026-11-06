@@ -22,6 +22,8 @@ openecraft-cli -p pump.oec check
 openecraft-cli -p pump.oec export --format pdf --path pump.pdf
 openecraft-cli --server http://127.0.0.1:8090 --token <secret> parts_import --path parts.csv
 openecraft-cli --server http://127.0.0.1:8090 --token <secret> parts_import --path 6ED1052-1CC08-0BA3.edz
+openecraft-cli --project drawing.oec import_eplan_symbols --path drive.edz
+openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part BEC.EK1100
 ```
 
 - On the command line every change is written back to `--project` at once. In an MCP

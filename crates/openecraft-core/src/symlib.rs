@@ -12,6 +12,7 @@ use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
 use std::sync::{Arc, Mutex, OnceLock};
 pub use crate::model::symlib::{UserPin, UserSymbol};
+pub mod ema;
 
 /// Keys of user symbols start with this prefix.
 pub const PREFIX: &str = "user:";
@@ -22,6 +23,7 @@ impl Default for UserSymbol {
     fn default() -> Self {
         UserSymbol {
             key: String::new(),
+            ema_revision: None,
             name: "New symbol".into(),
             library: "User".into(),
             letter: "A".into(),
@@ -111,12 +113,19 @@ fn hash_prim(prim: &Prim, h: &mut impl Hasher) {
             }
             (closed, fill).hash(h);
         }
-        Prim::Circle { c, r, fill } => {
+        Prim::Circle { c, r, fill, color } => {
+            color.hash(h);
             hash_point(*c, h);
             r.to_bits().hash(h);
             fill.hash(h);
         }
-        Prim::Text { pos, text, size, anchor } => {
+        Prim::Path {pts,closed,fill,color,width,dashed} => {
+            for point in pts {hash_point(*point,h);}
+            (closed,fill,color,width.to_bits(),dashed).hash(h);
+        }
+        Prim::Text { pos, text, size, anchor, angle, color } => {
+            color.hash(h);
+            angle.map(f32::to_bits).hash(h);
             hash_point(*pos, h);
             text.hash(h);
             size.to_bits().hash(h);
@@ -233,6 +242,7 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
     let name = format!("{} (copy)", def.name);
     UserSymbol {
         key: new_key(existing, &name),
+        ema_revision: None,
         name,
         library: "User".into(),
         letter: def.letter.into(),
@@ -307,7 +317,7 @@ pub enum Hit {
 pub fn prim_distance(prim: &Prim, q: P) -> f32 {
     match prim {
         Prim::Line { a, b, .. } => dist_to_segment(q, *a, *b),
-        Prim::Poly { pts, closed, fill } => {
+        Prim::Poly { pts, closed, fill } | Prim::Path {pts,closed,fill,..} => {
             let mut d = pts.windows(2).map(|s| dist_to_segment(q, s[0], s[1])).fold(f32::INFINITY, f32::min);
             if *closed && pts.len() > 2 {
                 d = d.min(dist_to_segment(q, pts[pts.len() - 1], pts[0]));
@@ -317,11 +327,15 @@ pub fn prim_distance(prim: &Prim, q: P) -> f32 {
             }
             d
         }
-        Prim::Circle { c, r, fill } => {
+        Prim::Circle { c, r, fill, .. } => {
             let d = (q.dist(*c) - r).abs();
             if *fill && q.dist(*c) <= *r { 0.0 } else { d }
         }
-        Prim::Text { pos, text, size, anchor } => text_distance(*pos, text, *size, *anchor, q),
+        Prim::Text { pos, text, size, anchor, angle, .. } => {
+            let (s,c) = angle.unwrap_or_default().to_radians().sin_cos();
+            let d = q - *pos;
+            text_distance(*pos,text,*size,*anchor,*pos + p(c*d.x-s*d.y,s*d.x+c*d.y))
+        }
         Prim::Field { pos, size, anchor, kind } => {
             let sample = if *kind == FieldKind::Tag { "-K1" } else { "1" };
             text_distance(*pos, sample, *size, *anchor, q)
@@ -375,7 +389,7 @@ pub fn translate(prim: &mut Prim, d: P) {
             *a = *a + d;
             *b = *b + d;
         }
-        Prim::Poly { pts, .. } => pts.iter_mut().for_each(|q| *q = *q + d),
+        Prim::Poly { pts, .. } | Prim::Path {pts,..} => pts.iter_mut().for_each(|q| *q = *q + d),
         Prim::Circle { c, .. } => *c = *c + d,
         Prim::Text { pos, .. } | Prim::Field { pos, .. } => *pos = *pos + d,
     }

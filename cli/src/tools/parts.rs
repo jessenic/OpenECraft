@@ -16,6 +16,13 @@ const NUMBER: super::Param = param("number", Kind::Str, tr_const!("Part number")
 
 pub static TOOLS: &[Tool] = &[
     Tool {
+        name: "import_eplan_symbols",
+        help: tr_const!("Imports EPLAN symbols from a file or a selected article in a folder"),
+        params: &[param("path", Kind::Str, tr_const!("EPLAN archive, macro, article XML or vendor folder")), optional("part", Kind::Str, tr_const!("Part number to import from a vendor folder"))],
+        needs_project: true,
+        run: import_eplan_symbols,
+    },
+    Tool {
         name: "parts_connect",
         help: tr_const!("Sets the parts server (URL and access token, or user and password) and shows its state"),
         params: &[
@@ -208,7 +215,7 @@ pub static TOOLS: &[Tool] = &[
     Tool {
         name: "parts_import",
         help: tr_const!("Imports a parts file into the parts server; the pictures and macros of an EDZ file are stored with their parts"),
-        params: &[param("path", Kind::Str, tr_const!("CSV, JSON, BMEcat, EPLAN XML or EDZ file"))],
+        params: &[param("path", Kind::Str, tr_const!("CSV, JSON, BMEcat, EPLAN XML or EDZ file")), optional("part", Kind::Str, tr_const!("Part number to import from a vendor folder"))],
         needs_project: false,
         run: import,
     },
@@ -525,15 +532,82 @@ fn delete(s: &mut Session, a: &Args) -> Result<Value, String> {
     Ok(json!({ "deleted": number }))
 }
 
+fn import_eplan_symbols(s: &mut Session, a: &Args) -> Result<Value, String> {
+    use openecraft_core::symlib::ema;
+    let path = std::path::absolute(a.req("path")).map_err(|e| e.to_string())?;
+    let project = s.project_mut()?;
+    let (parts, variants) = if path.extension().is_some_and(|ext| ext.eq_ignore_ascii_case("ema")) && path.is_file() {
+        let text = std::fs::read_to_string(&path).map_err(|e| e.to_string())?;
+        (Vec::new(), ema::decode_with_library(&text, &project.symbols)?)
+    } else {
+        let package = if path.is_dir() {
+            let number = a.str("part").filter(|n| !n.is_empty()).ok_or_else(|| tr("Select a part number for folder import").to_string())?;
+            openecraft_edz::folder::index(&path)?.part_with_library(number,&project.symbols)?
+        } else {
+            let data = std::fs::read(&path).map_err(|e| e.to_string())?;
+            if !openecraft_edz::is_edz(&data) && !path.extension().is_some_and(|s| s.eq_ignore_ascii_case("xml")) {
+                return Err(tr("Expected an EPLAN archive, window macro or article XML").to_string());
+            }
+            openecraft_edz::folder::read_with_library(&path, &data, &project.symbols)?
+        };
+        let variants =
+            package.parts.iter().flat_map(|p| &p.eplan_variants).filter_map(|v| serde::Deserialize::deserialize(v.as_ref()).ok()).collect();
+        (package.parts, variants)
+    };
+    let added = ema::import_project(project, &variants);
+    let diagnostics: Vec<_> = parts
+        .iter()
+        .flat_map(|p| p.eplan_variants.iter().filter(|v| v["symbol"].is_null()).map(|v| json!({"part":p.number,"diagnostic":v})))
+        .collect();
+    let numbers: Vec<_> = parts.iter().map(|p| p.number.clone()).collect();
+    for part in parts {
+        if let Some(old) = project.parts.iter_mut().find(|p| p.number == part.number) {
+            old.eplan_variants = part.eplan_variants;
+            old.eplan_macro = part.eplan_macro;
+        } else {
+            project.parts.push(part);
+        }
+    }
+    let report: Vec<_> = variants
+        .iter()
+        .map(|v| {
+            json!({
+                "key":v.symbol.key,
+                "pins":v.definitions().map(|s| s.pins.len()).sum::<usize>(),
+                "graphics":v.definitions().map(|s| s.prims.len()).sum::<usize>(),
+                "warnings":v.warnings,
+                "unresolved":v.unresolved,
+                "connection_markers":v.connection_markers,
+                "transfers":v.transfers,
+                "placeholders":v.placeholders,
+                "existing_definition_differs":v.definitions().any(|incoming| project.symbols.iter().find(|s| s.key==incoming.key).is_some_and(|s| s!=incoming))
+            })
+        })
+        .collect();
+    Ok(json!({"added":added,"parts":numbers,"variants":report,"diagnostics":diagnostics}))
+}
+
 fn import(s: &mut Session, a: &Args) -> Result<Value, String> {
     let path = a.req("path");
+    if std::path::Path::new(path).is_dir() {
+        let number = a.str("part").filter(|n| !n.is_empty()).ok_or_else(|| tr("Select a part number for folder import").to_string())?;
+        let edz = openecraft_edz::folder::index(std::path::Path::new(path))?.part(number)?;
+        return import_package(s, edz);
+    }
     let content = std::fs::read(path).map_err(|e| tr_fmt!("Cannot read {}: {}", path, openecraft_i18n::io_error(&e)))?;
+    if std::path::Path::new(path).extension().is_some_and(|s| s.eq_ignore_ascii_case("xml")) && openecraft_parts::is_eplan_xml(&String::from_utf8_lossy(&content)) {
+        let path = std::path::absolute(path).map_err(|e| e.to_string())?;
+        return import_package(s,openecraft_edz::folder::read_file(&path,&content)?);
+    }
     if !openecraft_edz::is_edz(&content) {
         let result = s.server.import(content)?;
         return Ok(json!({ "imported": result.imported, "revision": result.revision }));
     }
-    let edz = openecraft_edz::read(&content)?;
-    let result = s.server.import(serde_json::to_vec(&edz.parts).unwrap_or_default())?;
+    import_package(s, openecraft_edz::read(&content)?)
+}
+
+fn import_package(s: &mut Session, edz: openecraft_edz::Edz) -> Result<Value, String> {
+    let result = s.server.import(serde_json::to_vec(&edz.parts).map_err(|e| e.to_string())?)?;
     let mut attached = Vec::new();
     for f in edz.files {
         s.server.attach(&f.part, &f.name, Some(f.kind), f.data)?;

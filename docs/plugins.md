@@ -120,3 +120,7 @@ its plain messages share the check's name as code (level changes then apply to a
 them) and can be accepted one by one.
 
 A complete example is in [`examples/plugins/page_notes`](../examples/plugins/page_notes).
+
+### EPLAN window macros
+
+The drawing plugin accepts PXF window macro XML with `import_ema` (parameter `xml`). Its result lists native symbol definitions, function types, variant IDs, multi-device macros, and unresolved references. Reimport preserves locally edited definitions. The `place_part` command accepts an optional `variant` symbol key. The CLI and MCP file tool `import_eplan_symbols` reads an EMA, an EDZ, a companion article XML, or a vendor folder with a selected part number.

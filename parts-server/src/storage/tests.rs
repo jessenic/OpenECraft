@@ -109,6 +109,17 @@ fn models_are_kept_with_the_part() {
 }
 
 #[test]
+fn eplan_variants_round_trip_without_other_models() {
+    for mut store in stores() {
+        let mut full = part("BEC.EK1100");
+        full.eplan_variants.push(serde_json::json!({"symbol":{"key":"user:ema:EK1100:1:0","coordinate":3.713_567_972_183_227_5_f64}}).into());
+        store.put_parts("u",vec![full.clone()]).unwrap();
+        assert_eq!(store.get(&full.number).unwrap().unwrap().eplan_variants,full.eplan_variants);
+        assert!(brief(&full).eplan_variants.is_empty());
+    }
+}
+
+#[test]
 fn catalogs_count_their_parts() {
     for mut store in stores() {
         let c = Catalog { id: "acme".into(), name: "ACME".into(), manufacturer: "ACME".into(), version: "1".into(), ..Default::default() };

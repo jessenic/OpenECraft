@@ -6,6 +6,8 @@ description = "EDZ import of OpenECraft: parts, connection points, drilling patt
 license = "MIT OR Apache-2.0"
 
 [dependencies]
+openecraft-core = { path = "../openecraft-core" }
+serde_json = "1"
 openecraft-parts = { path = "../openecraft-parts" }
 sevenz-rust2 = { version = "0.24", default-features = false }
 

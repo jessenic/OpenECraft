@@ -166,6 +166,7 @@ fn part_of(el: &Element, variant: Option<&Element>) -> Option<Part> {
     }
     let mut part = Part { number, ..Default::default() };
     part.type_number = text("P_ARTICLE_TYPENR");
+    part.eplan_macro = text("P_ARTICLE_GROUPSYMBOLMACRO");
     part.order_number = text("P_ARTICLE_ORDERNR");
     part.manufacturer = text("P_ARTICLE_MANUFACTURER");
     part.supplier = text("P_ARTICLE_SUPPLIER");

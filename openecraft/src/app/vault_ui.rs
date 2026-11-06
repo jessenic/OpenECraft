@@ -102,7 +102,7 @@ impl App {
                 }
                 Err(e) => self.notify_error(ctx, e),
             },
-            Use::Parts => self.import_parts(ctx, &bytes),
+            Use::Parts => self.import_parts(ctx, "", &bytes),
             Use::Model => {
                 let number = self.vault_ui.model_part.clone();
                 let kind = if file.name.to_lowercase().ends_with(".svg") { ModelKind::Front2d } else { ModelKind::Mesh3d };

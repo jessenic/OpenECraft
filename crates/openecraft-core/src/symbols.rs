@@ -246,8 +246,10 @@ pub enum FieldKind {
 pub enum Prim {
     Line { a: P, b: P, dashed: bool },
     Poly { pts: Vec<P>, closed: bool, fill: bool },
-    Circle { c: P, r: f32, fill: bool },
-    Text { pos: P, text: String, size: f32, anchor: Anchor },
+    /// Vector path with an explicit stroke from a symbol library.
+    Path { pts: Vec<P>, closed: bool, fill: bool, color: Option<[u8;3]>, width: f32, dashed: bool },
+    Circle { c: P, r: f32, fill: bool, #[serde(default, skip_serializing_if = "Option::is_none")] color: Option<[u8;3]> },
+    Text { pos: P, text: String, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32>, #[serde(default, skip_serializing_if = "Option::is_none")] color: Option<[u8;3]> },
     /// Instance property drawn at this position (stays horizontal when rotated).
     Field { kind: FieldKind, pos: P, size: f32, anchor: Anchor },
 }
@@ -352,7 +354,7 @@ impl B {
         self
     }
     fn circle(&mut self, x: f32, y: f32, r: f32, fill: bool) -> &mut Self {
-        self.prims.push(Prim::Circle { c: p(x, y), r, fill });
+        self.prims.push(Prim::Circle { c: p(x, y), r, fill, color:None });
         self
     }
     /// Arc from angle `a0` to `a1` in degrees (0° = +x, 90° = down).
@@ -368,7 +370,7 @@ impl B {
         self
     }
     fn text(&mut self, x: f32, y: f32, t: &str, size: f32, anchor: Anchor) -> &mut Self {
-        self.prims.push(Prim::Text { pos: p(x, y), text: t.into(), size, anchor });
+        self.prims.push(Prim::Text { pos: p(x, y), text: t.into(), size, anchor, angle: None, color: None });
         self
     }
     fn field(&mut self, kind: FieldKind, x: f32, y: f32, size: f32, anchor: Anchor) -> &mut Self {
@@ -502,7 +504,7 @@ pub fn bounds_of(prims: &[Prim], pins: impl Iterator<Item = P>) -> R {
                 bounds.extend(*a);
                 bounds.extend(*b);
             }
-            Prim::Poly { pts, .. } => pts.iter().for_each(|q| bounds.extend(*q)),
+            Prim::Poly { pts, .. } | Prim::Path {pts,..} => pts.iter().for_each(|q| bounds.extend(*q)),
             Prim::Circle { c, r, .. } => {
                 bounds.extend(p(c.x - r, c.y - r));
                 bounds.extend(p(c.x + r, c.y + r));
