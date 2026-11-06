@@ -17,6 +17,7 @@ fn bare_ema_channels_recover_one_physical_card_for_the_panel() {
             address: String::new(),
             function_text: String::new(),
             analog: None,
+            digital_terminal: None,
         };
         prj.symbols.push(UserSymbol { key: key.clone(), func: Func::Plc, plc_channel: Some(channel), ..Default::default() });
         card.eplan_variants.push(serde_json::json!({"symbol":{"key":key}}).into());

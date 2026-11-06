@@ -272,6 +272,14 @@ pub struct PlcChannel {
     pub function_text: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub analog: Option<AnalogSignal>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub digital_terminal: Option<String>,
+}
+
+impl PlcChannel {
+    pub fn signal_terminal(&self) -> Option<&str> {
+        self.digital_terminal.as_deref().or_else(|| self.analog.as_ref().map(|a| a.terminal.as_str()))
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]

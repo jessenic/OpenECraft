@@ -153,6 +153,7 @@ pub fn fingerprint(list: &[UserSymbol]) -> u64 {
         if let Some(channel) = &u.plc_channel {
             // Keep revisions of digital definitions imported by earlier versions.
             (&channel.family, channel.input, channel.index, &channel.designation, &channel.address, &channel.function_text).hash(&mut h);
+            if let Some(pin) = &channel.digital_terminal { pin.hash(&mut h); }
             if let Some(signal) = &channel.analog {
                 signal.hash(&mut h);
             }

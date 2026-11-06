@@ -88,7 +88,7 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
             let Some(def) = symbols.get(&s.sym).filter(|d| d.func == Func::Plc) else { continue };
             let channel = def.plc_channel.as_ref();
             let analog = channel.and_then(|c| c.analog.as_ref());
-            let signal_pin = analog.and_then(|a| def.pins.iter().position(|p| p.label == a.terminal)).unwrap_or(0);
+            let signal_pin = channel.and_then(|c| c.signal_terminal()).and_then(|pin| def.pins.iter().position(|p| p.label == pin)).unwrap_or(0);
             let connected = nl
                 .pin_net
                 .get(&(s.id, signal_pin))

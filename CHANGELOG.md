@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Place successive imported PLC channels from a single card entry in the Insert center; when a card fills up, placement continues on a new device.
+
 - Link PLC channels placed from the symbol library to their uniquely matching catalog article, so the physical card appears once in the cabinet's devices-to-place list. Opening an existing project or reimporting the article also recovers unassigned cards.
 
 - Import Beckhoff analog signal and reference terminals as one PLC channel with a symbolic name such as U1, keeping both wire endpoints and the source data type.

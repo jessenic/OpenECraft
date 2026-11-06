@@ -17,6 +17,7 @@ pub struct PlaceCtx {
     pub last_strip: Option<String>,
     /// symbol key -> last PLC card
     pub last_plc: HashMap<String, String>,
+    pub plc_article: Option<String>,
     pub last_plug: Option<String>,
 }
 
@@ -239,7 +240,7 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
         }
         Func::Plc => {
             if let Some(c) = &def.plc_channel {
-                let previous = prj.latest_imported_card(&c.family)
+                let previous = prj.latest_imported_card(&c.family, ctx.plc_article.as_deref())
                     .filter(|tag| !prj.channel_placed(tag, &c.family, c.input, c.index));
                 s.tag = ctx.last_plc.get(def.key).map(String::as_str).or(previous).map(str::to_owned)
                     .unwrap_or_else(|| prj.next_tag(&structure, def.letter));

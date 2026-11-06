@@ -51,7 +51,7 @@ pub fn plc_channels(prj: &Project) -> Vec<Unplaced> {
             if !occupied.insert((c.family.clone(), c.input, c.index)) { continue; }
             let Some(def) = prj.symbol(&symbol.key) else { continue };
             let label = c.address_for(prj, &card);
-            let pin = c.analog.as_ref().map(|a| a.terminal.as_str()).or_else(|| symbol.pins.first().map(|pin| pin.label.as_str())).unwrap_or("");
+            let pin = c.signal_terminal().or_else(|| symbol.pins.first().map(|pin| pin.label.as_str())).unwrap_or("");
             let title = if label == c.designation { format!("{label}  ({pin})") } else { format!("{}  {}  ({pin})", c.designation, label) };
             out.push(Unplaced { tag: card.clone(), symbol: def.key, label, pins: symbol.pins.iter().map(|p| p.label.clone()).collect(), title });
         }

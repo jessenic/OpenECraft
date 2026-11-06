@@ -65,10 +65,11 @@ pub struct UserPin {
 }
 
 impl super::Project {
-    pub(crate) fn latest_imported_card(&self, family: &str) -> Option<&str> {
+    pub(crate) fn latest_imported_card(&self, family: &str, article: Option<&str>) -> Option<&str> {
         self.pages
             .iter()
             .flat_map(|pg| &pg.symbols)
+            .filter(|s| article.is_none_or(|number| self.devices.get(&s.tag).is_some_and(|d| d.parts.iter().any(|p| p.number == number))))
             .filter(|s| self.symbol(&s.sym).is_some_and(|d| d.plc_channel.as_ref().is_some_and(|c| c.family == family)))
             .max_by_key(|s| s.id)
             .map(|s| s.tag.as_str())

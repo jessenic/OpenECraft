@@ -1373,6 +1373,7 @@ impl Editor {
     fn place_at(&mut self, prj: &mut Project, page_i: usize, key: &str, sn: P, out: &mut CanvasOutput) {
         let Some(def) = prj.symbol(key) else { return };
         let mut ctx = self.place_ctx.clone();
+        ctx.plc_article.clone_from(&self.place_part);
         if let Some(tag) = &self.place_tag {
             ctx.last_main.insert(def.letter.to_string(), tag.clone());
             ctx.last_plc.insert(def.key.into(), tag.clone());

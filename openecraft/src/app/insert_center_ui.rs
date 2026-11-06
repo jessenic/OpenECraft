@@ -30,7 +30,11 @@ const DEVICES_SHOWN: usize = 200;
 impl App {
     /// Registered symbols of the project symbol library, sorted by library and name.
     pub(super) fn user_symbols(&self) -> Vec<symbols::SymbolRef> {
-        let mut v: Vec<symbols::SymbolRef> = self.session.prj.symbols.iter().filter_map(|u| self.session.prj.symbol(&u.key)).collect();
+        // Place catalog cards from their single device entry. Loose EMA symbols remain available.
+        let represented: std::collections::HashSet<&str> = self.session.prj.parts.iter().chain(&self.parts_db.parts)
+            .filter(|p| p.eplan_variants.iter().any(|v| !v["symbol"]["plc_channel"].is_null()))
+            .flat_map(|p| &p.eplan_variants).filter_map(|v| v["symbol"]["key"].as_str()).collect();
+        let mut v: Vec<symbols::SymbolRef> = self.session.prj.symbols.iter().filter(|s| !represented.contains(s.key.as_str())).filter_map(|u| self.session.prj.symbol(&u.key)).collect();
         v.sort_by(|a, b| a.library.cmp(b.library).then(natural_cmp(a.name, b.name)));
         v
     }
@@ -139,14 +143,15 @@ impl App {
                 }
             }
             egui::CollapsingHeader::new(RichText::new(tr_fmt!("Devices ({})", found)).strong())
-                .id_salt("ic_devices")
+                .id_salt("ic_devices").default_open(true)
                 .open(searching.then_some(!devices.is_empty()))
                 .show(ui, |ui| {
                     ui.weak(tr("Parts with functions: the device gets the part, its first function is placed."));
                     self.entry_rows(ui, &devices, &mut pick);
                     if let Some(part) = self.insert_center.variant_part.as_ref().and_then(|n| parts::lookup(&self.session.prj, Some(&self.parts_db), n)) {
                         ui.separator();
-                        ui.strong(&part.number);
+                        let plc = part.eplan_variants.iter().any(|v| !v["symbol"]["plc_channel"].is_null());
+                        egui::CollapsingHeader::new(tr("Representations")).id_salt(("variants",&part.number)).default_open(!plc).show(ui,|ui| {
                         for v in &part.eplan_variants {
                             let Some(key) = v["symbol"]["key"].as_str() else {
                                 ui.weak(v.to_string());
@@ -182,6 +187,7 @@ impl App {
                                 });
                             }
                         }
+                        });
                     }
                     if found > devices.len() {
                         ui.colored_label(crate::style::warning(), tr_fmt!("{} of {} devices shown – refine the search", devices.len(), found));
@@ -260,13 +266,15 @@ impl App {
                             .with_layout(egui::Layout::left_to_right(egui::Align::Center), |ui| {
                                 let label = |ui: &mut egui::Ui| ui.add(egui::Button::selectable(selected, text.as_str()).truncate());
                                 // Symbols can be dragged into the page as well.
-                                let lbl = match e.symbol_key(&self.session.prj) {
+                                let lbl = if let Entry::Part(number) = e {
+                                    openecraft_ui::part_editor::drag_row(ui, true, number, label)
+                                } else { match e.symbol_key(&self.session.prj) {
                                     Some(symbol) => {
                                         let payload = crate::editor::PlacePayload { symbol, tag: String::new(), label: String::new(), pins: Vec::new() };
                                         super::drag_source(ui, ui.make_persistent_id(("ic_drag", symbol)), payload, label)
                                     }
                                     None => label(ui),
-                                };
+                                }};
                                 if letter.is_empty() && !about.is_empty() {
                                     ui.add(egui::Label::new(RichText::new(&about).small().weak()).truncate());
                                 }
@@ -301,6 +309,7 @@ impl App {
                     ui.set_width(64.0);
                     let r = match e {
                         Entry::Symbol(k) => symbol_icon(ui, &self.session.prj, k, egui::vec2(56.0, 40.0)),
+                        Entry::Part(n) => openecraft_ui::part_editor::drag_row(ui, true, n, |ui| icons::show(ui, icon, 40.0).interact(egui::Sense::click())),
                         _ => icons::show(ui, icon, 40.0).interact(egui::Sense::click()),
                     };
                     // The name wraps under the tile; the whole name shows on hover.
@@ -348,7 +357,13 @@ impl App {
                     self.arm_part(n,None);
                 } else {
                     self.insert_center.variant_part = Some(n.clone());
+                    if p.eplan_variants.iter().any(|v| !v["symbol"]["plc_channel"].is_null()) {
+                        self.arm_part(n, None);
+                    }
                     for data in p.eplan_variants {
+                        if data["symbol"]["key"].as_str().is_some_and(|key| self.session.prj.symbol(key).is_some()) {
+                            continue;
+                        }
                         if let Ok(v) = serde::Deserialize::deserialize(data.as_ref()) {
                             openecraft_core::symlib::ema::install(&mut self.session.prj.symbols,&[v]);
                         }
@@ -359,7 +374,7 @@ impl App {
         self.insert_center.used(&e);
     }
 
-    fn arm_part(&mut self, number: &str, key: Option<&str>) {
+    pub(super) fn arm_part(&mut self, number: &str, key: Option<&str>) {
         let Some(p) = parts::lookup(&self.session.prj, Some(&self.parts_db), number).cloned() else { return };
         if let Some(v) = p.eplan_variants.iter().find(|v| key.is_some() && v["symbol"]["key"].as_str() == key && v["devices"].is_array()) {
             if let Ok(variant) = serde::Deserialize::deserialize(v.as_ref()) {
@@ -376,7 +391,10 @@ impl App {
         let choice = openecraft_core::symlib::ema::part_symbol(&mut self.session.prj, &p, key);
         let Some((sym, pins)) = choice.or_else(|| if key.is_none() { openecraft_core::unplaced::part_symbol(&p) } else { None }) else { return };
         self.set_tool(Tool::Place(sym));
-        self.editor.place_once = Some((String::new(), pins));
+        self.editor.place_tag = None;
+        if key.is_some() || !self.session.prj.symbol(sym).is_some_and(|d| d.plc_channel.is_some()) {
+            self.editor.place_once = Some((String::new(), pins));
+        }
         self.editor.place_part = Some(number.into());
     }
 }

@@ -528,7 +528,7 @@ impl Reader<'_> {
         }
         let stored = owner.child("P11").and_then(|p| p.attribute(&key));
         if id == "20400" && native_pins && self.result.symbol.plc_channel.is_some() {
-            if self.result.symbol.plc_channel.as_ref().and_then(|c| c.analog.as_ref()).is_some_and(|a| a.terminal != terminal_name(owner)) {
+            if self.result.symbol.plc_channel.as_ref().and_then(|c| c.signal_terminal()).is_some_and(|pin| pin != terminal_name(owner)) {
                 return;
             }
             if let Some(pos) = pos {
@@ -637,23 +637,14 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
             budget: 250_000,
             logic: Default::default(),
         };
-        let mut expected_pin = None;
-        let mut analog_pins = Vec::new();
+        let mut channel_pins = Vec::new();
         if function_type == 1 && !r.split_devices {
             let contacts: Vec<_> = functions.iter().copied().filter(|el| el.attribute("A185").is_some_and(|s| !s.trim().is_empty())).collect();
-            if let Some(channel) = analog_channel(&contacts, &identity, &r.libraries, measurements.len() == 1) {
-                analog_pins = contacts.iter().map(|el| terminal_name(el)).collect();
-                r.result.symbol.plc_channel = Some(channel);
-            } else if let [el] = contacts.as_slice() {
-                if r.libraries.get(el.attribute("A1261").unwrap_or("")) == Some(&"SPECIAL") && el.attribute("A1262") == Some("13") {
-                    if let Some(channel) = digital_channel(el, &identity) {
-                        // A verified native endpoint must belong to this function.
-                        let pin = el.attribute("A185").unwrap_or("").trim();
-                        let expected = if plug(el).is_empty() { pin.to_owned() } else { format!("{}.{pin}", plug(el)) };
-                        r.result.symbol.plc_channel = Some(channel);
-                        expected_pin = Some(expected);
-                    }
-                }
+            let channel = analog_channel(&contacts, &identity, &r.libraries, measurements.len() == 1)
+                .or_else(|| digital_point(&contacts, &identity, &r.libraries));
+            if channel.is_some() {
+                channel_pins = contacts.iter().map(|el| terminal_name(el)).collect();
+                r.result.symbol.plc_channel = channel;
             } else if contacts.iter().any(|el| digital_channel(el, &identity).is_some()) {
                 r.result.warnings.insert("multiple contact functions; PLC channel assignment requires separate points".into());
             }
@@ -664,14 +655,8 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
             r.result.warnings.insert(format!("representation {function_type}"));
         }
         if r.result.symbol.plc_channel.is_some() {
-            let analog = r.result.symbol.plc_channel.as_ref().and_then(|c| c.analog.as_ref());
-            let mapped = analog.map_or_else(
-                || matches!(r.result.symbol.pins.as_slice(), [pin] if Some(&pin.label) == expected_pin.as_ref()),
-                |_| {
-                    r.result.symbol.pins.len() == analog_pins.len()
-                        && analog_pins.iter().all(|name| r.result.symbol.pins.iter().filter(|pin| &pin.label == name).count() == 1)
-                },
-            );
+            let mapped = r.result.symbol.pins.len() == channel_pins.len()
+                && channel_pins.iter().all(|name| r.result.symbol.pins.iter().filter(|pin| &pin.label == name).count() == 1);
             if mapped {
                 r.result.symbol.func = crate::symbols::Func::Plc;
             } else {
@@ -707,6 +692,34 @@ fn revision(symbol: &UserSymbol) -> String {
     format!("{:016x}", super::fingerprint(std::slice::from_ref(symbol)))
 }
 
+fn digital_point(contacts: &[&Element], family: &str, libraries: &BTreeMap<&str, &str>) -> Option<crate::symbols::PlcChannel> {
+    let mut signals = contacts.iter().copied().filter(|e| {
+        e.attribute("A1381") == Some("300")
+            && matches!(e.attribute("A1382"), Some("1" | "99"))
+            && matches!(e.attribute("A1383"), Some("2" | "3" | "4" | "5"))
+    });
+    let signal = signals.next()?;
+    if signals.next().is_some() || signal.attribute("A1262") != Some("13") || libraries.get(signal.attribute("A1261")?) != Some(&"SPECIAL") {
+        return None;
+    }
+    let mut c = digital_channel(signal, family)?;
+    if contacts.len() > 1 {
+        for other in contacts.iter().copied().filter(|e| !std::ptr::eq(*e, signal)) {
+            if other.attribute("A1381") != Some("300")
+                || !matches!(other.attribute("A1382"), Some("2" | "3"))
+                || other.child("P11").is_some_and(|p| {
+                    p.attribute("P20405").is_some_and(|t| !t.is_empty())
+                        || p.attribute("P20407").is_some_and(|s| !s.trim().is_empty() && s.trim() != c.designation)
+                })
+            {
+                return None;
+            }
+        }
+        c.digital_terminal = Some(terminal_name(signal));
+    }
+    Some(c)
+}
+
 fn digital_channel(el: &Element, family: &str) -> Option<crate::symbols::PlcChannel> {
     let props = el.child("P11")?;
     if el.attribute("A1381") != Some("300") || el.attribute("A1382") != Some("1") || props.attribute("P20405")? != "BOOL" {
@@ -727,6 +740,7 @@ fn digital_channel(el: &Element, family: &str) -> Option<crate::symbols::PlcChan
         address: props.attribute("P20400").unwrap_or("").trim().into(),
         function_text: display_text(props.attribute("P20011").unwrap_or("")),
         analog: None,
+        digital_terminal: None,
     })
 }
 
@@ -808,6 +822,7 @@ fn analog_channel(
         designation: label.into(),
         address: label.into(),
         function_text: display_text(props.attribute("P20011").unwrap_or("")),
+        digital_terminal: None,
         analog: Some(crate::symbols::AnalogSignal { terminal, data_type: data_type.into() }),
     })
 }
@@ -929,11 +944,12 @@ pub fn part_symbol_for_card(
         .filter(|v| v["devices"].as_array().is_none_or(Vec::is_empty));
     let first = candidates
         .clone()
-        .find(|v| v["symbol"]["pins"].as_array().is_some_and(|pins| !pins.is_empty()))
+        .find(|v| !v["symbol"]["plc_channel"].is_null())
+        .or_else(|| candidates.clone().find(|v| v["symbol"]["pins"].as_array().is_some_and(|pins| !pins.is_empty())))
         .or_else(|| candidates.find(|v| v["symbol"]["prims"].as_array().is_some_and(|g| !g.is_empty())))?;
     let mut selected = first;
     if let Some(family) = first["symbol"]["plc_channel"]["family"].as_str() {
-        let card = card.or_else(|| project.latest_imported_card(family)).map(str::to_owned);
+        let card = card.or_else(|| project.latest_imported_card(family, Some(&part.number))).map(str::to_owned);
         // Install the sibling definitions as well, so the PLC navigator can offer the unused channels.
         let mut channels = Vec::new();
         for value in &part.eplan_variants {

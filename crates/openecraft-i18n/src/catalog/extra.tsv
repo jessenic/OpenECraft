@@ -6059,3 +6059,4 @@ Imported EPLAN symbol key	Schlüssel des importierten EPLAN-Symbols	Clé du symb
 Symbol library (JSON, EMA, EDZ)	Symbolbibliothek (JSON, EMA, EDZ)	Bibliothèque de symboles (JSON, EMA, EDZ)	Biblioteca de símbolos (JSON, EMA, EDZ)
 Added {} symbols. {} variants have unresolved graphics or functions.	{} Symbole hinzugefügt. {} Varianten enthalten ungeklärte Grafiken oder Funktionen.	{} symboles ajoutés. {} variantes contiennent des graphiques ou fonctions non résolus.	{} símbolos añadidos. {} variantes contienen gráficos o funciones sin resolver.
 {} is already placed on PLC card {}	{} ist bereits auf der SPS-Karte {} platziert	{} est déjà placé sur la carte API {}	{} ya está colocado en la tarjeta PLC {}
+Representations	Darstellungsarten	Représentations	Representaciones

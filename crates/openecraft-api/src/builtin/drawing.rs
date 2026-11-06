@@ -564,7 +564,7 @@ fn place_part(prj: &mut Project, a: &Args) -> Result<Value, String> {
             return Err(tr_fmt!("{} is already placed on PLC card {}", c.designation, tag));
         }
     }
-    let mut ctx = PlaceCtx::default();
+    let mut ctx = PlaceCtx { plc_article: Some(number.clone()), ..Default::default() };
     if let Some(tag) = tag {
         ctx.last_plc.insert(def.key.into(), tag.into());
     }

@@ -383,6 +383,9 @@ impl App {
         }
         if let (Some(id), Some(part)) = (out.placed, out.placed_part) {
             self.placed(page, id, &part);
+            if matches!(self.editor.tool, Tool::Place(_)) {
+                self.arm_part(&part,None);
+            }
         } else if let Some(id) = out.placed {
             if let Some(s) = self.session.prj.pages[page].symbols.iter().find(|s| s.id == id && s.sym.starts_with("user:ema:")) {
                 let tag = s.tag.clone();

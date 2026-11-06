@@ -1,6 +1,44 @@
 use super::*;
 
 #[test]
+fn repeating_a_card_uses_each_channel_then_starts_a_new_device() {
+    use crate::{model::Project, ops, parts};
+    let mut source = String::from(r#"<EplanPxfRoot Name="Card" Type="WindowMacro">"#);
+    let pins = ["1", "5", "2", "6", "3", "7", "4", "8"];
+    for (i, pin) in pins.iter().enumerate() {
+        let channel = i + 1;
+        source.push_str(&format!(r#"<MacroVariant MacroFuncType="1" VariantId="{i}" ReferencePoint="0/0/0">
+        <ESymLib ID="0" Name="SPECIAL"/><O4><O26>
+        <O17 A1261="0" A1262="13" A1263="0" A1381="300" A1382="3" A1383="7" A185="GND"><S61x183 A1061="1"/><S40x1201 A762="8/0"/></O17>
+        <O17 A1261="0" A1262="13" A1263="0" A1381="300" A1382="1" A1383="2" A185="{pin}"><S61x183 A1061="1"/><P11 P20405="BOOL" P20407="Channel {channel}"/></O17>
+        </O26></O4></MacroVariant>"#));
+    }
+    source.push_str("</EplanPxfRoot>");
+    let vs = decode(&source).unwrap();
+    let part = parts::Part { number: "Card".into(), eplan_variants: vs.iter().map(|v| serde_json::json!(v).into()).collect(), ..Default::default() };
+    let other = parts::Part { number: "Other".into(), ..part.clone() };
+    let db = parts::PartsDb { parts: vec![part.clone(), other.clone()] };
+    let mut prj = Project::new_default();
+    let mut tags = Vec::new();
+    for (article, i) in (0..9).map(|i| (&part, i % 8)).chain(std::iter::once((&other, 0))) {
+        let (key, physical) = part_symbol(&mut prj, article, None).unwrap();
+        let def = prj.symbol(key).unwrap();
+        let ctx = ops::PlaceCtx { plc_article: Some(article.number.clone()), ..Default::default() };
+        let inst = ops::new_symbol(&mut prj, 0, &ctx, &def, p(40., 40.), 0, false);
+        assert_eq!(inst.label, format!("I0.{i}"));
+        assert_eq!(def.plc_channel.as_ref().unwrap().signal_terminal(), Some(pins[i]));
+        assert_eq!(physical, ["GND", pins[i]]);
+        parts::assign_placed_part(&mut prj, &db, key, &inst.tag, &article.number);
+        tags.push(inst.tag.clone());
+        prj.pages[0].symbols.push(inst);
+    }
+    assert!(tags[..8].iter().all(|t| *t == tags[0]));
+    assert_ne!(tags[0], tags[8]);
+    assert_ne!(tags[8], tags[9]);
+    assert!(prj.devices.values().all(|d| d.parts.len() == 1 && d.parts[0].count == 1));
+}
+
+#[test]
 fn analog_pair_is_one_symbolic_channel_even_when_the_reference_comes_first() {
     use crate::{model::Project, netlist::Netlist, ops, plc};
     let source = r#"<EplanPxfRoot Name="Analog" Type="WindowMacro"><MacroVariant MacroFuncType="1" VariantId="0" ReferencePoint="0/0/0">
