@@ -166,19 +166,18 @@ type Defs = Arc<HashMap<String, Arc<SymbolDef>>>;
 /// The user symbols of one project by key, rebuilt when the list changes. A
 /// [`Project`] carries one; clones of a project share it until their symbols differ.
 #[derive(Clone, Default)]
-pub struct SymbolCache(Arc<Mutex<Option<(u64, Defs)>>>);
+pub struct SymbolCache(Arc<Mutex<Option<(crate::model::symlib::SymbolList, Defs)>>>);
 
 impl SymbolCache {
     /// The symbols of a project with the user symbols `list`, as a snapshot.
-    pub fn table(&self, list: &[UserSymbol]) -> Symbols {
+    pub fn table(&self, list: &crate::model::symlib::SymbolList) -> Symbols {
         if list.is_empty() {
             return Symbols::default();
         }
-        let fp = fingerprint(list);
         let mut cache = self.0.lock().unwrap_or_else(|e| e.into_inner());
-        if cache.as_ref().is_none_or(|(have, _)| *have != fp) {
+        if cache.as_ref().is_none_or(|(have, _)| !have.same_snapshot(list)) {
             let defs = list.iter().map(|u| (u.key.clone(), Arc::new(to_def(u)))).collect();
-            *cache = Some((fp, Arc::new(defs)));
+            *cache = Some((list.clone(), Arc::new(defs)));
         }
         Symbols { user: cache.as_ref().map(|(_, defs)| defs.clone()) }
     }

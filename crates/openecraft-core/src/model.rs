@@ -112,7 +112,7 @@ pub struct Project {
     pub harnesses: Vec<harness::Harness>,
     /// Project symbol library (user symbols).
     #[serde(skip_serializing_if = "Vec::is_empty")]
-    pub symbols: Vec<symlib::UserSymbol>,
+    pub symbols: symlib::SymbolList,
     /// Title blocks and report forms.
     pub forms: forms::Forms,
     /// Report blocks: report pages generated and updated together.
@@ -211,7 +211,7 @@ impl Default for Project {
             plc: Default::default(),
             revisions: Vec::new(),
             harnesses: Vec::new(),
-            symbols: Vec::new(),
+            symbols: Default::default(),
             forms: Default::default(),
             report_blocks: Vec::new(),
             marking: Default::default(),

@@ -24,6 +24,45 @@ fn button(pos: Pos2, pressed: bool) -> Event {
     Event::PointerButton { pos, button: PointerButton::Primary, pressed, modifiers: Modifiers::default() }
 }
 
+/// Replay a drag over the sheet using a local vendor sample without checking it into the repository.
+#[test]
+#[ignore = "requires OPENECRAFT_DRAG_EDZ pointing to a schematic part archive"]
+fn drag_imported_edz_part_onto_sheet() {
+    use openecraft_core::symlib::ema;
+    let bytes = std::fs::read(std::env::var("OPENECRAFT_DRAG_EDZ").unwrap()).unwrap();
+    let part = openecraft_edz::read(&bytes).unwrap().parts.remove(0);
+    let variants: Vec<ema::Variant> = part.eplan_variants.iter().map(|v| serde::Deserialize::deserialize(v.as_ref()).unwrap()).collect();
+    let mut prj = Project::new_default();
+    ema::import_project(&mut prj, &variants);
+    let (ctx, mut ed) = (egui::Context::default(), Editor::default());
+    let idx = Index::build(&prj);
+    let an = Analysis::build(&prj);
+    let mut paint = |events| {
+        let input = RawInput {
+            screen_rect: Some(Rect::from_min_size(Pos2::ZERO, vec2(1200., 800.))),
+            events,
+            ..Default::default()
+        };
+        let mut drop = None;
+        let mut output = ctx.run_ui(input, |ui| drop = ed.ui(ui, &mut prj, 0, &idx, &an).dropped_part);
+        output.textures_delta.clear();
+        drop
+    };
+    let start = pos2(240., 200.);
+    paint(vec![Event::PointerMoved(start), button(start, true)]);
+    egui::DragAndDrop::set_payload(&ctx, PartDrag { number: part.number.clone() });
+    let now = std::time::Instant::now();
+    for i in 1..=100 {
+        assert!(paint(vec![Event::PointerMoved(start + vec2(i as f32, 0.))]).is_none());
+    }
+    println!("100 schematic pointer frames: {:?}", now.elapsed());
+    let (number, at) = paint(vec![button(start + vec2(100., 0.), false)]).expect("part released over schematic");
+    assert_eq!(number, part.number);
+    let (key, pins) = ema::part_symbol(&mut prj, &part, None).expect("schematic representation");
+    assert!(!pins.is_empty());
+    assert!(ed.place_part_at(&mut prj, 0, key, pins, &number, at).placed.is_some());
+}
+
 #[test]
 fn macro_insertion_waits_for_the_click() {
     let mut prj = demo_project();

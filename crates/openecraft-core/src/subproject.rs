@@ -220,7 +220,7 @@ pub fn insert(prj: &mut Project, sub: &Project, date: &str) -> Result<Inserted, 
         }
     }
     prj.property_db.merge(sub.property_db.clone());
-    crate::symlib::merge(&mut prj.symbols, crate::symlib::SymbolLibrary { symbols: sub.symbols.clone() });
+    crate::symlib::merge(&mut prj.symbols, crate::symlib::SymbolLibrary { symbols: sub.symbols.to_vec() });
 
     // Option assignments of the inserted pages.
     let ids: BTreeSet<u64> = prj.pages.iter().skip(at).take(pages_inserted).flat_map(|p| std::iter::once(p.id).chain(crate::options::item_ids(p))).collect();

@@ -41,6 +41,22 @@ fn user_symbols_are_looked_up_per_project() {
 }
 
 #[test]
+fn drawing_snapshots_reuse_definitions_until_an_edit() {
+    let mut prj = Project::default();
+    prj.symbols.push(box_symbol("user:drive"));
+    let before = prj.clone();
+    let table = before.symbol_table().user.unwrap();
+    assert!(before.symbols.same_snapshot(&prj.symbols));
+    assert!(Arc::ptr_eq(&table, &prj.symbol_table().user.unwrap()));
+
+    prj.symbols[0].pins[0].label = "X137.13".into();
+    assert!(!before.symbols.same_snapshot(&prj.symbols));
+    assert_eq!(prj.symbol("user:drive").unwrap().pins[0].label, "X137.13");
+    assert_eq!(before.symbol("user:drive").unwrap().pins[0].label, "1");
+    assert_eq!(table["user:drive"].pins[0].label, "1");
+}
+
+#[test]
 fn keys_are_unique_slugs() {
     let mut list = vec![];
     let k = new_key(&list, "Motor starter (3~)");

@@ -160,6 +160,8 @@ impl App {
                 let Some(si) = se.sel.as_ref().and_then(|k| prj.symbols.iter().position(|u| &u.key == k)) else {
                     return;
                 };
+                // The widgets take mutable values even when the user is only viewing the symbol.
+                let mut edited = prj.symbols[si].clone();
                 // ------------------------------------------------ canvas
                 ui.vertical(|ui| {
                     ui.horizontal_wrapped(|ui| {
@@ -175,8 +177,7 @@ impl App {
                             ui.text_edit_singleline(&mut se.text);
                         });
                     }
-                    let u = &mut prj.symbols[si];
-                    canvas(ui, se, u);
+                    canvas(ui, se, &mut edited);
                     ui.weak(tr("Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid"));
                 });
                 ui.separator();
@@ -184,7 +185,7 @@ impl App {
                 ui.vertical(|ui| {
                     ui.set_width(270.0);
                     let usage = symlib::usage(prj, &prj.symbols[si].key);
-                    let u = &mut prj.symbols[si];
+                    let u = &mut edited;
                     egui::ScrollArea::vertical().id_salt("symprops").show(ui, |ui| {
                         symbol_properties(ui, u);
                         ui.separator();
@@ -208,12 +209,15 @@ impl App {
                         });
                     });
                 });
+                if edited != prj.symbols[si] {
+                    prj.symbols[si] = edited;
+                }
             });
         });
         match action {
             Some(Action::Import) => self.io.open(ctx, Purpose::Symbols),
             Some(Action::Export) => {
-                let lib = SymbolLibrary { symbols: self.session.prj.symbols.clone() };
+                let lib = SymbolLibrary { symbols: self.session.prj.symbols.to_vec() };
                 let json = serde_json::to_string_pretty(&lib).unwrap_or_default();
                 self.export(ctx, "symbols.json".into(), (tr("OpenECraft symbol library"), "json"), json);
             }
