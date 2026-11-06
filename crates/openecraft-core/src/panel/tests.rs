@@ -11,6 +11,28 @@ fn duct(id: u64, x: f32, y: f32, w: f32, h: f32) -> PanelItem {
 }
 
 #[test]
+fn devices_snap_flush_on_either_side_only_when_the_space_is_free() {
+    let mut e = Enclosure::default();
+    e.items.push(device(1, 40., 40., 12., 100., 0., 68.));
+    let mut right = device(2, 55., 42., 12., 100., 0., 68.);
+    snap_device(&e, &mut right);
+    assert_eq!((right.x, right.y), (52., 40.));
+    let mut left = device(3, 25., 38., 12., 100., 0., 68.);
+    snap_device(&e, &mut left);
+    assert_eq!((left.x, left.y), (28., 40.));
+    let mut far = device(4, 58., 40., 12., 100., 0., 68.);
+    snap_device(&e, &mut far);
+    assert_eq!(far.x, 58.);
+    e.items.push(right);
+    let mut blocked = device(5, 53., 40., 12., 100., 0., 68.);
+    snap_device(&e, &mut blocked);
+    assert_eq!(blocked.x, 53.);
+    let mut another_row = device(6, 54., 60., 12., 100., 0., 68.);
+    snap_device(&e, &mut another_row);
+    assert_eq!((another_row.x, another_row.y), (54., 60.));
+}
+
+#[test]
 fn device_size_from_parts() {
     let prj = demo_project();
     // Contactor 45 x 74 x 73 plus front auxiliary block (40 deep)

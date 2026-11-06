@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Snap cabinet devices flush to a nearby neighbor on the mounting plate while placing or moving a single module. The placement preview shows the snapped position.
+
 - Show imported EPLAN artwork on cabinet fronts. An assigned front view takes priority, followed by a mounting representation and then a fitted overview illustration.
 
 - Place successive imported PLC channels from a single card entry in the Insert center; when a card fills up, placement continues on a new device.

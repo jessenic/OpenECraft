@@ -1026,7 +1026,7 @@ pub fn place_device_on(prj: &mut Project, enc: usize, tag: &str, at: P, face: Fa
     };
     let e = prj.layout.enclosures.get_mut(enc)?;
     stand_on_floor(e, &mut item);
-    snap_to_rail(e, &mut item);
+    snap_device(e, &mut item);
     e.items.push(item);
     Some(id)
 }
@@ -1100,6 +1100,53 @@ pub fn snap_to_rail(e: &Enclosure, item: &mut PanelItem) {
             let on = busbars(e, item).next().map_or(0.0, |b| b.z + b.d);
             item.z = on;
         }
+    }
+}
+
+/// Snap a single device to its support and to a nearby free side of another
+/// device in the same row. Use the same result for the ghost, placement and drag.
+pub fn snap_device(e: &Enclosure, item: &mut PanelItem) {
+    snap_to_rail(e, item);
+    if item.kind != ItemKind::Device || item.face != Face::Plate || is_rack(e) || e.is_room() {
+        return;
+    }
+    const REACH: f32 = 4.0;
+    let mut best = None;
+    let mut distance = f32::INFINITY;
+    let area = mounting_area(e, item.face);
+    let neighbors = || e.items.iter().filter(|n| n.kind == ItemKind::Device && n.id != item.id && n.face == item.face && (n.z - item.z).abs() < 0.01);
+    for n in neighbors() {
+        let y = n.center().y - item.h / 2.;
+        if (y - item.y).abs() > REACH {
+            continue;
+        }
+        for x in [n.x - item.w, n.x + n.w] {
+            let dx = x - item.x;
+            let dy = y - item.y;
+            let d = dx * dx + dy * dy;
+            if dx.abs() > REACH || d >= distance {
+                continue;
+            }
+            let mut candidate = item.clone();
+            candidate.x = x;
+            candidate.y = y;
+            snap_to_rail(e, &mut candidate);
+            let rect = candidate.rect();
+            if (candidate.y - y).abs() > 0.01 || (candidate.z - item.z).abs() > 0.01 || !area.contains_rect(&rect) {
+                continue;
+            }
+            if neighbors().any(|other| {
+                let r = other.rect();
+                rect.min.x < r.max.x - 0.01 && r.min.x < rect.max.x - 0.01 && rect.min.y < r.max.y - 0.01 && r.min.y < rect.max.y - 0.01
+            }) {
+                continue;
+            }
+            best = Some(candidate);
+            distance = d;
+        }
+    }
+    if let Some(candidate) = best {
+        *item = candidate;
     }
 }
 

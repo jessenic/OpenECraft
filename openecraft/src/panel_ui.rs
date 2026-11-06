@@ -2868,7 +2868,7 @@ impl PanelUi {
             (Tool::PlaceDevice(tag), _, Some(q)) => {
                 let (w, h) = panel::device_size(prj, tag).map(|s| (s.w, s.h)).unwrap_or((panel::DEFAULT_DEVICE.0, panel::DEFAULT_DEVICE.1));
                 let mut ghost = PanelItem { kind: ItemKind::Device, x: panel::snap(q.x - w / 2.0), y: panel::snap(q.y - h / 2.0), w, h, face: self.face, ..Default::default() };
-                panel::snap_to_rail(e, &mut ghost);
+                panel::snap_device(e, &mut ghost);
                 g.rect(p(ghost.x, ghost.y) + m, p(ghost.x + w, ghost.y + h) + m, 0.6, Ink::Ghost, false);
                 g.text(ghost.center() + m, tag, (w.min(h) * 0.22).clamp(3.0, 9.0), openecraft_core::symbols::Anchor::Center, render::VAnchor::Middle, Ink::Ghost);
             }
@@ -2940,10 +2940,11 @@ impl PanelUi {
                 let moved: Vec<u64> = drag.originals.iter().map(|o| o.0).collect();
                 let moving_rails = e.items.iter().any(|i| i.kind == ItemKind::Rail && moved.contains(&i.id));
                 if !moving_rails {
+                    let single = moved.len() == 1;
                     for id in moved {
                         if let Some(idx) = e.items.iter().position(|i| i.id == id) {
                             let mut it = e.items[idx].clone();
-                            panel::snap_to_rail(e, &mut it);
+                            if single { panel::snap_device(e, &mut it); } else { panel::snap_to_rail(e, &mut it); }
                             e.items[idx] = it;
                         }
                     }
