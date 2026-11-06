@@ -568,6 +568,9 @@ fn import_eplan_symbols(s: &mut Session, a: &Args) -> Result<Value, String> {
             project.parts.push(part);
         }
     }
+    if !numbers.is_empty() {
+        openecraft_core::parts::link_unassigned_plc_parts(project, &openecraft_core::parts::PartsDb { parts: Vec::new() }, None);
+    }
     let report: Vec<_> = variants
         .iter()
         .map(|v| {

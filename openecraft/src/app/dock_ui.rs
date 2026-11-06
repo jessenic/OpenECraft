@@ -383,6 +383,11 @@ impl App {
         }
         if let (Some(id), Some(part)) = (out.placed, out.placed_part) {
             self.placed(page, id, &part);
+        } else if let Some(id) = out.placed {
+            if let Some(s) = self.session.prj.pages[page].symbols.iter().find(|s| s.id == id && s.sym.starts_with("user:ema:")) {
+                let tag = s.tag.clone();
+                parts::link_unassigned_plc_parts(&mut self.session.prj, &self.parts_db, Some(&tag));
+            }
         }
         if let Some((number, at)) = out.dropped_part {
             self.drop_part(&ctx, page, number, at);

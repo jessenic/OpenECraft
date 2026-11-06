@@ -670,6 +670,7 @@ impl App {
             self.remember_recent(path);
         }
         self.session.replace(prj, file_name);
+        parts::link_unassigned_plc_parts(&mut self.session.prj, &self.parts_db, None);
         self.editor.selection.clear();
         self.editor.cancel();
         self.editor.fit_pending = true;

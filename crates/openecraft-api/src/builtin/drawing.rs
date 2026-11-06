@@ -505,7 +505,11 @@ fn place_symbol(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     apply_symbol_params(&mut sym, a)?;
     let out = symbol_json(&symbols, &sym);
+    let plc_tag = def.plc_channel.as_ref().map(|_| sym.tag.clone());
     prj.pages[i].symbols.push(sym);
+    if let Some(tag) = plc_tag {
+        parts::link_unassigned_plc_parts(prj, &parts::PartsDb { parts: Vec::new() }, Some(&tag));
+    }
     Ok(out)
 }
 

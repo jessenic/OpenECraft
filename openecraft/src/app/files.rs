@@ -433,6 +433,7 @@ impl App {
                     self.parts_db.upsert(p);
                 }
                 self.parts_db.sort();
+                parts::link_unassigned_plc_parts(&mut self.session.prj, &self.parts_db, None);
                 self.notify(ctx, tr_fmt!("Imported {} parts into the database", n));
             }
             Err(e) => self.notify_error(ctx, tr_fmt!("Parts import failed: {}", e)),

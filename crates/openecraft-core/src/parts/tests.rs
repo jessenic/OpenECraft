@@ -1,6 +1,43 @@
 use super::*;
 
 #[test]
+fn bare_ema_channels_recover_one_physical_card_for_the_panel() {
+    use crate::model::SymbolInst;
+    use crate::symbols::{Func, PlcChannel};
+    use crate::symlib::UserSymbol;
+    let mut prj = Project::new_default();
+    let mut card = Part { number: "BEC.EL3174".into(), width: 12., height: 100., depth: 68., ..Default::default() };
+    for i in 0..4 {
+        let key = format!("user:ema:test:1:{i}");
+        let channel = PlcChannel {
+            family: "test".into(),
+            input: true,
+            index: i,
+            designation: format!("U{}", i + 1),
+            address: String::new(),
+            function_text: String::new(),
+            analog: None,
+        };
+        prj.symbols.push(UserSymbol { key: key.clone(), func: Func::Plc, plc_channel: Some(channel), ..Default::default() });
+        card.eplan_variants.push(serde_json::json!({"symbol":{"key":key}}).into());
+        prj.pages[0].symbols.push(SymbolInst { id: u64::from(i) + 2, sym: key, tag: "-A3".into(), ..Default::default() });
+    }
+    let mut db = PartsDb { parts: vec![card.clone()] };
+    let mut other = card.clone();
+    other.number = "BEC.Other".into();
+    db.parts.push(other);
+    link_unassigned_plc_parts(&mut prj, &db, None);
+    assert!(crate::panel::devices_to_place(&prj).is_empty());
+    db.parts.pop();
+    link_unassigned_plc_parts(&mut prj, &db, None);
+    link_unassigned_plc_parts(&mut prj, &db, Some("-A3"));
+    let devices = crate::panel::devices_to_place(&prj);
+    assert_eq!(devices.len(), 1);
+    assert_eq!((&*devices[0].tag, &*devices[0].part, devices[0].w, devices[0].h), ("-A3", "BEC.EL3174", 12., 100.));
+    assert_eq!(prj.devices["-A3"].parts, [PartRef { number: "BEC.EL3174".into(), count: 1 }]);
+}
+
+#[test]
 fn legacy_single_part_is_migrated() {
     let json = r#"{"devices": {"-K1": {"part": "CT-9A-24DC", "description": ""}},
                   "parts": [{"number": "CT-9A-24DC", "manufacturer": "Generic", "description": "old", "price": 1.0}]}"#;

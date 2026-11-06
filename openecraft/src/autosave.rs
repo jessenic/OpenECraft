@@ -33,6 +33,7 @@ impl Autosave {
     /// Takes values that finished loading. Returns true if the project was replaced.
     pub fn poll(&mut self, session: &mut Session, parts: &mut PartsDb) -> bool {
         let mut replaced = false;
+        let waiting = self.awaiting_project || self.awaiting_parts.is_some();
         while let Some((key, value)) = self.store.poll() {
             match key.as_str() {
                 PROJECT => {
@@ -57,6 +58,9 @@ impl Autosave {
                 }
                 _ => {}
             }
+        }
+        if waiting && !self.awaiting_project && self.awaiting_parts.is_none() {
+            openecraft_core::parts::link_unassigned_plc_parts(&mut session.prj, parts, None);
         }
         replaced
     }

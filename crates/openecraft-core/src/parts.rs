@@ -128,6 +128,51 @@ pub fn assign_placed_part(prj: &mut Project, db: &PartsDb, sym: &str, tag: &str,
     add_to_device(prj, db, tag, number, 1);
 }
 
+/// A channel can be placed directly from the symbol library. Recover its physical
+/// article only if one catalog part owns all the imported PLC variants on the tag.
+pub fn link_unassigned_plc_parts(prj: &mut Project, db: &PartsDb, only_tag: Option<&str>) {
+    use std::collections::BTreeSet;
+    let mut channels: BTreeMap<&str, BTreeSet<&str>> = BTreeMap::new();
+    for s in prj.pages.iter().flat_map(|p| &p.symbols) {
+        if s.tag.is_empty()
+            || only_tag.is_some_and(|tag| tag != s.tag)
+            || !s.sym.starts_with("user:ema:")
+            || prj.devices.get(&s.tag).is_some_and(|d| !d.parts.is_empty())
+        {
+            continue;
+        }
+        if prj.symbol(&s.sym).is_some_and(|d| d.plc_channel.is_some()) {
+            channels.entry(&s.tag).or_default().insert(&s.sym);
+        }
+    }
+    if channels.is_empty() {
+        return;
+    }
+    let mut owners: BTreeMap<&str, BTreeSet<&str>> = channels.values().flatten().map(|key| (*key, BTreeSet::new())).collect();
+    for p in prj.parts.iter().chain(&db.parts) {
+        for variant in &p.eplan_variants {
+            if let Some(set) = variant["symbol"]["key"].as_str().and_then(|key| owners.get_mut(key)) {
+                set.insert(&p.number);
+            }
+        }
+    }
+    let mut links = Vec::new();
+    for (tag, keys) in channels {
+        let mut keys = keys.into_iter();
+        let Some(parts) = keys.next().and_then(|k| owners.get(k)) else { continue };
+        let mut candidates = parts.clone();
+        for key in keys {
+            candidates.retain(|p| owners.get(key).is_some_and(|set| set.contains(p)));
+        }
+        if let Some(number) = candidates.first().filter(|_| candidates.len() == 1) {
+            links.push((tag.to_owned(), (*number).to_owned()));
+        }
+    }
+    for (tag, number) in links {
+        add_to_device(prj, db, &tag, &number, 1);
+    }
+}
+
 /// Resolves a part: project parts first, then the database.
 pub fn lookup<'a>(prj: &'a Project, db: Option<&'a PartsDb>, number: &str) -> Option<&'a Part> {
     prj.parts.iter().find(|p| p.number == number).or_else(|| db.and_then(|d| d.get(number)))
