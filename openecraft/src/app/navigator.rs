@@ -410,9 +410,11 @@ impl App {
                 egui::CollapsingHeader::new(RichText::new(title).monospace()).id_salt(("plc_card", card)).show(ui, |ui| {
                     for (_, p, u) in rows {
                         if let Some(p) = p {
-                            let kind = if p.input { "DI" } else { "DO" };
+                            let kind = p.io_kind();
                             let mut text = format!("{}  {kind}  {}", p.address, p.function_text);
-                            if !p.channel.is_empty() {
+                            if p.channel == p.address && !p.channel.is_empty() {
+                                text = format!("{} ({})  {kind}  {}", p.channel, p.terminal, p.function_text);
+                            } else if !p.channel.is_empty() {
                                 text = format!("{} ({})  {text}", p.channel, p.terminal);
                             }
                             if !p.connected.is_empty() {

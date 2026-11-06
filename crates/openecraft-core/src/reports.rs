@@ -839,7 +839,7 @@ fn plc_list(prj: &Project, nl: &Netlist) -> Table {
         (tr_const!("Location"), 0.8),
     ]);
     for p in crate::plc::points(prj, nl) {
-        let kind = if p.input { "DI" } else { "DO" };
+        let kind = p.io_kind();
         t.push(vec![p.card, p.address, kind.into(), p.function_text, p.connected, p.location], Some((p.page, p.id)));
     }
     t

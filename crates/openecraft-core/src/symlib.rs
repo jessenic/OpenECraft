@@ -151,7 +151,11 @@ pub fn fingerprint(list: &[UserSymbol]) -> u64 {
         (&u.key, &u.name, &u.library, &u.letter, &u.default_label, u.auto_number, u.show_tag, u.show_pin_labels).hash(&mut h);
         format!("{:?}", u.func).hash(&mut h);
         if let Some(channel) = &u.plc_channel {
-            channel.hash(&mut h);
+            // Keep revisions of digital definitions imported by earlier versions.
+            (&channel.family, channel.input, channel.index, &channel.designation, &channel.address, &channel.function_text).hash(&mut h);
+            if let Some(signal) = &channel.analog {
+                signal.hash(&mut h);
+            }
         }
         for p in &u.prims {
             hash_prim(p, &mut h);

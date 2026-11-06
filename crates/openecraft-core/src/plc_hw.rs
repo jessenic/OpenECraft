@@ -217,27 +217,37 @@ fn parse_num(s: &str) -> Option<u32> {
 
 /// Number of input / output points placed for a card.
 pub fn used(prj: &Project, card: &str) -> (u32, u32) {
-    let (mut i, mut o) = (0, 0);
-    for s in prj.pages.iter().flat_map(|p| p.symbols.iter()).filter(|s| s.tag == card) {
-        match prj.symbol(&s.sym).and_then(|d| d.digital_input()) {
-            Some(true) => i += 1,
-            Some(false) => o += 1,
-            _ => {}
+    let [inputs, outputs] = point_counts(prj, card);
+    (inputs.0, outputs.0)
+}
+
+/// (Placed points, digitally addressed points) for each direction. Analog
+/// channel names do not allocate bits in the estimated process image.
+fn point_counts(prj: &Project, card: &str) -> [(u32, u32); 2] {
+    let mut counts = [(0, 0); 2];
+    for s in prj.pages.iter().flat_map(|p| &p.symbols).filter(|s| s.tag == card) {
+        if let Some(def) = prj.symbol(&s.sym) {
+            let digital = def.digital_input();
+            if let Some(input) = digital.or_else(|| def.plc_channel.as_ref().map(|c| c.input)) {
+                let count = &mut counts[usize::from(!input)];
+                count.0 += 1;
+                count.1 += u32::from(digital.is_some());
+            }
         }
     }
-    (i, o)
+    counts
 }
 
 fn module(prj: &Project, card: &str, data: &PlcCard) -> Module {
     let description = description_of(prj, card);
-    let (inputs_used, outputs_used) = used(prj, card);
+    let [(inputs_used, digital_inputs), (outputs_used, digital_outputs)] = point_counts(prj, card);
     let bytes = |desc: Option<u32>, used: u32| desc.filter(|b| *b > 0).unwrap_or(used.div_ceil(8));
     Module {
         card: card.to_string(),
         rack: parse_num(&data.rack).unwrap_or(0),
         slot: parse_num(&data.slot).unwrap_or(0),
-        input_bytes: bytes(description.as_ref().map(|d| d.input_bytes), inputs_used),
-        output_bytes: bytes(description.as_ref().map(|d| d.output_bytes), outputs_used),
+        input_bytes: bytes(description.as_ref().map(|d| d.input_bytes), digital_inputs),
+        output_bytes: bytes(description.as_ref().map(|d| d.output_bytes), digital_outputs),
         description,
         inputs_used,
         outputs_used,

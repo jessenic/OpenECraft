@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Import Beckhoff analog signal and reference terminals as one PLC channel with a symbolic name such as U1, keeping both wire endpoints and the source data type.
+
 - Import single-channel EPLAN digital I/O representations as native PLC points with editable addresses, physical terminal designations, and one parts-list entry per card.
 
 - Reuse unchanged symbol drawings during part dragging and schematic rendering, including large imported EPLAN libraries.

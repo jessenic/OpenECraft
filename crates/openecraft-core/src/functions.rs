@@ -261,6 +261,9 @@ pub fn default_for_symbol(prj: &Project, sym: &str) -> &'static FunctionDef {
             Func::Interruption => "fn.interruption",
             Func::Terminal => "fn.terminal",
             Func::Plug(_) => "fn.plug_pair",
+            Func::Plc if def.plc_channel.as_ref().is_some_and(|c| c.analog.is_some()) => {
+                if def.plc_channel.as_ref()?.input { "fn.plc_ai" } else { "fn.plc_ao" }
+            }
             Func::Plc if def.digital_input() == Some(false) => "fn.plc_do",
             Func::Plc => "fn.plc_di",
             _ => match crate::parts::kind_of_symbol(sym) {

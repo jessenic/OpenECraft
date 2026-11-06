@@ -528,6 +528,9 @@ impl Reader<'_> {
         }
         let stored = owner.child("P11").and_then(|p| p.attribute(&key));
         if id == "20400" && native_pins && self.result.symbol.plc_channel.is_some() {
+            if self.result.symbol.plc_channel.as_ref().and_then(|c| c.analog.as_ref()).is_some_and(|a| a.terminal != terminal_name(owner)) {
+                return;
+            }
             if let Some(pos) = pos {
                 self.result.symbol.prims.push(Prim::Field { kind: crate::symbols::FieldKind::Label, pos: f.at(pos), size, anchor: Anchor::Left });
             }
@@ -625,9 +628,13 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
             logic: Default::default(),
         };
         let mut expected_pin = None;
+        let mut analog_pins = Vec::new();
         if function_type == 1 && !r.split_devices {
             let contacts: Vec<_> = functions.iter().copied().filter(|el| el.attribute("A185").is_some_and(|s| !s.trim().is_empty())).collect();
-            if let [el] = contacts.as_slice() {
+            if let Some(channel) = analog_channel(&contacts, &identity, &r.libraries) {
+                analog_pins = contacts.iter().map(|el| terminal_name(el)).collect();
+                r.result.symbol.plc_channel = Some(channel);
+            } else if let [el] = contacts.as_slice() {
                 if r.libraries.get(el.attribute("A1261").unwrap_or("")) == Some(&"SPECIAL") && el.attribute("A1262") == Some("13") {
                     if let Some(channel) = digital_channel(el, &identity) {
                         // A verified native endpoint must belong to this function.
@@ -647,11 +654,19 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
             r.result.warnings.insert(format!("representation {function_type}"));
         }
         if r.result.symbol.plc_channel.is_some() {
-            if matches!(r.result.symbol.pins.as_slice(), [pin] if Some(&pin.label) == expected_pin.as_ref()) {
+            let analog = r.result.symbol.plc_channel.as_ref().and_then(|c| c.analog.as_ref());
+            let mapped = analog.map_or_else(
+                || matches!(r.result.symbol.pins.as_slice(), [pin] if Some(&pin.label) == expected_pin.as_ref()),
+                |_| {
+                    r.result.symbol.pins.len() == analog_pins.len()
+                        && analog_pins.iter().all(|name| r.result.symbol.pins.iter().filter(|pin| &pin.label == name).count() == 1)
+                },
+            );
+            if mapped {
                 r.result.symbol.func = crate::symbols::Func::Plc;
             } else {
                 r.result.symbol.plc_channel = None;
-                r.result.warnings.insert("PLC channel requires one mapped terminal".into());
+                r.result.warnings.insert("PLC channel requires an identifiable mapped signal terminal".into());
             }
         }
         r.logic.finish(&mut r.result);
@@ -701,7 +716,74 @@ fn digital_channel(el: &Element, family: &str) -> Option<crate::symbols::PlcChan
         designation: designation.into(),
         address: props.attribute("P20400").unwrap_or("").trim().into(),
         function_text: display_text(props.attribute("P20011").unwrap_or("")),
+        analog: None,
     })
+}
+
+/// The typed SPECIAL contact carries the value. Other contacts in the same
+/// representation can carry its reference or supply, including before the signal.
+fn analog_channel(contacts: &[&Element], family: &str, libraries: &BTreeMap<&str, &str>) -> Option<crate::symbols::PlcChannel> {
+    let mut signals = contacts.iter().copied().filter(|el| {
+        el.attribute("A1381") == Some("300") && matches!(el.attribute("A1382"), Some("1" | "99")) && matches!(el.attribute("A1383"), Some("4" | "5"))
+    });
+    let el = signals.next()?;
+    if signals.next().is_some() || libraries.get(el.attribute("A1261")?) != Some(&"SPECIAL") || el.attribute("A1262") != Some("13") {
+        return None;
+    }
+    let input = match el.attribute("A1383")? {
+        "4" => true,
+        "5" => false,
+        _ => return None,
+    };
+    let props = el.child("P11")?;
+    let data_type = props.attribute("P20405").unwrap_or("");
+    if !matches!(data_type, "" | "INT" | "UINT" | "WORD" | "DINT" | "UDINT" | "DWORD" | "REAL" | "LREAL") {
+        return None;
+    }
+    let source_channel = props.attribute("P20407")?;
+    let number = if let Some((_, number)) = source_channel.split_once("Channel ") {
+        number.split('.').next()?.trim()
+    } else if !input && source_channel == "AO Outputs.Analog output" {
+        // Single-output macros designate the signal O1 instead of numbering the group.
+        el.attribute("A186")?.trim().strip_prefix('O')?
+    } else if let Some((channel, value)) = source_channel.strip_prefix("Ch").and_then(|s| s.split_once(" Sample 0.Ch")) {
+        // The sampled value must belong to the same physical channel.
+        if value.strip_suffix(" Value")? != channel {
+            return None;
+        }
+        channel
+    } else {
+        return None;
+    };
+    let index = number.parse::<u16>().ok()?.checked_sub(1)?;
+    if contacts.iter().filter(|c| !std::ptr::eq(**c, el)).filter_map(|c| c.child("P11")).any(|p| {
+        p.attribute("P20407").is_some_and(|name| !name.is_empty() && name != source_channel) || p.attribute("P20405").is_some_and(|t| !t.is_empty())
+    }) {
+        return None;
+    }
+    let label = el.attribute("A186")?.trim().trim_end_matches('+').trim();
+    if label.is_empty() {
+        return None;
+    }
+    let terminal = terminal_name(el);
+    Some(crate::symbols::PlcChannel {
+        family: family.into(),
+        input,
+        index,
+        designation: label.into(),
+        address: label.into(),
+        function_text: display_text(props.attribute("P20011").unwrap_or("")),
+        analog: Some(crate::symbols::AnalogSignal { terminal, data_type: data_type.into() }),
+    })
+}
+
+fn terminal_name(el: &Element) -> String {
+    let pin = el.attribute("A185").unwrap_or("").trim();
+    if plug(el).is_empty() {
+        pin.into()
+    } else {
+        format!("{}.{pin}", plug(el))
+    }
 }
 
 fn compatible_function(old: &UserSymbol, new: &UserSymbol) -> bool {

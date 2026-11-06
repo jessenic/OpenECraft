@@ -93,6 +93,8 @@ symbol), free channels of cards with a device description to drag into the page.
 
 ## PLC overview
 
+Beckhoff analog macros with one identifiable signal and its companion terminals produce one PLC point. On the EL3174, voltage input `U1` uses terminal 1 for the signal and terminal 9 for its reference. Both terminals can be wired separately. Current-mode representations are alternatives for the same four channels. Use the Insert center to select a particular representation. The PLC overview reports the signal terminal, and readdressing the card leaves analog channel labels intact. TwinCAT variable declarations preserve the supplied data type. Channels without a declared data type remain available on the sheet and in the overview.
+
 For Beckhoff EL1008 and EL2008, import the article XML with the matching EMA beside it. Place a part on the schematic to use its next available channel, or choose a particular multi-line channel in the Insert center. Channels from the same macro family share a card tag. Once all eight are placed, the next default drop starts another card. The PLC navigator lists the remaining channels after the first placement. The PLC overview edits addresses and function texts. Readdressing uses the imported channel order even when points are placed out of order. For example, channel 2 uses physical terminal 5 and bit 1. Set a different start byte for another card in the same address space. The EK1100 coupler retains its supply and bus connections.
 
 All inputs / outputs per card with connected devices, editable

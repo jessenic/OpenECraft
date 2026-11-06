@@ -17,12 +17,22 @@ pub struct Point {
     pub card: String,
     pub address: String,
     pub input: bool,
+    pub analog_type: Option<String>,
     pub channel: String,
     pub terminal: String,
     pub function_text: String,
     /// Devices connected to the point.
     pub connected: String,
     pub location: String,
+}
+
+impl Point {
+    pub fn io_kind(&self) -> &'static str {
+        match (self.analog_type.is_some(), self.input) {
+            (true, true) => "AI", (true, false) => "AO",
+            (false, true) => "DI", (false, false) => "DO",
+        }
+    }
 }
 
 fn is_plc(symbols: &crate::symlib::Symbols, s: &SymbolInst) -> bool {
@@ -76,9 +86,12 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
         }
         for (si, s) in pg.symbols.iter().enumerate() {
             let Some(def) = symbols.get(&s.sym).filter(|d| d.func == Func::Plc) else { continue };
+            let channel = def.plc_channel.as_ref();
+            let analog = channel.and_then(|c| c.analog.as_ref());
+            let signal_pin = analog.and_then(|a| def.pins.iter().position(|p| p.label == a.terminal)).unwrap_or(0);
             let connected = nl
                 .pin_net
-                .get(&(s.id, 0))
+                .get(&(s.id, signal_pin))
                 .map(|&n| {
                     let list = by_net.entry(n).or_insert_with(|| {
                         let mut t: Vec<(String, PinAt)> = nl.nets[n].pins.iter().map(|p| (pin_designation(prj, *p), (p.page, p.sym))).collect();
@@ -112,9 +125,10 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
                 id: s.id,
                 card: s.tag.clone(),
                 address: s.label.clone(),
-                input: def.digital_input().unwrap_or(s.sym == "plc_ai"),
+                input: channel.map(|c| c.input).or_else(|| def.digital_input()).unwrap_or(s.sym == "plc_ai"),
+                analog_type: analog.map(|a| a.data_type.clone()),
                 channel: def.plc_channel.as_ref().map(|c| c.designation.clone()).unwrap_or_default(),
-                terminal: s.pins.first().cloned().unwrap_or_default(),
+                terminal: s.pins.get(signal_pin).cloned().unwrap_or_default(),
                 function_text: crate::text::function_text(prj, pi, s).replace('\n', " "),
                 connected,
                 location: crate::frame::reference(prj, pi, s.pos),
@@ -204,7 +218,11 @@ pub fn symbol_table(prj: &Project, nl: &Netlist) -> String {
     let mut out = String::from("Name;Data Type;Logical Address;Comment\n");
     for (name, p) in tags(prj, nl) {
         let comment = tag_comment(&p).replace(';', ",");
-        out.push_str(&format!("{name};Bool;%{};{comment}\n", p.address.trim_start_matches('%')));
+        if let Some(ty) = &p.analog_type {
+            out.push_str(&format!("{name};{ty};{};{comment}\n", p.address));
+        } else {
+            out.push_str(&format!("{name};Bool;%{};{comment}\n", p.address.trim_start_matches('%')));
+        }
     }
     out
 }
@@ -214,6 +232,12 @@ pub fn symbol_table(prj: &Project, nl: &Netlist) -> String {
 pub fn global_variables(prj: &Project, nl: &Netlist) -> String {
     let mut groups: BTreeMap<String, Vec<String>> = BTreeMap::new();
     for (name, p) in tags(prj, nl) {
+        if let Some(ty) = &p.analog_type {
+            if !ty.is_empty() {
+                groups.entry(crate::plc_hw::card_domain(prj, &p.card)).or_default().push(format!("    {name} : {ty};"));
+            }
+            continue;
+        }
         let Some((input, byte, bit)) = absolute(prj, &p) else { continue };
         let comment = tag_comment(&p).replace("*)", "* )");
         let dir = if input { 'I' } else { 'Q' };
@@ -238,6 +262,7 @@ pub fn global_variables(prj: &Project, nl: &Netlist) -> String {
 /// Direction, byte and bit of a point in the process image: module relative
 /// addresses (Rockwell) are placed at the card's start byte.
 fn absolute(prj: &Project, p: &Point) -> Option<(bool, u32, u32)> {
+    if p.analog_type.is_some() { return None; }
     let a = crate::plc_hw::parse_address(&p.address)?;
     let data = prj.plc_cards.get(&p.card).cloned().unwrap_or_default();
     let byte = match a.slot {
@@ -266,6 +291,7 @@ pub fn tia_tags(prj: &Project, nl: &Netlist) -> Vec<Vec<String>> {
 /// Input or output, slot of the card (otherwise 1) and channel on the card of a point
 /// with a byte / bit address.
 fn channel(prj: &Project, p: &Point) -> Option<(bool, u32, u32)> {
+    if p.analog_type.is_some() { return None; }
     let a = crate::plc_hw::parse_address(&p.address)?;
     let data = prj.plc_cards.get(&p.card).cloned().unwrap_or_default();
     let start = if a.input { data.start_byte } else { data.output_byte.unwrap_or(data.start_byte) };
@@ -328,9 +354,11 @@ pub fn mitsubishi_comments(prj: &Project, nl: &Netlist) -> String {
 pub fn twincat_gvl(prj: &Project, nl: &Netlist) -> String {
     let mut decl = String::from("{attribute 'qualified_only'}\nVAR_GLOBAL\n");
     for (name, p) in tags(prj, nl) {
-        let Some((input, _, _)) = absolute(prj, &p) else { continue };
+        if p.analog_type.is_none() && absolute(prj, &p).is_none() { continue; }
         let comment = tag_comment(&p).replace('\n', " ");
-        decl.push_str(&format!("    {name} AT %{}* : BOOL; // {comment}\n", if input { 'I' } else { 'Q' }));
+        let ty = p.analog_type.as_deref().unwrap_or("BOOL");
+        if ty.is_empty() { continue; }
+        decl.push_str(&format!("    {name} AT %{}* : {ty}; // {comment}\n", if p.input { 'I' } else { 'Q' }));
     }
     decl.push_str("END_VAR\n");
     let decl = decl.replace("]]>", "]] >");
@@ -412,6 +440,7 @@ pub fn apply_texts(prj: &mut Project, domain: Option<&str>, texts: &BTreeMap<Add
 pub fn duplicate_addresses(prj: &Project, nl: &Netlist) -> Vec<(String, Vec<Point>)> {
     let mut by: BTreeMap<(String, AddressKey), Vec<Point>> = BTreeMap::new();
     for p in points(prj, nl) {
+        if p.analog_type.is_some() { continue; } // Local channel names do not allocate process-image addresses.
         by.entry((crate::plc_hw::card_domain(prj, &p.card), address_key(&p.address))).or_default().push(p);
     }
     by.into_values().filter(|v| v.len() > 1).map(|v| (v[0].address.clone(), v)).collect()

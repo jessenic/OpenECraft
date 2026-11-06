@@ -260,7 +260,7 @@ pub struct PinDef {
     pub label: &'static str,
 }
 
-/// A single digital channel represented by a vendor macro. The channel index is
+/// A single channel represented by a vendor macro. The channel index is
 /// zero based and independent of its physical terminal designation.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct PlcChannel {
@@ -270,6 +270,15 @@ pub struct PlcChannel {
     pub designation: String,
     pub address: String,
     pub function_text: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub analog: Option<AnalogSignal>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct AnalogSignal {
+    /// Authored physical signal terminal, independent of the order of the pins.
+    pub terminal: String,
+    pub data_type: String,
 }
 
 #[derive(Clone, Debug)]
@@ -301,7 +310,7 @@ impl SymbolDef {
         match self.key {
             "plc_in" => Some(true),
             "plc_out" => Some(false),
-            _ => self.plc_channel.as_ref().map(|c| c.input),
+            _ => self.plc_channel.as_ref().filter(|c| c.analog.is_none()).map(|c| c.input),
         }
     }
 

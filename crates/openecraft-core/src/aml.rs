@@ -30,6 +30,20 @@ fn role(w: &mut Writer, class: &str) {
     w.empty("RoleRequirements", &[("RefBaseRoleClassPath", &format!("{ROLES}/{class}"))]);
 }
 
+fn export_tag(w: &mut Writer, station: &str, name: &str, point: &crate::plc::Point) {
+    w.open("InternalElement", &[("ID", &guid(&format!("{station}/tag/{name}"))), ("Name", name)]);
+    let ty = point.analog_type.as_deref().unwrap_or("Bool");
+    if !ty.is_empty() {
+        attribute(w, "DataType", "xs:string", ty);
+    }
+    if point.analog_type.is_none() {
+        attribute(w, "LogicalAddress", "xs:string", &format!("%{}", point.address.trim_start_matches('%')));
+    }
+    attribute(w, "Comment", "xs:string", &crate::plc::tag_comment(point));
+    role(w, "Tag");
+    w.close("InternalElement");
+}
+
 fn type_identifier(d: Option<&DeviceDescription>) -> Option<String> {
     d.map(|d| if d.order_number.is_empty() { &d.id } else { &d.order_number }).map(|o| format!("OrderNumber:{o}"))
 }
@@ -147,12 +161,7 @@ pub fn export(prj: &Project, nl: &Netlist) -> String {
         if !own.is_empty() {
             w.open("InternalElement", &[("ID", &guid(&format!("{}/tags", st.name))), ("Name", "PLC tags")]);
             for (name, p) in own {
-                w.open("InternalElement", &[("ID", &guid(&format!("{}/tag/{name}", st.name))), ("Name", name)]);
-                attribute(&mut w, "DataType", "xs:string", "Bool");
-                attribute(&mut w, "LogicalAddress", "xs:string", &format!("%{}", p.address.trim_start_matches('%')));
-                attribute(&mut w, "Comment", "xs:string", &crate::plc::tag_comment(p));
-                role(&mut w, "Tag");
-                w.close("InternalElement");
+                export_tag(&mut w, &st.name, name, p);
             }
             role(&mut w, "TagTable");
             w.close("InternalElement");

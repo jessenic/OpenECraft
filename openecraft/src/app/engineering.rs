@@ -721,7 +721,7 @@ impl App {
                         ui.label(&p.terminal);
                         let mut addr = p.address.clone();
                         ui.add_sized([60.0, 20.0], egui::TextEdit::singleline(&mut addr));
-                        ui.label(if p.input { "DI" } else { "DO" });
+                        ui.label(p.io_kind());
                         let mut text = p.function_text.clone();
                         ui.add_sized([200.0, 20.0], egui::TextEdit::singleline(&mut text));
                         if addr != p.address || text != p.function_text {

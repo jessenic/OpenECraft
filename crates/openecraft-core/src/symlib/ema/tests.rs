@@ -1,6 +1,42 @@
 use super::*;
 
 #[test]
+fn analog_pair_is_one_symbolic_channel_even_when_the_reference_comes_first() {
+    use crate::{model::Project, netlist::Netlist, ops, plc};
+    let source = r#"<EplanPxfRoot Name="Analog" Type="WindowMacro"><MacroVariant MacroFuncType="1" VariantId="0" ReferencePoint="0/0/0">
+    <ESymLib ID="0" Name="SPECIAL"/><O4><O26>
+    <O17 A1261="0" A1262="13" A1263="0" A1381="300" A1382="3" A1383="7" A185="9" A186="U1-"><S61x183 A1061="1"/><P11 P20407="AI Standard Channel 1.Value"/><S40x1201 A762="8/0"/></O17>
+    <O17 A1261="0" A1262="13" A1263="0" A1381="300" A1382="1" A1383="4" A185="1" A186="U1+"><S61x183 A1061="1"/><P11 P20405="INT" P20407="AI Standard Channel 1.Value"/></O17>
+    </O26></O4></MacroVariant></EplanPxfRoot>"#;
+    for (code, kind) in [("4", "AI"), ("5", "AO")] {
+        let vs = decode(&source.replace("A1383=\"4\"", &format!("A1383=\"{code}\""))).unwrap();
+        let mut prj = Project::new_default();
+        import_project(&mut prj, &vs);
+        let def = prj.symbol(&vs[0].symbol.key).unwrap();
+        let s = ops::new_symbol(&mut prj, 0, &Default::default(), &def, p(40., 40.), 0, false);
+        assert_eq!(s.pins, ["9", "1"]);
+        assert_eq!(s.label, "U1");
+        let tag = s.tag.clone();
+        prj.pages[0].symbols.push(s);
+        assert_eq!(plc::readdress(&mut prj, &tag), 0);
+        let nl = Netlist::build(&prj, true);
+        let points = plc::points(&prj, &nl);
+        assert_eq!(points.len(), 1);
+        assert_eq!(points[0].io_kind(), kind);
+        assert_eq!(points[0].terminal, "1");
+        assert!(plc::twincat_gvl(&prj, &nl).contains("* : INT;"));
+        assert!(def.bridges.is_empty());
+    }
+    let different = source.replacen("Channel 1.Value", "Channel 2.Value", 1);
+    assert!(decode(&different).unwrap()[0].symbol.plc_channel.is_none());
+    let untyped = source.replace("P20405=\"INT\"", "").replace("AI Standard Channel 1.Value", "Ch1 Sample 0.Ch1 Value");
+    let vs = decode(&untyped).unwrap();
+    let channel = vs[0].symbol.plc_channel.as_ref().unwrap();
+    assert_eq!(channel.designation, "U1");
+    assert!(channel.analog.as_ref().unwrap().data_type.is_empty());
+}
+
+#[test]
 fn digital_channels_keep_their_card_bit_and_terminal_when_placed_out_of_order() {
     use crate::{model::Project, netlist::Netlist, ops, plc, unplaced};
     let source = |direction, index, pin| {

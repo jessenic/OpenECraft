@@ -323,7 +323,11 @@ pub fn placed_kinds(prj: &Project) -> std::collections::HashMap<&str, Vec<FnKind
 
 fn placed_kind(prj: &Project, key: &str) -> Option<FnKind> {
     kind_of_symbol(key).or_else(|| {
-        let input = prj.symbol(key)?.digital_input()?;
+        let def = prj.symbol(key)?;
+        if let Some(c) = def.plc_channel.as_ref().filter(|c| c.analog.is_some()) {
+            return Some(if c.input { FnKind::PlcAnalogInput } else { FnKind::PlcAnalogOutput });
+        }
+        let input = def.digital_input()?;
         Some(if input { FnKind::PlcInput } else { FnKind::PlcOutput })
     })
 }
