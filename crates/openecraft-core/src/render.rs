@@ -425,7 +425,16 @@ pub fn draw_prims(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink) {
                 let text_ink = if ink==Ink::Line {color.map(Ink::Color).unwrap_or(text_ink)} else {text_ink};
                 if let Some(angle) = angle {
                     let mut style = TextStyle::plain(*size, *anchor, VAnchor::Middle);
-                    style.angle = (if s.mirror { 180. - angle } else { *angle }) - 90. * s.rot as f32;
+                    let direction = (if s.mirror { 180. - angle } else { *angle }) - 90. * s.rot as f32;
+                    style.angle = (direction + 180.).rem_euclid(360.) - 180.;
+                    if style.angle > 90. || style.angle <= -90. {
+                        style.angle += if style.angle > 0. { -180. } else { 180. };
+                        style.h = match anchor {
+                            Anchor::Left => Anchor::Right,
+                            Anchor::Right => Anchor::Left,
+                            Anchor::Center => Anchor::Center,
+                        };
+                    }
                     let (sin,cos) = angle.to_radians().sin_cos();
                     for (i,line) in text.lines().enumerate() {
                         let offset = p(sin,cos) * (i as f32 * size * 1.25);

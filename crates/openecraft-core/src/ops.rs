@@ -460,6 +460,7 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
     Clip {
         magic: CLIP_MAGIC.into(),
         anchor: None,
+        symbol_defs: Default::default(),
         function: page.function.clone(),
         installation: page.installation.clone(),
         location: page.location.clone(),
@@ -563,6 +564,25 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
     if !b.is_valid() {
         return BTreeSet::new();
     }
+    let mut library_keys = HashMap::new();
+    for definition in clip.symbol_defs.iter() {
+        let mut incoming = definition.clone();
+        let mut suffix = 0;
+        loop {
+            match prj.symbols.iter().find(|s| s.key == incoming.key) {
+                Some(existing) if existing == &incoming => break,
+                Some(_) => {
+                    suffix += 1;
+                    incoming.key = format!("{}_import_{}", definition.key, suffix);
+                }
+                None => {
+                    prj.symbols.push(incoming.clone());
+                    break;
+                }
+            }
+        }
+        library_keys.insert(definition.key.as_str(), incoming.key);
+    }
     let d = paste_offset(clip, at);
     let existing: BTreeSet<String> = prj.all_tags().into_iter().collect();
     let mut rename: HashMap<String, String> = HashMap::new();
@@ -570,6 +590,9 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
     let mut symbols_out = Vec::new();
     for s in &clip.symbols {
         let mut s = s.clone();
+        if let Some(key) = library_keys.get(s.sym.as_str()) {
+            s.sym = key.clone();
+        }
         s.id = prj.new_id();
         s.pos = s.pos + d;
         if !s.tag.is_empty() {

@@ -146,7 +146,26 @@ fn hash_prim(prim: &Prim, h: &mut impl Hasher) {
 /// Fingerprint of a symbol list: changes whenever a symbol is added, removed or
 /// edited (so that a project's symbol table is rebuilt exactly then).
 pub fn fingerprint(list: &[UserSymbol]) -> u64 {
-    let mut h = std::collections::hash_map::DefaultHasher::new();
+    hash_symbols(list, std::collections::hash_map::DefaultHasher::new())
+}
+
+// Reproduce pre-v1 revisions saved on the other supported pointer width.
+pub(super) fn legacy_revision(symbol: &UserSymbol, width: u32) -> u64 {
+    struct LegacyHasher(std::collections::hash_map::DefaultHasher, u32);
+    impl Hasher for LegacyHasher {
+        fn finish(&self) -> u64 { self.0.finish() }
+        fn write(&mut self, bytes: &[u8]) { self.0.write(bytes); }
+        fn write_usize(&mut self, n: usize) {
+            if self.1 == 32 { self.0.write_u32(n as u32); } else { self.0.write_u64(n as u64); }
+        }
+        fn write_isize(&mut self, n: isize) {
+            if self.1 == 32 { self.0.write_i32(n as i32); } else { self.0.write_i64(n as i64); }
+        }
+    }
+    hash_symbols(std::slice::from_ref(symbol), LegacyHasher(Default::default(), width))
+}
+
+fn hash_symbols(list: &[UserSymbol], mut h: impl Hasher) -> u64 {
     list.len().hash(&mut h);
     for u in list {
         (&u.key, &u.name, &u.library, &u.letter, &u.default_label, u.auto_number, u.show_tag, u.show_pin_labels).hash(&mut h);

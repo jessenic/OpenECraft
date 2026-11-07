@@ -8,4 +8,4 @@
 mod archive;
 pub mod folder;
 
-pub use archive::{import, is_edz, read, Edz, EdzFile};
+pub use archive::{import, is_edz, read, text as decode_text, Edz, EdzFile};

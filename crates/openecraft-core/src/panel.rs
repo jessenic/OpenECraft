@@ -225,6 +225,20 @@ impl PanelItem {
         self.center() + p(0., self.rail_mount.center_offset)
     }
 
+    pub fn seated_on(&self, rail: &PanelItem) -> bool {
+        let anchor = self.rail_anchor();
+        self.kind == ItemKind::Device && rail.kind == ItemKind::Rail && rail.horizontal()
+            && self.face == rail.face && (rail.x..=rail.x + rail.w).contains(&anchor.x)
+            && (anchor.y - rail.center().y).abs() < 0.01
+            && (self.z + self.rail_mount.clip_on - rail.z - rail.d).abs() < 0.01
+    }
+
+    fn seat_on(&mut self, rail: &PanelItem) {
+        self.y = rail.center().y - self.h / 2.0 - self.rail_mount.center_offset;
+        self.z = rail.z + rail.d - self.rail_mount.clip_on;
+        self.seated_on_rail = true;
+    }
+
     pub fn horizontal(&self) -> bool {
         self.w >= self.h
     }
@@ -641,7 +655,7 @@ pub fn change_profile(prj: &mut Project, ei: usize, id: u64, part: &str) -> bool
     it.d = pd;
     it.part = part.into();
     if old.kind == ItemKind::Rail {
-        let on_rail: Vec<usize> = (0..e.items.len()).filter(|&j| e.items[j].kind == ItemKind::Device && e.items[j].face == old.face && old.rect().contains(e.items[j].rail_anchor())).collect();
+        let on_rail: Vec<usize> = (0..e.items.len()).filter(|&j| e.items[j].seated_on(&old)).collect();
         for j in on_rail {
             let mut dev = e.items[j].clone();
             snap_to_rail(e, &mut dev);
@@ -1087,6 +1101,7 @@ pub fn place_accessory(prj: &mut Project, enc: usize, part: &str, face: Face, at
 /// Devices whose centre lies on a horizontal rail are centred on it and mounted on
 /// top of it; otherwise they sit directly on the plate (or a wall of a room).
 pub fn snap_to_rail(e: &Enclosure, item: &mut PanelItem) {
+    item.seated_on_rail = false;
     if rack::snap_into_rack(e, item) {
         return;
     }
@@ -1107,10 +1122,7 @@ pub fn snap_to_rail(e: &Enclosure, item: &mut PanelItem) {
         })
         .min_by(|a, b| (c.y - a.center().y).abs().total_cmp(&(c.y - b.center().y).abs()));
     match rail {
-        Some(r) => {
-            item.y = r.center().y - item.h / 2.0 - item.rail_mount.center_offset;
-            item.z = r.z + r.d - item.rail_mount.clip_on;
-        }
+        Some(r) => item.seat_on(r),
         // Over a busbar system: mounted onto its bars.
         None => {
             let on = busbars(e, item).next().map_or(0.0, |b| b.z + b.d);

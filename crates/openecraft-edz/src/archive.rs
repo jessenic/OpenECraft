@@ -65,7 +65,7 @@ fn unpack_with_limit(bytes: &[u8], limit: u64) -> Result<Vec<(String, Vec<u8>)>,
 }
 
 /// Text of an XML file (UTF-8 or UTF-16 with byte order mark).
-pub(crate) fn text(data: &[u8]) -> String {
+pub fn text(data: &[u8]) -> String {
     match data {
         [0xFF, 0xFE, rest @ ..] => String::from_utf16_lossy(&rest.as_chunks::<2>().0.iter().map(|c| u16::from_le_bytes(*c)).collect::<Vec<_>>()),
         [0xFE, 0xFF, rest @ ..] => String::from_utf16_lossy(&rest.as_chunks::<2>().0.iter().map(|c| u16::from_be_bytes(*c)).collect::<Vec<_>>()),

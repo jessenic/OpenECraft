@@ -257,8 +257,7 @@ pub fn arrange_on_rail(e: &mut Enclosure, rail: u64, ids: &[u64], gap: f32) -> b
     for (id, _) in sel {
         if let Some(it) = e.items.iter_mut().find(|i| i.id == id) {
             it.x = at;
-            it.y = r.center().y - it.h / 2.0;
-            it.z = r.z + r.d;
+            it.seat_on(&r);
             at += it.w + gap;
         }
     }

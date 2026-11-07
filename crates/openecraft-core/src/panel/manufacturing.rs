@@ -149,9 +149,13 @@ pub(super) fn check(prj: &Project, e: &Enclosure, push: &mut impl FnMut(CheckKin
     }
     // Devices on rails: within the rail; rail devices need one.
     for it in e.items.iter().filter(|i| i.kind == ItemKind::Device && i.face == Face::Plate) {
-        let c = it.center();
-        let rail = e.items.iter().find(|r| {
-            r.kind == ItemKind::Rail && r.face == Face::Plate && r.horizontal() && c.x >= r.x && c.x <= r.x + r.w && (c.y - r.center().y).abs() <= it.h / 2.0 && it.z > 0.0
+        let anchor = it.rail_anchor();
+        // Older layouts can record only a raised device and an approximate rail profile.
+        let rail = e.items.iter().find(|r| it.seated_on(r)).or_else(|| {
+            e.items.iter().find(|r| {
+                it.z > 0. && r.kind == ItemKind::Rail && r.face == it.face && r.horizontal()
+                    && (r.x..=r.x + r.w).contains(&anchor.x) && (anchor.y - r.center().y).abs() <= it.h / 2.
+            })
         });
         match rail {
             Some(r) if it.x < r.x - 0.01 || it.x + it.w > r.x + r.w + 0.01 => {

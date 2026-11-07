@@ -2913,10 +2913,8 @@ impl PanelUi {
                 // Devices mounted on a moved rail move with it.
                 let mut ids = self.selection.clone();
                 for rail in e.items.iter().filter(|i| i.kind == ItemKind::Rail && self.selection.contains(&i.id)) {
-                    for dev in e.items.iter().filter(|i| i.kind == ItemKind::Device && i.z > 0.0) {
-                        if rail.rect().contains(dev.rail_anchor()) {
-                            ids.insert(dev.id);
-                        }
+                    for dev in e.items.iter().filter(|i| i.seated_on(rail)) {
+                        ids.insert(dev.id);
                     }
                 }
                 let originals = e.items.iter().filter(|i| ids.contains(&i.id)).map(|i| (i.id, i.x, i.y)).collect();

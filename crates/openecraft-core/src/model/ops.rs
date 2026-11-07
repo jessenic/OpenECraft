@@ -19,6 +19,9 @@ pub struct Clip {
     #[serde(skip_serializing_if = "String::is_empty")]
     pub product: String,
     pub symbols: Vec<SymbolInst>,
+    /// Definitions needed when this clip is inserted into another project.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub symbol_defs: super::symlib::SymbolList,
     pub wires: Vec<Wire>,
     pub texts: Vec<TextItem>,
     pub shapes: Vec<Shape>,

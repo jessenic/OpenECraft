@@ -74,6 +74,25 @@ fn analog_pair_is_one_symbolic_channel_even_when_the_reference_comes_first() {
         assert_eq!(points[0].terminal, "1");
         assert!(plc::twincat_gvl(&prj, &nl).contains("* : INT;"));
         assert!(def.bridges.is_empty());
+        let mut second = prj.pages[0].symbols[0].clone();
+        second.id = prj.new_id();
+        second.tag = "-A2".into();
+        second.function_text = "Pressure".into();
+        prj.pages[0].symbols[0].function_text = "Temperature".into();
+        prj.pages[0].symbols.push(second);
+        crate::plc_hw::auto_configure(&mut prj, false);
+        let net = Netlist::build(&prj, true);
+        let table = plc::symbol_table(&prj, &net);
+        let aml = crate::aml::export(&prj, &net);
+        for s in &mut prj.pages[0].symbols { s.function_text.clear(); }
+        assert_eq!(plc::import_symbol_table(&mut prj, &table).unwrap(), 2);
+        assert_eq!(prj.pages[0].symbols[0].function_text, "Temperature");
+        assert_eq!(prj.pages[0].symbols[1].function_text, "Pressure");
+        for s in &mut prj.pages[0].symbols { s.function_text.clear(); }
+        assert_eq!(crate::aml::import(&mut prj, &aml).unwrap().texts, 2);
+        assert_eq!(prj.pages[0].symbols[0].function_text, "Temperature");
+        assert_eq!(prj.pages[0].symbols[1].function_text, "Pressure");
+        assert_eq!(plc::import_symbol_table(&mut prj, "Address;Comment\nU1;Unqualified").unwrap(), 0);
     }
     let different = source.replacen("Channel 1.Value", "Channel 2.Value", 1);
     assert!(decode(&different).unwrap()[0].symbol.plc_channel.is_none());
@@ -226,6 +245,16 @@ fn referenced_devices_stay_separate_and_keep_the_macro_origin() {
     assert_eq!(list[0].devices[0].tag, "-A1");
     assert_eq!(list[0].devices[0].symbol.pins[0].pos, p(0., -4.));
     assert_eq!(list[0].devices[0].position, p(8., 8.));
+    let m = crate::macros::eplan_window(&list[0]).unwrap();
+    let stored = crate::macros::MacroLibrary::from_json(&serde_json::to_string(&m).unwrap()).unwrap();
+    let clip = stored.macros[0].resolve(&Default::default());
+    let mut target = crate::model::Project::new_default();
+    crate::ops::paste(&mut target, 0, &clip, p(24., 24.));
+    for instance in &target.pages[0].symbols {
+        let def = target.symbol(&instance.sym).unwrap();
+        assert!(!def.pins.is_empty() || !def.prims.is_empty());
+    }
+    assert_eq!(target.pages[0].symbols.len(), clip.symbols.len());
 }
 
 #[test]
@@ -282,6 +311,10 @@ fn omitted_zero_coordinates_are_drawn_inside_embedded_blocks() {
     let v = decode(&MACRO.replace("A531=\"0/0\" ", "").replace("<S31x5", "<S34x5 A621=\"1/1;;2/3\"/><S31x5")).unwrap();
     assert!(matches!(&v[0].symbol.prims[0],Prim::Poly{pts,..} if pts==&[p(3.,1.),p(2.,2.),p(4.,-1.)]));
     assert_eq!(v[0].symbol.prims[1], Prim::Line { a: p(2., 2.), b: p(4., -1.), dashed: false });
+    let graphics = r#"<S89x5 A1652="3/4"/><S32x5 A556="2/0" A554="1.57"/>"#;
+    let v = decode(&MACRO.replace("<S31x5", &format!("{graphics}<S31x5"))).unwrap();
+    assert!(matches!(&v[0].symbol.prims[0], Prim::Poly { pts, closed: true, .. } if pts[0] == p(2., 2.)));
+    assert!(matches!(&v[0].symbol.prims[1], Prim::Poly { pts, closed: false, .. } if pts[0] == p(4., 2.)));
 }
 
 #[test]
@@ -331,6 +364,13 @@ fn reimport_updates_source_graphics_and_preserves_changed_endpoints() {
     let mut symbols = Vec::new();
     install(&mut symbols, &v);
     let newer = decode(&MACRO.replace("A532=\"2/3\"", "A532=\"5/3\"")).unwrap();
+    assert_eq!(super::super::legacy_revision(&symbols[0], usize::BITS), super::super::fingerprint(&symbols));
+    for width in [32, 64] {
+        let mut legacy = symbols.clone();
+        legacy[0].ema_revision = Some(format!("{:016x}", super::super::legacy_revision(&legacy[0], width)));
+        install(&mut legacy, &newer);
+        assert_eq!(legacy[0], newer[0].symbol);
+    }
     install(&mut symbols, &newer);
     assert_eq!(symbols[0], newer[0].symbol);
     let moved = decode(&MACRO.replace("80/84", "84/84")).unwrap();

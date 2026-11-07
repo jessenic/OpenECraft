@@ -207,8 +207,8 @@ impl Reader<'_> {
                 Some(Prim::Line { a: f.at(local_point("A531")?), b: f.at(local_point("A532")?), dashed: false })
             }
             "S89x5" | "O89" => {
-                let a = q("A1651")?;
-                let b = q("A1652")?;
+                let a = local_point("A1651")?;
+                let b = local_point("A1652")?;
                 Some(Prim::Poly { pts: [a, p(b.x, a.y), b, p(a.x, b.y)].map(|q| f.at(q)).to_vec(), closed: true, fill: false })
             }
             "S34x5" | "O34" => {
@@ -251,10 +251,10 @@ impl Reader<'_> {
                 })
             }
             "S32x5" | "O32" => {
-                let center = q("A555")?;
+                let center = local_point("A555")?;
                 let radius = q("A556")?;
-                let start = number(el.attribute("A553")?)?;
-                let end = number(el.attribute("A554")?)?;
+                let start = number(el.attribute("A553").unwrap_or("0"))?;
+                let end = number(el.attribute("A554").unwrap_or("0"))?;
                 let mut sweep = (end - start).rem_euclid(std::f32::consts::TAU);
                 if sweep < 0.00001 {
                     sweep = std::f32::consts::TAU;
@@ -689,7 +689,25 @@ pub fn decode_source(text: &str, source: Option<&str>, mappings: &[UserSymbol]) 
 }
 
 fn revision(symbol: &UserSymbol) -> String {
-    format!("{:016x}", super::fingerprint(std::slice::from_ref(symbol)))
+    // FNV-1a over the serialized definition, excluding the revision itself.
+    let mut definition = symbol.clone();
+    definition.ema_revision = None;
+    let bytes = serde_json::to_vec(&definition).expect("serializable symbol definition");
+    let hash = bytes.iter().fold(0xcbf29ce484222325u64, |h, b| (h ^ u64::from(*b)).wrapping_mul(0x100000001b3));
+    format!("v1-{hash:016x}")
+}
+
+fn unedited(symbol: &UserSymbol) -> bool {
+    symbol.ema_revision.as_deref().is_some_and(|saved| {
+        if saved.starts_with("v1-") {
+            revision(symbol) == saved
+        } else {
+            u64::from_str_radix(saved, 16).is_ok_and(|old| {
+                old == super::fingerprint(std::slice::from_ref(symbol))
+                    || old == super::legacy_revision(symbol, if usize::BITS == 32 { 64 } else { 32 })
+            })
+        }
+    })
 }
 
 fn digital_point(contacts: &[&Element], family: &str, libraries: &BTreeMap<&str, &str>) -> Option<crate::symbols::PlcChannel> {
@@ -849,7 +867,7 @@ pub fn install(symbols: &mut Vec<UserSymbol>, variants: &[Variant]) -> usize {
         }
         if let Some(old) = symbols.iter_mut().find(|s| s.key == symbol.key) {
             if old.ema_revision != symbol.ema_revision
-                && old.ema_revision.as_ref().is_some_and(|r| r == &revision(old))
+                && unedited(old)
                 && old.pins == symbol.pins
                 && old.bridges == symbol.bridges
                 && compatible_function(old, symbol)
@@ -870,7 +888,7 @@ pub fn import_project(project: &mut crate::model::Project, variants: &[Variant])
     for new in variants.iter().flat_map(Variant::definitions) {
         let Some(old) = project.symbols.iter_mut().find(|s| s.key == new.key) else { continue };
         if new.ema_revision == old.ema_revision
-            || old.ema_revision.as_ref().is_none_or(|r| r != &revision(old))
+            || !unedited(old)
             || !compatible_function(old, new)
             || (new.prims.is_empty() && new.pins.is_empty())
         {

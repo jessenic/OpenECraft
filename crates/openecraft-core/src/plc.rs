@@ -403,13 +403,13 @@ pub fn import_symbol_table(prj: &mut Project, text: &str) -> Result<usize, Strin
     let addr_col = find(&["logical address", "address", "adresse"]).ok_or("no address column")?;
     let comment_col = find(&["comment", "kommentar"]);
     let name_col = find(&["name", "symbol"]);
-    let mut texts: BTreeMap<AddressKey, String> = BTreeMap::new();
+    let mut texts = Vec::new();
     for line in lines {
         let cells: Vec<&str> = line.split(sep).map(|c| c.trim().trim_matches('"')).collect();
         let Some(addr) = cells.get(addr_col).filter(|a| !a.is_empty()) else { continue };
         let comment = comment_col.and_then(|i| cells.get(i)).filter(|c| !c.is_empty());
         let text = comment.or(name_col.and_then(|i| cells.get(i))).map(|t| t.to_string()).unwrap_or_default();
-        texts.insert(address_key(addr), text);
+        texts.push((addr.to_string(), text));
     }
     Ok(apply_texts(prj, None, &texts))
 }
@@ -417,19 +417,40 @@ pub fn import_symbol_table(prj: &mut Project, text: &str) -> Result<usize, Strin
 /// Sets the function texts of the points by address (only on the cards of address
 /// space `domain` if given). A leading card tag (as in exported comments) is dropped.
 /// Returns the number of changed points.
-pub fn apply_texts(prj: &mut Project, domain: Option<&str>, texts: &BTreeMap<AddressKey, String>) -> usize {
+pub fn apply_texts(prj: &mut Project, domain: Option<&str>, texts: &[(String, String)]) -> usize {
     let symbols = prj.symbol_table();
-    let cards: HashSet<String> = cards(prj).into_iter().filter(|c| domain.is_none_or(|d| crate::plc_hw::card_domain(prj, c) == d)).collect();
-    let mut n = 0;
-    for pg in &mut prj.pages {
-        for s in pg.symbols.iter_mut().filter(|s| is_plc(&symbols, s) && (domain.is_none() || cards.contains(&s.tag))) {
-            if let Some(t) = texts.get(&address_key(&s.label)) {
-                let t = t.strip_prefix(&format!("{} ", s.tag)).unwrap_or(t).trim();
-                if !t.is_empty() && s.function_text != t {
-                    s.function_text = t.to_string();
-                    n += 1;
-                }
+    let cards: HashSet<_> = cards(prj).into_iter().filter(|c| domain.is_none_or(|d| crate::plc_hw::card_domain(prj, c) == d)).collect();
+    let local_key = |addr: &str| addr.trim().trim_start_matches('%').to_ascii_uppercase();
+    let analog = |s: &SymbolInst| symbols.get(&s.sym).is_some_and(|d| d.plc_channel.as_ref().is_some_and(|c| c.analog.is_some()));
+    let mut owners = BTreeMap::<String, HashSet<String>>::new();
+    for s in prj.pages.iter().flat_map(|p| &p.symbols).filter(|s| cards.contains(&s.tag) && analog(s)) {
+        owners.entry(local_key(&s.label)).or_default().insert(s.tag.clone());
+    }
+    let mut global = BTreeMap::new();
+    let mut local = BTreeMap::new();
+    for (address, text) in texts {
+        let key = local_key(address);
+        if let Some(tags) = owners.get(&key) {
+            let (prefix, rest) = text.trim().split_once(' ').unwrap_or((text.trim(), ""));
+            if tags.contains(prefix) {
+                local.insert((key, prefix.to_owned()), rest);
+            } else if tags.len() == 1 && !cards.contains(prefix) {
+                local.insert((key, tags.iter().next().unwrap().clone()), text);
             }
+        } else {
+            global.insert(address_key(address), text.as_str());
+        }
+    }
+    let mut n = 0;
+    for s in prj.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|s| cards.contains(&s.tag) && is_plc(&symbols, s)) {
+        let text = if analog(s) {
+            local.get(&(local_key(&s.label), s.tag.clone())).copied()
+        } else {
+            global.get(&address_key(&s.label)).map(|t| t.strip_prefix(&format!("{} ", s.tag)).unwrap_or(t))
+        };
+        if let Some(t) = text.map(str::trim).filter(|t| !t.is_empty() && *t != s.function_text) {
+            s.function_text = t.to_owned();
+            n += 1;
         }
     }
     n

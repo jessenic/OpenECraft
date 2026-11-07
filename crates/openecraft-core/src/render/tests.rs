@@ -34,6 +34,19 @@ impl Draw for Rec {
 }
 
 #[test]
+fn transformed_imported_labels_stay_upright_at_their_pin() {
+    let label = Prim::Text { pos: p(2., 0.), text: "U1".into(), size: 2., anchor: Anchor::Left, angle: Some(0.), color: None };
+    for (rot, mirror, anchor) in [(0, true, Anchor::Right), (2, false, Anchor::Right), (2, true, Anchor::Left)] {
+        let s = SymbolInst { rot, mirror, ..Default::default() };
+        let mut draw = Rec::default();
+        draw_prims(&mut draw, std::slice::from_ref(&label), &s, Ink::Line);
+        let (pos, _, style) = &draw.styled[0];
+        assert_eq!(*pos, p(2., 0.).transform(rot, mirror));
+        assert_eq!((style.angle, style.h), (0., anchor));
+    }
+}
+
+#[test]
 fn free_texts_are_drawn_with_style_background_and_link() {
     let mut prj = Project::default();
     prj.info.name = "Pump station".into();

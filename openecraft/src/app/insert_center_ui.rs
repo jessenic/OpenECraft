@@ -345,22 +345,19 @@ impl App {
             }
             Entry::Part(n) => {
                 let Some(p) = parts::lookup(&self.session.prj, Some(&self.parts_db), n).cloned() else { return };
-                if p.eplan_variants.is_empty() {
-                    self.arm_part(n,None);
-                } else {
+                if !p.eplan_variants.is_empty() {
                     self.insert_center.variant_part = Some(n.clone());
-                    if p.eplan_variants.iter().any(|v| !v["symbol"]["plc_channel"].is_null()) {
-                        self.arm_part(n, None);
-                    }
-                    for data in p.eplan_variants {
+                    // The representation previews use the selected article's definitions.
+                    for data in &p.eplan_variants {
                         if data["symbol"]["key"].as_str().is_some_and(|key| self.session.prj.symbol(key).is_some()) {
                             continue;
                         }
                         if let Ok(v) = serde::Deserialize::deserialize(data.as_ref()) {
-                            openecraft_core::symlib::ema::install(&mut self.session.prj.symbols,&[v]);
+                            openecraft_core::symlib::ema::install(&mut self.session.prj.symbols, &[v]);
                         }
                     }
                 }
+                self.arm_part(n, None);
             }
         }
         self.insert_center.used(&e);

@@ -8,7 +8,7 @@ use crate::model::*;
 use crate::netlist::Netlist;
 use crate::plc_hw::{self, BusKind, BusSystem, DescPort, DeviceDescription, ModuleKind, PortRef, Scheme, Station, StationKind};
 use crate::xml::{self, Element, Writer};
-use std::collections::{BTreeMap, BTreeSet, HashMap};
+use std::collections::{BTreeSet, HashMap};
 
 const ROLES: &str = "AutomationProjectConfigurationRoleClassLib";
 const INTERFACES: &str = "AutomationProjectConfigurationInterfaceClassLib";
@@ -36,7 +36,9 @@ fn export_tag(w: &mut Writer, station: &str, name: &str, point: &crate::plc::Poi
     if !ty.is_empty() {
         attribute(w, "DataType", "xs:string", ty);
     }
-    if point.analog_type.is_none() {
+    if point.analog_type.is_some() {
+        attribute(w, "LocalChannel", "xs:string", &point.address);
+    } else {
         attribute(w, "LogicalAddress", "xs:string", &format!("%{}", point.address.trim_start_matches('%')));
     }
     attribute(w, "Comment", "xs:string", &crate::plc::tag_comment(point));
@@ -291,7 +293,7 @@ struct Parsed {
     ends: HashMap<String, End>,
     links: Vec<(String, String, String)>,
     /// station -> address key -> text
-    texts: HashMap<String, BTreeMap<crate::plc::AddressKey, String>>,
+    texts: HashMap<String, Vec<(String, String)>>,
     /// Stations whose kind is given in the file.
     explicit: BTreeSet<String>,
 }
@@ -331,9 +333,9 @@ impl Parsed {
             if role_of(item) == "TagTable" {
                 let texts = self.texts.entry(st.name.clone()).or_default();
                 for tag in elements(item) {
-                    let Some(addr) = value(tag, "LogicalAddress") else { continue };
+                    let Some(addr) = value(tag, "LocalChannel").or_else(|| value(tag, "LogicalAddress")) else { continue };
                     let text = value(tag, "Comment").unwrap_or_else(|| tag.attr("Name").unwrap_or("").to_string());
-                    texts.insert(crate::plc::address_key(&addr), text);
+                    texts.push((addr, text));
                 }
                 continue;
             }

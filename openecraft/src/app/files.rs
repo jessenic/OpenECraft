@@ -278,11 +278,15 @@ impl App {
                 self.import_parts(ctx, &loaded.name, &loaded.bytes);
             }
             Purpose::Symbols | Purpose::Macros if loaded.name.to_ascii_lowercase().ends_with(".ema") => {
-                match openecraft_core::symlib::ema::decode_with_library(&loaded.text(), &self.session.prj.symbols) {
+                match openecraft_core::symlib::ema::decode_with_library(&openecraft_edz::decode_text(&loaded.bytes), &self.session.prj.symbols) {
                     Ok(variants) => {
                         let n = openecraft_core::symlib::ema::import_project(&mut self.session.prj, &variants);
                         for m in variants.iter().filter_map(openecraft_core::macros::eplan_window) {
-                            if self.macro_lib.get(&m.name).is_none() {self.macro_lib.upsert(m);}
+                            match self.macro_lib.macros.iter_mut().find(|old| old.name == m.name) {
+                                Some(old) if old.clip.symbol_defs.is_empty() => old.clip.symbol_defs = m.clip.symbol_defs,
+                                None => self.macro_lib.upsert(m),
+                                _ => {}
+                            }
                         }
                         let issues = variants.iter().filter(|v| !v.warnings.is_empty()).count();
                         self.symed.open = true;
@@ -421,14 +425,6 @@ impl App {
                         if let Some(old) = self.session.prj.parts.iter_mut().find(|old| old.number == p.number) {
                             old.eplan_variants = p.eplan_variants.clone();
                             old.mounting_data.rail = p.mounting_data.rail;
-                        }
-                    }
-                    for value in &p.eplan_variants {
-                        if let Ok(v) = serde::Deserialize::deserialize(value.as_ref()) {
-                            if let Some(m) = openecraft_core::macros::eplan_window(&v) {
-                                if self.macro_lib.get(&m.name).is_none() {self.macro_lib.upsert(m);}
-                            }
-                            openecraft_core::symlib::ema::import_project(&mut self.session.prj, &[v]);
                         }
                     }
                     self.parts_db.upsert(p);

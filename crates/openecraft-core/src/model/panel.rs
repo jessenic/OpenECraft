@@ -148,6 +148,8 @@ pub struct PanelItem {
     pub z: f32,
     #[serde(default, skip_serializing_if = "openecraft_parts::RailMount::is_centered")]
     pub rail_mount: openecraft_parts::RailMount,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub seated_on_rail: bool,
     /// Round cutout (diameter = width).
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub round: bool,
@@ -177,21 +179,13 @@ impl super::Project {
         for e in &mut self.layout.enclosures {
             for i in 0..e.items.len() {
                 let item = &e.items[i];
-                let Some(&new) = mounts.get(item.part.as_str()) else { continue };
-                if item.kind != ItemKind::Device || item.rail_mount == new {
+                if item.kind != ItemKind::Device {
                     continue;
                 }
-                let anchor = item.rail_anchor();
-                let seated = e.items.iter().any(|r| {
-                    r.kind == ItemKind::Rail
-                        && r.face == item.face
-                        && r.horizontal()
-                        && anchor.x >= r.x
-                        && anchor.x <= r.x + r.w
-                        && (anchor.y - r.center().y).abs() < 0.01
-                        && (item.z + item.rail_mount.clip_on - r.z - r.d).abs() < 0.01
-                });
+                let seated = e.items.iter().any(|rail| item.seated_on(rail));
                 let item = &mut e.items[i];
+                item.seated_on_rail = seated;
+                let Some(&new) = mounts.get(item.part.as_str()) else { continue };
                 if seated {
                     item.y += item.rail_mount.center_offset - new.center_offset;
                     item.z += item.rail_mount.clip_on - new.clip_on;

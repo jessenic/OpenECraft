@@ -67,6 +67,17 @@ fn rail_datum_controls_preview_snap_and_old_project_recovery() {
     legacy.rail_mount = Default::default();
     let reopened = Project::from_json(&prj.to_json()).unwrap();
     assert!((reopened.layout.enclosures[0].item(id).unwrap().y - 36.2).abs() < 0.001);
+    let e = &mut prj.layout.enclosures[0];
+    for clip in [7.5, 10.0] {
+        let item = e.items.iter_mut().find(|i| i.id == next).unwrap();
+        item.rail_mount.clip_on = clip;
+        assert!(placement::arrange_on_rail(e, 100, &[next], 1.));
+        let item = e.item(next).unwrap();
+        assert!(item.seated_on(e.item(100).unwrap()));
+        assert!((item.y - 36.2).abs() < 0.001);
+        assert_eq!(item.z, 7.5 - clip);
+        assert_eq!(Fastening::resolve(item, None), Fastening::Clip);
+    }
 }
 
 #[test]

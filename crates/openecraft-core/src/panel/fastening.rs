@@ -60,7 +60,7 @@ impl Fastening {
         }
         match (it.kind, it.face) {
             (ItemKind::Cutout, _) => Fastening::Clip,
-            (ItemKind::Device, Face::Plate) if it.z > 0.01 => Fastening::Clip,
+            (ItemKind::Device, Face::Plate) if it.seated_on_rail || it.z > 0.01 => Fastening::Clip,
             (ItemKind::Device, Face::Door) => Fastening::Clip,
             (ItemKind::Duct, Face::Door) => Fastening::Adhesive,
             (_, Face::Plate) => Fastening::Tapped,

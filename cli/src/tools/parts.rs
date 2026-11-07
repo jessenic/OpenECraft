@@ -537,7 +537,8 @@ fn import_eplan_symbols(s: &mut Session, a: &Args) -> Result<Value, String> {
     let path = std::path::absolute(a.req("path")).map_err(|e| e.to_string())?;
     let project = s.project_mut()?;
     let (parts, variants) = if path.extension().is_some_and(|ext| ext.eq_ignore_ascii_case("ema")) && path.is_file() {
-        let text = std::fs::read_to_string(&path).map_err(|e| e.to_string())?;
+        let bytes = std::fs::read(&path).map_err(|e| e.to_string())?;
+        let text = openecraft_edz::decode_text(&bytes);
         (Vec::new(), ema::decode_with_library(&text, &project.symbols)?)
     } else {
         let package = if path.is_dir() {

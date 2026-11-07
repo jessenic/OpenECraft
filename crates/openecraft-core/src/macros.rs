@@ -51,6 +51,7 @@ pub fn eplan_window(v: &crate::symlib::ema::Variant) -> Option<Macro> {
         if symbol.prims.is_empty() && symbol.pins.is_empty() {
             continue;
         }
+        clip.symbol_defs.push(symbol.clone());
         clip.symbols.push(SymbolInst {
             id: clip.symbols.len() as u64 + 1,
             sym: symbol.key.clone(),
