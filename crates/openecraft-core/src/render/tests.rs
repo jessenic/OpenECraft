@@ -1,5 +1,22 @@
 use super::*;
 
+#[test]
+fn imported_pin_fields_follow_instance_designations_and_explicit_angles() {
+    let mut prj = Project::default();
+    prj.symbols.push(crate::symlib::UserSymbol {
+        key: "user:pin_field".into(), show_tag: false,
+        pins: vec![crate::symlib::UserPin { pos: p(0., 0.), label: "13".into() }],
+        prims: vec![Prim::Field { kind: FieldKind::Pin(0), pos: p(0., 2.), size: 2., anchor: Anchor::Left, angle: Some(90.) }],
+        ..Default::default()
+    });
+    prj.pages[0].symbols.push(SymbolInst { id: 2, sym: "user:pin_field".into(), pos: p(40., 40.), rot: 1, pins: vec!["99".into()], ..Default::default() });
+    let analysis = Analysis::with_builtin(&prj);
+    let mut draw = Rec::default();
+    draw_page(&mut draw, &prj, &analysis.index, &analysis, 0, &Opts::default());
+    let field = draw.styled.iter().find(|(_, text, _)| text == "99").unwrap();
+    assert_eq!(field.2.angle, 0.);
+}
+
 #[derive(Default)]
 struct Rec {
     rects: Vec<(P, P)>,

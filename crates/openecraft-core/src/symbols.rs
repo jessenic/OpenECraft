@@ -64,6 +64,10 @@ pub enum Func {
     Main { mirror: bool },
     /// Auxiliary function, belongs to the main function with the same tag.
     Aux(ContactKind),
+    /// Additional device function without a contact classification.
+    Auxiliary,
+    /// Local connection node; its internal bridges define the connected paths.
+    Junction,
     /// Terminal: tag = terminal strip, label = terminal number.
     Terminal,
     /// PLC connection point: tag = PLC card, label = address.
@@ -83,7 +87,7 @@ pub enum Func {
 
 impl Func {
     pub fn has_tag(self) -> bool {
-        !matches!(self, Func::Potential | Func::Interruption)
+        !matches!(self, Func::Potential | Func::Interruption | Func::Junction)
     }
 
     /// Terminals and plug pins: their sides are separate connections that the
@@ -93,7 +97,7 @@ impl Func {
     }
 
     /// All functions a symbol can have (symbol editor).
-    pub const ALL: [Func; 18] = [
+    pub const ALL: [Func; 20] = [
         Func::Main { mirror: false },
         Func::Main { mirror: true },
         Func::Aux(ContactKind::No),
@@ -112,6 +116,8 @@ impl Func {
         Func::Potential,
         Func::Interruption,
         Func::Overview,
+        Func::Auxiliary,
+        Func::Junction,
     ];
 
     pub fn title(self) -> &'static str {
@@ -134,6 +140,8 @@ impl Func {
             Func::Potential => tr("Potential"),
             Func::Interruption => tr("Interruption point"),
             Func::Overview => tr("Overview / single-line"),
+            Func::Auxiliary => tr("Auxiliary function"),
+            Func::Junction => tr("Junction"),
         }
     }
 }
@@ -236,14 +244,26 @@ pub enum Anchor {
     Right,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum FieldKind {
     Label,
     Tag,
+    Pin(usize),
+}
+
+/// Connectivity domain of an imported or user-defined symbol.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum SymbolDomain {
+    #[default]
+    Electrical,
+    Fluid,
+    Process,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum Prim {
+    /// Embedded bitmap with local corners in texture order (top left clockwise).
+    Image { name: String, data: openecraft_parts::Shared<String>, corners: [P; 4] },
     Line { a: P, b: P, dashed: bool },
     Poly { pts: Vec<P>, closed: bool, fill: bool },
     /// Vector path with an explicit stroke from a symbol library.
@@ -251,7 +271,7 @@ pub enum Prim {
     Circle { c: P, r: f32, fill: bool, #[serde(default, skip_serializing_if = "Option::is_none")] color: Option<[u8;3]> },
     Text { pos: P, text: String, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32>, #[serde(default, skip_serializing_if = "Option::is_none")] color: Option<[u8;3]> },
     /// Instance property drawn at this position (stays horizontal when rotated).
-    Field { kind: FieldKind, pos: P, size: f32, anchor: Anchor },
+    Field { kind: FieldKind, pos: P, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32> },
 }
 
 #[derive(Clone, Debug)]
@@ -412,7 +432,7 @@ impl B {
         self
     }
     fn field(&mut self, kind: FieldKind, x: f32, y: f32, size: f32, anchor: Anchor) -> &mut Self {
-        self.prims.push(Prim::Field { kind, pos: p(x, y), size, anchor });
+        self.prims.push(Prim::Field { kind, pos: p(x, y), size, anchor, angle: None });
         self
     }
     fn pin(&mut self, x: f32, y: f32, label: &'static str) -> &mut Self {
@@ -544,6 +564,7 @@ pub fn bounds_of(prims: &[Prim], pins: impl Iterator<Item = P>) -> R {
                 bounds.extend(*b);
             }
             Prim::Poly { pts, .. } | Prim::Path {pts,..} => pts.iter().for_each(|q| bounds.extend(*q)),
+            Prim::Image { corners, .. } => corners.iter().for_each(|q| bounds.extend(*q)),
             Prim::Circle { c, r, .. } => {
                 bounds.extend(p(c.x - r, c.y - r));
                 bounds.extend(p(c.x + r, c.y + r));

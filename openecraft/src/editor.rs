@@ -291,6 +291,27 @@ impl Draw for EguiDraw<'_> {
         }
     }
 
+    fn image_quad(&mut self, img: &ImageItem, corners: &[P; 4]) {
+        let key = egui::Id::unique(("symbol-bitmap", fingerprint(&img.file)));
+        let texture = self.painter.ctx().data_mut(|data| data.get_temp::<Option<egui::TextureHandle>>(key));
+        let texture = texture.unwrap_or_else(|| {
+            let texture = decode_image(&img.file).map(|image| self.painter.ctx().load_texture(
+                format!("symbol-bitmap-{}", img.id), image, egui::TextureOptions::LINEAR));
+            self.painter.ctx().data_mut(|data| data.insert_temp(key, texture.clone()));
+            texture
+        });
+        if let Some(texture) = texture.filter(|_| self.force.is_none()) {
+            let mut mesh = Mesh::with_texture(texture.id());
+            for (corner, uv) in corners.iter().zip([pos2(0., 0.), pos2(1., 0.), pos2(1., 1.), pos2(0., 1.)]) {
+                mesh.vertices.push(egui::epaint::Vertex { pos: self.w2s(*corner), uv, color: Color32::WHITE });
+            }
+            mesh.indices.extend_from_slice(&[0, 1, 2, 0, 2, 3]);
+            self.painter.add(EShape::mesh(mesh));
+        } else {
+            render::image_placeholder(self, img);
+        }
+    }
+
     fn image(&mut self, img: &ImageItem) {
         let tex = self.textures.and_then(|t| t.get(&img.id)).and_then(|t| t.1.as_ref());
         match (tex, self.force) {

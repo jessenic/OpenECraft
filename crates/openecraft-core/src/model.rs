@@ -77,6 +77,9 @@ pub struct Project {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub sections: Vec<Section>,
     pub parts: Vec<Part>,
+    /// Source-format records retained by importers for data without a native field.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub import_sources: BTreeMap<String, openecraft_parts::Shared<serde_json::Value>>,
     /// Device level data (article assignment etc.) keyed by device tag.
     pub devices: BTreeMap<String, DeviceData>,
     /// Panel layout (enclosures, mounting plates, rails, ducts, devices).
@@ -198,6 +201,7 @@ impl Default for Project {
             pages: Vec::new(),
             sections: Vec::new(),
             parts: Vec::new(),
+            import_sources: BTreeMap::new(),
             devices: BTreeMap::new(),
             layout: Layout::default(),
             cables: Vec::new(),

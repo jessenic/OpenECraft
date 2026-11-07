@@ -1,6 +1,19 @@
 use super::*;
 use crate::model::PageKind;
 
+#[test]
+fn imported_source_records_participate_in_project_data_and_merge() {
+    let mut source = Project::default();
+    source.import_sources.insert("catalog".into(), openecraft_parts::Shared::new(serde_json::json!({"table": [1, 2]})));
+    let mut target = Project::default();
+    assert!(!same_data(&source, &target));
+    with_data(&mut target, &source);
+    assert!(same_data(&source, &target));
+    let text = serde_json::to_string(&target).unwrap();
+    let restored: Project = serde_json::from_str(&text).unwrap();
+    assert_eq!(restored.import_sources, source.import_sources);
+}
+
 fn project() -> Project {
     let mut prj = Project::default();
     let id = prj.new_id();

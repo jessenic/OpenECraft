@@ -1,7 +1,7 @@
 //! Data of `crate::symlib` that the project file holds (see `docs/architecture.md`).
 
 use crate::geom::P;
-use crate::symbols::{Func, Prim};
+use crate::symbols::{Func, Prim, SymbolDomain};
 use openecraft_parts::Shared;
 use serde::{Deserialize, Serialize};
 use std::ops::{Deref, DerefMut};
@@ -38,12 +38,16 @@ pub struct UserSymbol {
     /// Fingerprint of the last imported EMA definition; used to preserve local edits.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ema_revision: Option<String>,
+    /// Stable source identifiers and vendor properties retained by importers.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source_data: Option<Shared<serde_json::Value>>,
     pub name: String,
     /// Library (group in the symbol list), e.g. the company name.
     pub library: String,
     /// Identifying letter(s) for new device tags.
     pub letter: String,
     pub func: Func,
+    pub domain: SymbolDomain,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plc_channel: Option<crate::symbols::PlcChannel>,
     pub default_label: String,

@@ -111,6 +111,19 @@ impl Draw for SvgDraw {
         );
     }
 
+    fn image_quad(&mut self, img: &crate::model::ImageItem, corners: &[P; 4]) {
+        let mime = img.file.mime();
+        if !mime.starts_with("image/") || img.file.data.is_empty() {
+            crate::render::image_placeholder(self, img);
+            return;
+        }
+        let u = corners[1] - corners[0];
+        let v = corners[3] - corners[0];
+        let _ = writeln!(self.out,
+            "<image width=\"1\" height=\"1\" preserveAspectRatio=\"none\" transform=\"matrix({:.6} {:.6} {:.6} {:.6} {:.6} {:.6})\" href=\"data:{mime};base64,{}\"/>",
+            u.x, u.y, v.x, v.y, corners[0].x, corners[0].y, img.file.data);
+    }
+
     fn image(&mut self, img: &crate::model::ImageItem) {
         let mime = img.file.mime();
         if !mime.starts_with("image/") || img.file.data.is_empty() {

@@ -1,6 +1,20 @@
 use super::*;
 
 #[test]
+fn vendor_neutral_part_assignment_uses_the_project_symbol() {
+    let mut prj = crate::model::Project::default();
+    prj.symbols.push(crate::symlib::UserSymbol {
+        key: "user:vendor_part".into(),
+        pins: vec![crate::symlib::UserPin { pos: p(0., 0.), label: "11".into() }],
+        ..Default::default()
+    });
+    let part = openecraft_parts::Part { number: "vendor.part".into(), symbol: "user:vendor_part".into(), ..Default::default() };
+    let (key, pins) = part_symbol(&mut prj, &part, None).unwrap();
+    assert_eq!(key, "user:vendor_part");
+    assert_eq!(pins, vec!["11"]);
+}
+
+#[test]
 fn repeating_a_card_uses_each_channel_then_starts_a_new_device() {
     use crate::{model::Project, ops, parts};
     let mut source = String::from(r#"<EplanPxfRoot Name="Card" Type="WindowMacro">"#);

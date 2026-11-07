@@ -29,6 +29,9 @@ pub fn symbol_for(kind: FnKind) -> Option<&'static str> {
 /// designations: those of its first function that has a symbol (a contactor's coil,
 /// a breaker's main contacts). `None` for parts without one (enclosures, rails).
 pub fn part_symbol(part: &parts::Part) -> Option<(&'static str, Vec<String>)> {
+    if !part.symbol.is_empty() {
+        return None;
+    }
     part.functions.iter().find_map(|f| symbol_for(f.kind).map(|s| (s, f.pin_list())))
 }
 

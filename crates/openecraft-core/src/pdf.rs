@@ -456,6 +456,19 @@ impl Draw for PdfDraw {
         self.urls.push(([x(min.x), self.y(max.y), x(max.x), self.y(min.y)], url.to_string()));
     }
 
+    fn image_quad(&mut self, img: &crate::model::ImageItem, corners: &[P; 4]) {
+        let Some(pi) = img.file.bytes().ok().and_then(|b| pdf_image(&b)) else {
+            crate::render::image_placeholder(self, img);
+            return;
+        };
+        let u = corners[2] - corners[3];
+        let v = corners[0] - corners[3];
+        let n = self.images.len();
+        self.images.push(pi);
+        let _ = writeln!(self.ops, "q {:.6} {:.6} {:.6} {:.6} {:.6} {:.6} cm /Im{n} Do Q",
+            u.x * K, -u.y * K, v.x * K, -v.y * K, x(corners[3].x), self.y(corners[3].y));
+    }
+
     fn image(&mut self, img: &crate::model::ImageItem) {
         let Some(pi) = img.file.bytes().ok().and_then(|b| pdf_image(&b)) else {
             crate::render::image_placeholder(self, img);

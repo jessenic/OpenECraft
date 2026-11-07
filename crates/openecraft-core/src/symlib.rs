@@ -6,7 +6,7 @@
 use openecraft_i18n::{tr, tr_fmt};
 use crate::geom::{dist_to_segment, p, P, GRID};
 use crate::model::Project;
-use crate::symbols::{self, Anchor, Category, FieldKind, Func, PinDef, Prim, SymbolDef, SymbolRef};
+use crate::symbols::{self, Anchor, Category, FieldKind, Func, PinDef, Prim, SymbolDef, SymbolRef, SymbolDomain};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
@@ -25,11 +25,13 @@ impl Default for UserSymbol {
         UserSymbol {
             key: String::new(),
             ema_revision: None,
+            source_data: None,
             plc_channel: None,
             name: "New symbol".into(),
             library: "User".into(),
             letter: "A".into(),
             func: Func::Main { mirror: false },
+            domain: SymbolDomain::Electrical,
             default_label: String::new(),
             auto_number: false,
             show_tag: true,
@@ -81,7 +83,11 @@ pub(crate) fn to_def(u: &UserSymbol) -> SymbolDef {
     SymbolDef {
         key: intern(&u.key),
         name: intern(&u.name),
-        category: Category::User,
+        category: match u.domain {
+            SymbolDomain::Electrical => Category::User,
+            SymbolDomain::Fluid => Category::Fluid,
+            SymbolDomain::Process => Category::Process,
+        },
         library: intern(&u.library),
         letter: intern(&u.letter),
         func: u.func,
@@ -105,6 +111,11 @@ fn hash_point(q: P, h: &mut impl Hasher) {
 fn hash_prim(prim: &Prim, h: &mut impl Hasher) {
     std::mem::discriminant(prim).hash(h);
     match prim {
+        Prim::Image { name, data, corners } => {
+            for q in corners { hash_point(*q, h); }
+            name.hash(h);
+            data.as_str().hash(h);
+        }
         Prim::Line { a, b, dashed } => {
             hash_point(*a, h);
             hash_point(*b, h);
@@ -134,11 +145,12 @@ fn hash_prim(prim: &Prim, h: &mut impl Hasher) {
             size.to_bits().hash(h);
             std::mem::discriminant(anchor).hash(h);
         }
-        Prim::Field { pos, size, anchor, kind } => {
+        Prim::Field { pos, size, anchor, kind, angle } => {
+            angle.map(f32::to_bits).hash(h);
             hash_point(*pos, h);
             size.to_bits().hash(h);
             std::mem::discriminant(anchor).hash(h);
-            std::mem::discriminant(kind).hash(h);
+            kind.hash(h);
         }
     }
 }
@@ -170,6 +182,7 @@ fn hash_symbols(list: &[UserSymbol], mut h: impl Hasher) -> u64 {
     for u in list {
         (&u.key, &u.name, &u.library, &u.letter, &u.default_label, u.auto_number, u.show_tag, u.show_pin_labels).hash(&mut h);
         format!("{:?}", u.func).hash(&mut h);
+        std::mem::discriminant(&u.domain).hash(&mut h);
         if let Some(channel) = &u.plc_channel {
             // Keep revisions of digital definitions imported by earlier versions.
             (&channel.family, channel.input, channel.index, &channel.designation, &channel.address, &channel.function_text).hash(&mut h);
@@ -275,10 +288,16 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
     UserSymbol {
         key: new_key(existing, &name),
         ema_revision: None,
+        source_data: None,
         name,
         library: "User".into(),
         letter: def.letter.into(),
         func: def.func,
+        domain: match def.category {
+            Category::Fluid => SymbolDomain::Fluid,
+            Category::Process => SymbolDomain::Process,
+            _ => SymbolDomain::Electrical,
+        },
         plc_channel: def.plc_channel.clone(),
         default_label: def.default_label.into(),
         auto_number: def.auto_number,
@@ -349,6 +368,11 @@ pub enum Hit {
 /// Distance from `q` to a graphic primitive.
 pub fn prim_distance(prim: &Prim, q: P) -> f32 {
     match prim {
+        Prim::Image { corners, .. } => {
+            if inside(corners, q) { 0.0 } else {
+                (0..4).map(|i| dist_to_segment(q, corners[i], corners[(i + 1) % 4])).fold(f32::INFINITY, f32::min)
+            }
+        }
         Prim::Line { a, b, .. } => dist_to_segment(q, *a, *b),
         Prim::Poly { pts, closed, fill } | Prim::Path {pts,closed,fill,..} => {
             let mut d = pts.windows(2).map(|s| dist_to_segment(q, s[0], s[1])).fold(f32::INFINITY, f32::min);
@@ -369,9 +393,11 @@ pub fn prim_distance(prim: &Prim, q: P) -> f32 {
             let d = q - *pos;
             text_distance(*pos,text,*size,*anchor,*pos + p(c*d.x-s*d.y,s*d.x+c*d.y))
         }
-        Prim::Field { pos, size, anchor, kind } => {
+        Prim::Field { pos, size, anchor, kind, angle } => {
             let sample = if *kind == FieldKind::Tag { "-K1" } else { "1" };
-            text_distance(*pos, sample, *size, *anchor, q)
+            let (s, c) = angle.unwrap_or_default().to_radians().sin_cos();
+            let d = q - *pos;
+            text_distance(*pos, sample, *size, *anchor, *pos + p(c * d.x - s * d.y, s * d.x + c * d.y))
         }
     }
 }
@@ -418,6 +444,9 @@ pub fn hit(u: &UserSymbol, q: P, tol: f32) -> Option<Hit> {
 /// Moves a primitive by `d`.
 pub fn translate(prim: &mut Prim, d: P) {
     match prim {
+        Prim::Image { corners, .. } => {
+            for q in corners { *q = *q + d; }
+        }
         Prim::Line { a, b, .. } => {
             *a = *a + d;
             *b = *b + d;

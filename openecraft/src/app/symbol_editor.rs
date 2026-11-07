@@ -311,6 +311,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
         Some(Hit::Prim(i)) if i < u.prims.len() => {
             let prim = &mut u.prims[i];
             let kind = match prim {
+                Prim::Image { .. } => tr("Image"),
                 Prim::Line { .. } => tr("Line"),
                 Prim::Poly { .. } | Prim::Path {..} => tr("Polyline / rectangle"),
                 Prim::Circle { .. } => tr("Circle"),
@@ -319,6 +320,11 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
             };
             ui.label(RichText::new(kind).strong());
             egui::Grid::new("primprops").num_columns(2).show(ui, |ui| match prim {
+                Prim::Image { corners, .. } => {
+                    for corner in corners {
+                        point_edit(ui, tr("Position"), corner, 0.1);
+                    }
+                }
                 Prim::Line { a, b, dashed } => {
                     point_edit(ui, tr("Start"), a, 0.1);
                     point_edit(ui, tr("End"), b, 0.1);
@@ -356,18 +362,30 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     ui.end_row();
                     anchor_edit(ui, anchor);
                 }
-                Prim::Field { kind, pos, size, anchor } => {
+                Prim::Field { kind, pos, size, anchor, angle } => {
                     ui.label(tr("Shows"));
                     ui.horizontal(|ui| {
                         ui.selectable_value(kind, FieldKind::Tag, tr("Device tag"));
                         ui.selectable_value(kind, FieldKind::Label, tr("Label"));
+                        ui.selectable_value(kind, FieldKind::Pin(0), tr("Connection point"));
                     });
                     ui.end_row();
+                    if let FieldKind::Pin(index) = kind {
+                        ui.label(tr("Connection point"));
+                        ui.add(egui::DragValue::new(index).speed(1));
+                        ui.end_row();
+                    }
                     point_edit(ui, tr("Position"), pos, 0.1);
                     ui.label(tr("Size"));
                     ui.add(egui::DragValue::new(size).speed(0.1).range(0.5..=20.0));
                     ui.end_row();
                     anchor_edit(ui, anchor);
+                    ui.label(tr("Angle"));
+                    let mut degrees = angle.unwrap_or_default();
+                    if ui.add(egui::DragValue::new(&mut degrees).range(-360.0..=360.)).changed() {
+                        *angle = Some(degrees);
+                    }
+                    ui.end_row();
                 }
             });
             match prim {
@@ -530,7 +548,7 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
         }
         (SymTool::TagField | SymTool::LabelField, Some(q)) if clicked => {
             let kind = if se.tool == SymTool::TagField { FieldKind::Tag } else { FieldKind::Label };
-            u.prims.push(Prim::Field { kind, pos: q, size: 2.2, anchor: Anchor::Left });
+            u.prims.push(Prim::Field { kind, pos: q, size: 2.2, anchor: Anchor::Left, angle: None });
             se.hit = Some(Hit::Prim(u.prims.len() - 1));
         }
         (SymTool::Line | SymTool::Rect | SymTool::Circle, Some(q)) if clicked => match se.start.take() {
@@ -551,7 +569,10 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
 
     // Drawing
     let mut d = EguiDraw { painter: &painter, origin, zoom: se.zoom, pal: &pal, force: None, mirror: None, textures: None };
-    let inst = SymbolInst { tag: "-K1".into(), label: if u.default_label.is_empty() { "1".into() } else { u.default_label.clone() }, ..Default::default() };
+    let inst = SymbolInst {
+        tag: "-K1".into(), label: if u.default_label.is_empty() { "1".into() } else { u.default_label.clone() },
+        pins: u.pins.iter().map(|pin| pin.label.clone()).collect(), ..Default::default()
+    };
     render::draw_prims(&mut d, &u.prims, &inst, Ink::Line);
     if let Some(Hit::Prim(i)) = se.hit {
         if let Some(prim) = u.prims.get(i) {

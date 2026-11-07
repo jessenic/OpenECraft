@@ -421,6 +421,12 @@ pub struct Part {
     pub mounting_data: MountingData,
     // Logic
     pub functions: Vec<FunctionTemplate>,
+    /// Preferred project symbol key for a vendor-neutral library assignment.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub symbol: String,
+    /// Original vendor records retained alongside the normalized part data.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source_data: Option<Shared<serde_json::Value>>,
     /// Group symbol macro reference in a vendor's loose parts XML.
     #[serde(skip_serializing_if = "String::is_empty")]
     pub eplan_macro: String,
@@ -516,6 +522,8 @@ impl Default for Part {
             mounting: String::new(),
             mounting_data: MountingData::default(),
             functions: Vec::new(),
+            symbol: String::new(),
+            source_data: None,
             eplan_macro: String::new(),
             eplan_variants: Vec::new(),
             accessories: Vec::new(),

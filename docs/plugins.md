@@ -119,6 +119,36 @@ apply to the issues of plugins as well: a check can be switched off by its name,
 its plain messages share the check's name as code (level changes then apply to all of
 them) and can be accepted one by one.
 
+Parts may set `symbol` to the key of a project symbol definition. The shared part
+placement logic uses that definition in the editor, CLI and MCP. An empty key keeps
+the existing template-based selection. `source_data` on parts and symbol
+definitions can retain importer identifiers and vendor properties as JSON.
+`Project.import_sources` maps stable source IDs to JSON datasets, including records
+that have no native editing surface. These fields are optional for older files.
+
+Project symbol definitions can contain an `Image` drawing primitive. It carries a
+file `name`, base64 encoded `data`, and four `corners` in
+local symbol coordinates, ordered top left, top right, bottom right, bottom left.
+The editor and SVG/PDF output apply the symbol's
+rotation and mirror to these corners. Existing drawing primitive representations
+are supported alongside images.
+
+User symbols can specify a `domain` of `Electrical`, `Fluid`, or `Process`.
+Older symbol files default to `Electrical`. Fluid and process connection points
+participate in fluid nets, and connecting them to an electrical pin is reported as
+a mixed net.
+
+`Field` primitives accept an optional `angle` in degrees using the same convention
+as symbol text. Omitting it keeps the historical horizontal-label behavior. Their
+`kind` can also be `{"Pin": 0}` (zero-based pin index), which follows the placed
+instance's connection designation. A terminal's displayed designation uses `Label`.
+
+The `Auxiliary` function represents an additional device function with electrical
+pins and a cross-reference to its main function, without inventing a contact type.
+`Junction` has no device tag and connects only the paths listed in its bridges.
+Its connection points are local routing nodes and are excluded from device
+endpoints in the netlist.
+
 A complete example is in [`examples/plugins/page_notes`](../examples/plugins/page_notes).
 
 ### EPLAN window macros

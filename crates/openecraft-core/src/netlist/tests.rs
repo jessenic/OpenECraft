@@ -1,4 +1,31 @@
 use super::*;
+
+#[test]
+fn imported_junction_connects_paths_without_becoming_a_device_endpoint() {
+    use crate::symlib::{UserPin, UserSymbol};
+    let mut prj = Project::default();
+    prj.symbols.push(UserSymbol {
+        key: "user:junction".into(), func: Func::Junction,
+        pins: vec![UserPin { pos: p(0., 0.), label: "a".into() }, UserPin { pos: p(5., 0.), label: "a".into() }],
+        bridges: vec![(0, 1)], ..Default::default()
+    });
+    prj.symbols.push(UserSymbol {
+        key: "user:end".into(), pins: vec![UserPin { pos: p(0., 0.), label: "1".into() }], ..Default::default()
+    });
+    prj.pages[0].symbols = vec![
+        SymbolInst { id: 1, sym: "user:end".into(), tag: "-A1".into(), pos: p(10., 20.), ..Default::default() },
+        SymbolInst { id: 2, sym: "user:junction".into(), pos: p(20., 20.), ..Default::default() },
+        SymbolInst { id: 3, sym: "user:end".into(), tag: "-A2".into(), pos: p(40., 20.), ..Default::default() },
+    ];
+    prj.pages[0].wires = vec![
+        crate::model::Wire { id: 4, a: p(10., 20.), b: p(20., 20.), ..Default::default() },
+        crate::model::Wire { id: 5, a: p(25., 20.), b: p(40., 20.), ..Default::default() },
+    ];
+    let nets = Netlist::build(&prj, true);
+    assert_eq!(nets.pin_net.get(&(1, 0)), nets.pin_net.get(&(3, 0)));
+    assert!(!nets.pin_net.contains_key(&(2, 0)));
+    assert!(nets.nets.iter().any(|net| net.pins.len() == 2));
+}
 use crate::geom::p;
 use crate::model::{SymbolInst, Wire};
 

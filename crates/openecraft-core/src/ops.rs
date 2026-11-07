@@ -220,7 +220,7 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
     };
     match def.func {
         Func::Main { .. } => s.tag = prj.next_tag(&structure, def.letter),
-        Func::Overview => s.tag = ctx.last_main.get(def.letter).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter)),
+        Func::Overview | Func::Auxiliary => s.tag = ctx.last_main.get(def.letter).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter)),
         Func::Aux(kind) => {
             s.tag = ctx.last_main.get(def.letter).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter));
             if def.auto_number {
@@ -251,7 +251,7 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
                 s.label = next_plc_address(prj, &s.tag, !def.default_label.starts_with('Q'));
             }
         }
-        Func::Potential | Func::Interruption => {}
+        Func::Potential | Func::Interruption | Func::Junction => {}
     }
     s
 }

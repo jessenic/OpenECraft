@@ -60,6 +60,15 @@ pub trait Draw {
     fn image(&mut self, img: &ImageItem) {
         image_placeholder(self, img);
     }
+    /// Bitmap on an affine quadrilateral, used by rotated and mirrored symbols.
+    fn image_quad(&mut self, img: &ImageItem, corners: &[P; 4]) {
+        let mut image = img.clone();
+        let mut bounds = R::from_points(corners[0], corners[2]);
+        for corner in corners { bounds.extend(*corner); }
+        image.a = bounds.min;
+        image.b = bounds.max;
+        self.image(&image);
+    }
     /// Layer of the following elements (DXF layers); None = by ink.
     fn layer(&mut self, _name: Option<&str>) {}
 }
@@ -440,7 +449,15 @@ fn draw_cable_def(d: &mut dyn Draw, prj: &Project, page: &Page, cd: &CableDef, i
 
 /// Draws only the symbol graphics (used for canvas, ghost and library previews).
 pub fn draw_symbol(d: &mut dyn Draw, def: &SymbolDef, s: &SymbolInst, ink: Ink) {
-    draw_prims(d, &def.prims, s, ink);
+    if s.pins.len() < def.pins.len() {
+        let mut preview = s.clone();
+        for pin in def.pins.iter().skip(preview.pins.len()) {
+            preview.pins.push(pin.label.into());
+        }
+        draw_prims(d, &def.prims, &preview, ink);
+    } else {
+        draw_prims(d, &def.prims, s, ink);
+    }
 }
 
 /// Symbol graphics placed like the instance `s` (also used by the symbol editor).
@@ -455,6 +472,15 @@ pub fn draw_prims(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink) {
                 d.poly(&v, *closed, SYMBOL_W, ink, *fill);
             }
             Prim::Circle { c, r, fill, color } => d.circle(tf(*c), *r, SYMBOL_W, if ink == Ink::Line {color.map(Ink::Color).unwrap_or(ink)} else {ink}, *fill),
+            Prim::Image { name, data, corners } => {
+                let world = corners.map(tf);
+                let image = ImageItem {
+                    a: world[0], b: world[2],
+                    file: crate::document::Document { name: name.clone(), data: data.clone() },
+                    ..Default::default()
+                };
+                d.image_quad(&image, &world);
+            }
             Prim::Path { pts, closed, fill, width, color, dashed } => {
                 let pen = if ink==Ink::Line {color.map(Ink::Color).unwrap_or(ink)} else {ink};
                 let points: Vec<_> = pts.iter().map(|q| tf(*q)).collect();
@@ -488,13 +514,22 @@ pub fn draw_prims(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink) {
                     d.text(tf(*pos), text, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink);
                 }
             }
-            Prim::Field { kind, pos, size, anchor } => {
+            Prim::Field { kind, pos, size, anchor, angle } => {
                 let t = match kind {
                     FieldKind::Label => &s.label,
                     FieldKind::Tag => &s.tag,
+                    FieldKind::Pin(index) => {
+                        s.pins.get(*index).map_or("", String::as_str)
+                    }
                 };
                 if !t.is_empty() {
-                    d.text(tf(*pos), t, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink);
+                    if let Some(angle) = angle {
+                        let mut style = TextStyle::plain(*size, *anchor, VAnchor::Middle);
+                        style.angle = (if s.mirror { 180. - angle } else { *angle }) - 90. * s.rot as f32;
+                        d.styled_text(tf(*pos), t, &style, text_ink);
+                    } else {
+                        d.text(tf(*pos), t, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink);
+                    }
                 }
             }
         }

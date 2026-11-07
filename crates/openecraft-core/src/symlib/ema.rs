@@ -326,6 +326,7 @@ impl Reader<'_> {
         let target = &mut self.result.symbol;
         for g in &symbol.prims {
             let transformed = match g {
+                Prim::Image { name, data, corners } => Prim::Image { name: name.clone(), data: data.clone(), corners: corners.map(pt) },
                 Prim::Line { a, b, dashed } => Prim::Line { a: pt(*a), b: pt(*b), dashed: *dashed },
                 Prim::Poly { pts, closed, fill } => Prim::Poly { pts: pts.iter().copied().map(pt).collect(), closed: *closed, fill: *fill },
                 Prim::Circle { c, r, fill, color } => Prim::Path {
@@ -361,7 +362,14 @@ impl Reader<'_> {
                         color: *color,
                     }
                 }
-                Prim::Field { kind, pos, size, anchor } => Prim::Field { kind: *kind, pos: pt(*pos), size: *size, anchor: *anchor },
+                Prim::Field { kind, pos, size, anchor, angle } => Prim::Field {
+                    kind: *kind, pos: pt(*pos), size: *size, anchor: *anchor,
+                    angle: angle.map(|degrees| {
+                        let (s, c) = degrees.to_radians().sin_cos();
+                        let axis = pt(*pos + p(c, -s)) - pt(*pos);
+                        (-axis.y).atan2(axis.x).to_degrees()
+                    }),
+                },
             };
             target.prims.push(transformed);
         }
@@ -532,7 +540,7 @@ impl Reader<'_> {
                 return;
             }
             if let Some(pos) = pos {
-                self.result.symbol.prims.push(Prim::Field { kind: crate::symbols::FieldKind::Label, pos: f.at(pos), size, anchor: Anchor::Left });
+                self.result.symbol.prims.push(Prim::Field { kind: crate::symbols::FieldKind::Label, pos: f.at(pos), size, anchor: Anchor::Left, angle: None });
             }
             return;
         }
@@ -559,6 +567,7 @@ impl Reader<'_> {
                 pos: f.at(pos.unwrap_or_default()),
                 size,
                 anchor: Anchor::Left,
+                angle: None,
             });
             self.result.symbol.show_tag = false;
         } else {
@@ -952,6 +961,11 @@ pub fn part_symbol_for_card(
     key: Option<&str>,
     card: Option<&str>,
 ) -> Option<(&'static str, Vec<String>)> {
+    if !part.symbol.is_empty() {
+        if let Some(def) = project.symbol(key.unwrap_or(&part.symbol)) {
+            return Some((def.key, def.pins.iter().map(|pin| pin.label.to_owned()).collect()));
+        }
+    }
     let mut candidates = part
         .eplan_variants
         .iter()

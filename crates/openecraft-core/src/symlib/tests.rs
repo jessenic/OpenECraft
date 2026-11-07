@@ -1,4 +1,58 @@
 use super::*;
+
+#[test]
+fn imported_secondary_function_belongs_to_its_master_without_a_contact_kind() {
+    let mut prj = Project::default();
+    for (key, func) in [("user:master", Func::Main { mirror: false }), ("user:slave", Func::Auxiliary)] {
+        prj.symbols.push(UserSymbol { key: key.into(), func, ..Default::default() });
+        let id = prj.pages[0].symbols.len() as u64 + 1;
+        prj.pages[0].symbols.push(crate::model::SymbolInst { id, sym: key.into(), tag: "-A1".into(), ..Default::default() });
+    }
+    let index = crate::index::Index::build(&prj);
+    assert_eq!(index.devices["-A1"].mains.len(), 1);
+    assert_eq!(index.devices["-A1"].auxs.len(), 1);
+    assert!(prj.symbol("user:slave").unwrap().contact_kind().is_none());
+}
+
+#[test]
+fn imported_symbol_domain_keeps_fluid_ports_out_of_electrical_nets() {
+    use crate::model::{SymbolInst, Wire};
+    let mut prj = Project::default();
+    for (key, domain, x) in [("user:fluid", SymbolDomain::Fluid, 20.), ("user:electrical", SymbolDomain::Electrical, 30.)] {
+        prj.symbols.push(UserSymbol {
+            key: key.into(), domain,
+            pins: vec![UserPin { pos: p(0., 0.), label: "1".into() }],
+            ..Default::default()
+        });
+        prj.pages[0].symbols.push(SymbolInst { id: x as u64, sym: key.into(), pos: p(x, 20.), ..Default::default() });
+    }
+    prj.pages[0].wires.push(Wire { id: 50, a: p(20., 20.), b: p(30., 20.), ..Default::default() });
+    assert!(crate::netlist::Netlist::build(&prj, true).nets.iter().any(|net| net.mixed));
+    let before = fingerprint(&prj.symbols);
+    prj.symbols[0].domain = SymbolDomain::Electrical;
+    assert_ne!(before, fingerprint(&prj.symbols));
+    assert!(!prj.symbol("user:fluid").unwrap().is_fluid());
+    let old: UserSymbol = serde_json::from_str(r#"{"key":"user:old"}"#).unwrap();
+    assert_eq!(old.domain, SymbolDomain::Electrical);
+}
+
+#[test]
+fn embedded_bitmap_roundtrips_moves_and_invalidates_symbol_cache() {
+    let mut symbol = UserSymbol { key: "user:bitmap".into(), ..Default::default() };
+    symbol.prims.push(Prim::Image {
+        name: "sample.png".into(), data: String::new().into(),
+        corners: [p(0., 0.), p(4., 0.), p(4., 6.), p(0., 6.)],
+    });
+    let first = fingerprint(&[symbol.clone()]);
+    let json = serde_json::to_string(&symbol).unwrap();
+    assert_eq!(serde_json::from_str::<UserSymbol>(&json).unwrap(), symbol);
+    assert_eq!(prim_distance(&symbol.prims[0], p(2., 2.)), 0.);
+    translate(&mut symbol.prims[0], p(10., 20.));
+    assert_ne!(first, fingerprint(&[symbol.clone()]));
+    let bounds = to_def(&symbol).bounds;
+    assert!(bounds.contains(p(10., 20.)));
+    assert!(bounds.contains(p(14., 26.)));
+}
 use crate::index::Index;
 use crate::model::{Page, PageKind, SymbolInst};
 use crate::netlist::Netlist;

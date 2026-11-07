@@ -113,6 +113,11 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   trench, conduit, cable bridge between building entries) carry routes from room to
   room; devices go on the outside of the walls and on the roof; a Buildings pane with
   a site plan, the plugin `buildings` with its commands, a check and example 15.
+- Let imported parts select project symbol definitions across editor, CLI and MCP placement, and retain vendor source records with projects.
+- Preserve embedded bitmaps in imported symbol libraries, including rotated and mirrored instances on the canvas and in SVG and PDF output.
+- Preserve the connectivity domain of imported fluid and process symbols so their ports stay distinct from electrical connections.
+- Keep imported property text angles and pin designation fields editable and linked to their placed symbol.
+- Support imported secondary device functions and local junction paths without adding spurious main functions or device endpoints.
 
 - Use the DIN-rail clip position from imported mounting data when placing cabinet devices. Matching Beckhoff terminal housings and the EK1100 use the documented 63.8 mm rail datum.
 
