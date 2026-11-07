@@ -3,6 +3,62 @@ use crate::builtin::testing::*;
 use openecraft_core::analysis::Analysis;
 
 #[test]
+fn wire_annotation_visibility_is_editable_through_the_shared_command() {
+    let mut s = new_session();
+    let added = run(&mut s,"add_wire",json!({"page":"1","points":[[20,20],[80,20]]})).unwrap();
+    let id = &added["ids"][0];
+    let hidden = run(&mut s,"update_wire",json!({"page":"1","id":id,"number":"101","hide_labels":true})).unwrap();
+    assert_eq!(hidden["hide_labels"],true);
+    assert_eq!(run(&mut s,"update_wire",json!({"page":"1","id":id,"color":"BU"})).unwrap()["hide_labels"],true);
+    let shown = run(&mut s,"update_wire",json!({"page":"1","id":id,"hide_labels":false})).unwrap();
+    assert_eq!(shown["hide_labels"],false);
+    assert_eq!(shown["number"],"101");
+}
+
+#[test]
+fn native_wiring_connections_expose_stable_pin_identities() {
+    let mut s = new_session();
+    let a = run(&mut s,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":40,"tag":"-K1"})).unwrap();
+    let b = run(&mut s,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":80,"tag":"-K2"})).unwrap();
+    run(&mut s,"connect",json!({"page":"1","from":"-K1:A2","to":"-K2:A1"})).unwrap();
+    let connections = run(&mut s,"list_connections",json!({})).unwrap();
+    assert!(connections.as_array().unwrap().iter().any(|c| c["from"]["symbol"] == a["id"] && c["from"]["pin"] == 1 && c["to"]["symbol"] == b["id"] && c["to"]["pin"] == 0));
+}
+
+#[test]
+fn user_junction_paths_are_editable_and_invalid_changes_are_atomic() {
+    use openecraft_core::symlib::{UserSymbol,UserPin};
+    let mut s=new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {key:"user:paths".into(),func:Func::Junction,pins:vec![UserPin::default();3],..Default::default()});
+    run(&mut s,"set_symbol_junction_paths",json!({"symbol":"user:paths","paths":{"links":[[0,1],[0,2]]}})).unwrap();
+    let definitions=run(&mut s,"list_symbols",json!({"query":"user:paths"})).unwrap();
+    assert_eq!(definitions[0]["directed_junction"],true);
+    assert_eq!(definitions[0]["bridges"],json!([[0,1],[0,2]]));
+    let before=s.project().unwrap().symbols[0].clone();
+    for links in [json!([[0,3]]),json!([[1,1]]),json!([[-1,0]])] {
+        assert!(run(&mut s,"set_symbol_junction_paths",json!({"symbol":"user:paths","paths":{"links":links}})).is_err());
+        assert_eq!(s.project().unwrap().symbols[0],before);
+    }
+}
+
+#[test]
+fn user_pin_directions_are_editable_and_invalid_changes_are_atomic() {
+    use openecraft_core::symlib::{UserSymbol,UserPin};
+    let mut s=new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {key:"user:port".into(),pins:vec![UserPin::default()],..Default::default()});
+    run(&mut s,"set_pin_connection_directions",json!({"symbol":"user:port","pin":0,"directions":"up,right"})).unwrap();
+    let definitions=run(&mut s,"list_symbols",json!({"query":"user:port"})).unwrap();
+    assert_eq!(definitions[0]["pin_directions"]["0"],3);
+    let before=s.project().unwrap().symbols[0].clone();
+    for (pin,directions) in [(1,"down"),(0,"unknown"),(-1,"up")] {
+        assert!(run(&mut s,"set_pin_connection_directions",json!({"symbol":"user:port","pin":pin,"directions":directions})).is_err());
+        assert_eq!(s.project().unwrap().symbols[0],before);
+    }
+    run(&mut s,"set_pin_connection_directions",json!({"symbol":"user:port","pin":0,"directions":"all"})).unwrap();
+    assert!(s.project().unwrap().symbols[0].pin_directions.is_empty());
+}
+
+#[test]
 fn reciprocal_ground_transfers_form_one_net_after_project_reopen() {
     let mut s=new_session();
     let contact=|number:&str,pos:&str,rule:&str|format!(r#"<O17 A1="17/{number}" A1261="0" A1262="13" A1263="0" A185="{number}"><P150 P20013="Q"/><P11 P20406="X1"/><S40x1201 A762="{pos}"/><S61x183 A1061="0" A1063="0"><S16x1062 A161="1" A163="{rule}"/></S61x183></O17>"#);
@@ -304,6 +360,8 @@ fn native_net_membership_is_available_through_plugins() {
     let pins = nets["pins"].as_array().unwrap();
     let net = |id: &Value| pins.iter().find(|p| p["symbol"]==*id && p["pin"]==0).unwrap()["net"].clone();
     assert_eq!(net(&first["id"]),net(&second["id"]));
+    let points=nets["connection_points"].as_array().unwrap();
+    assert!(points.iter().any(|point|point["symbol"]==first["id"] && point["pin"]==0 && point["net"]==net(&first["id"])));
 }
 
 #[test]

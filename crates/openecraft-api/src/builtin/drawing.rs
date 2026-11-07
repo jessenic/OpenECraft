@@ -34,6 +34,25 @@ impl Plugin for Drawing {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name:"set_pin_connection_directions",
+        help:tr_const!("Sets allowed side contacts of a user symbol connection point"),
+        params:&[
+            param("symbol",Kind::Str,tr_const!("Symbol key")),
+            param("pin",Kind::Int,tr_const!("Zero-based connection point index")),
+            param("directions",Kind::Str,tr_const!("Comma-separated up, right, down, left, all, or none")),
+        ],
+        run:set_pin_connection_directions,
+    },
+    Spec {
+        name: "set_symbol_junction_paths",
+        help: tr_const!("Sets physical target paths of a user junction symbol"),
+        params: &[
+            param("symbol",Kind::Str,tr_const!("Symbol key")),
+            param("paths",Kind::Object,tr_const!("Junction paths with links (zero-based pin pairs) and optional directed flag")),
+        ],
+        run: set_symbol_junction_paths,
+    },
+    Spec {
         name: "insert_macro",
         help: tr_const!("Inserts a native macro with its symbol definitions on a page"),
         params: &[
@@ -132,6 +151,7 @@ pub static COMMANDS: &[Spec] = &[
             PAGE,
             param("id", Kind::Int, tr_const!("Item id")),
             optional("number", Kind::Str, tr_const!("Wire number (kept when renumbering)")),
+            optional("hide_labels", Kind::Bool, tr_const!("Hide automatic wire and cable labels")),
             optional("color", Kind::Str, tr_const!("Wire colour, e.g. BU (empty = from the potential definition)")),
             optional("cross_section", Kind::Str, tr_const!("Cross section, e.g. 1.5 mm² (empty = from the potential definition)")),
             optional("cable", Kind::Str, tr_const!("Cable tag")),
@@ -572,6 +592,10 @@ fn list_symbols(prj: &mut Project, a: &Args) -> Result<Value, String> {
                 "letter": d.letter,
                 "default_label": d.default_label,
                 "pins": pins,
+                "fluid_ports": d.fluid_ports,
+                "pin_directions": d.pin_directions,
+                "directed_junction": d.directed_junction,
+                "bridges": d.bridges,
             })
         });
     Ok(Value::Array(list.collect()))
@@ -711,6 +735,36 @@ fn update_symbol(prj: &mut Project, a: &Args) -> Result<Value, String> {
     Ok(symbol_json(&symbols, sym))
 }
 
+fn set_pin_connection_directions(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let key=a.req("symbol");
+    let pin=int_in(a,"pin",0,u32::MAX.into())?.unwrap_or(0) as usize;
+    let mut mask=0;
+    for direction in a.req("directions").split(',').map(str::trim) {
+        mask|=match direction {"up"=>1,"right"=>2,"down"=>4,"left"=>8,"all"=>15,"none"=>0,_=>return Err(tr_fmt!("Unknown connection direction: {}",direction))};
+    }
+    let symbol=prj.symbols.iter_mut().find(|s|s.key==key).ok_or_else(||tr_fmt!("Unknown user symbol: {}",key))?;
+    if pin>=symbol.pins.len() {return Err(tr_fmt!("Connection point index {} is out of range",pin));}
+    if mask==15 {symbol.pin_directions.remove(&pin);} else {symbol.pin_directions.insert(pin,mask);}
+    Ok(json!({"symbol":key,"pin":pin,"directions":mask}))
+}
+
+fn set_symbol_junction_paths(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let key=a.req("symbol");
+    let value=a.value("paths").expect("required object");
+    for name in value.as_object().expect("checked object").keys() {
+        if !["links","directed"].contains(&name.as_str()) {return Err(tr_fmt!("Unknown parameter: {}",name));}
+    }
+    let invalid=||tr("Junction paths need distinct valid connection point indexes").to_string();
+    let links:Vec<(usize,usize)>=serde_json::from_value(value["links"].clone()).map_err(|_|invalid())?;
+    let directed=match value.get("directed") {Some(v)=>v.as_bool().ok_or_else(invalid)?,None=>true};
+    let symbol=prj.symbols.iter_mut().find(|s|s.key==key).ok_or_else(||tr_fmt!("Unknown user symbol: {}",key))?;
+    if symbol.func!=Func::Junction {return Err(tr_fmt!("Symbol {} is not a junction",key));}
+    if links.iter().any(|&(a,b)| a==b || a>=symbol.pins.len() || b>=symbol.pins.len()) {return Err(invalid());}
+    symbol.bridges=links;
+    symbol.directed_junction=directed;
+    Ok(json!({"symbol":key,"directed":directed,"links":symbol.bridges}))
+}
+
 fn add_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let i = editable(prj, a.req("page"))?;
     let pts = raw_points(a, "points").into_iter().map(|[x, y]| on_page(prj, i, x, y)).collect::<Result<Vec<P>, String>>()?;
@@ -746,6 +800,9 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
         w.number = n.into();
         w.number_fixed = !n.is_empty();
     }
+    if let Some(hide) = a.value("hide_labels").and_then(Value::as_bool) {
+        w.hide_labels = hide;
+    }
     let color = a.str("color").map(wire_color).transpose()?;
     let cross = a.str("cross_section").map(cross_section).transpose()?;
     for (name, field) in [("cable", &mut w.cable), ("core", &mut w.core)] {
@@ -769,7 +826,7 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
         w.length = l;
     }
     let medium = w.medium.map(|m| m.code()).unwrap_or_default();
-    Ok(json!({ "id": w.id, "number": w.number, "color": w.color, "cross_section": w.cross_section, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
+    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels, "color": w.color, "cross_section": w.cross_section, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
 }
 
 /// Takes the style parameters of `add_text` / `update_text` that are given.

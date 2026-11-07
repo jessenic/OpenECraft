@@ -1,6 +1,26 @@
 use super::*;
 
 #[test]
+fn separately_annotated_wires_keep_properties_without_duplicate_labels() {
+    let mut prj = Project::default();
+    prj.pages[0].wires.push(Wire { id: 10, a: p(20., 20.), b: p(80., 20.), number: "101".into(), cable: "-W1".into(), core: "BN".into(), hide_labels: true, ..Default::default() });
+    let prj = Project::from_json(&prj.to_json()).unwrap();
+    let analysis = Analysis::with_builtin(&prj);
+    let mut hidden = Rec::default();
+    draw_wire_labels(&mut hidden, &prj, &analysis, 0);
+    assert!(hidden.texts.is_empty() && hidden.lines.is_empty());
+    assert_eq!(prj.pages[0].wires[0].number, "101");
+    let mut visible = prj.clone();
+    visible.pages[0].wires[0].hide_labels = false;
+    let mut draw = Rec::default();
+    draw_wire_labels(&mut draw, &visible, &analysis, 0);
+    assert!(draw.texts.iter().any(|(_,text,_,_)| text == "101"));
+    assert!(draw.texts.iter().any(|(_,text,_,_)| text == "-W1"));
+    assert!(draw.texts.iter().any(|(_,text,_,_)| text == "BN"));
+    assert!(!serde_json::from_str::<Wire>("{}").unwrap().hide_labels);
+}
+
+#[test]
 fn imported_pin_fields_follow_instance_designations_and_explicit_angles() {
     let mut prj = Project::default();
     prj.symbols.push(crate::symlib::UserSymbol {

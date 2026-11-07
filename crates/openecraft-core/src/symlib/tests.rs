@@ -165,9 +165,12 @@ fn removing_a_pin_fixes_bridges() {
     let mut u = box_symbol("user:b");
     u.pins.push(UserPin { pos: p(8.0, 8.0), label: "3".into(), internal: false });
     u.bridges = vec![(0, 1), (1, 2)];
+    u.fluid_ports.insert(0, crate::fluid::PortKind::Pressure);
+    u.fluid_ports.insert(2, crate::fluid::PortKind::Passage);
     remove_pin(&mut u, 0);
     assert_eq!(u.pins.len(), 2);
     assert_eq!(u.bridges, vec![(0, 1)]);
+    assert_eq!(u.fluid_ports, [(1, crate::fluid::PortKind::Passage)].into_iter().collect());
     assert_eq!(next_pin_label(&u), "4");
 }
 

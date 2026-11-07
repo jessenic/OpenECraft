@@ -279,6 +279,22 @@ pub enum Prim {
     Field { kind: FieldKind, pos: P, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32> },
 }
 
+/// Function of a fluid port, independently of its printed connection designation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PortKind {
+    Supply,
+    Pressure,
+    Working,
+    Exhaust,
+    Return,
+    Pilot,
+    Suction,
+    Leakage,
+    Measuring,
+    Passage,
+}
+
 #[derive(Clone, Debug)]
 pub struct PinDef {
     pub pos: P,
@@ -328,6 +344,10 @@ pub struct SymbolDef {
     pub plc_channel: Option<PlcChannel>,
     pub prims: Vec<Prim>,
     pub pins: Vec<PinDef>,
+    pub fluid_ports: std::collections::BTreeMap<usize, PortKind>,
+    pub pin_directions: std::collections::BTreeMap<usize, u8>,
+    /// Junction bridges define physical target paths as well as electrical continuity.
+    pub directed_junction: bool,
     /// Pins that are internally connected (terminals).
     pub bridges: Vec<(usize, usize)>,
     pub default_label: &'static str,
@@ -350,6 +370,15 @@ impl SymbolDef {
 
     pub fn pin_world(&self, idx: usize, pos: P, rot: u8, mirror: bool) -> P {
         pos + self.pins[idx].pos.transform(rot, mirror)
+    }
+
+    pub fn pin_connection_directions(&self, idx:usize, rot:u8, mirror:bool)->u8 {
+        let Some(&mask)=self.pin_directions.get(&idx) else {return 15;};
+        [(1,p(0.,-1.)),(2,p(1.,0.)),(4,p(0.,1.)),(8,p(-1.,0.))].into_iter()
+            .filter(|(bit,_)|mask&bit!=0).fold(0,|out,(_,vector)| {
+                let q=vector.transform(rot,mirror);
+                out | if q.x.abs()>q.y.abs() {if q.x>0. {2}else{8}} else if q.y>0. {4}else{1}
+            })
     }
 
     pub fn world_bounds(&self, pos: P, rot: u8, mirror: bool) -> R {
@@ -550,6 +579,9 @@ impl Def {
             plc_channel: None,
             prims: std::mem::take(&mut b.prims),
             pins: std::mem::take(&mut b.pins),
+            fluid_ports: Default::default(),
+            pin_directions: Default::default(),
+            directed_junction: false,
             bridges: self.bridges,
             default_label: self.label,
             auto_number: self.auto_number,

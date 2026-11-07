@@ -127,6 +127,8 @@ pub(super) const ROWS: &[Row] = &[
     r("page.product", tr_const!("Higher-level product (-)"), Page, Structure, Text, "").field(),
     r("page.title2", tr_const!("Additional page description"), Page, General, Text, ""),
     r("page.note", tr_const!("Note"), Page, General, MultiLine, ""),
+    r("page.use_drawn_wire_targets", tr_const!("Use drawn wire targets"), Page, General, Bool, ""),
+    r("page.explicit_wire_junctions", tr_const!("Require explicit wire junctions"), Page, General, Bool, ""),
     r("page.scale", tr_const!("Scale"), Page, General, Text, ""),
     r("page.drawing_number", tr_const!("Drawing number"), Page, Documentation, Text, ""),
     r("page.created_by", tr_const!("Created by"), Page, Documentation, Text, ""),
@@ -425,6 +427,7 @@ pub(super) const ROWS: &[Row] = &[
     r("function.note", tr_const!("Note"), Function, General, MultiLine, ""),
     r("function.mounting_site", tr_const!("Mounting site"), Function, General, Text, ""),
     r("function.signal", tr_const!("Signal name"), Function, General, Text, ""),
+    r("function.connection_scope", tr_const!("Connection scope"), Function, Electrical, Text, ""),
     r("function.pin_descriptions", tr_const!("Connection point descriptions"), Function, General, Text, ""),
     r("function.supplementary", tr_const!("Supplementary field"), Function, Supplementary, Text, "").idx(50),
     // ----------------------------------------------------------------- terminal

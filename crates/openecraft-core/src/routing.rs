@@ -26,7 +26,16 @@ fn pins(symbols: &Symbols, page: &Page) -> Vec<(u64, P, P)> {
         }
         let c = def.world_bounds(s.pos, s.rot, s.mirror).center();
         for i in 0..def.pins.len() {
+            if def.pins[i].internal {continue;}
             let q = def.pin_world(i, s.pos, s.rot, s.mirror);
+            if def.pin_directions.contains_key(&i) {
+                let mask=def.pin_connection_directions(i,s.rot,s.mirror);
+                if mask==0 {v.push((s.id,q,p(0.,0.)));}
+                for (bit,dir) in [(1,p(0.,-1.)),(2,p(1.,0.)),(4,p(0.,1.)),(8,p(-1.,0.))] {
+                    if mask&bit!=0 {v.push((s.id,q,dir));}
+                }
+                continue;
+            }
             let d = q - c;
             let dir = if d.x.abs() < 1e-3 && d.y.abs() < 1e-3 {
                 p(0.0, 0.0)
@@ -43,7 +52,7 @@ fn pins(symbols: &Symbols, page: &Page) -> Vec<(u64, P, P)> {
 
 /// A connection point is in use when a wire ends there or another pin touches it. The
 /// arm of a connection symbol is in use when a wire leaves it in its direction.
-fn pin_used(page: &Page, all: &[(u64, P, P)], sym: u64, q: P, dir: P) -> bool {
+fn pin_used(symbols:&Symbols,page: &Page, all: &[(u64, P, P)], sym: u64, q: P, dir: P) -> bool {
     if page.junctions.iter().any(|j| j.id == sym) {
         return page.wires.iter().any(|w| {
             let other = if w.a.same(q) { Some(w.b) } else if w.b.same(q) { Some(w.a) } else { None };
@@ -51,13 +60,21 @@ fn pin_used(page: &Page, all: &[(u64, P, P)], sym: u64, q: P, dir: P) -> bool {
             other.is_some_and(|o| parallel(o - q) && (o.x - q.x) * dir.x + (o.y - q.y) * dir.y > 0.0) || (on_segment_interior(q, w.a, w.b) && parallel(w.b - w.a))
         }) || all.iter().any(|(id, o, _)| *id != sym && o.same(q));
     }
-    page.wires.iter().any(|w| w.a.same(q) || w.b.same(q) || on_segment_interior(q, w.a, w.b))
+    let explicit=page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true");
+    let side_contact=!explicit || page.symbols.iter().find(|s|s.id==sym).and_then(|s|symbols.get(&s.sym)).is_some_and(|d|!d.func.has_tag());
+    page.wires.iter().any(|w| w.a.same(q) || w.b.same(q) || side_contact && on_segment_interior(q, w.a, w.b))
         || all.iter().any(|(id, o, _)| *id != sym && o.same(q))
 }
 
 /// Can a wire run from `a` to `b` without touching anything but its end points?
 fn clear(symbols: &Symbols, page: &Page, all: &[(u64, P, P)], a: P, b: P, ends: [u64; 2]) -> bool {
-    !page.wires.iter().any(|w| on_segment_interior(a, w.a, w.b) || on_segment_interior(b, w.a, w.b)) && unobstructed(symbols, page, all, a, b, &ends)
+    let explicit=page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true");
+    let blocked=page.wires.iter().any(|w| {
+        let touching=on_segment_interior(a,w.a,w.b)||on_segment_interior(b,w.a,w.b);
+        let d=w.b-w.a;let route=b-a;
+        touching && (!explicit || (d.x*route.y-d.y*route.x).abs()<0.01)
+    });
+    !blocked && unobstructed(symbols, page, all, a, b, &ends)
 }
 
 /// Is the way from `a` to `b` free of connection points, wire ends and symbols other
@@ -94,7 +111,7 @@ pub fn autoconnect(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>, max_len:
     let mut taken: Vec<(P, P)> = Vec::new();
     let is_taken = |taken: &[(P, P)], q: P, dir: P| taken.iter().any(|(t, td)| t.same(q) && (*td == dir || td.len() == 0.0));
     for (sym, q, dir) in all.iter().filter(|(id, _, _)| sel.contains(id)) {
-        if dir.len() == 0.0 || is_taken(&taken, *q, *dir) || pin_used(page, &all, *sym, *q, *dir) {
+        if dir.len() == 0.0 || is_taken(&taken, *q, *dir) || pin_used(symbols,page, &all, *sym, *q, *dir) {
             continue;
         }
         let mut best: Option<(f32, u64, P, P)> = None;
@@ -108,7 +125,7 @@ pub fn autoconnect(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>, max_len:
             if across > 0.01 || along <= 0.01 || along > max_len || best.is_some_and(|b| b.0 <= along) {
                 continue;
             }
-            if pin_used(page, &all, *osym, *o, *odir) {
+            if pin_used(symbols,page, &all, *osym, *o, *odir) {
                 continue;
             }
             best = Some((along, *osym, *o, *odir));

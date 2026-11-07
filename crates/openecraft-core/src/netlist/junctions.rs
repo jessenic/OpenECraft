@@ -254,7 +254,7 @@ pub fn trace(prj: &Project, net: &Net, tees: &[(usize, &Junction)]) -> Traced {
         let n = node(&mut uf, Key::Point(pin.page, q.key()));
         let named = match def.func {
             Func::Potential if !s.label.is_empty() => Some(format!("pot:{}", s.label)),
-            Func::Interruption if !s.label.is_empty() => Some(format!("int:{}", s.label)),
+            Func::Interruption if !s.label.is_empty() => Some(format!("int:{}", s.interruption_key())),
             _ => None,
         };
         if let Some(name) = named {

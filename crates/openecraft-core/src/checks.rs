@@ -243,12 +243,13 @@ pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
         }
     }
     for (name, locs) in &idx.interruptions {
+        let label = &prj.pages[locs[0].page].symbols.iter().find(|s| s.id == locs[0].sym_id).unwrap().label;
         if locs.len() == 1 {
-            v.push(crate::issue!(Severity::Warning, Some((locs[0].page, locs[0].sym_id)), "Interruption point '{}' has no counterpart", name));
+            v.push(crate::issue!(Severity::Warning, Some((locs[0].page, locs[0].sym_id)), "Interruption point '{}' has no counterpart", label));
         } else if prj.xref.interruptions == InterruptionMode::Pairs {
             // In pairs the last point of an odd number has no partner.
             if let Some(l) = locs.iter().find(|l| idx.interruption_targets(prj, name, l.sym_id).is_empty()) {
-                v.push(crate::issue!(Severity::Warning, Some((l.page, l.sym_id)), "Interruption point '{}' has no counterpart", name));
+                v.push(crate::issue!(Severity::Warning, Some((l.page, l.sym_id)), "Interruption point '{}' has no counterpart", label));
             }
         }
     }

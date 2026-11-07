@@ -1,10 +1,11 @@
 //! Data of `crate::symlib` that the project file holds (see `docs/architecture.md`).
 
 use crate::geom::P;
-use crate::symbols::{Func, Prim, SymbolDomain};
+use crate::symbols::{Func, Prim, SymbolDomain, PortKind};
 use openecraft_parts::Shared;
 use serde::{Deserialize, Serialize};
 use std::ops::{Deref, DerefMut};
+use std::collections::BTreeMap;
 
 /// Snapshots share the symbol drawings until an editor changes the library.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
@@ -56,6 +57,15 @@ pub struct UserSymbol {
     pub show_pin_labels: bool,
     pub prims: Vec<Prim>,
     pub pins: Vec<UserPin>,
+    /// Explicit fluid port functions by zero-based pin index; absent = infer from designation.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub fluid_ports: BTreeMap<usize, PortKind>,
+    /// Allowed side contacts in local coordinates: up 1, right 2, down 4, left 8.
+    /// Absent entries accept every direction; saved wire endpoints always attach.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub pin_directions: BTreeMap<usize, u8>,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub directed_junction: bool,
     /// Pins that are connected inside the symbol (terminals).
     pub bridges: Vec<(usize, usize)>,
 }

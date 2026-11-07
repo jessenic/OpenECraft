@@ -599,7 +599,7 @@ fn draw_wire_labels(d: &mut dyn Draw, prj: &Project, an: &Analysis, page_i: usiz
             wire_text(d, w, t, &number, false, Ink::Text);
         }
     }
-    let mut cabled: Vec<&Wire> = page.wires.iter().filter(|w| !w.cable.is_empty()).collect();
+    let mut cabled: Vec<&Wire> = page.wires.iter().filter(|w| !w.cable.is_empty() && !w.hide_labels).collect();
     cabled.sort_by(|a, b| a.a.x.min(a.b.x).total_cmp(&b.a.x.min(b.b.x)).then(a.a.y.total_cmp(&b.a.y)));
     let mut tagged: Vec<&str> = Vec::new();
     for w in cabled {
@@ -657,8 +657,8 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
                 refs.extend(dev.auxs.iter().map(|a| (a.reference_from(prj, page_i), Some(a.page))));
             }
         }
-        Func::Interruption if idx.interruptions.contains_key(&s.label) => {
-            let others: Vec<Loc> = idx.interruption_targets(prj, &s.label, s.id);
+        Func::Interruption if idx.interruptions.contains_key(&s.interruption_key()) => {
+            let others: Vec<Loc> = idx.interruption_targets(prj, &s.interruption_key(), s.id);
             let q = s.pos + p(2.2, 1.6).transform(s.rot, s.mirror) + p(0.0, 2.6);
             let txt = if others.is_empty() { "?".to_string() } else { others.iter().map(|l| l.reference_from(prj, page_i)).collect::<Vec<_>>().join(" ") };
             let ink = if others.is_empty() { Ink::Error } else { Ink::CrossRef };

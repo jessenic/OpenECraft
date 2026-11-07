@@ -38,6 +38,9 @@ impl Default for UserSymbol {
             show_pin_labels: true,
             prims: Vec::new(),
             pins: Vec::new(),
+            fluid_ports: Default::default(),
+            pin_directions: Default::default(),
+            directed_junction: false,
             bridges: Vec::new(),
         }
     }
@@ -94,6 +97,9 @@ pub(crate) fn to_def(u: &UserSymbol) -> SymbolDef {
         plc_channel: u.plc_channel.clone(),
         prims: u.prims.clone(),
         pins: u.pins.iter().map(|x| PinDef { pos: x.pos, label: intern(&x.label), internal: x.internal }).collect(),
+        fluid_ports: u.fluid_ports.iter().filter(|(i, _)| **i < u.pins.len()).map(|(i, kind)| (*i, *kind)).collect(),
+        pin_directions: u.pin_directions.iter().filter(|(i,_)|**i<u.pins.len()).map(|(i,mask)|(*i,*mask&15)).collect(),
+        directed_junction: u.directed_junction && u.func == Func::Junction,
         bridges: u.bridges.iter().copied().filter(|(a, b)| *a < u.pins.len() && *b < u.pins.len()).collect(),
         default_label: intern(&u.default_label),
         auto_number: u.auto_number,
@@ -200,6 +206,11 @@ fn hash_symbols(list: &[UserSymbol], mut h: impl Hasher) -> u64 {
             if pin.internal { true.hash(&mut h); }
         }
         u.bridges.hash(&mut h);
+        if !u.fluid_ports.is_empty() {
+            ("fluid_ports", &u.fluid_ports).hash(&mut h);
+        }
+        if !u.pin_directions.is_empty() {("pin_directions",&u.pin_directions).hash(&mut h);}
+        if u.directed_junction { "directed_junction".hash(&mut h); }
     }
     h.finish()
 }
@@ -306,6 +317,9 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
         show_pin_labels: def.show_pin_labels,
         prims: def.prims.clone(),
         pins: def.pins.iter().map(|x| UserPin { pos: x.pos, label: x.label.into(), internal: x.internal }).collect(),
+        fluid_ports: def.fluid_ports.clone(),
+        pin_directions: def.pin_directions.clone(),
+        directed_junction: def.directed_junction,
         bridges: def.bridges.clone(),
     }
 }
@@ -464,6 +478,8 @@ pub fn remove_pin(u: &mut UserSymbol, i: usize) {
         return;
     }
     u.pins.remove(i);
+    u.fluid_ports = u.fluid_ports.iter().filter(|(pin, _)| **pin != i).map(|(pin, kind)| (if *pin > i { *pin - 1 } else { *pin }, *kind)).collect();
+    u.pin_directions = u.pin_directions.iter().filter(|(pin,_)|**pin!=i).map(|(pin,mask)|(if *pin>i {*pin-1}else{*pin},*mask)).collect();
     u.bridges.retain(|(a, b)| *a != i && *b != i);
     for (a, b) in &mut u.bridges {
         if *a > i {

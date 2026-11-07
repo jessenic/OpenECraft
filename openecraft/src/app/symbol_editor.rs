@@ -270,6 +270,9 @@ fn symbol_properties(ui: &mut egui::Ui, u: &mut UserSymbol) {
     });
     ui.checkbox(&mut u.show_tag, tr("Show device tag and cross references"));
     ui.checkbox(&mut u.show_pin_labels, tr("Show connection point designations"));
+    if u.func == Func::Junction {
+        ui.checkbox(&mut u.directed_junction, tr("Preserve junction target paths"));
+    }
     if matches!(u.func, Func::Aux(_)) {
         ui.checkbox(&mut u.auto_number, tr("Number contacts automatically (13/14, 21/22 …)"));
     }
@@ -294,6 +297,18 @@ fn point_edit(ui: &mut egui::Ui, label: &str, q: &mut P, speed: f32) {
     ui.end_row();
 }
 
+fn pin_contact_directions(ui:&mut egui::Ui,u:&mut UserSymbol,i:usize) {
+    ui.label(tr("Side contact directions"));
+    let mut mask=u.pin_directions.get(&i).copied().unwrap_or(15);
+    ui.horizontal_wrapped(|ui| {
+        for (title,bit) in [(tr_const!("Up"),1),(tr_const!("Right"),2),(tr_const!("Down"),4),(tr_const!("Left"),8)] {
+            let mut enabled=mask&bit!=0;
+            if ui.checkbox(&mut enabled,tr(title)).changed() {if enabled {mask|=bit;} else {mask&=!bit;}}
+        }
+    });
+    if mask==15 {u.pin_directions.remove(&i);} else {u.pin_directions.insert(i,mask);}
+}
+
 fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
     let mut delete = false;
     match se.hit {
@@ -307,6 +322,27 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
             });
             u.pins[i].pos = symlib::snap(u.pins[i].pos, GRID);
             ui.checkbox(&mut u.pins[i].internal, tr("Internal bridge attachment"));
+            if u.func == Func::Junction {
+                for target in 0..u.pins.len() {
+                    if target == i { continue; }
+                    let mut connected = u.bridges.contains(&(i, target)) || u.bridges.contains(&(target, i));
+                    if ui.checkbox(&mut connected, tr_fmt!("Path to connection point {}", target + 1)).changed() {
+                        u.bridges.retain(|pair| *pair != (i, target) && *pair != (target, i));
+                        if connected { u.bridges.push((i, target)); }
+                    }
+                }
+            }
+            pin_contact_directions(ui,u,i);
+            if u.domain != openecraft_core::symbols::SymbolDomain::Electrical {
+                let mut kind = u.fluid_ports.get(&i).copied();
+                egui::ComboBox::from_label(tr("Port function")).selected_text(kind.map_or_else(|| tr("Automatic"), |k| k.title())).show_ui(ui, |ui| {
+                    ui.selectable_value(&mut kind, None, tr("Automatic"));
+                    for value in openecraft_core::fluid::PortKind::ALL {
+                        ui.selectable_value(&mut kind, Some(value), value.title());
+                    }
+                });
+                if let Some(kind) = kind { u.fluid_ports.insert(i, kind); } else { u.fluid_ports.remove(&i); }
+            }
             delete = icons::text_button(ui, Icon::Delete, tr("Delete connection point")).clicked();
         }
         Some(Hit::Prim(i)) if i < u.prims.len() => {

@@ -2,6 +2,26 @@ use super::*;
 use crate::builtin::testing::*;
 
 #[test]
+fn user_fluid_port_roles_are_editable_through_the_shared_registry() {
+    use openecraft_core::symlib::{UserPin, UserSymbol};
+    use openecraft_core::symbols::SymbolDomain;
+    let mut s = new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {
+        key: "user:silencer".into(), domain: SymbolDomain::Fluid,
+        pins: vec![UserPin::default()], ..Default::default()
+    });
+    let result = run(&mut s, "set_fluid_port_role", json!({"symbol":"user:silencer", "pin":0, "role":"exhaust"})).unwrap();
+    assert_eq!(result["role"], "exhaust");
+    assert_eq!(s.project().unwrap().symbols[0].fluid_ports[&0], fluid::PortKind::Exhaust);
+    let definitions = run(&mut s, "list_symbols", json!({"query":"user:silencer"})).unwrap();
+    assert_eq!(definitions[0]["fluid_ports"]["0"], "exhaust");
+    assert!(run(&mut s, "set_fluid_port_role", json!({"symbol":"user:silencer", "pin":1, "role":"pressure"})).is_err());
+    assert!(run(&mut s, "set_fluid_port_role", json!({"symbol":"user:silencer", "pin":0, "role":"unknown"})).is_err());
+    run(&mut s, "set_fluid_port_role", json!({"symbol":"user:silencer", "pin":0, "role":"automatic"})).unwrap();
+    assert!(s.project().unwrap().symbols[0].fluid_ports.is_empty());
+}
+
+#[test]
 fn pct_loops_of_the_pre_planning() {
     let mut s = new_session();
     let v = run(&mut s, "set_pct_loop", json!({ "name": "101", "description": "Tank temperature", "devices": "-KF101 -TA101" })).unwrap();

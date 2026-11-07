@@ -1,4 +1,14 @@
 use super::*;
+
+#[test]
+fn requests_advertise_directional_contact_support_of_the_actual_host() {
+    let transport:Transport=std::sync::Arc::new(|request| {
+        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="directional_pin_contacts"));
+        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="explicit_wire_junctions"));
+        Ok(json!({"result":true}))
+    });
+    assert_eq!(ask(&transport,json!({"method":"describe"})).unwrap()["result"],true);
+}
 use crate::{Args, Origin, Plugins};
 use serde_json::Map;
 use openecraft_core::analysis::Analysis;
@@ -44,7 +54,8 @@ fn external_plugins_answer_json_requests() {
     let log = Arc::new(Mutex::new(Vec::new()));
     let mut p = Plugins::default();
     p.add(&fake(log.clone()), Origin::External("fake".into())).unwrap();
-    assert_eq!(log.lock().unwrap()[0], json!({ "method": "describe", "api": API_VERSION }));
+    assert_eq!(log.lock().unwrap()[0]["method"], "describe");
+    assert_eq!(log.lock().unwrap()[0]["api"], API_VERSION);
 
     let mut prj = demo_project();
     let args = json!({ "title": "Plant 7" }).as_object().unwrap().clone();

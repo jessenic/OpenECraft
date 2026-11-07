@@ -6261,3 +6261,29 @@ Building {} is defined more than once	Gebäude {} ist mehrfach definiert	Le bât
 Link {} joins two building entries of the same room	Verbindung {} verbindet zwei Gebäudeeinführungen desselben Raums	La liaison {} relie deux entrées de bâtiment de la même pièce	El enlace {} une dos entradas de edificio de la misma sala
 Link {}: a building entry it joins no longer exists	Verbindung {}: eine verbundene Gebäudeeinführung existiert nicht mehr	Liaison {} : une entrée de bâtiment qu'elle relie n'existe plus	Enlace {}: una entrada de edificio que une ya no existe
 {} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} ist bis zu den Kabeleinführungen seiner Schränke verlegt: sie stehen in keinem gemeinsamen Raum, der Weg dazwischen gehört nicht zum Aufbau	{} {} est posé jusqu'aux entrées de câbles de ses armoires : elles ne sont pas dans une même salle, le trajet entre elles ne fait pas partie de l'implantation	{} {} está tendido hasta las entradas de cables de sus armarios: no están en una misma sala, el trayecto entre ellos no forma parte del diseño
+Connection scope	Verbindungsbereich	Portée de connexion	Ámbito de conexión
+Port function	Anschlussfunktion	Fonction du port	Función del puerto
+Labels	Beschriftungen	Étiquettes	Etiquetas
+Use drawn wire targets	Gezeichnete Drahtziele verwenden	Utiliser les destinations des fils dessinés	Usar los destinos de los hilos dibujados
+Sets physical target paths of a user junction symbol	Legt physische Zielpfade eines Benutzer-Verbindungsknotens fest	Définit les chemins de destination physiques d’un symbole de jonction utilisateur	Establece las rutas de destino físicas de un símbolo de unión de usuario
+Junction paths with links (zero-based pin pairs) and optional directed flag	Knotenpfade mit Verknüpfungen (nullbasierte Anschlusspaare) und optionaler Richtungsangabe	Chemins de jonction avec liaisons (paires de ports à partir de zéro) et indicateur de direction facultatif	Rutas de unión con enlaces (pares de terminales desde cero) e indicador de dirección opcional
+Junction paths need distinct valid connection point indexes	Knotenpfade benötigen unterschiedliche gültige Anschlussindizes	Les chemins de jonction nécessitent des indices de port valides et distincts	Las rutas de unión necesitan índices de terminal válidos y distintos
+Symbol {} is not a junction	Symbol {} ist kein Verbindungsknoten	Le symbole {} n’est pas une jonction	El símbolo {} no es una unión
+Preserve junction target paths	Zielpfade des Verbindungsknotens beibehalten	Conserver les chemins de destination de la jonction	Conservar las rutas de destino de la unión
+Path to connection point {}	Pfad zu Anschlusspunkt {}	Chemin vers le point de connexion {}	Ruta al punto de conexión {}
+Lists native point-to-point wiring connections by symbol ID and pin index	Listet native Punkt-zu-Punkt-Verdrahtungsverbindungen nach Symbol-ID und Anschlussindex auf	Répertorie les connexions de câblage point à point natives par identifiant de symbole et indice de port	Enumera las conexiones de cableado punto a punto nativas por identificador de símbolo e índice de terminal
+Hide automatic wire and cable labels	Automatische Draht- und Kabelbeschriftungen ausblenden	Masquer les étiquettes automatiques des fils et câbles	Ocultar las etiquetas automáticas de hilos y cables
+Sets the fluid port function of a user symbol connection point	Legt die Fluidanschlussfunktion eines Benutzersymbols fest	Définit la fonction fluidique du port d’un symbole utilisateur	Establece la función de fluido de un puerto de un símbolo de usuario
+Zero-based connection point index	Nullbasierter Anschlussindex	Indice de port commençant à zéro	Índice de puerto desde cero
+Port function, or automatic	Anschlussfunktion oder automatic	Fonction du port, ou automatic	Función del puerto, o automatic
+Unknown port function: {}	Unbekannte Anschlussfunktion: {}	Fonction de port inconnue : {}	Función de puerto desconocida: {}
+Symbol {} has no fluid ports	Symbol {} hat keine Fluidanschlüsse	Le symbole {} ne possède aucun port fluidique	El símbolo {} no tiene puertos de fluido
+Connection point index {} is out of range	Anschlussindex {} liegt außerhalb des Bereichs	L’indice de port {} est hors limites	El índice de puerto {} está fuera de rango
+Unknown user symbol: {}	Unbekanntes Benutzersymbol: {}	Symbole utilisateur inconnu : {}	Símbolo de usuario desconocido: {}
+Require explicit wire junctions	Explizite Drahtverbindungen verlangen	Exiger des jonctions explicites	Exigir uniones explícitas
+Sets allowed side contacts of a user symbol connection point	Legt die zulässigen seitlichen Kontakte eines Anschlusspunkts eines Benutzersymbols fest	Définit les contacts latéraux autorisés pour un point de connexion de symbole utilisateur	Define los contactos laterales permitidos de un punto de conexión de símbolo de usuario
+Comma-separated up, right, down, left, all, or none	Kommagetrennt: up, right, down, left, all oder none	Séparés par des virgules : up, right, down, left, all ou none	Separados por comas: up, right, down, left, all o none
+Unknown connection direction: {}	Unbekannte Anschlussrichtung: {}	Direction de connexion inconnue : {}	Dirección de conexión desconocida: {}
+Side contact directions	Seitliche Kontaktrichtungen	Directions des contacts latéraux	Direcciones de contacto lateral
+Up	Oben	Haut	Arriba
+Down	Unten	Bas	Abajo

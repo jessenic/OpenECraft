@@ -760,6 +760,16 @@ pub struct SymbolInst {
     pub values: properties::Values,
 }
 
+impl SymbolInst {
+    /// Electrical identity of an interruption point; its displayed name stays unchanged.
+    pub fn interruption_key(&self) -> String {
+        match self.values.get("function.connection_scope").filter(|scope| !scope.is_empty()) {
+            Some(scope) => format!("\0{}\0{}", scope, self.label),
+            None => self.label.clone(),
+        }
+    }
+}
+
 impl Default for SymbolInst {
     fn default() -> Self {
         SymbolInst {
@@ -847,6 +857,9 @@ pub struct Wire {
     /// Set manually: automatic numbering keeps it.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub number_fixed: bool,
+    /// Suppress automatic number and cable/core labels when annotations are placed separately.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub hide_labels: bool,
     /// Tag of the cable this wire is a core of, and the core designation.
     #[serde(skip_serializing_if = "String::is_empty")]
     pub cable: String,

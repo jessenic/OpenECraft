@@ -30,6 +30,16 @@ impl Plugin for Process {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name: "set_fluid_port_role",
+        help: tr_const!("Sets the fluid port function of a user symbol connection point"),
+        params: &[
+            param("symbol", Kind::Str, tr_const!("Symbol key")),
+            param("pin", Kind::Int, tr_const!("Zero-based connection point index")),
+            param("role", Kind::Str, tr_const!("Port function, or automatic")),
+        ],
+        run: set_fluid_port_role,
+    },
+    Spec {
         name: "list_hoses",
         help: tr_const!("Lists the hoses and pipes (connections between fluid ports) with medium, nominal size, colour and length"),
         params: &[],
@@ -233,6 +243,21 @@ fn configure_hose(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let v = list_hoses(prj, a)?;
     let hoses: Vec<Value> = v["hoses"].as_array().into_iter().flatten().filter(|h| h["net"] == net.name.as_str()).cloned().collect();
     Ok(Value::Array(hoses))
+}
+
+fn set_fluid_port_role(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let key = a.req("symbol");
+    let pin = int_in(a, "pin", 0, u32::MAX.into())?.unwrap_or(0) as usize;
+    let code = a.req("role");
+    let role = if code == "automatic" { None } else {
+        Some(fluid::PortKind::ALL.into_iter().find(|kind| kind.code() == code).ok_or_else(|| tr_fmt!("Unknown port function: {}", code))?)
+    };
+    let def = prj.symbol(key).ok_or_else(|| tr_fmt!("Unknown symbol: {}", key))?;
+    if !def.is_fluid() { return Err(tr_fmt!("Symbol {} has no fluid ports", key)); }
+    if pin >= def.pins.len() { return Err(tr_fmt!("Connection point index {} is out of range", pin)); }
+    let symbol = prj.symbols.iter_mut().find(|s| s.key == key).ok_or_else(|| tr_fmt!("Unknown user symbol: {}", key))?;
+    if let Some(role) = role { symbol.fluid_ports.insert(pin, role); } else { symbol.fluid_ports.remove(&pin); }
+    Ok(json!({ "symbol": key, "pin": pin, "role": code }))
 }
 
 fn list_fluid_nets(prj: &mut Project, _: &Args) -> Result<Value, String> {

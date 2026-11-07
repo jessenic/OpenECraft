@@ -1,5 +1,40 @@
 use super::*;
 
+#[test]
+fn automatic_connections_do_not_duplicate_a_wire_running_through_the_ports() {
+    use crate::symlib::{UserSymbol,UserPin};
+    let mut prj=Project::default();
+    prj.pages[0].values.insert("page.explicit_wire_junctions".into(),"true".into());
+    prj.symbols.push(UserSymbol {key:"user:right".into(),pins:vec![UserPin::default()],pin_directions:[(0,2)].into(),..Default::default()});
+    prj.pages[0].symbols=vec![
+        SymbolInst {id:1,sym:"user:right".into(),tag:"-A1".into(),pos:p(80.,80.),..Default::default()},
+        SymbolInst {id:2,sym:"user:right".into(),tag:"-A2".into(),pos:p(120.,80.),mirror:true,..Default::default()},
+    ];
+    prj.pages[0].wires.push(Wire {id:10,a:p(60.,80.),b:p(140.,80.),..Default::default()});
+    assert_eq!(apply_autoconnect(&mut prj,0,&BTreeSet::from([1])),0);
+}
+
+#[test]
+fn explicit_imported_port_directions_drive_new_automatic_wires_after_reopen() {
+    use crate::symlib::{UserSymbol,UserPin};
+    for crossing in [false,true] {
+        let mut prj=Project::default();
+        prj.pages[0].values.insert("page.explicit_wire_junctions".into(),"true".into());
+        prj.symbols.push(UserSymbol {key:"user:right".into(),pins:vec![UserPin::default()],pin_directions:[(0,2)].into(),..Default::default()});
+        prj.pages[0].symbols=vec![
+            SymbolInst {id:1,sym:"user:right".into(),tag:"-A1".into(),pos:p(80.,80.),..Default::default()},
+            SymbolInst {id:2,sym:"user:right".into(),tag:"-A2".into(),pos:p(120.,80.),mirror:true,..Default::default()},
+        ];
+        if crossing {prj.pages[0].wires.push(Wire {id:10,a:p(80.,60.),b:p(80.,100.),..Default::default()});}
+        prj.next_id=20;
+        let mut prj=Project::from_json(&prj.to_json()).unwrap();
+        assert_eq!(apply_autoconnect(&mut prj,0,&BTreeSet::from([1])),1);
+        let nl=crate::netlist::Netlist::build(&prj,true);
+        assert_eq!(nl.pin_net[&(1,0)],nl.pin_net[&(2,0)]);
+        if crossing {assert_ne!(nl.pin_net[&(1,0)],nl.wire_net[&10]);}
+    }
+}
+
 fn sym(prj: &mut Project, key: &str, pos: P) -> u64 {
     let id = prj.new_id();
     prj.pages[0].symbols.push(SymbolInst { id, sym: key.into(), pos, ..Default::default() });

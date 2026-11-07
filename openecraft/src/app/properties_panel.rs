@@ -340,6 +340,9 @@ impl App {
                     }
                 });
                 ui.end_row();
+                ui.label(tr("Labels"));
+                ui.checkbox(&mut w.hide_labels, tr("Hide automatic wire and cable labels"));
+                ui.end_row();
                 ui.label(tr("Cable"));
                 let shown = if w.cable.is_empty() { "(none)".to_string() } else { here.relative(&w.cable) };
                 egui::ComboBox::from_id_salt("wcable").selected_text(shown).show_ui(ui, |ui| {

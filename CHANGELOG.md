@@ -5,6 +5,15 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Keep directional imported ports and explicit wire junctions from shorting circuits at side crossings or attaching wires to intermediate device ports. Preserve authored wire endpoints and internal jumper rails, and use port directions when adding new automatic connections.
+
+- Preserve physical wire targets through imported junction paths and drawn branches, and keep internal component bridges out of manufacturing connections. Junction paths remain editable in the symbol editor and through plugins; `list_connections` exposes the resulting pin-to-pin wiring.
+
+- Let imported conductors retain separately placed annotations while keeping their editable wire and cable properties.
+
+- Preserve editable fluid port functions on user symbols independently of their connection point numbers.
+- Keep scoped interruption points electrically separate while preserving their displayed names and scoped cross references.
+- Connect intermediate terminal attachments along continuous jumper rails, and expose their net membership to plugins.
 - Keep decorative imported artwork and plot frames from blocking automatic connections and wire routing.
 - Preserve device assignments and catalog parts in portable macros, and render their bundled symbol definitions in previews before insertion.
 - Preserve transparent and palette PNG images in PDF output, and support source plot frames and component-name fields on imported pages.

@@ -25,6 +25,12 @@ impl Plugin for Tables {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name: "list_connections",
+        help: tr_const!("Lists native point-to-point wiring connections by symbol ID and pin index"),
+        params: &[],
+        run: list_connections,
+    },
+    Spec {
         name: "list_nets",
         help: tr_const!("Lists native net membership by symbol ID and pin index"),
         params: &[optional("bridge_terminals", Kind::Bool, tr_const!("Include internal terminal bridges"))],
@@ -75,11 +81,28 @@ pub static COMMANDS: &[Spec] = &[
 
 pub const KIND: Param = param("table", Kind::Str, tr_const!("devices, connections, terminals, cables, plugs, plc, pages or parts"));
 
+fn list_connections(prj: &mut Project, _: &Args) -> Result<Value, String> {
+    let potentials = Netlist::build(prj, true);
+    let open = Netlist::build(prj, false);
+    let endpoint = |pin: openecraft_core::netlist::PinRef| {
+        json!({"symbol":prj.pages[pin.page].symbols[pin.sym].id,"pin":pin.pin})
+    };
+    Ok(Value::Array(openecraft_core::netlist::connections(prj, &potentials, &open).iter().map(|c| {
+        json!({"from":endpoint(c.a),"to":endpoint(c.b),"potential":c.net,"number":c.number,
+               "color":c.color,"cross_section":c.cross_section,"cable":c.cable,"core":c.core})
+    }).collect()))
+}
+
 fn list_nets(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let netlist = Netlist::build(prj, a.value("bridge_terminals").and_then(Value::as_bool).unwrap_or(true));
     let mut pins: Vec<_> = netlist.pin_net.iter().map(|(&(symbol, pin), &net)| (symbol, pin, net)).collect();
     pins.sort_unstable();
-    Ok(json!({"pins": pins.into_iter().map(|(symbol,pin,net)| json!({"symbol":symbol,"pin":pin,"net":net})).collect::<Vec<_>>() }))
+    let mut points: Vec<_> = netlist.connection_point_net.iter().map(|(&(symbol, pin), &net)| (symbol, pin, net)).collect();
+    points.sort_unstable();
+    Ok(json!({
+        "pins": pins.into_iter().map(|(symbol,pin,net)| json!({"symbol":symbol,"pin":pin,"net":net})).collect::<Vec<_>>(),
+        "connection_points": points.into_iter().map(|(symbol,pin,net)| json!({"symbol":symbol,"pin":pin,"net":net})).collect::<Vec<_>>()
+    }))
 }
 
 pub fn kind(a: &Args) -> Result<TableKind, String> {

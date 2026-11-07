@@ -99,6 +99,12 @@ code, with the message on stderr) is an error. `project` is the project as in a
 `.oec` file. A program that has not answered after 5 minutes is stopped and the request
 fails. Plugins run with the rights of the user: load only plugin folders you trust.
 
+Requests also include `project_features`, an array advertising model support in the
+running host. Current names are `directional_pin_contacts`, `explicit_wire_junctions`,
+`directed_junction_paths`, `fluid_port_roles`, `wire_hide_labels` and
+`scoped_connections`. Importers can require features before returning a changed
+project; using a separate updated CLI does not give an older editor these features.
+
 | Request | Answer |
 | --- | --- |
 | `{"method": "describe"}` | `{"commands": [{"name", "help", "params": [{"name", "kind", "required", "help"}]}], "checks": [{"name", "title"}], "reports": [{"name", "title"}], "exporters": [{"name", "title", "extension", "params"}]}` (all lists optional, `params` of exporters too) |
@@ -140,7 +146,43 @@ objects can be supplied as `--json @parameters.json` to avoid shell argument lim
 User symbol pins may set `internal: true` for jumper attachment nodes. They still
 participate in local bridges but do not appear as physical device endpoints.
 `list_nets` exposes native membership by symbol ID and zero-based pin index;
+its `pins` array contains physical device endpoints. The additional
+`connection_points` array includes junction and internal bridge attachment points
+that belong to a wired or physical net, without adding device endpoints or empty
+nets. Importers can verify paths ending at these points through the same command
+in the editor, CLI and MCP.
 `bridge_terminals` defaults to true and can be disabled for individual wire runs.
+`list_connections` returns physical pin-to-pin wire targets as `from` and `to`
+objects containing a symbol ID and zero-based pin index, together with the
+potential, conductor number, color, cross section, cable and core. Internal device
+bridges retain electrical continuity without creating external manufacturing wires.
+User junction symbols may set `directed_junction: true`: their `bridges` then also
+describe physical target paths between spaced ports. `set_symbol_junction_paths`
+accepts a symbol key and `paths: {"links": [[0, 1], [0, 2]], "directed": true}`;
+the symbol editor exposes the same paths. The page property
+`page.use_drawn_wire_targets` preserves explicit branches at device connection points.
+User symbols can supply `pin_directions`, a map from zero-based pin indices to local
+direction masks (up 1, right 2, down 4, left 8). Omitted entries allow every side;
+zero disables automatic side contacts. Directions follow instance rotation and
+mirroring. Saved wire endpoints always connect. `set_pin_connection_directions`
+accepts `symbol`, `pin` and `directions` (`"up,right"`, `"all"` or `"none"`); the
+symbol editor exposes the same directions. New automatic wires use these directions.
+The page property `page.explicit_wire_junctions` makes endpoint-to-interior crossings
+nonconductive unless a junction connects them, and device ports connect only to
+authored wire endpoints. Internal rail attachments and junction ports retain side
+contacts. Junction dots and open-end checks use the same rules.
+An interruption instance can store `function.connection_scope` in its `values`.
+Points connect and cross-reference only others with the same scope and label;
+an empty scope retains the existing project-wide behavior. The label stays the
+displayed name. This property is editable through the property database in the
+editor and the shared CLI/MCP property commands.
+User symbols can supply `fluid_ports`, a map from zero-based pin indices to
+`supply`, `pressure`, `working`, `exhaust`, `return`, `pilot`, `suction`, `leakage`,
+`measuring` or `passage`. An omitted entry keeps designation-based inference.
+These roles survive library copies, portable macros and project serialization;
+`list_symbols` exposes them and `set_fluid_port_role` edits or clears an entry
+(`role: "automatic"`) through the editor's Plugins pane, CLI and MCP. The symbol
+editor also offers the role on the selected fluid connection point.
 `FieldKind::TagName` displays the device name without inherited structure while
 remaining linked to the instance tag. Plot frames can set `visible: false` when
 imported artwork includes its own border and title block; paper geometry remains
@@ -172,6 +214,11 @@ pins and a cross-reference to its main function, without inventing a contact typ
 `Junction` has no device tag and connects only the paths listed in its bridges.
 Its connection points are local routing nodes and are excluded from device
 endpoints in the netlist.
+
+Wires can set `hide_labels: true` when their wire numbers and cable/core labels
+are already drawn as separate annotations. Electrical properties and reports stay
+available. The wire properties panel and `update_wire` command can restore the
+automatic labels; new wires show labels by default.
 
 A complete example is in [`examples/plugins/page_notes`](../examples/plugins/page_notes).
 
