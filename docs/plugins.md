@@ -14,6 +14,12 @@ a built-in tool. Changes a command makes to the project are one undo step.
 `openecraft-cli plugins` lists the loaded plugins, *Tools › Manage plugins* in the
 editor enables and disables them (remembered by the editor).
 
+In *Plugins › Manage plugins*, enter a plugin folder containing `plugin.json`, or
+a parent folder whose subfolders contain plugins, and click *Load plugins*. The
+editor loads them for the current session and remembers usable folders for later
+launches. A failed sibling plugin does not prevent remembering plugins that loaded.
+`OPENECRAFT_PLUGINS` remains available for environment-based configuration.
+
 ## Rust plugins
 
 Built-in plugins live in `crates/openecraft-api/src/builtin.rs` and its submodules and

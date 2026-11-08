@@ -373,6 +373,7 @@ impl App {
         let mut vault = crate::vault::Vault::default();
         let mut macro_lib = None;
         let mut disabled_plugins: Vec<String> = Vec::new();
+        let mut plugin_folders: Vec<String> = Vec::new();
         let mut language: Option<String> = None;
         let mut shortcuts = crate::shortcuts::Shortcuts::default();
         let mut layouts: Vec<crate::workspaces::Layout> = Vec::new();
@@ -399,6 +400,7 @@ impl App {
                 projects_ui.db = db;
             }
             disabled_plugins = eframe::get_value(storage, plugins_ui::STORAGE_KEY).unwrap_or_default();
+            plugin_folders = eframe::get_value(storage, plugins_ui::FOLDERS_KEY).unwrap_or_default();
             if let Some(stored) = eframe::get_value(storage, crate::shortcuts::STORAGE_KEY) {
                 shortcuts = crate::shortcuts::Shortcuts::from_storage(&stored);
             }
@@ -447,6 +449,9 @@ impl App {
             shell.docks.iter().filter_map(|(k, json)| Some((Workspace::from_key(k)?, crate::dock::from_json(json)?))).filter(|(w, _)| *w != workspace).collect();
         let mut plugins = openecraft_api::Plugins::new(Vec::<String>::new());
         plugins.load_env();
+        for folder in &plugin_folders {
+            plugins.load_dir(std::path::Path::new(folder));
+        }
         for id in &disabled_plugins {
             plugins.set_enabled(id, false);
         }
@@ -542,7 +547,7 @@ impl App {
             compare_ui: Default::default(),
             requests_ui: Default::default(),
             plugins,
-            plugins_ui: Default::default(),
+            plugins_ui: plugins_ui::PluginsUi::with_folders(plugin_folders),
             autosave,
             ribbon,
             backstage: None,
@@ -1057,6 +1062,7 @@ impl eframe::App for App {
         eframe::set_value(storage, "vault_name", &self.vault.vault_name);
         eframe::set_value(storage, "vault_user", &self.vault.user);
         eframe::set_value(storage, plugins_ui::STORAGE_KEY, &self.plugins.disabled());
+        eframe::set_value(storage, plugins_ui::FOLDERS_KEY, &self.plugins_ui.folders());
         eframe::set_value(storage, crate::shortcuts::STORAGE_KEY, &self.editor.shortcuts.to_storage());
         eframe::set_value(storage, crate::workspaces::STORAGE_KEY, &self.layouts);
         storage.set_string(crate::dock::STORAGE_KEY, crate::dock::to_json(&self.dock));

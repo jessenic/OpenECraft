@@ -6302,3 +6302,7 @@ Add default property	Standardeigenschaft hinzufügen	Ajouter une propriété par
 Row step	Zeilenabstand	Pas des lignes	Paso de filas
 Flow alignment	Blockausrichtung	Alignement du bloc	Alineación del bloque
 Add row	Zeile hinzufügen	Ajouter une ligne	Añadir fila
+Wire type	Leitertyp	Type de conducteur	Tipo de conductor
+Plugin folder	Plugin-Ordner	Dossier des plugins	Carpeta de plugins
+Load plugins	Plugins laden	Charger les plugins	Cargar plugins
+Folder containing plugin subfolders with plugin.json files	Ordner mit Plugin-Unterordnern und plugin.json-Dateien	Dossier contenant des sous-dossiers de plugins avec des fichiers plugin.json	Carpeta que contiene subcarpetas de plugins con archivos plugin.json

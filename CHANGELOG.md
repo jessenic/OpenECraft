@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Load external plugin folders from Manage plugins and remember them for later launches. Clear previous Find results after successful plugin commands.
+
 - Clear cached Find results when opening or creating another project.
 
 - Let wires and connection definitions be selected inside decorative symbol bounds.

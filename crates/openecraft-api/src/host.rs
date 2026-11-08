@@ -78,8 +78,12 @@ impl Plugins {
         Ok(())
     }
 
-    /// Loads the external plugins in the subfolders of `dir` (each with a `plugin.json`).
+    /// Loads a plugin folder or the plugins in its subfolders (each with a `plugin.json`).
     pub fn load_dir(&mut self, dir: &Path) {
+        if dir.join(external::MANIFEST).is_file() {
+            self.load_plugin_dir(dir);
+            return;
+        }
         let Ok(entries) = std::fs::read_dir(dir) else {
             self.errors.push(tr_fmt!("Cannot read the plugin folder {}", dir.display()));
             return;
@@ -87,10 +91,14 @@ impl Plugins {
         let mut dirs: Vec<PathBuf> = entries.flatten().map(|e| e.path()).filter(|p| p.join(external::MANIFEST).is_file()).collect();
         dirs.sort();
         for d in dirs {
-            let result = external::External::open(&d).and_then(|plugin| self.add(&plugin, Origin::External(d.clone())));
-            if let Err(e) = result {
-                self.errors.push(e);
-            }
+            self.load_plugin_dir(&d);
+        }
+    }
+
+    fn load_plugin_dir(&mut self, dir: &Path) {
+        let result = external::External::open(dir).and_then(|plugin| self.add(&plugin, Origin::External(dir.to_path_buf())));
+        if let Err(e) = result {
+            self.errors.push(e);
         }
     }
 
