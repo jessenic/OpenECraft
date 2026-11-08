@@ -738,7 +738,8 @@ impl Editor {
     }
 
     /// Hit test: returns the id of the item under `q` (world), preferring texts and
-    /// symbols. Items on hidden or locked layers are skipped.
+    /// electrical symbols. Decorative symbols stay behind wires and their
+    /// definitions. Items on hidden or locked layers are skipped.
     pub fn hit(&self, prj: &Project, page_i: usize, q: P) -> Option<u64> {
         let page = &prj.pages[page_i];
         let tol = (8.0 / self.zoom).max(0.4);
@@ -749,13 +750,15 @@ impl Editor {
             }
         }
         let mut best: Option<(f32, u64)> = None;
+        let mut graphic: Option<(f32, u64)> = None;
         for s in page.symbols.iter().rev() {
             let Some(def) = prj.symbol(&s.sym) else { continue };
             let b = def.world_bounds(s.pos, s.rot, s.mirror);
             if b.expand(tol * 0.5).contains(q) {
                 let d = b.center().dist(q) / (b.width() + b.height()).max(1.0);
-                if best.map(|(bd, _)| d < bd).unwrap_or(true) {
-                    best = Some((d, s.id));
+                let candidate = if def.func == openecraft_core::symbols::Func::Graphic { &mut graphic } else { &mut best };
+                if candidate.map(|(bd, _)| d < bd).unwrap_or(true) {
+                    *candidate = Some((d, s.id));
                 }
             }
         }
@@ -775,6 +778,9 @@ impl Editor {
         }
         if let Some(c) = page.cable_defs.iter().rev().find(|c| dist_to_segment(q, c.a, c.b) <= tol) {
             return Some(c.id);
+        }
+        if let Some((_, id)) = graphic {
+            return Some(id);
         }
         if let Some(d) = page.dimensions.iter().rev().find(|d| usable(&d.layer) && graphics::dim_hit(d, q, tol)) {
             return Some(d.id);

@@ -5,6 +5,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Let wires and connection definitions be selected inside decorative symbol bounds.
+
+- Preserve editable conductor types in wire properties, connection tables, API and reports.
+
 - Add editable, flowing symbol attribute blocks that resolve current function and part properties in drawings and exports, with library defaults for new placements.
 
 - Select an assigned part independently for each device function, retain the selection when earlier parts are removed, and report removed selected parts. Expose live function manufacturers, selection text and batch attribute inspection to plugins.
