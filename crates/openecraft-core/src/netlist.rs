@@ -128,7 +128,7 @@ impl PageScan {
                 let n = point(&mut uf, q);
                 *degree.entry(n).or_default() += 1;
                 nodes.push(n);
-                if def.func != Func::Junction {
+                if def.func != Func::Junction && !def.pins[i].internal {
                     pins.push((si, s.id, i, n, def.is_fluid()));
                 }
             }

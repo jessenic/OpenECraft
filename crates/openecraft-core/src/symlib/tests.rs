@@ -21,7 +21,7 @@ fn imported_symbol_domain_keeps_fluid_ports_out_of_electrical_nets() {
     for (key, domain, x) in [("user:fluid", SymbolDomain::Fluid, 20.), ("user:electrical", SymbolDomain::Electrical, 30.)] {
         prj.symbols.push(UserSymbol {
             key: key.into(), domain,
-            pins: vec![UserPin { pos: p(0., 0.), label: "1".into() }],
+            pins: vec![UserPin { pos: p(0., 0.), label: "1".into(), internal: false }],
             ..Default::default()
         });
         prj.pages[0].symbols.push(SymbolInst { id: x as u64, sym: key.into(), pos: p(x, 20.), ..Default::default() });
@@ -64,7 +64,7 @@ fn box_symbol(key: &str) -> UserSymbol {
         name: "Test box".into(),
         letter: "A".into(),
         prims: vec![Prim::Poly { pts: vec![p(-4.0, -4.0), p(4.0, -4.0), p(4.0, 4.0), p(-4.0, 4.0)], closed: true, fill: false }],
-        pins: vec![UserPin { pos: p(0.0, -8.0), label: "1".into() }, UserPin { pos: p(0.0, 8.0), label: "2".into() }],
+        pins: vec![UserPin { pos: p(0.0, -8.0), label: "1".into(), internal: false }, UserPin { pos: p(0.0, 8.0), label: "2".into(), internal: false }],
         ..Default::default()
     }
 }
@@ -80,12 +80,12 @@ fn user_symbols_are_looked_up_per_project() {
     // Another project with the same key has a definition of its own.
     let mut other = crate::model::Project::default();
     let mut v = u.clone();
-    v.pins.push(UserPin { pos: p(8.0, 8.0), label: "3".into() });
+    v.pins.push(UserPin { pos: p(8.0, 8.0), label: "3".into(), internal: false });
     other.symbols.push(v);
     assert_eq!(other.symbol("user:test_table").unwrap().pins.len(), 3);
     assert_eq!(prj.symbol("user:test_table").unwrap().pins.len(), 2);
     // Edits are seen at once, removed symbols are gone, built-in ones stay.
-    prj.symbols[0].pins.push(UserPin { pos: p(8.0, 8.0), label: "3".into() });
+    prj.symbols[0].pins.push(UserPin { pos: p(8.0, 8.0), label: "3".into(), internal: false });
     assert_eq!(prj.symbol("user:test_table").unwrap().pins.len(), 3);
     prj.symbols.clear();
     assert!(prj.symbol("user:test_table").is_none());
@@ -136,7 +136,7 @@ fn problems_are_reported() {
     let mut u = box_symbol("user:p");
     assert!(problems(&u).is_empty());
     u.pins[1].pos = p(1.0, 8.0);
-    u.pins.push(UserPin { pos: p(0.0, -8.0), label: "3".into() });
+    u.pins.push(UserPin { pos: p(0.0, -8.0), label: "3".into(), internal: false });
     let msgs = problems(&u);
     assert!(msgs.iter().any(|m| m.contains("not on the")), "{msgs:?}");
     assert!(msgs.iter().any(|m| m.contains("lies on another")), "{msgs:?}");
@@ -163,7 +163,7 @@ fn hit_test_prefers_pins_and_moves_elements() {
 #[test]
 fn removing_a_pin_fixes_bridges() {
     let mut u = box_symbol("user:b");
-    u.pins.push(UserPin { pos: p(8.0, 8.0), label: "3".into() });
+    u.pins.push(UserPin { pos: p(8.0, 8.0), label: "3".into(), internal: false });
     u.bridges = vec![(0, 1), (1, 2)];
     remove_pin(&mut u, 0);
     assert_eq!(u.pins.len(), 2);

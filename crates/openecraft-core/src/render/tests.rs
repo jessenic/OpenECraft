@@ -5,7 +5,7 @@ fn imported_pin_fields_follow_instance_designations_and_explicit_angles() {
     let mut prj = Project::default();
     prj.symbols.push(crate::symlib::UserSymbol {
         key: "user:pin_field".into(), show_tag: false,
-        pins: vec![crate::symlib::UserPin { pos: p(0., 0.), label: "13".into() }],
+        pins: vec![crate::symlib::UserPin { pos: p(0., 0.), label: "13".into(), internal: false }],
         prims: vec![Prim::Field { kind: FieldKind::Pin(0), pos: p(0., 2.), size: 2., anchor: Anchor::Left, angle: Some(90.) }],
         ..Default::default()
     });

@@ -3,6 +3,42 @@ use crate::geom::p;
 use crate::symlib::Symbols;
 
 #[test]
+fn portable_clip_installs_definitions_without_overwriting_local_edits() {
+    let mut project = Project::default();
+    let definition = crate::symlib::UserSymbol { key: "user:portable".into(), name: "Incoming".into(), ..Default::default() };
+    let mut clip = Clip::new();
+    clip.symbol_defs.push(definition.clone());
+    clip.symbols.push(SymbolInst { id: 1, sym: definition.key.clone(), pos: p(10., 10.), ..Default::default() });
+    project.symbols.push(crate::symlib::UserSymbol { name: "Locally edited".into(), ..definition });
+    paste(&mut project, 0, &clip, p(40., 40.));
+    assert_eq!(project.symbols.len(), 2);
+    assert_eq!(project.symbols[0].name, "Locally edited");
+    assert_eq!(project.pages[0].symbols[0].sym, "user:portable_import_1");
+    paste(&mut project, 0, &clip, p(80., 40.));
+    assert_eq!(project.symbols.len(), 2);
+    let restored = Clip::from_text(&clip.to_text()).unwrap();
+    assert_eq!(restored.symbol_defs, clip.symbol_defs);
+    assert!(clip.symbol(&Project::default(),"user:portable").is_some());
+}
+
+#[test]
+fn portable_clip_renames_device_assignments_and_keeps_existing_catalog_parts() {
+    let mut project=Project::default();
+    project.parts.push(Part {number:"P1".into(),description:"Local catalog".into(),..Default::default()});
+    project.pages[0].symbols.push(SymbolInst {id:2,sym:"coil".into(),tag:"-K1".into(),..Default::default()});
+    let mut clip=Clip::new();
+    clip.symbols.push(SymbolInst {id:1,sym:"coil".into(),tag:"-K1".into(),..Default::default()});
+    clip.parts.push(Part {number:"P1".into(),description:"Incoming".into(),..Default::default()});
+    clip.parts.push(Part {number:"P2".into(),..Default::default()});
+    clip.devices.insert("-K1".into(),DeviceData {parts:vec![PartRef {number:"P1".into(),..Default::default()},PartRef {number:"P2".into(),..Default::default()}],..Default::default()});
+    paste(&mut project,0,&clip,p(80.,40.));
+    assert_eq!(project.parts.len(),2);
+    assert_eq!(project.parts[0].description,"Local catalog");
+    assert_eq!(project.devices["-K2"].parts.len(),2);
+    assert!(!project.devices.contains_key("-K1"));
+}
+
+#[test]
 fn contact_numbering_and_tag_follow_coil() {
     let mut prj = Project::default();
     let mut ctx = PlaceCtx::default();

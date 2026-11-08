@@ -126,6 +126,22 @@ definitions can retain importer identifiers and vendor properties as JSON.
 `Project.import_sources` maps stable source IDs to JSON datasets, including records
 that have no native editing surface. These fields are optional for older files.
 
+Portable native macro clips may carry `symbol_defs`, an array of project symbol
+definitions. Inserting a clip installs missing definitions and renames conflicting
+incoming keys, preserving local edits and updating the incoming instances. The
+optional `devices` map and `parts` array carry device assignments and catalog records.
+Insertion renames device assignments with their instances and installs missing parts
+without overwriting local catalog records. `Part.symbol` follows renamed definitions.
+Macro previews resolve bundled definitions before consulting the destination project.
+The
+`insert_macro` command accepts a native macro as a JSON string plus `page`, `x`
+and `y`. The editor, CLI and MCP expose the same command. Large CLI parameter
+objects can be supplied as `--json @parameters.json` to avoid shell argument limits.
+User symbol pins may set `internal: true` for jumper attachment nodes. They still
+participate in local bridges but do not appear as physical device endpoints.
+`list_nets` exposes native membership by symbol ID and zero-based pin index;
+`bridge_terminals` defaults to true and can be disabled for individual wire runs.
+
 Project symbol definitions can contain an `Image` drawing primitive. It carries a
 file `name`, base64 encoded `data`, and four `corners` in
 local symbol coordinates, ordered top left, top right, bottom right, bottom left.

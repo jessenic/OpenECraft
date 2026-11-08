@@ -66,6 +66,9 @@ pub struct UserPin {
     pub pos: P,
     /// Default connection point designation.
     pub label: String,
+    /// Internal bridge attachment rather than a physical device connection point.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub internal: bool,
 }
 
 impl super::Project {

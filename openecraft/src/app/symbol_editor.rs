@@ -99,7 +99,7 @@ impl App {
                             let mut u = UserSymbol::default();
                             u.key = symlib::new_key(&prj.symbols, &u.name);
                             u.prims.push(Prim::Poly { pts: vec![p(-4.0, -4.0), p(4.0, -4.0), p(4.0, 4.0), p(-4.0, 4.0)], closed: true, fill: false });
-                            u.pins = vec![UserPin { pos: p(0.0, -8.0), label: "1".into() }, UserPin { pos: p(0.0, 8.0), label: "2".into() }];
+                            u.pins = vec![UserPin { pos: p(0.0, -8.0), label: "1".into(), internal: false }, UserPin { pos: p(0.0, 8.0), label: "2".into(), internal: false }];
                             u.prims.push(Prim::Line { a: p(0.0, -8.0), b: p(0.0, -4.0), dashed: false });
                             u.prims.push(Prim::Line { a: p(0.0, 4.0), b: p(0.0, 8.0), dashed: false });
                             se.sel = Some(u.key.clone());
@@ -306,6 +306,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                 point_edit(ui, tr("Position"), &mut u.pins[i].pos, GRID);
             });
             u.pins[i].pos = symlib::snap(u.pins[i].pos, GRID);
+            ui.checkbox(&mut u.pins[i].internal, tr("Internal bridge attachment"));
             delete = icons::text_button(ui, Icon::Delete, tr("Delete connection point")).clicked();
         }
         Some(Hit::Prim(i)) if i < u.prims.len() => {
@@ -535,11 +536,7 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
             }
         }
         (SymTool::Pin, Some(q)) if clicked => {
-            if !u.pins.iter().any(|x| x.pos.same(q)) {
-                let label = symlib::next_pin_label(u);
-                u.pins.push(UserPin { pos: q, label });
-                se.hit = Some(Hit::Pin(u.pins.len() - 1));
-            }
+            add_pin(se, u, q);
         }
         (SymTool::Text, Some(q)) if clicked => {
             let text = if se.text.trim().is_empty() { "Text".to_string() } else { se.text.clone() };
@@ -600,5 +597,12 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
     }
     if let Some(q) = ptr {
         painter.text(rect.left_top() + vec2(6.0, 6.0), egui::Align2::LEFT_TOP, format!("x {:.1}  y {:.1} mm", q.x, q.y), egui::FontId::monospace(11.0), pal.frame);
+    }
+}
+
+fn add_pin(se: &mut SymbolEditor, u: &mut UserSymbol, pos: P) {
+    if !u.pins.iter().any(|pin| pin.pos.same(pos)) {
+        u.pins.push(UserPin { pos, label: symlib::next_pin_label(u), internal: false });
+        se.hit = Some(Hit::Pin(u.pins.len() - 1));
     }
 }

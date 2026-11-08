@@ -278,6 +278,7 @@ pub enum Prim {
 pub struct PinDef {
     pub pos: P,
     pub label: &'static str,
+    pub internal: bool,
 }
 
 /// A single channel represented by a vendor macro. The channel index is
@@ -436,7 +437,7 @@ impl B {
         self
     }
     fn pin(&mut self, x: f32, y: f32, label: &'static str) -> &mut Self {
-        self.pins.push(PinDef { pos: p(x, y), label });
+        self.pins.push(PinDef { pos: p(x, y), label, internal: false });
         self
     }
 

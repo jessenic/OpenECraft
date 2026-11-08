@@ -113,6 +113,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   trench, conduit, cable bridge between building entries) carry routes from room to
   room; devices go on the outside of the walls and on the roof; a Buildings pane with
   a site plan, the plugin `buildings` with its commands, a check and example 15.
+- Preserve device assignments and catalog parts in portable macros, and render their bundled symbol definitions in previews before insertion.
+- Preserve transparent and palette PNG images in PDF output, and support source plot frames and component-name fields on imported pages.
+- Keep custom symbol definitions with portable native macros, preserve local edits on insertion, and distinguish internal jumper attachments from physical terminals.
+- Expose macro insertion and native net membership through plugins, and accept large CLI parameter objects from JSON files.
 - Let imported parts select project symbol definitions across editor, CLI and MCP placement, and retain vendor source records with projects.
 - Preserve embedded bitmaps in imported symbol libraries, including rotated and mirrored instances on the canvas and in SVG and PDF output.
 - Preserve the connectivity domain of imported fluid and process symbols so their ports stay distinct from electrical connections.

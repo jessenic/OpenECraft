@@ -25,6 +25,12 @@ impl Plugin for Tables {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name: "list_nets",
+        help: tr_const!("Lists native net membership by symbol ID and pin index"),
+        params: &[optional("bridge_terminals", Kind::Bool, tr_const!("Include internal terminal bridges"))],
+        run: list_nets,
+    },
+    Spec {
         name: "find",
         help: tr_const!("Finds text in the whole project: pages, device tags, function texts, free texts, wire numbers, terminals, cables, parts, descriptions"),
         params: &[
@@ -68,6 +74,13 @@ pub static COMMANDS: &[Spec] = &[
 ];
 
 pub const KIND: Param = param("table", Kind::Str, tr_const!("devices, connections, terminals, cables, plugs, plc, pages or parts"));
+
+fn list_nets(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let netlist = Netlist::build(prj, a.value("bridge_terminals").and_then(Value::as_bool).unwrap_or(true));
+    let mut pins: Vec<_> = netlist.pin_net.iter().map(|(&(symbol, pin), &net)| (symbol, pin, net)).collect();
+    pins.sort_unstable();
+    Ok(json!({"pins": pins.into_iter().map(|(symbol,pin,net)| json!({"symbol":symbol,"pin":pin,"net":net})).collect::<Vec<_>>() }))
+}
 
 pub fn kind(a: &Args) -> Result<TableKind, String> {
     TableKind::from_key(a.req("table")).ok_or_else(|| tr_fmt!("Unknown table: {}", a.req("table")))

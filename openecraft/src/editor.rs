@@ -1215,7 +1215,7 @@ impl Editor {
                 if let Some(clip) = &self.insert {
                     let d = ops::paste_offset(clip, sn);
                     for s in &clip.symbols {
-                        if let Some(def) = prj.symbol(&s.sym) {
+                        if let Some(def) = clip.symbol(prj,&s.sym) {
                             let inst = SymbolInst { pos: s.pos + d, ..s.clone() };
                             render::draw_symbol(g, &def, &inst, Ink::Ghost);
                         }

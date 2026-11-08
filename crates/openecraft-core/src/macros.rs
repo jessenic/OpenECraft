@@ -175,6 +175,14 @@ fn texts_mut(clip: &mut Clip) -> Vec<&mut String> {
         v.push(&mut w.cross_section);
     }
     v.extend(clip.texts.iter_mut().map(|t| &mut t.text));
+    for device in clip.devices.values_mut() {
+        v.push(&mut device.description);
+        v.extend(device.parts.iter_mut().map(|p| &mut p.number));
+    }
+    for part in &mut clip.parts {
+        v.push(&mut part.number);
+        v.push(&mut part.description);
+    }
     v
 }
 
@@ -186,6 +194,9 @@ impl Macro {
         for t in texts_mut(&mut clip) {
             scan(t, &mut set);
         }
+        for tag in clip.devices.keys() {
+            scan(tag, &mut set);
+        }
         scan(&self.page_description, &mut set);
         set.into_iter().collect()
     }
@@ -196,6 +207,7 @@ impl Macro {
         for t in texts_mut(&mut clip) {
             *t = fill(t, values);
         }
+        clip.devices = clip.devices.into_iter().map(|(tag, data)| (fill(&tag, values), data)).collect();
         clip
     }
 

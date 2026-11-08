@@ -34,6 +34,17 @@ impl Plugin for Drawing {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name: "insert_macro",
+        help: tr_const!("Inserts a native macro with its symbol definitions on a page"),
+        params: &[
+            PAGE,
+            param("macro", Kind::Str, tr_const!("Native macro JSON")),
+            param("x", Kind::Num, tr_const!("X position in mm")),
+            param("y", Kind::Num, tr_const!("Y position in mm (downwards)")),
+        ],
+        run: insert_macro,
+    },
+    Spec {
         name: "import_ema",
         help: tr_const!("Imports 2D EPLAN window macro variants into the project symbol library"),
         params: &[param("xml", Kind::Str, tr_const!("EPLAN window macro XML"))],
@@ -608,6 +619,13 @@ fn import_ema(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let added = openecraft_core::symlib::ema::import_project(prj, &variants);
     let windows: Vec<_> = variants.iter().filter_map(openecraft_core::macros::eplan_window).collect();
     Ok(json!({"added":added,"variants":variants,"macros":windows}))
+}
+
+fn insert_macro(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let page = editable(prj, a.req("page"))?;
+    let m: openecraft_core::macros::Macro = serde_json::from_str(a.req("macro")).map_err(|e| e.to_string())?;
+    let ids = ops::paste(prj, page, &m.clip, p(a.num("x").unwrap_or_default(), a.num("y").unwrap_or_default()));
+    Ok(json!({ "ids": ids, "symbol_definitions": m.clip.symbol_defs.len() }))
 }
 
 fn place_part(prj: &mut Project, a: &Args) -> Result<Value, String> {

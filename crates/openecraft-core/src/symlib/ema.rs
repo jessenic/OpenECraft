@@ -390,7 +390,7 @@ impl Reader<'_> {
         for (pin, label) in symbol.pins.iter().zip(labels) {
             let name = if label.is_empty() { pin.label.as_str() } else { label };
             let label = if plug.is_empty() { name.to_string() } else { format!("{plug}.{name}") };
-            target.pins.push(UserPin { pos: pt(pin.pos), label });
+            target.pins.push(UserPin { pos: pt(pin.pos), label, internal: false });
         }
         for &(a, b) in &symbol.bridges {
             if a < symbol.pins.len() && b < symbol.pins.len() {

@@ -220,7 +220,8 @@ impl App {
             Cmd::Quit => ctx.send_viewport_cmd(egui::ViewportCommand::Close),
             // ------------------------------------------------------------ home
             Cmd::Cut | Cmd::Copy => {
-                let clip = ops::copy(&self.session.prj.pages[page], &self.editor.selection);
+                let mut clip = ops::copy(&self.session.prj.pages[page], &self.editor.selection);
+                clip.include_project_data(&self.session.prj);
                 ctx.copy_text(clip.to_text());
                 self.editor.clip = Some(clip);
                 if cmd == Cmd::Cut {

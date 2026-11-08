@@ -2,6 +2,23 @@ use super::*;
 use crate::geom::p;
 use crate::sample::demo_project;
 
+#[test]
+fn portable_device_and_catalog_placeholders_resolve_together() {
+    let m: Macro = serde_json::from_value(serde_json::json!({
+        "clip": {
+            "devices": {"-K{UNIT}": {"description": "{LOAD}", "parts": [{"number": "{ARTICLE}", "quantity": 1}]}},
+            "parts": [{"number": "{ARTICLE}", "description": "{LOAD}"}]
+        }
+    })).unwrap();
+    assert_eq!(m.placeholders(), ["ARTICLE", "LOAD", "UNIT"]);
+    let clip = m.resolve(&BTreeMap::from([
+        ("UNIT".into(), "7".into()), ("LOAD".into(), "Pump".into()), ("ARTICLE".into(), "A123".into()),
+    ]));
+    assert_eq!(clip.devices["-K7"].parts[0].number, "A123");
+    assert_eq!(clip.devices["-K7"].description, "Pump");
+    assert_eq!((clip.parts[0].number.as_str(), clip.parts[0].description.as_str()), ("A123", "Pump"));
+}
+
 /// Window macro of the motor feeder on page 2 with placeholders.
 fn motor_macro(prj: &Project) -> Macro {
     let page = &prj.pages[1];

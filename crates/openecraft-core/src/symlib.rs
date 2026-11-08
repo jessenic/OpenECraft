@@ -93,7 +93,7 @@ pub(crate) fn to_def(u: &UserSymbol) -> SymbolDef {
         func: u.func,
         plc_channel: u.plc_channel.clone(),
         prims: u.prims.clone(),
-        pins: u.pins.iter().map(|x| PinDef { pos: x.pos, label: intern(&x.label) }).collect(),
+        pins: u.pins.iter().map(|x| PinDef { pos: x.pos, label: intern(&x.label), internal: x.internal }).collect(),
         bridges: u.bridges.iter().copied().filter(|(a, b)| *a < u.pins.len() && *b < u.pins.len()).collect(),
         default_label: intern(&u.default_label),
         auto_number: u.auto_number,
@@ -197,6 +197,7 @@ fn hash_symbols(list: &[UserSymbol], mut h: impl Hasher) -> u64 {
         for pin in &u.pins {
             hash_point(pin.pos, &mut h);
             pin.label.hash(&mut h);
+            if pin.internal { true.hash(&mut h); }
         }
         u.bridges.hash(&mut h);
     }
@@ -304,7 +305,7 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
         show_tag: def.show_tag,
         show_pin_labels: def.show_pin_labels,
         prims: def.prims.clone(),
-        pins: def.pins.iter().map(|x| UserPin { pos: x.pos, label: x.label.into() }).collect(),
+        pins: def.pins.iter().map(|x| UserPin { pos: x.pos, label: x.label.into(), internal: x.internal }).collect(),
         bridges: def.bridges.clone(),
     }
 }

@@ -6,11 +6,11 @@ fn imported_junction_connects_paths_without_becoming_a_device_endpoint() {
     let mut prj = Project::default();
     prj.symbols.push(UserSymbol {
         key: "user:junction".into(), func: Func::Junction,
-        pins: vec![UserPin { pos: p(0., 0.), label: "a".into() }, UserPin { pos: p(5., 0.), label: "a".into() }],
+        pins: vec![UserPin { pos: p(0., 0.), label: "a".into(), internal: false }, UserPin { pos: p(5., 0.), label: "a".into(), internal: false }],
         bridges: vec![(0, 1)], ..Default::default()
     });
     prj.symbols.push(UserSymbol {
-        key: "user:end".into(), pins: vec![UserPin { pos: p(0., 0.), label: "1".into() }], ..Default::default()
+        key: "user:end".into(), pins: vec![UserPin { pos: p(0., 0.), label: "1".into(), internal: false }], ..Default::default()
     });
     prj.pages[0].symbols = vec![
         SymbolInst { id: 1, sym: "user:end".into(), tag: "-A1".into(), pos: p(10., 20.), ..Default::default() },
@@ -159,4 +159,22 @@ fn potentials_and_interruptions_without_pins_name_nothing() {
     let nl = Netlist::build(&prj, true);
     assert!(nl.nets.iter().all(|n| !n.named));
     let _ = crate::analysis::Analysis::build(&prj);
+}
+#[test]
+fn internal_bridge_attachments_connect_without_becoming_device_endpoints() {
+    let mut project = Project::default();
+    let definition = crate::symlib::UserSymbol {
+        key: "user:bridge".into(),
+        pins: vec![
+            crate::symlib::UserPin { pos: p(0.,0.), label: "1".into(), internal:false },
+            crate::symlib::UserPin { pos: p(4.,0.), label: String::new(), internal:true },
+            crate::symlib::UserPin { pos: p(8.,0.), label: "2".into(), internal:false },
+        ],
+        bridges:vec![(0,1),(1,2)], ..Default::default()
+    };
+    project.pages[0].symbols.push(SymbolInst { id:2,sym:definition.key.clone(),..Default::default() });
+    project.symbols.push(definition);
+    let nets=Netlist::build(&project,true);
+    assert_eq!(nets.pin_net[&(2,0)],nets.pin_net[&(2,2)]);
+    assert!(!nets.pin_net.contains_key(&(2,1)));
 }

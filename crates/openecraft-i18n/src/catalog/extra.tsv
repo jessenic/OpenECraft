@@ -6252,3 +6252,8 @@ Representations	Darstellungsarten	Représentations	Representaciones
 Auxiliary function	Hilfsfunktion	Fonction auxiliaire	Función auxiliar
 
 Junction	Verbindungsknoten	Jonction	Nodo de conexión
+Inserts a native macro with its symbol definitions on a page	Fügt ein natives Makro mit seinen Symboldefinitionen auf einer Seite ein	Insère une macro native avec ses définitions de symboles sur une page	Inserta una macro nativa con sus definiciones de símbolos en una página
+Native macro JSON	Natives Makro als JSON	Macro native JSON	Macro nativa JSON
+Lists native net membership by symbol ID and pin index	Listet die native Netzzugehörigkeit nach Symbol-ID und Anschlussindex auf	Liste les réseaux natifs par identifiant de symbole et indice de broche	Lista las redes nativas por identificador de símbolo e índice de pin
+Include internal terminal bridges	Interne Klemmenbrücken einbeziehen	Inclure les ponts internes des bornes	Incluir los puentes internos de los bornes
+Internal bridge attachment	Interner Brückenanschluss	Point de pont interne	Punto de puente interno

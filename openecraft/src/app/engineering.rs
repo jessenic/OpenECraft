@@ -54,7 +54,7 @@ fn clip_preview(ui: &mut egui::Ui, prj: &Project, clip: &Clip, size: egui::Vec2)
     let (resp, painter) = ui.allocate_painter(size, egui::Sense::hover());
     let pal = Palette::new(ui.visuals().dark_mode);
     painter.rect_filled(resp.rect, 4.0, pal.paper);
-    let b = clip.bounds().expand(4.0);
+    let b = clip.drawing_bounds().expand(4.0);
     if !b.is_valid() {
         return;
     }
@@ -68,7 +68,7 @@ fn clip_preview(ui: &mut egui::Ui, prj: &Project, clip: &Clip, size: egui::Vec2)
         render::draw_shape(&mut d, s, Ink::Line);
     }
     for s in &clip.symbols {
-        if let Some(def) = prj.symbol(&s.sym) {
+        if let Some(def) = clip.symbol(prj,&s.sym) {
             render::draw_symbol(&mut d, &def, s, Ink::Line);
         }
     }
@@ -81,11 +81,12 @@ impl App {
     /// Opens the save dialog for the selection (window macro) or the page (page macro).
     pub(super) fn save_as_macro(&mut self, whole_page: bool) {
         let page = &self.session.prj.pages[self.session.page];
-        let m = if whole_page {
+        let mut m = if whole_page {
             macros::from_page(page, &page.description)
         } else {
             macros::from_selection(page, &self.editor.selection, "")
         };
+        m.clip.include_project_data(&self.session.prj);
         self.eng.saving = Some(m);
         self.eng.saving_variant.clear();
     }

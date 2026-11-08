@@ -6,7 +6,7 @@ use crate::model::*;
 use crate::sections;
 use crate::symlib::Symbols;
 use crate::symbols::{ContactKind, Func, PinKind, SymbolDef};
-use std::collections::{BTreeSet, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 pub use crate::model::ops::Clip;
 
 /// Context remembered between placements (e.g. the coil contacts belong to).
@@ -491,12 +491,14 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
     Clip {
         magic: CLIP_MAGIC.into(),
         anchor: None,
-        symbol_defs: Default::default(),
         function: page.function.clone(),
         installation: page.installation.clone(),
         location: page.location.clone(),
         product: page.product.clone(),
         symbols: page.symbols.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
+        symbol_defs: Default::default(),
+        devices: BTreeMap::new(),
+        parts: Vec::new(),
         wires: page.wires.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         texts: page.texts.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         shapes: page.shapes.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
@@ -505,10 +507,50 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
         conn_defs: page.conn_defs.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         cable_defs: page.cable_defs.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         junctions: page.junctions.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
+        symbol_cache: Default::default(),
     }
 }
 
 impl Clip {
+    /// Resolve a portable definition before consulting the destination project.
+    pub fn symbol(&self, project: &Project, key: &str) -> Option<crate::symbols::SymbolRef> {
+        self.symbol_cache.table(&self.symbol_defs).get(key).or_else(|| project.symbol(key))
+    }
+
+    /// Full visible extent for previews; insertion still uses the clip's anchor.
+    pub fn drawing_bounds(&self) -> R {
+        let mut bounds = self.bounds();
+        let symbols = self.symbol_cache.table(&self.symbol_defs);
+        for instance in &self.symbols {
+            if let Some(definition) = symbols.get(&instance.sym) {
+                let b = definition.bounds;
+                for q in [b.min, crate::geom::p(b.max.x,b.min.y), b.max, crate::geom::p(b.min.x,b.max.y)] {
+                    bounds.extend(instance.pos + q.transform(instance.rot,instance.mirror));
+                }
+            }
+        }
+        bounds
+    }
+    /// Carry the definitions and catalog records used by these copied instances.
+    pub fn include_project_data(&mut self, project: &Project) {
+        for instance in &self.symbols {
+            if !self.symbol_defs.iter().any(|s| s.key == instance.sym) {
+                if let Some(definition) = project.symbols.iter().find(|s| s.key == instance.sym) {
+                    self.symbol_defs.push(definition.clone());
+                }
+            }
+            if let Some(device) = project.devices.get(&instance.tag) {
+                self.devices.entry(instance.tag.clone()).or_insert_with(|| device.clone());
+            }
+        }
+        for reference in self.devices.values().flat_map(|d| &d.parts) {
+            if !self.parts.iter().any(|p| p.number == reference.number) {
+                if let Some(part) = project.parts.iter().find(|p| p.number == reference.number) {
+                    self.parts.push(part.clone());
+                }
+            }
+        }
+    }
     /// An empty clip (to be filled with items to insert).
     pub fn new() -> Clip {
         Clip { magic: CLIP_MAGIC.into(), ..Default::default() }
@@ -619,6 +661,13 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         library_keys.insert(definition.key.as_str(), incoming.key);
     }
+    for part in &clip.parts {
+        if !prj.parts.iter().any(|p| p.number == part.number) {
+            let mut part = part.clone();
+            if let Some(key) = library_keys.get(part.symbol.as_str()) { part.symbol = key.clone(); }
+            prj.parts.push(part);
+        }
+    }
     let d = paste_offset(clip, at);
     let existing: BTreeSet<String> = prj.all_tags().into_iter().collect();
     let mut rename: HashMap<String, String> = HashMap::new();
@@ -662,6 +711,15 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         // Push immediately so the next `next_tag` / numbering sees it.
         prj.pages[page_i].symbols.push(s.clone());
         symbols_out.push(s.id);
+    }
+    for (tag, device) in &clip.devices {
+        let complete = target.complete(&source.relative(tag));
+        let tag = rename.get(&complete).cloned().unwrap_or(complete);
+        let incoming = prj.devices.entry(tag).or_default();
+        if incoming.description.is_empty() { incoming.description = device.description.clone(); }
+        for reference in &device.parts {
+            if !incoming.parts.iter().any(|p| p.number == reference.number) { incoming.parts.push(reference.clone()); }
+        }
     }
     for w in &clip.wires {
         let mut w = w.clone();
