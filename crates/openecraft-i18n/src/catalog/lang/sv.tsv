@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Förbindelsesymbolen på sida {} kopplar sin förbindelse i en slinga: förbindelsens symboler ger den fler ledare än dess apparater behöver
 Source {}, targets {}, {} and {}	Källa {}, mål {}, {} och {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Rakt fram från {} till {}, tvärs över från {} till {} och från {} till {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} är förlagd till kabelinföringarna i sina kapslingar: de står inte i ett gemensamt rum, vägen mellan dem ingår inte i layouten
 Building	Byggnad
 Buildings	Byggnader
 New building	Ny byggnad
@@ -6541,3 +6540,4 @@ unknown	okänd
 {} problems	{} problem
 Buildings, levels and shafts	Byggnader, våningar och schakt
 15 · Plant with buildings, levels and a shaft	15 · Anläggning med byggnader, våningar och ett schakt
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} är förlagd till kabelinföringarna i sina kapslingar: de står inte i ett gemensamt rum, vägen mellan dem ingår inte i layouten

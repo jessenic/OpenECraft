@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Het verbindingssymbool op pagina {} bedraadt zijn verbinding in een lus: de symbolen van de verbinding geven haar meer draden dan haar apparaten nodig hebben
 Source {}, targets {}, {} and {}	Bron {}, doelen {}, {} en {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Rechtdoor van {} naar {}, dwars van {} naar {} en van {} naar {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} is gelegd tot de kabelinvoeren van zijn behuizingen: ze staan niet in een gemeenschappelijke ruimte, de weg ertussen hoort niet bij de lay-out
 Building	Gebouw
 Buildings	Gebouwen
 New building	Nieuw gebouw
@@ -6541,3 +6540,4 @@ unknown	onbekend
 {} problems	{} problemen
 Buildings, levels and shafts	Gebouwen, verdiepingen en schachten
 15 · Plant with buildings, levels and a shaft	15 · Installatie met gebouwen, verdiepingen en een schacht
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} is gelegd tot de kabelinvoeren van zijn behuizingen: ze staan niet in een gemeenschappelijke ruimte, de weg ertussen hoort niet bij de lay-out

@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Forbindelsessymbolet på side {} forbinder sin forbindelse i en løkke: forbindelsens symboler giver den flere ledere, end dens enheder behøver
 Source {}, targets {}, {} and {}	Kilde {}, mål {}, {} og {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Ligeud fra {} til {}, på tværs fra {} til {} og fra {} til {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} er ført til kabelindføringerne i sine kapslinger: de står ikke i et fælles rum, vejen mellem dem er ikke en del af layoutet
 Building	Bygning
 Buildings	Bygninger
 New building	Ny bygning
@@ -6541,3 +6540,4 @@ unknown	ukendt
 {} problems	{} problemer
 Buildings, levels and shafts	Bygninger, etager og skakte
 15 · Plant with buildings, levels and a shaft	15 · Anlæg med bygninger, etager og et skakt
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} er ført til kabelindføringerne i sine kapslinger: de står ikke i et fælles rum, vejen mellem dem er ikke en del af layoutet

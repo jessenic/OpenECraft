@@ -5,6 +5,38 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Keep decorative imported artwork and plot frames from blocking automatic connections and wire routing.
+- Preserve device assignments and catalog parts in portable macros, and render their bundled symbol definitions in previews before insertion.
+- Preserve transparent and palette PNG images in PDF output, and support source plot frames and component-name fields on imported pages.
+- Keep custom symbol definitions with portable native macros, preserve local edits on insertion, and distinguish internal jumper attachments from physical terminals.
+- Expose macro insertion and native net membership through plugins, and accept large CLI parameter objects from JSON files.
+- Let imported parts select project symbol definitions across editor, CLI and MCP placement, and retain vendor source records with projects.
+- Preserve embedded bitmaps in imported symbol libraries, including rotated and mirrored instances on the canvas and in SVG and PDF output.
+- Preserve the connectivity domain of imported fluid and process symbols so their ports stay distinct from electrical connections.
+- Keep imported property text angles and pin designation fields editable and linked to their placed symbol.
+- Support imported secondary device functions and local junction paths without adding spurious main functions or device endpoints.
+
+- Use the DIN-rail clip position from imported mounting data when placing cabinet devices. Matching Beckhoff terminal housings and the EK1100 use the documented 63.8 mm rail datum.
+
+- Snap cabinet devices flush to a nearby neighbor on the mounting plate while placing or moving a single module. The placement preview shows the snapped position.
+
+- Show imported EPLAN artwork on cabinet fronts. An assigned front view takes priority, followed by a mounting representation and then a fitted overview illustration.
+
+- Place successive imported PLC channels from a single card entry in the Insert center; when a card fills up, placement continues on a new device.
+
+- Link PLC channels placed from the symbol library to their uniquely matching catalog article, so the physical card appears once in the cabinet's devices-to-place list. Opening an existing project or reimporting the article also recovers unassigned cards.
+
+- Import Beckhoff analog signal and reference terminals as one PLC channel with a symbolic name such as U1, keeping both wire endpoints and the source data type.
+
+- Import single-channel EPLAN digital I/O representations as native PLC points with editable addresses, physical terminal designations, and one parts-list entry per card.
+
+- Reuse unchanged symbol drawings during part dragging and schematic rendering, including large imported EPLAN libraries.
+
+- Import embedded 2D graphics from EPLAN window macros into the project symbol library. EDZ parts carry their converted variants and per-variant diagnostics through the parts server.
+- Import additional SPECIAL contact forms and verified reciprocal potential transfers. Report unresolved source objects and their terminal designations per representation. Explicit reimport preserves placed wire endpoints and instance pin labels when compatible contacts are added.
+- **Editor:** wires attached to moved items stay square: they slide along their rails,
+  or get a jog where they cannot. Connection definition points and cable definition
+  lines stay on their wires.
 - **Directed T-junctions (target tracing):** *Insert › Connections › T-junction*
   places a junction where three wires meet that names the device the two wires of the
   connection start from and the order of their targets, with four directions and four
@@ -28,10 +60,11 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   first. Both follow the connection symbols of EPLAN, can be drawn as a dot and keep
   their routing, and the check reports a connection its symbols wire in a loop. Commands
   `add_crossing` and `add_bridge` ([#96](https://github.com/nilres/OpenECraft/issues/96)).
-- **Editor:** wires attached to moved items stay square: they slide along their rails,
-  or get a jog where they cannot. Connection definition points and cable definition
-  lines stay on their wires.
-
+- **Buildings:** buildings with levels and shafts in the plant; rooms stand on the
+  levels and move with their building, shafts and links between buildings (cable
+  trench, conduit, cable bridge between building entries) carry routes from room to
+  room; devices go on the outside of the walls and on the roof; a Buildings pane with
+  a site plan, the plugin `buildings` with its commands, a check and example 15.
 - **3D routing in cabinets without cable ducts:** their wires are no longer laid
   along the mounting plate (through the devices and each other) but routed in 3D from
   connection point to connection point, like the wires of a room: clear of everything
@@ -108,39 +141,6 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   coupling switches fed from busbar terminals), taps to small devices have their own
   cross-sections; the string fuses of the generator junction box of example 11 stand
   above their terminals.
-- **Buildings:** buildings with levels and shafts in the plant; rooms stand on the
-  levels and move with their building, shafts and links between buildings (cable
-  trench, conduit, cable bridge between building entries) carry routes from room to
-  room; devices go on the outside of the walls and on the roof; a Buildings pane with
-  a site plan, the plugin `buildings` with its commands, a check and example 15.
-- Preserve device assignments and catalog parts in portable macros, and render their bundled symbol definitions in previews before insertion.
-- Preserve transparent and palette PNG images in PDF output, and support source plot frames and component-name fields on imported pages.
-- Keep custom symbol definitions with portable native macros, preserve local edits on insertion, and distinguish internal jumper attachments from physical terminals.
-- Expose macro insertion and native net membership through plugins, and accept large CLI parameter objects from JSON files.
-- Let imported parts select project symbol definitions across editor, CLI and MCP placement, and retain vendor source records with projects.
-- Preserve embedded bitmaps in imported symbol libraries, including rotated and mirrored instances on the canvas and in SVG and PDF output.
-- Preserve the connectivity domain of imported fluid and process symbols so their ports stay distinct from electrical connections.
-- Keep imported property text angles and pin designation fields editable and linked to their placed symbol.
-- Support imported secondary device functions and local junction paths without adding spurious main functions or device endpoints.
-
-- Use the DIN-rail clip position from imported mounting data when placing cabinet devices. Matching Beckhoff terminal housings and the EK1100 use the documented 63.8 mm rail datum.
-
-- Snap cabinet devices flush to a nearby neighbor on the mounting plate while placing or moving a single module. The placement preview shows the snapped position.
-
-- Show imported EPLAN artwork on cabinet fronts. An assigned front view takes priority, followed by a mounting representation and then a fitted overview illustration.
-
-- Place successive imported PLC channels from a single card entry in the Insert center; when a card fills up, placement continues on a new device.
-
-- Link PLC channels placed from the symbol library to their uniquely matching catalog article, so the physical card appears once in the cabinet's devices-to-place list. Opening an existing project or reimporting the article also recovers unassigned cards.
-
-- Import Beckhoff analog signal and reference terminals as one PLC channel with a symbolic name such as U1, keeping both wire endpoints and the source data type.
-
-- Import single-channel EPLAN digital I/O representations as native PLC points with editable addresses, physical terminal designations, and one parts-list entry per card.
-
-- Reuse unchanged symbol drawings during part dragging and schematic rendering, including large imported EPLAN libraries.
-
-- Import embedded 2D graphics from EPLAN window macros into the project symbol library. EDZ parts carry their converted variants and per-variant diagnostics through the parts server.
-- Import additional SPECIAL contact forms and verified reciprocal potential transfers. Report unresolved source objects and their terminal designations per representation. Explicit reimport preserves placed wire endpoints and instance pin labels when compatible contacts are added.
 
 ## [0.1.0] - 2026-11-04
 

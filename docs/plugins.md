@@ -141,6 +141,14 @@ User symbol pins may set `internal: true` for jumper attachment nodes. They stil
 participate in local bridges but do not appear as physical device endpoints.
 `list_nets` exposes native membership by symbol ID and zero-based pin index;
 `bridge_terminals` defaults to true and can be disabled for individual wire runs.
+`FieldKind::TagName` displays the device name without inherited structure while
+remaining linked to the instance tag. Plot frames can set `visible: false` when
+imported artwork includes its own border and title block; paper geometry remains
+available. `ZeroBasedNumbers` is supported for source drawing column labels.
+PNG drawing images, including palette images and transparency, export to PDF with
+an image soft mask.
+`Func::Graphic` keeps decorative artwork outside device identification and netlist
+evaluation while retaining editable symbol primitives.
 
 Project symbol definitions can contain an `Image` drawing primitive. It carries a
 file `name`, base64 encoded `data`, and four `corners` in

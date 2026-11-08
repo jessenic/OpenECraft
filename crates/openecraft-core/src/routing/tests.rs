@@ -11,6 +11,22 @@ fn area() -> R {
 }
 
 #[test]
+fn imported_plot_frame_does_not_block_connections_or_routes() {
+    let mut prj = Project::default();
+    prj.symbols.push(crate::symlib::UserSymbol {
+        key: "user:frame".into(),
+        func: crate::symbols::Func::Graphic,
+        prims: vec![crate::symbols::Prim::Poly { pts: vec![p(0., 0.), p(400., 0.), p(400., 280.), p(0., 280.)], closed: true, fill: false }],
+        ..Default::default()
+    });
+    sym(&mut prj, "user:frame", p(0., 0.));
+    let top = sym(&mut prj, "no", p(40., 40.));
+    sym(&mut prj, "coil", p(40., 80.));
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([top]), 400.), vec![(p(40., 44.), p(40., 76.))]);
+    assert!(search(&prj.symbol_table(), &prj.pages[0], area(), p(20., 160.), p(100., 160.)).is_some());
+}
+
+#[test]
 fn autoconnect_joins_facing_pins() {
     let mut prj = Project::default();
     let top = sym(&mut prj, "no", p(40.0, 40.0));
@@ -89,37 +105,6 @@ fn junctions_are_not_merged() {
     page.wires.push(Wire { id: 2, a: p(8.0, 0.0), b: p(16.0, 0.0), ..Default::default() });
     page.wires.push(Wire { id: 3, a: p(8.0, 0.0), b: p(8.0, 8.0), ..Default::default() });
     assert_eq!(merge_collinear(&Symbols::default(), &mut page), 0);
-}
-
-#[test]
-fn autoconnect_wires_into_the_free_arms_of_connection_symbols() {
-    let mut prj = Project::default();
-    // A contact above the corner, its lower pin at (60, 44) facing down; a coil to
-    // the right turned by 90°, its A2 at (116, 80) facing left.
-    let contact = sym(&mut prj, "no", p(60.0, 40.0));
-    let coil = sym(&mut prj, "coil", p(120.0, 80.0));
-    prj.pages[0].symbols.iter_mut().find(|s| s.id == coil).unwrap().rot = 1;
-    let corner = prj.new_id();
-    prj.pages[0].junctions.push(Junction { id: corner, ..Junction::corner(p(60.0, 80.0), TeeDir::Up, TeeDir::Right) });
-    // Placing the corner wires both pins in.
-    let segs = autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner]), 400.0);
-    assert_eq!(segs, vec![(p(60.0, 80.0), p(60.0, 44.0)), (p(60.0, 80.0), p(116.0, 80.0))]);
-    // A symbol placed facing a free arm connects to it; a used arm takes no second wire.
-    let wid = prj.new_id();
-    prj.pages[0].wires.push(Wire { id: wid, a: p(60.0, 80.0), b: p(60.0, 44.0), ..Default::default() });
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([contact]), 400.0), vec![]);
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([coil]), 400.0), vec![(p(116.0, 80.0), p(60.0, 80.0))]);
-    assert_eq!(apply_autoconnect(&mut prj, 0, &BTreeSet::from([corner])), 1);
-    assert!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner, coil, contact]), 400.0).is_empty());
-    assert!(crate::netlist::junctions::fits(&prj, &prj.pages[0], &prj.pages[0].junctions[0]));
-    // A T-junction's three arms are wired the same way; its arm away from any pin stays open.
-    let mut prj = Project::default();
-    sym(&mut prj, "no", p(60.0, 40.0));
-    let tee = prj.new_id();
-    prj.pages[0].junctions.push(Junction { id: tee, pos: p(60.0, 80.0), dir: TeeDir::Down, variant: 3, ..Default::default() });
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![]);
-    prj.pages[0].junctions[0].dir = TeeDir::Up;
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![(p(60.0, 80.0), p(60.0, 44.0))]);
 }
 
 fn wire(prj: &mut Project, a: P, b: P) -> u64 {
@@ -640,4 +625,35 @@ fn a_cable_line_that_crosses_nothing_stays() {
     prj.pages[0].cable_defs.push(CableDef { id: cd, a: p(80.0, 200.0), b: p(120.0, 200.0), cable: tag, shield: false });
     move_selection(&mut prj, 0, &sel, p(-80.0, 8.0));
     assert_eq!(line_ends(&prj, cd), (p(80.0, 200.0), p(120.0, 200.0)));
+}
+
+#[test]
+fn autoconnect_wires_into_the_free_arms_of_connection_symbols() {
+    let mut prj = Project::default();
+    // A contact above the corner, its lower pin at (60, 44) facing down; a coil to
+    // the right turned by 90°, its A2 at (116, 80) facing left.
+    let contact = sym(&mut prj, "no", p(60.0, 40.0));
+    let coil = sym(&mut prj, "coil", p(120.0, 80.0));
+    prj.pages[0].symbols.iter_mut().find(|s| s.id == coil).unwrap().rot = 1;
+    let corner = prj.new_id();
+    prj.pages[0].junctions.push(Junction { id: corner, ..Junction::corner(p(60.0, 80.0), TeeDir::Up, TeeDir::Right) });
+    // Placing the corner wires both pins in.
+    let segs = autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner]), 400.0);
+    assert_eq!(segs, vec![(p(60.0, 80.0), p(60.0, 44.0)), (p(60.0, 80.0), p(116.0, 80.0))]);
+    // A symbol placed facing a free arm connects to it; a used arm takes no second wire.
+    let wid = prj.new_id();
+    prj.pages[0].wires.push(Wire { id: wid, a: p(60.0, 80.0), b: p(60.0, 44.0), ..Default::default() });
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([contact]), 400.0), vec![]);
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([coil]), 400.0), vec![(p(116.0, 80.0), p(60.0, 80.0))]);
+    assert_eq!(apply_autoconnect(&mut prj, 0, &BTreeSet::from([corner])), 1);
+    assert!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner, coil, contact]), 400.0).is_empty());
+    assert!(crate::netlist::junctions::fits(&prj, &prj.pages[0], &prj.pages[0].junctions[0]));
+    // A T-junction's three arms are wired the same way; its arm away from any pin stays open.
+    let mut prj = Project::default();
+    sym(&mut prj, "no", p(60.0, 40.0));
+    let tee = prj.new_id();
+    prj.pages[0].junctions.push(Junction { id: tee, pos: p(60.0, 80.0), dir: TeeDir::Down, variant: 3, ..Default::default() });
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![]);
+    prj.pages[0].junctions[0].dir = TeeDir::Up;
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![(p(60.0, 80.0), p(60.0, 44.0))]);
 }

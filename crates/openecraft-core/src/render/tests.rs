@@ -51,6 +51,33 @@ impl Draw for Rec {
 }
 
 #[test]
+fn imported_page_can_hide_generated_frame_while_retaining_paper_geometry() {
+    let mut project=Project::default();
+    let frame=crate::frame::PlotFrame { name:"Imported".into(), visible:false, ..Default::default() };
+    project.pages[0].frame=frame.name.clone();
+    project.forms.frames.push(frame);
+    let mut drawing=Rec::default();
+    draw_frame(&mut drawing,&project,0);
+    assert!(drawing.rects.is_empty() && drawing.lines.is_empty() && drawing.texts.is_empty());
+    assert_eq!(crate::frame::of_page(&project,0).size(),(420.,297.));
+    let old:crate::frame::PlotFrame=serde_json::from_str("{}").unwrap();
+    assert!(old.visible);
+    assert_eq!(crate::frame::Labels::ZeroBasedNumbers.label(0),"0");
+}
+
+#[test]
+fn component_tag_field_omits_inherited_structure_and_stays_dynamic() {
+    let project=Project::default();
+    let mut definition=(*project.symbol("coil").unwrap()).clone();
+    definition.show_tag=false;
+    definition.prims=vec![Prim::Field {kind:FieldKind::TagName,pos:p(0.,0.),size:2.,anchor:Anchor::Left,angle:None}];
+    let mut drawing=Rec::default();
+    draw_symbol(&mut drawing,&definition,&SymbolInst {tag:"=F1+L1-K2".into(),..Default::default()},Ink::Line);
+    assert!(drawing.texts.iter().any(|(_,text,_,_)| text=="-K2"));
+    assert!(drawing.texts.iter().all(|(_,text,_,_)| !text.contains("L1")));
+}
+
+#[test]
 fn transformed_imported_labels_stay_upright_at_their_pin() {
     let label = Prim::Text { pos: p(2., 0.), text: "U1".into(), size: 2., anchor: Anchor::Left, angle: Some(0.), color: None };
     for (rot, mirror, anchor) in [(0, true, Anchor::Right), (2, false, Anchor::Right), (2, true, Anchor::Left)] {

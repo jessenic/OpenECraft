@@ -76,7 +76,7 @@ impl Index {
                 }
                 match def.func {
                     Func::Interruption => idx.interruptions.entry(s.label.clone()).or_default().push(loc),
-                    Func::Potential | Func::Junction => {}
+                    Func::Potential | Func::Junction | Func::Graphic => {}
                     _ if s.tag.is_empty() => {}
                     Func::Main { .. } => idx.devices.entry(s.tag.clone()).or_default().mains.push(loc),
                     Func::Aux(_) | Func::Auxiliary => idx.devices.entry(s.tag.clone()).or_default().auxs.push(loc),

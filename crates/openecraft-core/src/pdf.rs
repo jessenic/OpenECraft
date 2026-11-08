@@ -190,6 +190,7 @@ fn x(v: f32) -> f32 {
 struct PdfImage {
     dict: String,
     hex: String,
+    mask: Option<Box<PdfImage>>,
 }
 
 fn hex(data: &[u8]) -> String {
@@ -201,8 +202,7 @@ fn hex(data: &[u8]) -> String {
     out
 }
 
-/// JPEG files (grey or RGB) go into the PDF as they are; PNG files without
-/// transparency, palette or interlacing use the PNG predictor of the PDF.
+/// JPEG files go into the PDF unchanged; PNG pixels and alpha become image streams.
 fn pdf_image(bytes: &[u8]) -> Option<PdfImage> {
     if bytes.starts_with(&[0xFF, 0xD8]) {
         let mut i = 2;
@@ -224,6 +224,7 @@ fn pdf_image(bytes: &[u8]) -> Option<PdfImage> {
                 return Some(PdfImage {
                     dict: format!("/Width {w} /Height {h} /ColorSpace /{space} /BitsPerComponent 8 /Filter [/ASCIIHexDecode /DCTDecode]"),
                     hex: hex(bytes),
+                    mask: None,
                 });
             }
             i += 2 + len;
@@ -233,40 +234,34 @@ fn pdf_image(bytes: &[u8]) -> Option<PdfImage> {
     if !bytes.starts_with(b"\x89PNG\r\n\x1a\n") {
         return None;
     }
-    let mut i = 8;
-    let (mut w, mut h, mut colors) = (0, 0, 0);
-    let mut idat = Vec::new();
-    while i + 8 <= bytes.len() {
-        let len = u32::from_be_bytes([bytes[i], bytes[i + 1], bytes[i + 2], bytes[i + 3]]) as usize;
-        let kind = &bytes[i + 4..i + 8];
-        let data = bytes.get(i + 8..i + 8 + len)?;
-        match kind {
-            b"IHDR" if len >= 13 => {
-                w = u32::from_be_bytes([data[0], data[1], data[2], data[3]]);
-                h = u32::from_be_bytes([data[4], data[5], data[6], data[7]]);
-                let (depth, color, interlace) = (data[8], data[9], data[12]);
-                colors = match (depth, color, interlace) {
-                    (8, 0, 0) => 1,
-                    (8, 2, 0) => 3,
-                    _ => return None,
-                };
-            }
-            b"IDAT" => idat.extend_from_slice(data),
-            b"IEND" => break,
-            _ => {}
-        }
-        i += 12 + len;
+    let mut decoder = png::Decoder::new(std::io::Cursor::new(bytes));
+    decoder.set_transformations(png::Transformations::EXPAND | png::Transformations::STRIP_16);
+    let mut reader = decoder.read_info().ok()?;
+    let size = reader.output_buffer_size()?;
+    if size > 256 * 1024 * 1024 { return None; }
+    let mut buffer = vec![0; size];
+    let info = reader.next_frame(&mut buffer).ok()?;
+    let (channels, alpha) = match info.color_type {
+        png::ColorType::Grayscale => (1, false),
+        png::ColorType::GrayscaleAlpha => (2, true),
+        png::ColorType::Rgb => (3, false),
+        png::ColorType::Rgba => (4, true),
+        png::ColorType::Indexed => return None,
+    };
+    let mut pixels = Vec::new();
+    let mut mask = Vec::new();
+    for pixel in buffer[..info.buffer_size()].chunks_exact(channels) {
+        pixels.extend_from_slice(&pixel[..channels - usize::from(alpha)]);
+        if alpha { mask.push(pixel[channels - 1]); }
     }
-    if colors == 0 || idat.is_empty() {
-        return None;
-    }
-    let space = if colors == 1 { "DeviceGray" } else { "DeviceRGB" };
-    Some(PdfImage {
-        dict: format!(
-            "/Width {w} /Height {h} /ColorSpace /{space} /BitsPerComponent 8 /Filter [/ASCIIHexDecode /FlateDecode] /DecodeParms [null << /Predictor 15 /Colors {colors} /BitsPerComponent 8 /Columns {w} >>]"
-        ),
-        hex: hex(&idat),
-    })
+    let stream = |data: &[u8], space: &str| PdfImage {
+        dict: format!("/Width {} /Height {} /ColorSpace /{space} /BitsPerComponent 8 /Filter [/ASCIIHexDecode /FlateDecode]", info.width, info.height),
+        hex: hex(&miniz_oxide::deflate::compress_to_vec_zlib(data, 6)),
+        mask: None,
+    };
+    let mut image = stream(&pixels, if channels <= 2 { "DeviceGray" } else { "DeviceRGB" });
+    if alpha { image.mask = Some(Box::new(stream(&mask, "DeviceGray"))); }
+    Some(image)
 }
 
 /// Collects the content stream and the links of one page.
@@ -688,9 +683,15 @@ pub fn document_pages(prj: &Project, an: &Analysis, sel: &[usize]) -> String {
         }
         let mut xobjects = Vec::new();
         for (k, img) in d.images.iter().enumerate() {
+            let mask = if let Some(mask) = &img.mask {
+                w.obj(next, &format!("<< /Type /XObject /Subtype /Image {} /Length {} >>\nstream\n{}\nendstream", mask.dict, mask.hex.len(), mask.hex));
+                let reference = format!(" /SMask {next} 0 R");
+                next += 1;
+                reference
+            } else { String::new() };
             w.obj(
                 next,
-                &format!("<< /Type /XObject /Subtype /Image {} /Length {} >>\nstream\n{}\nendstream", img.dict, img.hex.len(), img.hex),
+                &format!("<< /Type /XObject /Subtype /Image {}{} /Length {} >>\nstream\n{}\nendstream", img.dict, mask, img.hex.len(), img.hex),
             );
             xobjects.push(format!("/Im{k} {next} 0 R"));
             next += 1;

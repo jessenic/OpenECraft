@@ -83,11 +83,13 @@ pub enum Func {
     /// elsewhere: shows cross references to the main function, its connection
     /// points are not part of the netlist.
     Overview,
+    /// Drawing without a device identity or electrical connection points.
+    Graphic,
 }
 
 impl Func {
     pub fn has_tag(self) -> bool {
-        !matches!(self, Func::Potential | Func::Interruption | Func::Junction)
+        !matches!(self, Func::Potential | Func::Interruption | Func::Junction | Func::Graphic)
     }
 
     /// Terminals and plug pins: their sides are separate connections that the
@@ -97,7 +99,7 @@ impl Func {
     }
 
     /// All functions a symbol can have (symbol editor).
-    pub const ALL: [Func; 20] = [
+    pub const ALL: [Func; 21] = [
         Func::Main { mirror: false },
         Func::Main { mirror: true },
         Func::Aux(ContactKind::No),
@@ -118,6 +120,7 @@ impl Func {
         Func::Overview,
         Func::Auxiliary,
         Func::Junction,
+        Func::Graphic,
     ];
 
     pub fn title(self) -> &'static str {
@@ -142,6 +145,7 @@ impl Func {
             Func::Overview => tr("Overview / single-line"),
             Func::Auxiliary => tr("Auxiliary function"),
             Func::Junction => tr("Junction"),
+            Func::Graphic => tr("Graphic (no electrical function)"),
         }
     }
 }
@@ -249,6 +253,7 @@ pub enum FieldKind {
     Label,
     Tag,
     Pin(usize),
+    TagName,
 }
 
 /// Connectivity domain of an imported or user-defined symbol.

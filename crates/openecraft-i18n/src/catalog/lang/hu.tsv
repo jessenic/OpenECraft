@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	A(z) {}. lapon lévő kapcsolati szimbólum hurokban vezetékezi a kapcsolatát: a kapcsolat szimbólumai több vezetéket adnak neki, mint amennyire a készülékeinek szüksége van
 Source {}, targets {}, {} and {}	Forrás {}, célok {}, {} és {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Egyenesen {} – {}, keresztben {} – {} és {} – {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} a szekrényei kábelbevezetéseiig van vezetve: nem állnak közös helyiségben, a köztük lévő út nem része az elrendezésnek
 Building	Épület
 Buildings	Épületek
 New building	Új épület
@@ -6541,3 +6540,4 @@ unknown	ismeretlen
 {} problems	{} probléma
 Buildings, levels and shafts	Épületek, szintek és aknák
 15 · Plant with buildings, levels and a shaft	15 · Létesítmény épületekkel, szintekkel és aknával
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} a szekrényei kábelbevezetéseiig van vezetve: nem állnak közös helyiségben, a köztük lévő út nem része az elrendezésnek

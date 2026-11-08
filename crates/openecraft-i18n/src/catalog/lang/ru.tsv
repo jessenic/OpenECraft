@@ -6507,7 +6507,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Символ соединения на странице {} соединяет своё соединение в петлю: символы соединения дают ему больше проводов, чем нужно его устройствам
 Source {}, targets {}, {} and {}	Источник {}, цели {}, {} и {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Прямо от {} к {}, поперёк от {} к {} и от {} к {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} проложен до кабельных вводов своих шкафов: они не стоят в общем помещении, путь между ними не входит в компоновку
 Building	Здание
 Buildings	Здания
 New building	Новое здание
@@ -6540,3 +6539,4 @@ unknown	неизвестна
 {} problems	Проблем: {}
 Buildings, levels and shafts	Здания, уровни и шахты
 15 · Plant with buildings, levels and a shaft	15 · Установка со зданиями, уровнями и шахтой
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} проложен до кабельных вводов своих шкафов: они не стоят в общем помещении, путь между ними не входит в компоновку

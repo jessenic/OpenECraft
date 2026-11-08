@@ -251,7 +251,7 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
                 s.label = next_plc_address(prj, &s.tag, !def.default_label.starts_with('Q'));
             }
         }
-        Func::Potential | Func::Interruption | Func::Junction => {}
+        Func::Potential | Func::Interruption | Func::Junction | Func::Graphic => {}
     }
     s
 }
@@ -506,8 +506,8 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
         images: page.images.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         conn_defs: page.conn_defs.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         cable_defs: page.cable_defs.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
-        junctions: page.junctions.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         symbol_cache: Default::default(),
+        junctions: page.junctions.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
     }
 }
 

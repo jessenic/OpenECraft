@@ -6042,6 +6042,35 @@ Busbar systems	Sammelschienensysteme	Systèmes de jeux de barres	Sistemas de emb
 Subproject {} was inserted already	Teilprojekt {} wurde bereits eingefügt	Le sous-projet {} a déjà été réinséré	El subproyecto {} ya se ha insertado
 The file is from an earlier extraction of subproject {}	Die Datei stammt aus einer früheren Auslagerung von Teilprojekt {}	Le fichier provient d'une extraction antérieure du sous-projet {}	El archivo procede de una extracción anterior del subproyecto {}
 Graphic	Grafik	Graphique	Gráfico
+Unresolved placements ({})	Nicht aufgelöste Platzierungen ({})	Placements non résolus ({})	Colocaciones sin resolver ({})
+Reference artwork without pin anchors	Referenzgrafik ohne Anschlusspunkte	Dessin de référence sans points de raccordement	Dibujo de referencia sin puntos de conexión
+EPLAN archive, macro, article XML or vendor folder	EPLAN-Archiv, Makro, Artikel-XML oder Herstellerordner	Archive EPLAN, macro, XML article ou dossier fournisseur	Archivo EPLAN, macro, XML de pieza o carpeta del proveedor
+Expected an EPLAN archive, window macro or article XML	EPLAN-Archiv, Fenstermakro oder Artikel-XML erwartet	Archive EPLAN, macro de fenêtre ou XML article attendu	Se esperaba un archivo EPLAN, una macro de ventana o XML de pieza
+Window macros (JSON, EMA, EDZ)	Fenstermakros (JSON, EMA, EDZ)	Macros de fenêtre (JSON, EMA, EDZ)	Macros de ventana (JSON, EMA, EDZ)
+A multi-device window carries its own device tags	Ein Fenster mit mehreren Geräten enthält eigene Betriebsmittelkennzeichen	Une fenêtre multi-appareils utilise ses propres repères	Una ventana con varios dispositivos utiliza sus propias etiquetas
+Imports EPLAN symbols from a file or a selected article in a folder	Importiert EPLAN-Symbole aus einer Datei oder aus einem ausgewählten Artikel in einem Ordner	Importe les symboles EPLAN d'un fichier ou d'un article sélectionné dans un dossier	Importa símbolos EPLAN de un archivo o de una pieza seleccionada en una carpeta
+Part number to import from a vendor folder	Aus einem Herstellerordner zu importierende Artikelnummer	Numéro de pièce à importer du dossier fournisseur	Número de pieza que se importará de la carpeta del proveedor
+Select a part number for folder import	Artikelnummer für den Ordnerimport auswählen	Sélectionnez une référence pour importer un dossier	Seleccione una referencia para importar una carpeta
+Imports 2D EPLAN window macro variants into the project symbol library	Importiert 2D-EPLAN-Fenstermakrovarianten in die Projektsymbolbibliothek	Importe les variantes 2D de macros de fenêtre EPLAN dans la bibliothèque du projet	Importa variantes 2D de macros de ventana EPLAN a la biblioteca del proyecto
+EPLAN window macro XML	XML des EPLAN-Fenstermakros	XML de la macro de fenêtre EPLAN	XML de la macro de ventana EPLAN
+Imported EPLAN symbol key	Schlüssel des importierten EPLAN-Symbols	Clé du symbole EPLAN importé	Clave del símbolo EPLAN importado
+Symbol library (JSON, EMA, EDZ)	Symbolbibliothek (JSON, EMA, EDZ)	Bibliothèque de symboles (JSON, EMA, EDZ)	Biblioteca de símbolos (JSON, EMA, EDZ)
+Added {} symbols. {} variants have unresolved graphics or functions.	{} Symbole hinzugefügt. {} Varianten enthalten ungeklärte Grafiken oder Funktionen.	{} symboles ajoutés. {} variantes contiennent des graphiques ou fonctions non résolus.	{} símbolos añadidos. {} variantes contienen gráficos o funciones sin resolver.
+{} is already placed on PLC card {}	{} ist bereits auf der SPS-Karte {} platziert	{} est déjà placé sur la carte API {}	{} ya está colocado en la tarjeta PLC {}
+Representations	Darstellungsarten	Représentations	Representaciones
+
+Auxiliary function	Hilfsfunktion	Fonction auxiliaire	Función auxiliar
+
+Junction	Verbindungsknoten	Jonction	Nodo de conexión
+Inserts a native macro with its symbol definitions on a page	Fügt ein natives Makro mit seinen Symboldefinitionen auf einer Seite ein	Insère une macro native avec ses définitions de symboles sur une page	Inserta una macro nativa con sus definiciones de símbolos en una página
+Native macro JSON	Natives Makro als JSON	Macro native JSON	Macro nativa JSON
+Lists native net membership by symbol ID and pin index	Listet die native Netzzugehörigkeit nach Symbol-ID und Anschlussindex auf	Liste les réseaux natifs par identifiant de symbole et indice de broche	Lista las redes nativas por identificador de símbolo e índice de pin
+Include internal terminal bridges	Interne Klemmenbrücken einbeziehen	Inclure les ponts internes des bornes	Incluir los puentes internos de los bornes
+Internal bridge attachment	Interner Brückenanschluss	Point de pont interne	Punto de puente interno
+Show generated frame	Erzeugten Rahmen anzeigen	Afficher le cadre généré	Mostrar el marco generado
+Device name only	Nur Gerätename	Nom d'appareil seul	Solo nombre del dispositivo
+Numbers (0, 1, 2)	Zahlen (0, 1, 2)	Nombres (0, 1, 2)	Números (0, 1, 2)
+Graphic (no electrical function)	Grafik (ohne elektrische Funktion)	Graphique (sans fonction électrique)	Gráfico (sin función eléctrica)
 T-junction	T-Stück	Pièce en T	Pieza en T
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Gerichtetes T-Stück: wo drei Verbindungslinien zusammentreffen, benennt es das Gerät, von dem die beiden Drähte der Verbindung ausgehen, und die Reihenfolge ihrer Ziele	Pièce en T dirigée : là où trois fils se rejoignent, elle nomme l'appareil d'où partent les deux fils de la liaison et l'ordre de leurs cibles	Pieza en T dirigida: donde se unen tres cables, indica el dispositivo del que parten los dos hilos de la conexión y el orden de sus destinos
 1: from the left / upper arm straight to the other arm, then to the stem · 2: the same from the right / lower arm · 3: from the stem to the left / upper arm, then to the other · 4: from the stem to the right / lower arm first (default 3)	1: vom linken / oberen Arm geradeaus zum anderen Arm, dann zum Stamm · 2: dasselbe vom rechten / unteren Arm · 3: vom Stamm zum linken / oberen Arm, dann zum anderen · 4: vom Stamm zuerst zum rechten / unteren Arm (Standard 3)	1 : du bras gauche / supérieur tout droit vers l'autre bras, puis vers la tige · 2 : de même depuis le bras droit / inférieur · 3 : de la tige vers le bras gauche / supérieur, puis vers l'autre · 4 : de la tige vers le bras droit / inférieur d'abord (3 par défaut)	1: del brazo izquierdo / superior en línea recta al otro brazo, luego al tronco · 2: lo mismo desde el brazo derecho / inferior · 3: del tronco al brazo izquierdo / superior, luego al otro · 4: del tronco al brazo derecho / inferior primero (3 por defecto)
@@ -6106,7 +6135,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Verbindungssymbol auf Seite {} verdrahtet seine Verbindung in einer Schleife: die Symbole der Verbindung geben ihr mehr Drähte, als ihre Geräte brauchen	Le symbole de liaison en page {} câble sa liaison en boucle : les symboles de la liaison lui donnent plus de fils que ses appareils n'en ont besoin	El símbolo de conexión en la página {} cablea su conexión en bucle: los símbolos de la conexión le dan más hilos de los que necesitan sus dispositivos
 Source {}, targets {}, {} and {}	Quelle {}, Ziele {}, {} und {}	Source {}, cibles {}, {} et {}	Origen {}, destinos {}, {} y {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Geradeaus von {} nach {}, quer von {} nach {} und von {} nach {}	Tout droit de {} à {}, en travers de {} à {} et de {} à {}	En línea recta de {} a {}, transversalmente de {} a {} y de {} a {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} ist bis zu den Kabeleinführungen seiner Schränke verlegt: sie stehen in keinem gemeinsamen Raum, der Weg dazwischen gehört nicht zum Aufbau	{} {} est posé jusqu'aux entrées de câbles de ses armoires : elles ne sont pas dans une même salle, le trajet entre elles ne fait pas partie de l'implantation	{} {} está tendido hasta las entradas de cables de sus armarios: no están en una misma sala, el trayecto entre ellos no forma parte del diseño
 Outside wall	Außenwand	Mur extérieur	Muro exterior
 Roof top	Dach	Toiture	Cubierta
 Pipe runs go on the walls, the ceiling or the floor inside the room	Rohrtrassen liegen an Wänden, Decke oder Boden im Raum	Les chemins de tuyauterie se posent sur les murs, le plafond ou le sol à l'intérieur de la pièce	Los recorridos de tubería van en las paredes, el techo o el suelo dentro de la sala
@@ -6232,28 +6260,4 @@ Building {} is defined more than once	Gebäude {} ist mehrfach definiert	Le bât
 {}: {} stands in shaft {}	{}: {} steht im Schacht {}	{} : {} se trouve dans la gaine {}	{}: {} está en el patinillo {}
 Link {} joins two building entries of the same room	Verbindung {} verbindet zwei Gebäudeeinführungen desselben Raums	La liaison {} relie deux entrées de bâtiment de la même pièce	El enlace {} une dos entradas de edificio de la misma sala
 Link {}: a building entry it joins no longer exists	Verbindung {}: eine verbundene Gebäudeeinführung existiert nicht mehr	Liaison {} : une entrée de bâtiment qu'elle relie n'existe plus	Enlace {}: una entrada de edificio que une ya no existe
-Unresolved placements ({})	Nicht aufgelöste Platzierungen ({})	Placements non résolus ({})	Colocaciones sin resolver ({})
-Reference artwork without pin anchors	Referenzgrafik ohne Anschlusspunkte	Dessin de référence sans points de raccordement	Dibujo de referencia sin puntos de conexión
-EPLAN archive, macro, article XML or vendor folder	EPLAN-Archiv, Makro, Artikel-XML oder Herstellerordner	Archive EPLAN, macro, XML article ou dossier fournisseur	Archivo EPLAN, macro, XML de pieza o carpeta del proveedor
-Expected an EPLAN archive, window macro or article XML	EPLAN-Archiv, Fenstermakro oder Artikel-XML erwartet	Archive EPLAN, macro de fenêtre ou XML article attendu	Se esperaba un archivo EPLAN, una macro de ventana o XML de pieza
-Window macros (JSON, EMA, EDZ)	Fenstermakros (JSON, EMA, EDZ)	Macros de fenêtre (JSON, EMA, EDZ)	Macros de ventana (JSON, EMA, EDZ)
-A multi-device window carries its own device tags	Ein Fenster mit mehreren Geräten enthält eigene Betriebsmittelkennzeichen	Une fenêtre multi-appareils utilise ses propres repères	Una ventana con varios dispositivos utiliza sus propias etiquetas
-Imports EPLAN symbols from a file or a selected article in a folder	Importiert EPLAN-Symbole aus einer Datei oder aus einem ausgewählten Artikel in einem Ordner	Importe les symboles EPLAN d'un fichier ou d'un article sélectionné dans un dossier	Importa símbolos EPLAN de un archivo o de una pieza seleccionada en una carpeta
-Part number to import from a vendor folder	Aus einem Herstellerordner zu importierende Artikelnummer	Numéro de pièce à importer du dossier fournisseur	Número de pieza que se importará de la carpeta del proveedor
-Select a part number for folder import	Artikelnummer für den Ordnerimport auswählen	Sélectionnez une référence pour importer un dossier	Seleccione una referencia para importar una carpeta
-Imports 2D EPLAN window macro variants into the project symbol library	Importiert 2D-EPLAN-Fenstermakrovarianten in die Projektsymbolbibliothek	Importe les variantes 2D de macros de fenêtre EPLAN dans la bibliothèque du projet	Importa variantes 2D de macros de ventana EPLAN a la biblioteca del proyecto
-EPLAN window macro XML	XML des EPLAN-Fenstermakros	XML de la macro de fenêtre EPLAN	XML de la macro de ventana EPLAN
-Imported EPLAN symbol key	Schlüssel des importierten EPLAN-Symbols	Clé du symbole EPLAN importé	Clave del símbolo EPLAN importado
-Symbol library (JSON, EMA, EDZ)	Symbolbibliothek (JSON, EMA, EDZ)	Bibliothèque de symboles (JSON, EMA, EDZ)	Biblioteca de símbolos (JSON, EMA, EDZ)
-Added {} symbols. {} variants have unresolved graphics or functions.	{} Symbole hinzugefügt. {} Varianten enthalten ungeklärte Grafiken oder Funktionen.	{} symboles ajoutés. {} variantes contiennent des graphiques ou fonctions non résolus.	{} símbolos añadidos. {} variantes contienen gráficos o funciones sin resolver.
-{} is already placed on PLC card {}	{} ist bereits auf der SPS-Karte {} platziert	{} est déjà placé sur la carte API {}	{} ya está colocado en la tarjeta PLC {}
-Representations	Darstellungsarten	Représentations	Representaciones
-
-Auxiliary function	Hilfsfunktion	Fonction auxiliaire	Función auxiliar
-
-Junction	Verbindungsknoten	Jonction	Nodo de conexión
-Inserts a native macro with its symbol definitions on a page	Fügt ein natives Makro mit seinen Symboldefinitionen auf einer Seite ein	Insère une macro native avec ses définitions de symboles sur une page	Inserta una macro nativa con sus definiciones de símbolos en una página
-Native macro JSON	Natives Makro als JSON	Macro native JSON	Macro nativa JSON
-Lists native net membership by symbol ID and pin index	Listet die native Netzzugehörigkeit nach Symbol-ID und Anschlussindex auf	Liste les réseaux natifs par identifiant de symbole et indice de broche	Lista las redes nativas por identificador de símbolo e índice de pin
-Include internal terminal bridges	Interne Klemmenbrücken einbeziehen	Inclure les ponts internes des bornes	Incluir los puentes internos de los bornes
-Internal bridge attachment	Interner Brückenanschluss	Point de pont interne	Punto de puente interno
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} ist bis zu den Kabeleinführungen seiner Schränke verlegt: sie stehen in keinem gemeinsamen Raum, der Weg dazwischen gehört nicht zum Aufbau	{} {} est posé jusqu'aux entrées de câbles de ses armoires : elles ne sont pas dans une même salle, le trajet entre elles ne fait pas partie de l'implantation	{} {} está tendido hasta las entradas de cables de sus armarios: no están en una misma sala, el trayecto entre ellos no forma parte del diseño

@@ -515,9 +515,11 @@ pub fn draw_prims(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink) {
                 }
             }
             Prim::Field { kind, pos, size, anchor, angle } => {
+                let name = if *kind == FieldKind::TagName { crate::structure::Dt::parse(&s.tag).name } else { String::new() };
                 let t = match kind {
                     FieldKind::Label => &s.label,
                     FieldKind::Tag => &s.tag,
+                    FieldKind::TagName => &name,
                     FieldKind::Pin(index) => {
                         s.pins.get(*index).map_or("", String::as_str)
                     }
@@ -868,6 +870,7 @@ fn mirror_glyph(d: &mut dyn Draw, c: P, kind: ContactKind, ink: Ink) {
 pub fn draw_frame(d: &mut dyn Draw, prj: &Project, page_i: usize) {
     let page = &prj.pages[page_i];
     let f = crate::frame::of_page(prj, page_i);
+    if !f.visible { return; }
     let fi = Ink::Frame;
     let b = f.border();
     let a = f.area();

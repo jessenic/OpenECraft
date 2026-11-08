@@ -6,6 +6,7 @@ use crate::conndef;
 use crate::geom::{dist_to_segment, on_segment_interior, p, P, R, GRID};
 use crate::ops;
 use crate::symlib::Symbols;
+use crate::symbols::Func;
 use crate::model::*;
 use std::cmp::Reverse;
 use std::collections::{BTreeSet, BinaryHeap, HashMap};
@@ -20,6 +21,9 @@ fn pins(symbols: &Symbols, page: &Page) -> Vec<(u64, P, P)> {
     let mut v: Vec<(u64, P, P)> = crate::netlist::junctions::free_arms(page).into_iter().map(|(id, q, d)| (id, q, d.vector())).collect();
     for s in &page.symbols {
         let Some(def) = symbols.get(&s.sym) else { continue };
+        if def.func == Func::Graphic {
+            continue;
+        }
         let c = def.world_bounds(s.pos, s.rot, s.mirror).center();
         for i in 0..def.pins.len() {
             let q = def.pin_world(i, s.pos, s.rot, s.mirror);
@@ -65,6 +69,9 @@ fn unobstructed(symbols: &Symbols, page: &Page, all: &[(u64, P, P)], a: P, b: P,
     }
     for s in page.symbols.iter().filter(|s| !ends.contains(&s.id)) {
         let Some(def) = symbols.get(&s.sym) else { continue };
+        if def.func == Func::Graphic {
+            continue;
+        }
         let r = def.world_bounds(s.pos, s.rot, s.mirror);
         let mid = p((a.x + b.x) / 2.0, (a.y + b.y) / 2.0);
         // Axis aligned segment against the box.
@@ -457,7 +464,7 @@ fn search(symbols: &Symbols, page: &Page, area: R, a: P, b: P) -> Option<Vec<P>>
     let boxes: Vec<R> = page
         .symbols
         .iter()
-        .filter_map(|s| symbols.get(&s.sym).map(|d| d.world_bounds(s.pos, s.rot, s.mirror)))
+        .filter_map(|s| symbols.get(&s.sym).filter(|d| d.func != Func::Graphic).map(|d| d.world_bounds(s.pos, s.rot, s.mirror)))
         .collect();
     let blocked = |c: (i32, i32)| {
         if c == start || c == goal {

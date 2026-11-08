@@ -280,6 +280,31 @@ fn parts_are_placed_as_new_devices() {
     assert_eq!(prj.devices[&tag].parts[0].number, "GEN.LMP-GN-24");
     assert!(run(&mut s, "place_part", json!({ "page": "1", "part": "NO.SUCH-PART", "x": 0, "y": 0 })).is_err());
 }
+#[test]
+fn insert_macro_installs_portable_custom_symbols() {
+    let mut session = new_session();
+    let m = json!({"name":"Portable", "clip":{
+        "symbol_defs":[{"key":"user:portable", "name":"Portable drawing"}],
+        "symbols":[{"id":1,"sym":"user:portable","pos":{"x":0,"y":0}}]
+    }});
+    let result = run(&mut session,"insert_macro",json!({"page":"1","macro":m.to_string(),"x":40,"y":40})).unwrap();
+    assert_eq!(result["symbol_definitions"],1);
+    let project = session.project().unwrap();
+    assert_eq!(project.symbols[0].key,"user:portable");
+    assert_eq!(project.pages[0].symbols[0].pos,p(40.,40.));
+}
+
+#[test]
+fn native_net_membership_is_available_through_plugins() {
+    let mut session = new_session();
+    let first = run(&mut session,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":40,"tag":"-K1"})).unwrap();
+    let second = run(&mut session,"place_symbol",json!({"page":"1","symbol":"coil","x":80,"y":40,"tag":"-K2"})).unwrap();
+    run(&mut session,"connect",json!({"page":"1","from":"-K1:A1","to":"-K2:A1"})).unwrap();
+    let nets = run(&mut session,"list_nets",json!({"bridge_terminals":false})).unwrap();
+    let pins = nets["pins"].as_array().unwrap();
+    let net = |id: &Value| pins.iter().find(|p| p["symbol"]==*id && p["pin"]==0).unwrap()["net"].clone();
+    assert_eq!(net(&first["id"]),net(&second["id"]));
+}
 
 #[test]
 fn t_junctions_route_the_wires_of_a_connection() {
@@ -368,30 +393,4 @@ fn crossings_and_bridges_connect_four_wires() {
     let b = run(&mut s, "update_connection_symbol", json!({ "page": "1", "id": b["id"], "direction": "down", "dot": true })).unwrap();
     assert_eq!(wires(&b)[0], "-K2:A1>-K1:A2");
     assert_eq!(run(&mut s, "list_connection_symbols", json!({})).unwrap().as_array().unwrap().len(), 1);
-}
-
-#[test]
-fn insert_macro_installs_portable_custom_symbols() {
-    let mut session = new_session();
-    let m = json!({"name":"Portable", "clip":{
-        "symbol_defs":[{"key":"user:portable", "name":"Portable drawing"}],
-        "symbols":[{"id":1,"sym":"user:portable","pos":{"x":0,"y":0}}]
-    }});
-    let result = run(&mut session,"insert_macro",json!({"page":"1","macro":m.to_string(),"x":40,"y":40})).unwrap();
-    assert_eq!(result["symbol_definitions"],1);
-    let project = session.project().unwrap();
-    assert_eq!(project.symbols[0].key,"user:portable");
-    assert_eq!(project.pages[0].symbols[0].pos,p(40.,40.));
-}
-
-#[test]
-fn native_net_membership_is_available_through_plugins() {
-    let mut session = new_session();
-    let first = run(&mut session,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":40,"tag":"-K1"})).unwrap();
-    let second = run(&mut session,"place_symbol",json!({"page":"1","symbol":"coil","x":80,"y":40,"tag":"-K2"})).unwrap();
-    run(&mut session,"connect",json!({"page":"1","from":"-K1:A1","to":"-K2:A1"})).unwrap();
-    let nets = run(&mut session,"list_nets",json!({"bridge_terminals":false})).unwrap();
-    let pins = nets["pins"].as_array().unwrap();
-    let net = |id: &Value| pins.iter().find(|p| p["symbol"]==*id && p["pin"]==0).unwrap()["net"].clone();
-    assert_eq!(net(&first["id"]),net(&second["id"]));
 }

@@ -385,6 +385,7 @@ fn func_name(f: Func) -> &'static str {
         Func::Overview => "overview",
         Func::Auxiliary => "auxiliary",
         Func::Junction => "junction",
+        Func::Graphic => "graphic",
     }
 }
 

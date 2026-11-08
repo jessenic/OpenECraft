@@ -367,6 +367,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     ui.label(tr("Shows"));
                     ui.horizontal(|ui| {
                         ui.selectable_value(kind, FieldKind::Tag, tr("Device tag"));
+                        ui.selectable_value(kind, FieldKind::TagName, tr("Device name only"));
                         ui.selectable_value(kind, FieldKind::Label, tr("Label"));
                         ui.selectable_value(kind, FieldKind::Pin(0), tr("Connection point"));
                     });

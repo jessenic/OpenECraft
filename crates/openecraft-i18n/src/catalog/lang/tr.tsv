@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Sayfa {} üzerindeki bağlantı sembolü bağlantısını döngü halinde bağlıyor: bağlantının sembolleri ona cihazlarının gerektirdiğinden fazla tel veriyor
 Source {}, targets {}, {} and {}	Kaynak {}, hedefler {}, {} ve {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Düz {} ile {} arasında, enine {} ile {} ve {} ile {} arasında
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} panolarının kablo girişlerine kadar döşendi: ortak bir odada durmuyorlar, aralarındaki yol yerleşimin parçası değil
 Building	Bina
 Buildings	Binalar
 New building	Yeni bina
@@ -6541,3 +6540,4 @@ unknown	bilinmiyor
 {} problems	{} sorun
 Buildings, levels and shafts	Binalar, katlar ve şaftlar
 15 · Plant with buildings, levels and a shaft	15 · Binalar, katlar ve şaftlı tesis
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} panolarının kablo girişlerine kadar döşendi: ortak bir odada durmuyorlar, aralarındaki yol yerleşimin parçası değil

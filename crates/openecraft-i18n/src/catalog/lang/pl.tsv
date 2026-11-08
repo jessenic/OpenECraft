@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Symbol połączenia na stronie {} łączy swoje połączenie w pętlę: symbole połączenia dają mu więcej przewodów, niż potrzebują jego urządzenia
 Source {}, targets {}, {} and {}	Źródło {}, cele {}, {} i {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Na wprost z {} do {}, poprzecznie z {} do {} i z {} do {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} jest poprowadzony do wejść kablowych swoich obudów: nie stoją we wspólnym pomieszczeniu, droga między nimi nie należy do układu
 Building	Budynek
 Buildings	Budynki
 New building	Nowy budynek
@@ -6541,3 +6540,4 @@ unknown	nieznana
 {} problems	Problemy: {}
 Buildings, levels and shafts	Budynki, kondygnacje i szyby
 15 · Plant with buildings, levels and a shaft	15 · Instalacja z budynkami, kondygnacjami i szybem
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} jest poprowadzony do wejść kablowych swoich obudów: nie stoją we wspólnym pomieszczeniu, droga między nimi nie należy do układu

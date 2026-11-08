@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Sivun {} liitossymboli johdottaa liitoksensa silmukaksi: liitoksen symbolit antavat sille enemmän johtimia kuin sen laitteet tarvitsevat
 Source {}, targets {}, {} and {}	Lähde {}, kohteet {}, {} ja {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Suoraan {} – {}, poikittain {} – {} ja {} – {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} on reititetty koteloidensa kaapeliläpivienteihin: ne eivät ole samassa huoneessa, niiden välinen reitti ei kuulu sijoitteluun
 Building	Rakennus
 Buildings	Rakennukset
 New building	Uusi rakennus
@@ -6541,3 +6540,4 @@ unknown	tuntematon
 {} problems	{} ongelmaa
 Buildings, levels and shafts	Rakennukset, kerrokset ja kuilut
 15 · Plant with buildings, levels and a shaft	15 · Laitos, jossa rakennuksia, kerroksia ja kuilu
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} on reititetty koteloidensa kaapeliläpivienteihin: ne eivät ole samassa huoneessa, niiden välinen reitti ei kuulu sijoitteluun

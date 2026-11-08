@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Simbolul de conexiune de pe pagina {} cablează conexiunea sa în buclă: simbolurile conexiunii îi dau mai multe fire decât au nevoie aparatele sale
 Source {}, targets {}, {} and {}	Sursă {}, ținte {}, {} și {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Drept înainte de la {} la {}, transversal de la {} la {} și de la {} la {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} este pozat până la intrările de cabluri ale carcaselor sale: acestea nu se află într-o încăpere comună, traseul dintre ele nu face parte din amplasare
 Building	Clădire
 Buildings	Clădiri
 New building	Clădire nouă
@@ -6541,3 +6540,4 @@ unknown	necunoscută
 {} problems	{} probleme
 Buildings, levels and shafts	Clădiri, niveluri și puțuri
 15 · Plant with buildings, levels and a shaft	15 · Instalație cu clădiri, niveluri și un puț
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} este pozat până la intrările de cabluri ale carcaselor sale: acestea nu se află într-o încăpere comună, traseul dintre ele nu face parte din amplasare

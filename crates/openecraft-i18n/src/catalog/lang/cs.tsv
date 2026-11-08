@@ -6508,7 +6508,6 @@ Crossing on page {} does not fit its wires: it needs a wire in all four directio
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Symbol spojení na straně {} zapojuje své spojení ve smyčce: symboly spojení mu dávají více vodičů, než jeho přístroje potřebují
 Source {}, targets {}, {} and {}	Zdroj {}, cíle {}, {} a {}
 Straight through from {} to {}, across from {} to {} and from {} to {}	Rovně z {} do {}, napříč z {} do {} a z {} do {}
-{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} je veden ke kabelovým vstupům svých skříní: nestojí ve společné místnosti, cesta mezi nimi není součástí rozvržení
 Building	Budova
 Buildings	Budovy
 New building	Nová budova
@@ -6541,3 +6540,4 @@ unknown	neznámá
 {} problems	Problémy: {}
 Buildings, levels and shafts	Budovy, podlaží a šachty
 15 · Plant with buildings, levels and a shaft	15 · Zařízení s budovami, podlažími a šachtou
+{} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} je veden ke kabelovým vstupům svých skříní: nestojí ve společné místnosti, cesta mezi nimi není součástí rozvržení

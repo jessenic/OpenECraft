@@ -342,7 +342,7 @@ pub fn problems(u: &UserSymbol) -> Vec<String> {
     if u.name.trim().is_empty() {
         v.push(tr("The symbol has no name.").into());
     }
-    if u.pins.is_empty() && !matches!(u.func, Func::Overview) {
+    if u.pins.is_empty() && !matches!(u.func, Func::Overview | Func::Graphic) {
         v.push(tr("The symbol has no connection points.").into());
     }
     for (i, a) in u.pins.iter().enumerate() {
@@ -395,7 +395,7 @@ pub fn prim_distance(prim: &Prim, q: P) -> f32 {
             text_distance(*pos,text,*size,*anchor,*pos + p(c*d.x-s*d.y,s*d.x+c*d.y))
         }
         Prim::Field { pos, size, anchor, kind, angle } => {
-            let sample = if *kind == FieldKind::Tag { "-K1" } else { "1" };
+            let sample = if matches!(kind, FieldKind::Tag | FieldKind::TagName) { "-K1" } else { "1" };
             let (s, c) = angle.unwrap_or_default().to_radians().sin_cos();
             let d = q - *pos;
             text_distance(*pos, sample, *size, *anchor, *pos + p(c * d.x - s * d.y, s * d.x + c * d.y))

@@ -178,3 +178,13 @@ fn internal_bridge_attachments_connect_without_becoming_device_endpoints() {
     assert_eq!(nets.pin_net[&(2,0)],nets.pin_net[&(2,2)]);
     assert!(!nets.pin_net.contains_key(&(2,1)));
 }
+#[test]
+fn decorative_symbols_do_not_create_device_endpoints() {
+    let mut project=Project::default();
+    let symbol=crate::symlib::UserSymbol {key:"user:decoration".into(),func:Func::Graphic,..Default::default()};
+    project.pages[0].symbols.push(SymbolInst {id:2,sym:symbol.key.clone(),..Default::default()});
+    project.symbols.push(symbol);
+    assert!(!Func::Graphic.has_tag());
+    assert!(Netlist::build(&project,true).pin_net.is_empty());
+    assert!(crate::index::Index::build(&project).devices.is_empty());
+}

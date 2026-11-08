@@ -1351,7 +1351,8 @@ impl Editor {
                 }
             }
             // Like a drag: facing connection points of moved symbols are connected.
-            let moved_symbols = prj.pages[page_i].symbols.iter().any(|s| self.selection.contains(&s.id)) || prj.pages[page_i].junctions.iter().any(|j| self.selection.contains(&j.id));
+            let moved_symbols = prj.pages[page_i].symbols.iter().any(|s| self.selection.contains(&s.id))
+                || prj.pages[page_i].junctions.iter().any(|j| self.selection.contains(&j.id));
             if self.autoconnect && moved_symbols {
                 let n = routing::apply_autoconnect(prj, page_i, &self.selection);
                 if n > 0 {

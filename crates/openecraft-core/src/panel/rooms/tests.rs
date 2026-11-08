@@ -21,6 +21,26 @@ fn project() -> (Project, usize, usize) {
     (prj, 0, 1)
 }
 
+#[test]
+fn wall_and_outside_mounting_use_the_imported_rail_datum() {
+    let (prj, room, _) = project();
+    for face in [Face::Wall(0), Face::Outside(0), Face::RoofTop] {
+        let mut enclosure = prj.layout.enclosures[room].clone();
+        let rail = PanelItem { kind: ItemKind::Rail, face, x: 0., y: 182.5, w: 300., h: 35., ..Default::default() };
+        let mut device = PanelItem {
+            kind: ItemKind::Device, face, part: "GEN.MCB".into(), x: 100., y: 100., w: 18., h: 100.,
+            rail_mount: openecraft_parts::RailMount { center_offset: 50., ..Default::default() },
+            ..Default::default()
+        };
+        assert!(!rail.rect().contains(device.center()));
+        assert!(rail.rect().contains(device.rail_anchor()));
+        enclosure.items.push(rail);
+        assert!(mount_ok(&prj, &enclosure, &device), "{face:?}");
+        device.rail_mount.center_offset = 0.;
+        assert!(!mount_ok(&prj, &enclosure, &device), "{face:?}");
+    }
+}
+
 /// An L-shaped floor plan: 6 m wide at the rear, 3 m deep on the left, 6 m deep on the
 /// right side of the L.
 const L_SHAPE: [[f32; 2]; 6] = [[0.0, 0.0], [6000.0, 0.0], [6000.0, 6000.0], [3000.0, 6000.0], [3000.0, 3000.0], [0.0, 3000.0]];
