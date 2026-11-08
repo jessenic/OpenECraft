@@ -4,11 +4,32 @@ use crate::model::{SymbolInst, Wire};
 use crate::symlib::{UserPin, UserSymbol};
 
 #[test]
+fn local_route_keeps_the_exact_interruption_endpoint_without_named_shortcuts() {
+    let mut prj=Project::default();
+    prj.symbols.push(UserSymbol {key:"user:point".into(),pins:vec![UserPin::default()],..Default::default()});
+    prj.symbols.push(UserSymbol {key:"user:arrow".into(),func:Func::Interruption,pins:vec![UserPin::default()],..Default::default()});
+    prj.pages[0].values.insert("page.explicit_wire_junctions".into(),"true".into());
+    for (id,pos,key) in [(1,p(0.,0.),"user:point"),(2,p(10.,0.),"user:arrow"),(3,p(100.,0.),"user:arrow"),(4,p(110.,0.),"user:point")] {
+        prj.pages[0].symbols.push(SymbolInst {id,sym:key.into(),pos,label:"PE".into(),..Default::default()});
+    }
+    for (id,a,b) in [(10,p(0.,0.),p(10.,0.)),(11,p(0.,0.),p(0.,20.)),(12,p(0.,20.),p(100.,20.)),(13,p(100.,20.),p(100.,0.)),(14,p(100.,0.),p(110.,0.))] {
+        prj.pages[0].wires.push(Wire {id,a,b,..Default::default()});
+    }
+    let open=Netlist::build(&prj,false);
+    assert_eq!(local_route(&prj,&open,(1,0),(3,0)),Some(vec![(0,11),(0,12),(0,13)]));
+    prj.pages[0].wires.retain(|w|w.id!=12);
+    let open=Netlist::build(&prj,false);
+    assert_eq!(open.connection_point_net[&(1,0)],open.connection_point_net[&(3,0)]);
+    assert_eq!(local_route(&prj,&open,(1,0),(3,0)),None);
+    assert_eq!(local_route(&prj,&open,(1,99),(3,0)),None);
+}
+
+#[test]
 fn a_loop_can_return_to_another_port_of_the_starting_junction() {
     let pin=PinRef {page:0,sym:1,pin:0};
     let sites=vec![
-        Site {page:0,points:vec![p(0.,0.);3],links:vec![(0,1),(1,2)],arms:Vec::new()},
-        Site {page:0,points:vec![p(0.,0.);2],links:vec![(0,1)],arms:Vec::new()},
+        Site {page:0,symbol:Some(100),points:vec![p(0.,0.);3],links:vec![(0,1),(1,2)],arms:Vec::new()},
+        Site {page:0,symbol:Some(100),points:vec![p(0.,0.);2],links:vec![(0,1)],arms:Vec::new()},
     ];
     let context=Context {
         sites:&sites,
@@ -61,7 +82,7 @@ fn a_chain_of_directed_junctions_keeps_the_common_source() {
 
 #[test]
 fn cyclic_target_paths_have_a_bounded_traversal() {
-    let sites:Vec<_>=(0..16).map(|_|Site {page:0,points:vec![p(0.,0.);3],links:vec![(0,1),(0,2)],arms:Vec::new()}).collect();
+    let sites:Vec<_>=(0..16).map(|_|Site {page:0,symbol:Some(100),points:vec![p(0.,0.);3],links:vec![(0,1),(0,2)],arms:Vec::new()}).collect();
     let all:Vec<_>=(0..sites.len()).flat_map(|site|(0..3).map(move |port|(site,port))).collect();
     let context=Context {sites:&sites,through:all.iter().map(|p|(*p,all.clone())).collect(),reached:HashMap::new()};
     assert!(context.beyond(0,0).is_empty());

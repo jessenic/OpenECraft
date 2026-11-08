@@ -861,6 +861,9 @@ pub struct Wire {
     /// Cross-section set manually (e.g. "1.5 mm²"); empty = automatic. Hoses and
     /// pipes (fluid nets): nominal size, e.g. "8 mm" or "DN25".
     pub cross_section: String,
+    /// Conductor construction/type, e.g. H07V-K or MKEM; empty = unspecified.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub wire_type: String,
     /// Medium of a hose / pipe; None = the project's default.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub medium: Option<fluid::Medium>,

@@ -6306,3 +6306,6 @@ Wire type	Leitertyp	Type de conducteur	Tipo de conductor
 Plugin folder	Plugin-Ordner	Dossier des plugins	Carpeta de plugins
 Load plugins	Plugins laden	Charger les plugins	Cargar plugins
 Folder containing plugin subfolders with plugin.json files	Ordner mit Plugin-Unterordnern und plugin.json-Dateien	Dossier contenant des sous-dossiers de plugins avec des fichiers plugin.json	Carpeta que contiene subcarpetas de plugins con archivos plugin.json
+Traces local drawn routes between exact connection points, including interruption points	Verfolgt lokale gezeichnete Wege zwischen genauen Anschlusspunkten einschließlich Abbruchstellen	Trace les chemins locaux dessinés entre les points de connexion exacts, y compris les points d’interruption	Traza rutas locales dibujadas entre puntos de conexión exactos, incluidos los puntos de interrupción
+Object with pairs of from and to symbol IDs and zero-based pin indices	Objekt mit Paaren aus Start- und Zielsymbol-IDs und nullbasierten Anschlussindizes	Objet avec des paires d’identifiants de symboles de départ et d’arrivée et des indices de broche commençant à zéro	Objeto con pares de identificadores de símbolos de origen y destino e índices de pin desde cero
+Invalid local wire route query	Ungültige Abfrage eines lokalen Drahtwegs	Requête de chemin de fil local incorrecte	Consulta de ruta de cable local no válida

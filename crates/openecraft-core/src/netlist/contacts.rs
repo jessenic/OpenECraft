@@ -68,14 +68,14 @@ pub(super) fn scan(prj:&Project,page:&Page,bridge_terminals:bool)->PageScan {
     scan.nodes=local.len();scan
 }
 
-fn accepts(mask:u8,delta:P)->bool {
+pub(super) fn accepts(mask:u8,delta:P)->bool {
     let bit=if delta.x.abs()>delta.y.abs() {if delta.x>0. {2}else{8}} else if delta.y>0. {4}else{1};
     mask & bit !=0
 }
 
 fn on_segment(q:P,a:P,b:P)->bool {q.same(a)||q.same(b)||on_segment_interior(q,a,b)}
 
-fn compatible(a:u8,b:u8)->bool {
+pub(super) fn compatible(a:u8,b:u8)->bool {
     let opposite=((a<<2)|(a>>2))&15;
     a==15 || b==15 || opposite&b!=0
 }

@@ -239,3 +239,23 @@ The drawing plugin accepts PXF window macro XML with `import_ema` (parameter `xm
 `function_part_selection` advertises function-specific assigned-part references. The `function.part_index` property selects a one-based position in the device parts and records its part number in `SymbolInst.values["function.part_number"]`. Removing earlier parts does not change this reference. A removed selected part yields an empty selection, position zero, and a project issue; setting an existing position repairs it, while clearing the position resets automatic first-part selection. `part.*` properties on a function read only its selected part; device properties retain their aggregate behavior. `function.manufacturer` supports an explicit editable override with selected-part fallback, and `function.selection_text` retains authored selection text independently of catalog type numbers. The registered `list_function_parts` command returns every function’s selected part and editable attribute values for batch inspection.
 
 `property_blocks` advertises `Prim::PropertyBlock` with ordered `Property(key)`, `Field(FieldKind)` and `Text(value)` rows, local `pos` and `step` vectors, font `size`, horizontal `anchor`, text `angle`, `align` (`Start`, `Middle`, `End`) and optional RGB `color`. The shared canvas/export renderer resolves properties on the original full-tagged function, skips empty values, and flows every line before applying symbol transforms. User-symbol `default_values` initializes editable instance properties during shared placement; `list_symbols` exposes defaults and blocks. The symbol editor supports creation and editing of blocks and default properties.
+
+The `wire_type` project feature preserves conductor construction on `Wire.wire_type`.
+`update_wire` accepts `wire_type`; `list_connections` returns it for each physical
+connection. The editable connections table appends Wire type after its original
+nine columns; connection reports include the same value. Empty means unspecified.
+
+The `physical_wire_routes` feature advertises contact-aware conductor tracing.
+`list_connections` includes `route_traced` and `wires` (native page ID and wire ID).
+When `route_traced` is false, the wire list is the existing net-wide property scope,
+not a demonstrated point-to-point path. Explicit-junction pages keep wire-local
+vertices separate until a valid endpoint, junction or directional pin contact joins
+them. These rules also apply when a crossing belongs to one net by another route.
+
+`trace_wire_routes` accepts `routes: {"pairs": [{"from": {"symbol": 12, "pin": 0},
+"to": {"symbol": 34, "pin": 0}}]}` and returns an ordered result for each pair.
+It traces exact local drawn endpoints, including virtual interruption points,
+without jumping between equal potential or interruption names. Each result has
+`route_traced` and `wires` with native page/segment IDs and their conductor properties.
+This verifies a particular branch even when the physical wiring list chooses another
+valid path through a named net. An invalid or disconnected endpoint has no traced route.

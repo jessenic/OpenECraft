@@ -208,14 +208,19 @@ impl App {
                 ui.label(super::counted(wires.len(), tr("1 wire"), tr_fmt!("{} wires", wires.len())));
                 let first = self.session.prj.pages[pi].wires.iter().find(|w| w.id == wires[0]).cloned().unwrap_or_default();
                 let (mut color, mut cs) = (first.color.clone(), first.cross_section.clone());
+                let mut wire_type = first.wire_type.clone();
                 let auto = potentials::props_of_wire(&self.session.prj, &self.session.analysis.netlist, &self.session.analysis.open, first.id);
                 egui::Grid::new("wprops").num_columns(2).show(ui, |ui| {
                     potentials_ui::wire_fields(ui, &mut color, &mut cs, &auto);
+                    ui.label(tr("Wire type"));
+                    ui.text_edit_singleline(&mut wire_type);
+                    ui.end_row();
                 });
-                if color != first.color || cs != first.cross_section {
+                if color != first.color || cs != first.cross_section || wire_type != first.wire_type {
                     for w in self.session.prj.pages[pi].wires.iter_mut().filter(|w| wires.contains(&w.id)) {
                         w.color = color.clone();
                         w.cross_section = cs.clone();
+                        w.wire_type = wire_type.clone();
                     }
                 }
                 let cables: Vec<String> = self.session.prj.cables.iter().map(|c| c.tag.clone()).collect();
@@ -369,6 +374,9 @@ impl App {
                     ui.end_row();
                 }
                 potentials_ui::wire_fields(ui, &mut w.color, &mut w.cross_section, &auto);
+                ui.label(tr("Wire type"));
+                ui.text_edit_singleline(&mut w.wire_type);
+                ui.end_row();
                 ui.label(tr("From"));
                 ui.label(format!("{:.0} / {:.0}", w.a.x, w.a.y));
                 ui.end_row();

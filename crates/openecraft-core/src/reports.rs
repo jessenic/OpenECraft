@@ -678,6 +678,7 @@ fn connection_list(prj: &Project, conns: &[Connection]) -> Table {
         ("Cross-section", 1.0),
         (tr_const!("Cable"), 1.0),
         (tr_const!("Core"), 0.6),
+        (tr_const!("Wire type"), 1.0),
     ]);
     for c in conns {
         let s = &prj.pages[c.a.page].symbols[c.a.sym];
@@ -692,6 +693,7 @@ fn connection_list(prj: &Project, conns: &[Connection]) -> Table {
                 c.cross_section.clone(),
                 c.cable.clone(),
                 c.core.clone(),
+                c.wire_type.clone(),
             ],
             Some((c.a.page, s.id)),
         );

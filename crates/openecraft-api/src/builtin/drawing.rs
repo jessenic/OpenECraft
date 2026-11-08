@@ -154,6 +154,7 @@ pub static COMMANDS: &[Spec] = &[
             optional("hide_labels", Kind::Bool, tr_const!("Hide automatic wire and cable labels")),
             optional("color", Kind::Str, tr_const!("Wire colour, e.g. BU (empty = from the potential definition)")),
             optional("cross_section", Kind::Str, tr_const!("Cross section, e.g. 1.5 mm² (empty = from the potential definition)")),
+            optional("wire_type", Kind::Str, tr_const!("Wire type")),
             optional("cable", Kind::Str, tr_const!("Cable tag")),
             optional("core", Kind::Str, tr_const!("Cable core")),
             optional("medium", Kind::Str, tr_const!("Hoses / pipes: medium (compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam, product; empty = project default)")),
@@ -811,7 +812,7 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     let color = a.str("color").map(wire_color).transpose()?;
     let cross = a.str("cross_section").map(cross_section).transpose()?;
-    for (name, field) in [("cable", &mut w.cable), ("core", &mut w.core)] {
+    for (name, field) in [("cable", &mut w.cable), ("core", &mut w.core), ("wire_type", &mut w.wire_type)] {
         if let Some(v) = a.str(name) {
             *field = v.into();
         }
@@ -832,7 +833,7 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
         w.length = l;
     }
     let medium = w.medium.map(|m| m.code()).unwrap_or_default();
-    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels, "color": w.color, "cross_section": w.cross_section, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
+    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels, "color": w.color, "cross_section": w.cross_section, "wire_type": w.wire_type, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
 }
 
 /// Takes the style parameters of `add_text` / `update_text` that are given.

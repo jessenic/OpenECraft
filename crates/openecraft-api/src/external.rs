@@ -177,7 +177,7 @@ fn process(dir: PathBuf, run: Vec<String>, timeout: Duration) -> Transport {
 /// Sends a request; `{"error": …}` becomes an error.
 fn ask(transport: &Transport, mut request: Value) -> Result<Value, String> {
     request["api"] = API_VERSION.into();
-    request["project_features"] = json!(["directional_pin_contacts","explicit_wire_junctions","directed_junction_paths","fluid_port_roles","wire_hide_labels","scoped_connections","product_designation_fields","function_text_fields","function_part_selection","property_blocks"]);
+    request["project_features"] = json!(["directional_pin_contacts","explicit_wire_junctions","directed_junction_paths","fluid_port_roles","wire_hide_labels","scoped_connections","product_designation_fields","function_text_fields","function_part_selection","property_blocks","wire_type","physical_wire_routes"]);
     let answer = transport(&request)?;
     match answer.get("error") {
         Some(e) => Err(e.as_str().map(String::from).unwrap_or_else(|| e.to_string())),

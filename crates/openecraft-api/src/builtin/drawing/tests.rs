@@ -1,6 +1,25 @@
 use super::*;
 
 #[test]
+fn queried_local_routes_return_native_wire_properties_and_reject_invalid_queries() {
+    use openecraft_core::symlib::{UserPin,UserSymbol};
+    let mut s=new_session();
+    let prj=s.project_mut().unwrap();
+    prj.symbols.push(UserSymbol {key:"user:route_point".into(),pins:vec![UserPin::default()],..Default::default()});
+    for (id,x) in [(100,20.),(101,40.)] {
+        prj.pages[0].symbols.push(SymbolInst {id,sym:"user:route_point".into(),pos:p(x,20.),..Default::default()});
+    }
+    prj.pages[0].wires.push(Wire {id:102,a:p(20.,20.),b:p(40.,20.),wire_type:"MKEM".into(),color:"GNYE".into(),cross_section:"10".into(),..Default::default()});
+    let page=prj.pages[0].id;
+    let result=run(&mut s,"trace_wire_routes",json!({"routes":{"pairs":[{"from":{"symbol":100,"pin":0},"to":{"symbol":101,"pin":0}},{"from":{"symbol":100,"pin":99},"to":{"symbol":101,"pin":0}}]}})).unwrap();
+    assert_eq!(result[0]["route_traced"],true);
+    assert_eq!(result[0]["wires"],json!([{"page":page,"id":102,"wire_type":"MKEM","color":"GNYE","cross_section":"10","number":""}]));
+    assert_eq!(result[1]["route_traced"],false);
+    assert!(run(&mut s,"trace_wire_routes",json!({"routes":{"pairs":[{}]}})).is_err());
+    assert!(run(&mut s,"trace_wire_routes",json!({"routes":{}})).is_err());
+}
+
+#[test]
 fn attribute_block_defaults_are_exposed_placed_and_editable_after_reopen() {
     use openecraft_core::symbols::{Anchor, BlockAlign, BlockRow, Prim, PropertyBlock};
     use openecraft_core::symlib::UserSymbol;
@@ -75,6 +94,13 @@ fn native_wiring_connections_expose_stable_pin_identities() {
     run(&mut s,"connect",json!({"page":"1","from":"-K1:A2","to":"-K2:A1"})).unwrap();
     let connections = run(&mut s,"list_connections",json!({})).unwrap();
     assert!(connections.as_array().unwrap().iter().any(|c| c["from"]["symbol"] == a["id"] && c["from"]["pin"] == 1 && c["to"]["symbol"] == b["id"] && c["to"]["pin"] == 0));
+    s.project_mut().unwrap().pages[0].values.insert("page.use_drawn_wire_targets".into(),"true".into());
+    let connections = run(&mut s,"list_connections",json!({})).unwrap();
+    let connection=&connections[0];
+    assert_eq!(connection["route_traced"],true);
+    let project=s.project().unwrap();
+    let wires:Vec<_>=project.pages[0].wires.iter().map(|w|json!({"page":project.pages[0].id,"id":w.id})).collect();
+    assert_eq!(connection["wires"],json!(wires));
 }
 
 #[test]
@@ -372,6 +398,10 @@ fn definitions_need_wires_and_known_values() {
     assert!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "cross_section": "abc" })).unwrap_err().starts_with("Not a cross-section"));
     assert_eq!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "color": "gn/ye", "cross_section": "1,5 mm²" })).unwrap()["color"], "gn/ye");
     assert!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "length": -1 })).is_err());
+    let changed = run(&mut s, "update_wire", json!({ "page": "1", "id": id, "wire_type": "MKEM" })).unwrap();
+    assert_eq!(changed["wire_type"], "MKEM");
+    assert_eq!(s.project().unwrap().pages[0].wires[0].wire_type, "MKEM");
+    assert_eq!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "wire_type": "" })).unwrap()["wire_type"], "");
 }
 
 #[test]

@@ -11,6 +11,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 - Let wires and connection definitions be selected inside decorative symbol bounds.
 
+- Trace conductor attributes through valid wire contacts and expose physical wire routes to plugins.
+
 - Preserve editable conductor types in wire properties, connection tables, API and reports.
 
 - Add editable, flowing symbol attribute blocks that resolve current function and part properties in drawings and exports, with library defaults for new placements.

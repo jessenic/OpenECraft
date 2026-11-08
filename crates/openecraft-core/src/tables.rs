@@ -34,7 +34,7 @@ const fn col(name: &'static str, editable: bool) -> Column {
 
 const DEVICES: [Column; 5] =
     [col(tr_const!("Device tag"), true), col(tr_const!("Function text"), true), col(tr_const!("Description"), true), col(tr_const!("Part"), true), col(tr_const!("Pages"), false)];
-const CONNECTIONS: [Column; 9] = [
+const CONNECTIONS: [Column; 10] = [
     col(tr_const!("From"), false),
     col(tr_const!("To"), false),
     col(tr_const!("Potential"), false),
@@ -44,6 +44,7 @@ const CONNECTIONS: [Column; 9] = [
     col(tr_const!("Cable"), true),
     col(tr_const!("Core"), true),
     col(tr_const!("Pages"), false),
+    col(tr_const!("Wire type"), true),
 ];
 const TERMINALS: [Column; 4] = [col(tr_const!("Strip"), true), col(tr_const!("Terminal"), true), col(tr_const!("Function text"), true), col(tr_const!("Pages"), false)];
 const CABLES: [Column; 8] = [
@@ -225,6 +226,7 @@ pub fn rows(prj: &Project, nl: &Netlist, open: &Netlist, kind: TableKind) -> Vec
                         first(|w| &w.cable),
                         first(|w| &w.core),
                         pages_text(prj, net.wires.iter().map(|w| w.0)),
+                        first(|w| &w.wire_type),
                     ],
                     target: net.wires.iter().map(|w| w.1).min().map(|id| (page, id)),
                     locked: net.wires.iter().any(|w| prj.pages[w.0].locked),
@@ -428,6 +430,7 @@ fn set(prj: &mut Project, open: &Netlist, kind: TableKind, key: &str, column: us
                     4 => &mut w.color,
                     5 => &mut w.cross_section,
                     6 => &mut w.cable,
+                    9 => &mut w.wire_type,
                     _ => &mut w.core,
                 };
                 if field != value {

@@ -14,6 +14,7 @@ pub(super) struct TracedPaths {
 #[derive(Clone)]
 struct Site {
     page: usize,
+    symbol: Option<u64>,
     points: Vec<P>,
     links: Vec<(usize, usize)>,
     arms: Vec<TeeDir>,
@@ -21,14 +22,15 @@ struct Site {
 
 #[derive(Clone, PartialEq, Eq, Hash)]
 enum Key {
-    Point(usize, (i64, i64)),
+    Pin(usize, u64, usize),
+    Wire(usize, u64, (i64, i64)),
     Port(usize, usize),
     Named(String),
 }
 
 impl Site {
     fn key(&self, site: usize, port: usize) -> Key {
-        if self.arms.is_empty() { Key::Point(self.page, self.points[port].key()) } else { Key::Port(site, port) }
+        if self.arms.is_empty() { Key::Pin(self.page, self.symbol.expect("symbol junction"), port) } else { Key::Port(site, port) }
     }
 }
 
@@ -40,16 +42,24 @@ pub(super) struct Paths {
 struct Attachment {
     page: usize,
     point: P,
+    symbol: u64,
+    pin: usize,
+    mask: u8,
+    side_contact: bool,
     name: Option<String>,
-    bridges: Vec<P>,
+    bridges: Vec<usize>,
 }
 
 impl Paths {
     pub fn new(prj: &Project, open: &Netlist) -> Self {
+        Self::with_local_routes(prj,open,false)
+    }
+
+    fn with_local_routes(prj:&Project,open:&Netlist,all:bool)->Self {
         let mut nets: HashMap<usize, Vec<Site>> = HashMap::new();
         let symbols=prj.symbol_table();
         for pg in &prj.pages {
-            if pg.values.get("page.use_drawn_wire_targets").is_some_and(|v|v=="true") {
+            if all || pg.values.get("page.use_drawn_wire_targets").is_some_and(|v|v=="true") {
                 for w in &pg.wires {
                     if let Some(&id)=open.wire_net.get(&w.id).filter(|id|!open.nets[**id].fluid) {nets.entry(id).or_default();}
                 }
@@ -58,7 +68,7 @@ impl Paths {
         for (page, pg) in prj.pages.iter().enumerate() {
             for s in &pg.symbols {
                 let Some(def) = symbols.get(&s.sym).filter(|d| d.directed_junction || d.func.has_tag() && !d.func.is_feedthrough() && !d.bridges.is_empty()) else { continue };
-                let site = Site { page, points: (0..def.pins.len()).map(|i| def.pin_world(i, s.pos, s.rot, s.mirror)).collect(), links: def.bridges.clone(), arms: Vec::new() };
+                let site = Site { page, symbol: Some(s.id), points: (0..def.pins.len()).map(|i| def.pin_world(i, s.pos, s.rot, s.mirror)).collect(), links: def.bridges.clone(), arms: Vec::new() };
                 let ids: HashSet<usize> = (0..def.pins.len()).filter_map(|i| open.connection_point_net.get(&(s.id, i)).copied()).collect();
                 for id in ids {
                     if open.nets[id].fluid {continue;}
@@ -79,9 +89,9 @@ impl Paths {
                 for pin in 0..def.pins.len() {
                     let Some(&id)=open.connection_point_net.get(&(s.id,pin)).filter(|id|nets.contains_key(id)) else {continue;};
                     let bridges=if !def.directed_junction && !def.func.has_tag() {
-                        def.bridges.iter().filter(|(a,_)|*a==pin).map(|(_,b)|def.pin_world(*b,s.pos,s.rot,s.mirror)).collect()
+                        def.bridges.iter().filter(|(a,_)|*a==pin).map(|(_,b)|*b).collect()
                     } else {Vec::new()};
-                    attachments.entry(id).or_default().push(Attachment {page,point:def.pin_world(pin,s.pos,s.rot,s.mirror),name:name.clone(),bridges});
+                    attachments.entry(id).or_default().push(Attachment {page,point:def.pin_world(pin,s.pos,s.rot,s.mirror),symbol:s.id,pin,mask:def.pin_connection_directions(pin,s.rot,s.mirror),side_contact:pg.values.get("page.explicit_wire_junctions").is_none_or(|v|v!="true") || def.pins[pin].internal || !def.func.has_tag(),name:name.clone(),bridges});
                 }
             }
         }
@@ -94,17 +104,46 @@ impl Paths {
         for &(page, j) in native {
             let arms = j.arms();
             let links = j.links().into_iter().filter_map(|(a,b)| Some((arms.iter().position(|d| *d == a)?, arms.iter().position(|d| *d == b)?))).collect();
-            sites.push(Site { page, points: vec![j.pos; arms.len()], links, arms });
+            sites.push(Site { page, symbol: None, points: vec![j.pos; arms.len()], links, arms });
         }
         Some(trace(prj, net, &sites,self.attachments.get(id).map(Vec::as_slice).unwrap_or_default()))
     }
+}
+
+pub(super) fn local_route(prj:&Project,open:&Netlist,from:(u64,usize),to:(u64,usize))->Option<Vec<(usize,u64)>> {
+    let id=*open.connection_point_net.get(&from)?;
+    if open.connection_point_net.get(&to)!=Some(&id) {return None;}
+    let paths=Paths::with_local_routes(prj,open,true);
+    let net=&open.nets[id];
+    let mut sites=paths.nets.get(&id)?.clone();
+    for (page,j) in junctions::Tees::new(prj).on_net(prj,net) {
+        let arms=j.arms();
+        let links=j.links().into_iter().filter_map(|(a,b)|Some((arms.iter().position(|d|*d==a)?,arms.iter().position(|d|*d==b)?))).collect();
+        sites.push(Site {page,symbol:None,points:vec![j.pos;arms.len()],links,arms});
+    }
+    let graph=contacts::build(prj,net,&sites,paths.attachments.get(&id)?.as_slice());
+    let pin_key=|(symbol,pin)| {
+        let page=prj.pages.iter().position(|p|p.symbols.iter().any(|s|s.id==symbol))?;
+        Some(Key::Pin(page,symbol,pin))
+    };
+    let a=*graph.nodes.get(&pin_key(from)?)?;
+    let b=*graph.nodes.get(&pin_key(to)?)?;
+    let mut edges=graph.local_edges;
+    for (i,site) in sites.iter().enumerate() {
+        for &(a,b) in &site.links {
+            if let (Some(a),Some(b))=(graph.nodes.get(&site.key(i,a)),graph.nodes.get(&site.key(i,b))) {edges.push((*a,*b,0,None));}
+        }
+    }
+    let graph=graph_of(graph.uf.parent.len(),&edges);
+    if !reachable_nodes(&graph,&HashMap::new(),a).contains(&b) {return None;}
+    Some(wire_route(&graph,a,b))
 }
 
 fn node(nodes: &mut HashMap<Key, usize>, uf: &mut Uf, key: Key) -> usize {
     *nodes.entry(key).or_insert_with(|| uf.add())
 }
 
-fn wire_key(sites: &[Site], page: usize, q: P, other: P) -> Key {
+fn wire_key(sites: &[Site], page: usize, wire: u64, q: P, other: P) -> Key {
     for (i, site) in sites.iter().enumerate().filter(|(_,s)| s.page == page && !s.arms.is_empty()) {
         if !site.points[0].same(q) { continue; }
         let delta = other - q;
@@ -112,75 +151,39 @@ fn wire_key(sites: &[Site], page: usize, q: P, other: P) -> Key {
                         else if delta.y > 0. { TeeDir::Down } else { TeeDir::Up };
         if let Some(port) = site.arms.iter().position(|d| *d == direction) { return site.key(i, port); }
     }
-    Key::Point(page, q.key())
+    Key::Wire(page, wire, q.key())
 }
 
 fn trace(prj: &Project, net: &Net, sites: &[Site], attachments:&[Attachment]) -> TracedPaths {
-    let mut uf = Uf { parent: Vec::new() };
-    let mut nodes = HashMap::new();
-    let mut edges = Vec::new();
-    let mut local_edges=Vec::new();
-    for attachment in attachments {
-        let n=node(&mut nodes,&mut uf,Key::Point(attachment.page,attachment.point.key()));
-        if let Some(name)=&attachment.name {
-            let m=node(&mut nodes,&mut uf,Key::Named(name.clone()));
-            uf.union(n,m);
-            edges.push((n,m,0,None));
-        }
-        for q in &attachment.bridges {
-            let m=node(&mut nodes,&mut uf,Key::Point(attachment.page,q.key()));
-            uf.union(n,m);
-            edges.push((n,m,0,None));
-            local_edges.push((n,m,0,None));
-        }
-    }
-    for &(page, wid) in &net.wires {
-        let pg = &prj.pages[page];
-        let Some(w) = pg.wires.iter().find(|w| w.id == wid) else { continue };
-        let mut cuts = vec![w.a,w.b];
-        cuts.extend(pg.wires.iter().flat_map(|w| [w.a,w.b]).filter(|q| on_segment_interior(*q,w.a,w.b)));
-        cuts.extend(attachments.iter().filter(|a|a.page==page && on_segment_interior(a.point,w.a,w.b)).map(|a|a.point));
-        cuts.extend(sites.iter().filter(|s| s.page == page).flat_map(|s| s.points.iter()).filter(|q| on_segment_interior(**q,w.a,w.b)).copied());
-        let along = |q: P| (q.x-w.a.x)*(w.b.x-w.a.x)+(q.y-w.a.y)*(w.b.y-w.a.y);
-        cuts.sort_by(|a,b| along(*a).total_cmp(&along(*b)));
-        cuts.dedup_by(|a,b| a.same(*b));
-        for pair in cuts.windows(2) {
-            let a = node(&mut nodes,&mut uf,wire_key(sites,page,pair[0],pair[1]));
-            let b = node(&mut nodes,&mut uf,wire_key(sites,page,pair[1],pair[0]));
-            uf.union(a,b);
-            edges.push((a,b,(((pair[1]-pair[0]).len()*1000.) as u64).max(1),Some((page,wid))));
-            local_edges.push((a,b,(((pair[1]-pair[0]).len()*1000.) as u64).max(1),Some((page,wid))));
-        }
-    }
+    let contacts::Graph {mut uf,nodes,mut edges,local_edges}=contacts::build(prj,net,sites,attachments);
     let mut pins: HashMap<usize,Vec<PinRef>> = HashMap::new();
     let physical=chained_pins(prj,net);
     let mut pin_nodes:HashMap<usize,Vec<PinRef>>=HashMap::new();
     for &pin in &physical {
         let s = &prj.pages[pin.page].symbols[pin.sym];
-        let Some(def) = prj.symbol(&s.sym) else { continue };
-        let key = Key::Point(pin.page,def.pin_world(pin.pin,s.pos,s.rot,s.mirror).key());
+        let key = Key::Pin(pin.page,s.id,pin.pin);
         if let Some(n) = nodes.get(&key) {
             pins.entry(uf.find(*n)).or_default().push(pin);
             pin_nodes.entry(*n).or_default().push(pin);
         }
     }
+    let ContactGraph {graph:connections,pins:contact_pins,canonical}=contact_graph(uf.parent.len(),&edges,&pin_nodes);
     let mut components = HashMap::new();
     for (i,site) in sites.iter().enumerate() {
         for port in 0..site.points.len() {
             if let Some(n) = nodes.get(&site.key(i,port)) {
-                components.insert((i,port),*n);
+                components.insert((i,port),canonical[*n]);
             }
         }
     }
-    let connections=graph_of(uf.parent.len(),&edges);
     let reached=components.keys().filter_map(|&(site,port)| {
         let start=*nodes.get(&sites[site].key(site,port))?;
-        Some(((site,port),reachable_pins(&connections,&pin_nodes,start)))
+        Some(((site,port),reachable_pins(&connections,&contact_pins,canonical[start])))
     }).collect();
     let through=components.keys().filter_map(|&(site,port)| {
         let start=*nodes.get(&sites[site].key(site,port))?;
-        let visited=reachable_nodes(&connections,&pin_nodes,start);
-        let mut others:Vec<_>=components.keys().filter(|&&(s,p)|nodes.get(&sites[s].key(s,p)).is_some_and(|n|visited.contains(n))).copied().collect();
+        let visited=reachable_nodes(&connections,&contact_pins,canonical[start]);
+        let mut others:Vec<_>=components.keys().filter(|&&(s,p)|nodes.get(&sites[s].key(s,p)).is_some_and(|n|visited.contains(&canonical[*n]))).copied().collect();
         others.sort_unstable();
         Some(((site,port),others))
     }).collect();
@@ -202,14 +205,14 @@ fn trace(prj: &Project, net: &Net, sites: &[Site], attachments:&[Attachment]) ->
     }
     let mut groups: Vec<_> = pins.values().collect();
     groups.sort_by_key(|p| (p[0].page,p[0].sym,p[0].pin));
-    for [a,b] in drawn_pairs(&graph_of(uf.parent.len(),&local_edges),&pin_nodes) {collected.add(a,b,false);}
+    let ContactGraph {graph:local_graph,pins:local_pins,..}=contact_graph(uf.parent.len(),&local_edges,&pin_nodes);
+    for [a,b] in drawn_pairs(&local_graph,&local_pins) {collected.add(a,b,false);}
     for group in groups { for pair in group.windows(2) { collected.add(pair[0],pair[1],true); } }
     let pairs=collected.pairs;
     let graph=graph_of(uf.parent.len(),&edges);
     let key_of=|pin:PinRef| {
         let s=&prj.pages[pin.page].symbols[pin.sym];
-        let def=prj.symbol(&s.sym)?;
-        nodes.get(&Key::Point(pin.page,def.pin_world(pin.pin,s.pos,s.rot,s.mirror).key())).copied()
+        nodes.get(&Key::Pin(pin.page,s.id,pin.pin)).copied()
     };
     let wire_routes=pairs.iter().map(|pair| {
         match (key_of(pair[0]),key_of(pair[1])) {
@@ -229,6 +232,24 @@ fn graph_of(size:usize,edges:&[Segment])->Vec<Vec<Edge>> {
         graph[a].push((b,length,wire));graph[b].push((a,length,wire));
     }
     graph
+}
+
+struct ContactGraph {
+    graph: Vec<Vec<Edge>>,
+    pins: HashMap<usize,Vec<PinRef>>,
+    canonical: Vec<usize>,
+}
+
+fn contact_graph(size:usize,edges:&[Segment],pins:&HashMap<usize,Vec<PinRef>>)->ContactGraph {
+    let mut uf=Uf {parent:(0..size).collect()};
+    for &(a,b,length,wire) in edges {if length==0 && wire.is_none() {uf.union(a,b);}}
+    let canonical:Vec<_>=(0..size).map(|n|uf.find(n)).collect();
+    let segments:Vec<_>=edges.iter().filter_map(|&(a,b,length,wire)| {
+        let (a,b)=(canonical[a],canonical[b]);(a!=b).then_some((a,b,length,wire))
+    }).collect();
+    let mut contacts:HashMap<usize,Vec<PinRef>>=HashMap::new();
+    for (&at,pins) in pins {contacts.entry(canonical[at]).or_default().extend(pins);}
+    ContactGraph {graph:graph_of(size,&segments),pins:contacts,canonical}
 }
 
 fn reachable_pins(graph:&[Vec<Edge>],pins:&HashMap<usize,Vec<PinRef>>,start:usize)->Vec<PinRef> {
@@ -343,6 +364,8 @@ impl Context<'_> {
         out
     }
 }
+
+mod contacts;
 
 #[cfg(test)]
 mod tests;

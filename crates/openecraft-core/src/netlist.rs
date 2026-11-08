@@ -483,12 +483,16 @@ pub struct Connection {
     pub b: PinRef,
     pub color: String,
     pub cross_section: String,
+    pub wire_type: String,
     pub number: String,
     /// Cable tag and core, if the wires are a cable core.
     pub cable: String,
     pub core: String,
     /// Harness the connection belongs to.
     pub harness: String,
+    /// Native wire segments on this physical route (page index, wire ID).
+    pub wires: Vec<(usize,u64)>,
+    pub route_traced: bool,
 }
 
 /// Point-to-point connections: the device connection points of each connection of
@@ -545,14 +549,23 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
                 b: pair[1],
                 color: color.clone(),
                 cross_section: [pair[0], pair[1]].into_iter().filter_map(at_pin).min_by(|a, b| crate::harness::outer_diameter(a).total_cmp(&crate::harness::outer_diameter(b))).unwrap_or_else(|| cross_section.clone()),
+                wire_type: wires.iter().find(|w| !w.wire_type.is_empty()).map(|w| w.wire_type.clone()).unwrap_or_default(),
                 number: number.clone(),
                 cable: cable.clone(),
                 core: core.clone(),
                 harness,
+                wires: physical.wires.clone(),
+                route_traced: traced.is_some(),
             });
         }
     }
     out
+}
+
+/// Trace a drawn route between exact connection points, without named cross-page jumps.
+/// This includes virtual endpoints such as interruption points and junction ports.
+pub fn local_wire_route(prj:&Project,open:&Netlist,from:(u64,usize),to:(u64,usize))->Option<Vec<(usize,u64)>> {
+    paths::local_route(prj,open,from,to)
 }
 
 /// The device connection points of a net in the order they are chained: schematic
