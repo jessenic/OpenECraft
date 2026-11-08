@@ -12,6 +12,54 @@ fn project() -> Project {
 }
 
 #[test]
+fn function_part_selection_is_local_live_and_does_not_change_device_aggregates() {
+    let mut prj = project();
+    prj.parts.push(Part { number: "SECOND".into(), manufacturer: "Maker two".into(), ..Default::default() });
+    prj.devices.get_mut("-M1").unwrap().parts.push(PartRef { number: "SECOND".into(), count: 1 });
+    let function = Object::Function(10);
+    assert_eq!(get(&prj, &function, "part.number"), "GEN.MOTOR");
+    assert_eq!(get(&prj, &function, "function.part_index"), "1");
+    set(&mut prj, &function, "function.part_index", "2").unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "SECOND");
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Maker two");
+    assert_eq!(get(&prj, &Object::Device("-M1".into()), "device.parts"), "GEN.MOTOR, SECOND");
+    assert_eq!(Object::Function(10).classes(&prj).last(), Some(&ObjectClass::Part));
+    prj.parts.iter_mut().find(|p| p.number == "SECOND").unwrap().manufacturer = "Updated maker".into();
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Updated maker");
+    set(&mut prj, &function, "function.manufacturer", "Function override").unwrap();
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Function override");
+    set(&mut prj, &function, "function.manufacturer", "").unwrap();
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Updated maker");
+    for index in ["0", "-1", "3"] {
+        let before = prj.to_json();
+        assert!(set(&mut prj, &function, "function.part_index", index).is_err());
+        assert_eq!(prj.to_json(), before);
+    }
+    prj.devices.get_mut("-M1").unwrap().parts[1].number = "MISSING.CATALOG".into();
+    set(&mut prj, &function, "function.part_index", "2").unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "MISSING.CATALOG");
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "");
+    let prj = Project::from_json(&prj.to_json()).unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "MISSING.CATALOG");
+}
+
+#[test]
+fn removing_a_selected_part_cannot_silently_bind_to_another_part() {
+    let mut prj = project();
+    let function = Object::Function(10);
+    prj.devices.get_mut("-M1").unwrap().parts.extend([PartRef { number: "SECOND".into(), count: 1 }, PartRef { number: "THIRD".into(), count: 1 }]);
+    set(&mut prj, &function, "function.part_index", "2").unwrap();
+    prj.devices.get_mut("-M1").unwrap().parts.remove(0);
+    assert_eq!(get(&prj, &function, "part.number"), "SECOND");
+    assert_eq!(get(&prj, &function, "function.part_index"), "1");
+    prj.devices.get_mut("-M1").unwrap().parts.remove(0);
+    assert_eq!(get(&prj, &function, "part.number"), "");
+    assert_eq!(get(&prj, &function, "function.part_index"), "0");
+    set(&mut prj, &function, "function.part_index", "").unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "THIRD");
+}
+
+#[test]
 fn builtin_definitions_are_consistent() {
     let mut keys = std::collections::HashSet::new();
     let mut addressable = 0;

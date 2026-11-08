@@ -67,7 +67,7 @@ fn fit(symbol: &UserSymbol, width: f32, height: f32) -> Option<Model2d> {
                 include(*c - p(*r, *r));
                 include(*c + p(*r, *r));
             }
-            Prim::Text { .. } | Prim::Field { .. } => {}
+            Prim::Text { .. } | Prim::Field { .. } | Prim::PropertyBlock(_) => {}
         }
     }
     let r = bounds?;

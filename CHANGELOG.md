@@ -5,6 +5,14 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Add editable, flowing symbol attribute blocks that resolve current function and part properties in drawings and exports, with library defaults for new placements.
+
+- Select an assigned part independently for each device function, retain the selection when earlier parts are removed, and report removed selected parts. Expose live function manufacturers, selection text and batch attribute inspection to plugins.
+
+- Keep explicitly placed function text linked to editable instance data, retain user-symbol function text defaults on placement, and avoid a duplicate automatic annotation.
+
+- Preserve locally displayed product designation levels on imported symbols, and update them when the device is renamed. The symbol editor and plugins can choose the displayed level count.
+
 - Keep directional imported ports and explicit wire junctions from shorting circuits at side crossings or attaching wires to intermediate device ports. Preserve authored wire endpoints and internal jumper rails, and use port directions when adding new automatic connections.
 
 - Preserve physical wire targets through imported junction paths and drawn branches, and keep internal component bridges out of manufacturing connections. Junction paths remain editable in the symbol editor and through plugins; `list_connections` exposes the resulting pin-to-pin wiring.

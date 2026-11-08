@@ -192,7 +192,7 @@ fn check_translations(prj: &Project) -> Vec<Issue> {
 
 /// Project check ("Prüfläufe"): finds typical engineering mistakes.
 pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
-    let mut v = Vec::new();
+    let mut v = check_function_parts(prj);
     let placed = crate::parts::placed_kinds(prj);
     for tag in idx.sorted_tags() {
         let dev = &idx.devices[tag];
@@ -288,6 +288,20 @@ pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
     }
     v.sort_by_key(|i| i.severity);
     v
+}
+
+fn check_function_parts(prj: &Project) -> Vec<Issue> {
+    let mut issues = Vec::new();
+    for (pi, page) in prj.pages.iter().enumerate() {
+        for s in &page.symbols {
+            if let Some(number) = s.values.get("function.part_number") {
+                if s.selected_part_number(prj).is_none() {
+                    issues.push(crate::issue!(Severity::Error, Some((pi, s.id)), "{}: selected part {} is no longer assigned to this device", s.tag, number));
+                }
+            }
+        }
+    }
+    issues
 }
 
 /// Accessories (auxiliary and signal contacts, …) only work attached to a part they

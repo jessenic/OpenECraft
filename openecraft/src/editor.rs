@@ -1038,7 +1038,7 @@ impl Editor {
         if let (Some(sn), Some(pl), true) = (snapped, resp.dnd_hover_payload::<PlacePayload>(), editable) {
             if let Some(def) = prj.symbol(pl.symbol) {
                 let mut g = EguiDraw { painter: &painter, origin, zoom: self.zoom, pal: &pal, force: Some(Ink::Ghost), mirror: None, textures: None };
-                let inst = SymbolInst { sym: def.key.into(), pos: sn, label: def.default_label.into(), ..Default::default() };
+                let inst = SymbolInst { pos: sn, ..ops::symbol_preview(prj, &def) };
                 render::draw_symbol(&mut g, &def, &inst, Ink::Ghost);
             }
         }
@@ -1135,12 +1135,10 @@ impl Editor {
             Tool::Place(key) => {
                 if let Some(def) = prj.symbol(key) {
                     let inst = SymbolInst {
-                        sym: def.key.into(),
                         pos: sn,
                         rot: self.place_rot,
                         mirror: self.place_mirror,
-                        label: def.default_label.into(),
-                        ..Default::default()
+                        ..ops::symbol_preview(prj, &def)
                     };
                     // A tinted box behind it: the symbol stays visible on a page zoomed out.
                     let b = def.world_bounds(sn, self.place_rot, self.place_mirror);
@@ -1887,7 +1885,7 @@ pub fn symbol_icon(ui: &mut egui::Ui, prj: &Project, key: &str, size: Vec2) -> e
     let center = resp.rect.center();
     let origin = center - vec2(b.center().x, b.center().y) * zoom;
     let mut d = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: None, mirror: None, textures: None };
-    let inst = SymbolInst { sym: key.into(), label: def.default_label.into(), ..Default::default() };
+    let inst = ops::symbol_preview(prj, &def);
     render::draw_symbol(&mut d, &def, &inst, Ink::Line);
     resp
 }

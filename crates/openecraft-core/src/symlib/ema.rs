@@ -370,6 +370,15 @@ impl Reader<'_> {
                         (-axis.y).atan2(axis.x).to_degrees()
                     }),
                 },
+                Prim::PropertyBlock(block) => {
+                    let mut transformed = block.clone();
+                    transformed.pos = pt(block.pos);
+                    transformed.step = pt(block.pos + block.step) - transformed.pos;
+                    let (sin, cos) = block.angle.to_radians().sin_cos();
+                    let axis = pt(block.pos + p(cos, -sin)) - transformed.pos;
+                    transformed.angle = (-axis.y).atan2(axis.x).to_degrees();
+                    Prim::PropertyBlock(transformed)
+                }
             };
             target.prims.push(transformed);
         }

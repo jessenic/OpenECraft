@@ -23,6 +23,11 @@ pub fn text(prj: &Project, page_i: usize, s: &SymbolInst, pp: &PlacedProp) -> St
     }
 }
 
+/// A symbol block resolves part data on its function's selected assignment.
+pub fn function_property_text(prj: &Project, id: u64, key: &str) -> String {
+    properties::display(prj, &properties::Object::Function(id), key)
+}
+
 /// Reference point of placed properties and schemes: right of and below the
 /// symbol graphics, relative to the symbol position.
 pub fn reference(symbols: &Symbols, s: &SymbolInst) -> P {

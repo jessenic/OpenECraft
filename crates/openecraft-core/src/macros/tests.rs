@@ -3,6 +3,25 @@ use crate::geom::p;
 use crate::sample::demo_project;
 
 #[test]
+fn function_part_references_resolve_and_survive_merging_terminal_parts() {
+    let m: Macro = serde_json::from_value(serde_json::json!({"clip":{
+        "symbols":[{"sym":"term","tag":"-X1","label":"2","values":{"function.part_number":"{ARTICLE}","function.manufacturer":"{MAKER}"}}],
+        "devices":{"-X1":{"parts":[{"number":"{ARTICLE}","count":1}]}},
+        "parts":[{"number":"{ARTICLE}"}]
+    }})).unwrap();
+    assert_eq!(m.placeholders(), ["ARTICLE", "MAKER"]);
+    let clip = m.resolve(&BTreeMap::from([("ARTICLE".into(), "A123".into()), ("MAKER".into(), "Vendor".into())]));
+    let mut prj = Project::default();
+    prj.devices.entry("-X1".into()).or_default().parts.push(crate::model::PartRef { number: "EXISTING".into(), count: 1 });
+    let ids = ops::paste(&mut prj, 0, &clip, p(40., 40.));
+    let id = *ids.iter().find(|id| prj.pages[0].symbols.iter().any(|s| s.id == **id)).unwrap();
+    let function = crate::properties::Object::Function(id);
+    assert_eq!(crate::properties::get(&prj, &function, "part.number"), "A123");
+    assert_eq!(crate::properties::get(&prj, &function, "function.part_index"), "2");
+    assert_eq!(crate::properties::get(&prj, &function, "function.manufacturer"), "Vendor");
+}
+
+#[test]
 fn portable_device_and_catalog_placeholders_resolve_together() {
     let m: Macro = serde_json::from_value(serde_json::json!({
         "clip": {

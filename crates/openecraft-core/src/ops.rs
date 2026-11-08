@@ -204,19 +204,29 @@ fn letters(n: usize) -> String {
     String::from_utf8(out).unwrap_or_default()
 }
 
+/// Placement defaults without allocating an ID or changing the project.
+pub fn symbol_preview(prj: &Project, def: &SymbolDef) -> SymbolInst {
+    let mut s = SymbolInst {
+        sym: def.key.into(), label: def.default_label.into(),
+        pins: def.pins.iter().map(|x| x.label.to_string()).collect(), ..Default::default()
+    };
+    if let Some(u) = prj.symbols.iter().find(|u| u.key == def.key) {
+        s.function_text.clone_from(&u.default_function_text);
+        s.values.clone_from(&u.default_values);
+    }
+    s
+}
+
 /// Creates a symbol instance for a page with sensible defaults (tag in the page's
 /// structure, numbering, ...).
 pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDef, pos: P, rot: u8, mirror: bool) -> SymbolInst {
     let structure = crate::structure::page_structure(&prj.pages[page]);
     let mut s = SymbolInst {
         id: prj.new_id(),
-        sym: def.key.into(),
         pos,
         rot,
         mirror,
-        label: def.default_label.into(),
-        pins: def.pins.iter().map(|x| x.label.to_string()).collect(),
-        ..Default::default()
+        ..symbol_preview(prj, def)
     };
     match def.func {
         Func::Main { .. } => s.tag = prj.next_tag(&structure, def.letter),

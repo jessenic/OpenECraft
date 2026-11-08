@@ -1,4 +1,18 @@
 use super::*;
+
+#[test]
+fn a_removed_function_part_is_reported_at_its_symbol() {
+    let mut prj = Project::default();
+    let mut s = crate::model::SymbolInst { id: 900, sym: "coil".into(), tag: "-K1".into(), ..Default::default() };
+    s.values.insert("function.part_number".into(), "OLD.PART".into());
+    prj.pages[0].symbols.push(s);
+    let issues = check_function_parts(&prj);
+    assert_eq!(issues.len(), 1);
+    assert_eq!(issues[0].severity, Severity::Error);
+    assert!(issues[0].message().contains("OLD.PART"));
+    prj.devices.entry("-K1".into()).or_default().parts.push(crate::model::PartRef { number: "OLD.PART".into(), count: 1 });
+    assert!(check_function_parts(&prj).is_empty());
+}
 use crate::sample::demo_project;
 
 #[test]

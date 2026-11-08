@@ -1,4 +1,56 @@
 use super::*;
+
+#[test]
+fn attribute_block_defaults_are_exposed_placed_and_editable_after_reopen() {
+    use openecraft_core::symbols::{Anchor, BlockAlign, BlockRow, Prim, PropertyBlock};
+    use openecraft_core::symlib::UserSymbol;
+    let mut s = new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {
+        key: "user:block_defaults".into(), show_tag: false,
+        default_values: [("function.supplementary[2]".into(), "Library detail".into())].into_iter().collect(),
+        prims: vec![Prim::PropertyBlock(PropertyBlock {
+            rows: vec![BlockRow::Property("function.supplementary[2]".into())], pos: p(0., 0.), step: p(0., 3.), size: 2.5,
+            anchor: Anchor::Left, angle: 0., align: BlockAlign::Start, color: None,
+        })], ..Default::default()
+    });
+    let defs = run(&mut s, "list_symbols", json!({"query":"user:block_defaults"})).unwrap();
+    assert_eq!(defs[0]["default_values"]["function.supplementary[2]"], "Library detail");
+    assert_eq!(defs[0]["property_blocks"].as_array().unwrap().len(), 1);
+    let placed = run(&mut s, "place_symbol", json!({"page":"1","symbol":"user:block_defaults","x":40,"y":40})).unwrap();
+    assert!(openecraft_core::svg::page_svg(s.project().unwrap(), 0).contains("Library detail"));
+    run(&mut s, "set_properties", json!({"object":format!("function:{}", placed["id"]),"values":{"function.supplementary[2]":"Edited detail"}})).unwrap();
+    let prj = Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let svg = openecraft_core::svg::page_svg(&prj, 0);
+    assert!(svg.contains("Edited detail") && !svg.contains("Library detail"));
+    let copy = openecraft_core::symlib::from_def(&prj.symbol("user:block_defaults").unwrap(), &prj.symbols);
+    assert_eq!(copy.default_values, prj.symbols[0].default_values);
+    assert_eq!(copy.prims, prj.symbols[0].prims);
+}
+
+#[test]
+fn user_symbol_function_text_defaults_are_live_after_shared_placement_and_reopen() {
+    use openecraft_core::symbols::{Anchor, FieldKind, Prim};
+    use openecraft_core::symlib::UserSymbol;
+    let mut s = new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {
+        key: "user:function_default".into(), default_function_text: "Library default".into(), show_tag: false,
+        prims: vec![Prim::Field { kind: FieldKind::FunctionText, pos: p(0., 0.), size: 2., anchor: Anchor::Left, angle: Some(0.) }],
+        ..Default::default()
+    });
+    let defs = run(&mut s, "list_symbols", json!({"query":"user:function_default"})).unwrap();
+    assert_eq!(defs[0]["default_function_text"], "Library default");
+    let placed = run(&mut s, "place_symbol", json!({"page":"1","symbol":"user:function_default","x":40,"y":40})).unwrap();
+    let prj = s.project().unwrap();
+    assert_eq!(prj.pages[0].symbols[0].function_text, "Library default");
+    assert!(openecraft_core::svg::page_svg(prj, 0).contains("Library default"));
+    run(&mut s, "update_symbol", json!({"page":"1","id":placed["id"],"function_text":"Edited in project"})).unwrap();
+    let reopened = Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let svg = openecraft_core::svg::page_svg(&reopened, 0);
+    assert!(svg.contains("Edited in project") && !svg.contains("Library default"));
+    assert_eq!(reopened.symbols[0].default_function_text, "Library default");
+    let copied = openecraft_core::symlib::from_def(&reopened.symbol("user:function_default").unwrap(), &reopened.symbols);
+    assert_eq!(copied.default_function_text, "Library default");
+}
 use crate::builtin::testing::*;
 use openecraft_core::analysis::Analysis;
 

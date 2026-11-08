@@ -8,6 +8,40 @@ fn motor_session() -> (Session, u64) {
 }
 
 #[test]
+fn placing_another_part_on_a_device_binds_the_new_function_to_that_part() {
+    use openecraft_core::parts::Part;
+    let mut s = new_session();
+    s.project_mut().unwrap().parts.extend([
+        Part { number: "FIRST".into(), symbol: "coil".into(), ..Default::default() },
+        Part { number: "SECOND".into(), symbol: "coil".into(), manufacturer: "Second maker".into(), ..Default::default() },
+    ]);
+    run(&mut s, "place_part", json!({"page":"1","part":"FIRST","tag":"-K1","x":40,"y":40})).unwrap();
+    let second = run(&mut s, "place_part", json!({"page":"1","part":"SECOND","tag":"-K1","x":80,"y":40})).unwrap();
+    let functions = run(&mut s, "list_function_parts", json!({})).unwrap();
+    let function = functions.as_array().unwrap().iter().find(|f| f["symbol"] == second["id"]).unwrap();
+    assert_eq!(function["part_number"], "SECOND");
+    assert_eq!(function["manufacturer"], "Second maker");
+}
+
+#[test]
+fn selected_function_parts_are_editable_and_batch_read_through_the_plugin_registry() {
+    use openecraft_core::model::{PartRef, DeviceData};
+    use openecraft_core::parts::Part;
+    let (mut s, id) = motor_session();
+    let prj = s.project_mut().unwrap();
+    prj.parts.extend([Part { number: "FIRST".into(), ..Default::default() }, Part { number: "SECOND".into(), manufacturer: "Maker".into(), ..Default::default() }]);
+    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "FIRST".into(), count: 1 }, PartRef { number: "SECOND".into(), count: 1 }], ..Default::default() });
+    run(&mut s, "set_properties", json!({"object":format!("function:{id}"),"values":{"function.part_index":2,"function.selection_text":"Source variant*","function.supplementary[3]":"Additional note"}})).unwrap();
+    let list = run(&mut s, "list_function_parts", json!({})).unwrap();
+    let function = list.as_array().unwrap().iter().find(|v| v["symbol"] == id).unwrap();
+    assert_eq!(function["part_number"], "SECOND");
+    assert_eq!(function["manufacturer"], "Maker");
+    assert_eq!(function["selection_text"], "Source variant*");
+    assert_eq!(function["supplementary"][2], "Additional note");
+    assert!(run(&mut s, "set_properties", json!({"object":format!("function:{id}"),"values":{"function.part_index":3}})).is_err());
+}
+
+#[test]
 fn definitions_are_listed_and_defined() {
     let (mut s, _) = motor_session();
     let all = run(&mut s, "list_property_definitions", json!({})).unwrap();

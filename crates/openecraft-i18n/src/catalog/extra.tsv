@@ -6287,3 +6287,18 @@ Unknown connection direction: {}	Unbekannte Anschlussrichtung: {}	Direction de c
 Side contact directions	Seitliche Kontaktrichtungen	Directions des contacts latéraux	Direcciones de contacto lateral
 Up	Oben	Haut	Arriba
 Down	Unten	Bas	Abajo
+Product designation levels	Produktkennzeichnungsebenen	Niveaux de désignation de produit	Niveles de designación de producto
+Default function text	Standardfunktionstext	Texte de fonction par défaut	Texto de función predeterminado
+Assigned part position	Position des zugeordneten Artikels	Position de la pièce affectée	Posición de la pieza asignada
+Selection text	Auswahltext	Texte de sélection	Texto de selección
+Assigned part position {} does not exist on this device	Die Position {} des zugeordneten Artikels ist an diesem Gerät nicht vorhanden	La position {} de pièce affectée n’existe pas sur cet appareil	La posición {} de pieza asignada no existe en este dispositivo
+Lists the selected part and editable attribute values of every placed function	Listet den ausgewählten Artikel und die bearbeitbaren Attributwerte jeder platzierten Funktion auf	Liste la pièce sélectionnée et les valeurs des attributs modifiables de chaque fonction placée	Enumera la pieza seleccionada y los valores de atributos editables de cada función colocada
+{}: selected part {} is no longer assigned to this device	{}: Der ausgewählte Artikel {} ist diesem Gerät nicht mehr zugeordnet	{} : la pièce sélectionnée {} n’est plus affectée à cet appareil	{}: la pieza seleccionada {} ya no está asignada a este dispositivo
+Selected part	Ausgewählter Artikel	Pièce sélectionnée	Pieza seleccionada
+Attribute block	Attributblock	Bloc d’attributs	Bloque de atributos
+Click to place an attribute block with flowing property rows	Klicken, um einen Attributblock mit dynamischen Eigenschaftszeilen zu platzieren	Cliquer pour placer un bloc d’attributs avec des lignes de propriétés dynamiques	Pulse para colocar un bloque de atributos con filas de propiedades dinámicas
+Default properties	Standardeigenschaften	Propriétés par défaut	Propiedades predeterminadas
+Add default property	Standardeigenschaft hinzufügen	Ajouter une propriété par défaut	Añadir propiedad predeterminada
+Row step	Zeilenabstand	Pas des lignes	Paso de filas
+Flow alignment	Blockausrichtung	Alignement du bloc	Alineación del bloque
+Add row	Zeile hinzufügen	Ajouter une ligne	Añadir fila

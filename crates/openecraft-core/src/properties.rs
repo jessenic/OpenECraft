@@ -470,9 +470,9 @@ impl Object {
             Object::Function(id) => {
                 let func = find_symbol(prj, *id).and_then(|(_, s)| prj.symbol(&s.sym)).map(|d| d.func);
                 match func {
-                    Some(Func::Terminal) => vec![ObjectClass::Function, ObjectClass::Terminal],
-                    Some(Func::Plc) => vec![ObjectClass::Function, ObjectClass::PlcPoint],
-                    _ => vec![ObjectClass::Function],
+                    Some(Func::Terminal) => vec![ObjectClass::Function, ObjectClass::Terminal, ObjectClass::Part],
+                    Some(Func::Plc) => vec![ObjectClass::Function, ObjectClass::PlcPoint, ObjectClass::Part],
+                    _ => vec![ObjectClass::Function, ObjectClass::Part],
                 }
             }
             Object::Cable(_) => vec![ObjectClass::Cable],
@@ -703,11 +703,33 @@ fn num(v: f64) -> String {
     s.trim_end_matches('0').trim_end_matches('.').to_string()
 }
 
-/// Part data: of the part itself, or joined over the parts of a device.
+/// Number of the assigned part selected by this function.
+pub fn selected_part_number<'a>(prj: &'a Project, s: &SymbolInst) -> Option<&'a str> {
+    s.selected_part_number(prj)
+}
+
+fn set_function_part_index(prj: &mut Project, id: u64, value: &str) -> Result<(), String> {
+    let (_, s) = find_symbol(prj, id).ok_or_else(|| tr_fmt!("No such object: {}", id))?;
+    let selected = value.parse::<usize>().ok().and_then(|i| s.assigned_part_number(prj, i)).map(str::to_owned);
+    if !value.is_empty() && selected.is_none() {
+        return Err(tr_fmt!("Assigned part position {} does not exist on this device", value));
+    }
+    let s = find_symbol_mut(prj, id).ok_or_else(|| tr_fmt!("No such object: {}", id))?;
+    if let Some(number) = selected { s.values.insert("function.part_number".into(), number); }
+    else { s.values.remove("function.part_number"); }
+    Ok(())
+}
+
+/// Part data: of a part, the selected part of a function, or all parts of a device.
 fn part_value(prj: &Project, obj: &Object, key: &str) -> String {
+    if let Object::Function(id) = obj {
+        let number = find_symbol(prj, *id).and_then(|(_, s)| selected_part_number(prj, s));
+        if key == "part.number" { return number.unwrap_or_default().to_string(); }
+    }
     let parts: Vec<&Part> = match obj {
         Object::Part(number) => crate::parts::lookup(prj, None, number).into_iter().collect(),
         Object::Device(tag) => prj.devices.get(tag).map(|d| d.parts.iter().filter_map(|r| crate::parts::lookup(prj, None, &r.number)).collect()).unwrap_or_default(),
+        Object::Function(id) => find_symbol(prj, *id).and_then(|(_, s)| selected_part_number(prj, s)).and_then(|number| crate::parts::lookup(prj, None, number)).into_iter().collect(),
         _ => Vec::new(),
     };
     let field = |p: &Part| -> String {
@@ -817,6 +839,12 @@ fn computed(prj: &Project, obj: &Object, key: &str) -> Option<String> {
             Some(match key {
                 "function.label" | "terminal.number" | "plc.address" => s.label.clone(),
                 "function.function_text" => s.function_text.clone(),
+                "function.part_index" => match selected_part_number(prj, s) {
+                    Some(number) => prj.devices.get(&s.tag).and_then(|d| d.parts.iter().position(|p| p.number == number)).map(|i| (i+1).to_string()).unwrap_or_else(|| "1".into()),
+                    None if s.values.contains_key("function.part_number") => "0".into(),
+                    None => "1".into(),
+                },
+                "function.part_number" => selected_part_number(prj, s).unwrap_or_default().to_string(),
                 "function.pins" => s.pins.iter().filter(|p| !p.is_empty()).cloned().collect::<Vec<_>>().join(" "),
                 "function.symbol" => sd.map(|d| tr(d.name).to_string()).unwrap_or_default(),
                 "function.symbol_key" => s.sym.clone(),
@@ -895,6 +923,7 @@ fn set_field(prj: &mut Project, obj: &Object, key: &str, v: &str) -> Result<(), 
             _ => return Err(missing()),
         },
         Object::Function(id) => {
+            if key == "function.part_index" { return set_function_part_index(prj, *id, &v); }
             let s = find_symbol_mut(prj, *id).ok_or_else(missing)?;
             match key {
                 "function.label" | "terminal.number" | "plc.address" => s.label = v,

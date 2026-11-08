@@ -128,6 +128,16 @@ pub fn assign_placed_part(prj: &mut Project, db: &PartsDb, sym: &str, tag: &str,
     add_to_device(prj, db, tag, number, 1);
 }
 
+/// Assigns a picked part and retains the placed function's explicit selection.
+pub fn assign_placed_function_part(prj: &mut Project, db: &PartsDb, page: usize, id: u64, number: &str) -> bool {
+    let Some(s) = prj.pages.get(page).filter(|p| p.is_editable()).and_then(|p| p.symbols.iter().find(|s| s.id == id && !s.tag.is_empty())) else { return false };
+    let (key, tag) = (s.sym.clone(), s.tag.clone());
+    assign_placed_part(prj, db, &key, &tag, number);
+    let s = prj.pages[page].symbols.iter_mut().find(|s| s.id == id).unwrap();
+    s.values.insert("function.part_number".into(), number.into());
+    true
+}
+
 /// A channel can be placed directly from the symbol library. Recover its physical
 /// article only if one catalog part owns all the imported PLC variants on the tag.
 pub fn link_unassigned_plc_parts(prj: &mut Project, db: &PartsDb, only_tag: Option<&str>) {

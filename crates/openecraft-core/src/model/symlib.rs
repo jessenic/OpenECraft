@@ -52,6 +52,11 @@ pub struct UserSymbol {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plc_channel: Option<crate::symbols::PlcChannel>,
     pub default_label: String,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub default_function_text: String,
+    /// Initial editable instance properties for new placements.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub default_values: BTreeMap<String, String>,
     pub auto_number: bool,
     pub show_tag: bool,
     pub show_pin_labels: bool,

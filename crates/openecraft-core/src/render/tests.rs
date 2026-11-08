@@ -1,6 +1,62 @@
 use super::*;
 
 #[test]
+fn attribute_blocks_flow_live_values_and_transform_every_line() {
+    use crate::symbols::{BlockAlign, PropertyBlock};
+    let block = PropertyBlock {
+        rows: vec![BlockRow::Field(FieldKind::FunctionText), BlockRow::Property("function.selection_text".into()), BlockRow::Text("Last".into())],
+        pos: p(2., 3.), step: p(3., 0.), size: 2., anchor: Anchor::Left, angle: 90., align: BlockAlign::End, color: None,
+    };
+    for rot in 0..4 {
+        for mirror in [false, true] {
+            let mut s = SymbolInst { pos: p(40., 40.), rot, mirror, ..Default::default() };
+            s.values.insert("function.selection_text".into(), "Choice".into());
+            let mut draw = Rec::default();
+            draw_prims(&mut draw, &[Prim::PropertyBlock(block.clone())], &s, Ink::Line);
+            assert_eq!(draw.styled.len(), 2);
+            assert_eq!(draw.styled[0].0, s.pos + p(-1., 3.).transform(rot, mirror));
+            assert_eq!(draw.styled[1].0, s.pos + p(2., 3.).transform(rot, mirror));
+            s.function_text = "First\n\nThird".into();
+            let mut draw = Rec::default();
+            draw_prims(&mut draw, &[Prim::PropertyBlock(block.clone())], &s, Ink::Line);
+            assert_eq!(draw.styled.iter().map(|(_, text, _)| text.as_str()).collect::<Vec<_>>(), ["First", "Third", "Choice", "Last"]);
+            assert_eq!(draw.styled[0].0, s.pos + p(-10., 3.).transform(rot, mirror));
+            assert_eq!(draw.styled[3].0, s.pos + p(2., 3.).transform(rot, mirror));
+            assert!(draw.styled.iter().all(|(_, _, style)| style.angle > -90. && style.angle <= 90.));
+        }
+    }
+}
+
+#[test]
+fn attribute_block_part_values_use_full_identity_on_structured_pages() {
+    use crate::symbols::{BlockAlign, PropertyBlock};
+    let mut prj = Project::default();
+    prj.pages[0].name = "=F1+L1/1".into();
+    prj.symbols.push(crate::symlib::UserSymbol {
+        key: "user:block".into(), show_tag: true,
+        prims: vec![Prim::PropertyBlock(PropertyBlock {
+            rows: vec![BlockRow::Field(FieldKind::FunctionText), BlockRow::Property("part.number".into()), BlockRow::Property("function.manufacturer".into())],
+            pos: p(0., 0.), step: p(0., 3.), size: 2., anchor: Anchor::Left, angle: 0., align: BlockAlign::Start, color: None,
+        })], ..Default::default()
+    });
+    prj.parts.push(crate::model::Part { number: "SECOND".into(), manufacturer: "Maker".into(), ..Default::default() });
+    prj.devices.insert("=F1+L1-K1".into(), crate::model::DeviceData {
+        parts: vec![crate::model::PartRef { number: "FIRST".into(), count: 1 }, crate::model::PartRef { number: "SECOND".into(), count: 1 }], ..Default::default()
+    });
+    prj.pages[0].symbols.push(SymbolInst {
+        id: 10, sym: "user:block".into(), tag: "=F1+L1-K1".into(), function_text: "Live".into(), pos: p(40., 40.),
+        values: [("function.part_number".into(), "SECOND".into())].into_iter().collect(), ..Default::default()
+    });
+    let prj = Project::from_json(&prj.to_json()).unwrap();
+    let an = Analysis::with_builtin(&prj);
+    let mut draw = Rec::default();
+    draw_page(&mut draw, &prj, &an.index, &an, 0, &Opts::default());
+    assert!(draw.texts.iter().any(|(_, text, _, _)| text == "SECOND"));
+    assert!(draw.texts.iter().any(|(_, text, _, _)| text == "Maker"));
+    assert_eq!(draw.texts.iter().filter(|(_, text, _, _)| text == "Live").count(), 1);
+}
+
+#[test]
 fn separately_annotated_wires_keep_properties_without_duplicate_labels() {
     let mut prj = Project::default();
     prj.pages[0].wires.push(Wire { id: 10, a: p(20., 20.), b: p(80., 20.), number: "101".into(), cable: "-W1".into(), core: "BN".into(), hide_labels: true, ..Default::default() });
@@ -95,6 +151,70 @@ fn component_tag_field_omits_inherited_structure_and_stays_dynamic() {
     draw_symbol(&mut drawing,&definition,&SymbolInst {tag:"=F1+L1-K2".into(),..Default::default()},Ink::Line);
     assert!(drawing.texts.iter().any(|(_,text,_,_)| text=="-K2"));
     assert!(drawing.texts.iter().all(|(_,text,_,_)| !text.contains("L1")));
+}
+
+#[test]
+fn product_fields_follow_renames_and_preserve_only_requested_levels() {
+    let project = Project::default();
+    let mut definition = (*project.symbol("coil").unwrap()).clone();
+    definition.show_tag = false;
+    for (levels, tag, expected) in [
+        (2, "=FIELD+M350-CAB-350-WE1", "-350-WE1"),
+        (2, "=FIELD+M350-CAB-351-WE2", "-351-WE2"),
+        (1, "=FIELD+M350-CAB-351-WE2", "-WE2"),
+        (20, "=FIELD+M350-350-WE1", "-350-WE1"),
+        (0, "=FIELD+M350-350-WE1", "-WE1"),
+        (2, "=FIELD+M350", ""),
+        (2, "-Ä1-K2", "-Ä1-K2"),
+    ] {
+        definition.prims = vec![Prim::Field { kind: FieldKind::Product(levels), pos: p(0., 0.), size: 2., anchor: Anchor::Left, angle: None }];
+        let serialized = serde_json::to_string(&definition.prims).unwrap();
+        let prims: Vec<Prim> = serde_json::from_str(&serialized).unwrap();
+        let mut drawing = Rec::default();
+        draw_prims(&mut drawing, &prims, &SymbolInst { tag: tag.into(), ..Default::default() }, Ink::Line);
+        let texts: Vec<_> = drawing.texts.iter().map(|(_, text, _, _)| text.as_str()).collect();
+        if expected.is_empty() { assert!(texts.is_empty()); } else { assert_eq!(texts, vec![expected]); }
+    }
+}
+
+#[test]
+fn live_function_fields_match_source_text_layout_and_follow_edits() {
+    for (rot, mirror) in [(0, false), (1, false), (0, true), (2, true)] {
+        let mut s = SymbolInst { pos: p(40., 40.), rot, mirror, function_text: "First\nSecond".into(), ..Default::default() };
+        let field = Prim::Field { kind: FieldKind::FunctionText, pos: p(2., 3.), size: 2., anchor: Anchor::Left, angle: Some(0.) };
+        let text = Prim::Text { pos: p(2., 3.), text: s.function_text.clone(), size: 2., anchor: Anchor::Left, angle: Some(0.), color: None };
+        let mut live = Rec::default();
+        let mut source = Rec::default();
+        draw_prims(&mut live, std::slice::from_ref(&field), &s, Ink::Line);
+        draw_prims(&mut source, &[text], &s, Ink::Line);
+        assert_eq!(live.texts, source.texts);
+        assert_eq!(live.styled.len(), 2);
+        for (a, b) in live.styled.iter().zip(&source.styled) { assert_eq!((a.2.angle, a.2.h), (b.2.angle, b.2.h)); }
+        s.function_text = "Changed".into();
+        let mut updated = Rec::default();
+        draw_prims(&mut updated, &[field], &s, Ink::Line);
+        assert_eq!(updated.texts.len(), 1);
+        assert_eq!(updated.texts[0].1, "Changed");
+    }
+}
+
+#[test]
+fn explicit_function_field_avoids_a_second_automatic_annotation() {
+    let mut prj = Project::default();
+    prj.symbols.push(crate::symlib::UserSymbol {
+        key: "user:live_function".into(),
+        prims: vec![Prim::Field { kind: FieldKind::FunctionText, pos: p(0., 0.), size: 2., anchor: Anchor::Left, angle: Some(0.) }],
+        ..Default::default()
+    });
+    prj.pages[0].symbols.push(SymbolInst { id: 50, sym: "user:live_function".into(), pos: p(40., 40.), tag: "-K1".into(), function_text: "Live note".into(), ..Default::default() });
+    let analysis = Analysis::with_builtin(&prj);
+    let mut drawing = Rec::default();
+    draw_page(&mut drawing, &prj, &analysis.index, &analysis, 0, &Opts::default());
+    assert_eq!(drawing.texts.iter().filter(|(_, t, _, _)| t == "Live note").count(), 1);
+    let def = prj.symbol("user:live_function").unwrap();
+    let mut instance = prj.pages[0].symbols[0].clone();
+    instance.tag.clear();
+    assert!(tag_block_bounds(&prj, 0, &def, &instance).is_none());
 }
 
 #[test]

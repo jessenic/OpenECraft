@@ -168,6 +168,7 @@ fn texts_mut(clip: &mut Clip) -> Vec<&mut String> {
         v.push(&mut s.tag);
         v.push(&mut s.label);
         v.push(&mut s.function_text);
+        v.extend(s.values.values_mut());
         v.extend(s.pins.iter_mut());
     }
     for w in &mut clip.wires {

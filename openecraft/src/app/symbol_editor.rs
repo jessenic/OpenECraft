@@ -8,8 +8,10 @@ use crate::editor::{EguiDraw, Palette, Tool};
 use openecraft_core::geom::{p, P, GRID};
 use crate::io::Purpose;
 use openecraft_core::model::SymbolInst;
+use openecraft_core::model::Project;
+use openecraft_core::properties::{self, ObjectClass};
 use openecraft_core::render::{self, Draw, Ink, VAnchor};
-use openecraft_core::symbols::{self, Anchor, FieldKind, Func, Prim};
+use openecraft_core::symbols::{self, Anchor, BlockAlign, BlockRow, FieldKind, Func, Prim, PropertyBlock};
 use openecraft_core::symlib::{self, Hit, SymbolLibrary, UserPin, UserSymbol, DRAW_SNAP};
 use egui::{pos2, vec2, Key, PointerButton, RichText, Sense, Stroke};
 
@@ -24,10 +26,11 @@ pub enum SymTool {
     Pin,
     TagField,
     LabelField,
+    AttributeBlock,
 }
 
 impl SymTool {
-    const ALL: [(SymTool, &'static str, &'static str); 8] = [
+    const ALL: [(SymTool, &'static str, &'static str); 9] = [
         (SymTool::Select, tr_const!("⬉ Select"), tr_const!("Select and drag elements; Del deletes")),
         (SymTool::Line, tr_const!("— Line"), tr_const!("Click start and end point")),
         (SymTool::Rect, tr_const!("☐ Rect"), tr_const!("Click two corners")),
@@ -36,6 +39,7 @@ impl SymTool {
         (SymTool::Pin, tr_const!("• Connection point"), tr_const!("Click on the 4 mm grid")),
         (SymTool::TagField, tr_const!("Tag field"), tr_const!("Position of the device tag (instead of the tag block)")),
         (SymTool::LabelField, tr_const!("Label field"), tr_const!("Position of the label (terminal number, address …)")),
+        (SymTool::AttributeBlock, tr_const!("Attribute block"), tr_const!("Click to place an attribute block with flowing property rows")),
     ];
 }
 
@@ -187,9 +191,9 @@ impl App {
                     let usage = symlib::usage(prj, &prj.symbols[si].key);
                     let u = &mut edited;
                     egui::ScrollArea::vertical().id_salt("symprops").show(ui, |ui| {
-                        symbol_properties(ui, u);
+                        symbol_properties(ui, prj, u);
                         ui.separator();
-                        element_properties(ui, se, u);
+                        element_properties(ui, prj, se, u);
                         ui.separator();
                         for msg in symlib::problems(u) {
                             ui.colored_label(crate::style::lock(), format!("⚠ {msg}"));
@@ -245,7 +249,7 @@ impl App {
     }
 }
 
-fn symbol_properties(ui: &mut egui::Ui, u: &mut UserSymbol) {
+fn symbol_properties(ui: &mut egui::Ui, prj: &Project, u: &mut UserSymbol) {
     ui.label(RichText::new(tr("Symbol")).strong());
     egui::Grid::new("symprops_grid").num_columns(2).spacing([8.0, 4.0]).show(ui, |ui| {
         ui.label(tr("Name"));
@@ -267,8 +271,31 @@ fn symbol_properties(ui: &mut egui::Ui, u: &mut UserSymbol) {
         ui.label(tr("Default label"));
         ui.add(egui::TextEdit::singleline(&mut u.default_label).desired_width(80.0)).on_hover_text(tr("Terminal number, PLC address, potential name …"));
         ui.end_row();
+        ui.label(tr("Default function text"));
+        ui.text_edit_multiline(&mut u.default_function_text);
+        ui.end_row();
     });
     ui.checkbox(&mut u.show_tag, tr("Show device tag and cross references"));
+    ui.collapsing(tr("Default properties"), |ui| {
+        let mut changes = Vec::new();
+        for (key, value) in &mut u.default_values {
+            ui.horizontal(|ui| {
+                let mut next_key = key.clone();
+                let title = properties::valid_key(prj, key).map(|d| d.title_of(key)).unwrap_or_else(|| key.clone());
+                if let Some(key) = super::properties_ui::key_picker(ui, prj, &[ObjectClass::Function, ObjectClass::Terminal, ObjectClass::PlcPoint], true, &title) { next_key = key; }
+                ui.text_edit_multiline(value);
+                if ui.small_button(tr("Delete")).clicked() { next_key.clear(); }
+                if next_key != *key { changes.push((key.clone(), next_key, value.clone())); }
+            });
+        }
+        for (old, new, value) in changes {
+            if new.is_empty() || !u.default_values.contains_key(&new) {
+                u.default_values.remove(&old);
+                if !new.is_empty() { u.default_values.insert(new, value); }
+            }
+        }
+        if let Some(key) = super::properties_ui::key_picker(ui, prj, &[ObjectClass::Function, ObjectClass::Terminal, ObjectClass::PlcPoint], true, tr("Add default property")) { u.default_values.entry(key).or_default(); }
+    });
     ui.checkbox(&mut u.show_pin_labels, tr("Show connection point designations"));
     if u.func == Func::Junction {
         ui.checkbox(&mut u.directed_junction, tr("Preserve junction target paths"));
@@ -309,7 +336,51 @@ fn pin_contact_directions(ui:&mut egui::Ui,u:&mut UserSymbol,i:usize) {
     if mask==15 {u.pin_directions.remove(&i);} else {u.pin_directions.insert(i,mask);}
 }
 
-fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
+fn block_properties(ui: &mut egui::Ui, prj: &Project, block: &mut PropertyBlock) {
+    point_edit(ui, tr("Position"), &mut block.pos, 0.1);
+    point_edit(ui, tr("Row step"), &mut block.step, 0.1);
+    ui.label(tr("Size"));
+    ui.add(egui::DragValue::new(&mut block.size).speed(0.1).range(0.5..=20.0));
+    ui.end_row();
+    anchor_edit(ui, &mut block.anchor);
+    ui.label(tr("Angle"));
+    ui.add(egui::DragValue::new(&mut block.angle).range(-360.0..=360.0));
+    ui.end_row();
+    ui.label(tr("Flow alignment"));
+    egui::ComboBox::from_id_salt("block_align").selected_text(match block.align { BlockAlign::Start => tr("Start"), BlockAlign::Middle => tr("Centre"), BlockAlign::End => tr("End") }).show_ui(ui, |ui| {
+        ui.selectable_value(&mut block.align, BlockAlign::Start, tr("Start"));
+        ui.selectable_value(&mut block.align, BlockAlign::Middle, tr("Centre"));
+        ui.selectable_value(&mut block.align, BlockAlign::End, tr("End"));
+    });
+    ui.end_row();
+    let mut remove = None;
+    for (i, row) in block.rows.iter_mut().enumerate() {
+        ui.push_id(i, |ui| {
+            egui::ComboBox::from_id_salt("block_row_kind").selected_text(match row { BlockRow::Property(_) => tr("Property"), BlockRow::Field(_) => tr("Field"), BlockRow::Text(_) => tr("Text") }).show_ui(ui, |ui| {
+                if ui.selectable_label(matches!(row, BlockRow::Property(_)), tr("Property")).clicked() { *row = BlockRow::Property("function.manufacturer".into()); }
+                if ui.selectable_label(matches!(row, BlockRow::Field(_)), tr("Field")).clicked() { *row = BlockRow::Field(FieldKind::FunctionText); }
+                if ui.selectable_label(matches!(row, BlockRow::Text(_)), tr("Text")).clicked() { *row = BlockRow::Text(String::new()); }
+            });
+        });
+        ui.horizontal(|ui| {
+            match row {
+                BlockRow::Property(key) => {
+                    let title = properties::valid_key(prj, key).map(|d| d.title_of(key)).unwrap_or_else(|| key.clone());
+                    if let Some(picked) = super::properties_ui::key_picker(ui, prj, &[ObjectClass::Function, ObjectClass::Terminal, ObjectClass::PlcPoint, ObjectClass::Part], false, &title) { *key = picked; }
+                }
+                BlockRow::Text(text) => { ui.text_edit_multiline(text); }
+                BlockRow::Field(kind) => { ui.push_id(i, |ui| { field_kind_edit(ui, kind); }); }
+            }
+            if ui.small_button(tr("Delete")).clicked() { remove = Some(i); }
+        });
+        ui.end_row();
+    }
+    if let Some(i) = remove { block.rows.remove(i); }
+    if ui.button(tr("Add row")).clicked() { block.rows.push(BlockRow::Property("function.manufacturer".into())); }
+    ui.end_row();
+}
+
+fn element_properties(ui: &mut egui::Ui, prj: &Project, se: &mut SymbolEditor, u: &mut UserSymbol) {
     let mut delete = false;
     match se.hit {
         Some(Hit::Pin(i)) if i < u.pins.len() => {
@@ -354,9 +425,11 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                 Prim::Circle { .. } => tr("Circle"),
                 Prim::Text { .. } => tr("Text"),
                 Prim::Field { .. } => tr("Field"),
+                Prim::PropertyBlock(_) => tr("Attribute block"),
             };
             ui.label(RichText::new(kind).strong());
             egui::Grid::new("primprops").num_columns(2).show(ui, |ui| match prim {
+                Prim::PropertyBlock(block) => block_properties(ui, prj, block),
                 Prim::Image { corners, .. } => {
                     for corner in corners {
                         point_edit(ui, tr("Position"), corner, 0.1);
@@ -400,19 +473,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     anchor_edit(ui, anchor);
                 }
                 Prim::Field { kind, pos, size, anchor, angle } => {
-                    ui.label(tr("Shows"));
-                    ui.horizontal(|ui| {
-                        ui.selectable_value(kind, FieldKind::Tag, tr("Device tag"));
-                        ui.selectable_value(kind, FieldKind::TagName, tr("Device name only"));
-                        ui.selectable_value(kind, FieldKind::Label, tr("Label"));
-                        ui.selectable_value(kind, FieldKind::Pin(0), tr("Connection point"));
-                    });
-                    ui.end_row();
-                    if let FieldKind::Pin(index) = kind {
-                        ui.label(tr("Connection point"));
-                        ui.add(egui::DragValue::new(index).speed(1));
-                        ui.end_row();
-                    }
+                    field_kind_edit(ui, kind);
                     point_edit(ui, tr("Position"), pos, 0.1);
                     ui.label(tr("Size"));
                     ui.add(egui::DragValue::new(size).speed(0.1).range(0.5..=20.0));
@@ -446,6 +507,7 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
                     });
                 }
                 Prim::Circle { color,.. } => super::drawing_ui::color_field(ui,color),
+                Prim::PropertyBlock(block) => super::drawing_ui::color_field(ui, &mut block.color),
                 _ => (),
             }
             delete = icons::text_button(ui, Icon::Delete, tr("Delete element")).clicked();
@@ -456,6 +518,33 @@ fn element_properties(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymb
     }
     if delete {
         delete_hit(se, u);
+    }
+}
+
+fn field_kind_edit(ui: &mut egui::Ui, kind: &mut FieldKind) {
+    ui.label(tr("Shows"));
+    ui.horizontal(|ui| {
+        ui.selectable_value(kind, FieldKind::Tag, tr("Device tag"));
+        ui.selectable_value(kind, FieldKind::TagName, tr("Device name only"));
+        let product = if let FieldKind::Product(n) = *kind { n } else { 2 };
+        ui.selectable_value(kind, FieldKind::Product(product), tr("Product designation levels"));
+        ui.selectable_value(kind, FieldKind::Label, tr("Label"));
+        ui.selectable_value(kind, FieldKind::FunctionText, tr("Function text"));
+        ui.selectable_value(kind, FieldKind::Pin(0), tr("Connection point"));
+    });
+    ui.end_row();
+    match kind {
+        FieldKind::Product(levels) => {
+            ui.label(tr("Product designation levels"));
+            ui.add(egui::DragValue::new(levels).range(1..=usize::MAX).speed(1));
+            ui.end_row();
+        }
+        FieldKind::Pin(index) => {
+            ui.label(tr("Connection point"));
+            ui.add(egui::DragValue::new(index).speed(1));
+            ui.end_row();
+        }
+        _ => {}
     }
 }
 
@@ -477,6 +566,24 @@ fn delete_hit(se: &mut SymbolEditor, u: &mut UserSymbol) {
         }
         _ => {}
     }
+}
+
+fn symbol_preview(u: &UserSymbol) -> SymbolInst {
+    let mut inst = SymbolInst {
+        tag: "-K1".into(), label: if u.default_label.is_empty() { "1".into() } else { u.default_label.clone() },
+        function_text: u.default_function_text.clone(), values: u.default_values.clone(),
+        pins: u.pins.iter().map(|pin| pin.label.clone()).collect(), ..Default::default()
+    };
+    for prim in &u.prims {
+        if let Prim::PropertyBlock(block) = prim {
+            for row in &block.rows {
+                if let BlockRow::Property(key) = row {
+                    inst.values.entry(key.clone()).or_insert_with(|| format!("{{{key}}}"));
+                }
+            }
+        }
+    }
+    inst
 }
 
 fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
@@ -580,6 +687,7 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
             u.prims.push(Prim::Text { pos: q, text, size: 2.0, anchor: Anchor::Left, angle: None, color:None });
             se.hit = Some(Hit::Prim(u.prims.len() - 1));
         }
+        (SymTool::AttributeBlock, Some(q)) if clicked => add_block(se, u, q),
         (SymTool::TagField | SymTool::LabelField, Some(q)) if clicked => {
             let kind = if se.tool == SymTool::TagField { FieldKind::Tag } else { FieldKind::Label };
             u.prims.push(Prim::Field { kind, pos: q, size: 2.2, anchor: Anchor::Left, angle: None });
@@ -603,10 +711,7 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
 
     // Drawing
     let mut d = EguiDraw { painter: &painter, origin, zoom: se.zoom, pal: &pal, force: None, mirror: None, textures: None };
-    let inst = SymbolInst {
-        tag: "-K1".into(), label: if u.default_label.is_empty() { "1".into() } else { u.default_label.clone() },
-        pins: u.pins.iter().map(|pin| pin.label.clone()).collect(), ..Default::default()
-    };
+    let inst = symbol_preview(u);
     render::draw_prims(&mut d, &u.prims, &inst, Ink::Line);
     if let Some(Hit::Prim(i)) = se.hit {
         if let Some(prim) = u.prims.get(i) {
@@ -635,6 +740,14 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
     if let Some(q) = ptr {
         painter.text(rect.left_top() + vec2(6.0, 6.0), egui::Align2::LEFT_TOP, format!("x {:.1}  y {:.1} mm", q.x, q.y), egui::FontId::monospace(11.0), pal.frame);
     }
+}
+
+fn add_block(se: &mut SymbolEditor, u: &mut UserSymbol, pos: P) {
+    u.prims.push(Prim::PropertyBlock(PropertyBlock {
+        rows: vec![BlockRow::Field(FieldKind::FunctionText), BlockRow::Property("part.number".into()), BlockRow::Property("function.manufacturer".into())],
+        pos, step: p(0., 3.), size: 2.5, anchor: Anchor::Left, angle: 0., align: BlockAlign::Start, color: None,
+    }));
+    se.hit = Some(Hit::Prim(u.prims.len() - 1));
 }
 
 fn add_pin(se: &mut SymbolEditor, u: &mut UserSymbol, pos: P) {

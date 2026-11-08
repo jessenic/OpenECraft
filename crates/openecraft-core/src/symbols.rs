@@ -254,6 +254,45 @@ pub enum FieldKind {
     Tag,
     Pin(usize),
     TagName,
+    /// Display the last N product designation levels, excluding other aspects.
+    Product(usize),
+    FunctionText,
+}
+
+/// A row of an instance attribute block. Empty values consume no space.
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum BlockRow {
+    Property(String),
+    Field(FieldKind),
+    Text(String),
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum BlockAlign { Start, Middle, End }
+
+impl BlockAlign {
+    pub fn fraction(self) -> f32 {
+        match self { Self::Start => 0., Self::Middle => 0.5, Self::End => 1. }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct PropertyBlock {
+    pub rows: Vec<BlockRow>,
+    pub pos: P,
+    pub step: P,
+    pub size: f32,
+    pub anchor: Anchor,
+    pub angle: f32,
+    pub align: BlockAlign,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub color: Option<[u8; 3]>,
+}
+
+impl PropertyBlock {
+    pub fn row_pos(&self, index: usize, lines: usize) -> P {
+        self.pos + self.step * (index as f32 - lines.saturating_sub(1) as f32 * self.align.fraction())
+    }
 }
 
 /// Connectivity domain of an imported or user-defined symbol.
@@ -277,6 +316,7 @@ pub enum Prim {
     Text { pos: P, text: String, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32>, #[serde(default, skip_serializing_if = "Option::is_none")] color: Option<[u8;3]> },
     /// Instance property drawn at this position (stays horizontal when rotated).
     Field { kind: FieldKind, pos: P, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32> },
+    PropertyBlock(PropertyBlock),
 }
 
 /// Function of a fluid port, independently of its printed connection designation.
@@ -360,6 +400,14 @@ pub struct SymbolDef {
 }
 
 impl SymbolDef {
+    pub fn has_function_text_field(&self) -> bool {
+        self.prims.iter().any(|p| match p {
+            Prim::Field { kind: FieldKind::FunctionText, .. } => true,
+            Prim::PropertyBlock(block) => block.rows.iter().any(|row| matches!(row, BlockRow::Field(FieldKind::FunctionText)) || matches!(row, BlockRow::Property(key) if key == "function.function_text")),
+            _ => false,
+        })
+    }
+
     pub fn digital_input(&self) -> Option<bool> {
         match self.key {
             "plc_in" => Some(true),
@@ -607,7 +655,7 @@ pub fn bounds_of(prims: &[Prim], pins: impl Iterator<Item = P>) -> R {
                 bounds.extend(p(c.x - r, c.y - r));
                 bounds.extend(p(c.x + r, c.y + r));
             }
-            Prim::Text { .. } | Prim::Field { .. } => {}
+            Prim::Text { .. } | Prim::Field { .. } | Prim::PropertyBlock(_) => {}
         }
     }
     for q in pins {

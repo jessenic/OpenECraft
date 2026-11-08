@@ -415,6 +415,10 @@ pub(super) const ROWS: &[Row] = &[
     // ----------------------------------------------------------------- function
     r("function.label", tr_const!("Designation"), Function, General, Text, "").field(),
     r("function.function_text", tr_const!("Function text"), Function, General, MultiLine, "").field(),
+    r("function.part_index", tr_const!("Assigned part position"), Function, Commercial, Integer, "").field(),
+    r("function.part_number", tr_const!("Selected part"), Function, Commercial, Text, "").ro(),
+    r("function.manufacturer", tr_const!("Manufacturer"), Function, Commercial, Text, "").or("part.manufacturer"),
+    r("function.selection_text", tr_const!("Selection text"), Function, General, Text, ""),
     r("function.pins", tr_const!("Connection points"), Function, General, Text, "").ro(),
     r("function.symbol", tr_const!("Symbol"), Function, General, Text, "").ro(),
     r("function.symbol_key", tr_const!("Symbol key"), Function, General, Text, "").ro(),

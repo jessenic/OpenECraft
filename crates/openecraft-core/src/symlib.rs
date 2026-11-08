@@ -33,6 +33,8 @@ impl Default for UserSymbol {
             func: Func::Main { mirror: false },
             domain: SymbolDomain::Electrical,
             default_label: String::new(),
+            default_function_text: String::new(),
+            default_values: Default::default(),
             auto_number: false,
             show_tag: true,
             show_pin_labels: true,
@@ -158,6 +160,12 @@ fn hash_prim(prim: &Prim, h: &mut impl Hasher) {
             std::mem::discriminant(anchor).hash(h);
             kind.hash(h);
         }
+        Prim::PropertyBlock(block) => {
+            block.rows.hash(h);
+            hash_point(block.pos, h);
+            hash_point(block.step, h);
+            (block.size.to_bits(), std::mem::discriminant(&block.anchor), block.angle.to_bits(), block.align, block.color).hash(h);
+        }
     }
 }
 
@@ -187,6 +195,8 @@ fn hash_symbols(list: &[UserSymbol], mut h: impl Hasher) -> u64 {
     list.len().hash(&mut h);
     for u in list {
         (&u.key, &u.name, &u.library, &u.letter, &u.default_label, u.auto_number, u.show_tag, u.show_pin_labels).hash(&mut h);
+        if !u.default_function_text.is_empty() { ("default_function_text", &u.default_function_text).hash(&mut h); }
+        if !u.default_values.is_empty() { ("default_values", &u.default_values).hash(&mut h); }
         format!("{:?}", u.func).hash(&mut h);
         std::mem::discriminant(&u.domain).hash(&mut h);
         if let Some(channel) = &u.plc_channel {
@@ -312,6 +322,8 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
         },
         plc_channel: def.plc_channel.clone(),
         default_label: def.default_label.into(),
+        default_function_text: existing.iter().find(|u| u.key == def.key).map(|u| u.default_function_text.clone()).unwrap_or_default(),
+        default_values: existing.iter().find(|u| u.key == def.key).map(|u| u.default_values.clone()).unwrap_or_default(),
         auto_number: def.auto_number,
         show_tag: def.show_tag,
         show_pin_labels: def.show_pin_labels,
@@ -409,10 +421,18 @@ pub fn prim_distance(prim: &Prim, q: P) -> f32 {
             text_distance(*pos,text,*size,*anchor,*pos + p(c*d.x-s*d.y,s*d.x+c*d.y))
         }
         Prim::Field { pos, size, anchor, kind, angle } => {
-            let sample = if matches!(kind, FieldKind::Tag | FieldKind::TagName) { "-K1" } else { "1" };
+            let sample = if matches!(kind, FieldKind::Tag | FieldKind::TagName | FieldKind::Product(_)) { "-K1" } else { "1" };
             let (s, c) = angle.unwrap_or_default().to_radians().sin_cos();
             let d = q - *pos;
             text_distance(*pos, sample, *size, *anchor, *pos + p(c * d.x - s * d.y, s * d.x + c * d.y))
+        }
+        Prim::PropertyBlock(block) => {
+            let (sin, cos) = block.angle.to_radians().sin_cos();
+            (0..block.rows.len()).map(|i| {
+                let pos = block.row_pos(i, block.rows.len());
+                let delta = q - pos;
+                text_distance(pos, "…", block.size, block.anchor, pos + p(cos * delta.x - sin * delta.y, sin * delta.x + cos * delta.y))
+            }).fold(f32::INFINITY, f32::min)
         }
     }
 }
@@ -469,6 +489,7 @@ pub fn translate(prim: &mut Prim, d: P) {
         Prim::Poly { pts, .. } | Prim::Path {pts,..} => pts.iter_mut().for_each(|q| *q = *q + d),
         Prim::Circle { c, .. } => *c = *c + d,
         Prim::Text { pos, .. } | Prim::Field { pos, .. } => *pos = *pos + d,
+        Prim::PropertyBlock(block) => block.pos = block.pos + d,
     }
 }
 

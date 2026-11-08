@@ -575,6 +575,8 @@ fn selection(pg: &Page, a: &Args) -> Result<BTreeSet<u64>, String> {
 fn list_symbols(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let query = a.str("query").unwrap_or_default().to_lowercase();
     let category = a.str("category").map(|c| c.trim().to_ascii_lowercase());
+    let function_texts: std::collections::HashMap<&str, &str> = prj.symbols.iter().map(|u| (u.key.as_str(), u.default_function_text.as_str())).collect();
+    let defaults: std::collections::HashMap<_, _> = prj.symbols.iter().map(|u| (u.key.as_str(), &u.default_values)).collect();
     let user: Vec<SymbolRef> = prj.symbols.iter().filter_map(|u| prj.symbol(&u.key)).collect();
     let list = symbols::library()
         .iter()
@@ -591,6 +593,9 @@ fn list_symbols(prj: &mut Project, a: &Args) -> Result<Value, String> {
                 "function": func_name(d.func),
                 "letter": d.letter,
                 "default_label": d.default_label,
+                "default_function_text": function_texts.get(d.key).copied().unwrap_or_default(),
+                "default_values": defaults.get(d.key),
+                "property_blocks": d.prims.iter().filter_map(|p| if let symbols::Prim::PropertyBlock(block) = p { Some(block) } else { None }).collect::<Vec<_>>(),
                 "pins": pins,
                 "fluid_ports": d.fluid_ports,
                 "pin_directions": d.pin_directions,
@@ -708,10 +713,11 @@ fn place_part(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if pins.len() == sym.pins.len() {
         sym.pins = pins;
     }
-    parts::assign_placed_part(prj, &db, &sym.sym, &sym.tag, &number);
+    let id = sym.id;
     let mut out = symbol_json(&prj.symbol_table(), &sym);
     out["part"] = json!(number);
     prj.pages[i].symbols.push(sym);
+    parts::assign_placed_function_part(prj, &db, i, id, &number);
     Ok(out)
 }
 
