@@ -513,6 +513,7 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
         symbol_defs: Default::default(),
         devices: BTreeMap::new(),
         parts: Vec::new(),
+        cables: Vec::new(),
         wires: page.wires.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         texts: page.texts.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         shapes: page.shapes.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
@@ -557,9 +558,19 @@ impl Clip {
                 self.devices.entry(instance.tag.clone()).or_insert_with(|| device.clone());
             }
         }
-        for reference in self.devices.values().flat_map(|d| &d.parts) {
-            if !self.parts.iter().any(|p| p.number == reference.number) {
-                if let Some(part) = project.parts.iter().find(|p| p.number == reference.number) {
+        let cable_tags:BTreeSet<_>=self.symbols.iter().map(|s|s.tag.as_str())
+            .chain(self.wires.iter().map(|w|w.cable.as_str()))
+            .chain(self.conn_defs.iter().map(|x|x.cable.as_str()))
+            .chain(self.cable_defs.iter().map(|x|x.cable.as_str())).filter(|t|!t.is_empty()).collect();
+        for cable in &project.cables {
+            if cable_tags.contains(cable.tag.as_str()) && !self.cables.iter().any(|c|c.tag==cable.tag) {
+                self.cables.push(cable.clone());
+            }
+        }
+        for number in self.devices.values().flat_map(|d|d.parts.iter().map(|p|p.number.as_str()))
+            .chain(self.cables.iter().map(|c|c.part.as_str())).filter(|n|!n.is_empty()) {
+            if !self.parts.iter().any(|p| p.number == number) {
+                if let Some(part) = project.parts.iter().find(|p| p.number == number) {
                     self.parts.push(part.clone());
                 }
             }
@@ -666,10 +677,29 @@ fn paste_devices(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target
     }
 }
 
+fn paste_cables(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target:&crate::structure::Dt,
+                existing:&BTreeSet<String>,reserved:&mut BTreeSet<String>,rename:&mut HashMap<String,String>)->HashMap<String,String> {
+    let mut cable_tags=HashMap::new();
+    for cable in &clip.cables {
+        if cable.tag.is_empty() || cable_tags.contains_key(&cable.tag) {continue}
+        let tag=target.complete(&source.relative(&cable.tag));
+        let new_tag=if existing.contains(&tag) {
+            let dt=crate::structure::Dt::parse(&tag);
+            let letter=crate::structure::letters_of(&dt.name).unwrap_or_else(||"W".into());
+            prj.next_tag_reserved(&dt.structure(),&letter,reserved)
+        } else {tag.clone()};
+        reserved.insert(new_tag.clone());rename.insert(tag,new_tag.clone());
+        cable_tags.insert(cable.tag.clone(),new_tag.clone());
+        let mut incoming=cable.clone();incoming.id=prj.new_id();incoming.tag=new_tag;
+        prj.cables.push(incoming);
+    }
+    cable_tags
+}
+
 /// Pastes the clip so that its top-left corner lands on `at`. Tags move into the
 /// structure of the target page; device tags of main functions that already exist
-/// get new numbers (consistently for coil + contacts). Wire numbers and cable cores
-/// are not copied.
+/// get new numbers (consistently for coil + contacts). Owned cables keep their
+/// core assignments under fresh tags; wire numbers are not copied.
 pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u64> {
     let source = clip.structure();
     let target = crate::structure::Dt::of_page(&prj.pages[page_i]);
@@ -704,10 +734,13 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
     }
     let d = paste_offset(clip, at);
-    let existing: BTreeSet<String> = prj.all_tags().into_iter().chain(prj.unplaced_tags().map(String::from)).collect();
+    let existing: BTreeSet<String> = prj.all_tags().into_iter().chain(prj.unplaced_tags().map(String::from))
+        .chain(prj.cables.iter().map(|c|c.tag.clone())).chain(prj.harnesses.iter().map(|h|h.tag.clone())).collect();
     let mut reserved:BTreeSet<_>=clip.symbols.iter().map(|s|s.tag.as_str()).chain(clip.devices.keys().map(String::as_str))
+        .chain(clip.cables.iter().map(|c|c.tag.as_str()))
         .filter(|tag|!tag.is_empty()).map(|tag|target.complete(&source.relative(tag))).collect();
     let mut rename: HashMap<String, String> = HashMap::new();
+    let cable_tags=paste_cables(prj,clip,&source,&target,&existing,&mut reserved,&mut rename);
     let mut new_ids = BTreeSet::new();
     let mut symbols_out = Vec::new();
     for s in &clip.symbols {
@@ -719,6 +752,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         s.pos = s.pos + d;
         if !s.tag.is_empty() {
             s.tag = target.complete(&source.relative(&s.tag));
+            if let Some(tag)=rename.get(&s.tag) {s.tag=tag.clone();}
         }
         if let Some(def) = prj.symbol(&s.sym) {
             match def.func {
@@ -757,8 +791,8 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         w.b = w.b + d;
         w.number.clear();
         w.number_fixed = false;
-        w.cable.clear();
-        w.core.clear();
+        if let Some(tag)=cable_tags.get(&w.cable) {w.cable=tag.clone();}
+        else {w.cable.clear();w.core.clear();}
         new_ids.insert(w.id);
         prj.pages[page_i].wires.push(w);
     }
@@ -792,14 +826,14 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         new_ids.insert(x.id);
         prj.pages[page_i].images.push(x);
     }
-    // Connection definitions keep their values except the cable core.
+    // Only cable references backed by a portable definition may be retained.
     for x in &clip.conn_defs {
         let mut x = x.clone();
         x.id = prj.new_id();
         x.pos = x.pos + d;
         x.number.clear();
-        x.cable.clear();
-        x.core.clear();
+        if let Some(tag)=cable_tags.get(&x.cable) {x.cable=tag.clone();}
+        else {x.cable.clear();x.core.clear();}
         new_ids.insert(x.id);
         prj.pages[page_i].conn_defs.push(x);
     }
@@ -808,6 +842,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         x.id = prj.new_id();
         x.a = x.a + d;
         x.b = x.b + d;
+        x.cable=cable_tags.get(&x.cable).cloned().unwrap_or_default();
         new_ids.insert(x.id);
         prj.pages[page_i].cable_defs.push(x);
     }

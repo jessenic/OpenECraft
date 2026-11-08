@@ -26,6 +26,9 @@ pub struct Clip {
     pub devices: BTreeMap<String, DeviceData>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub parts: Vec<Part>,
+    /// Cable definitions owned by this clip, with their catalog references.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub cables: Vec<Cable>,
     pub wires: Vec<Wire>,
     pub texts: Vec<TextItem>,
     pub shapes: Vec<Shape>,

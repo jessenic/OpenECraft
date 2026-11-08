@@ -3,6 +3,21 @@ use crate::geom::p;
 use crate::sample::demo_project;
 
 #[test]
+fn portable_cable_placeholders_resolve_inventory_and_all_references_together() {
+    let m:Macro=serde_json::from_value(serde_json::json!({"clip":{
+        "cables":[{"tag":"-W{UNIT}","part":"{ARTICLE}","cores":"{CORE}","values":{"cable.note":"{NOTE}"}}],
+        "wires":[{"cable":"-W{UNIT}","core":"{CORE}"}],
+        "conn_defs":[{"cable":"-W{UNIT}","core":"{CORE}"}],
+        "cable_defs":[{"cable":"-W{UNIT}"}]
+    }})).unwrap();
+    assert_eq!(m.placeholders(),["ARTICLE","CORE","NOTE","UNIT"]);
+    let clip=m.resolve(&BTreeMap::from([("UNIT".into(),"3".into()),("CORE".into(),"BN".into()),("ARTICLE".into(),"C1".into())]));
+    assert_eq!(clip.cables[0].tag,"-W3");assert_eq!(clip.cables[0].part,"C1");assert_eq!(clip.cables[0].values["cable.note"],"{NOTE}");
+    assert_eq!(clip.wires[0].cable,clip.cables[0].tag);assert_eq!(clip.wires[0].core,clip.cables[0].cores);
+    assert_eq!(clip.conn_defs[0].cable,"-W3");assert_eq!(clip.cable_defs[0].cable,"-W3");
+}
+
+#[test]
 fn portable_device_properties_and_owner_placeholders_resolve_with_tags() {
     let m:Macro=serde_json::from_value(serde_json::json!({"clip":{"devices":{
         "-K{UNIT}":{"values":{"device.rated_power":"{POWER}","device.material_owner":"-X{OWNER}"}}

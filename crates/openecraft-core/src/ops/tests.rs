@@ -3,6 +3,44 @@ use crate::geom::p;
 use crate::symlib::Symbols;
 
 #[test]
+fn portable_cables_keep_core_links_and_reserve_incoming_tags_across_structures() {
+    let mut prj=Project::default();prj.pages[0].function="DST".into();prj.pages[0].location="NEW".into();
+    prj.cables.push(Cable {id:90,tag:"=DST+NEW-W1".into(),description:"Existing".into(),..Default::default()});
+    let mut clip=Clip::new();clip.function="SRC".into();clip.location="OLD".into();
+    for (id,tag) in [(1,"=SRC+OLD-W1"),(2,"=SRC+OLD-W2")] {
+        clip.cables.push(Cable {id,tag:tag.into(),cores:"BN BU".into(),length:25.,part:"C1".into(),diameter:6.3,..Default::default()});
+        clip.symbols.push(SymbolInst {id:id+10,sym:"coil".into(),tag:tag.into(),pos:p(id as f32*10.,0.),..Default::default()});
+        clip.wires.push(Wire {id:id+20,a:p(0.,id as f32*5.),b:p(40.,id as f32*5.),cable:tag.into(),core:"BN".into(),..Default::default()});
+    }
+    clip.conn_defs.push(ConnDef {id:40,pos:p(20.,5.),cable:"=SRC+OLD-W1".into(),core:"BU".into(),..Default::default()});
+    clip.cable_defs.push(CableDef {id:41,a:p(20.,0.),b:p(20.,20.),cable:"=SRC+OLD-W1".into(),..Default::default()});
+    let clip=Clip::from_text(&clip.to_text()).unwrap();
+    for _ in 0..2 {paste(&mut prj,0,&clip,p(80.,40.));}
+    assert_eq!(prj.cables.iter().map(|c|c.tag.as_str()).collect::<Vec<_>>(),
+        ["=DST+NEW-W1","=DST+NEW-W3","=DST+NEW-W2","=DST+NEW-W4","=DST+NEW-W5"]);
+    assert_eq!(prj.cables[0].description,"Existing");
+    for (i,wire) in prj.pages[0].wires.iter().enumerate() {
+        let cable=&prj.cables[i+1];assert_eq!(wire.cable,cable.tag);assert_eq!(wire.core,"BN");
+        assert_eq!(prj.pages[0].symbols[i].tag,cable.tag);assert_eq!(cable.part,"C1");assert_eq!(cable.length,25.);
+    }
+    assert_eq!(prj.pages[0].conn_defs[0].cable,"=DST+NEW-W3");assert_eq!(prj.pages[0].conn_defs[0].core,"BU");
+    assert_eq!(prj.pages[0].cable_defs[1].cable,"=DST+NEW-W4");
+    let ids:BTreeSet<_>=prj.cables.iter().skip(1).map(|c|c.id).collect();assert_eq!(ids.len(),4);
+}
+
+#[test]
+fn copied_cable_references_carry_only_used_inventory_and_catalog_data() {
+    let mut prj=Project::default();
+    prj.pages[0].wires.push(Wire {id:1,a:p(0.,0.),b:p(10.,0.),cable:"-W1".into(),core:"BN".into(),..Default::default()});
+    prj.cables=vec![Cable {tag:"-W1".into(),part:"C1".into(),..Default::default()},Cable {tag:"-W2".into(),..Default::default()}];
+    prj.parts.push(Part {number:"C1".into(),..Default::default()});
+    let mut clip=copy(&prj.pages[0],&BTreeSet::from([1]));clip.include_project_data(&prj);clip.include_project_data(&prj);
+    assert_eq!(clip.cables.len(),1);assert_eq!(clip.cables[0].tag,"-W1");assert_eq!(clip.parts.len(),1);
+    clip.cables.clear();paste(&mut prj,0,&clip,p(40.,40.));
+    assert!(prj.pages[0].wires[1].cable.is_empty());assert!(prj.pages[0].wires[1].core.is_empty());
+}
+
+#[test]
 fn cleanup_preserves_overlapping_wires_with_different_contact_or_conductor_properties() {
     let mut prj=Project::default();
     let wire=Wire {id:1,a:p(0.,0.),b:p(40.,0.),..Default::default()};

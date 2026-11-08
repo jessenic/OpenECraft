@@ -174,6 +174,19 @@ fn texts_mut(clip: &mut Clip) -> Vec<&mut String> {
     for w in &mut clip.wires {
         v.push(&mut w.color);
         v.push(&mut w.cross_section);
+        v.push(&mut w.cable);
+        v.push(&mut w.core);
+    }
+    for cable in &mut clip.cables {
+        v.extend([&mut cable.tag,&mut cable.cable_type,&mut cable.cores,&mut cable.cross_section,
+                  &mut cable.part,&mut cable.description]);
+        v.extend(cable.values.values_mut());
+    }
+    for definition in &mut clip.conn_defs {
+        v.extend([&mut definition.cable,&mut definition.core]);
+    }
+    for definition in &mut clip.cable_defs {
+        v.push(&mut definition.cable);
     }
     v.extend(clip.texts.iter_mut().map(|t| &mut t.text));
     for device in clip.devices.values_mut() {

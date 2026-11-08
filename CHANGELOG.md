@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Preserve owned cable definitions, catalog parts and core assignments when copying circuits or inserting macros, with fresh consistent tags.
+
 - Include imported project cable parts in the cable picker, preserve local catalog overrides, and expose the same available parts through the shared registry.
 
 - Apply declared catalog cable diameters when selecting a part, return to the routing estimate when the new part has no valid diameter, and expose cable part application through the shared plugin command.

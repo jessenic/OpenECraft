@@ -362,3 +362,11 @@ duplicates. Project definitions take precedence, including a local change of
 product group. Rows include number, type, description, manufacturer, supplied
 cores and cross-section, and a positive declared `diameter_mm` or null. The
 editor uses the same precedence with its configured parts database.
+
+The `portable_cables` feature carries cable inventories and their referenced local
+parts in `Clip.cables`. Copy/paste and macro insertion allocate fresh cable IDs
+and collision-free tags in the destination structure, consistently remapping
+marker symbols, wires, connection definitions and cable definition lines. Core
+assignments are retained only for cables owned by the clip. Legacy clips without
+cable definitions continue to clear wire/core references. Cable text fields also
+support native macro placeholders. This behavior is shared by all frontends.
