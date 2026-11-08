@@ -259,3 +259,23 @@ without jumping between equal potential or interruption names. Each result has
 `route_traced` and `wires` with native page/segment IDs and their conductor properties.
 This verifies a particular branch even when the physical wiring list chooses another
 valid path through a named net. An invalid or disconnected endpoint has no traced route.
+
+### Complete PLC module channels
+
+The `multi_channel_plc` project feature advertises `UserSymbol.plc_channels`, also exposed by `list_symbols`. Each channel definition contains a stable `key`, zero-based directional `index`, optional `input` direction, `analog`, `data_type`, `designation`, zero-based physical `pins`, and an optional `signal_pin`. Existing single-channel `plc_channel` metadata remains supported.
+
+Channel instance values use one-based property keys `function.plc_address[1]`, `function.plc_symbol[1]`, `function.plc_comment[1]`, and `function.plc_data_type[1]`. Library definitions should leave configured addresses and signal names empty. Property blocks can reference these keys to display current configuration. `get_plc_points` returns a row per channel with its physical pin indices; `set_plc_channel` edits one channel using a symbol ID and a zero-based channel index. PLC table row keys use `symbol_id:channel_index` for complete modules and retain numeric symbol IDs for legacy single points. Blank and directionless channels are excluded from PLC tag exports.
+
+### Linked PLC channel representations
+
+The `linked_plc_channels` feature adds `SymbolInst.plc_bindings`, a map from zero-based channel indices to `{group, primary}`. A nonempty group identifies the same logical channel across representations with the same full device tag. Set `primary` on the electrical representation whose physical pins and location should be used for I/O navigation. Different full device tags keep copied devices independent.
+
+The PLC overview, hardware counts, tables and tag exports use logical channels. Channel edits, indexed channel property edits, card readdressing and symbol-table import update all linked views; a released view rejects the whole channel edit. Existing authored values remain stored on each view. Empty displayed fields can fall back to another linked view. `get_plc_points` returns logical I/O rows by default; `representations:true` returns all schematic representations with their own stored values, physical pin indices and binding metadata for lossless import verification.
+
+The `plc_channel_indices` feature adds optional `ChannelBinding.index`, the card-relative hardware channel number. Store the module overview's hardware number on every linked view, even when an electrical view contains only one local channel. `get_plc_points.hardware_index` exposes this number separately from the symbol-local `channel` index used by `set_plc_channel`. Readdressing and the logical channel designation use the hardware number. Older bindings without an explicit number fall back to the most complete linked module definition, keeping continued projects usable after sheet reordering.
+
+Parts representing complete PLC modules use one `FunctionTemplate` per channel, with `PlcInput`, `PlcOutput`, `PlcAnalogInput` or `PlcAnalogOutput` and that channel's physical pin designations. Leave reusable signal descriptions empty. Native function usage and reserve calculations count linked schematic channels once and exclude cabinet graphics. `list_device_descriptions` includes analog function capacities; `list_unplaced` recognizes occupied module channels by hardware identity independently of configured address text.
+
+`set_plc_card` preserves authored channel addresses for metadata-only changes. Supplying `start_byte`, `output_byte`, `readdress:true`, or a Rockwell `slot` rebuilds addresses from configuration. An imported head description with empty ports and no configured bus keeps an empty port list; it does not acquire an inferred PROFINET interface.
+
+Station scheme conversion includes complete-module digital channels and their linked representations. It retains each configured address offset and signal name. Custom address text that is not a supported digital address remains unchanged.

@@ -434,6 +434,10 @@ pub(super) const ROWS: &[Row] = &[
     r("function.connection_scope", tr_const!("Connection scope"), Function, Electrical, Text, ""),
     r("function.pin_descriptions", tr_const!("Connection point descriptions"), Function, General, Text, ""),
     r("function.supplementary", tr_const!("Supplementary field"), Function, Supplementary, Text, "").idx(50),
+    r("function.plc_address",tr_const!("PLC channel address"),Function,Plc,Text,"").idx(1024),
+    r("function.plc_symbol",tr_const!("PLC channel symbol"),Function,Plc,Text,"").idx(1024),
+    r("function.plc_comment",tr_const!("PLC channel comment"),Function,Plc,MultiLine,"").idx(1024),
+    r("function.plc_data_type",tr_const!("PLC channel data type"),Function,Plc,Text,"").idx(1024),
     // ----------------------------------------------------------------- terminal
     r("terminal.strip", tr_const!("Terminal strip"), Terminal, General, Text, "").ro(),
     r("terminal.number", tr_const!("Terminal number"), Terminal, General, Text, "").field(),

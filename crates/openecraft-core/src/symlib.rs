@@ -27,6 +27,7 @@ impl Default for UserSymbol {
             ema_revision: None,
             source_data: None,
             plc_channel: None,
+            plc_channels: Vec::new(),
             name: "New symbol".into(),
             library: "User".into(),
             letter: "A".into(),
@@ -97,6 +98,7 @@ pub(crate) fn to_def(u: &UserSymbol) -> SymbolDef {
         letter: intern(&u.letter),
         func: u.func,
         plc_channel: u.plc_channel.clone(),
+        plc_channels: u.plc_channels.clone(),
         prims: u.prims.clone(),
         pins: u.pins.iter().map(|x| PinDef { pos: x.pos, label: intern(&x.label), internal: x.internal }).collect(),
         fluid_ports: u.fluid_ports.iter().filter(|(i, _)| **i < u.pins.len()).map(|(i, kind)| (*i, *kind)).collect(),
@@ -197,6 +199,7 @@ fn hash_symbols(list: &[UserSymbol], mut h: impl Hasher) -> u64 {
         (&u.key, &u.name, &u.library, &u.letter, &u.default_label, u.auto_number, u.show_tag, u.show_pin_labels).hash(&mut h);
         if !u.default_function_text.is_empty() { ("default_function_text", &u.default_function_text).hash(&mut h); }
         if !u.default_values.is_empty() { ("default_values", &u.default_values).hash(&mut h); }
+        if !u.plc_channels.is_empty() { ("plc_channels",&u.plc_channels).hash(&mut h); }
         format!("{:?}", u.func).hash(&mut h);
         std::mem::discriminant(&u.domain).hash(&mut h);
         if let Some(channel) = &u.plc_channel {
@@ -321,6 +324,7 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
             _ => SymbolDomain::Electrical,
         },
         plc_channel: def.plc_channel.clone(),
+        plc_channels: def.plc_channels.clone(),
         default_label: def.default_label.into(),
         default_function_text: existing.iter().find(|u| u.key == def.key).map(|u| u.default_function_text.clone()).unwrap_or_default(),
         default_values: existing.iter().find(|u| u.key == def.key).map(|u| u.default_values.clone()).unwrap_or_default(),

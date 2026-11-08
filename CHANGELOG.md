@@ -5,6 +5,20 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Convert every digital channel of complete PLC modules when changing the station address scheme, synchronizing linked views while retaining custom address text and signal names.
+
+- Preserve PLC channel addresses when changing only hardware metadata. Offer explicit readdressing through the shared API and avoid inventing PROFINET ports for imported CPUs with no network data.
+
+- Count every logical channel of complete PLC modules in part functions and reserve-function checks. Recognize analog part functions in hardware descriptions and exclude occupied module channels from the unplaced navigator even with custom addresses.
+
+- Preserve card-relative PLC channel numbers across split electrical symbols and sheet reordering, including continued projects imported before explicit channel indices were stored.
+
+- Link multiple PLC channel representations into one logical I/O entry, prefer electrical pins for navigation, and synchronize channel edits across views, including property edits and configuration import. Keep copies on other device tags independent.
+
+- Edit the selected channel's address, signal name and comment in the PLC overview without overwriting its module or other channels. Keep row identity stable while addresses change and respect released pages.
+
+- Preserve complete PLC module symbols with independent channels, physical pin mappings, editable addresses, signal names and comments. Configure and exchange their channels through the PLC table and shared API.
+
 - Load external plugin folders from Manage plugins and remember them for later launches. Clear previous Find results after successful plugin commands.
 
 - Clear cached Find results when opening or creating another project.

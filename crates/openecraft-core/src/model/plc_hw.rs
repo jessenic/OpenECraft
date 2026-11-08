@@ -4,6 +4,20 @@ use super::devdesc::{BusKind, DeviceDescription};
 
 use serde::{Deserialize, Serialize};
 
+/// A channel identity shared by representations with the same full device tag.
+#[derive(Clone,Debug,Default,PartialEq,Eq,Serialize,Deserialize)]
+#[serde(default)]
+pub struct ChannelBinding {
+    pub group:String,
+    /// Prefer the electrical representation for physical targets and navigation.
+    pub primary:bool,
+    /// Card-relative hardware channel number, independent of the drawn view's order.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub index:Option<u16>,
+}
+
+pub mod bindings;
+
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Hardware {

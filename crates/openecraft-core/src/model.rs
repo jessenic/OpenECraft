@@ -758,6 +758,9 @@ pub struct SymbolInst {
     /// Function, terminal and PLC connection point property values.
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub values: properties::Values,
+    /// Shared logical channels shown by several representations of this device.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub plc_bindings: BTreeMap<usize,plc_hw::ChannelBinding>,
 }
 
 impl SymbolInst {
@@ -806,6 +809,7 @@ impl Default for SymbolInst {
             scheme: String::new(),
             function_def: String::new(),
             values: BTreeMap::new(),
+            plc_bindings: BTreeMap::new(),
         }
     }
 }

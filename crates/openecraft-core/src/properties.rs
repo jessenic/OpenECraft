@@ -567,6 +567,11 @@ pub fn stored<'a>(prj: &'a Project, obj: &Object, key: &str) -> Option<&'a str> 
 /// Value of a property ("" = none), with the fallbacks described in the module docs.
 pub fn get(prj: &Project, obj: &Object, key: &str) -> String {
     let Some(d) = def(prj, key) else { return String::new() };
+    if let Object::Function(id)=obj {
+        if let Some((field,index))=crate::model::plc_hw::bindings::property(key) {
+            if let Some(value)=crate::model::plc_hw::bindings::value(prj,*id,index,field) {return value;}
+        }
+    }
     if d.class == ObjectClass::Part {
         return part_value(prj, obj, key);
     }
@@ -633,6 +638,12 @@ pub fn set(prj: &mut Project, obj: &Object, key: &str, value: &str) -> Result<()
         return Err(tr_fmt!("{} cannot be changed", d.title()));
     }
     let v = d.check(value)?;
+    if let Object::Function(id)=obj {
+        if let Some((field,index))=crate::model::plc_hw::bindings::property(key) {
+            crate::model::plc_hw::bindings::set(prj,*id,index,field,&v)?;
+            return Ok(());
+        }
+    }
     if d.field {
         return set_field(prj, obj, key, &v);
     }
@@ -657,12 +668,14 @@ pub fn set(prj: &mut Project, obj: &Object, key: &str, value: &str) -> Result<()
 pub fn keys_of<'a>(prj: &'a Project, obj: &Object, relevant: bool, filled: bool) -> Vec<(String, &'a PropDef)> {
     let classes = obj.classes(prj);
     let groups = function_def(prj, obj).map(|f| f.category.groups());
+    let channels=if let Object::Function(id)=obj {find_symbol(prj,*id).and_then(|(_,s)|prj.symbol(&s.sym)).map(|d|d.plc_channels.len()).unwrap_or(0)} else {0};
     let mut out = Vec::new();
     for d in all_defs(prj).filter(|d| classes.contains(&d.class)) {
-        if relevant && !d.group.is_common() && groups.is_some_and(|g| !g.contains(&d.group)) {
+        if relevant && !d.group.is_common() && !(channels>0 && d.group==Group::Plc) && groups.is_some_and(|g| !g.contains(&d.group)) {
             continue;
         }
-        for k in d.value_keys() {
+        let keys=if d.key.starts_with("function.plc_") {(1..=channels.min(usize::from(d.indices))).map(|i|format!("{}[{i}]",d.key)).collect()} else {d.value_keys()};
+        for k in keys {
             if !filled || !get(prj, obj, &k).is_empty() {
                 out.push((k, d));
             }

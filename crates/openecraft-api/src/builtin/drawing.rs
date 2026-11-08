@@ -596,6 +596,7 @@ fn list_symbols(prj: &mut Project, a: &Args) -> Result<Value, String> {
                 "default_label": d.default_label,
                 "default_function_text": function_texts.get(d.key).copied().unwrap_or_default(),
                 "default_values": defaults.get(d.key),
+                "plc_channels": d.plc_channels,
                 "property_blocks": d.prims.iter().filter_map(|p| if let symbols::Prim::PropertyBlock(block) = p { Some(block) } else { None }).collect::<Vec<_>>(),
                 "pins": pins,
                 "fluid_ports": d.fluid_ports,

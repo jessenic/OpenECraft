@@ -371,6 +371,20 @@ pub struct AnalogSignal {
     pub data_type: String,
 }
 
+/// One channel of a complete module symbol. Pin indices refer to its physical pins.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(default)]
+pub struct PlcChannelDef {
+    pub key: String,
+    pub index: u16,
+    pub input: Option<bool>,
+    pub analog: bool,
+    pub data_type: String,
+    pub designation: String,
+    pub pins: Vec<usize>,
+    pub signal_pin: Option<usize>,
+}
+
 #[derive(Clone, Debug)]
 pub struct SymbolDef {
     pub key: &'static str,
@@ -382,6 +396,7 @@ pub struct SymbolDef {
     pub letter: &'static str,
     pub func: Func,
     pub plc_channel: Option<PlcChannel>,
+    pub plc_channels: Vec<PlcChannelDef>,
     pub prims: Vec<Prim>,
     pub pins: Vec<PinDef>,
     pub fluid_ports: std::collections::BTreeMap<usize, PortKind>,
@@ -400,6 +415,10 @@ pub struct SymbolDef {
 }
 
 impl SymbolDef {
+    pub fn has_plc_channels(&self)->bool {
+        !self.plc_channels.is_empty() && !matches!(self.func,Func::Overview|Func::Graphic)
+    }
+
     pub fn has_function_text_field(&self) -> bool {
         self.prims.iter().any(|p| match p {
             Prim::Field { kind: FieldKind::FunctionText, .. } => true,
@@ -625,6 +644,7 @@ impl Def {
             letter: self.letter,
             func: self.func,
             plc_channel: None,
+            plc_channels: Vec::new(),
             prims: std::mem::take(&mut b.prims),
             pins: std::mem::take(&mut b.pins),
             fluid_ports: Default::default(),

@@ -256,6 +256,9 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
                     .unwrap_or_else(|| prj.next_tag(&structure, def.letter));
                 s.label = c.address_for(prj, &s.tag);
                 s.function_text = c.function_text.clone();
+            } else if !def.plc_channels.is_empty() {
+                s.tag=prj.next_tag(&structure,def.letter);
+                s.label.clear();
             } else {
                 s.tag = ctx.last_plc.get(def.key).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter));
                 s.label = next_plc_address(prj, &s.tag, !def.default_label.starts_with('Q'));

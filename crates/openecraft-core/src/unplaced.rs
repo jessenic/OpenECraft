@@ -39,6 +39,7 @@ pub fn part_symbol(part: &parts::Part) -> Option<(&'static str, Vec<String>)> {
 /// in address order.
 pub fn plc_channels(prj: &Project) -> Vec<Unplaced> {
     let mut out = Vec::new();
+    let channels=crate::model::plc_hw::bindings::placed(prj);
     for card in crate::plc::cards(prj) {
         let mut families = HashSet::new();
         let mut occupied = HashSet::new();
@@ -59,12 +60,27 @@ pub fn plc_channels(prj: &Project) -> Vec<Unplaced> {
             out.push(Unplaced { tag: card.clone(), symbol: def.key, label, pins: symbol.pins.iter().map(|p| p.label.clone()).collect(), title });
         }
         let Some(desc) = crate::plc_hw::description_of(prj, &card) else { continue };
-        let placed: HashSet<crate::plc::AddressKey> =
+        let mut placed: HashSet<crate::plc::AddressKey> =
             prj.pages.iter().flat_map(|p| p.symbols.iter()).filter(|s| s.tag == card).map(|s| crate::plc::address_key(&s.label)).collect();
-        for (input, n, symbol) in [(true, desc.inputs, "plc_in"), (false, desc.outputs, "plc_out")] {
+        let mut hardware=HashSet::new();
+        let module=prj.pages.iter().flat_map(|p|&p.symbols).filter(|s|s.tag==card).filter_map(|s|prj.symbol(&s.sym)).max_by_key(|d|d.plc_channels.len());
+        for &(pi,si,index) in &channels {
+            let s=&prj.pages[pi].symbols[si];if s.tag!=card {continue;}
+            let Some(def)=prj.symbol(&s.sym) else {continue;};let c=&def.plc_channels[index];
+            if let Some(input)=c.input {
+                let number=crate::model::plc_hw::bindings::index(prj,s.id,index).unwrap_or(c.index);
+                let ordinal=module.as_ref().filter(|d|d.plc_channels.iter().any(|c|c.input==Some(!input)))
+                    .and_then(|d|d.plc_channels.iter().filter(|c|c.input==Some(input)).position(|c|c.index==number)).unwrap_or(usize::from(number));
+                hardware.insert((input,ordinal as u32));
+            }
+            let address=crate::model::plc_hw::bindings::value(prj,s.id,index,"address").unwrap_or_default();
+            if !address.is_empty() {placed.insert(crate::plc::address_key(&address));}
+        }
+        let analog=matches!(desc.kind,crate::model::devdesc::ModuleKind::AnalogInput|crate::model::devdesc::ModuleKind::AnalogOutput);
+        for (input, n, symbol) in [(true, desc.inputs, if analog {"plc_ai"} else {"plc_in"}), (false, desc.outputs, if analog {"plc_ao"} else {"plc_out"})] {
             for ch in 0..n {
                 let addr = crate::plc_hw::card_address(prj, &card, input, ch);
-                if !placed.contains(&crate::plc::address_key(&addr)) && !out.iter().any(|p| p.tag == card && p.label == addr) {
+                if !hardware.contains(&(input,ch)) && !placed.contains(&crate::plc::address_key(&addr)) && !out.iter().any(|p| p.tag == card && p.label == addr) {
                     out.push(Unplaced { tag: card.clone(), symbol, label: addr.clone(), pins: Vec::new(), title: addr });
                 }
             }

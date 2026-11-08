@@ -51,6 +51,8 @@ pub struct UserSymbol {
     pub domain: SymbolDomain,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plc_channel: Option<crate::symbols::PlcChannel>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub plc_channels: Vec<crate::symbols::PlcChannelDef>,
     pub default_label: String,
     #[serde(skip_serializing_if = "String::is_empty")]
     pub default_function_text: String,

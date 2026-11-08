@@ -24,6 +24,23 @@ impl Plugin for Plc {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name:"get_plc_points",
+        help:tr_const!("Lists every PLC channel with its module, address, symbol name and physical pins"),
+        params:&[optional("representations",Kind::Bool,tr_const!("Include every graphical representation of each logical PLC channel"))],run:get_plc_points,
+    },
+    Spec {
+        name:"set_plc_channel",
+        help:tr_const!("Changes one channel of a complete PLC module symbol"),
+        params:&[
+            param("symbol",Kind::Int,tr_const!("Symbol ID")),
+            param("channel",Kind::Int,tr_const!("Zero-based PLC channel index")),
+            optional("address",Kind::Str,tr_const!("Address")),
+            optional("symbolic",Kind::Str,tr_const!("Symbolic address")),
+            optional("comment",Kind::Str,tr_const!("Comment")),
+            optional("data_type",Kind::Str,tr_const!("Data type")),
+        ],run:set_plc_channel,
+    },
+    Spec {
         name: "get_plc_hardware",
         help: tr_const!("Shows the PLC hardware configuration: stations with racks, slots, modules and address ranges, bus systems, port connections and the problems found"),
         params: &[],
@@ -61,7 +78,7 @@ pub static COMMANDS: &[Spec] = &[
     },
     Spec {
         name: "set_plc_card",
-        help: tr_const!("Places a PLC card (I/O module) in a station: rack, slot, start addresses and device description; readdresses its points"),
+        help: tr_const!("Sets PLC card hardware; preserves channel addresses unless address parameters or readdress are supplied"),
         params: &[
             param("card", Kind::Str, tr_const!("Card tag, e.g. -A1")),
             optional("station", Kind::Str, tr_const!("Station name (empty: unassigned)")),
@@ -70,6 +87,7 @@ pub static COMMANDS: &[Spec] = &[
             optional("start_byte", Kind::Int, tr_const!("First byte of the inputs (and outputs)")),
             optional("output_byte", Kind::Int, tr_const!("First byte of the outputs if it differs; -1 removes it")),
             optional("device", Kind::Str, tr_const!("Device description id (empty: from the parts)")),
+            optional("readdress", Kind::Bool, tr_const!("Rebuild channel addresses from the card configuration")),
         ],
         run: set_plc_card,
     },
@@ -193,6 +211,31 @@ fn get_plc_hardware(prj: &mut Project, _: &Args) -> Result<Value, String> {
     Ok(hardware_json(prj))
 }
 
+fn get_plc_points(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let nl=openecraft_core::netlist::Netlist::build(prj,true);
+    let points=if a.flag("representations") {openecraft_core::plc::representations(prj,&nl)} else {openecraft_core::plc::points(prj,&nl)};
+    Ok(json!(points.iter().map(|p| {
+        let channels=openecraft_core::plc::channels::definitions(prj,p.id);
+        let pins=p.channel_index.and_then(|i|channels.get(i)).map(|c|c.pins.clone()).unwrap_or_default();
+        json!({"symbol":p.id,"channel":p.channel_index,"card":p.card,"address":p.address,"input":p.direction,
+               "kind":p.io_kind(),"designation":p.channel,"terminal":p.terminal,"pins":pins,"comment":p.function_text,
+               "symbolic":p.symbolic,"data_type":p.data_type,"connected":p.connected,"page":prj.pages[p.page].name,
+               "binding":p.channel_index.and_then(|index|prj.pages[p.page].symbols[p.sym].plc_bindings.get(&index)),
+               "hardware_index":p.channel_index.and_then(|index|openecraft_core::model::plc_hw::bindings::index(prj,p.id,index))})
+    }).collect::<Vec<_>>()))
+}
+
+fn set_plc_channel(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let id=int_in(a,"symbol",1,NO_LIMIT)?.unwrap_or(0) as u64;
+    let index=int_in(a,"channel",0,NO_LIMIT)?.unwrap_or(0) as usize;
+    if index>=openecraft_core::plc::channels::definitions(prj,id).len() {return Err(tr_fmt!("No connection point {}",format!("{id}:{index}")));}
+    let mut changed=false;
+    for (param,field) in [("address","address"),("symbolic","symbol"),("comment","comment"),("data_type","data_type")] {
+        if let Some(value)=a.str(param) {changed|=openecraft_core::plc::channels::set(prj,id,index,field,value)?;}
+    }
+    Ok(json!({"changed":changed,"symbol":id,"channel":index}))
+}
+
 fn configure_plc_hardware(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let r = plc_hw::auto_configure(prj, a.flag("cables"));
     let mut v = hardware_json(prj);
@@ -290,7 +333,9 @@ fn set_plc_card(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if let Some(v) = a.int("output_byte") {
         c.output_byte = (v >= 0).then_some(v as u32);
     }
-    let n = openecraft_core::plc::readdress(prj, &card);
+    let readdress=a.flag("readdress") || a.int("start_byte").is_some() || a.int("output_byte").is_some()
+        || a.int("slot").is_some() && plc_hw::scheme_of(prj,&card)==Scheme::Rockwell;
+    let n = if readdress {openecraft_core::plc::readdress(prj, &card)} else {0};
     let mut v = hardware_json(prj);
     v["addresses_changed"] = n.into();
     Ok(v)
