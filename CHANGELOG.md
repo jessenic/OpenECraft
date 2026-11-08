@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Clear cached Find results when opening or creating another project.
+
 - Let wires and connection definitions be selected inside decorative symbol bounds.
 
 - Preserve editable conductor types in wire properties, connection tables, API and reports.
