@@ -969,7 +969,7 @@ pub fn remove_cable(prj: &mut Project, index: usize) -> Cable {
     cable
 }
 
-/// Takes part number, type, cores and cross section of a cable part.
+/// Takes the catalog type, cores, cross section and declared outer diameter.
 pub fn apply_cable_part(cable: &mut Cable, part: &Part) {
     cable.part = part.number.clone();
     cable.cable_type = part.type_number.clone();
@@ -979,6 +979,7 @@ pub fn apply_cable_part(cable: &mut Cable, part: &Part) {
     if let Some(cs) = part.tech_value("Cross-section") {
         cable.cross_section = cs.to_string();
     }
+    cable.diameter = part.dimension_mm("Outer diameter").filter(|d| *d > 0.0).unwrap_or(0.0);
 }
 
 /// Assigns wires of a page to the free cores of a cable in order (left to right,

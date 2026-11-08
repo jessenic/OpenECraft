@@ -37,7 +37,7 @@ impl App {
                 ui.weak(tr("Assign wires: select them in the schematic › Assign to cable."));
             });
             ui.separator();
-            let cable_parts: Vec<&parts::Part> = self.parts_db.parts.iter().filter(|p| p.group == "Cables").collect();
+            let cable_parts = parts::group_choices(&self.session.prj.parts, Some(&self.parts_db), "Cables");
             egui::ScrollArea::both().auto_shrink([false, false]).show(ui, |ui| {
                 egui::Grid::new("cables").striped(true).num_columns(10).spacing([8.0, 4.0]).show(ui, |ui| {
                     for h in [tr("Cable"), tr("Type"), tr("Bus"), tr("Cores"), tr("Cross-section"), tr("Length"), tr("Part"), tr("Description"), tr("Used"), ""] {

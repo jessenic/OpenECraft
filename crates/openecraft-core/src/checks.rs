@@ -393,10 +393,16 @@ fn check_open_wire_ends(prj: &Project) -> Vec<Issue> {
 fn check_wires(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Issue> {
     let mut v = Vec::new();
     let mut tags: HashMap<&str, usize> = HashMap::new();
+    let catalog = crate::parts::catalog();
     for c in &prj.cables {
         *tags.entry(c.tag.as_str()).or_default() += 1;
         if c.tag.trim().is_empty() {
             v.push(crate::issue!(Severity::Error, None, "Cable without tag"));
+        }
+        if (!c.length.is_finite() || c.length <= 0.0)
+            && prj.parts.iter().chain(catalog.iter()).find(|p| p.number == c.part).is_some_and(|p| p.quantity_unit == "m")
+        {
+            v.push(crate::issue!(Severity::Warning, None, "{}: cable length is missing; material quantity is unknown", c.tag));
         }
     }
     for (tag, n) in tags.iter().filter(|(t, n)| **n > 1 && !t.is_empty()) {

@@ -1154,7 +1154,7 @@ pub fn device_preview(prj: &Project, e: &Enclosure, tag: &str, at: P, face: Face
 
 /// Technical value of a part as a number ("Outside: 25" → 25).
 pub fn tech_number(part: &crate::parts::Part, name: &str) -> Option<f32> {
-    part.data_value(name)?.trim().trim_end_matches("mm").trim().replace(',', ".").parse().ok()
+    part.dimension_mm(name)
 }
 
 /// Clamping range of a cable gland part in mm (technical data "Clamping range min" /

@@ -5,6 +5,12 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Include imported project cable parts in the cable picker, preserve local catalog overrides, and expose the same available parts through the shared registry.
+
+- Apply declared catalog cable diameters when selecting a part, return to the routing estimate when the new part has no valid diameter, and expose cable part application through the shared plugin command.
+
+- Keep missing lengths of cable sold by metre as unknown material quantities and prices. Retain known partial totals and identify the cables that need a length through the shared project check.
+
 - Preserve individual wire junction policies when inserting imported macros into existing drawings. Keep existing implicit contacts, trace imported physical routes, expose editable policies through the shared API and wire properties, and preserve different conductor properties during cleanup.
 
 - Preserve device properties, material owners and literal extra quantities when inserting portable macros. Keep local counts when extending an existing device and reserve incoming tags before assigning collision replacements.

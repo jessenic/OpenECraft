@@ -348,3 +348,17 @@ page queries and portable clips retain the optional native field. The editor
 offers the same choices in wire properties. Inserting an explicit macro never
 changes the page setting or other wires. Scan caching tracks policy edits, and
 wire cleanup and collinear merging preserve different policies and properties.
+
+`apply_cable_part` (`cable`, `part`) applies a project or built-in catalog part to
+an existing cable. It uses the same operation as the editor, including type,
+supplied core names and cross-section, and `Outer diameter` from technical data
+in millimetres. Missing or invalid diameters reset the override to zero so routing
+uses its estimate. It returns the configured cable fields and `diameter_mm` (zero
+means estimated), and rejects unknown cable or part names without changing state.
+
+`list_cable_parts` takes no parameters and returns the available cable articles
+from project parts and the built-in catalog, sorted by number and without
+duplicates. Project definitions take precedence, including a local change of
+product group. Rows include number, type, description, manufacturer, supplied
+cores and cross-section, and a positive declared `diameter_mm` or null. The
+editor uses the same precedence with its configured parts database.

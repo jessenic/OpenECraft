@@ -1,6 +1,48 @@
 use super::*;
 use crate::sample::demo_project;
 
+#[test]
+fn metered_cable_unknown_lengths_keep_partial_material_totals_uncertain() {
+    use crate::parts::Part;
+    let mut prj=Project::default();
+    prj.marking.cable_material.clear();
+    prj.parts.push(Part {number:"BULK".into(),quantity_unit:"m".into(),price:2.,..Default::default()});
+    prj.parts.push(Part {number:"UNKNOWN".into(),quantity_unit:"m".into(),price:4.,..Default::default()});
+    prj.parts.push(Part {number:"PIECE".into(),quantity_unit:"pcs".into(),price:3.,..Default::default()});
+    prj.cables=vec![Cable {id:1,tag:"-W1".into(),part:"BULK".into(),length:2.5,..Default::default()},
+        Cable {id:2,tag:"-W2".into(),part:"BULK".into(),..Default::default()},
+        Cable {id:3,tag:"-W3".into(),part:"UNKNOWN".into(),..Default::default()},
+        Cable {id:4,tag:"-W4".into(),part:"PIECE".into(),..Default::default()}];
+    let table=bom(&prj,&Index::build(&prj),&[],&[]);
+    let bulk=table.rows.iter().find(|r|r[3]=="BULK").unwrap();
+    assert_eq!((bulk[1].as_str(),bulk[2].as_str(),bulk[9].as_str()),("2.50 + ?","m","5.00 + ?"));
+    assert!(bulk[7].contains("-W1") && bulk[7].contains("-W2"));
+    let unknown=table.rows.iter().find(|r|r[3]=="UNKNOWN").unwrap();
+    assert_eq!((unknown[1].as_str(),unknown[9].as_str()),("?","?"));
+    let piece=table.rows.iter().find(|r|r[3]=="PIECE").unwrap();
+    assert_eq!((piece[1].as_str(),piece[9].as_str()),("1","3.00"));
+    assert_eq!(table.rows.last().unwrap()[9],"8.00 + ?");
+    prj.cables[1].length=1.5;prj.cables[2].length=3.;
+    let table=bom(&prj,&Index::build(&prj),&[],&[]);
+    assert_eq!(table.rows.iter().find(|r|r[3]=="BULK").unwrap()[1],"4");
+    assert_eq!(table.rows.last().unwrap()[9],"23.00");
+}
+
+#[test]
+fn metered_cable_length_check_names_unknown_cables_and_accepts_configured_lengths() {
+    let mut prj=Project::default();
+    prj.cables.push(Cable {id:1,tag:"-W1".into(),part:"GEN.CBL-4G1.5".into(),..Default::default()});
+    let check=crate::checks::builtin().into_iter().find(|c|c.name=="wires").unwrap();
+    let issues=(check.run)(&prj,&Analysis::build(&prj)).unwrap();
+    assert!(issues.iter().any(|i|i.message().contains("-W1: cable length is missing") && i.severity==Severity::Warning));
+    let table=bom(&prj,&Index::build(&prj),&[],&[]);
+    assert_eq!(table.rows.iter().find(|r|r[3]=="GEN.CBL-4G1.5").unwrap()[1],"?");
+    prj.cables[0].length=25.;
+    assert!(!(check.run)(&prj,&Analysis::build(&prj)).unwrap().iter().any(|i|i.message().contains("length is missing")));
+    let reopened:Project=serde_json::from_str(&serde_json::to_string(&prj).unwrap()).unwrap();
+    assert_eq!(material_quantity(&reopened,"GEN.CBL-4G1.5"),25.);
+}
+
 fn material_quantity(prj:&Project,number:&str)->f32 {
     bom(prj,&Index::build(prj),&[],&[]).rows.iter().find(|r|r[3]==number).map(|r|r[1].parse().unwrap()).unwrap_or(0.)
 }

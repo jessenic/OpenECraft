@@ -9,6 +9,20 @@ terminal diagram, connection list, PLC assignment list, potential overview, cabl
 overview, cable diagram — in a window,
 as CSV export, or inserted as live report pages.
 
+Cable sold by metre needs a positive length for its material quantity. A missing
+length is shown as `?`; if other cables of that article have lengths, the row
+shows the known quantity plus `?`. Prices and the report sum also indicate the
+unknown portion. The cable check names each metered cable needing a length.
+Cable counted by piece keeps its one-piece quantity when no length is supplied.
+
+Cable parts may supply `Outer diameter: 6.3 mm` in their technical data. Selecting
+the part applies this dimension to routing; a part without a valid dimension
+returns to the estimate from its cores and section. `apply_cable_part` exposes the
+same catalog operation through the shared command registry.
+The cable picker includes project-local parts as well as the configured catalog;
+local metadata and classifications take precedence for repeated article numbers.
+`list_cable_parts` exposes the project and built-in choices to plugins and CLI/MCP.
+
 ## Forms
 
 Title blocks are lists of lines, rectangles and texts with placeholders

@@ -1,6 +1,18 @@
 use super::*;
 
 #[test]
+fn dimensions_read_typed_and_legacy_values_without_accepting_invalid_units() {
+    let mut part=Part {tech_data:"Outer diameter: 6,3 MM\nOffset: -2 mm\nBad: NaN\nWrong unit: 1 cm".into(),..Default::default()};
+    assert_eq!(part.dimension_mm("Outer diameter"),Some(6.3));
+    assert_eq!(part.dimension_mm("Offset"),Some(-2.));
+    assert_eq!(part.dimension_mm("Bad"),None);
+    assert_eq!(part.dimension_mm("Wrong unit"),None);
+    assert_eq!(part.dimension_mm("Missing"),None);
+    assert!(part.mounting_data.set("Clearance top","12 mm"));
+    assert_eq!(part.dimension_mm("Clearance top"),Some(12.));
+}
+
+#[test]
 fn values_round_trip_through_text() {
     let mut m = MountingData::default();
     assert!(m.set("Power loss", "7.5 W"));

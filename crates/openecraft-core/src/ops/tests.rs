@@ -326,6 +326,18 @@ Cross-section: 0.75 mm²".into();
 }
 
 #[test]
+fn cable_part_selection_uses_declared_diameter_and_clears_stale_geometry() {
+    let mut cable=Cable {diameter:12.5,..Default::default()};
+    let mut part=crate::parts::Part {number:"C".into(),tech_data:"Outer diameter: 6,3 mm".into(),..Default::default()};
+    apply_cable_part(&mut cable,&part);
+    assert_eq!(cable.diameter,6.3);
+    for data in ["", "Outer diameter: unknown", "Outer diameter: -6", "Outer diameter: NaN", "Outer diameter: inf"] {
+        cable.diameter=9.;part.tech_data=data.into();apply_cable_part(&mut cable,&part);
+        assert_eq!(cable.diameter,0.,"missing or invalid dimensions use the routing estimate");
+    }
+}
+
+#[test]
 fn pages_move_to_another_position() {
     let mut prj = crate::sample::demo_project();
     let names: Vec<String> = prj.pages.iter().map(|p| p.name.clone()).collect();

@@ -210,6 +210,17 @@ pub fn lookup<'a>(prj: &'a Project, db: Option<&'a PartsDb>, number: &str) -> Op
     prj.parts.iter().find(|p| p.number == number).or_else(|| db.and_then(|d| d.get(number)))
 }
 
+/// Group choices with project entries taking precedence over the supplied database,
+/// or the built-in catalog when no database is supplied.
+pub fn group_choices<'a>(project_parts: &'a [Part], db: Option<&'a PartsDb>, group: &str) -> Vec<&'a Part> {
+    let fallback=match db {Some(db)=>db.parts.as_slice(),None=>catalog()};
+    let mut choices=BTreeMap::new();
+    for part in project_parts.iter().chain(fallback.iter()) {
+        choices.entry(part.number.as_str()).or_insert(part);
+    }
+    choices.into_values().filter(|p|p.group==group).collect()
+}
+
 /// Updates all project parts from the database. Returns the number of updated parts.
 pub fn sync_project_from_db(prj: &mut Project, db: &PartsDb) -> usize {
     let mut n = 0;
