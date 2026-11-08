@@ -348,6 +348,15 @@ impl App {
                 ui.label(tr("Labels"));
                 ui.checkbox(&mut w.hide_labels, tr("Hide automatic wire and cable labels"));
                 ui.end_row();
+                ui.label(tr("Wire contacts"));
+                egui::ComboBox::from_id_salt("wire_junction_policy").selected_text(tr(match w.explicit_junctions {
+                    None=>"From page",Some(true)=>"Explicit junctions",Some(false)=>"Implicit junctions",
+                })).show_ui(ui,|ui| {
+                    ui.selectable_value(&mut w.explicit_junctions,None,tr("From page"));
+                    ui.selectable_value(&mut w.explicit_junctions,Some(true),tr("Explicit junctions"));
+                    ui.selectable_value(&mut w.explicit_junctions,Some(false),tr("Implicit junctions"));
+                });
+                ui.end_row();
                 ui.label(tr("Cable"));
                 let shown = if w.cable.is_empty() { "(none)".to_string() } else { here.relative(&w.cable) };
                 egui::ComboBox::from_id_salt("wcable").selected_text(shown).show_ui(ui, |ui| {

@@ -490,11 +490,12 @@ pub fn delete(page: &mut Page, sel: &BTreeSet<u64>) {
 /// Removes zero length wires and merges exact duplicates.
 pub fn cleanup_wires(page: &mut Page) {
     page.wires.retain(|w| !w.a.same(w.b));
-    let mut seen = std::collections::HashSet::new();
+    let mut seen:HashMap<_,Vec<Wire>> = HashMap::new();
     page.wires.retain(|w| {
         let (a, b) = (w.a.key(), w.b.key());
         let k = if a <= b { (a, b) } else { (b, a) };
-        seen.insert(k)
+        let group=seen.entry(k).or_default();
+        if group.iter().any(|other|w.same_properties(other)) {false} else {group.push(w.clone());true}
     });
 }
 

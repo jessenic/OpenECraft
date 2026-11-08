@@ -60,19 +60,17 @@ fn pin_used(symbols:&Symbols,page: &Page, all: &[(u64, P, P)], sym: u64, q: P, d
             other.is_some_and(|o| parallel(o - q) && (o.x - q.x) * dir.x + (o.y - q.y) * dir.y > 0.0) || (on_segment_interior(q, w.a, w.b) && parallel(w.b - w.a))
         }) || all.iter().any(|(id, o, _)| *id != sym && o.same(q));
     }
-    let explicit=page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true");
-    let side_contact=!explicit || page.symbols.iter().find(|s|s.id==sym).and_then(|s|symbols.get(&s.sym)).is_some_and(|d|!d.func.has_tag());
-    page.wires.iter().any(|w| w.a.same(q) || w.b.same(q) || side_contact && on_segment_interior(q, w.a, w.b))
+    let side_contact=page.symbols.iter().find(|s|s.id==sym).and_then(|s|symbols.get(&s.sym)).is_some_and(|d|!d.func.has_tag());
+    page.wires.iter().any(|w| w.a.same(q) || w.b.same(q) || (side_contact || !w.requires_explicit_junctions(page)) && on_segment_interior(q, w.a, w.b))
         || all.iter().any(|(id, o, _)| *id != sym && o.same(q))
 }
 
 /// Can a wire run from `a` to `b` without touching anything but its end points?
 fn clear(symbols: &Symbols, page: &Page, all: &[(u64, P, P)], a: P, b: P, ends: [u64; 2]) -> bool {
-    let explicit=page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true");
     let blocked=page.wires.iter().any(|w| {
         let touching=on_segment_interior(a,w.a,w.b)||on_segment_interior(b,w.a,w.b);
         let d=w.b-w.a;let route=b-a;
-        touching && (!explicit || (d.x*route.y-d.y*route.x).abs()<0.01)
+        touching && (!w.requires_explicit_junctions(page) || (d.x*route.y-d.y*route.x).abs()<0.01)
     });
     !blocked && unobstructed(symbols, page, all, a, b, &ends)
 }
@@ -577,7 +575,7 @@ pub fn merge_collinear(symbols: &Symbols, page: &mut Page) -> usize {
                 let opposite = (far_w - m).x * (far_v - m).x + (far_w - m).y * (far_v - m).y < 0.0;
                 let alone = page.wires.iter().filter(|x| x.a.same(m) || x.b.same(m) || on_segment_interior(m, x.a, x.b)).count() == 2
                     && !all.iter().any(|(_, q, _)| q.same(m));
-                let same_props = w.color == v.color && w.cross_section == v.cross_section && w.cable == v.cable && w.core == v.core;
+                let same_props = w.same_properties(v);
                 if collinear && opposite && alone && same_props {
                     merged = Some((i, j, far_w, far_v));
                     break 'outer;

@@ -886,11 +886,31 @@ pub struct Wire {
     /// Suppress automatic number and cable/core labels when annotations are placed separately.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub hide_labels: bool,
+    /// Per-wire junction policy; None inherits the page's legacy setting.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub explicit_junctions: Option<bool>,
     /// Tag of the cable this wire is a core of, and the core designation.
     #[serde(skip_serializing_if = "String::is_empty")]
     pub cable: String,
     #[serde(skip_serializing_if = "String::is_empty")]
     pub core: String,
+}
+
+impl Wire {
+    pub fn requires_explicit_junctions(&self,page:&Page)->bool {
+        self.explicit_junctions.unwrap_or_else(||page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true"))
+    }
+
+    pub fn junction_policy(&self)->&'static str {
+        match self.explicit_junctions {None=>"inherit",Some(true)=>"explicit",Some(false)=>"implicit"}
+    }
+
+    pub fn same_properties(&self,other:&Self)->bool {
+        self.color==other.color && self.cross_section==other.cross_section && self.wire_type==other.wire_type
+            && self.medium==other.medium && self.length==other.length && self.hose==other.hose
+            && self.number_fixed==other.number_fixed && (!self.number_fixed || self.number==other.number) && self.hide_labels==other.hide_labels
+            && self.cable==other.cable && self.core==other.core && self.explicit_junctions==other.explicit_junctions
+    }
 }
 
 /// `skip_serializing_if` for numbers at their default.

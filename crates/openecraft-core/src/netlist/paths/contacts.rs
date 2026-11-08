@@ -14,6 +14,7 @@ struct WirePoint {
     endpoint: bool,
     a: P,
     b: P,
+    explicit: bool,
 }
 
 impl Attachment {
@@ -57,7 +58,7 @@ pub(super) fn build(prj:&Project,net:&Net,sites:&[Site],attachments:&[Attachment
             let b=node(&mut graph.nodes,&mut graph.uf,wire_key(sites,page,wid,pair[1],pair[0]));
             graph.local(a,b,(((pair[1]-pair[0]).len()*1000.) as u64).max(1),Some((page,wid)));
             for (q,n) in [(pair[0],a),(pair[1],b)] {
-                points.entry((page,q.key())).or_default().push(WirePoint {point:q,node:n,endpoint:q.same(w.a)||q.same(w.b),a:w.a,b:w.b});
+                points.entry((page,q.key())).or_default().push(WirePoint {point:q,node:n,endpoint:q.same(w.a)||q.same(w.b),a:w.a,b:w.b,explicit:w.requires_explicit_junctions(pg)});
             }
         }
     }
@@ -68,20 +69,19 @@ pub(super) fn build(prj:&Project,net:&Net,sites:&[Site],attachments:&[Attachment
 fn join_contacts(prj:&Project,sites:&[Site],attachments:&[Attachment],points:&HashMap<(usize,(i64,i64)),Vec<WirePoint>>,graph:&mut Graph) {
     for (&(page,_),at) in points {
         let pg=&prj.pages[page];let q=at[0].point;
-        let explicit=pg.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true");
         let tee=sites.iter().any(|s|s.page==page && !s.arms.is_empty() && s.points[0].same(q));
         let junction=pg.junctions.iter().any(|j|j.pos.same(q));
         if !tee {
             for (i,a) in at.iter().enumerate() {
                 for b in &at[i+1..] {
-                    if junction || a.endpoint && b.endpoint || !explicit && (a.endpoint||b.endpoint) {graph.local(a.node,b.node,0,None);}
+                    if junction || a.endpoint && b.endpoint || !a.explicit && !b.explicit && (a.endpoint||b.endpoint) {graph.local(a.node,b.node,0,None);}
                 }
             }
         }
         for pin in attachments.iter().filter(|a|a.page==page && a.point.same(q)) {
             let n=graph.nodes[&pin.key()];
             for w in at {
-                if w.endpoint || pin.side_contact && (super::super::contacts::accepts(pin.mask,w.a-q)||super::super::contacts::accepts(pin.mask,w.b-q)) {
+                if w.endpoint || (pin.side_contact || !w.explicit) && (super::super::contacts::accepts(pin.mask,w.a-q)||super::super::contacts::accepts(pin.mask,w.b-q)) {
                     graph.local(n,w.node,0,None);
                 }
             }

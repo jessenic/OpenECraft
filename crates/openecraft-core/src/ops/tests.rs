@@ -3,6 +3,16 @@ use crate::geom::p;
 use crate::symlib::Symbols;
 
 #[test]
+fn cleanup_preserves_overlapping_wires_with_different_contact_or_conductor_properties() {
+    let mut prj=Project::default();
+    let wire=Wire {id:1,a:p(0.,0.),b:p(40.,0.),..Default::default()};
+    prj.pages[0].wires=vec![wire.clone(),Wire {id:2,explicit_junctions:Some(true),..wire.clone()},
+        Wire {id:3,..wire.clone()},Wire {id:4,wire_type:"H07V-K".into(),..wire}];
+    cleanup_wires(&mut prj.pages[0]);
+    assert_eq!(prj.pages[0].wires.iter().map(|w|w.id).collect::<Vec<_>>(),[1,2,4]);
+}
+
+#[test]
 fn portable_material_counts_and_properties_survive_insertion_and_fresh_device_renaming() {
     let mut prj=Project::default();let mut clip=Clip::new();
     prj.devices.insert("-K1".into(),DeviceData {description:"Existing unplaced".into(),..Default::default()});
@@ -462,4 +472,13 @@ fn renaming_reaches_lists_of_tags_and_inactive_options() {
     assert_eq!((prj.review.requests[0].devices.as_slice(), prj.review.requests[0].rev), (&["-K99".to_string()][..], 2));
     crate::options::set_active(&mut prj, "Opt", true).unwrap();
     assert_eq!(prj.pages.iter().flat_map(|p| &p.symbols).find(|s| s.id == sym).map(|s| s.tag.as_str()), Some("-K99"));
+}
+
+#[test]
+fn cleanup_ignores_automatic_numbers_but_keeps_fixed_ones() {
+    let mut prj=Project::default();
+    let wire=Wire {id:1,a:p(0.,0.),b:p(40.,0.),number:"1".into(),..Default::default()};
+    prj.pages[0].wires=vec![wire.clone(),Wire {id:2,number:"2".into(),..wire.clone()},Wire {id:3,number:"3".into(),number_fixed:true,..wire}];
+    cleanup_wires(&mut prj.pages[0]);
+    assert_eq!(prj.pages[0].wires.iter().map(|w|w.id).collect::<Vec<_>>(),[1,3]);
 }

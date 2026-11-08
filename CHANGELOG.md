@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Preserve individual wire junction policies when inserting imported macros into existing drawings. Keep existing implicit contacts, trace imported physical routes, expose editable policies through the shared API and wire properties, and preserve different conductor properties during cleanup.
+
 - Preserve device properties, material owners and literal extra quantities when inserting portable macros. Keep local counts when extending an existing device and reserve incoming tags before assigning collision replacements.
 
 - Keep cabinet-only devices in the device and material lists independently of their extras. Count undrawn individual cabinet terminals once and keep their quantity stable when the corresponding schematic terminal is added.

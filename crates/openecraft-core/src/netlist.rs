@@ -205,7 +205,7 @@ pub struct Scans {
 
 impl Scans {
     fn get(&mut self, prj: &Project, page: &Page, bridge_terminals: bool) -> Arc<PageScan> {
-        let fp = page_fingerprint(page);
+        let fp = page_fingerprint(prj, page);
         if let Some((have, scan)) = self.pages.get(&page.id) {
             if *have == fp {
                 return scan.clone();
@@ -219,18 +219,19 @@ impl Scans {
 }
 
 /// Fingerprint of what a page scan reads from the page.
-fn page_fingerprint(page: &Page) -> u64 {
+fn page_fingerprint(prj: &Project, page: &Page) -> u64 {
     let mut h = std::collections::hash_map::DefaultHasher::new();
+    let explicit = contacts::enabled(prj, page);
     page.values.get("page.explicit_wire_junctions").hash(&mut h);
     page.wires.len().hash(&mut h);
     for w in &page.wires {
-        (w.id, w.a.key(), w.b.key()).hash(&mut h);
+        (w.id, w.a.key(), w.b.key(),w.explicit_junctions).hash(&mut h);
     }
     page.symbols.len().hash(&mut h);
     for s in &page.symbols {
-        (s.id, &s.sym, s.pos.key(), s.rot, s.mirror, &s.tag, &s.label).hash(&mut h);
+        (s.id, &s.sym, s.pos.key(), s.rot, s.mirror, &s.tag, &s.label, s.values.get("function.connection_scope")).hash(&mut h);
     }
-    for j in page.junctions.iter().filter(|j| j.connects()) {
+    for j in page.junctions.iter().filter(|j| explicit || j.connects()) {
         j.pos.key().hash(&mut h);
     }
     h.finish()

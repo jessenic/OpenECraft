@@ -1,6 +1,24 @@
 use super::*;
 
 #[test]
+fn per_wire_junction_policy_is_created_edited_and_reset_through_the_registry() {
+    let mut s=crate::builtin::testing::new_session();
+    let wire=run(&mut s,"add_wire",json!({"page":"1","points":[[40,40],[80,40]],"junction_policy":"explicit"})).unwrap();
+    let id=wire["ids"][0].as_u64().unwrap();
+    assert_eq!(s.project().unwrap().pages[0].wires[0].explicit_junctions,Some(true));
+    assert!(!s.project().unwrap().pages[0].values.contains_key("page.explicit_wire_junctions"));
+    let changed=run(&mut s,"update_wire",json!({"page":"1","id":id,"junction_policy":"implicit"})).unwrap();
+    assert_eq!(changed["junction_policy"],"implicit");
+    assert_eq!(Project::from_json(&s.project().unwrap().to_json()).unwrap().pages[0].wires[0].explicit_junctions,Some(false));
+    let before=s.project().unwrap().to_json();
+    assert!(run(&mut s,"update_wire",json!({"page":"1","id":id,"number":"Bad edit","junction_policy":"unknown"})).is_err());
+    assert_eq!(s.project().unwrap().to_json(),before);
+    run(&mut s,"update_wire",json!({"page":"1","id":id,"junction_policy":"inherit"})).unwrap();
+    let reopened=Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    assert_eq!(reopened.pages[0].wires[0].explicit_junctions,None);
+}
+
+#[test]
 fn queried_local_routes_return_native_wire_properties_and_reject_invalid_queries() {
     use openecraft_core::symlib::{UserPin,UserSymbol};
     let mut s=new_session();

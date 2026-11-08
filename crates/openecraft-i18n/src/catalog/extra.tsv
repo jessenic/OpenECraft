@@ -6352,3 +6352,10 @@ Part quantity exceeds the supported range	Die Bauteilmenge überschreitet den un
 
 Material owner device tag	Betriebsmittelkennzeichen des Materialbesitzers	Repère de l’appareil propriétaire du matériel	Etiqueta del dispositivo propietario del material
 Exclude from bill of materials	Von der Stückliste ausschließen	Exclure de la nomenclature	Excluir de la lista de materiales
+
+Wire junction policy: inherit, explicit or implicit	Drahtverbindungsregel: inherit, explicit oder implicit	Règle de jonction du fil : inherit, explicit ou implicit	Regla de unión del cable: inherit, explicit o implicit
+Unknown wire junction policy: {}	Unbekannte Drahtverbindungsregel: {}	Règle de jonction du fil inconnue : {}	Regla de unión del cable desconocida: {}
+Wire contacts	Drahtverbindungen	Contacts du fil	Contactos del cable
+From page	Von der Seite	Selon la page	Según la página
+Explicit junctions	Explizite Verbindungen	Jonctions explicites	Uniones explícitas
+Implicit junctions	Implizite Verbindungen	Jonctions implicites	Uniones implícitas

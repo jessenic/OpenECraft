@@ -37,6 +37,15 @@ fn traditional_pages_allow_an_endpoint_to_join_a_segment_interior() {
 }
 
 #[test]
+fn explicit_macro_wires_keep_the_authored_physical_route_on_a_traditional_page() {
+    let (mut prj,net,pins)=fixture();prj.pages[0].values.clear();
+    for wire in &mut prj.pages[0].wires {wire.explicit_junctions=Some(true);}
+    let graph=build(&prj,&net,&[],&pins);
+    let route=wire_route(&graph_of(graph.uf.parent.len(),&graph.edges),graph.nodes[&pins[0].key()],graph.nodes[&pins[1].key()]);
+    assert_eq!(route,vec![(0,10),(0,12),(0,13)]);
+}
+
+#[test]
 fn a_side_attachment_requires_both_permission_and_an_accepted_direction() {
     let (prj,net,mut pins)=fixture();
     pins[0].point=p(5.,0.);pins[0].mask=1;

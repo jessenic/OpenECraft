@@ -17,6 +17,34 @@ fn project()->Project {
 }
 
 #[test]
+fn pasting_explicit_wires_preserves_existing_implicit_circuit_contacts() {
+    let mut prj=project();prj.next_id=100;prj.pages[0].values.clear();prj.symbols[0].pin_directions.clear();
+    let clip=crate::ops::Clip {wires:prj.pages[0].wires.iter().map(|w|Wire {explicit_junctions:Some(true),..w.clone()}).collect(),..crate::ops::Clip::new()};
+    let ids=crate::ops::paste(&mut prj,0,&clip,p(200.,0.));
+    assert!(prj.pages[0].values.is_empty());
+    let nl=Netlist::build(&prj,true);
+    assert_eq!(nl.pin_net[&(1,0)],nl.pin_net[&(3,0)]);assert_eq!(nl.pin_net[&(1,0)],nl.pin_net[&(4,0)]);
+    let wires:Vec<_>=prj.pages[0].wires.iter().filter(|w|ids.contains(&w.id)).collect();
+    assert_eq!(wires.len(),3);
+    assert_ne!(nl.wire_net[&wires[0].id],nl.wire_net[&wires[1].id]);
+    assert_ne!(nl.wire_net[&wires[0].id],nl.wire_net[&wires[2].id]);
+    assert!(junctions(&prj,&prj.pages[0]).iter().any(|q|q.same(p(20.,10.))));
+    assert!(!junctions(&prj,&prj.pages[0]).iter().any(|q|q.same(p(220.,10.))));
+}
+
+#[test]
+fn wire_policy_edits_invalidate_cached_scans_and_inherit_can_restore_legacy_contacts() {
+    let mut prj=project();prj.pages[0].values.clear();prj.symbols[0].pin_directions.clear();
+    let mut scans=Scans::default();let nl=Netlist::build_with(&prj,true,&mut scans);
+    assert_eq!(nl.wire_net[&10],nl.wire_net[&11]);
+    let _=Netlist::build_with(&prj,true,&mut scans);assert_eq!(scans.scanned,0);
+    prj.pages[0].wires[0].explicit_junctions=Some(true);
+    let nl=Netlist::build_with(&prj,true,&mut scans);assert_eq!(scans.scanned,1);assert_ne!(nl.wire_net[&10],nl.wire_net[&11]);
+    prj.pages[0].wires[0].explicit_junctions=None;
+    let nl=Netlist::build_with(&prj,true,&mut scans);assert_eq!(nl.wire_net[&10],nl.wire_net[&11]);
+}
+
+#[test]
 fn a_wire_passing_the_side_of_a_directional_port_stays_separate() {
     let prj=project();let nl=Netlist::build(&prj,true);
     assert_eq!(nl.pin_net[&(2,0)],nl.pin_net[&(3,0)]);
@@ -86,4 +114,15 @@ fn pin_directions_follow_rotation_and_mirroring_after_serialization() {
     assert_eq!(def.pin_connection_directions(0,1,false),2);
     assert_eq!(def.pin_connection_directions(0,1,true),2);
     assert_eq!(def.pin_connection_directions(0,3,false),8);
+}
+
+#[test]
+fn scope_and_junction_edits_invalidate_cached_scans_of_explicit_pages() {
+    let mut prj=project();let mut scans=Scans::default();
+    let _=Netlist::build_with(&prj,true,&mut scans);
+    let _=Netlist::build_with(&prj,true,&mut scans);assert_eq!(scans.scanned,0);
+    prj.pages[0].symbols[0].values.insert("function.connection_scope".into(),"other".into());
+    let _=Netlist::build_with(&prj,true,&mut scans);assert_eq!(scans.scanned,1,"the scope names the net");
+    prj.pages[0].junctions.push(Junction::corner(p(20.,10.),TeeDir::Down,TeeDir::Right));
+    let _=Netlist::build_with(&prj,true,&mut scans);assert_eq!(scans.scanned,1,"a corner joins wires on an explicit page");
 }

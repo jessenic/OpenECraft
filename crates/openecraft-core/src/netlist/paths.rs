@@ -59,8 +59,8 @@ impl Paths {
         let mut nets: HashMap<usize, Vec<Site>> = HashMap::new();
         let symbols=prj.symbol_table();
         for pg in &prj.pages {
-            if all || pg.values.get("page.use_drawn_wire_targets").is_some_and(|v|v=="true") {
-                for w in &pg.wires {
+            for w in &pg.wires {
+                if all || pg.values.get("page.use_drawn_wire_targets").is_some_and(|v|v=="true") || w.explicit_junctions==Some(true) {
                     if let Some(&id)=open.wire_net.get(&w.id).filter(|id|!open.nets[**id].fluid) {nets.entry(id).or_default();}
                 }
             }
@@ -91,7 +91,7 @@ impl Paths {
                     let bridges=if !def.directed_junction && !def.func.has_tag() {
                         def.bridges.iter().filter(|(a,_)|*a==pin).map(|(_,b)|*b).collect()
                     } else {Vec::new()};
-                    attachments.entry(id).or_default().push(Attachment {page,point:def.pin_world(pin,s.pos,s.rot,s.mirror),symbol:s.id,pin,mask:def.pin_connection_directions(pin,s.rot,s.mirror),side_contact:pg.values.get("page.explicit_wire_junctions").is_none_or(|v|v!="true") || def.pins[pin].internal || !def.func.has_tag(),name:name.clone(),bridges});
+                    attachments.entry(id).or_default().push(Attachment {page,point:def.pin_world(pin,s.pos,s.rot,s.mirror),symbol:s.id,pin,mask:def.pin_connection_directions(pin,s.rot,s.mirror),side_contact:def.pins[pin].internal || !def.func.has_tag(),name:name.clone(),bridges});
                 }
             }
         }

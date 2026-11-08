@@ -2,17 +2,17 @@
 use super::*;
 
 pub(super) fn enabled(prj:&Project,page:&Page)->bool {
-    page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true") || page.symbols.iter().any(|s|prj.symbol(&s.sym).is_some_and(|d|!d.pin_directions.is_empty()))
+    page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true") || page.wires.iter().any(|w|w.explicit_junctions.is_some()) || page.symbols.iter().any(|s|prj.symbol(&s.sym).is_some_and(|d|!d.pin_directions.is_empty()))
 }
 
 pub(super) fn scan(prj:&Project,page:&Page,bridge_terminals:bool)->PageScan {
     let mut uf=Uf {parent:Vec::new()};
     let wire_nodes:Vec<_>=page.wires.iter().map(|_|uf.add()).collect();
-    let explicit=page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true");
     for (i,a) in page.wires.iter().enumerate() {
         for (j,b) in page.wires.iter().enumerate().skip(i+1) {
             let ends=[a.a,a.b].iter().any(|p|p.same(b.a)||p.same(b.b));
-            let interior=!explicit && ([a.a,a.b].iter().any(|p|on_segment_interior(*p,b.a,b.b)) || [b.a,b.b].iter().any(|p|on_segment_interior(*p,a.a,a.b)));
+            let interior=!a.requires_explicit_junctions(page) && !b.requires_explicit_junctions(page)
+                && ([a.a,a.b].iter().any(|p|on_segment_interior(*p,b.a,b.b)) || [b.a,b.b].iter().any(|p|on_segment_interior(*p,a.a,a.b)));
             let junction=page.junctions.iter().any(|p|on_segment(p.pos,a.a,a.b) && on_segment(p.pos,b.a,b.b));
             if ends||interior||junction {uf.union(wire_nodes[i],wire_nodes[j]);}
         }
@@ -26,10 +26,10 @@ pub(super) fn scan(prj:&Project,page:&Page,bridge_terminals:bool)->PageScan {
         for (i,pin) in def.pins.iter().enumerate() {
             let q=def.pin_world(i,s.pos,s.rot,s.mirror);
             let mask=def.pin_connection_directions(i,s.rot,s.mirror);
-            let side_contact=!explicit || pin.internal || !def.func.has_tag();
+            let side_contact=pin.internal || !def.func.has_tag();
             let n=uf.add();let mut attached=false;
             for (w,&wire) in page.wires.iter().zip(&wire_nodes) {
-                if q.same(w.a) || q.same(w.b) || side_contact && on_segment_interior(q,w.a,w.b) && [w.a,w.b].iter().any(|other|accepts(mask,*other-q)) {
+                if q.same(w.a) || q.same(w.b) || (side_contact || !w.requires_explicit_junctions(page)) && on_segment_interior(q,w.a,w.b) && [w.a,w.b].iter().any(|other|accepts(mask,*other-q)) {
                     uf.union(n,wire);attached=true;
                 }
             }
@@ -86,44 +86,54 @@ struct PointCounts {
     wires:HashMap<u64,usize>,
 }
 
-fn point_counts(prj:&Project,page:&Page,q:P)->PointCounts {
-    let mut uf=Uf {parent:Vec::new()};let mut wires=Vec::new();let mut sizes=Vec::new();
-    let explicit=page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true");
+fn point_counts(page:&Page,q:P,at:&[(u64,u8,bool)])->PointCounts {
+    let mut uf=Uf {parent:Vec::new()};let mut wires:Vec<(&crate::model::Wire,usize,bool)>=Vec::new();let mut sizes=Vec::new();
     let junction=page.junctions.iter().any(|j|j.pos.same(q));
     for w in &page.wires {
         if !on_segment(q,w.a,w.b) {continue;}
         let endpoint=q.same(w.a)||q.same(w.b);let n=uf.add();sizes.push((n,if endpoint {1}else{2}));
-        for &(_,other,ends) in &wires {
-            if junction || endpoint && ends || !explicit && (endpoint||ends) {uf.union(n,other);}
+        for &(other_wire,other,ends) in &wires {
+            if junction || endpoint && ends || !w.requires_explicit_junctions(page) && !other_wire.requires_explicit_junctions(page) && (endpoint||ends) {uf.union(n,other);}
         }
         wires.push((w,n,endpoint));
     }
     let mut pins=Vec::new();
-    for s in &page.symbols {
-        let Some(def)=prj.symbol(&s.sym) else {continue;};
-        if matches!(def.func,Func::Graphic|Func::Overview) {continue;}
-        for i in 0..def.pins.len() {
-            if !def.pin_world(i,s.pos,s.rot,s.mirror).same(q) {continue;}
-            let n=uf.add();sizes.push((n,1));let mask=def.pin_connection_directions(i,s.rot,s.mirror);
-            let side_contact=!explicit || def.pins[i].internal || !def.func.has_tag();
-            for &(w,node,endpoint) in &wires {
-                if endpoint || side_contact && (accepts(mask,w.a-q) || accepts(mask,w.b-q)) {uf.union(n,node);}
-            }
-            for &(symbol,direction,node) in &pins {
-                if symbol==s.id || compatible(mask,direction) {uf.union(n,node);}
-            }
-            pins.push((s.id,mask,n));
+    for &(id,mask,side_contact) in at {
+        let n=uf.add();sizes.push((n,1));
+        for &(w,node,endpoint) in &wires {
+            if endpoint || (side_contact || !w.requires_explicit_junctions(page)) && (accepts(mask,w.a-q) || accepts(mask,w.b-q)) {uf.union(n,node);}
         }
+        for &(symbol,direction,node) in &pins {
+            if symbol==id || compatible(mask,direction) {uf.union(n,node);}
+        }
+        pins.push((id,mask,n));
     }
     let mut groups=HashMap::new();
     for (node,size) in sizes {*groups.entry(uf.find(node)).or_insert(0)+=size;}
     PointCounts {pos:q,count:groups.values().copied().max().unwrap_or(0),wires:wires.into_iter().map(|(w,n,_)|(w.id,groups[&uf.find(n)])).collect()}
 }
 
+/// Connection points of a page by position: (symbol id, direction mask, side contact).
+type PinsAt=HashMap<(i64,i64),Vec<(u64,u8,bool)>>;
+
+fn pins_at(prj:&Project,page:&Page)->PinsAt {
+    let mut at:HashMap<_,Vec<_>>=HashMap::new();
+    for s in &page.symbols {
+        let Some(def)=prj.symbol(&s.sym) else {continue;};
+        if matches!(def.func,Func::Graphic|Func::Overview) {continue;}
+        for i in 0..def.pins.len() {
+            let side_contact=def.pins[i].internal || !def.func.has_tag();
+            at.entry(def.pin_world(i,s.pos,s.rot,s.mirror).key()).or_default().push((s.id,def.pin_connection_directions(i,s.rot,s.mirror),side_contact));
+        }
+    }
+    at
+}
+
 fn all_counts(prj:&Project,page:&Page)->HashMap<(i64,i64),PointCounts> {
+    let pins=pins_at(prj,page);
     let mut points:HashMap<_,_>=page.wires.iter().flat_map(|w|[w.a,w.b]).map(|q|(q.key(),q)).collect();
     for j in &page.junctions {points.insert(j.pos.key(),j.pos);}
-    points.into_iter().map(|(key,q)|(key,point_counts(prj,page,q))).collect()
+    points.into_iter().map(|(key,q)|(key,point_counts(page,q,pins.get(&key).map(Vec::as_slice).unwrap_or_default()))).collect()
 }
 
 pub(super) fn counts(prj:&Project,page:&Page)->HashMap<(i64,i64),(P,usize)> {

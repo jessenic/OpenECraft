@@ -335,3 +335,16 @@ follow target page structure and collision renaming; external owners are cleared
 Incoming device tags are reserved before allocating replacements, including
 material-only existing tags. Conductive auxiliary views follow their master tag.
 Device property placeholders resolve together with macro tags and part numbers.
+
+The `per_wire_junctions` feature adds optional `Wire.explicit_junctions`: omitted
+inherits `page.explicit_wire_junctions`, true requires authored junction contacts,
+and false permits implicit T contacts. Implicit wire-to-interior joins require
+both conductors to permit them; explicit junctions and saved endpoints still
+connect. Pin-side attachments use the individual conductor policy. An explicit
+wire also enables drawn physical targets on its electrical net.
+The shared add_wire, connect, route and update_wire commands accept
+`junction_policy: inherit|explicit|implicit`. update_wire returns that policy;
+page queries and portable clips retain the optional native field. The editor
+offers the same choices in wire properties. Inserting an explicit macro never
+changes the page setting or other wires. Scan caching tracks policy edits, and
+wire cleanup and collinear merging preserve different policies and properties.

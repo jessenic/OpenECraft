@@ -20,6 +20,8 @@ use openecraft_i18n::{tr, tr_const, tr_fmt};
 use serde_json::{json, Value};
 use std::collections::BTreeSet;
 
+const JUNCTION_POLICY:Param=optional("junction_policy",Kind::Str,tr_const!("Wire junction policy: inherit, explicit or implicit"));
+
 pub struct Drawing;
 
 impl Plugin for Drawing {
@@ -130,7 +132,7 @@ pub static COMMANDS: &[Spec] = &[
     Spec {
         name: "add_wire",
         help: tr_const!("Draws a wire through two or more points"),
-        params: &[PAGE, param("points", Kind::Points, tr_const!("Points in mm: [[x, y], …]"))],
+        params: &[PAGE, param("points", Kind::Points, tr_const!("Points in mm: [[x, y], …]")),JUNCTION_POLICY],
         run: add_wire,
     },
     Spec {
@@ -141,6 +143,7 @@ pub static COMMANDS: &[Spec] = &[
             param("from", Kind::Str, tr_const!("Start: device tag and connection point, e.g. -K1:A1")),
             param("to", Kind::Str, tr_const!("End: device tag and connection point, e.g. -S1:14")),
             optional("via", Kind::Points, tr_const!("Points in between: [[x, y], …]")),
+            JUNCTION_POLICY,
         ],
         run: connect,
     },
@@ -152,6 +155,7 @@ pub static COMMANDS: &[Spec] = &[
             param("id", Kind::Int, tr_const!("Item id")),
             optional("number", Kind::Str, tr_const!("Wire number (kept when renumbering)")),
             optional("hide_labels", Kind::Bool, tr_const!("Hide automatic wire and cable labels")),
+            JUNCTION_POLICY,
             optional("color", Kind::Str, tr_const!("Wire colour, e.g. BU (empty = from the potential definition)")),
             optional("cross_section", Kind::Str, tr_const!("Cross section, e.g. 1.5 mm² (empty = from the potential definition)")),
             optional("wire_type", Kind::Str, tr_const!("Wire type")),
@@ -261,6 +265,7 @@ pub static COMMANDS: &[Spec] = &[
             PAGE,
             param("from", Kind::Str, tr_const!("Connection point TAG:PIN, e.g. -K1:A1")),
             param("to", Kind::Str, tr_const!("Connection point TAG:PIN, e.g. -K1:A1")),
+            JUNCTION_POLICY,
         ],
         run: route,
     },
@@ -489,11 +494,18 @@ fn apply_symbol_params(s: &mut SymbolInst, a: &Args) -> Result<(), String> {
     Ok(())
 }
 
-fn push_path(prj: &mut Project, page: usize, pts: &[P]) -> Vec<u64> {
+fn wire_policy(value:&str)->Result<Option<bool>,String> {
+    match value.trim().to_ascii_lowercase().as_str() {
+        "inherit"=>Ok(None),"explicit"=>Ok(Some(true)),"implicit"=>Ok(Some(false)),
+        _=>Err(tr_fmt!("Unknown wire junction policy: {}",value)),
+    }
+}
+
+fn push_path(prj: &mut Project, page: usize, pts: &[P],explicit_junctions:Option<bool>) -> Vec<u64> {
     let mut ids = Vec::new();
     for seg in pts.windows(2).filter(|s| !s[0].same(s[1])) {
         let id = prj.new_id();
-        prj.pages[page].wires.push(Wire { id, a: seg[0], b: seg[1], ..Default::default() });
+        prj.pages[page].wires.push(Wire { id, a: seg[0], b: seg[1],explicit_junctions, ..Default::default() });
         ids.push(id);
     }
     ops::cleanup_wires(&mut prj.pages[page]);
@@ -779,7 +791,7 @@ fn add_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if pts.len() < 2 {
         return Err(tr("A wire needs at least two points").to_string());
     }
-    let ids = push_path(prj, i, &pts);
+    let ids = push_path(prj, i, &pts,wire_policy(a.str("junction_policy").unwrap_or("inherit"))?);
     if ids.is_empty() {
         return Err(tr("The wire has no length").to_string());
     }
@@ -796,14 +808,16 @@ fn connect(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     pts.push(to);
     let path = orthogonal(&pts);
-    let ids = push_path(prj, i, &path);
+    let ids = push_path(prj, i, &path,wire_policy(a.str("junction_policy").unwrap_or("inherit"))?);
     Ok(json!({ "ids": ids, "points": path.into_iter().map(xy).collect::<Vec<_>>() }))
 }
 
 fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let i = editable(prj, a.req("page"))?;
+    let policy=a.str("junction_policy").map(wire_policy).transpose()?;
     let id = a.int("id").unwrap_or_default() as u64;
     let w = prj.pages[i].wires.iter_mut().find(|w| w.id == id).ok_or_else(|| tr_fmt!("No wire with id {}", id))?;
+    if let Some(policy)=policy {w.explicit_junctions=policy;}
     if let Some(n) = a.str("number") {
         w.number = n.into();
         w.number_fixed = !n.is_empty();
@@ -834,7 +848,7 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
         w.length = l;
     }
     let medium = w.medium.map(|m| m.code()).unwrap_or_default();
-    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels, "color": w.color, "cross_section": w.cross_section, "wire_type": w.wire_type, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
+    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels,"junction_policy":w.junction_policy(), "color": w.color, "cross_section": w.cross_section, "wire_type": w.wire_type, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
 }
 
 /// Takes the style parameters of `add_text` / `update_text` that are given.
@@ -992,7 +1006,7 @@ fn route(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let (from, to) = wire_ends(&symbols, &prj.pages[i], a.req("from"), a.req("to"))?;
     let area = openecraft_core::frame::of_page(prj, i).area();
     let path = routing::route(&prj.symbol_table(), &prj.pages[i], area, from, to);
-    let ids = push_path(prj, i, &path);
+    let ids = push_path(prj, i, &path,wire_policy(a.str("junction_policy").unwrap_or("inherit"))?);
     Ok(json!({ "ids": ids, "points": path.into_iter().map(xy).collect::<Vec<_>>() }))
 }
 
