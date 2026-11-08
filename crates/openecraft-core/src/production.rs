@@ -128,7 +128,7 @@ fn pattern_holes(it: &PanelItem, parts: &[Part]) -> Vec<Hole> {
             }
             v
         }
-        ItemKind::Device | ItemKind::Accessory => {
+        ItemKind::Device | ItemKind::Accessory | ItemKind::MountingPlate => {
             let part = parts.iter().find(|x| x.number == it.part).or_else(|| crate::parts::catalog().iter().find(|x| x.number == it.part));
             match part.and_then(part_holes) {
                 Some((thread, pts)) => {
@@ -140,7 +140,7 @@ fn pattern_holes(it: &PanelItem, parts: &[Part]) -> Vec<Hole> {
                         .map(|q| hole(it.id, q, &thread))
                         .collect()
                 }
-                None if it.w > 2.0 * DEVICE_HOLE_INSET && it.h > 2.0 * DEVICE_HOLE_INSET => {
+                None if it.kind!=ItemKind::MountingPlate && it.w > 2.0 * DEVICE_HOLE_INSET && it.h > 2.0 * DEVICE_HOLE_INSET => {
                     let i = DEVICE_HOLE_INSET;
                     vec![hole(it.id, p(it.x + i, it.y + i), "M4"), hole(it.id, p(it.x + it.w - i, it.y + it.h - i), "M4")]
                 }

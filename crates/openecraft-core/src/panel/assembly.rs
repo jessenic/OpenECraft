@@ -182,7 +182,7 @@ pub fn assembly<'a>(prj: &'a Project, tag: &str) -> Option<Assembly<'a>> {
 /// The assembly of a placed device item, if parts are mounted on its main part (the
 /// item drawn piece by piece). Door and floor devices are drawn as one.
 pub fn mounted<'a>(prj: &'a Project, it: &PanelItem) -> Option<Assembly<'a>> {
-    if it.kind != ItemKind::Device || matches!(it.face, Face::Door | Face::Bottom) {
+    if it.kind != ItemKind::Device || it.single_part || !it.terminal.is_empty() || matches!(it.face, Face::Door | Face::Bottom) {
         return None;
     }
     assembly(prj, &it.tag).filter(|a| !a.is_plain() && a.main.part.number == it.part)

@@ -1,4 +1,18 @@
 use super::*;
+
+#[test]
+fn terminal_layout_uses_each_functions_explicitly_selected_part() {
+    let mut prj=crate::sample::demo_project();
+    let terms=terminals(&prj,"-X1");let term=&terms[0];
+    let mut part=terminal_part(&prj,"-X1",false).unwrap().clone();
+    part.number="CUSTOM.TERMINAL".into();part.width=12.;prj.parts.push(part);
+    prj.devices.get_mut("-X1").unwrap().parts.push(crate::parts::PartRef {number:"CUSTOM.TERMINAL".into(),count:1});
+    prj.pages[term.page].symbols[term.sym].values.insert("function.part_number".into(),"CUSTOM.TERMINAL".into());
+    let layout=strip_layout(&prj,"-X1");
+    let chosen=layout.iter().find(|e|e.kind==ElementKind::Terminal(term.label.clone())).unwrap();
+    assert_eq!((&*chosen.part,chosen.width),("CUSTOM.TERMINAL",12.));
+    assert!(layout.iter().any(|e|matches!(e.kind,ElementKind::Terminal(_)) && e.part!="CUSTOM.TERMINAL"));
+}
 use crate::sample::demo_project;
 
 fn labels(prj: &Project) -> Vec<String> {

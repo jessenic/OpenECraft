@@ -83,6 +83,18 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
     if it.kind != ItemKind::Device {
         return Vec::new();
     }
+    if it.single_part || !it.terminal.is_empty() {
+        let Some(part)=super::part_by_number(prj,&it.part) else {return Vec::new();};
+        let sized;
+        let part=if part.size().is_none() {
+            sized=Part {width:it.w,height:it.h,depth:it.d,..part.clone()};&sized
+        } else {part};
+        let size=part.size().unwrap_or([it.w,it.h,it.d.max(1e-3)]);
+        let mut out=Vec::new();
+        piece_points(&mut out,part,size,it,super::item_rotated(it,size[1]));
+        for point in &mut out {point.terminal=it.terminal.clone();}
+        return out;
+    }
     if let Some(a) = super::assembly(prj, &it.tag) {
         let rotated = super::item_rotated(it, a.h);
         let mut out = Vec::new();

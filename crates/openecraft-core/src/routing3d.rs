@@ -571,18 +571,24 @@ impl Glands {
 /// parting there to each of them, otherwise the middle of its front; devices of a placed
 /// valve terminal at the terminal ([`panel::locate`]).
 fn device_end(prj: &Project, pos: &[V3], tag: &str, pins: &[PinRef]) -> End {
-    match panel::locate(prj, tag) {
+    let placement=if let Some(pin)=pins.first() {panel::locate_symbol(prj,&prj.pages[pin.page].symbols[pin.sym])} else {panel::locate(prj,tag)};
+    match placement {
         Some((ei, it)) => {
             let e = &prj.layout.enclosures[ei];
             if let Some((q, into)) = e.is_room().then(|| panel::through_wall(e, it)).flatten() {
                 // On the outside of a room: the way runs through the wall behind it.
                 return End { tag: tag.into(), enclosure: Some(ei), point: Some(add(q, pos[ei])), item: Some(it.id), leave: Some(into), ..Default::default() };
             }
-            let placed = if pins.is_empty() { Vec::new() } else { panel::device_points(prj, it) };
             let mut at: Vec<(V3, V3)> = Vec::new();
-            for p in pins.iter().filter_map(|p| panel::point_of(prj, &placed, &prj.pages[p.page].symbols[p.sym], p.pin)) {
-                if !at.iter().any(|a| a.0 == p.pos) {
-                    at.push((p.pos, panel::exit_vector(p.exit)));
+            let mut owners=std::collections::BTreeSet::new();
+            for pin in pins {
+                let symbol=&prj.pages[pin.page].symbols[pin.sym];
+                let Some((pi,item))=panel::locate_symbol(prj,symbol) else {return End {tag:tag.into(),..Default::default()};};
+                if pi!=ei || item.face!=it.face {return End {tag:tag.into(),..Default::default()};}
+                owners.insert(item.id);
+                let placed=panel::device_points(prj,item);
+                if let Some(p)=panel::point_of(prj,&placed,symbol,pin.pin) {
+                    if !at.iter().any(|a|a.0==p.pos) {at.push((p.pos,panel::exit_vector(p.exit)));}
                 }
             }
             let q = match at.len() {
@@ -601,6 +607,7 @@ fn device_end(prj: &Project, pos: &[V3], tag: &str, pins: &[PinRef]) -> End {
             // The terminals of a strip across the bars the points lie on: the route may
             // pass through those, not through the strip's other terminals.
             let mut parts: Vec<u64> = Vec::new();
+            if owners.len()>1 {parts.extend(owners);}
             if let Some(places) = panel::busbars::terminals_on_bars(prj, it) {
                 let inside = |sub: &PanelItem, p: V3| p[0] >= sub.x - 0.01 && p[0] <= sub.x + sub.w + 0.01 && p[1] >= sub.y - 0.01 && p[1] <= sub.y + sub.h + 0.01;
                 for (k, (sub, ..)) in places.iter().enumerate() {
@@ -626,7 +633,7 @@ pub fn part_id(item: u64, k: usize) -> u64 {
 /// and the directions out of them) and which of them is for its connection point `pin`.
 fn end_nozzles(prj: &Project, pos: &[V3], end: &End, pin: PinRef) -> Option<(Vec<(V3, V3)>, usize)> {
     let s = &prj.pages[pin.page].symbols[pin.sym];
-    let (ei, it) = panel::locate(prj, &s.tag).filter(|(_, it)| end.item == Some(it.id))?;
+    let (ei, it) = panel::locate_symbol(prj, s).filter(|(_, it)| end.item == Some(it.id))?;
     let def = prj.symbol(&s.sym)?;
     let name = s.pins.get(pin.pin).map(String::as_str).or_else(|| def.pins.get(pin.pin).map(|d| d.label))?;
     let all = panel::nozzles(prj, it);

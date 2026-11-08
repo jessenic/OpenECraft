@@ -133,6 +133,12 @@ pub struct Enclosure {
     pub width: f32,
     pub height: f32,
     pub depth: f32,
+    /// The source specifies no implicit mounting plate; explicit plate items still draw.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub no_implicit_plate: bool,
+    /// Mounting-face origin in the enclosure frame; absent uses the legacy plate datum.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mounting_origin: Option<[f32;3]>,
     /// Space kept free behind the door (door-mounted devices, handles), mm.
     pub door_clearance: f32,
     pub items: Vec<PanelItem>,
@@ -192,6 +198,8 @@ pub enum EnclosureKind {
     /// outline) and ceiling (`Roof`) carry rails, cable ducts and wall-mounted devices.
     /// It has no mounting plate, door or floor slab.
     Room,
+    /// Open mounting assembly: dimensions bound its working canvas, without a shell.
+    Assembly,
 }
 
 impl EnclosureKind {
@@ -230,6 +238,12 @@ pub struct PanelItem {
     pub kind: ItemKind,
     /// Device tag (devices only).
     pub tag: String,
+    /// One separately placed terminal of the strip; empty for the whole device.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub terminal: String,
+    /// This footprint represents its own part, including unnumbered terminal blocks.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub single_part: bool,
     pub part: String,
     pub x: f32,
     pub y: f32,
@@ -243,6 +257,18 @@ pub struct PanelItem {
     pub rail_mount: openecraft_parts::RailMount,
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub seated_on_rail: bool,
+    /// Keep this instance's mounting datum instead of refreshing it from its part.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub rail_mount_override: bool,
+    /// Mounting datum across a vertical rail (otherwise across a horizontal rail).
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub rail_vertical: bool,
+    /// Parent mounting item; coordinates remain in the enclosure's common frame.
+    #[serde(skip_serializing_if = "is_zero")]
+    pub mounted_on: u64,
+    /// An explicit free placement must not acquire an inferred legacy rail parent.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub mounting_explicit: bool,
     /// Round cutout (diameter = width).
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub round: bool,
@@ -275,12 +301,14 @@ impl super::Project {
                 if item.kind != ItemKind::Device {
                     continue;
                 }
-                let seated = e.items.iter().any(|rail| item.seated_on(rail));
+                let seated = e.items.iter().any(|rail| (!item.mounting_explicit || item.mounted_on==rail.id) && item.seated_on(rail));
                 let item = &mut e.items[i];
                 item.seated_on_rail = seated;
+                if item.rail_mount_override {continue;}
                 let Some(&new) = mounts.get(item.part.as_str()) else { continue };
                 if seated {
-                    item.y += item.rail_mount.center_offset - new.center_offset;
+                    if item.rail_vertical {item.x += item.rail_mount.center_offset - new.center_offset;}
+                    else {item.y += item.rail_mount.center_offset - new.center_offset;}
                     item.z += item.rail_mount.clip_on - new.clip_on;
                 }
                 item.rail_mount = new;
@@ -422,6 +450,8 @@ pub enum ItemKind {
     /// Enclosure accessory without a device tag (fan, filter, cable gland, light,
     /// handle, PE bar).
     Accessory,
+    /// Explicit mounting plate with its authored size, thickness and position.
+    MountingPlate,
 }
 
 /// How an enclosure is built: its system and the optional components.

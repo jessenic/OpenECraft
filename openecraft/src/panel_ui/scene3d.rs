@@ -719,6 +719,7 @@ impl PanelUi {
                         },
                         ItemKind::Device => Color32::from_rgb(170, 186, 210),
                         ItemKind::Accessory => Color32::from_rgb(95, 100, 110),
+                        ItemKind::MountingPlate => Color32::from_rgb(185,189,195),
                     },
                 };
                 let on_door = it.face == Face::Door;
@@ -813,6 +814,7 @@ impl PanelUi {
                     ItemKind::Cutout if it.face.is_wall() => (0, wall_side(&mut s, it.face, (b0, b1), false, true)),
                     ItemKind::Cutout => (1, None),
                     ItemKind::Rail => (2, None),
+                    ItemKind::MountingPlate => (1,None),
                     ItemKind::Duct | ItemKind::Busbar | ItemKind::Device | ItemKind::Accessory => (EQUIPMENT, None),
                 };
                 let decal = it.kind == ItemKind::Cutout && !it.face.is_wall();

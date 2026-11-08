@@ -104,15 +104,18 @@ pub fn apply_one_anchor(e: &Enclosure, it: &mut PanelItem) {
 /// Places the anchored items of an enclosure (after it changed its size); devices then
 /// snap onto their rails again.
 pub fn apply_anchors(e: &mut Enclosure) {
+    let before=e.items.clone();let mut explicit=Vec::new();
     for i in 0..e.items.len() {
         if e.items[i].anchor.is_free() {
             continue;
         }
         let mut it = e.items[i].clone();
+        explicit.push(it.id);
         apply_one_anchor(e, &mut it);
         snap_to_rail(e, &mut it);
         e.items[i] = it;
     }
+    super::carry_mounts(e,&before,&explicit);
 }
 
 /// Keeps the anchors of moved items: the same kinds of placement, new distances.
@@ -131,7 +134,8 @@ pub fn capture_anchors(e: &mut Enclosure, ids: &[u64]) {
 /// copied as new groups. Returns the ids of the copies.
 pub fn pattern_copy(prj: &mut Project, enc: usize, ids: &[u64], nx: usize, ny: usize, px: f32, py: f32) -> Vec<u64> {
     let Some(e) = prj.layout.enclosures.get(enc) else { return Vec::new() };
-    let originals: Vec<PanelItem> = e.items.iter().filter(|i| ids.contains(&i.id) && i.kind != ItemKind::Device).cloned().collect();
+    let selected=super::mounted_items(e,ids);
+    let originals: Vec<PanelItem> = e.items.iter().filter(|i| selected.contains(&i.id) && i.kind != ItemKind::Device).cloned().collect();
     let groups = e.groups.clone();
     let mut out = Vec::new();
     for row in 0..ny.max(1) {
@@ -140,6 +144,7 @@ pub fn pattern_copy(prj: &mut Project, enc: usize, ids: &[u64], nx: usize, ny: u
                 continue;
             }
             let mut new_groups: HashMap<u64, u64> = HashMap::new();
+            let mapping:HashMap<_,_>=originals.iter().map(|o|(o.id,prj.new_id())).collect();
             for o in &originals {
                 let group = match o.group {
                     0 => 0,
@@ -150,8 +155,9 @@ pub fn pattern_copy(prj: &mut Project, enc: usize, ids: &[u64], nx: usize, ny: u
                         id
                     }),
                 };
-                let id = prj.new_id();
-                let copy = PanelItem { id, x: o.x + px * col as f32, y: o.y + py * row as f32, anchor: Default::default(), group, ..o.clone() };
+                let id = mapping[&o.id];
+                let mut copy = PanelItem { id, x: o.x + px * col as f32, y: o.y + py * row as f32, anchor: Default::default(), group, ..o.clone() };
+                if copy.mounted_on!=0 {copy.mounted_on=mapping.get(&copy.mounted_on).copied().unwrap_or(0);copy.mounting_explicit=true;}
                 prj.layout.enclosures[enc].items.push(copy);
                 out.push(id);
             }
@@ -207,6 +213,7 @@ fn bounds<'a>(items: impl Iterator<Item = &'a PanelItem>) -> Option<R> {
 /// Aligns items to an edge or the centre line of their common bounds.
 pub fn align(e: &mut Enclosure, ids: &[u64], to: AlignTo) {
     let Some(b) = bounds(e.items.iter().filter(|i| ids.contains(&i.id))) else { return };
+    let before=e.items.clone();
     for it in e.items.iter_mut().filter(|i| ids.contains(&i.id)) {
         match to {
             AlignTo::Left => it.x = b.min.x,
@@ -218,10 +225,12 @@ pub fn align(e: &mut Enclosure, ids: &[u64], to: AlignTo) {
         }
     }
     capture_anchors(e, ids);
+    super::carry_mounts(e,&before,ids);
 }
 
 /// Spaces items evenly (equal gaps) between the first and the last one, along x or y.
 pub fn distribute(e: &mut Enclosure, ids: &[u64], horizontal: bool) {
+    let before=e.items.clone();
     let mut sel: Vec<(u64, f32, f32)> =
         e.items.iter().filter(|i| ids.contains(&i.id)).map(|i| if horizontal { (i.id, i.x, i.w) } else { (i.id, i.y, i.h) }).collect();
     if sel.len() < 3 {
@@ -244,25 +253,27 @@ pub fn distribute(e: &mut Enclosure, ids: &[u64], horizontal: bool) {
         at += size + gap;
     }
     capture_anchors(e, ids);
+    super::carry_mounts(e,&before,ids);
 }
 
-/// Lines devices up on a horizontal rail from its left end, `gap` apart, in their
-/// order from left to right, mounted on the rail. Returns false if they do not fit.
+/// Lines devices up along a rail, `gap` apart. Returns false if they do not fit.
 pub fn arrange_on_rail(e: &mut Enclosure, rail: u64, ids: &[u64], gap: f32) -> bool {
-    let Some(r) = e.item(rail).filter(|r| r.kind == ItemKind::Rail && r.horizontal()).cloned() else { return false };
+    let Some(r) = e.item(rail).filter(|r| r.kind == ItemKind::Rail).cloned() else { return false };
+    let before=e.items.clone();
     let mut sel: Vec<(u64, f32)> =
-        e.items.iter().filter(|i| ids.contains(&i.id) && i.kind == ItemKind::Device && i.face == r.face).map(|i| (i.id, i.x)).collect();
+        e.items.iter().filter(|i| ids.contains(&i.id) && i.kind == ItemKind::Device && i.face == r.face).map(|i| (i.id, if r.horizontal() {i.x} else {i.y})).collect();
     sel.sort_by(|a, b| a.1.total_cmp(&b.1));
-    let mut at = r.x + gap;
+    let mut at = if r.horizontal() {r.x+gap} else {r.y+gap};
     for (id, _) in sel {
         if let Some(it) = e.items.iter_mut().find(|i| i.id == id) {
-            it.x = at;
+            if r.horizontal() {it.x=at;} else {it.y=at;}
             it.seat_on(&r);
-            at += it.w + gap;
+            at += if r.horizontal() {it.w+gap} else {it.h+gap};
         }
     }
     capture_anchors(e, ids);
-    at <= r.x + r.w + 0.01
+    super::carry_mounts(e,&before,ids);
+    at <= if r.horizontal() {r.x+r.w+0.01} else {r.y+r.h+0.01}
 }
 
 #[cfg(test)]

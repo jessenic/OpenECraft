@@ -26,6 +26,31 @@ impl Plugin for Panel {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name:"place_panel_device",
+        help:tr_const!("Places a device or an individual terminal with explicit physical dimensions"),
+        params:&[
+            param("enclosure",Kind::Str,ENCLOSURE),
+            param("tag",Kind::Str,tr_const!("Device tag")),
+            optional("terminal",Kind::Str,tr_const!("Terminal designation; empty for the whole device")),
+            optional("single_part",Kind::Bool,tr_const!("This footprint represents only its own part")),
+            optional("part",Kind::Str,tr_const!("Part number")),
+            param("width",Kind::Num,tr_const!("Width in mm")),
+            param("height",Kind::Num,tr_const!("Height in mm")),
+            optional("depth",Kind::Num,tr_const!("Depth in mm")),
+            optional("face",Kind::Str,FACE),
+            optional("x",Kind::Num,tr_const!("Left edge on the face in mm")),
+            optional("y",Kind::Num,tr_const!("Top edge on the face in mm")),
+            optional("z",Kind::Num,tr_const!("Distance from the face in mm (rails: standoff height)")),
+        ],
+        run:place_panel_device,
+    },
+    Spec {
+        name:"get_panel_points",
+        help:tr_const!("Lists physical device connection points, including separately placed terminals"),
+        params:&[optional("enclosure",Kind::Str,ENCLOSURE),optional("id",Kind::Int,tr_const!("Item id"))],
+        run:get_panel_points,
+    },
+    Spec {
         name: "list_enclosures",
         help: tr_const!("Lists the enclosures with their system, components (assembly), items per face and assemblies"),
         params: &[optional("enclosure", Kind::Str, ENCLOSURE)],
@@ -41,6 +66,9 @@ pub static COMMANDS: &[Spec] = &[
             optional("width", Kind::Num, tr_const!("Width in mm")),
             optional("height", Kind::Num, tr_const!("Height in mm")),
             optional("depth", Kind::Num, tr_const!("Depth in mm")),
+            optional("assembly", Kind::Bool, tr_const!("Open mounting assembly without enclosure walls")),
+            optional("implicit_plate",Kind::Bool,tr_const!("Generate a default mounting plate when no explicit plate is placed")),
+            optional("mounting_origin",Kind::Object,tr_const!("Mounting-face origin as x, y and z; empty object restores the default")),
         ],
         run: add_enclosure,
     },
@@ -49,6 +77,9 @@ pub static COMMANDS: &[Spec] = &[
         help: tr_const!("Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow"),
         params: &[
             param("enclosure", Kind::Str, ENCLOSURE),
+            optional("assembly", Kind::Bool, tr_const!("Open mounting assembly without enclosure walls")),
+            optional("implicit_plate",Kind::Bool,tr_const!("Generate a default mounting plate when no explicit plate is placed")),
+            optional("mounting_origin",Kind::Object,tr_const!("Mounting-face origin as x, y and z; empty object restores the default")),
             optional("system", Kind::Str, tr_const!("compact, baying, terminal_box, plastic, house_connection or rack19; empty for none")),
             optional("width", Kind::Num, tr_const!("Width in mm")),
             optional("height", Kind::Num, tr_const!("Height in mm")),
@@ -96,6 +127,21 @@ pub static COMMANDS: &[Spec] = &[
         run: place_accessory,
     },
     Spec {
+        name:"place_mounting_plate",
+        help:tr_const!("Places an explicit mounting plate in a cabinet or open assembly"),
+        params:&[
+            param("enclosure",Kind::Str,ENCLOSURE),
+            param("width",Kind::Num,tr_const!("Width in mm")),
+            param("height",Kind::Num,tr_const!("Height in mm")),
+            optional("thickness",Kind::Num,tr_const!("Plate thickness in mm")),
+            optional("part",Kind::Str,tr_const!("Part number")),
+            optional("x",Kind::Num,tr_const!("Left edge on the face in mm")),
+            optional("y",Kind::Num,tr_const!("Top edge on the face in mm")),
+            optional("z",Kind::Num,tr_const!("Distance from the face in mm (rails: standoff height)")),
+        ],
+        run:place_mounting_plate,
+    },
+    Spec {
         name: "set_panel_item",
         help: tr_const!("Changes position, face, fastening or anchors of a panel item"),
         params: &[
@@ -105,9 +151,19 @@ pub static COMMANDS: &[Spec] = &[
             optional("y", Kind::Num, tr_const!("Top edge on the face in mm")),
             optional("z", Kind::Num, tr_const!("Distance from the face in mm (rails: standoff height)")),
             optional("face", Kind::Str, FACE),
+            optional("width",Kind::Num,tr_const!("Width in mm")),
+            optional("height",Kind::Num,tr_const!("Height in mm")),
+            optional("depth",Kind::Num,tr_const!("Depth in mm")),
             optional("anchor_x", Kind::Str, ANCHOR),
             optional("anchor_y", Kind::Str, ANCHOR),
             optional("fastening", Kind::Str, tr_const!("auto, tapped, through, rivet_nut, stud, clip or adhesive")),
+            optional("mounted_on",Kind::Int,tr_const!("Mounting parent item id; 0 detaches without moving the item")),
+            optional("rail_mount_override",Kind::Bool,tr_const!("Keep the instance mounting datum instead of refreshing it from its part")),
+            optional("rail_vertical",Kind::Bool,tr_const!("Mounting rail runs vertically")),
+            optional("rail_offset",Kind::Num,tr_const!("Mounting datum offset across the rail in mm")),
+            optional("clip_on",Kind::Num,tr_const!("Distance from rail top to device rear in mm")),
+            optional("terminal",Kind::Str,tr_const!("Terminal designation; empty for the whole device")),
+            optional("single_part",Kind::Bool,tr_const!("This footprint represents only its own part")),
         ],
         run: set_panel_item,
     },
@@ -187,14 +243,17 @@ fn item_json(prj: &Project, it: &PanelItem) -> Value {
     let part = prj.parts.iter().chain(openecraft_core::parts::catalog()).find(|p| p.number == it.part);
     json!({
         "id": it.id,
-        "kind": format!("{:?}", it.kind).to_lowercase(),
+        "kind": if it.kind==panel::ItemKind::MountingPlate {"mounting_plate".into()} else {format!("{:?}", it.kind).to_lowercase()},
         "tag": it.tag,
+        "terminal":it.terminal,
+        "single_part":it.single_part,
         "part": it.part,
         "face": it.face.key(),
         "x": it.x, "y": it.y, "w": it.w, "h": it.h, "z": it.z, "d": it.d,
         "fastening": Fastening::resolve(it, part).key(),
         "anchor": [it.anchor.x.text(), it.anchor.y.text()],
         "group": it.group,
+        "mounted_on":it.mounted_on,"mounting_explicit":it.mounting_explicit,"rail_mount_override":it.rail_mount_override,"rail_mount":it.rail_mount,"rail_vertical":it.rail_vertical,
     })
 }
 
@@ -223,6 +282,10 @@ fn enclosure_json(prj: &Project, e: &Enclosure) -> Value {
     let ei = prj.layout.enclosures.iter().position(|x| std::ptr::eq(x, e)).unwrap_or(0);
     json!({
         "name": e.name,
+        "kind":format!("{:?}",e.kind).to_lowercase(),
+        "implicit_plate":!e.no_implicit_plate,
+        "mounting_origin":e.mounting_origin,
+        "mounting_frame":panel::face_frame(e,Face::Plate),
         "lineup": lineup_json(prj, ei),
         "system": e.build.system,
         "part": e.part,
@@ -261,6 +324,9 @@ fn add_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
         panel::apply_system(&mut e, system, size);
     }
     resize(&mut e, a);
+    if a.value("mounting_origin").is_some() {e.mounting_origin=mounting_origin(a)?;}
+    if let Some(implicit)=bool_arg(a,"implicit_plate") {e.no_implicit_plate = !implicit;}
+    if a.flag("assembly") {e.kind=panel::EnclosureKind::Assembly;e.part.clear();e.build=Default::default();}
     prj.layout.enclosures.push(e);
     Ok(enclosure_json(prj, prj.layout.enclosures.last().unwrap()))
 }
@@ -288,16 +354,25 @@ fn resize(e: &mut Enclosure, a: &Args) {
 fn set_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let ei = enclosure_index(prj, a.req("enclosure"))?;
     check_size(a)?;
+    let origin=mounting_origin(a)?;
     if a.num("plinth").is_some_and(|v| !(v >= 0.0 && v.is_finite())) {
         return Err(tr("The plinth height must not be negative").to_string());
     }
     let e = &mut prj.layout.enclosures[ei];
+    if bool_arg(a,"assembly")==Some(true) && e.items.iter().any(|i|i.face!=Face::Plate) {return Err(tr("Open assemblies support only the mounting face").into());}
     if let Some(system) = a.str("system") {
         if !system.is_empty() && panel::SYSTEMS.iter().all(|x| x.id() != system) {
             return Err(tr_fmt!("Unknown enclosure system: {}", system));
         }
         panel::apply_system(e, system, None);
+        if e.is_assembly() && !a.flag("assembly") {e.kind=panel::EnclosureKind::Cabinet;}
     }
+    if let Some(value)=bool_arg(a,"assembly") {
+        if value {e.kind=panel::EnclosureKind::Assembly;}
+        else if e.is_assembly() {e.kind=panel::EnclosureKind::Cabinet;}
+    }
+    if let Some(implicit)=bool_arg(a,"implicit_plate") {e.no_implicit_plate = !implicit;}
+    if a.value("mounting_origin").is_some() {e.mounting_origin=origin;}
     if let Some(v) = a.num("plinth") {
         e.build.plinth = v;
     }
@@ -308,6 +383,16 @@ fn set_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     resize(e, a);
     Ok(enclosure_json(prj, &prj.layout.enclosures[ei]))
+}
+
+fn mounting_origin(a:&Args)->Result<Option<[f32;3]>,String> {
+    let Some(value)=a.value("mounting_origin") else {return Ok(None);};
+    if value.as_object().is_some_and(|o|o.is_empty()) {return Ok(None);}
+    let coordinates=["x","y","z"].map(|key|value.get(key).and_then(Value::as_f64).map(|v|v as f32));
+    match coordinates {
+        [Some(x),Some(y),Some(z)] if [x,y,z].iter().all(|v|v.is_finite())=>Ok(Some([x,y,z])),
+        _=>Err(tr("Mounting origin must contain finite x, y and z coordinates").into()),
+    }
 }
 
 fn bay_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
@@ -359,6 +444,42 @@ fn place_accessory(prj: &mut Project, a: &Args) -> Result<Value, String> {
     Ok(item_json(prj, prj.layout.enclosures[ei].item(id).unwrap()))
 }
 
+fn place_mounting_plate(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let ei=enclosure_index(prj,a.req("enclosure"))?;
+    let w=num_in(a,"width",1.,NO_MAX)?.unwrap_or(100.);
+    let h=num_in(a,"height",1.,NO_MAX)?.unwrap_or(100.);
+    let d=num_in(a,"thickness",0.,NO_MAX)?.unwrap_or(2.);
+    let item=PanelItem {id:prj.new_id(),kind:panel::ItemKind::MountingPlate,part:a.str("part").unwrap_or("").into(),
+        x:a.num("x").unwrap_or(0.),y:a.num("y").unwrap_or(0.),z:a.num("z").unwrap_or(0.),w,h,d,..Default::default()};
+    prj.layout.enclosures[ei].items.push(item);
+    Ok(item_json(prj,prj.layout.enclosures[ei].items.last().unwrap()))
+}
+
+fn place_panel_device(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let ei=enclosure_index(prj,a.req("enclosure"))?;
+    let face=face_arg(a,"face")?.unwrap_or_default();
+    if !prj.layout.enclosures[ei].faces().contains(&face) {return Err(tr("Open assemblies support only the mounting face").into());}
+    let item=PanelItem {id:prj.new_id(),tag:a.req("tag").into(),terminal:a.str("terminal").unwrap_or("").into(),part:a.str("part").unwrap_or("").into(),
+        kind:panel::ItemKind::Device,face,x:a.num("x").unwrap_or(0.),y:a.num("y").unwrap_or(0.),z:a.num("z").unwrap_or(0.),
+        w:num_in(a,"width",1e-3,NO_MAX)?.unwrap_or(1.),h:num_in(a,"height",1e-3,NO_MAX)?.unwrap_or(1.),d:num_in(a,"depth",0.,NO_MAX)?.unwrap_or(0.),
+        mounting_explicit:true,single_part:a.flag("single_part"),..Default::default()};
+    prj.layout.enclosures[ei].items.push(item);
+    Ok(item_json(prj,prj.layout.enclosures[ei].items.last().unwrap()))
+}
+
+fn get_panel_points(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let selected=a.str("enclosure").map(|name|enclosure_index(prj,name)).transpose()?;
+    let id=a.int("id").map(|id|id as u64);
+    let mut out=Vec::new();
+    for (_,e) in prj.layout.enclosures.iter().enumerate().filter(|(ei,_)|selected.is_none_or(|i|i==*ei)) {
+        for it in e.items.iter().filter(|it|id.is_none_or(|id|it.id==id)) {
+            out.push(json!({"enclosure":e.name,"id":it.id,"tag":it.tag,"terminal":it.terminal,"single_part":it.single_part,
+                "points":panel::device_points(prj,it).into_iter().map(|p|json!({"pin":p.pin,"terminal":p.terminal,"pos":p.pos,"exit":p.exit,"exact":p.exact})).collect::<Vec<_>>()}));
+        }
+    }
+    Ok(json!(out))
+}
+
 fn set_panel_item(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let ei = enclosure_index(prj, a.req("enclosure"))?;
     let id = a.int("id").unwrap_or(0) as u64;
@@ -366,11 +487,26 @@ fn set_panel_item(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let e = &mut prj.layout.enclosures[ei];
     let idx = e.items.iter().position(|i| i.id == id).ok_or_else(|| tr_fmt!("No item {}", id))?;
     let mut it = e.items[idx].clone();
+    let before=e.items.clone();
+    if let Some(terminal)=a.str("terminal") {it.terminal=terminal.into();}
+    if let Some(single)=bool_arg(a,"single_part") {it.single_part=single;}
+    if let Some(parent)=a.int("mounted_on") {
+        if parent<0 || !panel::can_mount(e,id,parent as u64) {return Err(tr("Invalid mounting parent").into());}
+        it.mounted_on=parent as u64;
+        it.mounting_explicit=true;
+    }
+    if let Some(value)=bool_arg(a,"rail_mount_override") {it.rail_mount_override=value;}
+    if let Some(value)=bool_arg(a,"rail_vertical") {it.rail_vertical=value;}
+    if let Some(value)=a.num("rail_offset") {it.rail_mount.center_offset=value;it.rail_mount_override=true;}
+    if let Some(value)=a.num("clip_on") {it.rail_mount.clip_on=value;it.rail_mount_override=true;}
     let moved = a.num("x").is_some() || a.num("y").is_some();
     for (name, field) in [("x", &mut it.x), ("y", &mut it.y), ("z", &mut it.z)] {
         if let Some(v) = a.num(name) {
             *field = v;
         }
+    }
+    for (name,field) in [("width",&mut it.w),("height",&mut it.h),("depth",&mut it.d)] {
+        if let Some(value)=num_in(a,name,0.,NO_MAX)? {*field=value;}
     }
     if let Some(f) = face {
         it.face = f;
@@ -383,8 +519,9 @@ fn set_panel_item(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     it.anchor = Anchor { x: ax.unwrap_or(it.anchor.x), y: ay.unwrap_or(it.anchor.y) };
     panel::apply_one_anchor(e, &mut it);
-    panel::snap_to_rail(e, &mut it);
+    if a.int("mounted_on").is_none() && (moved || a.num("z").is_some() || face.is_some() || ax.is_some() || ay.is_some()) {panel::snap_to_rail(e, &mut it);}
     e.items[idx] = it;
+    panel::carry_mounts(e,&before,&[id]);
     Ok(item_json(prj, &prj.layout.enclosures[ei].items[idx]))
 }
 

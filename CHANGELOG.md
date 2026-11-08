@@ -5,6 +5,12 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Retain explicit cabinet mounting origins and unnumbered single-part footprints without adding implicit plates, repeated terminal strips or accessory stacks. Keep open assembly routing free of invented walls and count explicit plate articles.
+
+- Place individual terminals with their own parts and physical routing points while retaining whole-strip placement for existing projects.
+
+- Represent open mounting assemblies and explicit mounting plates without invented enclosure geometry. Retain instance mounting datums, support vertical DIN rails, carry mounted descendants on moves and resize operations, and preserve mounting references in portable and pattern copies through the shared panel API.
+
 - Convert every digital channel of complete PLC modules when changing the station address scheme, synchronizing linked views while retaining custom address text and signal names.
 
 - Preserve PLC channel addresses when changing only hardware metadata. Offer explicit readdressing through the shared API and avoid inventing PROFINET ports for imported CPUs with no network data.

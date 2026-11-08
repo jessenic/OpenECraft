@@ -1130,11 +1130,12 @@ pub fn draw_enclosure(
     prj: &Project,
 ) {
     let parts = &prj.parts[..];
-    let m = face.origin();
-    let tf = |x: f32, y: f32| origin + p((x + m) * k, (y + m) * k);
+    let m = e.face_offset(face);
+    let tf = |x: f32, y: f32| origin + p((x + m.x) * k, (y + m.y) * k);
     let (vw, vh) = e.view_size(face);
-    d.rect(origin, origin + p(vw * k, vh * k), 0.5, Ink::Line, false);
+    if !e.is_assembly() {d.rect(origin, origin + p(vw * k, vh * k), 0.5, Ink::Line, false);}
     match face {
+        Face::Plate if e.is_assembly() || e.no_implicit_plate || e.items.iter().any(|i|i.kind==ItemKind::MountingPlate) => {}
         Face::Plate if panel::is_rack(e) => {
             // No plate in a rack: its front rails with the rack units, numbered from
             // the bottom.
@@ -1314,6 +1315,10 @@ pub fn draw_enclosure(
                     d.line(a, b, 0.12, line_ink, false);
                     d.line(p(a.x, b.y), p(b.x, a.y), 0.12, line_ink, false);
                 }
+            }
+            ItemKind::MountingPlate => {
+                d.rect(a,b,0.0,Ink::Fill,true);
+                d.rect(a,b,0.25,ink,false);
             }
             ItemKind::Accessory => {
                 // Accessories: their outline with the part number.

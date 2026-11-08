@@ -3,6 +3,62 @@ use crate::panel::Face;
 use crate::parts::ConnectionPoint;
 use crate::sample::demo_project;
 
+#[test]
+fn individually_placed_terminals_use_their_own_parts_and_never_expand_the_strip() {
+    let mut prj=demo_project();
+    let whole=item(&prj,"-X1");
+    let terminals=crate::strips::terminals(&prj,"-X1");
+    let source=prj.pages[terminals[0].page].symbols[terminals[0].sym].clone();
+    let mut part=super::super::part_by_number(&prj,&whole.part).unwrap().clone();
+    part.number="INDIVIDUAL".into();part.width=8.;part.height=50.;part.depth=30.;
+    part.connection_points=vec![ConnectionPoint {pin:"1".into(),pos:[4.,7.,20.],exit:Exit::Up}];
+    prj.parts.push(part);
+    let ei=prj.layout.find_device("-X1").unwrap().0;
+    let single=PanelItem {id:prj.new_id(),tag:whole.tag.clone(),part:"INDIVIDUAL".into(),terminal:source.label.clone(),
+        x:400.,y:200.,w:8.,h:50.,d:30.,mounting_explicit:true,..Default::default()};
+    prj.layout.enclosures[ei].items.retain(|i|i.id!=whole.id);
+    prj.layout.enclosures[ei].items.push(single.clone());
+    let reopened=Project::from_json(&prj.to_json()).unwrap();
+    let points=device_points(&reopened,&single);
+    assert_eq!(points.len(),1);assert_eq!(points[0].pos,[404.,207.,20.]);
+    assert_eq!(points[0].terminal,source.label);assert!(points[0].exact);
+    assert_eq!(point_of(&reopened,&points,&source,0).unwrap().pos,[404.,207.,20.]);
+    assert_eq!(super::super::strip_cells(&reopened,&single).len(),1);
+    assert_eq!(super::super::locate_symbol(&reopened,&source).unwrap().1.id,single.id);
+    let mut absent=source.clone();absent.label="not placed".into();
+    assert!(super::super::locate_symbol(&reopened,&absent).is_none());
+    let mut duplicate=single.clone();duplicate.id=prj.new_id();
+    prj.layout.enclosures[ei].items.push(duplicate);
+    assert!(super::super::locate_symbol(&prj,&source).is_none());
+}
+
+#[test]
+fn unnumbered_single_parts_generate_points_in_their_explicit_footprint() {
+    let mut prj=demo_project();let mut part=super::super::part_by_number(&prj,&item(&prj,"-X1").part).unwrap().clone();
+    part.number="UNSIZED".into();part.width=0.;part.height=0.;part.depth=0.;part.connection_points.clear();prj.parts.push(part);
+    let it=PanelItem {id:10000,tag:"-X1".into(),part:"UNSIZED".into(),single_part:true,x:100.,y:200.,w:8.,h:50.,d:30.,..Default::default()};
+    let points=device_points(&prj,&it);assert_eq!(points.len(),2);
+    assert!(points.iter().all(|p|p.terminal.is_empty() && !p.exact && inside(p,&it)));
+    assert_eq!(super::super::strip_cells(&prj,&it).len(),1);
+    assert_eq!(prj.parts.iter().find(|p|p.number=="UNSIZED").unwrap().width,0.);
+}
+
+#[test]
+fn single_part_device_views_resolve_by_selected_article_and_reject_ambiguity() {
+    let mut prj=demo_project();let (ei,base)=prj.layout.find_device("-K1").map(|(ei,it)|(ei,it.clone())).unwrap();
+    let mut symbol=prj.pages.iter().flat_map(|p|&p.symbols).find(|s|s.tag=="-K1").unwrap().clone();
+    prj.layout.enclosures[ei].items.retain(|i|i.id!=base.id);
+    let mut first=base.clone();first.id=prj.new_id();first.single_part=true;
+    let mut second=first.clone();second.id=prj.new_id();second.x+=100.;
+    prj.layout.enclosures[ei].items.extend([first,second.clone()]);
+    assert!(super::super::locate_symbol(&prj,&symbol).is_none());
+    let mut part=super::super::part_by_number(&prj,&base.part).unwrap().clone();part.number="SECOND.PART".into();prj.parts.push(part);
+    prj.devices.get_mut("-K1").unwrap().parts.push(crate::parts::PartRef {number:"SECOND.PART".into(),count:1});
+    prj.layout.enclosures[ei].items.last_mut().unwrap().part="SECOND.PART".into();
+    symbol.values.insert("function.part_number".into(),"SECOND.PART".into());
+    assert_eq!(super::super::locate_symbol(&prj,&symbol).unwrap().1.id,second.id);
+}
+
 fn item(prj: &Project, tag: &str) -> PanelItem {
     prj.layout.find_device(tag).unwrap().1.clone()
 }
@@ -168,4 +224,15 @@ fn the_points_of_repeated_parts_are_told_apart_by_their_number() {
     assert_ne!(place("1S1"), place("1S2"));
     // The connection points of the strip itself keep their own.
     assert_eq!(place("2"), pin(&points, "2").pos);
+}
+
+#[test]
+fn a_strip_placed_whole_twice_resolves_to_its_first_placement() {
+    let mut prj=demo_project();let whole=item(&prj,"-X1");
+    let terminals=crate::strips::terminals(&prj,"-X1");
+    let source=prj.pages[terminals[0].page].symbols[terminals[0].sym].clone();
+    let ei=prj.layout.find_device("-X1").unwrap().0;
+    let mut second=whole.clone();second.id=prj.new_id();second.x+=200.;
+    prj.layout.enclosures[ei].items.push(second);
+    assert_eq!(super::super::locate_symbol(&prj,&source).unwrap().1.id,whole.id);
 }

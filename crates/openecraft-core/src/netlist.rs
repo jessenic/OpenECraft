@@ -573,7 +573,7 @@ pub fn local_wire_route(prj:&Project,open:&Netlist,from:(u64,usize),to:(u64,usiz
 /// harness connections kept.
 fn chained_order(prj: &Project, assigned: &std::collections::HashSet<[String; 2]>, net: &Net, pos: &[[f32; 3]]) -> Vec<PinRef> {
     let mut pins = chained_pins(prj, net);
-    let place = |p: &PinRef| match crate::panel::locate(prj, &prj.pages[p.page].symbols[p.sym].tag) {
+    let place = |p: &PinRef| match crate::panel::locate_symbol(prj, &prj.pages[p.page].symbols[p.sym]) {
         Some((e, it)) => match crate::panel::busbar_system(&prj.layout, pos, e, it) {
             Some((first, bar)) => (first, Some(bar)),
             None => (e, None),
