@@ -5,6 +5,14 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Preserve device properties, material owners and literal extra quantities when inserting portable macros. Keep local counts when extending an existing device and reserve incoming tags before assigning collision replacements.
+
+- Keep cabinet-only devices in the device and material lists independently of their extras. Count undrawn individual cabinet terminals once and keep their quantity stable when the corresponding schematic terminal is added.
+
+- Preserve cabinet material ownership independently of mounting geometry. Exclude duplicate physical articles or whole devices from the BOM, retain editable material-only devices, and derive optional rail spacers from actual support height.
+
+- Preserve literal additional-article quantities, including zero, without multiplying them by terminal positions. Keep primary material growth for newly drawn terminals, avoid counting physical cabinet articles twice and expose quantity modes and physical article bindings through the shared API.
+
 - Retain explicit cabinet mounting origins and unnumbered single-part footprints without adding implicit plates, repeated terminal strips or accessory stacks. Keep open assembly routing free of invented walls and count explicit plate articles.
 
 - Place individual terminals with their own parts and physical routing points while retaining whole-strip placement for existing projects.

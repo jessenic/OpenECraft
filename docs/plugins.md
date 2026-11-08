@@ -287,3 +287,51 @@ Use `add_enclosure` / `set_enclosure` with `assembly:true`, `place_mounting_plat
 The `individual_panel_terminals` feature adds `PanelItem.terminal`: a nonempty designation binds a footprint and its own part to one terminal of a strip. Empty retains whole-strip layout. Physical points, meshes, virtual wiring and 3D cable endpoints resolve each terminal separately; ambiguous repeated placements do not select an arbitrary item. Function-specific selected parts also drive terminal strip layout. `place_panel_device` creates an explicitly dimensioned device or terminal; `set_panel_item` can edit its terminal designation. `get_panel_points` exposes generated or exact physical points through the shared API.
 
 The `explicit_panel_geometry` feature retains `PanelItem.single_part`: the footprint represents only its own catalog part even with no terminal designation. Missing catalog dimensions can generate non-exact connection points using the instance footprint, without rewriting the catalog. Multiple physical views resolve by selected article only when unique. `Enclosure.no_implicit_plate` suppresses the default plate, while `mounting_origin: [x,y,z]` gives an explicit mounting-face datum in enclosure coordinates. Open assemblies default to the zero datum and full canvas extent; their routing spaces have no cabinet walls. The add/set enclosure commands expose `implicit_plate` and `mounting_origin` (object with x/y/z; empty resets), and device placement/edit commands expose `single_part`. Explicit plates contribute their own part to the material list.
+
+
+The `literal_part_quantities` feature adds `PartRef.total`. A true value makes `count`
+the literal quantity for the whole device/strip (including an explicit zero), instead
+of multiplying terminal articles by strip positions. The default false preserves
+legacy counting, including the legacy zero-as-one default. Primary automatic and
+additional literal references may use the same article number; their quantities
+add, so newly drawn terminals still increase primary material without multiplying
+spares. Literal material-only devices also appear in `list_devices` and the BOM.
+The shared `add_device_part` and `set_device_part_quantity` commands expose both
+count and mode; the latter uses a 1-based assignment index. The device parts editor
+also exposes the total quantity flag. Zero literal references contribute no function
+capacity, pieces, weight, heat loss or material quantity.
+
+`Enclosure.device_tag` binds a physical body to its primary device assignment, like
+the `tag` on a structural panel item. Their primary automatic article is counted by
+the physical layout, with additional literal articles counted separately. Changing
+the physical article through `set_enclosure`, `set_panel_item` or profile replacement
+updates its primary assignment and function part bindings while retaining literal
+spares. Add/set enclosure commands expose `device_tag`; item edits expose `part`.
+
+The `material_ownership` feature adds `owner_device` and `bom_excluded` to panel items
+and enclosures, exposed by the panel query and editing commands. Ownership records
+the device accounting for an article and never changes `mounted_on`. A placement
+exclusion suppresses only its physical material entry; the editable device properties
+`device.material_owner` and `device.exclude_from_bom` retain material-only devices
+and can suppress all material assigned to a device. Ownership references follow
+device renaming. Reusable panel macros clear external owner tags and retain explicit
+placement exclusion. Panel queries expose `mounting_height` above the explicit
+support (null if unknown); generated rail standoffs use that height and require
+`layout.hardware`, rather than treating the support thickness as a spacer.
+
+Cabinet device bindings also participate in `list_devices` and the material list
+when no schematic function is drawn, independently of any additional articles.
+An individually placed terminal not yet represented in the schematic contributes
+its primary part once per terminal designation. Repeated physical views and newly
+drawing the same terminal do not add another piece. Existing whole-strip placement
+keeps its schematic terminal expansion.
+
+The `portable_macro_materials` feature guarantees that portable macro insertion
+preserves device property values and distinct automatic
+and literal references to the same article, including zero. When extending an
+existing device, missing reference modes and properties are filled while local
+quantities and property values remain unchanged. Material owners within a clip
+follow target page structure and collision renaming; external owners are cleared.
+Incoming device tags are reserved before allocating replacements, including
+material-only existing tags. Conductive auxiliary views follow their master tag.
+Device property placeholders resolve together with macro tags and part numbers.

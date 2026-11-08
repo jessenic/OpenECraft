@@ -630,11 +630,20 @@ impl Part {
 pub struct PartRef {
     pub number: String,
     pub count: u32,
+    /// Literal quantity for the whole device or strip, without per-terminal expansion.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub total: bool,
 }
 
 impl Default for PartRef {
     fn default() -> Self {
-        PartRef { number: String::new(), count: 1 }
+        PartRef { number: String::new(), count: 1, total:false }
+    }
+}
+
+impl PartRef {
+    pub fn quantity(&self)->u32 {
+        if self.total {self.count} else {self.count.max(1)}
     }
 }
 

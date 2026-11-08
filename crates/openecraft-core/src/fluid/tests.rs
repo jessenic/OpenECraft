@@ -232,7 +232,7 @@ fn pneumatics_in_line_up() -> Project {
     use crate::panel::{bay_right_of, new_enclosure, place_device_on, Face};
     let mut prj = pneumatics();
     crate::parts::ensure_in_project(&mut prj, &crate::parts::PartsDb::default(), "GEN.VLV-52-24DC");
-    let part = crate::parts::PartRef { number: "GEN.VLV-52-24DC".into(), count: 1 };
+    let part = crate::parts::PartRef { number: "GEN.VLV-52-24DC".into(), count: 1, total:false };
     prj.devices.insert("-QM1".into(), DeviceData { parts: vec![part], ..Default::default() });
     prj.fluid.groups.push(crate::electrofluid::DeviceGroup { tag: "-KH1".into(), members: vec!["-QM1".into()], ..Default::default() });
     prj.fluid.links.insert("-QM1".into(), vec!["-MB1".into()]);

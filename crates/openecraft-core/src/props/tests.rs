@@ -6,7 +6,7 @@ fn project() -> Project {
     prj.parts.push(Part { number: "SIE.3RT2015".into(), type_number: "3RT2015-1BB41".into(), manufacturer: "Siemens".into(), ..Default::default() });
     prj.devices.insert(
         "-K1".into(),
-        DeviceData { description: "Main contactor".into(), parts: vec![PartRef { number: "SIE.3RT2015".into(), count: 1 }], ..Default::default() },
+        DeviceData { description: "Main contactor".into(), parts: vec![PartRef { number: "SIE.3RT2015".into(), count: 1, total:false }], ..Default::default() },
     );
     prj.pages[0].symbols.push(SymbolInst { id: 50, sym: "coil".into(), tag: "-K1".into(), pins: vec!["A1".into(), "A2".into()], ..Default::default() });
     prj

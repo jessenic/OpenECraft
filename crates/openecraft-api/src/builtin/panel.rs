@@ -63,6 +63,9 @@ pub static COMMANDS: &[Spec] = &[
             param("name", Kind::Str, ENCLOSURE),
             optional("system", Kind::Str, tr_const!("compact, baying, terminal_box, plastic, house_connection or rack19")),
             optional("part", Kind::Str, tr_const!("Enclosure part number")),
+            optional("device_tag",Kind::Str,tr_const!("Device tag assigned to this enclosure body")),
+            optional("owner_device",Kind::Str,tr_const!("Material owner device tag")),
+            optional("bom_excluded",Kind::Bool,tr_const!("Exclude from bill of materials")),
             optional("width", Kind::Num, tr_const!("Width in mm")),
             optional("height", Kind::Num, tr_const!("Height in mm")),
             optional("depth", Kind::Num, tr_const!("Depth in mm")),
@@ -81,6 +84,10 @@ pub static COMMANDS: &[Spec] = &[
             optional("implicit_plate",Kind::Bool,tr_const!("Generate a default mounting plate when no explicit plate is placed")),
             optional("mounting_origin",Kind::Object,tr_const!("Mounting-face origin as x, y and z; empty object restores the default")),
             optional("system", Kind::Str, tr_const!("compact, baying, terminal_box, plastic, house_connection or rack19; empty for none")),
+            optional("part", Kind::Str, tr_const!("Enclosure part number")),
+            optional("device_tag",Kind::Str,tr_const!("Device tag assigned to this enclosure body")),
+            optional("owner_device",Kind::Str,tr_const!("Material owner device tag")),
+            optional("bom_excluded",Kind::Bool,tr_const!("Exclude from bill of materials")),
             optional("width", Kind::Num, tr_const!("Width in mm")),
             optional("height", Kind::Num, tr_const!("Height in mm")),
             optional("depth", Kind::Num, tr_const!("Depth in mm")),
@@ -147,6 +154,7 @@ pub static COMMANDS: &[Spec] = &[
         params: &[
             param("enclosure", Kind::Str, ENCLOSURE),
             param("id", Kind::Int, tr_const!("Item id")),
+            optional("part",Kind::Str,tr_const!("Part number")),
             optional("x", Kind::Num, tr_const!("Left edge on the face in mm")),
             optional("y", Kind::Num, tr_const!("Top edge on the face in mm")),
             optional("z", Kind::Num, tr_const!("Distance from the face in mm (rails: standoff height)")),
@@ -164,6 +172,8 @@ pub static COMMANDS: &[Spec] = &[
             optional("clip_on",Kind::Num,tr_const!("Distance from rail top to device rear in mm")),
             optional("terminal",Kind::Str,tr_const!("Terminal designation; empty for the whole device")),
             optional("single_part",Kind::Bool,tr_const!("This footprint represents only its own part")),
+            optional("owner_device",Kind::Str,tr_const!("Material owner device tag")),
+            optional("bom_excluded",Kind::Bool,tr_const!("Exclude from bill of materials")),
         ],
         run: set_panel_item,
     },
@@ -247,6 +257,8 @@ fn item_json(prj: &Project, it: &PanelItem) -> Value {
         "tag": it.tag,
         "terminal":it.terminal,
         "single_part":it.single_part,
+        "owner_device":it.owner_device,"bom_excluded":it.bom_excluded,
+        "mounting_height":prj.layout.enclosures.iter().find(|e|e.items.iter().any(|i|i.id==it.id)).and_then(|e|panel::mounting_height(e,it)),
         "part": it.part,
         "face": it.face.key(),
         "x": it.x, "y": it.y, "w": it.w, "h": it.h, "z": it.z, "d": it.d,
@@ -289,6 +301,8 @@ fn enclosure_json(prj: &Project, e: &Enclosure) -> Value {
         "lineup": lineup_json(prj, ei),
         "system": e.build.system,
         "part": e.part,
+        "device_tag":e.device_tag,
+        "owner_device":e.owner_device,"bom_excluded":e.bom_excluded,
         "size": [e.width, e.height, e.depth],
         "plinth": e.build.plinth,
         "bayed": [e.build.left_open, e.build.right_open],
@@ -327,6 +341,9 @@ fn add_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if a.value("mounting_origin").is_some() {e.mounting_origin=mounting_origin(a)?;}
     if let Some(implicit)=bool_arg(a,"implicit_plate") {e.no_implicit_plate = !implicit;}
     if a.flag("assembly") {e.kind=panel::EnclosureKind::Assembly;e.part.clear();e.build=Default::default();}
+    if let Some(tag)=a.str("device_tag") {e.device_tag=tag.into();}
+    if let Some(tag)=a.str("owner_device") {e.owner_device=tag.into();}
+    if let Some(excluded)=bool_arg(a,"bom_excluded") {e.bom_excluded=excluded;}
     prj.layout.enclosures.push(e);
     Ok(enclosure_json(prj, prj.layout.enclosures.last().unwrap()))
 }
@@ -355,6 +372,7 @@ fn set_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let ei = enclosure_index(prj, a.req("enclosure"))?;
     check_size(a)?;
     let origin=mounting_origin(a)?;
+    let old_part=prj.layout.enclosures[ei].part.clone();let old_tag=prj.layout.enclosures[ei].device_tag.clone();
     if a.num("plinth").is_some_and(|v| !(v >= 0.0 && v.is_finite())) {
         return Err(tr("The plinth height must not be negative").to_string());
     }
@@ -382,6 +400,12 @@ fn set_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
         }
     }
     resize(e, a);
+    if let Some(part)=a.str("part") {e.part=part.into();}
+    if let Some(tag)=a.str("device_tag") {e.device_tag=tag.into();}
+    if let Some(tag)=a.str("owner_device") {e.owner_device=tag.into();}
+    if let Some(excluded)=bool_arg(a,"bom_excluded") {e.bom_excluded=excluded;}
+    let new_part=e.part.clone();let new_tag=e.device_tag.clone();
+    openecraft_core::parts::replace_device_part(prj,if new_tag==old_tag {&old_tag} else {&new_tag},&old_part,&new_part);
     Ok(enclosure_json(prj, &prj.layout.enclosures[ei]))
 }
 
@@ -487,9 +511,13 @@ fn set_panel_item(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let e = &mut prj.layout.enclosures[ei];
     let idx = e.items.iter().position(|i| i.id == id).ok_or_else(|| tr_fmt!("No item {}", id))?;
     let mut it = e.items[idx].clone();
+    let old_part=it.part.clone();let tag=it.tag.clone();
+    if let Some(part)=a.str("part") {it.part=part.into();}
     let before=e.items.clone();
     if let Some(terminal)=a.str("terminal") {it.terminal=terminal.into();}
     if let Some(single)=bool_arg(a,"single_part") {it.single_part=single;}
+    if let Some(tag)=a.str("owner_device") {it.owner_device=tag.into();}
+    if let Some(excluded)=bool_arg(a,"bom_excluded") {it.bom_excluded=excluded;}
     if let Some(parent)=a.int("mounted_on") {
         if parent<0 || !panel::can_mount(e,id,parent as u64) {return Err(tr("Invalid mounting parent").into());}
         it.mounted_on=parent as u64;
@@ -522,6 +550,8 @@ fn set_panel_item(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if a.int("mounted_on").is_none() && (moved || a.num("z").is_some() || face.is_some() || ax.is_some() || ay.is_some()) {panel::snap_to_rail(e, &mut it);}
     e.items[idx] = it;
     panel::carry_mounts(e,&before,&[id]);
+    let part=e.items[idx].part.clone();
+    openecraft_core::parts::replace_device_part(prj,&tag,&old_part,&part);
     Ok(item_json(prj, &prj.layout.enclosures[ei].items[idx]))
 }
 

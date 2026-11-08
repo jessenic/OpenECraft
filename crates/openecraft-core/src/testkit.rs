@@ -70,7 +70,7 @@ impl Kit {
         let number = format!("TEST.{}-{}", tag.trim_start_matches('-'), self.prj.parts.len());
         let mut part = Part { number: number.clone(), functions: vec![FunctionTemplate::new(kind, pins)], ..Default::default() };
         f(&mut part);
-        self.prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number, count: 1 });
+        self.prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number, count: 1, total:false });
         self.prj.parts.push(part);
     }
 }

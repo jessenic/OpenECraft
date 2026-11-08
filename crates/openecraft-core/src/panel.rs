@@ -36,7 +36,7 @@ mod rooms;
 mod system;
 pub mod thermal;
 pub use assembly::{assembly, mounted, Assembly, Piece};
-pub use mounting::{can_mount, carry_mounts, mounted_items, remove_items};
+pub use mounting::{can_mount, carry_mounts, mounted_items, mounting_height, remove_items};
 pub use checks::{box_gap, class_collisions, class_title, clearances, data_number, device_class, device_kinds, floor_height, heights, item_class, item_name, validate, CheckKind, ClassRule, Clearances, Finding, PanelRules, CLASSES};
 pub use drives::{drives, Drive, DriveKind, DRIVE, DRIVEN_BY};
 pub use fastening::{fastening_material, Fastening};
@@ -292,6 +292,9 @@ impl Default for Enclosure {
             id: 0,
             name: "+CAB1".into(),
             part: String::new(),
+            device_tag:String::new(),
+            owner_device:String::new(),
+            bom_excluded:false,
             width: 600.0,
             height: 800.0,
             depth: 250.0,
@@ -724,6 +727,7 @@ pub fn change_profile(prj: &mut Project, ei: usize, id: u64, part: &str) -> bool
             e.items[j] = dev;
         }
     }
+    crate::parts::replace_device_part(prj,&old.tag,&old.part,part);
     true
 }
 
@@ -1015,7 +1019,7 @@ pub fn device_size(prj: &Project, tag: &str) -> Option<DeviceSize> {
     let parts: Vec<_> = data
         .parts
         .iter()
-        .filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|pd| (pd, r.count.max(1))))
+        .filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|pd| (pd, r.quantity())))
         .collect();
     let (main, [mw, mh, _]) = parts.iter().find_map(|(pd, _)| pd.size().map(|dims| (*pd, dims)))?;
     let length: f32 = crate::strips::strip_layout(prj, tag).iter().map(|e| e.width).sum();
@@ -2092,6 +2096,13 @@ pub fn wiring_end(e: &Enclosure, it: &PanelItem, point: Option<&PlacedPoint>) ->
     }
 }
 
+/// Physical device bindings remain material devices without a schematic function.
+pub fn material_tags(prj:&Project)->std::collections::BTreeSet<&String> {
+    prj.layout.enclosures.iter().flat_map(|e|std::iter::once(&e.device_tag)
+        .chain(e.items.iter().filter(|i|i.kind==ItemKind::Device).map(|i|&i.tag)))
+        .filter(|tag|!tag.is_empty()).collect()
+}
+
 /// Material for the BOM: (part number, quantity, where used) of the enclosures and
 /// their components, rails, ducts, busbars, accessories and fastening hardware. Rails /
 /// ducts are counted by cut length.
@@ -2112,23 +2123,24 @@ pub fn layout_material(prj: &Project) -> Vec<(String, f32, Vec<String>)> {
         }
     };
     for e in &prj.layout.enclosures {
-        for c in components(e) {
-            add(&mut out, &c.part, c.count as f32, e.name.clone());
+        if !e.bom_excluded && !crate::parts::excluded_from_bom(prj,&e.device_tag) {
+            for c in components(e) {add(&mut out, &c.part, c.count as f32, e.name.clone());}
         }
-        for a in e.items.iter().filter(|i| matches!(i.kind,ItemKind::Accessory|ItemKind::MountingPlate)) {
+        let billed=|i:&&PanelItem|!i.bom_excluded && !crate::parts::excluded_from_bom(prj,&i.tag);
+        for a in e.items.iter().filter(|i| matches!(i.kind,ItemKind::Accessory|ItemKind::MountingPlate)).filter(billed) {
             add(&mut out, &a.part, 1.0, e.name.clone());
         }
         let standoffs: usize = e
             .items
             .iter()
-            .filter(|i| i.kind == ItemKind::Rail && i.face == Face::Plate && i.z > 0.01)
+            .filter(|i| i.kind == ItemKind::Rail && i.face == Face::Plate && mounting_height(e,i).is_some_and(|h|h>0.01))
             .map(|i| crate::production::item_holes(i, &prj.parts).len())
             .sum();
-        if standoffs > 0 {
+        if prj.layout.hardware && standoffs > 0 {
             add(&mut out, crate::parts::mechanics::RAIL_STANDOFF, standoffs as f32, e.name.clone());
         }
         let mut lengths: Vec<(String, f32)> = Vec::new();
-        for i in e.items.iter().filter(|i| i.kind.is_profile()) {
+        for i in e.items.iter().filter(|i| i.kind.is_profile()).filter(billed) {
             match lengths.iter_mut().find(|x| x.0 == i.part) {
                 Some(x) => x.1 += i.length(),
                 None => lengths.push((i.part.clone(), i.length())),

@@ -644,6 +644,27 @@ pub fn paste_offset(clip: &Clip, at: P) -> P {
     (at - clip.anchor.unwrap_or_else(|| clip.bounds().min)).snap(GRID)
 }
 
+fn paste_devices(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target:&crate::structure::Dt,rename:&HashMap<String,String>) {
+    let mapped=|tag:&str| {let full=target.complete(&source.relative(tag));rename.get(&full).cloned().unwrap_or(full)};
+    for (tag,device) in &clip.devices {
+        let mut device=device.clone();
+        if let Some(owner)=device.values.get_mut("device.material_owner") {
+            *owner=if clip.devices.contains_key(owner.as_str()) || clip.symbols.iter().any(|s|s.tag==*owner) {mapped(owner)} else {String::new()};
+        }
+        match prj.devices.entry(mapped(tag)) {
+            std::collections::btree_map::Entry::Vacant(entry)=>{entry.insert(device);}
+            std::collections::btree_map::Entry::Occupied(mut entry)=>{
+                let incoming=entry.get_mut();
+                if incoming.description.is_empty() {incoming.description=device.description;}
+                for reference in device.parts {
+                    if !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
+                }
+                for (key,value) in device.values {incoming.values.entry(key).or_insert(value);}
+            }
+        }
+    }
+}
+
 /// Pastes the clip so that its top-left corner lands on `at`. Tags move into the
 /// structure of the target page; device tags of main functions that already exist
 /// get new numbers (consistently for coil + contacts). Wire numbers and cable cores
@@ -682,7 +703,9 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
     }
     let d = paste_offset(clip, at);
-    let existing: BTreeSet<String> = prj.all_tags().into_iter().collect();
+    let existing: BTreeSet<String> = prj.all_tags().into_iter().chain(prj.unplaced_tags().map(String::from)).collect();
+    let mut reserved:BTreeSet<_>=clip.symbols.iter().map(|s|s.tag.as_str()).chain(clip.devices.keys().map(String::as_str))
+        .filter(|tag|!tag.is_empty()).map(|tag|target.complete(&source.relative(tag))).collect();
     let mut rename: HashMap<String, String> = HashMap::new();
     let mut new_ids = BTreeSet::new();
     let mut symbols_out = Vec::new();
@@ -698,14 +721,14 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         if let Some(def) = prj.symbol(&s.sym) {
             match def.func {
-                Func::Main { .. } | Func::Aux(_) if existing.contains(&s.tag) => {
+                Func::Main { .. } | Func::Aux(_) | Func::Auxiliary if existing.contains(&s.tag) => {
                     if let Some(n) = rename.get(&s.tag) {
                         s.tag = n.clone();
                     } else {
                         // The copy keeps the letters of its tag (`-Q1` → `-Q2`).
                         let dt = crate::structure::Dt::parse(&s.tag);
                         let letter = crate::structure::letters_of(&dt.name).unwrap_or_else(|| def.letter.to_string());
-                        let n = prj.next_tag(&dt.structure(), &letter);
+                        let n = prj.next_tag_reserved(&dt.structure(), &letter,&reserved);reserved.insert(n.clone());
                         // Reserve the tag by temporarily recording it.
                         rename.insert(s.tag.clone(), n.clone());
                         s.tag = n;
@@ -725,15 +748,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         prj.pages[page_i].symbols.push(s.clone());
         symbols_out.push(s.id);
     }
-    for (tag, device) in &clip.devices {
-        let complete = target.complete(&source.relative(tag));
-        let tag = rename.get(&complete).cloned().unwrap_or(complete);
-        let incoming = prj.devices.entry(tag).or_default();
-        if incoming.description.is_empty() { incoming.description = device.description.clone(); }
-        for reference in &device.parts {
-            if !incoming.parts.iter().any(|p| p.number == reference.number) { incoming.parts.push(reference.clone()); }
-        }
-    }
+    paste_devices(prj,clip,&source,&target,&rename);
     for w in &clip.wires {
         let mut w = w.clone();
         w.id = prj.new_id();
@@ -831,7 +846,7 @@ pub fn rename_problem(prj: &Project, old: &str, new: &str) -> Option<String> {
     if let Err(e) = check_tag(new) {
         return Some(e);
     }
-    if prj.all_tags().iter().any(|t| t == new) {
+    if prj.all_tags().iter().any(|t| t == new) || prj.unplaced_tags().any(|t|t==new) {
         return Some(tr_fmt!("Device {} already exists", new));
     }
     let released = prj.pages.iter().find(|pg| pg.locked && pg.symbols.iter().any(|s| s.tag == old));
@@ -852,9 +867,15 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
     if let Some(d) = prj.devices.remove(old) {
         prj.devices.entry(new.to_string()).or_insert(d);
     }
-    for it in prj.layout.enclosures.iter_mut().flat_map(|e| e.items.iter_mut()) {
-        if it.tag == old {
-            it.tag = new.to_string();
+    for device in prj.devices.values_mut() {
+        if device.values.get("device.material_owner").is_some_and(|v|v==old) {device.values.insert("device.material_owner".into(),new.into());}
+    }
+    for enclosure in &mut prj.layout.enclosures {
+        if enclosure.device_tag==old {enclosure.device_tag=new.into();}
+        if enclosure.owner_device==old {enclosure.owner_device=new.into();}
+        for it in &mut enclosure.items {
+            if it.tag == old {it.tag = new.to_string();}
+            if it.owner_device==old {it.owner_device=new.into();}
         }
     }
     crate::harness::rename_device(prj, old, new);

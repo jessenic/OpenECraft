@@ -3,6 +3,17 @@ use crate::geom::p;
 use crate::sample::demo_project;
 
 #[test]
+fn portable_device_properties_and_owner_placeholders_resolve_with_tags() {
+    let m:Macro=serde_json::from_value(serde_json::json!({"clip":{"devices":{
+        "-K{UNIT}":{"values":{"device.rated_power":"{POWER}","device.material_owner":"-X{OWNER}"}}
+    }}})).unwrap();
+    assert_eq!(m.placeholders(),["OWNER","POWER","UNIT"]);
+    let clip=m.resolve(&BTreeMap::from([("UNIT".into(),"3".into()),("OWNER".into(),"9".into()),("POWER".into(),"7.5".into())]));
+    assert_eq!(clip.devices["-K3"].values["device.material_owner"],"-X9");
+    assert_eq!(clip.devices["-K3"].values["device.rated_power"],"7.5");
+}
+
+#[test]
 fn function_part_references_resolve_and_survive_merging_terminal_parts() {
     let m: Macro = serde_json::from_value(serde_json::json!({"clip":{
         "symbols":[{"sym":"term","tag":"-X1","label":"2","values":{"function.part_number":"{ARTICLE}","function.manufacturer":"{MAKER}"}}],
@@ -12,7 +23,7 @@ fn function_part_references_resolve_and_survive_merging_terminal_parts() {
     assert_eq!(m.placeholders(), ["ARTICLE", "MAKER"]);
     let clip = m.resolve(&BTreeMap::from([("ARTICLE".into(), "A123".into()), ("MAKER".into(), "Vendor".into())]));
     let mut prj = Project::default();
-    prj.devices.entry("-X1".into()).or_default().parts.push(crate::model::PartRef { number: "EXISTING".into(), count: 1 });
+    prj.devices.entry("-X1".into()).or_default().parts.push(crate::model::PartRef { number: "EXISTING".into(), count: 1, total:false });
     let ids = ops::paste(&mut prj, 0, &clip, p(40., 40.));
     let id = *ids.iter().find(|id| prj.pages[0].symbols.iter().any(|s| s.id == **id)).unwrap();
     let function = crate::properties::Object::Function(id);

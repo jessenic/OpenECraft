@@ -125,7 +125,7 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
     }
     let Some(data) = prj.devices.get(&it.tag) else { return Vec::new() };
     let parts: Vec<(&Part, u32)> =
-        data.parts.iter().filter_map(|r| prj.parts.iter().find(|p| p.number == r.number).map(|p| (p, r.count.max(1)))).collect();
+        data.parts.iter().filter(|r|r.quantity()>0).filter_map(|r| prj.parts.iter().find(|p| p.number == r.number).map(|p| (p, r.quantity()))).collect();
     let Some((main, [mw, mh, md])) = parts.iter().find_map(|(p, _)| p.size().map(|s| (*p, s))) else { return Vec::new() };
     let mut layers = vec![Layer { part: main, size: [mw, mh, md], z: 0.0 }];
     let mut depth = md;

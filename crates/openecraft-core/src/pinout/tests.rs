@@ -23,7 +23,7 @@ fn wire(prj: &mut Project, x1: f32, y1: f32, x2: f32, y2: f32) -> u64 {
 }
 
 fn assign(prj: &mut Project, tag: &str, number: &str) {
-    prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number: number.into(), count: 1 });
+    prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number: number.into(), count: 1, total:false });
 }
 
 /// Pin pairs of `plug` at x = 100, 120 … with a wire above (socket side) and one

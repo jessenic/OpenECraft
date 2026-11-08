@@ -86,7 +86,7 @@ impl<'a> Assembly<'a> {
 /// Terminal strips and devices without parts with dimensions have none.
 pub fn assembly<'a>(prj: &'a Project, tag: &str) -> Option<Assembly<'a>> {
     let data = prj.devices.get(tag)?;
-    let all: Vec<(&Part, u32)> = data.parts.iter().filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|p| (p, r.count.max(1)))).collect();
+    let all: Vec<(&Part, u32)> = data.parts.iter().filter(|r|r.quantity()>0).filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|p| (p, r.quantity()))).collect();
     let parts: Vec<(&Part, [f32; 3], u32)> = all.iter().filter_map(|(p, n)| p.size().map(|s| (*p, s, *n))).collect();
     let (main, size, _) = *parts.iter().find(|(p, _, _)| !p.accessory).or(parts.first())?;
     if super::is_strip_part(main) {

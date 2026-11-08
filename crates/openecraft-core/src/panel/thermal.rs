@@ -132,7 +132,7 @@ pub fn device_loss(prj: &Project, tag: &str) -> Option<f32> {
     let mut sum = None;
     for r in &data.parts {
         if let Some(l) = part_by_number(prj, &r.number).and_then(climate::power_loss) {
-            *sum.get_or_insert(0.0) += l * r.count.max(1) as f32;
+            *sum.get_or_insert(0.0) += l * r.quantity() as f32;
         }
     }
     sum

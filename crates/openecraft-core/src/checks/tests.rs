@@ -10,7 +10,7 @@ fn a_removed_function_part_is_reported_at_its_symbol() {
     assert_eq!(issues.len(), 1);
     assert_eq!(issues[0].severity, Severity::Error);
     assert!(issues[0].message().contains("OLD.PART"));
-    prj.devices.entry("-K1".into()).or_default().parts.push(crate::model::PartRef { number: "OLD.PART".into(), count: 1 });
+    prj.devices.entry("-K1".into()).or_default().parts.push(crate::model::PartRef { number: "OLD.PART".into(), count: 1, total:false });
     assert!(check_function_parts(&prj).is_empty());
 }
 use crate::sample::demo_project;

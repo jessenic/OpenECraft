@@ -24,6 +24,14 @@ pub fn can_mount(e:&Enclosure,id:u64,parent:u64)->bool {
     true
 }
 
+/// Height above the actual support. An explicitly unconfigured support is unknown.
+pub fn mounting_height(e:&Enclosure,item:&PanelItem)->Option<f32> {
+    if item.mounted_on!=0 {
+        return e.item(item.mounted_on).map(|p|item.z-p.z-p.d);
+    }
+    if item.mounting_explicit {None} else {Some(item.z)}
+}
+
 /// Include mounted descendants and legacy devices geometrically seated on rails.
 pub fn mounted_items(e:&Enclosure,ids:&[u64])->Vec<u64> {
     let parents=parents(&e.items);let mut selected:BTreeSet<_>=ids.iter().copied().collect();

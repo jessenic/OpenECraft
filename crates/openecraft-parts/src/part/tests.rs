@@ -1,6 +1,16 @@
 use super::*;
 
 #[test]
+fn literal_part_counts_preserve_zero_and_default_legacy_counts() {
+    let old:PartRef=serde_json::from_str(r#"{"number":"LEGACY","count":0}"#).unwrap();
+    assert_eq!(old.quantity(),1);assert!(!old.total);
+    let literal=PartRef {number:"ZERO".into(),count:0,total:true};
+    assert_eq!(literal.quantity(),0);
+    assert_eq!(serde_json::from_str::<PartRef>(&serde_json::to_string(&literal).unwrap()).unwrap(),literal);
+    assert!(!serde_json::to_string(&old).unwrap().contains("total"));
+}
+
+#[test]
 fn merge_adds_and_updates() {
     let mut db = PartsDb { parts: vec![Part { number: "A".into(), description: "old".into(), ..Default::default() }] };
     let incoming = vec![

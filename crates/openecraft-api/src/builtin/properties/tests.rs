@@ -30,7 +30,7 @@ fn selected_function_parts_are_editable_and_batch_read_through_the_plugin_regist
     let (mut s, id) = motor_session();
     let prj = s.project_mut().unwrap();
     prj.parts.extend([Part { number: "FIRST".into(), ..Default::default() }, Part { number: "SECOND".into(), manufacturer: "Maker".into(), ..Default::default() }]);
-    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "FIRST".into(), count: 1 }, PartRef { number: "SECOND".into(), count: 1 }], ..Default::default() });
+    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "FIRST".into(), count: 1, total:false }, PartRef { number: "SECOND".into(), count: 1, total:false }], ..Default::default() });
     run(&mut s, "set_properties", json!({"object":format!("function:{id}"),"values":{"function.part_index":2,"function.selection_text":"Source variant*","function.supplementary[3]":"Additional note"}})).unwrap();
     let list = run(&mut s, "list_function_parts", json!({})).unwrap();
     let function = list.as_array().unwrap().iter().find(|v| v["symbol"] == id).unwrap();

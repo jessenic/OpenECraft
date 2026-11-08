@@ -130,6 +130,14 @@ pub struct Enclosure {
     /// Location designation, e.g. "+CAB1".
     pub name: String,
     pub part: String,
+    /// Device whose primary article is represented by this enclosure body.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub device_tag: String,
+    /// Device accounting for this body as an additional article, not its mounting parent.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub owner_device: String,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub bom_excluded: bool,
     pub width: f32,
     pub height: f32,
     pub depth: f32,
@@ -244,6 +252,11 @@ pub struct PanelItem {
     /// This footprint represents its own part, including unnumbered terminal blocks.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub single_part: bool,
+    /// Material ownership, independent of the physical mounting relationship.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub owner_device: String,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub bom_excluded: bool,
     pub part: String,
     pub x: f32,
     pub y: f32,

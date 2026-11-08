@@ -53,7 +53,7 @@ fn single_part_device_views_resolve_by_selected_article_and_reject_ambiguity() {
     prj.layout.enclosures[ei].items.extend([first,second.clone()]);
     assert!(super::super::locate_symbol(&prj,&symbol).is_none());
     let mut part=super::super::part_by_number(&prj,&base.part).unwrap().clone();part.number="SECOND.PART".into();prj.parts.push(part);
-    prj.devices.get_mut("-K1").unwrap().parts.push(crate::parts::PartRef {number:"SECOND.PART".into(),count:1});
+    prj.devices.get_mut("-K1").unwrap().parts.push(crate::parts::PartRef {number:"SECOND.PART".into(),count:1, total:false });
     prj.layout.enclosures[ei].items.last_mut().unwrap().part="SECOND.PART".into();
     symbol.values.insert("function.part_number".into(),"SECOND.PART".into());
     assert_eq!(super::super::locate_symbol(&prj,&symbol).unwrap().1.id,second.id);

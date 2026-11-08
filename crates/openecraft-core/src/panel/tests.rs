@@ -184,6 +184,20 @@ fn layout_material_in_bom() {
 }
 
 #[test]
+fn rail_standoffs_use_support_height_and_respect_hardware_setting() {
+    let mut prj=demo_project();
+    let plate=PanelItem {id:900,kind:ItemKind::MountingPlate,z:10.,d:2.,..Default::default()};
+    let rail=PanelItem {id:901,kind:ItemKind::Rail,part:RAIL_PART.into(),w:300.,h:35.,d:7.5,z:12.,mounted_on:900,mounting_explicit:true,..Default::default()};
+    prj.layout.enclosures[0].items=vec![plate,rail];
+    let qty=|p:&Project|layout_material(p).iter().find(|m|m.0==crate::parts::mechanics::RAIL_STANDOFF).map(|m|m.1).unwrap_or(0.);
+    assert_eq!(qty(&prj),0.);
+    prj.layout.enclosures[0].items[1].z=52.;assert!(qty(&prj)>0.);
+    prj.layout.hardware=false;assert_eq!(qty(&prj),0.);prj.layout.hardware=true;
+    prj.layout.enclosures[0].items[1].mounted_on=0;assert_eq!(qty(&prj),0.,"unknown explicit support");
+    prj.layout.enclosures[0].items[1].mounting_explicit=false;assert!(qty(&prj)>0.,"legacy datum remains valid");
+}
+
+#[test]
 fn rotate_keeps_centre() {
     let mut it = duct(1, 0.0, 0.0, 200.0, 40.0);
     let c = it.center();

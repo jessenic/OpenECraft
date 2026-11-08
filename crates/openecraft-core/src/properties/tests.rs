@@ -3,7 +3,7 @@ use super::*;
 fn project() -> Project {
     let mut prj = Project::default();
     prj.parts.push(Part { number: "GEN.MOTOR".into(), voltage: "400".into(), weight: 12.5, datasheet: "motor.pdf".into(), ..Default::default() });
-    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "GEN.MOTOR".into(), count: 2 }], ..Default::default() });
+    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "GEN.MOTOR".into(), count: 2, total:false }], ..Default::default() });
     prj.pages[0].symbols.push(SymbolInst { id: 10, sym: "motor3".into(), tag: "-M1".into(), ..Default::default() });
     prj.pages[0].symbols.push(SymbolInst { id: 11, sym: "term".into(), tag: "-X1".into(), label: "3".into(), ..Default::default() });
     prj.pages[0].symbols.push(SymbolInst { id: 12, sym: "plc_in".into(), tag: "-A1".into(), label: "I0.0".into(), ..Default::default() });
@@ -15,7 +15,7 @@ fn project() -> Project {
 fn function_part_selection_is_local_live_and_does_not_change_device_aggregates() {
     let mut prj = project();
     prj.parts.push(Part { number: "SECOND".into(), manufacturer: "Maker two".into(), ..Default::default() });
-    prj.devices.get_mut("-M1").unwrap().parts.push(PartRef { number: "SECOND".into(), count: 1 });
+    prj.devices.get_mut("-M1").unwrap().parts.push(PartRef { number: "SECOND".into(), count: 1, total:false });
     let function = Object::Function(10);
     assert_eq!(get(&prj, &function, "part.number"), "GEN.MOTOR");
     assert_eq!(get(&prj, &function, "function.part_index"), "1");
@@ -47,7 +47,7 @@ fn function_part_selection_is_local_live_and_does_not_change_device_aggregates()
 fn removing_a_selected_part_cannot_silently_bind_to_another_part() {
     let mut prj = project();
     let function = Object::Function(10);
-    prj.devices.get_mut("-M1").unwrap().parts.extend([PartRef { number: "SECOND".into(), count: 1 }, PartRef { number: "THIRD".into(), count: 1 }]);
+    prj.devices.get_mut("-M1").unwrap().parts.extend([PartRef { number: "SECOND".into(), count: 1, total:false }, PartRef { number: "THIRD".into(), count: 1, total:false }]);
     set(&mut prj, &function, "function.part_index", "2").unwrap();
     prj.devices.get_mut("-M1").unwrap().parts.remove(0);
     assert_eq!(get(&prj, &function, "part.number"), "SECOND");

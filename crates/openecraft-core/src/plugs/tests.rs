@@ -41,7 +41,7 @@ fn plug_part(number: &str, pins: usize) -> Part {
 }
 
 fn assign(prj: &mut Project, tag: &str, part: Part) {
-    prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number: part.number.clone(), count: 1 });
+    prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number: part.number.clone(), count: 1, total:false });
     prj.parts.push(part);
 }
 

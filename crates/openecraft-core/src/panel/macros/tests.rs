@@ -8,6 +8,15 @@ fn find(prj: &Project, name: &str) -> PanelMacro {
 }
 
 #[test]
+fn reusable_panel_macros_clear_external_material_owners_and_keep_exclusion() {
+    let mut prj=demo_project();
+    let item=&mut prj.layout.enclosures[0].items[0];item.owner_device="-X1".into();item.bom_excluded=true;
+    let id=item.id;let saved=macro_from_items(&prj.layout.enclosures[0],&[id],"Reusable").unwrap();
+    assert!(saved.items[0].owner_device.is_empty());assert!(saved.items[0].tag.is_empty());
+    assert!(saved.items[0].bom_excluded);
+}
+
+#[test]
 fn builtin_macros_are_named_and_fit() {
     let prj = demo_project();
     let all = builtin_macros(&prj);

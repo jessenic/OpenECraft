@@ -44,7 +44,7 @@ fn opening_gap(a: &Opening, b: &Opening) -> f32 {
 fn device_weight(prj: &Project, tag: &str) -> f32 {
     prj.devices
         .get(tag)
-        .map(|d| d.parts.iter().filter_map(|r| part_by_number(prj, &r.number).map(|p| p.weight * r.count.max(1) as f32)).sum())
+        .map(|d| d.parts.iter().filter_map(|r| part_by_number(prj, &r.number).map(|p| p.weight * r.quantity() as f32)).sum())
         .unwrap_or(0.0)
 }
 

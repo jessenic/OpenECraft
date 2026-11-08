@@ -77,7 +77,7 @@ fn plate_load() {
     prj.parts.push(Part { number: "ENC".into(), tech_data: "Plate load: 10 kg".into(), ..Default::default() });
     prj.parts.push(Part { number: "TR".into(), weight: 12.0, ..Default::default() });
     prj.layout.enclosures[0].part = "ENC".into();
-    prj.devices.insert("-T1".into(), crate::model::DeviceData { parts: vec![crate::parts::PartRef { number: "TR".into(), count: 1 }], ..Default::default() });
+    prj.devices.insert("-T1".into(), crate::model::DeviceData { parts: vec![crate::parts::PartRef { number: "TR".into(), count: 1, total:false }], ..Default::default() });
     let f = findings(&prj);
     assert!(f.iter().any(|f| f.message.contains("12.0 kg")), "{f:#?}");
 }

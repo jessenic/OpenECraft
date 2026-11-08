@@ -158,6 +158,8 @@ pub(super) const ROWS: &[Row] = &[
     r("device.serial", tr_const!("Serial number"), Device, General, Text, ""),
     r("device.asset", tr_const!("Asset number"), Device, General, Text, ""),
     // Commercial (from the assigned parts)
+    r("device.exclude_from_bom",tr_const!("Exclude from bill of materials"),Device,Commercial,Bool,"false"),
+    r("device.material_owner",tr_const!("Material owner device tag"),Device,Commercial,Text,""),
     r("device.parts", tr_const!("Part numbers"), Device, Commercial, Text, "").ro(),
     r("device.type_numbers", tr_const!("Type numbers"), Device, Commercial, Text, "").ro(),
     r("device.order_numbers", tr_const!("Order numbers"), Device, Commercial, Text, "").ro(),

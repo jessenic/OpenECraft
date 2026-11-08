@@ -178,6 +178,7 @@ fn texts_mut(clip: &mut Clip) -> Vec<&mut String> {
     v.extend(clip.texts.iter_mut().map(|t| &mut t.text));
     for device in clip.devices.values_mut() {
         v.push(&mut device.description);
+        v.extend(device.values.values_mut());
         v.extend(device.parts.iter_mut().map(|p| &mut p.number));
     }
     for part in &mut clip.parts {

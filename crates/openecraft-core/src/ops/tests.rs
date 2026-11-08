@@ -3,6 +3,60 @@ use crate::geom::p;
 use crate::symlib::Symbols;
 
 #[test]
+fn portable_material_counts_and_properties_survive_insertion_and_fresh_device_renaming() {
+    let mut prj=Project::default();let mut clip=Clip::new();
+    prj.devices.insert("-K1".into(),DeviceData {description:"Existing unplaced".into(),..Default::default()});
+    clip.symbols.push(SymbolInst {id:1,sym:"coil".into(),tag:"-K1".into(),..Default::default()});
+    let data=DeviceData {parts:vec![PartRef {number:"PRIMARY".into(),count:1,total:false},
+        PartRef {number:"PRIMARY".into(),count:0,total:true},PartRef {number:"EXTRA".into(),count:3,total:true}],
+        values:BTreeMap::from([("device.rated_power".into(),"7.5".into()),("device.exclude_from_bom".into(),"true".into()),
+                              ("device.material_owner".into(),"-Outside".into())]),..Default::default()};
+    clip.devices.insert("-K1".into(),data.clone());
+    paste(&mut prj,0,&clip,p(80.,40.));
+    assert_eq!(prj.devices["-K2"].parts,data.parts);
+    assert_eq!(prj.devices["-K2"].values["device.rated_power"],"7.5");
+    assert_eq!(prj.devices["-K2"].values["device.exclude_from_bom"],"true");
+    assert!(prj.devices["-K2"].values["device.material_owner"].is_empty());
+    assert_eq!(prj.devices["-K1"].description,"Existing unplaced");
+}
+
+#[test]
+fn portable_owner_links_follow_structure_and_renaming_without_consuming_another_incoming_tag() {
+    let mut prj=Project::default();prj.pages[0].function="DST".into();prj.pages[0].location="NEW".into();
+    prj.pages[0].symbols.push(SymbolInst {id:10,sym:"coil".into(),tag:"=DST+NEW-K1".into(),..Default::default()});
+    let mut clip=Clip::new();clip.function="SRC".into();clip.location="OLD".into();
+    for (id,tag,label) in [(1,"=SRC+OLD-K1","Owner"),(2,"=SRC+OLD-K2","Child")] {
+        clip.symbols.push(SymbolInst {id,sym:"coil".into(),tag:tag.into(),label:label.into(),..Default::default()});
+        clip.devices.insert(tag.into(),DeviceData::default());
+    }
+    clip.devices.get_mut("=SRC+OLD-K2").unwrap().values.insert("device.material_owner".into(),"=SRC+OLD-K1".into());
+    clip.symbol_defs.push(crate::symlib::UserSymbol {key:"user:secondary".into(),func:Func::Auxiliary,..Default::default()});
+    clip.symbols.push(SymbolInst {id:3,sym:"user:secondary".into(),tag:"=SRC+OLD-K1".into(),label:"Secondary".into(),..Default::default()});
+    let inserted=paste(&mut prj,0,&clip,p(80.,40.));
+    let symbols:Vec<_>=prj.pages[0].symbols.iter().filter(|s|inserted.contains(&s.id)).collect();
+    let owner=symbols.iter().find(|s|s.label=="Owner").unwrap();let child=symbols.iter().find(|s|s.label=="Child").unwrap();
+    assert_eq!(owner.tag,"=DST+NEW-K3");assert_eq!(child.tag,"=DST+NEW-K2");
+    assert_eq!(prj.devices[&child.tag].values["device.material_owner"],owner.tag);
+    assert_eq!(symbols.iter().find(|s|s.label=="Secondary").unwrap().tag,owner.tag);
+}
+
+#[test]
+fn merging_a_terminal_macro_fills_missing_modes_and_preserves_local_quantities_and_properties() {
+    let mut prj=Project::default();let mut clip=Clip::new();
+    clip.symbols.push(SymbolInst {id:1,sym:"term".into(),tag:"-X1".into(),label:"1".into(),..Default::default()});
+    clip.devices.insert("-X1".into(),DeviceData {parts:vec![PartRef {number:"TB".into(),count:1,total:false},
+        PartRef {number:"TB".into(),count:2,total:true}],values:BTreeMap::from([("device.note".into(),"Incoming".into())]),..Default::default()});
+    prj.devices.insert("-X1".into(),DeviceData {parts:vec![PartRef {number:"TB".into(),count:1,total:false}],
+        values:BTreeMap::from([("device.note".into(),"Local".into())]),..Default::default()});
+    paste(&mut prj,0,&clip,p(80.,40.));
+    assert_eq!(prj.devices["-X1"].parts.len(),2);assert_eq!(prj.devices["-X1"].parts[1].count,2);
+    prj.devices.get_mut("-X1").unwrap().parts[1].count=5;
+    paste(&mut prj,0,&clip,p(120.,40.));
+    assert_eq!(prj.devices["-X1"].parts.len(),2);assert_eq!(prj.devices["-X1"].parts[1].count,5);
+    assert_eq!(prj.devices["-X1"].values["device.note"],"Local");
+}
+
+#[test]
 fn portable_clip_installs_definitions_without_overwriting_local_edits() {
     let mut project = Project::default();
     let definition = crate::symlib::UserSymbol { key: "user:portable".into(), name: "Incoming".into(), ..Default::default() };

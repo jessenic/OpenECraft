@@ -328,7 +328,7 @@ fn mains_of_main_parts(prj: &Project, tag: &str, mains: &[crate::index::Loc]) ->
     for r in refs {
         let Some(p) = crate::sizing::part(prj, &r.number).filter(|p| p.accessory) else { continue };
         for f in &p.functions {
-            *spare.entry(f.kind).or_default() += r.count.max(1) as usize;
+            *spare.entry(f.kind).or_default() += r.quantity() as usize;
         }
     }
     let kind = |l: &crate::index::Loc| prj.pages[l.page].symbols.iter().find(|s| s.id == l.sym_id).and_then(|s| crate::parts::kind_of_symbol(&s.sym));

@@ -6339,3 +6339,16 @@ This footprint represents only its own part	Dieser Grundriss stellt nur sein eig
 Generate a default mounting plate when no explicit plate is placed	Eine Standardmontageplatte erzeugen, wenn keine explizite Platte platziert ist	Générer une platine par défaut si aucune platine explicite n’est placée	Generar una placa de montaje predeterminada si no se coloca una placa explícita
 Mounting-face origin as x, y and z; empty object restores the default	Ursprung der Montagefläche als x, y und z; ein leeres Objekt stellt den Standard wieder her	Origine de la face de montage en x, y et z ; un objet vide rétablit la valeur par défaut	Origen de la cara de montaje como x, y y z; un objeto vacío restaura el valor predeterminado
 Mounting origin must contain finite x, y and z coordinates	Der Montageursprung muss endliche x-, y- und z-Koordinaten enthalten	L’origine de montage doit contenir des coordonnées x, y et z finies	El origen de montaje debe contener coordenadas x, y y z finitas
+Total quantity	Gesamtmenge	Quantité totale	Cantidad total
+Count once for the whole device or terminal strip	Einmal für das gesamte Gerät oder die Klemmenleiste zählen	Compter une seule fois pour tout l’appareil ou bornier	Contar una vez para todo el dispositivo o regleta de bornes
+Assigns a part with a per-terminal or total quantity to a device	Weist einem Gerät ein Bauteil mit einer Menge je Klemme oder einer Gesamtmenge zu	Affecte un article à un appareil avec une quantité par borne ou totale	Asigna un artículo a un dispositivo con una cantidad por borne o total
+Changes the quantity and counting mode of an assigned part	Ändert die Menge und Zählweise eines zugewiesenen Bauteils	Modifie la quantité et le mode de comptage d’un article affecté	Cambia la cantidad y el modo de recuento de un artículo asignado
+Assigned part index (1-based)	Index des zugewiesenen Bauteils (ab 1)	Indice de l’article affecté (à partir de 1)	Índice del artículo asignado (a partir de 1)
+No part assignment {} on device {}	Keine Bauteilzuweisung {} am Gerät {}	Aucune affectation d’article {} sur l’appareil {}	No hay asignación de artículo {} en el dispositivo {}
+Device tag assigned to this enclosure body	Dem Gehäusekörper zugewiesenes Betriebsmittelkennzeichen	Repère d’appareil affecté à ce corps d’armoire	Identificador de dispositivo asignado a este cuerpo de armario
+Device tag must not be empty	Das Betriebsmittelkennzeichen darf nicht leer sein	Le repère d’appareil ne doit pas être vide	El identificador del dispositivo no debe estar vacío
+Zero quantity requires total counting mode	Die Menge null erfordert die Zählweise Gesamtmenge	Une quantité nulle nécessite le mode de comptage total	La cantidad cero requiere el modo de recuento total
+Part quantity exceeds the supported range	Die Bauteilmenge überschreitet den unterstützten Bereich	La quantité d’articles dépasse la plage prise en charge	La cantidad de artículos supera el rango admitido
+
+Material owner device tag	Betriebsmittelkennzeichen des Materialbesitzers	Repère de l’appareil propriétaire du matériel	Etiqueta del dispositivo propietario del material
+Exclude from bill of materials	Von der Stückliste ausschließen	Exclure de la nomenclature	Excluir de la lista de materiales

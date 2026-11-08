@@ -12,7 +12,7 @@ fn part(number: &str, wall: bool) -> Part {
 fn project() -> (Project, usize, usize) {
     let mut prj = Project { parts: vec![part("VIC.MPPT", true), Part { number: "GEN.MCB".into(), width: 18.0, height: 90.0, depth: 70.0, ..Default::default() }], ..Default::default() };
     for (tag, number) in [("-T1", "VIC.MPPT"), ("-F1", "GEN.MCB")] {
-        prj.devices.insert(tag.into(), DeviceData { parts: vec![PartRef { number: number.into(), count: 1 }], ..Default::default() });
+        prj.devices.insert(tag.into(), DeviceData { parts: vec![PartRef { number: number.into(), count: 1, total:false }], ..Default::default() });
     }
     let room = new_room(&mut prj, "+ROOM1", 4000.0, 3000.0, 2800.0);
     prj.layout.enclosures.push(room);
@@ -313,7 +313,7 @@ fn turning_a_cabinet_keeps_its_footprint_in_place() {
 fn with_pump(prj: &mut Project) {
     let pump = Part { number: "GEN.PUMP".into(), width: 300.0, height: 400.0, depth: 600.0, mounting_data: MountingData { floor_mount: true, ..Default::default() }, ..Default::default() };
     prj.parts.push(pump);
-    prj.devices.insert("-P1".into(), DeviceData { parts: vec![PartRef { number: "GEN.PUMP".into(), count: 1 }], ..Default::default() });
+    prj.devices.insert("-P1".into(), DeviceData { parts: vec![PartRef { number: "GEN.PUMP".into(), count: 1, total:false }], ..Default::default() });
 }
 
 #[test]

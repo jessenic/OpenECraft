@@ -113,10 +113,32 @@ pub fn ensure_in_project(prj: &mut Project, db: &PartsDb, number: &str) {
 pub fn add_to_device(prj: &mut Project, db: &PartsDb, tag: &str, number: &str, count: u32) {
     ensure_in_project(prj, db, number);
     let dev = prj.devices.entry(tag.to_string()).or_default();
-    match dev.parts.iter_mut().find(|r| r.number == number) {
+    match dev.parts.iter_mut().find(|r| r.number == number && !r.total) {
         Some(r) => r.count += count,
-        None => dev.parts.push(PartRef { number: number.into(), count }),
+        None => dev.parts.push(PartRef { number: number.into(), count, total:false }),
     }
+}
+
+/// Keep the primary assignment and its function bindings with a changed physical part.
+pub fn replace_device_part(prj:&mut Project,tag:&str,old:&str,new:&str) {
+    if tag.is_empty() || old.is_empty() || old==new {return;}
+    let Some(device)=prj.devices.get_mut(tag) else {return;};
+    let mut changed=false;
+    for part in device.parts.iter_mut().filter(|p|p.number==old && !p.total) {part.number=new.into();changed=true;}
+    if !changed {return;}
+    for symbol in prj.pages.iter_mut().flat_map(|p|&mut p.symbols).filter(|s|s.tag==tag) {
+        if symbol.values.get("function.part_number").is_some_and(|n|n==old) {symbol.values.insert("function.part_number".into(),new.into());}
+    }
+}
+
+pub fn excluded_from_bom(prj:&Project,tag:&str)->bool {
+    prj.devices.get(tag).and_then(|d|d.values.get("device.exclude_from_bom")).is_some_and(|v|v.eq_ignore_ascii_case("true"))
+}
+
+pub fn is_material_device(data:&crate::model::DeviceData)->bool {
+    data.parts.iter().any(|p|p.total)
+        || data.values.get("device.material_owner").is_some_and(|v|!v.is_empty())
+        || data.values.get("device.exclude_from_bom").is_some_and(|v|v.eq_ignore_ascii_case("true"))
 }
 
 /// Every channel of a physical card shares its one BOM entry.
@@ -346,7 +368,7 @@ pub fn available_functions(prj: &Project, db: Option<&PartsDb>, tag: &str) -> Ve
     let mut v = Vec::new();
     for r in &dev.parts {
         if let Some(p) = lookup(prj, db, &r.number) {
-            for _ in 0..r.count.max(1) {
+            for _ in 0..r.quantity() {
                 v.extend(p.functions.iter().cloned());
             }
         }

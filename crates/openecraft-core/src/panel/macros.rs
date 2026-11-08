@@ -125,7 +125,7 @@ pub fn macro_from_items(e: &super::Enclosure, ids: &[u64], name: &str) -> Option
     let out = items
         .into_iter()
         .map(|i| {
-            let mut it = PanelItem { id: if has_mounts {local[&i.id]} else {0}, tag: String::new(), group: 0, ..i.clone() };
+            let mut it = PanelItem { id: if has_mounts {local[&i.id]} else {0}, tag: String::new(), owner_device:String::new(),group: 0, ..i.clone() };
             if it.mounted_on!=0 {it.mounted_on=local.get(&it.mounted_on).copied().unwrap_or(0);it.mounting_explicit=true;}
             if it.face == face {
                 it.x -= if it.anchor.x == Align::Free { min_x } else { 0.0 };

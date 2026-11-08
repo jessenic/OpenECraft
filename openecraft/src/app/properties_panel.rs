@@ -595,7 +595,9 @@ impl App {
                         show_part = Some(r.number.clone());
                     }
                     ui.horizontal(|ui| {
-                        ui.add(egui::DragValue::new(&mut r.count).range(1..=999).prefix("× "));
+                        ui.add(egui::DragValue::new(&mut r.count).range(if r.total {0..=999} else {1..=999}).prefix("× "));
+                        ui.checkbox(&mut r.total,tr("Total quantity")).on_hover_text(tr("Count once for the whole device or terminal strip"));
+                        if !r.total {r.count=r.count.max(1);}
                         if icons::button(ui, Icon::Delete, tr("Remove part")).clicked() {
                             remove = Some(i);
                         }

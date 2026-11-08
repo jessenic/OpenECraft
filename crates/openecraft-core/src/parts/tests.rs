@@ -35,7 +35,7 @@ fn bare_ema_channels_recover_one_physical_card_for_the_panel() {
     let devices = crate::panel::devices_to_place(&prj);
     assert_eq!(devices.len(), 1);
     assert_eq!((&*devices[0].tag, &*devices[0].part, devices[0].w, devices[0].h), ("-A3", "BEC.EL3174", 12., 100.));
-    assert_eq!(prj.devices["-A3"].parts, [PartRef { number: "BEC.EL3174".into(), count: 1 }]);
+    assert_eq!(prj.devices["-A3"].parts, [PartRef { number: "BEC.EL3174".into(), count: 1, total:false }]);
 }
 
 #[test]
@@ -44,7 +44,7 @@ fn legacy_single_part_is_migrated() {
                   "parts": [{"number": "CT-9A-24DC", "manufacturer": "Generic", "description": "old", "price": 1.0}]}"#;
     let mut prj: Project = serde_json::from_str(json).unwrap();
     prj.normalize();
-    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: "GEN.CT-9A-24DC".into(), count: 1 }]);
+    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: "GEN.CT-9A-24DC".into(), count: 1, total:false }]);
     assert!(prj.parts.iter().any(|p| p.number == "GEN.CT-9A-24DC" && !p.functions.is_empty()));
     assert!(!prj.parts.iter().any(|p| p.number == "CT-9A-24DC"));
 }
@@ -114,7 +114,7 @@ fn parts_are_added_to_devices() {
     let number = db.parts[0].number.clone();
     add_to_device(&mut prj, &db, "-K1", &number, 1);
     add_to_device(&mut prj, &db, "-K1", &number, 2);
-    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: number.clone(), count: 3 }]);
+    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: number.clone(), count: 3, total:false }]);
     assert!(prj.parts.iter().any(|p| p.number == number), "copied into the project");
     // Unknown numbers are referenced all the same (typed by hand).
     add_to_device(&mut prj, &db, "-K1", "OWN.1", 1);

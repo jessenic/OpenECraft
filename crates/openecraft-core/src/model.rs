@@ -1755,7 +1755,7 @@ impl Project {
             } else {
                 legacy
             };
-            dev.parts.push(PartRef { number, count: 1 });
+            dev.parts.push(PartRef { number, count: 1, total:false });
         }
         for (old, new) in remapped {
             self.parts.retain(|p| p.number != old);
@@ -1797,6 +1797,7 @@ impl Project {
             .chain(self.plc_cards.keys())
             .map(String::as_str)
             .chain(self.layout.enclosures.iter().flat_map(|e| e.items.iter()).map(|i| i.tag.as_str()))
+            .chain(self.layout.enclosures.iter().map(|e|e.device_tag.as_str()))
             .chain(parked)
             .filter(|t| !t.is_empty())
     }
@@ -1804,12 +1805,17 @@ impl Project {
     /// Next free device tag for an identifying letter within a structure, e.g.
     /// `=A1-K3` (counted per structure, as `=A1-K1` and `=A2-K1` are different devices).
     pub fn next_tag(&self, structure: &str, letter: &str) -> String {
+        self.next_tag_reserved(structure,letter,&Default::default())
+    }
+
+    pub(crate) fn next_tag_reserved(&self,structure:&str,letter:&str,reserved:&std::collections::BTreeSet<String>)->String {
         let prefix = format!("{structure}-{letter}");
         let tags = self.pages.iter().flat_map(|pg| pg.symbols.iter().map(|s| s.tag.as_str()));
         let max = tags
             .chain(self.cables.iter().map(|c| c.tag.as_str()))
             .chain(self.harnesses.iter().map(|h| h.tag.as_str()))
             .chain(self.unplaced_tags())
+            .chain(reserved.iter().map(String::as_str))
             .filter_map(|t| t.strip_prefix(&prefix)?.parse::<u32>().ok())
             .max()
             .unwrap_or(0);

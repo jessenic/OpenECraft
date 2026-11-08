@@ -2,6 +2,38 @@ use super::*;
 use crate::builtin::testing::*;
 
 #[test]
+fn material_ownership_and_exclusion_are_editable_without_changing_mounts() {
+    let mut s=demo();
+    let e=run(&mut s,"add_enclosure",json!({"name":"Owned","owner_device":"-X1","bom_excluded":true})).unwrap();
+    assert_eq!(e["owner_device"],"-X1");assert_eq!(e["bom_excluded"],true);
+    let item=run(&mut s,"place_mounting_plate",json!({"enclosure":"Owned","width":100,"height":100,"thickness":2})).unwrap();
+    let changed=run(&mut s,"set_panel_item",json!({"enclosure":"Owned","id":item["id"],"owner_device":"-X1","bom_excluded":true})).unwrap();
+    assert_eq!(changed["owner_device"],"-X1");assert_eq!(changed["bom_excluded"],true);assert_eq!(changed["mounted_on"],0);
+    let e=run(&mut s,"set_enclosure",json!({"enclosure":"Owned","owner_device":"","bom_excluded":false})).unwrap();
+    assert_eq!(e["owner_device"],"");assert_eq!(e["bom_excluded"],false);
+}
+
+#[test]
+fn physical_article_changes_update_primary_assignments_and_keep_literal_spares() {
+    let mut s=demo();let prj=s.project_mut().unwrap();
+    let old=prj.devices["-M1"].parts[0].number.clone();
+    let mut replacement=prj.parts.iter().find(|p|p.number==old).unwrap().clone();replacement.number="REPLACEMENT".into();prj.parts.push(replacement.clone());
+    replacement.number="NEXT.PART".into();prj.parts.push(replacement);
+    prj.devices.get_mut("-M1").unwrap().parts.push(openecraft_core::parts::PartRef {number:old.clone(),count:2,total:true});
+    for symbol in prj.pages.iter_mut().flat_map(|p|&mut p.symbols).filter(|s|s.tag=="-M1") {symbol.values.insert("function.part_number".into(),old.clone());}
+    prj.layout.enclosures.push(Enclosure {name:"Bound".into(),part:old.clone(),device_tag:"-M1".into(),..Default::default()});
+    run(&mut s,"set_enclosure",json!({"enclosure":"Bound","part":"REPLACEMENT"})).unwrap();
+    let prj=s.project().unwrap();assert_eq!(prj.devices["-M1"].parts[0].number,"REPLACEMENT");
+    assert_eq!(prj.devices["-M1"].parts.last().unwrap().number,old);
+    assert!(prj.pages.iter().flat_map(|p|&p.symbols).filter(|s|s.tag=="-M1").all(|s|s.values["function.part_number"]=="REPLACEMENT"));
+    let prj=s.project_mut().unwrap();let id=prj.new_id();
+    prj.layout.enclosures.last_mut().unwrap().items.push(PanelItem {id,kind:panel::ItemKind::MountingPlate,tag:"-M1".into(),part:"REPLACEMENT".into(),w:100.,h:200.,d:2.,..Default::default()});
+    run(&mut s,"set_panel_item",json!({"enclosure":"Bound","id":id,"part":"NEXT.PART"})).unwrap();
+    assert_eq!(s.project().unwrap().devices["-M1"].parts[0].number,"NEXT.PART");
+    assert_eq!(s.project().unwrap().devices["-M1"].parts.last().unwrap().number,old);
+}
+
+#[test]
 fn explicit_physical_frames_and_unnumbered_parts_round_trip_through_the_api() {
     let mut s=demo();let part=s.project().unwrap().layout.find_device("-X1").unwrap().1.part.clone();
     let e=run(&mut s,"add_enclosure",json!({"name":"Source body","implicit_plate":false,"mounting_origin":{"x":0,"y":0,"z":0}})).unwrap();

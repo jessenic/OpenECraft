@@ -404,7 +404,7 @@ fn set(prj: &mut Project, open: &Netlist, kind: TableKind, key: &str, column: us
                             d.parts.remove(0);
                         }
                         (Some(_), false) => d.parts[0].number = value.to_string(),
-                        (None, false) => d.parts.push(PartRef { number: value.to_string(), count: 1 }),
+                        (None, false) => d.parts.push(PartRef { number: value.to_string(), count: 1, total:false }),
                     }
                 }
             }

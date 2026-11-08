@@ -41,7 +41,7 @@ fn attribute_block_part_values_use_full_identity_on_structured_pages() {
     });
     prj.parts.push(crate::model::Part { number: "SECOND".into(), manufacturer: "Maker".into(), ..Default::default() });
     prj.devices.insert("=F1+L1-K1".into(), crate::model::DeviceData {
-        parts: vec![crate::model::PartRef { number: "FIRST".into(), count: 1 }, crate::model::PartRef { number: "SECOND".into(), count: 1 }], ..Default::default()
+        parts: vec![crate::model::PartRef { number: "FIRST".into(), count: 1, total:false }, crate::model::PartRef { number: "SECOND".into(), count: 1, total:false }], ..Default::default()
     });
     prj.pages[0].symbols.push(SymbolInst {
         id: 10, sym: "user:block".into(), tag: "=F1+L1-K1".into(), function_text: "Live".into(), pos: p(40., 40.),
