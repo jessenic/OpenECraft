@@ -6385,3 +6385,7 @@ Use plugin default	Plugin-Standard verwenden	Utiliser la valeur par défaut du p
 Enabled	Aktiviert	Activé	Activado
 Disabled	Deaktiviert	Désactivé	Desactivado
 left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern
+Installs symbol definitions while preserving local revisions and returns a key per input	Installiert Symboldefinitionen unter Beibehaltung lokaler Revisionen und gibt pro Eingabe einen Schlüssel zurück	Installe les définitions de symboles en conservant les révisions locales et renvoie une clé par entrée	Instala definiciones de símbolos conservando revisiones locales y devuelve una clave por entrada
+Symbol definitions in an items array	Symboldefinitionen in einem items-Array	Définitions de symboles dans un tableau items	Definiciones de símbolos en una matriz items
+Symbol definitions need an items array	Symboldefinitionen benötigen ein items-Array	Les définitions de symboles nécessitent un tableau items	Las definiciones de símbolos necesitan una matriz items
+A symbol definition needs a key	Eine Symboldefinition benötigt einen Schlüssel	Une définition de symbole nécessite une clé	Una definición de símbolo necesita una clave

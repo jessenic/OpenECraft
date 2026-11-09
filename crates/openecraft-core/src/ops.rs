@@ -710,8 +710,14 @@ fn paste_cables(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target:
 }
 
 fn paste_symbol_definitions<'a>(prj:&mut Project,clip:&'a Clip)->HashMap<&'a str,String> {
-    let mut library_keys = HashMap::new();
-    for definition in clip.symbol_defs.iter() {
+    clip.symbol_defs.iter().zip(merge_symbol_definitions(prj,&clip.symbol_defs))
+        .map(|(definition,key)|(definition.key.as_str(),key)).collect()
+}
+
+/// Installs definitions without replacing local revisions; returns a key per input.
+pub fn merge_symbol_definitions(prj:&mut Project,definitions:&[crate::symlib::UserSymbol])->Vec<String> {
+    let mut library_keys = Vec::with_capacity(definitions.len());
+    for definition in definitions {
         let mut incoming = definition.clone();
         let mut suffix = 0;
         loop {
@@ -727,7 +733,7 @@ fn paste_symbol_definitions<'a>(prj:&mut Project,clip:&'a Clip)->HashMap<&'a str
                 }
             }
         }
-        library_keys.insert(definition.key.as_str(), incoming.key);
+        library_keys.push(incoming.key);
     }
     library_keys
 }

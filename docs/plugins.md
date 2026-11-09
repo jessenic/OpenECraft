@@ -509,3 +509,19 @@ centres and swaps width and height, matching the editor Rotate action.
 Optional boolean parameters in the editor offer Use plugin default, Enabled and
 Disabled. The first omits the argument so external plugins retain their documented
 defaults; explicit false remains distinct from omission in every frontend.
+
+### Symbol definition revisions
+
+`merge_symbol_definitions` accepts `definitions: {"items": [<UserSymbol>, ...]}`.
+The complete batch is deserialized and validated before any change. It returns
+`keys`, one resolved key per input in source order, and `added`, the number of new
+definitions. Identical typed definitions reuse their existing key. Conflicts try
+`<original>_import_1`, `_import_2`, and so on, reusing an equal existing revision.
+Existing definitions and page instances remain unchanged. Two inputs sharing an
+original key can return different revision keys, so importers should map references
+within each incoming clip rather than build one global map of original keys.
+
+The editor, CLI, MCP and external plugins all use the same registered command.
+Native typing normalizes default fields and numeric precision before comparison;
+importers should use this operation instead of comparing raw saved JSON objects.
+This is the same core operation used when pasting portable macro definitions.

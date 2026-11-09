@@ -6562,3 +6562,7 @@ Use plugin default	Käytä liitännäisen oletusta
 Enabled	Käytössä
 Disabled	Pois käytöstä
 left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern
+Installs symbol definitions while preserving local revisions and returns a key per input	Asentaa symbolimääritykset säilyttäen paikalliset versiot ja palauttaa avaimen kullekin syötteelle
+Symbol definitions in an items array	Symbolimääritykset items-taulukossa
+Symbol definitions need an items array	Symbolimääritykset tarvitsevat items-taulukon
+A symbol definition needs a key	Symbolimääritys tarvitsee avaimen

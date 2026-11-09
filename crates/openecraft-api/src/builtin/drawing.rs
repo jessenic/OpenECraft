@@ -36,6 +36,12 @@ impl Plugin for Drawing {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name:"merge_symbol_definitions",
+        help:tr_const!("Installs symbol definitions while preserving local revisions and returns a key per input"),
+        params:&[param("definitions",Kind::Object,tr_const!("Symbol definitions in an items array"))],
+        run:merge_symbol_definitions,
+    },
+    Spec {
         name:"set_pin_connection_directions",
         help:tr_const!("Sets allowed side contacts of a user symbol connection point"),
         params:&[
@@ -658,6 +664,15 @@ fn place_symbol(prj: &mut Project, a: &Args) -> Result<Value, String> {
         parts::link_unassigned_plc_parts(prj, &parts::PartsDb { parts: Vec::new() }, Some(&tag));
     }
     Ok(out)
+}
+
+fn merge_symbol_definitions(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let items=a.value("definitions").and_then(|v|v.get("items")).filter(|v|v.is_array())
+        .ok_or_else(||tr("Symbol definitions need an items array").to_string())?;
+    let definitions:Vec<openecraft_core::symlib::UserSymbol>=serde_json::from_value(items.clone()).map_err(|e|e.to_string())?;
+    if definitions.iter().any(|d|d.key.trim().is_empty()) {return Err(tr("A symbol definition needs a key").into());}
+    let before=prj.symbols.len();let keys=ops::merge_symbol_definitions(prj,&definitions);
+    Ok(json!({"keys":keys,"added":prj.symbols.len()-before}))
 }
 
 fn import_ema(prj: &mut Project, a: &Args) -> Result<Value, String> {

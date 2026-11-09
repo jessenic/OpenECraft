@@ -1,6 +1,40 @@
 use super::*;
 
 #[test]
+fn merging_definitions_preserves_local_symbols_and_reuses_typed_revisions() {
+    use crate::builtin::testing::*;
+    let mut session=demo_session();
+    let original:openecraft_core::symlib::UserSymbol=serde_json::from_value(json!({"key":"user:reconcile","name":"Local edit","pins":[{"pos":{"x":0.1,"y":0},"label":"1"}]})).unwrap();
+    session.project_mut().unwrap().symbols.push(original.clone());
+    session.project_mut().unwrap().pages[0].symbols.push(SymbolInst {id:999999,sym:original.key.clone(),..Default::default()});
+    let pages=session.project().unwrap().pages.clone();
+    let source=json!({"key":"user:reconcile","name":"Source revision","pins":[{"pos":{"x":0.1000000001,"y":0},"label":"2"}]});
+    let second=json!({"key":"user:reconcile","name":"Another revision","pins":[{"label":"3"}]});
+    let args=json!({"definitions":{"items":[source,second]}});
+    let first=run(&mut session,"merge_symbol_definitions",args.clone()).unwrap();
+    assert_eq!(first["keys"],json!(["user:reconcile_import_1","user:reconcile_import_2"]));assert_eq!(first["added"],2);
+    assert_eq!(session.project().unwrap().symbols.iter().find(|d|d.key==original.key).unwrap(),&original);
+    assert_eq!(session.project().unwrap().pages,pages);
+    let repeated=run(&mut session,"merge_symbol_definitions",args).unwrap();
+    assert_eq!(repeated["keys"],first["keys"]);assert_eq!(repeated["added"],0);
+    let exact=serde_json::to_value(&original).unwrap();
+    let equivalent=json!({"key":"user:reconcile","name":"Local edit","pins":[{"pos":{"x":0.10000000149011612,"y":0},"label":"1"}]});
+    let same=run(&mut session,"merge_symbol_definitions",json!({"definitions":{"items":[exact,equivalent]}})).unwrap();
+    assert_eq!(same["keys"],json!(["user:reconcile","user:reconcile"]));assert_eq!(same["added"],0);
+}
+
+#[test]
+fn definition_merge_validates_the_whole_batch_before_mutating_the_project() {
+    use crate::builtin::testing::*;
+    let mut session=demo_session();let baseline=session.project().unwrap().clone();
+    for definitions in [json!({}),json!({"items":{}}),json!({"items":[{"key":"user:ok"},{"key":""}]}),
+        json!({"items":[{"key":"user:ok"},{"key":"user:broken","pins":"invalid"}]})] {
+        assert!(run(&mut session,"merge_symbol_definitions",json!({"definitions":definitions})).is_err());
+        assert_eq!(session.project().unwrap(),&baseline);
+    }
+}
+
+#[test]
 fn placed_wire_labels_are_editable_through_the_registry_and_reject_invalid_layouts_atomically() {
     let mut s=crate::builtin::testing::new_session();
     let added=run(&mut s,"add_wire",json!({"page":"1","points":[[40,40],[80,40]]})).unwrap();
