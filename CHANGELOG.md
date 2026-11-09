@@ -5,6 +5,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Reuse Insert center symbol groups and search results while scrolling, refreshing them when definitions, parts, search text or language change.
+
+- Keep the Insert center responsive while scrolling large libraries by drawing only visible list rows and previews and reusing unplaced-function results until the project or catalog changes.
+
 - Add live function cross-reference fields with native page links, multiline attribute flow and a shared reference query. Authored tag fields can retain reference placement without freezing sheet names.
 
 - Expose native symbol definition reconciliation to importers, preserving local revisions and reusing equal definitions.

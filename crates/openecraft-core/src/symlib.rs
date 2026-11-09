@@ -262,6 +262,15 @@ pub struct Symbols {
 }
 
 impl Symbols {
+    /// Whether both tables share the same immutable definition snapshot.
+    pub fn same_snapshot(&self, other: &Self) -> bool {
+        match (&self.user, &other.user) {
+            (None, None) => true,
+            (Some(a), Some(b)) => Arc::ptr_eq(a, b),
+            _ => false,
+        }
+    }
+
     pub fn get(&self, key: &str) -> Option<SymbolRef> {
         if let Some(d) = symbols::builtin(key) {
             return Some(SymbolRef::Builtin(d));

@@ -81,6 +81,7 @@ impl App {
         let result = form_args(&c.params, texts).and_then(|args| self.plugins.run(c, &mut self.session.prj, &args));
         if result.is_ok() {
             self.find_ui.clear_results();
+            self.unplaced_cache = Default::default();
         }
         self.plugins_ui.result = Some(result.map(|v| match v {
             Value::String(s) => s,

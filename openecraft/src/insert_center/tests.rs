@@ -1,6 +1,78 @@
 use super::*;
 
 #[test]
+fn catalog_scrolling_reuses_groups_and_edits_refresh_search_results() {
+    use openecraft_core::{parts::Part, symlib::UserSymbol};
+    let mut prj = Project::default();
+    let mut db = PartsDb { parts: vec![] };
+    prj.symbols.push(UserSymbol { key: "user:scroll".into(), name: "Scroll relay".into(), library: "Scroll library".into(), ..Default::default() });
+    let mut center = InsertCenter { query: "Scroll".into(), ..Default::default() };
+    let mut cache = CatalogCache::default();
+    let initial = cache.get(&prj, &db, &center);
+    assert_eq!(initial.len(), 1);
+    assert_eq!(initial[0].entries, [Entry::Symbol("user:scroll".into())]);
+    assert!(Arc::ptr_eq(&initial, &cache.get(&prj, &db, &center)));
+    prj.info.name = "Drawing edit does not change the symbol catalog".into();
+    assert!(Arc::ptr_eq(&initial, &cache.get(&prj, &db, &center)));
+    // A same-length definition edit must invalidate the cache too.
+    prj.symbols[0].name = "Renamed contact".into();
+    center.query = "relay".into();
+    assert!(!cache.get(&prj, &db, &center).iter().any(|g| g.entries.contains(&Entry::Symbol("user:scroll".into()))));
+    center.query = "Renamed".into();
+    let renamed = cache.get(&prj, &db, &center);
+    assert_eq!(renamed[0].entries, [Entry::Symbol("user:scroll".into())]);
+    prj.parts.push(Part { number: "local".into(), ..Default::default() });
+    let local = cache.get(&prj, &db, &center);
+    assert!(!Arc::ptr_eq(&local, &renamed));
+    db.parts.push(Part { number: "global".into(), ..Default::default() });
+    let catalog = cache.get(&prj, &db, &center);
+    assert!(!Arc::ptr_eq(&catalog, &local));
+    openecraft_i18n::with_lang(openecraft_i18n::Lang::De, || {
+        assert!(!Arc::ptr_eq(&catalog, &cache.get(&prj, &db, &center)));
+    });
+    let replacement = Project::default();
+    assert!(cache.get(&replacement, &db, &center).is_empty());
+}
+
+#[test]
+fn unplaced_results_are_reused_and_invalidated_by_edits_undo_replacement_and_catalog() {
+    use openecraft_core::{history::History, model::potentials::PotentialDef};
+    let mut prj = Project::default();
+    let mut history = History::new(&prj);
+    let mut db = PartsDb { parts: vec![] };
+    let mut cache = UnplacedCache::default();
+    let original = cache.get(&prj, &db, history.rev).to_vec();
+    let allocation = cache.entries.as_ptr();
+    assert_eq!(cache.get(&prj, &db, history.rev).as_ptr(), allocation);
+    prj.potentials.push(PotentialDef { name: "+48V".into(), ..Default::default() });
+    history.track(&prj, true);
+    assert!(cache.get(&prj, &db, history.rev).iter().any(|u| u.label == "+48V"));
+    history.undo(&mut prj);
+    assert_eq!(cache.get(&prj, &db, history.rev), original);
+    history.redo(&mut prj);
+    assert!(cache.get(&prj, &db, history.rev).iter().any(|u| u.label == "+48V"));
+    // Session::replace advances the history revision even for a new project.
+    assert_eq!(cache.get(&Project::default(), &db, history.rev + 1), original);
+    prj.devices.insert("-K99".into(), openecraft_core::model::DeviceData {
+        parts: vec![openecraft_core::parts::PartRef { number: "catalog-relay".into(), ..Default::default() }],
+        ..Default::default()
+    });
+    history.track(&prj, true);
+    assert!(!cache.get(&prj, &db, history.rev).iter().any(|u| u.tag == "-K99"));
+    db.parts.push(openecraft_core::parts::Part {
+        number: "catalog-relay".into(),
+        functions: vec![openecraft_core::parts::FunctionTemplate::new(openecraft_core::parts::FnKind::No, "13 14")],
+        ..Default::default()
+    });
+    assert!(cache.get(&prj, &db, history.rev).iter().any(|u| u.tag == "-K99" && u.pins == ["13", "14"]));
+    assert_eq!(cache.key.as_ref().unwrap().2, db);
+    openecraft_i18n::with_lang(openecraft_i18n::Lang::De, || {
+        cache.get(&prj, &db, history.rev);
+        assert_eq!(cache.key.as_ref().unwrap().1, openecraft_i18n::Lang::De);
+    });
+}
+
+#[test]
 fn card_variants_form_one_loose_entry_or_one_catalog_device() {
     use openecraft_core::{
         parts::Part,

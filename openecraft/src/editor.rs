@@ -1884,6 +1884,9 @@ impl Editor {
 /// Draws a symbol preview into a small rectangle (symbol library).
 pub fn symbol_icon(ui: &mut egui::Ui, prj: &Project, key: &str, size: Vec2) -> egui::Response {
     let (resp, painter) = ui.allocate_painter(size, Sense::click());
+    if !ui.is_rect_visible(resp.rect) {
+        return resp;
+    }
     let Some(def) = prj.symbol(key) else { return resp };
     let pal = Palette::new(ui.visuals().dark_mode);
     let b = def.bounds;

@@ -1,6 +1,21 @@
 use super::*;
 
 #[test]
+fn symbol_snapshots_follow_definition_edits_without_comparing_drawings() {
+    let mut prj = crate::model::Project::default();
+    let builtins = prj.symbol_table();
+    assert!(builtins.same_snapshot(&prj.symbol_table()));
+    prj.symbols.push(UserSymbol { key: "user:snapshot".into(), ..Default::default() });
+    let before = prj.symbol_table();
+    assert!(!before.same_snapshot(&builtins));
+    assert!(before.same_snapshot(&before.clone()));
+    assert!(before.same_snapshot(&prj.clone().symbol_table()));
+    prj.symbols[0].name = "Edited definition".into();
+    assert!(!before.same_snapshot(&prj.symbol_table()));
+    assert!(prj.symbol_table().same_snapshot(&prj.symbol_table()));
+}
+
+#[test]
 fn imported_secondary_function_belongs_to_its_master_without_a_contact_kind() {
     let mut prj = Project::default();
     for (key, func) in [("user:master", Func::Main { mirror: false }), ("user:slave", Func::Auxiliary)] {

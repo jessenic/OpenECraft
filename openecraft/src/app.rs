@@ -20,7 +20,7 @@ use openecraft_core::ops;
 use openecraft_core::analysis::Analysis;
 use openecraft_core::issue::Severity;
 use openecraft_core::structure::{self, Aspect, Dt};
-use openecraft_core::symbols::{self, Category, Func};
+use openecraft_core::symbols::Func;
 use openecraft_core::{potentials, properties, sample, translation, wirenum};
 use openecraft_ui::icons::{self, Icon};
 use egui::{Key, RichText};
@@ -325,6 +325,8 @@ pub struct App {
     settings: settings_ui::SettingsUi,
     search: command_search::SearchUi,
     insert_center: crate::insert_center::InsertCenter,
+    unplaced_cache: crate::insert_center::UnplacedCache,
+    insert_catalog: crate::insert_center::CatalogCache,
     /// Favorite and recently used plugin commands.
     plugin_cmds: crate::plugin_commands::PluginCommands,
     help: help_pane::HelpUi,
@@ -555,6 +557,8 @@ impl App {
             settings: Default::default(),
             search: Default::default(),
             insert_center,
+            unplaced_cache: Default::default(),
+            insert_catalog: Default::default(),
             plugin_cmds,
             help: Default::default(),
             dialogs: Default::default(),
