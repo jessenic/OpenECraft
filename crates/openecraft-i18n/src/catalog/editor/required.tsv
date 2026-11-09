@@ -797,6 +797,7 @@ Forms	Formulare	Formulaires	Formularios
 Forms and frames	Formulare und Rahmen	Formulaires et cadres	Formularios y marcos
 Form…	Formular…	Formulaire…	Formulario…
 Frame	Rahmen	Cadre	Marco
+Frame artwork: {} primitives	Rahmenzeichnung: {} Elemente	Dessin du cadre : {} primitives	Dibujo del marco: {} primitivas
 Frame of all pages that do not choose one	Rahmen aller Seiten, die keinen eigenen wählen	Cadre de toutes les pages qui n'en choisissent pas	Marco de todas las páginas que no eligen uno
 Free air	Freie Verlegung	Air libre	Aire libre
 Free air factor	Faktor freie Verlegung	Facteur air libre	Factor aire libre
@@ -1840,6 +1841,7 @@ Show connection point designations	Anschlussbezeichnungen anzeigen	Afficher les 
 Show connectors	Stecker anzeigen	Afficher les connecteurs	Mostrar conectores
 Show device tag and cross references	Betriebsmittelkennzeichen und Querverweise anzeigen	Afficher le repère d'appareil et les renvois	Mostrar designación de dispositivo y referencias cruzadas
 Show everything (Home)	Alles zeigen (Pos1)	Tout afficher (Origine)	Mostrar todo (Inicio)
+Show frame artwork	Rahmenzeichnung anzeigen	Afficher le dessin du cadre	Mostrar el dibujo del marco
 Show generated frame	Erzeugten Rahmen anzeigen	Afficher le cadre généré	Mostrar el marco generado
 Show in 3D view	In der 3D-Ansicht anzeigen	Afficher dans la vue 3D	Mostrar en la vista 3D
 Show in panel layout	Im Schaltschrankaufbau anzeigen	Afficher dans l'implantation d'armoire	Mostrar en el diseño del armario

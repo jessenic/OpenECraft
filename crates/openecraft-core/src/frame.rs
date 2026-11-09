@@ -82,6 +82,7 @@ impl Default for PlotFrame {
     fn default() -> Self {
         PlotFrame {
             name: DEFAULT.into(),
+            artwork: Vec::new(),
             visible: true,
             paper: Paper::A3,
             landscape: true,

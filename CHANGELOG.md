@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.2] - unreleased
 
+- Preserve imported plot-frame artwork and live page fields as reusable frames, separate from selectable page content, including canvas, frame preview and exports.
+
 - Keep the closing window responsive while preparing recovery data, with progress for the previous autosave, project, parts database and macro library.
 - Reuse Insert center symbol groups and search results while scrolling, refreshing them when definitions, parts, search text or language change.
 - Keep the Insert center responsive while scrolling large libraries by drawing only visible list rows and previews and reusing unplaced-function results until the project or catalog changes.

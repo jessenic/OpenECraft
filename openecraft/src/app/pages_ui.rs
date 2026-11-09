@@ -9,7 +9,7 @@ use openecraft_core::frame::{self, Labels, Paper, PlotFrame};
 use crate::io::{Loaded, Purpose};
 use openecraft_core::model::PageKind;
 use openecraft_core::page_templates::{self, Library};
-use egui::{pos2, vec2, Color32, RichText, Sense, Stroke};
+use egui::{vec2, Color32, RichText, Sense};
 
 #[derive(Default)]
 pub struct PagesUi {
@@ -28,31 +28,16 @@ pub(super) enum TemplateAction {
     Export,
 }
 
-/// Sketch of a frame: paper, border, strips and title block.
-fn frame_preview(ui: &mut egui::Ui, f: &PlotFrame) {
+/// The selected frame, including authored artwork and live page fields.
+fn frame_preview(ui: &mut egui::Ui, f: &PlotFrame, prj: &openecraft_core::model::Project, page_i: usize) {
     let (w, h) = f.size();
     let k = (220.0 / w).min(160.0 / h);
     let (resp, painter) = ui.allocate_painter(vec2(w * k + 4.0, h * k + 4.0), Sense::hover());
     let o = resp.rect.min + vec2(2.0, 2.0);
-    let r = |a: openecraft_core::geom::P, b: openecraft_core::geom::P| egui::Rect::from_min_max(o + vec2(a.x, a.y) * k, o + vec2(b.x, b.y) * k);
-    let line = Stroke::new(1.0, ui.visuals().text_color());
-    let thin = Stroke::new(0.5, ui.visuals().weak_text_color());
-    painter.rect_filled(r(openecraft_core::geom::p(0.0, 0.0), openecraft_core::geom::p(w, h)), 0.0, Color32::WHITE);
-    let (b, a) = (f.border(), f.area());
-    painter.rect_stroke(r(b.min, b.max), 0.0, line, egui::StrokeKind::Inside);
-    if f.strips {
-        for c in 1..f.columns.max(1) {
-            let x = o.x + (a.min.x + c as f32 * f.column_width()) * k;
-            painter.line_segment([pos2(x, o.y + b.min.y * k), pos2(x, o.y + a.min.y * k)], thin);
-        }
-        for i in 1..f.rows.max(1) {
-            let y = o.y + (a.min.y + i as f32 * f.row_height()) * k;
-            painter.line_segment([pos2(o.x + b.min.x * k, y), pos2(o.x + a.min.x * k, y)], thin);
-        }
-        painter.rect_stroke(r(a.min, a.max), 0.0, thin, egui::StrokeKind::Inside);
-    }
-    let t = f.title_origin();
-    painter.rect_filled(r(t, b.max), 0.0, Color32::from_gray(210));
+    painter.rect_filled(egui::Rect::from_min_size(o, vec2(w*k,h*k)), 0.0, Color32::WHITE);
+    let pal = crate::editor::Palette::new(false);
+    let mut draw = crate::editor::EguiDraw { painter: &painter, origin: o, zoom: k, pal: &pal, force: None, mirror: None, textures: None };
+    openecraft_core::render::draw_plot_frame(&mut draw, prj, page_i, f);
 }
 
 impl App {
@@ -155,7 +140,7 @@ impl App {
                         ui.label(tr("Border distance (mm)"));
                         ui.add(egui::DragValue::new(&mut f.margin).range(0.0..=50.0).speed(0.5));
                         ui.end_row();
-                        ui.label(tr("Show generated frame"));
+                        ui.label(if f.artwork.is_empty() {tr("Show generated frame")} else {tr("Show frame artwork")});
                         ui.checkbox(&mut f.visible, "");
                         ui.end_row();
                         ui.label(tr("Column / row strips"));
@@ -187,7 +172,10 @@ impl App {
             });
             ui.separator();
             ui.vertical(|ui| {
-                frame_preview(ui, &f);
+                frame_preview(ui, &f, prj, self.session.page);
+                if !f.artwork.is_empty() {
+                    ui.label(tr_fmt!("Frame artwork: {} primitives", f.artwork.len()));
+                }
                 ui.label(RichText::new(f.summary()).strong());
                 let a = f.area();
                 ui.label(tr_fmt!("Drawing area {} x {} mm, column width {} mm", format!("{:.0}", a.width()), format!("{:.0}", a.height()), format!("{:.1}", f.column_width())));

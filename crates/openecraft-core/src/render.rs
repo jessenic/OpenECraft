@@ -971,9 +971,20 @@ fn mirror_glyph(d: &mut dyn Draw, c: P, kind: ContactKind, ink: Ink) {
 }
 
 pub fn draw_frame(d: &mut dyn Draw, prj: &Project, page_i: usize) {
-    let page = &prj.pages[page_i];
     let f = crate::frame::of_page(prj, page_i);
+    draw_plot_frame(d, prj, page_i, &f);
+}
+
+/// A selected frame with the current page context (also used by the frame editor).
+pub fn draw_plot_frame(d: &mut dyn Draw, prj: &Project, page_i: usize, f: &crate::frame::PlotFrame) {
+    let page = &prj.pages[page_i];
     if !f.visible { return; }
+    if !f.artwork.is_empty() {
+        let instance = SymbolInst::default();
+        draw_prims_resolved(d, &f.artwork, &instance, Ink::Frame,
+            &|key| crate::props::symbol_property_text(prj, page_i, &instance, key), &[]);
+        return;
+    }
     let fi = Ink::Frame;
     let b = f.border();
     let a = f.area();

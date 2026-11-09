@@ -1,6 +1,31 @@
 use super::*;
 
 #[test]
+fn frame_artwork_uses_live_page_properties_without_page_objects() {
+    use crate::symbols::{PropertyBlock,BlockAlign};
+    let mut project=Project::default();
+    project.pages[0].frame="Source frame".into();
+    project.pages[0].description="Initial caption".into();
+    project.forms.frames.push(crate::frame::PlotFrame {name:"Source frame".into(),artwork:vec![
+        Prim::Line {a:p(1.,2.),b:p(10.,2.),dashed:false},
+        Prim::PropertyBlock(PropertyBlock {rows:vec![BlockRow::Property("page.description".into())],pos:p(10.,20.),
+            step:p(0.,3.),size:2.,anchor:Anchor::Left,angle:0.,align:BlockAlign::Start,color:None})],..Default::default()});
+    let mut first=Rec::default();draw_frame(&mut first,&project,0);
+    assert_eq!(first.line_positions,vec![(p(1.,2.),p(10.,2.))]);
+    assert!(first.rects.is_empty());
+    assert!(first.texts.iter().any(|(_,text,_,_)|text=="Initial caption"));
+    project.pages[0].description="Updated caption".into();
+    let saved=serde_json::to_string(&project).unwrap();
+    let reopened:Project=serde_json::from_str(&saved).unwrap();
+    let mut second=Rec::default();draw_frame(&mut second,&reopened,0);
+    assert!(second.texts.iter().any(|(_,text,_,_)|text=="Updated caption"));
+    assert!(reopened.pages[0].symbols.is_empty() && reopened.pages[0].shapes.is_empty());
+    project.forms.frames[0].visible=false;
+    let mut hidden=Rec::default();draw_frame(&mut hidden,&project,0);
+    assert!(hidden.line_positions.is_empty() && hidden.texts.is_empty());
+}
+
+#[test]
 fn live_reference_rows_flow_and_keep_page_links_under_every_symbol_transform() {
     use crate::symbols::{BlockAlign,PropertyBlock};
     let block = PropertyBlock { rows:vec![BlockRow::Field(FieldKind::FunctionText),BlockRow::Property(references::PROPERTY.into()),BlockRow::Text("Tail".into())],
