@@ -1,6 +1,19 @@
 use super::*;
 
 #[test]
+fn analog_and_mixed_function_templates_define_all_channels_and_bytes() {
+    let mut part=Part {number:"AI4".into(),functions:(0..4).map(|_|crate::parts::FunctionTemplate {kind:FnKind::PlcAnalogInput,..Default::default()}).collect(),..Default::default()};
+    let desc=from_part(&part).unwrap();
+    assert_eq!((desc.kind,desc.inputs,desc.outputs,desc.input_bytes),(ModuleKind::AnalogInput,4,0,8));
+    part.functions.extend((0..9).map(|_|crate::parts::FunctionTemplate {kind:FnKind::PlcInput,..Default::default()}));
+    part.functions.push(crate::parts::FunctionTemplate {kind:FnKind::PlcAnalogOutput,..Default::default()});
+    let desc=from_part(&part).unwrap();
+    assert_eq!((desc.kind,desc.inputs,desc.outputs,desc.input_bytes,desc.output_bytes),(ModuleKind::Other,13,1,10,2));
+    part.tech_data="Input bytes: 24\nOutput bytes: 4".into();
+    let desc=from_part(&part).unwrap();assert_eq!((desc.input_bytes,desc.output_bytes),(24,4));
+}
+
+#[test]
 fn parts_of_the_catalog_give_descriptions() {
     let di = crate::parts::catalog().iter().find(|p| p.number == "GEN.PLC-DI16").unwrap();
     let d = from_part(di).unwrap();

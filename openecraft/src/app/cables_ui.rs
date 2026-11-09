@@ -11,11 +11,28 @@ use egui::RichText;
 /// Example format of the wire numbering (a format, not a text to translate).
 const FORMAT_HINT: &str = "{page}.{column}.{n}";
 
+fn cable_tag_input(ui:&mut egui::Ui,cable:&Cable)->Option<String> {
+    let key=ui.make_persistent_id(("cable_tag",cable.id,cable.tag.as_str()));
+    let mut text=ui.data(|data|data.get_temp::<String>(key)).unwrap_or_else(||cable.tag.clone());
+    let response=ui.add_sized([100.,20.],egui::TextEdit::singleline(&mut text).id(key).font(egui::TextStyle::Monospace))
+        .on_hover_text(tr("Cable tag, e.g. -W20"));
+    if (response.has_focus() || response.lost_focus()) && ui.input(|input|input.key_pressed(egui::Key::Escape)) {
+        ui.data_mut(|data|data.remove_temp::<String>(key));response.surrender_focus();return None
+    }
+    if response.lost_focus() || response.has_focus() && ui.input(|input|input.key_pressed(egui::Key::Enter)) {
+        ui.data_mut(|data|data.remove_temp::<String>(key));response.surrender_focus();
+        return (text.trim()!=cable.tag).then(||text.trim().to_string())
+    }
+    if response.has_focus() {ui.data_mut(|data|data.insert_temp(key,text));}
+    None
+}
+
 impl App {
     pub(super) fn cables_pane(&mut self, ui: &mut egui::Ui) {
-        let mut renamed: Vec<(String, String)> = Vec::new();
+        let mut renamed: Vec<(u64, String)> = Vec::new();
         let mut remove = None;
         let mut picked: Vec<String> = Vec::new();
+        let mut article_changes=Vec::new();
         let mut overview = false;
         let mut used: std::collections::HashMap<String, std::collections::BTreeSet<String>> = Default::default();
         for w in self.session.prj.pages.iter().flat_map(|pg| pg.wires.iter()).filter(|w| !w.cable.is_empty()) {
@@ -37,7 +54,7 @@ impl App {
                 ui.weak(tr("Assign wires: select them in the schematic › Assign to cable."));
             });
             ui.separator();
-            let cable_parts: Vec<&parts::Part> = self.parts_db.parts.iter().filter(|p| p.group == "Cables").collect();
+            let cable_parts = parts::group_choices(&self.session.prj.parts, Some(&self.parts_db), "Cables");
             egui::ScrollArea::both().auto_shrink([false, false]).show(ui, |ui| {
                 egui::Grid::new("cables").striped(true).num_columns(10).spacing([8.0, 4.0]).show(ui, |ui| {
                     for h in [tr("Cable"), tr("Type"), tr("Bus"), tr("Cores"), tr("Cross-section"), tr("Length"), tr("Part"), tr("Description"), tr("Used"), ""] {
@@ -46,10 +63,8 @@ impl App {
                     ui.end_row();
                     for (i, c) in self.session.prj.cables.iter_mut().enumerate() {
                         let old = c.tag.clone();
-                        ui.add_sized([100.0, 20.0], egui::TextEdit::singleline(&mut c.tag).font(egui::TextStyle::Monospace));
-                        if c.tag != old {
-                            renamed.push((old.clone(), c.tag.clone()));
-                        }
+                        let old_part=c.part.clone();
+                        if let Some(tag)=cable_tag_input(ui,c) {renamed.push((c.id,tag));}
                         ui.add_sized([120.0, 20.0], egui::TextEdit::singleline(&mut c.cable_type));
                         egui::ComboBox::from_id_salt(("cablebus", i)).width(90.0).selected_text(c.bus.map(|b| b.title()).unwrap_or("–")).show_ui(ui, |ui| {
                             ui.selectable_value(&mut c.bus, None, "–").on_hover_text(tr("Ordinary cable"));
@@ -86,6 +101,7 @@ impl App {
                             remove = Some(i);
                         }
                         ui.end_row();
+                        if c.part!=old_part {article_changes.push((old,old_part,c.part.clone()));}
                     }
                 });
                 if self.session.prj.cables.is_empty() {
@@ -93,8 +109,11 @@ impl App {
                 }
             });
         });
-        for (old, new) in renamed {
-            ops::rename_cable(&mut self.session.prj, &old, &new);
+        for (tag,old,new) in article_changes {
+            ops::retarget_cable_part_references(&mut self.session.prj,&tag,&old,&new);
+        }
+        for (id, new) in renamed {
+            if let Err(error)=ops::rename_project_cable(&mut self.session.prj,id,&new) {self.notify_error(ui.ctx(),error);}
         }
         if let Some(i) = remove {
             ops::remove_cable(&mut self.session.prj, i);

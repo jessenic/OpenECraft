@@ -3,6 +3,85 @@
 The notable changes of each OpenECraft release. The section of a version is the text of
 its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
+## [0.1.2] - unreleased
+
+- Keep the closing window responsive while preparing recovery data, with progress for the previous autosave, project, parts database and macro library.
+- Reuse Insert center symbol groups and search results while scrolling, refreshing them when definitions, parts, search text or language change.
+- Keep the Insert center responsive while scrolling large libraries by drawing only visible list rows and previews and reusing unplaced-function results until the project or catalog changes.
+- Add live function cross-reference fields with native page links, multiline attribute flow and a shared reference query. Authored tag fields can retain reference placement without freezing sheet names.
+- Expose native symbol definition reconciliation to importers, preserving local revisions and reusing equal definitions.
+- Continue new page numbering after imported alphabetic subpages such as 20a and 20.a, within each section.
+- Preserve explicit cabinet rotations through front artwork, meshes, pins, wire exits and drilling; expose orientation editing through the editor and plugin commands.
+- Distinguish plugin defaults from explicit false for optional boolean form fields.
+- Renaming a placed cable marker follows its explicit cable reference and keeps
+  ordinary devices with a shared tag independent. Unambiguous cable material-owner
+  references follow renames and are cleared when the cable is removed.
+- Placed wire labels read live core, cable, wire number or colour values, retain
+  their layout through routing splits, joins, rotation and portable copy/paste,
+  and can be edited in wire properties or the shared `update_wire` command.
+- Cable properties in symbol attribute blocks and placed annotations follow the
+  linked inventory entry, including custom marker captions. Placed part properties
+  show the selected article consistently with attribute blocks and exports.
+- Cable tag entry commits on Enter or leaving the field; empty, duplicate and
+  invalid tags leave the inventory and drawing references intact. The editor and
+  table command share validation, including released drawings.
+- Explicit cable markers follow the current cable article through property,
+  table and catalog edits, including when their displayed caption is customized.
+- Cable renames keep explicitly linked drawing markers, connection definitions,
+  cable definition lines and inactive options synchronized; shared ordinary
+  device tags stay separate. Portable copies retain the cable association.
+- Keep frame references to the previous, next and last sheet current within their section, including schemes whose numbering starts above one.
+- Keep page and project property blocks live in drawing graphics, expose local sheet numbers and section page counts, and retain editable page defaults in reusable page templates. Offer page and project fields in the symbol editor's property picker.
+- Advertise parallel cable-core support to external importers so a newer verification CLI cannot mask an older running editor.
+- Resolve portable macro parameters in symbol graphics, pin labels and library defaults as well as placed instance data.
+- Keep imported cable symbol article references current when choosing or typing a new cable part, while preserving ordinary device selections.
+- Preserve explicit function article lookup when an ordinary device and a cable share an authored tag, without duplicating cable material.
+- Retain distinct parallel cable cores between the same terminals in physical connections and regenerated cable reports.
+- Preserve owned cable definitions, catalog parts and core assignments when copying circuits or inserting macros, with fresh consistent tags.
+- Include imported project cable parts in the cable picker, preserve local catalog overrides, and expose the same available parts through the shared registry.
+- Apply declared catalog cable diameters when selecting a part, return to the routing estimate when the new part has no valid diameter, and expose cable part application through the shared plugin command.
+- Keep missing lengths of cable sold by metre as unknown material quantities and prices. Retain known partial totals and identify the cables that need a length through the shared project check.
+- Preserve individual wire junction policies when inserting imported macros into existing drawings. Keep existing implicit contacts, trace imported physical routes, expose editable policies through the shared API and wire properties, and preserve different conductor properties during cleanup.
+- Preserve device properties, material owners and literal extra quantities when inserting portable macros. Keep local counts when extending an existing device and reserve incoming tags before assigning collision replacements.
+- Keep cabinet-only devices in the device and material lists independently of their extras. Count undrawn individual cabinet terminals once and keep their quantity stable when the corresponding schematic terminal is added.
+- Preserve cabinet material ownership independently of mounting geometry. Exclude duplicate physical articles or whole devices from the BOM, retain editable material-only devices, and derive optional rail spacers from actual support height.
+- Preserve literal additional-article quantities, including zero, without multiplying them by terminal positions. Keep primary material growth for newly drawn terminals, avoid counting physical cabinet articles twice and expose quantity modes and physical article bindings through the shared API.
+- Retain explicit cabinet mounting origins and unnumbered single-part footprints without adding implicit plates, repeated terminal strips or accessory stacks. Keep open assembly routing free of invented walls and count explicit plate articles.
+- Place individual terminals with their own parts and physical routing points while retaining whole-strip placement for existing projects.
+- Represent open mounting assemblies and explicit mounting plates without invented enclosure geometry. Retain instance mounting datums, support vertical DIN rails, carry mounted descendants on moves and resize operations, and preserve mounting references in portable and pattern copies through the shared panel API.
+- Convert every digital channel of complete PLC modules when changing the station address scheme, synchronizing linked views while retaining custom address text and signal names.
+- Preserve PLC channel addresses when changing only hardware metadata. Offer explicit readdressing through the shared API and avoid inventing PROFINET ports for imported CPUs with no network data.
+- Count every logical channel of complete PLC modules in part functions and reserve-function checks. Recognize analog part functions in hardware descriptions and exclude occupied module channels from the unplaced navigator even with custom addresses.
+- Preserve card-relative PLC channel numbers across split electrical symbols and sheet reordering, including continued projects imported before explicit channel indices were stored.
+- Link multiple PLC channel representations into one logical I/O entry, prefer electrical pins for navigation, and synchronize channel edits across views, including property edits and configuration import. Keep copies on other device tags independent.
+- Edit the selected channel's address, signal name and comment in the PLC overview without overwriting its module or other channels. Keep row identity stable while addresses change and respect released pages.
+- Preserve complete PLC module symbols with independent channels, physical pin mappings, editable addresses, signal names and comments. Configure and exchange their channels through the PLC table and shared API.
+- Load external plugin folders from Manage plugins and remember them for later launches. Clear previous Find results after successful plugin commands.
+- Clear cached Find results when opening or creating another project.
+- Let wires and connection definitions be selected inside decorative symbol bounds.
+- Trace conductor attributes through valid wire contacts and expose physical wire routes to plugins.
+- Preserve editable conductor types in wire properties, connection tables, API and reports.
+- Add editable, flowing symbol attribute blocks that resolve current function and part properties in drawings and exports, with library defaults for new placements.
+- Select an assigned part independently for each device function, retain the selection when earlier parts are removed, and report removed selected parts. Expose live function manufacturers, selection text and batch attribute inspection to plugins.
+- Keep explicitly placed function text linked to editable instance data, retain user-symbol function text defaults on placement, and avoid a duplicate automatic annotation.
+- Preserve locally displayed product designation levels on imported symbols, and update them when the device is renamed. The symbol editor and plugins can choose the displayed level count.
+- Keep directional imported ports and explicit wire junctions from shorting circuits at side crossings or attaching wires to intermediate device ports. Preserve authored wire endpoints and internal jumper rails, and use port directions when adding new automatic connections.
+- Preserve physical wire targets through imported junction paths and drawn branches, and keep internal component bridges out of manufacturing connections. Junction paths remain editable in the symbol editor and through plugins; `list_connections` exposes the resulting pin-to-pin wiring.
+- Let imported conductors retain separately placed annotations while keeping their editable wire and cable properties.
+- Preserve editable fluid port functions on user symbols independently of their connection point numbers.
+- Keep scoped interruption points electrically separate while preserving their displayed names and scoped cross references.
+- Connect intermediate terminal attachments along continuous jumper rails, and expose their net membership to plugins.
+- Keep decorative imported artwork and plot frames from blocking automatic connections and wire routing.
+- Preserve device assignments and catalog parts in portable macros, and render their bundled symbol definitions in previews before insertion.
+- Preserve transparent and palette PNG images in PDF output, and support source plot frames and component-name fields on imported pages.
+- Keep custom symbol definitions with portable native macros, preserve local edits on insertion, and distinguish internal jumper attachments from physical terminals.
+- Expose macro insertion and native net membership through plugins, and accept large CLI parameter objects from JSON files.
+- Let imported parts select project symbol definitions across editor, CLI and MCP placement, and retain vendor source records with projects.
+- Preserve embedded bitmaps in imported symbol libraries, including rotated and mirrored instances on the canvas and in SVG and PDF output.
+- Preserve the connectivity domain of imported fluid and process symbols so their ports stay distinct from electrical connections.
+- Keep imported property text angles and pin designation fields editable and linked to their placed symbol.
+- Support imported secondary device functions and local junction paths without adding spurious main functions or device endpoints.
+
 ## [0.1.1] - 2026-11-08
 
 - **PV arrays on roofs:** rows of solar modules on every roof shape, parallel to a slope

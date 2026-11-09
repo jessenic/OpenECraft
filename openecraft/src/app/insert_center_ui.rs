@@ -27,6 +27,30 @@ enum Pick {
 /// The device list stops after this many parts (the search narrows it).
 const DEVICES_SHOWN: usize = 200;
 
+/// Reserve the entire list, but create widgets only where the parent scroll area clips it.
+fn visible_rows(ui: &mut egui::Ui, height: f32, count: usize, mut row: impl FnMut(&mut egui::Ui, usize)) {
+    let stride = height + ui.spacing().item_spacing.y;
+    let size = egui::vec2(ui.available_width(), (stride * count as f32 - ui.spacing().item_spacing.y).max(0.0));
+    let rect = egui::Rect::from_min_size(ui.cursor().min, size);
+    let clip = ui.clip_rect();
+    if rect.intersects(clip) {
+        let start = ((clip.top() - rect.top()) / stride).floor().max(0.0) as usize;
+        let end = (((clip.bottom() - rect.top()) / stride).ceil().max(0.0) as usize).min(count);
+        ui.skip_ahead_auto_ids(start);
+        for index in start..end {
+            let top = rect.top() + index as f32 * stride;
+            let row_rect = egui::Rect::from_min_size(egui::pos2(rect.left(), top), egui::vec2(size.x, height));
+            let mut child = ui.new_child(egui::UiBuilder::new().id_salt(index).max_rect(row_rect));
+            child.style_mut().wrap_mode = Some(egui::TextWrapMode::Truncate);
+            row(&mut child, index);
+        }
+        ui.skip_ahead_auto_ids(count - end);
+    } else {
+        ui.skip_ahead_auto_ids(count);
+    }
+    ui.allocate_space(size);
+}
+
 impl App {
     /// Title, further texts to search and icon of an entry.
     fn entry_texts(&self, e: &Entry) -> Option<(String, String, Icon)> {
@@ -80,25 +104,12 @@ impl App {
                 }
             }
             // Symbols: the user's libraries, then the built-in categories.
-            let user = crate::insert_center::listed_user_symbols(&self.session.prj, &self.parts_db);
-            let mut libs: Vec<&str> = user.iter().map(|d| d.library).collect();
-            libs.dedup();
-            let groups = libs
-                .iter()
-                .map(|lib| (format!("{}: {lib}", Category::User.title()), user.iter().map(|d| &**d).filter(|d| d.library == *lib).collect::<Vec<_>>()))
-                .chain(Category::ALL.into_iter().map(|cat| (cat.title().to_string(), symbols::library().iter().filter(|d| d.category == cat).collect())));
+            let groups = self.insert_catalog.get(&self.session.prj, &self.parts_db, &self.insert_center);
             egui::CollapsingHeader::new(RichText::new(tr("Symbols")).strong()).id_salt("ic_symbols").default_open(true).open(searching.then_some(true)).show(ui, |ui| {
-                for (title, defs) in groups {
-                    let defs: Vec<&symbols::SymbolDef> =
-                        defs.into_iter().filter(|d| !searching || self.insert_center.matches(&[d.name, tr(d.name), d.letter, &title])).collect();
-                    if defs.is_empty() {
-                        continue;
-                    }
+                for group in groups.iter() {
                     // The extra libraries and the long ones start collapsed.
-                    let main = !matches!(defs[0].category, Category::Nfpa | Category::Fluid | Category::Process | Category::SingleLine | Category::BlackBox | Category::Installation | Category::Gb | Category::Gost | Category::Jis) && defs.len() <= 24;
-                    egui::CollapsingHeader::new(&title).id_salt(("ic_cat", &title)).default_open(main).open(searching.then_some(true)).show(ui, |ui| {
-                        let list: Vec<Entry> = defs.iter().map(|d| Entry::Symbol(d.key.to_string())).collect();
-                        self.entry_rows(ui, &list, &mut pick);
+                    egui::CollapsingHeader::new(&group.title).id_salt(("ic_cat", &group.title)).default_open(group.initially_open).open(searching.then_some(true)).show(ui, |ui| {
+                        self.entry_rows(ui, &group.entries, &mut pick);
                     });
                 }
             });
@@ -187,22 +198,21 @@ impl App {
                 });
             // Unplaced functions of the project.
             let prj = &self.session.prj;
-            let mut unplaced = openecraft_core::unplaced::device_functions(prj, Some(&self.parts_db));
-            unplaced.extend(openecraft_core::unplaced::plc_channels(prj));
-            unplaced.extend(openecraft_core::unplaced::potentials(prj));
-            unplaced.retain(|u| !searching || self.insert_center.matches(&[&u.tag, &u.title, &u.label]));
+            let unplaced: Vec<_> = self.unplaced_cache.get(prj, &self.parts_db, self.session.history.rev).iter()
+                .filter(|u| !searching || self.insert_center.matches(&[&u.tag, &u.title, &u.label])).collect();
             egui::CollapsingHeader::new(RichText::new(tr_fmt!("Unplaced ({})", unplaced.len())).strong())
                 .id_salt("ic_unplaced")
                 .open(searching.then_some(!unplaced.is_empty()))
                 .show(ui, |ui| {
                     ui.weak(tr("Drag an entry into the page, or click it and then click into the page."));
-                    for u in unplaced {
+                    visible_rows(ui, ui.spacing().interact_size.y, unplaced.len(), |ui, index| {
+                        let u = unplaced[index];
                         let payload = crate::editor::PlacePayload { symbol: u.symbol, tag: u.tag.clone(), label: u.label.clone(), pins: u.pins.clone() };
                         let r = super::drag_source(ui, ui.make_persistent_id(("ic_unplaced", &u.tag, &u.title)), payload, |ui| ui.link(format!("{}  {}", u.tag, u.title)));
                         if r.clicked() {
-                            pick = Some(Pick::Unplaced(u));
+                            pick = Some(Pick::Unplaced(u.clone()));
                         }
-                    }
+                    });
                 });
         });
         match pick {
@@ -228,8 +238,9 @@ impl App {
             Tool::Place(k) => Some(Entry::Symbol(k.to_string())),
             _ => None,
         };
-        for e in list {
-            let Some((title, _, icon)) = self.entry_texts(e) else { continue };
+        visible_rows(ui, 26.0_f32.max(ui.spacing().interact_size.y), list.len(), |ui, index| {
+            let e = &list[index];
+            let Some((title, _, icon)) = self.entry_texts(e) else { return };
             ui.horizontal(|ui| {
                 let preview = match e {
                     Entry::Symbol(k) => symbol_icon(ui, &self.session.prj, k, egui::vec2(36.0, 26.0)),
@@ -288,13 +299,16 @@ impl App {
                     }
                 });
             });
-        }
+        });
     }
 
     /// Entries as tiles (favorites, recently used, tile view).
     fn entry_tiles(&self, ui: &mut egui::Ui, list: &[Entry], pick: &mut Option<Pick>) {
-        ui.horizontal_wrapped(|ui| {
-            for e in list {
+        let columns = ((ui.available_width() + ui.spacing().item_spacing.x) / (64.0 + ui.spacing().item_spacing.x)).floor().max(1.0) as usize;
+        let height = 40.0 + ui.spacing().item_spacing.y + 2.0 * egui::TextStyle::Small.resolve(ui.style()).size * 1.5;
+        visible_rows(ui, height, list.len().div_ceil(columns), |ui, row| {
+            ui.horizontal(|ui| {
+            for e in list.iter().skip(row * columns).take(columns) {
                 let Some((title, _, icon)) = self.entry_texts(e) else { continue };
                 ui.vertical(|ui| {
                     ui.set_width(64.0);
@@ -303,8 +317,10 @@ impl App {
                         Entry::Part(n) => openecraft_ui::part_editor::drag_row(ui, true, n, |ui| icons::show(ui, icon, 40.0).interact(egui::Sense::click())),
                         _ => icons::show(ui, icon, 40.0).interact(egui::Sense::click()),
                     };
-                    // The name wraps under the tile; the whole name shows on hover.
-                    ui.add(egui::Label::new(RichText::new(&title).small()).wrap()).on_hover_text(&title);
+                    // Bound the caption to two lines so scrolling can skip entire tile rows.
+                    let mut caption = egui::text::LayoutJob::simple(title.clone(), egui::TextStyle::Small.resolve(ui.style()), ui.visuals().text_color(), 64.0);
+                    caption.wrap.max_rows = 2;
+                    ui.add(egui::Label::new(caption).wrap()).on_hover_text(&title);
                     let r = r.on_hover_text(&title);
                     if r.clicked() {
                         *pick = Some(Pick::Insert(e.clone()));
@@ -318,6 +334,7 @@ impl App {
                     });
                 });
             }
+            });
         });
     }
 
@@ -387,3 +404,6 @@ impl App {
         self.editor.place_part = Some(number.into());
     }
 }
+
+#[cfg(test)]
+mod tests;

@@ -75,7 +75,6 @@ Approved by	Jóváhagyta
 Arms {} and {}	Karok {} és {}
 Asset number	Eszköznyilvántartási szám
 Author of the last revision	Az utolsó revízió szerzője
-Automatic	Automatikus
 Autotransformer 1-phase	Takarékkapcsolású transzformátor, egyfázisú
 Autotransformer 1-phase, adjustable	Takarékkapcsolású transzformátor, egyfázisú, állítható
 Autotransformer 3-phase	Takarékkapcsolású transzformátor, háromfázisú
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	A(z) {}.
 Connection definition point on page {} is not on a wire	A(z) {}. oldalon lévő összeköttetés-definíciós pont nincs vezetéken
 Connection definitions	Összeköttetés-definíciók
 Connection list	Összeköttetéslista
-Connection point	Csatlakozási pont
 Connection point descriptions	Csatlakozási pontok leírásai
 Connection point {} is not on the {} mm grid.	A(z) {} csatlakozási pont nincs a(z) {} mm-es rácson.
 Connection point {} lies on another one.	A(z) {} csatlakozási pont egy másikon fekszik.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	A DC vezérlőáramkörökn
 DC/DC converter	DC/DC átalakító
 DWG export failed: {}	A DWG-exportálás sikertelen: {}
 Data sheet	Adatlap
-Data type	Adattípus
 Date of the last revision	Az utolsó revízió dátuma
 Degree of protection	Védettségi fokozat
 Delete projects	Projektek törlése
@@ -926,7 +923,6 @@ Neutral (N)	Nullavezető (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	A nullavezetőknek világoskéknek kell lenniük (IEC 60204-1, 13.2.3)
 Next inspection	Következő felülvizsgálat
 Nibbling	Nibbelés
-No connection point {}	Nincs {} csatlakozási pont
 No connection {}	Nincs {} összeköttetés
 No devices to add to the single-line diagram	Nincs az egyvonalas rajzhoz hozzáadandó készülék
 No document embedded - choose a file in the page properties	Nincs beágyazott dokumentum – válasszon fájlt az oldaltulajdonságokban
@@ -935,7 +931,6 @@ No known column in the header row	A fejlécsorban nincs ismert oszlop
 No option {}	Nincs ilyen opció: {}
 No page or page item with id {}	Nincs {} azonosítójú oldal vagy oldalelem
 No page with id {}	Nincs {} azonosítójú oldal
-No part {}	Nincs {} alkatrész
 No plugs	Nincsenek csatlakozók
 No report block {}	Nincs {} kimutatásblokk
 No segment template named {}	Nincs ilyen nevű szegmenssablon: {}
@@ -961,7 +956,6 @@ Not a packed project	Nem csomagolt projekt
 Not a project database: {}	Nem projektadatbázis: {}
 Not a settings scheme: {}	Nem beállításséma: {}
 Not a structure template: {}	Nem struktúrasablon: {}
-Not a symbol id: {}	Nem szimbólumazonosító: {}
 Not a valid JSON file: {}	Nem érvényes JSON-fájl: {}
 Not a valid project file: {}	Nem érvényes projektfájl: {}
 Not a valid property library: {}	Nem érvényes tulajdonságkönyvtár: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Kapcsolók / érzékelők
 Switches, pushbuttons	Kapcsolók, nyomógombok
 Switching frequency	Kapcsolási gyakoriság
 Switching output	Kapcsolókimenet
-Symbol key	Szimbólumkulcs
-Symbolic address	Szimbolikus cím
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	A(z) {}. lapon lévő T-elem nem illik a vezetékeihez: egy vezeték kell az irányában, kettő keresztben, és nem lehet ott csatlakozási pont
 Table of contents	Tartalomjegyzék
 Tabloid landscape	Tabloid fekvő

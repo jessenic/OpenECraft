@@ -8,6 +8,7 @@
 
 mod app;
 mod autosave;
+mod shutdown;
 mod commands;
 mod dock;
 #[cfg(test)]

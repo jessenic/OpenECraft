@@ -155,6 +155,9 @@ impl App {
                         ui.label(tr("Border distance (mm)"));
                         ui.add(egui::DragValue::new(&mut f.margin).range(0.0..=50.0).speed(0.5));
                         ui.end_row();
+                        ui.label(tr("Show generated frame"));
+                        ui.checkbox(&mut f.visible, "");
+                        ui.end_row();
                         ui.label(tr("Column / row strips"));
                         ui.horizontal(|ui| {
                             ui.checkbox(&mut f.strips, "");
@@ -170,7 +173,7 @@ impl App {
                         for (label, value, salt) in [(tr("Column labels"), &mut f.column_labels, "col_labels"), (tr("Row labels"), &mut f.row_labels, "row_labels")] {
                             ui.label(label);
                             egui::ComboBox::from_id_salt(salt).selected_text(value.title()).show_ui(ui, |ui| {
-                                for l in [Labels::Numbers, Labels::Letters] {
+                                for l in [Labels::Numbers, Labels::ZeroBasedNumbers, Labels::Letters] {
                                     ui.selectable_value(value, l, l.title());
                                 }
                             });

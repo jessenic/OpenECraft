@@ -72,7 +72,6 @@ Approved by	승인자
 Arms {} and {}	가지 {}과(와) {}
 Asset number	자산 번호
 Author of the last revision	마지막 개정 작성자
-Automatic	자동
 Autotransformer 1-phase	단상 단권 변압기
 Autotransformer 1-phase, adjustable	단상 단권 변압기, 조정 가능
 Autotransformer 3-phase	3상 단권 변압기
@@ -239,7 +238,6 @@ Connection definition point on page {} is not applied to its connection	페이�
 Connection definition point on page {} is not on a wire	페이지 {}의 연결 정의점이 전선 위에 있지 않습니다
 Connection definitions	연결 정의
 Connection list	연결 목록
-Connection point	연결 지점
 Connection point descriptions	연결 지점 설명
 Connection point {} is not on the {} mm grid.	연결 지점 {0}이(가) {1}mm 그리드에 있지 않습니다.
 Connection point {} lies on another one.	연결 지점 {}이(가) 다른 연결 지점과 겹칩니다.
@@ -334,7 +332,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC 제어 회로는 파란�
 DC/DC converter	DC/DC 컨버터
 DWG export failed: {}	DWG 내보내기 실패: {}
 Data sheet	데이터시트
-Data type	데이터 유형
 Date of the last revision	마지막 개정 날짜
 Degree of protection	보호 등급
 Delete projects	프로젝트 삭제
@@ -917,7 +914,6 @@ Neutral (N)	중성선(N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	중성선은 하늘색이어야 합니다(IEC 60204-1, 13.2.3)
 Next inspection	다음 점검
 Nibbling	니블링
-No connection point {}	연결 지점 {} 없음
 No connection {}	연결 {} 없음
 No devices to add to the single-line diagram	단선도에 추가할 장치가 없습니다
 No document embedded - choose a file in the page properties	포함된 문서 없음 - 페이지 속성에서 파일을 선택하세요
@@ -926,7 +922,6 @@ No known column in the header row	머리글 행에 알려진 열이 없습니다
 No option {}	옵션 {}이(가) 없습니다
 No page or page item with id {}	ID가 {}인 페이지 또는 페이지 항목이 없습니다
 No page with id {}	ID가 {}인 페이지가 없습니다
-No part {}	부품 {} 없음
 No plugs	플러그 없음
 No report block {}	보고서 블록 {} 없음
 No segment template named {}	이름이 {}인 세그먼트 템플릿이 없습니다
@@ -952,7 +947,6 @@ Not a packed project	패키지된 프로젝트가 아닙니다
 Not a project database: {}	프로젝트 데이터베이스가 아닙니다: {}
 Not a settings scheme: {}	설정 스키마가 아닙니다: {}
 Not a structure template: {}	구조 템플릿이 아님: {}
-Not a symbol id: {}	심볼 ID가 아닙니다: {}
 Not a valid JSON file: {}	유효한 JSON 파일이 아닙니다: {}
 Not a valid project file: {}	유효한 프로젝트 파일이 아님: {}
 Not a valid property library: {}	유효한 속성 라이브러리가 아닙니다: {}
@@ -1525,8 +1519,6 @@ Switches / Sensors	스위치 / 센서
 Switches, pushbuttons	스위치, 푸시버튼
 Switching frequency	개폐 빈도
 Switching output	스위칭 출력
-Symbol key	심볼 키
-Symbolic address	심볼릭 주소
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	페이지 {}의 T분기점이 연결선과 맞지 않습니다: 그 방향으로 하나, 가로로 둘의 연결선이 필요하며 그 지점에 접속점이 없어야 합니다
 Table of contents	목차
 Tabloid landscape	Tabloid 가로

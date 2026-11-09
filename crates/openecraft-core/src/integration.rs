@@ -867,7 +867,7 @@ fn set(prj: &mut Project, an: &Analysis, ch: &Change) -> bool {
             match ch.field {
                 Field::PartNumber => match d.parts.first_mut() {
                     Some(r) => r.number = ch.new.clone(),
-                    None => d.parts.push(PartRef { number: ch.new.clone(), count: 1 }),
+                    None => d.parts.push(PartRef { number: ch.new.clone(), count: 1, total:false }),
                 },
                 Field::Description => d.description = ch.new.clone(),
                 _ => return false,

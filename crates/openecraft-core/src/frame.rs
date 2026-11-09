@@ -56,6 +56,7 @@ impl Labels {
     pub fn label(self, i: usize) -> String {
         match self {
             Labels::Numbers => (i + 1).to_string(),
+            Labels::ZeroBasedNumbers => i.to_string(),
             Labels::Letters => {
                 let mut n = i + 1;
                 let mut s = Vec::new();
@@ -71,6 +72,7 @@ impl Labels {
     pub fn title(self) -> &'static str {
         match self {
             Labels::Numbers => tr("Numbers (1, 2, 3)"),
+            Labels::ZeroBasedNumbers => tr("Numbers (0, 1, 2)"),
             Labels::Letters => tr("Letters (A, B, C)"),
         }
     }
@@ -80,6 +82,7 @@ impl Default for PlotFrame {
     fn default() -> Self {
         PlotFrame {
             name: DEFAULT.into(),
+            visible: true,
             paper: Paper::A3,
             landscape: true,
             custom: [420.0, 297.0],

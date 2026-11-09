@@ -192,7 +192,7 @@ fn check_translations(prj: &Project) -> Vec<Issue> {
 
 /// Project check ("Prüfläufe"): finds typical engineering mistakes.
 pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
-    let mut v = Vec::new();
+    let mut v = check_function_parts(prj);
     let placed = crate::parts::placed_kinds(prj);
     for tag in idx.sorted_tags() {
         let dev = &idx.devices[tag];
@@ -243,12 +243,13 @@ pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
         }
     }
     for (name, locs) in &idx.interruptions {
+        let label = &prj.pages[locs[0].page].symbols.iter().find(|s| s.id == locs[0].sym_id).unwrap().label;
         if locs.len() == 1 {
-            v.push(crate::issue!(Severity::Warning, Some((locs[0].page, locs[0].sym_id)), "Interruption point '{}' has no counterpart", name));
+            v.push(crate::issue!(Severity::Warning, Some((locs[0].page, locs[0].sym_id)), "Interruption point '{}' has no counterpart", label));
         } else if prj.xref.interruptions == InterruptionMode::Pairs {
             // In pairs the last point of an odd number has no partner.
             if let Some(l) = locs.iter().find(|l| idx.interruption_targets(prj, name, l.sym_id).is_empty()) {
-                v.push(crate::issue!(Severity::Warning, Some((l.page, l.sym_id)), "Interruption point '{}' has no counterpart", name));
+                v.push(crate::issue!(Severity::Warning, Some((l.page, l.sym_id)), "Interruption point '{}' has no counterpart", label));
             }
         }
     }
@@ -289,6 +290,20 @@ pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
     v
 }
 
+fn check_function_parts(prj: &Project) -> Vec<Issue> {
+    let mut issues = Vec::new();
+    for (pi, page) in prj.pages.iter().enumerate() {
+        for s in &page.symbols {
+            if let Some(number) = s.values.get("function.part_number") {
+                if s.selected_part_number(prj).is_none() {
+                    issues.push(crate::issue!(Severity::Error, Some((pi, s.id)), "{}: selected part {} is no longer assigned to this device", s.tag, number));
+                }
+            }
+        }
+    }
+    issues
+}
+
 /// Accessories (auxiliary and signal contacts, …) only work attached to a part they
 /// fit: one on a device without such a part is a mistake.
 fn check_accessories(prj: &Project, idx: &Index) -> Vec<Issue> {
@@ -313,7 +328,7 @@ fn mains_of_main_parts(prj: &Project, tag: &str, mains: &[crate::index::Loc]) ->
     for r in refs {
         let Some(p) = crate::sizing::part(prj, &r.number).filter(|p| p.accessory) else { continue };
         for f in &p.functions {
-            *spare.entry(f.kind).or_default() += r.count.max(1) as usize;
+            *spare.entry(f.kind).or_default() += r.quantity() as usize;
         }
     }
     let kind = |l: &crate::index::Loc| prj.pages[l.page].symbols.iter().find(|s| s.id == l.sym_id).and_then(|s| crate::parts::kind_of_symbol(&s.sym));
@@ -378,10 +393,16 @@ fn check_open_wire_ends(prj: &Project) -> Vec<Issue> {
 fn check_wires(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Issue> {
     let mut v = Vec::new();
     let mut tags: HashMap<&str, usize> = HashMap::new();
+    let catalog = crate::parts::catalog();
     for c in &prj.cables {
         *tags.entry(c.tag.as_str()).or_default() += 1;
         if c.tag.trim().is_empty() {
             v.push(crate::issue!(Severity::Error, None, "Cable without tag"));
+        }
+        if (!c.length.is_finite() || c.length <= 0.0)
+            && prj.parts.iter().chain(catalog.iter()).find(|p| p.number == c.part).is_some_and(|p| p.quantity_unit == "m")
+        {
+            v.push(crate::issue!(Severity::Warning, None, "{}: cable length is missing; material quantity is unknown", c.tag));
         }
     }
     for (tag, n) in tags.iter().filter(|(t, n)| **n > 1 && !t.is_empty()) {

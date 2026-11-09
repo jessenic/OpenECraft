@@ -74,7 +74,6 @@ Busbar machine program (CSV)	ブスバー加工機プログラム (CSV)
 CNC operations	CNC 工程
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	ドリル・フライス・パンチングマシン用 CNC プログラム、銅バーの曲げ加工、エンクロージャーコンフィギュレーター、製造への引き渡し、製造フィードバック
 Cable tag, e.g. -W1	ケーブルタグ (例: -W1)
-Cable tag, e.g. -W20	ケーブルのタグ、例: -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	製造フィードバックの実績時間から機械の時間見積もりを補正します
 Cannot read the plugin folder {}	プラグインフォルダー {} を読み取れません
 Cannot start {}: {}	{} を起動できません: {}

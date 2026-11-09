@@ -1,6 +1,24 @@
 use super::*;
 
 #[test]
+fn group_choices_include_project_parts_and_respect_local_overrides() {
+    let local=vec![Part {number:"LOCAL".into(),group:"Cables".into(),description:"Project cable".into(),..Default::default()},
+        Part {number:"HIDDEN".into(),group:"Other".into(),..Default::default()}];
+    let mut db=PartsDb {parts:vec![Part {number:"LOCAL".into(),group:"Cables".into(),description:"Stale catalog".into(),..Default::default()},
+        Part {number:"HIDDEN".into(),group:"Cables".into(),..Default::default()},
+        Part {number:"CATALOG".into(),group:"Cables".into(),..Default::default()}]};
+    let choices=group_choices(&local,Some(&db),"Cables");
+    assert_eq!(choices.iter().map(|p|p.number.as_str()).collect::<Vec<_>>(),vec!["CATALOG","LOCAL"]);
+    assert_eq!(choices[1].description,"Project cable");
+    db.parts.clear();
+    assert_eq!(group_choices(&local,Some(&db),"Cables").len(),1,"an explicit empty catalog stays empty");
+    let builtin=catalog().iter().find(|p|p.group=="Cables").unwrap();
+    let override_part=vec![Part {number:builtin.number.clone(),group:"Other".into(),..Default::default()}];
+    assert!(!group_choices(&override_part,None,"Cables").iter().any(|p|p.number==builtin.number));
+    assert!(group_choices(&local,None,"Cables").iter().any(|p|p.number=="LOCAL"));
+}
+
+#[test]
 fn bare_ema_channels_recover_one_physical_card_for_the_panel() {
     use crate::model::SymbolInst;
     use crate::symbols::{Func, PlcChannel};
@@ -35,7 +53,7 @@ fn bare_ema_channels_recover_one_physical_card_for_the_panel() {
     let devices = crate::panel::devices_to_place(&prj);
     assert_eq!(devices.len(), 1);
     assert_eq!((&*devices[0].tag, &*devices[0].part, devices[0].w, devices[0].h), ("-A3", "BEC.EL3174", 12., 100.));
-    assert_eq!(prj.devices["-A3"].parts, [PartRef { number: "BEC.EL3174".into(), count: 1 }]);
+    assert_eq!(prj.devices["-A3"].parts, [PartRef { number: "BEC.EL3174".into(), count: 1, total:false }]);
 }
 
 #[test]
@@ -44,7 +62,7 @@ fn legacy_single_part_is_migrated() {
                   "parts": [{"number": "CT-9A-24DC", "manufacturer": "Generic", "description": "old", "price": 1.0}]}"#;
     let mut prj: Project = serde_json::from_str(json).unwrap();
     prj.normalize();
-    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: "GEN.CT-9A-24DC".into(), count: 1 }]);
+    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: "GEN.CT-9A-24DC".into(), count: 1, total:false }]);
     assert!(prj.parts.iter().any(|p| p.number == "GEN.CT-9A-24DC" && !p.functions.is_empty()));
     assert!(!prj.parts.iter().any(|p| p.number == "CT-9A-24DC"));
 }
@@ -114,7 +132,7 @@ fn parts_are_added_to_devices() {
     let number = db.parts[0].number.clone();
     add_to_device(&mut prj, &db, "-K1", &number, 1);
     add_to_device(&mut prj, &db, "-K1", &number, 2);
-    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: number.clone(), count: 3 }]);
+    assert_eq!(prj.devices["-K1"].parts, vec![PartRef { number: number.clone(), count: 3, total:false }]);
     assert!(prj.parts.iter().any(|p| p.number == number), "copied into the project");
     // Unknown numbers are referenced all the same (typed by hand).
     add_to_device(&mut prj, &db, "-K1", "OWN.1", 1);

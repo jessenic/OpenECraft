@@ -12,7 +12,7 @@ fn project() -> Project {
     prj.parts.push(Part { number: "PS".into(), tech_data: "Power loss: 40 W".into(), ..Default::default() });
     prj.parts.push(Part { number: "PLC".into(), tech_data: "Operating temperature: 0 … +55 °C".into(), ..Default::default() });
     for (tag, part) in [("-T1", "PS"), ("-A1", "PLC")] {
-        prj.devices.insert(tag.into(), DeviceData { parts: vec![PartRef { number: part.into(), count: 1 }], ..Default::default() });
+        prj.devices.insert(tag.into(), DeviceData { parts: vec![PartRef { number: part.into(), count: 1, total:false }], ..Default::default() });
     }
     let items = vec![device(1, "-T1", "PS", 100.0, 500.0), device(2, "-A1", "PLC", 100.0, 300.0)];
     prj.layout.enclosures.push(Enclosure { items, ..Default::default() });

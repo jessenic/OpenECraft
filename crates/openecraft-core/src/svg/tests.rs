@@ -4,6 +4,18 @@ use crate::model::*;
 use crate::symbols::Anchor;
 
 #[test]
+fn symbol_bitmap_preserves_affine_corners_in_svg() {
+    let image = ImageItem {
+        file: crate::document::Document { name: "sample.png".into(), data: "AA==".to_string().into() },
+        ..Default::default()
+    };
+    let corners = [p(12., 20.), p(12., 26.), p(8., 26.), p(8., 20.)];
+    let svg = drawing_svg(30., 30., |draw| draw.image_quad(&image, &corners));
+    assert!(svg.contains("matrix(0.000000 6.000000 -4.000000 0.000000 12.000000 20.000000)"));
+    assert!(svg.contains("data:image/png;base64,AA=="));
+}
+
+#[test]
 fn styled_texts_special_texts_and_hyperlinks() {
     let mut prj = Project::default();
     let pg = &mut prj.pages[0];

@@ -113,10 +113,32 @@ pub fn ensure_in_project(prj: &mut Project, db: &PartsDb, number: &str) {
 pub fn add_to_device(prj: &mut Project, db: &PartsDb, tag: &str, number: &str, count: u32) {
     ensure_in_project(prj, db, number);
     let dev = prj.devices.entry(tag.to_string()).or_default();
-    match dev.parts.iter_mut().find(|r| r.number == number) {
+    match dev.parts.iter_mut().find(|r| r.number == number && !r.total) {
         Some(r) => r.count += count,
-        None => dev.parts.push(PartRef { number: number.into(), count }),
+        None => dev.parts.push(PartRef { number: number.into(), count, total:false }),
     }
+}
+
+/// Keep the primary assignment and its function bindings with a changed physical part.
+pub fn replace_device_part(prj:&mut Project,tag:&str,old:&str,new:&str) {
+    if tag.is_empty() || old.is_empty() || old==new {return;}
+    let Some(device)=prj.devices.get_mut(tag) else {return;};
+    let mut changed=false;
+    for part in device.parts.iter_mut().filter(|p|p.number==old && !p.total) {part.number=new.into();changed=true;}
+    if !changed {return;}
+    for symbol in prj.pages.iter_mut().flat_map(|p|&mut p.symbols).filter(|s|s.tag==tag) {
+        if symbol.values.get("function.part_number").is_some_and(|n|n==old) {symbol.values.insert("function.part_number".into(),new.into());}
+    }
+}
+
+pub fn excluded_from_bom(prj:&Project,tag:&str)->bool {
+    prj.devices.get(tag).and_then(|d|d.values.get("device.exclude_from_bom")).is_some_and(|v|v.eq_ignore_ascii_case("true"))
+}
+
+pub fn is_material_device(data:&crate::model::DeviceData)->bool {
+    data.parts.iter().any(|p|p.total)
+        || data.values.get("device.material_owner").is_some_and(|v|!v.is_empty())
+        || data.values.get("device.exclude_from_bom").is_some_and(|v|v.eq_ignore_ascii_case("true"))
 }
 
 /// Every channel of a physical card shares its one BOM entry.
@@ -126,6 +148,16 @@ pub fn assign_placed_part(prj: &mut Project, db: &PartsDb, sym: &str, tag: &str,
         return;
     }
     add_to_device(prj, db, tag, number, 1);
+}
+
+/// Assigns a picked part and retains the placed function's explicit selection.
+pub fn assign_placed_function_part(prj: &mut Project, db: &PartsDb, page: usize, id: u64, number: &str) -> bool {
+    let Some(s) = prj.pages.get(page).filter(|p| p.is_editable()).and_then(|p| p.symbols.iter().find(|s| s.id == id && !s.tag.is_empty())) else { return false };
+    let (key, tag) = (s.sym.clone(), s.tag.clone());
+    assign_placed_part(prj, db, &key, &tag, number);
+    let s = prj.pages[page].symbols.iter_mut().find(|s| s.id == id).unwrap();
+    s.values.insert("function.part_number".into(), number.into());
+    true
 }
 
 /// A channel can be placed directly from the symbol library. Recover its physical
@@ -176,6 +208,17 @@ pub fn link_unassigned_plc_parts(prj: &mut Project, db: &PartsDb, only_tag: Opti
 /// Resolves a part: project parts first, then the database.
 pub fn lookup<'a>(prj: &'a Project, db: Option<&'a PartsDb>, number: &str) -> Option<&'a Part> {
     prj.parts.iter().find(|p| p.number == number).or_else(|| db.and_then(|d| d.get(number)))
+}
+
+/// Group choices with project entries taking precedence over the supplied database,
+/// or the built-in catalog when no database is supplied.
+pub fn group_choices<'a>(project_parts: &'a [Part], db: Option<&'a PartsDb>, group: &str) -> Vec<&'a Part> {
+    let fallback=match db {Some(db)=>db.parts.as_slice(),None=>catalog()};
+    let mut choices=BTreeMap::new();
+    for part in project_parts.iter().chain(fallback.iter()) {
+        choices.entry(part.number.as_str()).or_insert(part);
+    }
+    choices.into_values().filter(|p|p.group==group).collect()
 }
 
 /// Updates all project parts from the database. Returns the number of updated parts.
@@ -304,13 +347,28 @@ pub fn loose_accessories(prj: &Project) -> Vec<(String, String)> {
 
 /// Functions placed for a device: (kind, connection designations, symbol id).
 pub fn placed_functions(prj: &Project, tag: &str) -> Vec<(FnKind, Vec<String>, u64)> {
-    let mut v = Vec::new();
+    all_placed_functions(prj,Some(tag)).into_iter().map(|(_,k,pins,id)|(k,pins,id)).collect()
+}
+
+fn all_placed_functions<'a>(prj:&'a Project,tag:Option<&str>)->Vec<(&'a str,FnKind,Vec<String>,u64)> {
+    let mut v=Vec::new();
     for pg in &prj.pages {
-        for s in pg.symbols.iter().filter(|s| s.tag == tag) {
+        for s in pg.symbols.iter().filter(|s|tag.is_none_or(|tag|s.tag==tag)) {
+            if prj.symbol(&s.sym).is_some_and(|d|!d.plc_channels.is_empty()) {continue;}
             if let Some(k) = placed_kind(prj, &s.sym) {
-                v.push((k, s.pins.clone(), s.id));
+                v.push((s.tag.as_str(),k, s.pins.clone(), s.id));
             }
         }
+    }
+    for (pi,si,index) in crate::model::plc_hw::bindings::placed_for(prj,tag) {
+        let s=&prj.pages[pi].symbols[si];let Some(def)=prj.symbol(&s.sym) else {continue;};let c=&def.plc_channels[index];
+        let kind=match (c.input,c.analog) {
+            (Some(true),false)=>FnKind::PlcInput,(Some(false),false)=>FnKind::PlcOutput,
+            (Some(true),true)=>FnKind::PlcAnalogInput,(Some(false),true)=>FnKind::PlcAnalogOutput,
+            (None,_)=>FnKind::Generic,
+        };
+        let pins=c.pins.iter().filter_map(|i|s.pins.get(*i).cloned().or_else(||def.pins.get(*i).map(|p|p.label.to_owned()))).collect();
+        v.push((s.tag.as_str(),kind,pins,s.id));
     }
     v
 }
@@ -321,7 +379,7 @@ pub fn available_functions(prj: &Project, db: Option<&PartsDb>, tag: &str) -> Ve
     let mut v = Vec::new();
     for r in &dev.parts {
         if let Some(p) = lookup(prj, db, &r.number) {
-            for _ in 0..r.count.max(1) {
+            for _ in 0..r.quantity() {
                 v.extend(p.functions.iter().cloned());
             }
         }
@@ -358,10 +416,8 @@ pub fn usage(prj: &Project, db: Option<&PartsDb>, tag: &str) -> BTreeMap<FnKind,
 /// The kinds of the placed functions of every device (one pass over the project).
 pub fn placed_kinds(prj: &Project) -> std::collections::HashMap<&str, Vec<FnKind>> {
     let mut m: std::collections::HashMap<&str, Vec<FnKind>> = std::collections::HashMap::new();
-    for s in prj.pages.iter().flat_map(|pg| pg.symbols.iter()) {
-        if let Some(k) = placed_kind(prj, &s.sym) {
-            m.entry(s.tag.as_str()).or_default().push(k);
-        }
+    for (tag,k,_,_) in all_placed_functions(prj,None) {
+        m.entry(tag).or_default().push(k);
     }
     m
 }

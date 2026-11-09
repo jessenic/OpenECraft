@@ -68,7 +68,7 @@ pub fn analyse(prj: &Project, items: &[RoutedItem], bundles: &[Bundle]) -> (Vec<
                 _ if !c.shield_ends.connects(k) => Termination::Open,
                 // A cable from the field ends at its gland: the shield is terminated at
                 // the field device.
-                (Some(_), Some(_)) if end.item.is_some_and(|id| prj.layout.find_device(&end.tag).is_none_or(|(_, d)| d.id != id)) => Termination::Field,
+                (Some(_), Some(_)) if end.item.is_some_and(|id| !prj.layout.enclosures.iter().flat_map(|e|&e.items).any(|d|d.id==id && d.kind==crate::panel::ItemKind::Device && d.tag==end.tag)) => Termination::Field,
                 (Some(ei), Some(at)) => {
                     let e = &prj.layout.enclosures[ei];
                     let rail = super::accessories(prj, ei, "Cable clamp rail").into_iter().map(|r| {

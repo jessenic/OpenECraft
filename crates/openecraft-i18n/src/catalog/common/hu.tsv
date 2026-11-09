@@ -17,6 +17,7 @@ Address	Cím
 Angle	Szög
 Apply	Alkalmaz
 Approvers	Jóváhagyók
+Automatic	Automatikus
 Bold	Félkövér
 Bottom	Fenék
 Bottom with removable gland plate	Fenék levehető kábelbevezető lemezzel
@@ -33,6 +34,7 @@ Cable core	Kábelér
 Cable duct	Kábelcsatorna
 Cable overview	Kábeláttekintés
 Cable tag	Kábelazonosító
+Cable tag, e.g. -W20	Kábel jelölése, pl. -W20
 Cables	Kábelek
 Cancel	Mégse
 Cannot read {}: {}	{} nem olvasható: {}
@@ -64,6 +66,7 @@ Configurator	Konfigurátor
 Connect	Csatlakozás
 Connected to	Csatlakoztatva ehhez
 Connecting…	Csatlakozás…
+Connection point	Csatlakozási pont
 Connection points	Csatlakozási pontok
 Connections	Összeköttetések
 Connector	Csatlakozó
@@ -85,6 +88,7 @@ DWG drawing	DWG-rajz
 DXF drawing	DXF-rajz
 Dark	Sötét
 Data portal	Adatportál
+Data type	Adattípus
 Date	Dátum
 Depth	Mélység
 Descending	Csökkenő
@@ -215,6 +219,7 @@ New name	Új név
 No	Nem
 No Vault item matches a part of the project	Egyik Vault-elem sem felel meg a projekt egyik alkatrészének sem
 No cable {}	Nincs {} kábel
+No connection point {}	Nincs {} csatlakozási pont
 No device {}	Nincs {} készülék
 No enclosure {}	Nincs {} szekrény
 No labeling scheme named {}	Nincs ilyen nevű feliratozási séma: {}
@@ -222,6 +227,7 @@ No machine {}	Nincs ilyen gép: {}
 No page named {}	Nincs {} nevű oldal
 No page template named {}	Nincs {} nevű oldalsablon
 No page {}	Nincs ilyen oldal: {}
+No part {}	Nincs {} alkatrész
 No part {} in the project	Nincs {} alkatrész a projektben
 No parts found	Nem található alkatrész
 No plot frame named {}	Nincs {} nevű rajzkeret
@@ -235,6 +241,7 @@ No symbol with id {}	Nincs {} azonosítójú szimbólum
 Nominal size	Névleges méret
 Not a language code: {}	Nem nyelvkód: {}
 Not a macro file: {}	Nem makrófájl: {}
+Not a symbol id: {}	Nem szimbólumazonosító: {}
 Not a valid rule set file: {}	Nem érvényes szabálykészletfájl: {}
 Not in the schematic	Nincs a kapcsolási rajzon
 Note	Megjegyzés
@@ -386,6 +393,8 @@ Successor	Utód
 Supplier	Szállító
 Supply	Ellátás
 Symbol	Szimbólum
+Symbol key	Szimbólumkulcs
+Symbolic address	Szimbolikus cím
 Symbols	Szimbólumok
 System	Rendszer
 T-junction	T-elem

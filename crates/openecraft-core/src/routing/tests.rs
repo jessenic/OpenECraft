@@ -1,5 +1,69 @@
 use super::*;
 
+#[test]
+fn joining_reversed_wires_preserves_all_live_label_positions() {
+    use crate::model::wiring::WireLabel;
+    let mut prj=Project::default();
+    prj.pages[0].wires=vec![
+        Wire {id:1,a:p(40.,40.),b:p(60.,40.),core:"BN".into(),labels:vec![WireLabel::default()],..Default::default()},
+        Wire {id:2,a:p(80.,40.),b:p(60.,40.),core:"BN".into(),labels:vec![WireLabel::default()],..Default::default()},
+    ];
+    let expected:Vec<_>=prj.pages[0].wires.iter().flat_map(|w|w.labels.iter().map(|label|label.position(w))).collect();
+    assert_eq!(merge_collinear(&prj.symbol_table(),&mut prj.pages[0]),1);
+    let wire=&prj.pages[0].wires[0];
+    assert_eq!(wire.labels.iter().map(|label|label.position(wire)).collect::<Vec<_>>(),expected);
+}
+
+#[test]
+fn jogged_wires_keep_each_label_once_on_the_correct_leg() {
+    use crate::model::wiring::WireLabel;
+    let old=Wire {id:1,a:p(40.,40.),b:p(80.,40.),core:"BN".into(),
+        labels:vec![WireLabel {along:0.25,..Default::default()},WireLabel {along:0.75,..Default::default()}],..Default::default()};
+    let mut page=Project::default().pages.remove(0);
+    page.wires=vec![Wire {a:p(40.,60.),b:p(60.,60.),..old.clone()},
+        Wire {id:2,a:p(60.,60.),b:p(60.,40.),..old.clone()},Wire {id:3,a:p(60.,40.),b:p(80.,40.),..old.clone()}];
+    place_wire_labels(&mut page,&old,&[p(40.,60.),p(60.,60.),p(60.,40.),p(80.,40.)],&[2,3]);
+    assert_eq!(page.wires.iter().map(|w|w.labels.len()).sum::<usize>(),2);
+    assert_eq!(page.wires[0].labels[0].attachment(&page.wires[0]),p(55.,60.));
+    assert_eq!(page.wires[2].labels[0].attachment(&page.wires[2]),p(70.,40.));
+    assert!(page.wires[1].labels.is_empty());
+}
+
+#[test]
+fn automatic_connections_do_not_duplicate_a_wire_running_through_the_ports() {
+    use crate::symlib::{UserSymbol,UserPin};
+    let mut prj=Project::default();
+    prj.pages[0].values.insert("page.explicit_wire_junctions".into(),"true".into());
+    prj.symbols.push(UserSymbol {key:"user:right".into(),pins:vec![UserPin::default()],pin_directions:[(0,2)].into(),..Default::default()});
+    prj.pages[0].symbols=vec![
+        SymbolInst {id:1,sym:"user:right".into(),tag:"-A1".into(),pos:p(80.,80.),..Default::default()},
+        SymbolInst {id:2,sym:"user:right".into(),tag:"-A2".into(),pos:p(120.,80.),mirror:true,..Default::default()},
+    ];
+    prj.pages[0].wires.push(Wire {id:10,a:p(60.,80.),b:p(140.,80.),..Default::default()});
+    assert_eq!(apply_autoconnect(&mut prj,0,&BTreeSet::from([1])),0);
+}
+
+#[test]
+fn explicit_imported_port_directions_drive_new_automatic_wires_after_reopen() {
+    use crate::symlib::{UserSymbol,UserPin};
+    for crossing in [false,true] {
+        let mut prj=Project::default();
+        prj.pages[0].values.insert("page.explicit_wire_junctions".into(),"true".into());
+        prj.symbols.push(UserSymbol {key:"user:right".into(),pins:vec![UserPin::default()],pin_directions:[(0,2)].into(),..Default::default()});
+        prj.pages[0].symbols=vec![
+            SymbolInst {id:1,sym:"user:right".into(),tag:"-A1".into(),pos:p(80.,80.),..Default::default()},
+            SymbolInst {id:2,sym:"user:right".into(),tag:"-A2".into(),pos:p(120.,80.),mirror:true,..Default::default()},
+        ];
+        if crossing {prj.pages[0].wires.push(Wire {id:10,a:p(80.,60.),b:p(80.,100.),..Default::default()});}
+        prj.next_id=20;
+        let mut prj=Project::from_json(&prj.to_json()).unwrap();
+        assert_eq!(apply_autoconnect(&mut prj,0,&BTreeSet::from([1])),1);
+        let nl=crate::netlist::Netlist::build(&prj,true);
+        assert_eq!(nl.pin_net[&(1,0)],nl.pin_net[&(2,0)]);
+        if crossing {assert_ne!(nl.pin_net[&(1,0)],nl.wire_net[&10]);}
+    }
+}
+
 fn sym(prj: &mut Project, key: &str, pos: P) -> u64 {
     let id = prj.new_id();
     prj.pages[0].symbols.push(SymbolInst { id, sym: key.into(), pos, ..Default::default() });
@@ -8,6 +72,22 @@ fn sym(prj: &mut Project, key: &str, pos: P) -> u64 {
 
 fn area() -> R {
     R::from_points(p(0.0, 0.0), p(400.0, 280.0))
+}
+
+#[test]
+fn imported_plot_frame_does_not_block_connections_or_routes() {
+    let mut prj = Project::default();
+    prj.symbols.push(crate::symlib::UserSymbol {
+        key: "user:frame".into(),
+        func: crate::symbols::Func::Graphic,
+        prims: vec![crate::symbols::Prim::Poly { pts: vec![p(0., 0.), p(400., 0.), p(400., 280.), p(0., 280.)], closed: true, fill: false }],
+        ..Default::default()
+    });
+    sym(&mut prj, "user:frame", p(0., 0.));
+    let top = sym(&mut prj, "no", p(40., 40.));
+    sym(&mut prj, "coil", p(40., 80.));
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([top]), 400.), vec![(p(40., 44.), p(40., 76.))]);
+    assert!(search(&prj.symbol_table(), &prj.pages[0], area(), p(20., 160.), p(100., 160.)).is_some());
 }
 
 #[test]
@@ -89,37 +169,6 @@ fn junctions_are_not_merged() {
     page.wires.push(Wire { id: 2, a: p(8.0, 0.0), b: p(16.0, 0.0), ..Default::default() });
     page.wires.push(Wire { id: 3, a: p(8.0, 0.0), b: p(8.0, 8.0), ..Default::default() });
     assert_eq!(merge_collinear(&Symbols::default(), &mut page), 0);
-}
-
-#[test]
-fn autoconnect_wires_into_the_free_arms_of_connection_symbols() {
-    let mut prj = Project::default();
-    // A contact above the corner, its lower pin at (60, 44) facing down; a coil to
-    // the right turned by 90°, its A2 at (116, 80) facing left.
-    let contact = sym(&mut prj, "no", p(60.0, 40.0));
-    let coil = sym(&mut prj, "coil", p(120.0, 80.0));
-    prj.pages[0].symbols.iter_mut().find(|s| s.id == coil).unwrap().rot = 1;
-    let corner = prj.new_id();
-    prj.pages[0].junctions.push(Junction { id: corner, ..Junction::corner(p(60.0, 80.0), TeeDir::Up, TeeDir::Right) });
-    // Placing the corner wires both pins in.
-    let segs = autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner]), 400.0);
-    assert_eq!(segs, vec![(p(60.0, 80.0), p(60.0, 44.0)), (p(60.0, 80.0), p(116.0, 80.0))]);
-    // A symbol placed facing a free arm connects to it; a used arm takes no second wire.
-    let wid = prj.new_id();
-    prj.pages[0].wires.push(Wire { id: wid, a: p(60.0, 80.0), b: p(60.0, 44.0), ..Default::default() });
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([contact]), 400.0), vec![]);
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([coil]), 400.0), vec![(p(116.0, 80.0), p(60.0, 80.0))]);
-    assert_eq!(apply_autoconnect(&mut prj, 0, &BTreeSet::from([corner])), 1);
-    assert!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner, coil, contact]), 400.0).is_empty());
-    assert!(crate::netlist::junctions::fits(&prj, &prj.pages[0], &prj.pages[0].junctions[0]));
-    // A T-junction's three arms are wired the same way; its arm away from any pin stays open.
-    let mut prj = Project::default();
-    sym(&mut prj, "no", p(60.0, 40.0));
-    let tee = prj.new_id();
-    prj.pages[0].junctions.push(Junction { id: tee, pos: p(60.0, 80.0), dir: TeeDir::Down, variant: 3, ..Default::default() });
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![]);
-    prj.pages[0].junctions[0].dir = TeeDir::Up;
-    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![(p(60.0, 80.0), p(60.0, 44.0))]);
 }
 
 fn wire(prj: &mut Project, a: P, b: P) -> u64 {
@@ -640,4 +689,35 @@ fn a_cable_line_that_crosses_nothing_stays() {
     prj.pages[0].cable_defs.push(CableDef { id: cd, a: p(80.0, 200.0), b: p(120.0, 200.0), cable: tag, shield: false });
     move_selection(&mut prj, 0, &sel, p(-80.0, 8.0));
     assert_eq!(line_ends(&prj, cd), (p(80.0, 200.0), p(120.0, 200.0)));
+}
+
+#[test]
+fn autoconnect_wires_into_the_free_arms_of_connection_symbols() {
+    let mut prj = Project::default();
+    // A contact above the corner, its lower pin at (60, 44) facing down; a coil to
+    // the right turned by 90°, its A2 at (116, 80) facing left.
+    let contact = sym(&mut prj, "no", p(60.0, 40.0));
+    let coil = sym(&mut prj, "coil", p(120.0, 80.0));
+    prj.pages[0].symbols.iter_mut().find(|s| s.id == coil).unwrap().rot = 1;
+    let corner = prj.new_id();
+    prj.pages[0].junctions.push(Junction { id: corner, ..Junction::corner(p(60.0, 80.0), TeeDir::Up, TeeDir::Right) });
+    // Placing the corner wires both pins in.
+    let segs = autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner]), 400.0);
+    assert_eq!(segs, vec![(p(60.0, 80.0), p(60.0, 44.0)), (p(60.0, 80.0), p(116.0, 80.0))]);
+    // A symbol placed facing a free arm connects to it; a used arm takes no second wire.
+    let wid = prj.new_id();
+    prj.pages[0].wires.push(Wire { id: wid, a: p(60.0, 80.0), b: p(60.0, 44.0), ..Default::default() });
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([contact]), 400.0), vec![]);
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([coil]), 400.0), vec![(p(116.0, 80.0), p(60.0, 80.0))]);
+    assert_eq!(apply_autoconnect(&mut prj, 0, &BTreeSet::from([corner])), 1);
+    assert!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([corner, coil, contact]), 400.0).is_empty());
+    assert!(crate::netlist::junctions::fits(&prj, &prj.pages[0], &prj.pages[0].junctions[0]));
+    // A T-junction's three arms are wired the same way; its arm away from any pin stays open.
+    let mut prj = Project::default();
+    sym(&mut prj, "no", p(60.0, 40.0));
+    let tee = prj.new_id();
+    prj.pages[0].junctions.push(Junction { id: tee, pos: p(60.0, 80.0), dir: TeeDir::Down, variant: 3, ..Default::default() });
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![]);
+    prj.pages[0].junctions[0].dir = TeeDir::Up;
+    assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![(p(60.0, 80.0), p(60.0, 44.0))]);
 }

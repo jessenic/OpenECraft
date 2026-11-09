@@ -556,7 +556,7 @@ pub fn problems(prj: &Project) -> Vec<Issue> {
                     match prj.devices.get(&a.device) {
                         None => out.push(crate::issue!(Severity::Warning, None, "{}: the device {} of PV array {} does not exist", b.name, a.device, a.name)),
                         Some(d) => {
-                            let n: u32 = d.parts.iter().filter(|p| p.number == a.module).map(|p| p.count.max(1)).sum();
+                            let n: u32 = d.parts.iter().filter(|p| p.number == a.module).map(|p| p.quantity()).sum();
                             if n != module_count(a) {
                                 out.push(crate::issue!(Severity::Warning, None, "{}: PV array {} has {} modules, its device {} has {}", b.name, a.name, module_count(a), a.device, n));
                             }

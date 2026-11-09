@@ -17,6 +17,14 @@ pub struct FindUi {
     searched: bool,
 }
 
+impl FindUi {
+    pub(super) fn clear_results(&mut self) {
+        self.hits.clear();
+        self.rev = 0;
+        self.searched = false;
+    }
+}
+
 pub fn kind_title(k: Kind) -> &'static str {
     match k {
         Kind::Page => tr("Pages"),

@@ -470,9 +470,9 @@ impl Object {
             Object::Function(id) => {
                 let func = find_symbol(prj, *id).and_then(|(_, s)| prj.symbol(&s.sym)).map(|d| d.func);
                 match func {
-                    Some(Func::Terminal) => vec![ObjectClass::Function, ObjectClass::Terminal],
-                    Some(Func::Plc) => vec![ObjectClass::Function, ObjectClass::PlcPoint],
-                    _ => vec![ObjectClass::Function],
+                    Some(Func::Terminal) => vec![ObjectClass::Function, ObjectClass::Terminal, ObjectClass::Part],
+                    Some(Func::Plc) => vec![ObjectClass::Function, ObjectClass::PlcPoint, ObjectClass::Part],
+                    _ => vec![ObjectClass::Function, ObjectClass::Part],
                 }
             }
             Object::Cable(_) => vec![ObjectClass::Cable],
@@ -530,9 +530,13 @@ pub fn object_at_symbol(prj: &Project, page_i: usize, s: &SymbolInst, class: Obj
     Some(match class {
         ObjectClass::Project => Object::Project,
         ObjectClass::Page => Object::Page(prj.pages.get(page_i)?.id),
-        ObjectClass::Device | ObjectClass::Part if !s.tag.is_empty() => Object::Device(s.tag.clone()),
+        ObjectClass::Device if !s.tag.is_empty() => Object::Device(s.tag.clone()),
+        ObjectClass::Part => Object::Part(s.selected_part_number(prj)?.to_string()),
         ObjectClass::Function | ObjectClass::Terminal | ObjectClass::PlcPoint => Object::Function(s.id),
-        ObjectClass::Cable if prj.cable(&s.tag).is_some() => Object::Cable(s.tag.clone()),
+        ObjectClass::Cable => {
+            let tag=s.values.get("function.cable").filter(|tag|!tag.is_empty()).map(String::as_str).unwrap_or(&s.tag);
+            prj.cable(tag)?;Object::Cable(tag.into())
+        }
         _ => return None,
     })
 }
@@ -567,6 +571,11 @@ pub fn stored<'a>(prj: &'a Project, obj: &Object, key: &str) -> Option<&'a str> 
 /// Value of a property ("" = none), with the fallbacks described in the module docs.
 pub fn get(prj: &Project, obj: &Object, key: &str) -> String {
     let Some(d) = def(prj, key) else { return String::new() };
+    if let Object::Function(id)=obj {
+        if let Some((field,index))=crate::model::plc_hw::bindings::property(key) {
+            if let Some(value)=crate::model::plc_hw::bindings::value(prj,*id,index,field) {return value;}
+        }
+    }
     if d.class == ObjectClass::Part {
         return part_value(prj, obj, key);
     }
@@ -633,6 +642,12 @@ pub fn set(prj: &mut Project, obj: &Object, key: &str, value: &str) -> Result<()
         return Err(tr_fmt!("{} cannot be changed", d.title()));
     }
     let v = d.check(value)?;
+    if let Object::Function(id)=obj {
+        if let Some((field,index))=crate::model::plc_hw::bindings::property(key) {
+            crate::model::plc_hw::bindings::set(prj,*id,index,field,&v)?;
+            return Ok(());
+        }
+    }
     if d.field {
         return set_field(prj, obj, key, &v);
     }
@@ -657,12 +672,14 @@ pub fn set(prj: &mut Project, obj: &Object, key: &str, value: &str) -> Result<()
 pub fn keys_of<'a>(prj: &'a Project, obj: &Object, relevant: bool, filled: bool) -> Vec<(String, &'a PropDef)> {
     let classes = obj.classes(prj);
     let groups = function_def(prj, obj).map(|f| f.category.groups());
+    let channels=if let Object::Function(id)=obj {find_symbol(prj,*id).and_then(|(_,s)|prj.symbol(&s.sym)).map(|d|d.plc_channels.len()).unwrap_or(0)} else {0};
     let mut out = Vec::new();
     for d in all_defs(prj).filter(|d| classes.contains(&d.class)) {
-        if relevant && !d.group.is_common() && groups.is_some_and(|g| !g.contains(&d.group)) {
+        if relevant && !d.group.is_common() && !(channels>0 && d.group==Group::Plc) && groups.is_some_and(|g| !g.contains(&d.group)) {
             continue;
         }
-        for k in d.value_keys() {
+        let keys=if d.key.starts_with("function.plc_") {(1..=channels.min(usize::from(d.indices))).map(|i|format!("{}[{i}]",d.key)).collect()} else {d.value_keys()};
+        for k in keys {
             if !filled || !get(prj, obj, &k).is_empty() {
                 out.push((k, d));
             }
@@ -703,11 +720,33 @@ fn num(v: f64) -> String {
     s.trim_end_matches('0').trim_end_matches('.').to_string()
 }
 
-/// Part data: of the part itself, or joined over the parts of a device.
+/// Number of the assigned part selected by this function.
+pub fn selected_part_number<'a>(prj: &'a Project, s: &SymbolInst) -> Option<&'a str> {
+    s.selected_part_number(prj)
+}
+
+fn set_function_part_index(prj: &mut Project, id: u64, value: &str) -> Result<(), String> {
+    let (_, s) = find_symbol(prj, id).ok_or_else(|| tr_fmt!("No such object: {}", id))?;
+    let selected = value.parse::<usize>().ok().and_then(|i| s.assigned_part_number(prj, i)).map(str::to_owned);
+    if !value.is_empty() && selected.is_none() {
+        return Err(tr_fmt!("Assigned part position {} does not exist on this device", value));
+    }
+    let s = find_symbol_mut(prj, id).ok_or_else(|| tr_fmt!("No such object: {}", id))?;
+    if let Some(number) = selected { s.values.insert("function.part_number".into(), number); }
+    else { s.values.remove("function.part_number"); }
+    Ok(())
+}
+
+/// Part data: of a part, the selected part of a function, or all parts of a device.
 fn part_value(prj: &Project, obj: &Object, key: &str) -> String {
+    if let Object::Function(id) = obj {
+        let number = find_symbol(prj, *id).and_then(|(_, s)| selected_part_number(prj, s));
+        if key == "part.number" { return number.unwrap_or_default().to_string(); }
+    }
     let parts: Vec<&Part> = match obj {
         Object::Part(number) => crate::parts::lookup(prj, None, number).into_iter().collect(),
         Object::Device(tag) => prj.devices.get(tag).map(|d| d.parts.iter().filter_map(|r| crate::parts::lookup(prj, None, &r.number)).collect()).unwrap_or_default(),
+        Object::Function(id) => find_symbol(prj, *id).and_then(|(_, s)| selected_part_number(prj, s)).and_then(|number| crate::parts::lookup(prj, None, number)).into_iter().collect(),
         _ => Vec::new(),
     };
     let field = |p: &Part| -> String {
@@ -768,11 +807,31 @@ fn computed(prj: &Project, obj: &Object, key: &str) -> Option<String> {
             })
         }
         Object::Page(id) => {
-            let pg = prj.pages.iter().find(|p| p.id == *id)?;
+            let page_i=prj.pages.iter().position(|p|p.id==*id)?;
+            let pg = &prj.pages[page_i];
             Some(match key {
                 "page.name" => pg.name.clone(),
                 "page.description" => pg.description.clone(),
                 "page.full_name" => format!("{}/{}", crate::structure::page_structure(pg), pg.name),
+                "page.local_name" => crate::sections::local_name(prj,page_i).to_owned(),
+                "page.section_pages" => {
+                    let section=crate::sections::of_page(prj,page_i);
+                    prj.pages.iter().enumerate().filter(|(i,_)|crate::sections::of_page(prj,*i)==section).count().to_string()
+                }
+                "page.section_last_number" => {
+                    let section=crate::sections::of_page(prj,page_i);
+                    (0..prj.pages.len()).filter(|&i|crate::sections::of_page(prj,i)==section)
+                        .map(|i|crate::sections::local_name(prj,i)).max_by(|a,b|crate::model::natural_cmp(a,b))
+                        .unwrap_or_default().to_owned()
+                }
+                "page.previous_local_name"|"page.next_local_name" => {
+                    let section=crate::sections::of_page(prj,page_i);
+                    let same=|i:&usize|crate::sections::of_page(prj,*i)==section;
+                    let other=if key=="page.previous_local_name" {(0..page_i).rev().find(same)} else {(page_i+1..prj.pages.len()).find(same)};
+                    other.map(|i|crate::sections::local_name(prj,i).to_owned()).unwrap_or_default()
+                }
+                "page.function_designation"=>format!("={}",pg.function.trim_start_matches('=')),
+                "page.location_designation"=>format!("+{}",pg.location.trim_start_matches('+')),
                 "page.type" => pg.kind.label(),
                 "page.symbols" => pg.symbols.len().to_string(),
                 "page.released" => yes_no(pg.locked),
@@ -817,11 +876,18 @@ fn computed(prj: &Project, obj: &Object, key: &str) -> Option<String> {
             Some(match key {
                 "function.label" | "terminal.number" | "plc.address" => s.label.clone(),
                 "function.function_text" => s.function_text.clone(),
+                "function.part_index" => match selected_part_number(prj, s) {
+                    Some(number) => prj.devices.get(&s.tag).and_then(|d| d.parts.iter().position(|p| p.number == number)).map(|i| (i+1).to_string()).unwrap_or_else(|| "1".into()),
+                    None if s.values.contains_key("function.part_number") => "0".into(),
+                    None => "1".into(),
+                },
+                "function.part_number" => selected_part_number(prj, s).unwrap_or_default().to_string(),
                 "function.pins" => s.pins.iter().filter(|p| !p.is_empty()).cloned().collect::<Vec<_>>().join(" "),
                 "function.symbol" => sd.map(|d| tr(d.name).to_string()).unwrap_or_default(),
                 "function.symbol_key" => s.sym.clone(),
                 "function.position" => position(prj, pi, s),
                 "function.page" => prj.pages[pi].name.clone(),
+                "function.cross_references" => crate::references::property(prj, pi, s),
                 "function.definition" => functions::of_symbol(prj, s).map(|f| f.title()).unwrap_or_default(),
                 "function.category" => functions::of_symbol(prj, s).map(|f| f.category.title().to_string()).unwrap_or_default(),
                 "function.main" => yes_no(matches!(sd.map(|d| d.func), Some(Func::Main { .. }))),
@@ -895,6 +961,7 @@ fn set_field(prj: &mut Project, obj: &Object, key: &str, v: &str) -> Result<(), 
             _ => return Err(missing()),
         },
         Object::Function(id) => {
+            if key == "function.part_index" { return set_function_part_index(prj, *id, &v); }
             let s = find_symbol_mut(prj, *id).ok_or_else(missing)?;
             match key {
                 "function.label" | "terminal.number" | "plc.address" => s.label = v,

@@ -17,6 +17,7 @@ Address	アドレス
 Angle	角度
 Apply	適用
 Approvers	承認者
+Automatic	自動
 Bold	太字
 Bottom	底板
 Bottom with removable gland plate	取り外し可能なグランドプレート付きの底板
@@ -31,6 +32,7 @@ Cable core	ケーブル心線
 Cable duct	配線ダクト
 Cable overview	ケーブル概要
 Cable tag	ケーブルタグ
+Cable tag, e.g. -W20	ケーブルのタグ、例: -W20
 Cables	ケーブル
 Cancel	キャンセル
 Cannot read {}: {}	{} を読み取れません: {}
@@ -62,6 +64,7 @@ Configurator	コンフィギュレーター
 Connect	接続
 Connected to	接続先
 Connecting…	接続中…
+Connection point	接続ポイント
 Connection points	接続ポイント
 Connections	接続
 Connector	コネクター
@@ -83,6 +86,7 @@ DWG drawing	DWG 図面
 DXF drawing	DXF 図面
 Dark	ダーク
 Data portal	データポータル
+Data type	データ型
 Date	日付
 Depth	奥行き
 Descending	降順
@@ -213,6 +217,7 @@ New name	新しい名前
 No	いいえ
 No Vault item matches a part of the project	プロジェクトの部品に一致する Vault アイテムはありません
 No cable {}	ケーブル {} はありません
+No connection point {}	接続点 {} がありません
 No device {}	デバイス {} はありません
 No enclosure {}	エンクロージャー {} はありません
 No labeling scheme named {}	{} という名前のラベリングスキームはありません
@@ -220,6 +225,7 @@ No machine {}	機械 {} がありません
 No page named {}	{} という名前のページはありません
 No page template named {}	{} という名前のページテンプレートはありません
 No page {}	ページ {} がありません
+No part {}	部品 {} がありません
 No part {} in the project	プロジェクトに部品 {} がありません
 No parts found	部品が見つかりません
 No plot frame named {}	{} という名前の図枠はありません
@@ -233,6 +239,7 @@ No symbol with id {}	ID {} のシンボルはありません
 Nominal size	呼び径
 Not a language code: {}	言語コードではありません: {}
 Not a macro file: {}	マクロファイルではありません: {}
+Not a symbol id: {}	シンボル ID ではありません: {}
 Not a valid rule set file: {}	有効なルールセットファイルではありません: {}
 Not in the schematic	回路図にありません
 Note	注記
@@ -384,6 +391,8 @@ Successor	後継品
 Supplier	仕入先
 Supply	供給
 Symbol	シンボル
+Symbol key	シンボルキー
+Symbolic address	シンボリックアドレス
 Symbols	シンボル
 System	システム
 T-junction	T分岐

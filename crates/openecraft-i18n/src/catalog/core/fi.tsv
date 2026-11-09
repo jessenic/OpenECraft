@@ -75,7 +75,6 @@ Approved by	Hyväksynyt
 Arms {} and {}	Haarat {} ja {}
 Asset number	Omaisuusnumero
 Author of the last revision	Viimeisimmän revision tekijä
-Automatic	Automaattinen
 Autotransformer 1-phase	Säästömuuntaja, 1-vaiheinen
 Autotransformer 1-phase, adjustable	Säästömuuntaja, 1-vaiheinen, säädettävä
 Autotransformer 3-phase	Säästömuuntaja, 3-vaiheinen
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Yhteyden
 Connection definition point on page {} is not on a wire	Yhteyden määrityspiste sivulla {} ei ole johdolla
 Connection definitions	Yhteysmäärittelyt
 Connection list	Yhteysluettelo
-Connection point	Liitäntäpiste
 Connection point descriptions	Liitäntäpisteiden kuvaukset
 Connection point {} is not on the {} mm grid.	Liitäntäpiste {} ei ole {} mm:n ruudukossa.
 Connection point {} lies on another one.	Liitäntäpiste {} on toisen päällä.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-ohjauspiirien tulisi oll
 DC/DC converter	DC/DC-muuttaja
 DWG export failed: {}	DWG-vienti epäonnistui: {}
 Data sheet	Tietolehti
-Data type	Tietotyyppi
 Date of the last revision	Viimeisimmän revision päivämäärä
 Degree of protection	Kotelointiluokka
 Delete projects	Poista projekteja
@@ -926,7 +923,6 @@ Neutral (N)	Nollajohdin (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Nollajohtimien on oltava vaaleansinisiä (IEC 60204-1, 13.2.3)
 Next inspection	Seuraava tarkastus
 Nibbling	Nakerrus
-No connection point {}	Ei liitäntäpistettä {}
 No connection {}	Ei yhteyttä {}
 No devices to add to the single-line diagram	Ei laitteita lisättäväksi yksinapaiseen kaavioon
 No document embedded - choose a file in the page properties	Dokumenttia ei ole upotettu - valitse tiedosto sivun ominaisuuksissa
@@ -935,7 +931,6 @@ No known column in the header row	Otsikkorivillä ei ole tunnettua saraketta
 No option {}	Vaihtoehtoa {} ei ole
 No page or page item with id {}	Sivua tai sivun kohdetta tunnuksella {} ei ole
 No page with id {}	Sivua tunnuksella {} ei ole
-No part {}	Ei osaa {}
 No plugs	Ei liittimiä
 No report block {}	Ei raporttilohkoa {}
 No segment template named {}	Segmenttimallia nimeltä {} ei ole
@@ -961,7 +956,6 @@ Not a packed project	Ei pakattu projekti
 Not a project database: {}	Ei projektitietokanta: {}
 Not a settings scheme: {}	Ei asetusskeema: {}
 Not a structure template: {}	Ei rakennemalli: {}
-Not a symbol id: {}	Ei symbolin tunnus: {}
 Not a valid JSON file: {}	Ei kelvollinen JSON-tiedosto: {}
 Not a valid project file: {}	Ei kelvollinen projektitiedosto: {}
 Not a valid property library: {}	Ei kelvollinen ominaisuuskirjasto: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Kytkimet / anturit
 Switches, pushbuttons	Kytkimet, painikkeet
 Switching frequency	Kytkentätaajuus
 Switching output	Kytkentälähtö
-Symbol key	Symbolin avain
-Symbolic address	Symbolinen osoite
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Sivun {} T-haara ei sovi johtimiinsa: se tarvitsee yhden johtimen suunnassaan, kaksi poikittain eikä liitäntäpistettä siinä
 Table of contents	Sisällysluettelo
 Tabloid landscape	Tabloid vaaka

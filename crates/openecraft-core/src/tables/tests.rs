@@ -102,11 +102,19 @@ fn connections_change_all_their_wires() {
     let (_, open) = nets(&prj);
     assert!(set_cell(&mut prj, &open, TableKind::Connections, &r.key, 4, "OG").unwrap());
     assert!(set_cell(&mut prj, &open, TableKind::Connections, &r.key, 3, "W77").unwrap());
+    assert!(set_cell(&mut prj, &open, TableKind::Connections, &r.key, 9, "H07V-K").unwrap());
     let net = &open.nets[open.wire_net[&r.key.parse::<u64>().unwrap()]];
     for w in crate::wirenum::wires_of(&prj, net) {
         assert_eq!((w.color.as_str(), w.number.as_str(), w.number_fixed), ("OG", "W77", true));
+        assert_eq!(w.wire_type, "H07V-K");
     }
     assert!(set_cell(&mut prj, &open, TableKind::Connections, &r.key, 6, "-W99").unwrap_err().contains("Unknown cable"));
+    let restored: Project = serde_json::from_str(&serde_json::to_string(&prj).unwrap()).unwrap();
+    let row = table(&restored, TableKind::Connections).into_iter().find(|row| row.key == r.key).unwrap();
+    assert_eq!(row.cells[9], "H07V-K");
+    let (nl, open) = nets(&restored);
+    let connections = crate::netlist::connections(&restored, &nl, &open);
+    assert!(connections.iter().any(|c| c.wire_type == "H07V-K"));
 }
 
 #[test]

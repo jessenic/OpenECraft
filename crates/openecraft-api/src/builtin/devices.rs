@@ -26,6 +26,20 @@ impl Plugin for Devices {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name:"add_device_part",
+        help:tr_const!("Assigns a part with a per-terminal or total quantity to a device"),
+        params:&[param("tag",Kind::Str,tr_const!("Device tag")),param("part",Kind::Str,tr_const!("Part number")),
+            optional("count",Kind::Int,tr_const!("Quantity (default 1)")),optional("total",Kind::Bool,tr_const!("Count once for the whole device or terminal strip"))],
+        run:add_device_part,
+    },
+    Spec {
+        name:"set_device_part_quantity",
+        help:tr_const!("Changes the quantity and counting mode of an assigned part"),
+        params:&[param("tag",Kind::Str,tr_const!("Device tag")),param("index",Kind::Int,tr_const!("Assigned part index (1-based)")),
+            optional("count",Kind::Int,tr_const!("Quantity (default 1)")),optional("total",Kind::Bool,tr_const!("Count once for the whole device or terminal strip"))],
+        run:set_device_part_quantity,
+    },
+    Spec {
         name: "list_devices",
         help: tr_const!("Lists the devices with cross references and assigned parts"),
         params: &[],
@@ -39,6 +53,15 @@ pub static COMMANDS: &[Spec] = &[
             param("new_tag", Kind::Str, tr_const!("New device tag")),
         ],
         run: rename_device,
+    },
+    Spec {
+        name: "rename_symbol_device",
+        help: tr_const!("Renames the device or cable referenced by a placed function"),
+        params: &[
+            param("id", Kind::Int, tr_const!("Symbol id")),
+            param("new_tag", Kind::Str, tr_const!("New device tag")),
+        ],
+        run: rename_symbol_device,
     },
     Spec {
         name: "list_accessories",
@@ -85,6 +108,32 @@ pub static COMMANDS: &[Spec] = &[
 /// catalogs shipped with OpenECraft.
 fn accessory_db() -> PartsDb {
     PartsDb { parts: parts::bundled::default_parts() }
+}
+
+fn add_device_part(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let tag=a.req("tag").trim();let number=a.req("part").trim();
+    if tag.is_empty() {return Err(tr("Device tag must not be empty").into());}
+    let part=prj.parts.iter().chain(parts::catalog()).find(|p|p.number==number).cloned().ok_or_else(||tr_fmt!("Unknown part: {}",number))?;
+    let count=int_in(a,"count",0,u32::MAX.into())?.unwrap_or(1) as u32;let total=a.flag("total");
+    if count==0 && !total {return Err(tr("Zero quantity requires total counting mode").into());}
+    if !prj.parts.iter().any(|p|p.number==number) {prj.parts.push(part);}
+    let data=prj.devices.entry(tag.into()).or_default();
+    let index=if let Some(index)=data.parts.iter().position(|p|p.number==number && p.total==total) {
+        data.parts[index].count=data.parts[index].count.checked_add(count).ok_or_else(||tr("Part quantity exceeds the supported range").to_string())?;index
+    } else {data.parts.push(parts::PartRef {number:number.into(),count,total});data.parts.len()-1};
+    Ok(json!({"tag":tag,"index":index+1,"part":data.parts[index]}))
+}
+
+fn set_device_part_quantity(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let tag=a.req("tag");let index=int_in(a,"index",1,u32::MAX.into())?.unwrap_or(1) as usize-1;
+    let count=int_in(a,"count",0,u32::MAX.into())?.map(|v|v as u32);
+    let total=a.value("total").and_then(Value::as_bool);
+    let data=prj.devices.get_mut(tag).ok_or_else(||tr_fmt!("No device {}",tag))?;
+    let part=data.parts.get_mut(index).ok_or_else(||tr_fmt!("No part assignment {} on device {}",index+1,tag))?;
+    if count.unwrap_or(part.count)==0 && !total.unwrap_or(part.total) {return Err(tr("Zero quantity requires total counting mode").into());}
+    if let Some(count)=count {part.count=count;}
+    if let Some(total)=total {part.total=total;}
+    Ok(json!({"tag":tag,"index":index+1,"part":part}))
 }
 
 fn brief(p: &parts::Part) -> Value {
@@ -149,8 +198,12 @@ fn renumber_devices(prj: &mut Project, a: &Args) -> Result<Value, String> {
 fn list_devices(prj: &mut Project, _: &Args) -> Result<Value, String> {
     let idx = Index::build(prj);
     let refs = |locs: &[openecraft_core::index::Loc]| locs.iter().map(|l| l.reference(prj)).collect::<Vec<_>>();
-    let list = idx.sorted_tags().into_iter().map(|tag| {
-        let e = &idx.devices[tag];
+    let mut tags=idx.sorted_tags();tags.extend(prj.devices.iter().filter(|(tag,d)|!idx.devices.contains_key(*tag) && parts::is_material_device(d)).map(|(tag,_)|tag));
+    tags.extend(openecraft_core::panel::material_tags(prj));tags.sort();tags.dedup();
+    tags.sort_by(|a,b|openecraft_core::model::natural_cmp(a,b));
+    let empty=openecraft_core::index::DeviceEntry::default();
+    let list = tags.into_iter().map(|tag| {
+        let e = idx.devices.get(tag).unwrap_or(&empty);
         let data = prj.devices.get(tag);
         let on = |n: &str| prj.parts.iter().any(|p| p.number == n && p.accessory).then(|| parts::attached_to(prj, None, tag, n).map(|m| m.number.clone()));
         let parts: Vec<Value> = data
@@ -158,8 +211,8 @@ fn list_devices(prj: &mut Project, _: &Args) -> Result<Value, String> {
                 d.parts
                     .iter()
                     .map(|r| match on(&r.number) {
-                        Some(main) => json!({ "number": r.number, "count": r.count, "accessory_of": main }),
-                        None => json!({ "number": r.number, "count": r.count }),
+                        Some(main) => json!({ "number": r.number, "count": r.count, "total":r.total, "accessory_of": main }),
+                        None => json!({ "number": r.number, "count": r.count, "total":r.total }),
                     })
                     .collect()
             })
@@ -167,6 +220,8 @@ fn list_devices(prj: &mut Project, _: &Args) -> Result<Value, String> {
         json!({
             "tag": tag,
             "description": data.map(|d| d.description.as_str()).unwrap_or_default(),
+            "owner_device":data.and_then(|d|d.values.get("device.material_owner")).map(String::as_str).unwrap_or(""),
+            "bom_excluded":parts::excluded_from_bom(prj,tag),
             "parts": parts,
             "main": refs(&e.mains),
             "auxiliary": refs(&e.auxs),
@@ -179,7 +234,7 @@ fn list_devices(prj: &mut Project, _: &Args) -> Result<Value, String> {
 
 fn rename_device(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let (old, new) = (a.req("tag").trim(), a.req("new_tag").trim());
-    if !prj.all_tags().iter().any(|t| t == old) {
+    if !prj.all_tags().iter().any(|t| t == old) && !prj.unplaced_tags().any(|t|t==old) {
         return Err(tr_fmt!("No device {}", old));
     }
     if let Some(problem) = ops::rename_problem(prj, old, new) {
@@ -188,3 +243,12 @@ fn rename_device(prj: &mut Project, a: &Args) -> Result<Value, String> {
     ops::rename_device(prj, old, new);
     Ok(json!({ "old": old, "new": new }))
 }
+
+fn rename_symbol_device(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let id=a.int("id").unwrap_or_default() as u64;let new=a.req("new_tag").trim();
+    let changed=ops::rename_symbol_device(prj,id,new)?;
+    Ok(json!({"id":id,"new_tag":new,"changed":changed}))
+}
+
+#[cfg(test)]
+mod tests;

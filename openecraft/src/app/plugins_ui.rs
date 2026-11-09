@@ -11,17 +11,45 @@ use serde_json::{Map, Value};
 
 /// Storage key of the disabled plugin ids.
 pub const STORAGE_KEY: &str = "disabled_plugins";
+pub const FOLDERS_KEY: &str = "plugin_folders";
 
 #[derive(Default)]
 pub struct PluginsUi {
     /// Plugin manager window.
     pub open: bool,
+    folder: String,
+    folders: Vec<String>,
     /// Command whose parameters are entered, with the text typed per parameter.
     command: Option<(Command, Vec<String>)>,
     /// Answer of the last command run.
     result: Option<Result<String, String>>,
     /// Report shown: its title and table.
     report: Option<(String, String, Result<Table, String>)>,
+}
+
+impl PluginsUi {
+    pub(super) fn with_folders(folders: Vec<String>) -> Self {
+        Self { folders, ..Default::default() }
+    }
+
+    pub(super) fn folders(&self) -> &[String] {
+        &self.folders
+    }
+
+    fn load_folder(&mut self, plugins: &mut openecraft_api::Plugins) -> bool {
+        let folder = self.folder.trim();
+        if folder.is_empty() || self.folders.iter().any(|p| p == folder) {
+            return false;
+        }
+        let errors = plugins.errors.len();
+        let loaded = plugins.list().len();
+        plugins.load_dir(std::path::Path::new(folder));
+        if plugins.errors.len() != errors && plugins.list().len() == loaded {
+            return false;
+        }
+        self.folders.push(folder.to_string());
+        true
+    }
 }
 
 /// Arguments from the texts of the form; empty fields are left out.
@@ -51,6 +79,10 @@ impl App {
 
     fn run_plugin_command(&mut self, c: &Command, texts: &[String]) {
         let result = form_args(&c.params, texts).and_then(|args| self.plugins.run(c, &mut self.session.prj, &args));
+        if result.is_ok() {
+            self.find_ui.clear_results();
+            self.unplaced_cache = Default::default();
+        }
         self.plugins_ui.result = Some(result.map(|v| match v {
             Value::String(s) => s,
             Value::Null => tr("Done.").to_string(),
@@ -79,8 +111,15 @@ impl App {
     /// Manage plugins: the plugins with what they add, switched on and off.
     pub(super) fn plugins_pane(&mut self, ui: &mut egui::Ui) {
         let mut toggled = Vec::new();
+        let mut loaded = false;
         ui.scope(|ui| {
             ui.weak(tr_fmt!("Plugins add commands, checks, reports and exports. External plugins are loaded from the folders in the environment variable {} (one subfolder with a plugin.json per plugin).", PLUGIN_PATH_VAR));
+            ui.label(tr("Plugin folder"));
+            ui.add(egui::TextEdit::singleline(&mut self.plugins_ui.folder).desired_width(f32::INFINITY))
+                .on_hover_text(tr("Folder containing plugin subfolders with plugin.json files"));
+            if ui.add_enabled(!self.plugins_ui.folder.trim().is_empty(), egui::Button::new(tr("Load plugins"))).clicked() {
+                loaded = self.plugins_ui.load_folder(&mut self.plugins);
+            }
             ui.separator();
             egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
                 for l in self.plugins.list() {
@@ -108,7 +147,7 @@ impl App {
                 }
             });
         });
-        if !toggled.is_empty() {
+        if loaded || !toggled.is_empty() {
             for (id, on) in toggled {
                 self.plugins.set_enabled(&id, on);
             }
@@ -181,7 +220,14 @@ impl App {
                         let name = super::ribbon_ui::humanize(&p.name);
                         let name = if p.required { format!("{name} *") } else { name };
                         ui.label(name).on_hover_text(text(&p.help));
-                        if p.kind == Kind::Bool {
+                        if p.kind == Kind::Bool && !p.required {
+                            let label=match Kind::Bool.parse(t) {Some(Value::Bool(true))=>tr("Enabled"),Some(Value::Bool(false))=>tr("Disabled"),_=>tr("Use plugin default")};
+                            egui::ComboBox::from_id_salt((&cmd.name,&p.name)).selected_text(label).show_ui(ui,|ui| {
+                                ui.selectable_value(t,String::new(),tr("Use plugin default"));
+                                ui.selectable_value(t,"true".into(),tr("Enabled"));
+                                ui.selectable_value(t,"false".into(),tr("Disabled"));
+                            });
+                        } else if p.kind == Kind::Bool {
                             let mut on = Kind::Bool.parse(t) == Some(Value::Bool(true));
                             if ui.checkbox(&mut on, "").changed() {
                                 *t = on.to_string();

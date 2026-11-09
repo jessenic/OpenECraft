@@ -17,6 +17,7 @@ Address	Адрес
 Angle	Угол
 Apply	Применить
 Approvers	Утверждающие
+Automatic	Автоматически
 Bold	Полужирный
 Bottom	Дно
 Bottom with removable gland plate	Дно со съёмной фланцевой панелью
@@ -33,6 +34,7 @@ Cable core	Жила кабеля
 Cable duct	Кабельный канал
 Cable overview	Обзор кабелей
 Cable tag	Обозначение кабеля
+Cable tag, e.g. -W20	Обозначение кабеля, напр. -W20
 Cables	Кабели
 Cancel	Отмена
 Cannot read {}: {}	Не удаётся прочитать {}: {}
@@ -64,6 +66,7 @@ Configurator	Конфигуратор
 Connect	Подключиться
 Connected to	Соединено с
 Connecting…	Подключение…
+Connection point	Точка подключения
 Connection points	Точки подключения
 Connections	Соединения
 Connector	Разъём
@@ -85,6 +88,7 @@ DWG drawing	Чертёж DWG
 DXF drawing	Чертёж DXF
 Dark	Тёмная
 Data portal	Портал данных
+Data type	Тип данных
 Date	Дата
 Depth	Глубина
 Descending	По убыванию
@@ -215,6 +219,7 @@ New name	Новое имя
 No	Нет
 No Vault item matches a part of the project	Ни один элемент Vault не соответствует изделию проекта
 No cable {}	Нет кабеля {}
+No connection point {}	Нет точки подключения {}
 No device {}	Нет устройства {}
 No enclosure {}	Нет корпуса {}
 No labeling scheme named {}	Нет схемы маркировки с именем {}
@@ -222,6 +227,7 @@ No machine {}	Нет станка {}
 No page named {}	Нет листа с именем {}
 No page template named {}	Нет шаблона листа с именем {}
 No page {}	Нет листа {}
+No part {}	Нет изделия {}
 No part {} in the project	Нет изделия {} в проекте
 No parts found	Изделия не найдены
 No plot frame named {}	Нет рамки листа с именем {}
@@ -235,6 +241,7 @@ No symbol with id {}	Нет символа с ID {}
 Nominal size	Условный проход
 Not a language code: {}	Не код языка: {}
 Not a macro file: {}	Не файл макросов: {}
+Not a symbol id: {}	Не идентификатор символа: {}
 Not a valid rule set file: {}	Недопустимый файл набора правил: {}
 Not in the schematic	Нет на схеме
 Note	Примечание
@@ -386,6 +393,8 @@ Successor	Преемник
 Supplier	Поставщик
 Supply	Снабжение
 Symbol	Символ
+Symbol key	Ключ символа
+Symbolic address	Символьный адрес
 Symbols	Символы
 System	Система
 T-junction	Т-образный узел

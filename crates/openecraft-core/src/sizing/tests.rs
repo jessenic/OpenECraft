@@ -32,7 +32,7 @@ fn assign(prj: &mut Project, tag: &str, number: &str, kind: FnKind, pins: &str, 
         functions: vec![FunctionTemplate::new(kind, pins)],
         ..Default::default()
     };
-    prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number: number.into(), count: 1 });
+    prj.devices.entry(tag.into()).or_default().parts.push(PartRef { number: number.into(), count: 1, total:false });
     prj.parts.push(part);
 }
 
@@ -138,7 +138,7 @@ fn fuse_switches_protect_with_their_fuse_links() {
     let (mut prj, _, _) = circuit("16 mm²", "16 mm²", "160 A");
     assert_eq!(protective_current(&prj, "-F1"), Some(160.0));
     prj.parts.push(Part { number: "ACME.NH00-63".into(), subgroup: FUSE_LINK.into(), current: "63 A".into(), ..Default::default() });
-    prj.devices.get_mut("-F1").unwrap().parts.push(PartRef { number: "ACME.NH00-63".into(), count: 3 });
+    prj.devices.get_mut("-F1").unwrap().parts.push(PartRef { number: "ACME.NH00-63".into(), count: 3, total:false });
     assert_eq!(protective_current(&prj, "-F1"), Some(63.0));
     assert_eq!(crate::protection::of_device(&prj, "-F1").map(|p| p.rated), Some(63.0));
     let o = overloads(&prj, &Netlist::build(&prj, true), &Netlist::build(&prj, false));
@@ -180,7 +180,7 @@ fn a_fuse_switch_with_solid_links_only_isolates() {
     // The isolation before the transformers of a metering: solid links, no fuses.
     let (mut prj, _, _) = circuit("16 mm²", "16 mm²", "160 A");
     prj.parts.push(Part { number: "ACME.NH-LINK".into(), subgroup: SOLID_LINK.into(), ..Default::default() });
-    prj.devices.get_mut("-F1").unwrap().parts.push(PartRef { number: "ACME.NH-LINK".into(), count: 3 });
+    prj.devices.get_mut("-F1").unwrap().parts.push(PartRef { number: "ACME.NH-LINK".into(), count: 3, total:false });
     assert!(isolates_only(&prj, "-F1"));
     assert_eq!(protective_current(&prj, "-F1"), None);
     assert!(crate::protection::of_device(&prj, "-F1").is_none());

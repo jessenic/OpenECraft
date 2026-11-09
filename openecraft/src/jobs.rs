@@ -24,11 +24,7 @@ impl<T: Send + 'static> Job<T> {
             }
             ctx.request_repaint();
         };
-        if openecraft_core::analysis::threads() < 2 {
-            run();
-        } else {
-            std::thread::spawn(run);
-        }
+        openecraft_ui::io::background(run);
         Job { label, result }
     }
 

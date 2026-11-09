@@ -2,6 +2,97 @@ use super::*;
 use crate::geom::p;
 use crate::sample::demo_project;
 
+#[test]
+fn portable_definition_parameters_fill_visible_text_and_defaults_without_touching_source_identity() {
+    let m:Macro=serde_json::from_value(serde_json::json!({"clip":{
+        "symbols":[{"id":1,"sym":"user:{IDENTITY}","tag":"-X{UNIT}","pins":["{PIN}"]}],
+        "symbol_defs":[{"key":"user:{IDENTITY}","letter":"X{UNIT}","default_label":"{LABEL}",
+            "default_function_text":"{LOAD}","default_values":{"function.part_number":"{ARTICLE}"},
+            "pins":[{"label":"{PIN}"}],"source_data":{"xml":"{SOURCE}"},
+            "prims":[{"Text":{"pos":{"x":0,"y":0},"text":"For {LOAD}","size":2,"anchor":"Left"}},
+                {"PropertyBlock":{"rows":[{"Text":"{NOTE}"},{"Property":"{PROPERTY_KEY}"}],
+                    "pos":{"x":0,"y":0},"step":{"x":0,"y":2},"size":2,"anchor":"Left","angle":0,"align":"Start"}}]}]
+    }})).unwrap();
+    assert_eq!(m.placeholders(),["ARTICLE","LABEL","LOAD","NOTE","PIN","UNIT"]);
+    let values=BTreeMap::from([("UNIT".into(),"7".into()),("LOAD".into(),"Pump".into()),("PIN".into(),"13".into()),
+        ("LABEL".into(),"Terminal".into()),("ARTICLE".into(),"A1".into()),("NOTE".into(),"Spare".into())]);
+    let clip=m.resolve(&values);let definition=&clip.symbol_defs[0];
+    assert_eq!(definition.letter,"X7");assert_eq!(definition.default_label,"Terminal");
+    assert_eq!(definition.default_function_text,"Pump");assert_eq!(definition.default_values["function.part_number"],"A1");
+    assert_eq!(definition.pins[0].label,"13");assert_eq!(clip.symbols[0].pins[0],"13");
+    assert_eq!(definition.key,"user:{IDENTITY}");assert_eq!(definition.source_data.as_ref().unwrap()["xml"],"{SOURCE}");
+    let crate::symbols::Prim::Text {text,..}=&definition.prims[0] else {panic!()};assert_eq!(text,"For Pump");
+    let crate::symbols::Prim::PropertyBlock(block)=&definition.prims[1] else {panic!()};
+    assert_eq!(block.rows,[crate::symbols::BlockRow::Text("Spare".into()),crate::symbols::BlockRow::Property("{PROPERTY_KEY}".into())]);
+    let mut project=Project::default();let ids=ops::paste(&mut project,0,&clip,p(10.,10.));
+    let symbol=project.pages[0].symbols.iter().find(|s|ids.contains(&s.id)).unwrap();
+    let installed=project.symbols.iter().find(|d|d.key==symbol.sym).unwrap();
+    assert_eq!(installed.default_function_text,"Pump");assert_eq!(installed.pins[0].label,"13");
+    assert_eq!(m.clip.symbol_defs[0].default_function_text,"{LOAD}");
+}
+
+#[test]
+fn portable_cable_placeholders_resolve_inventory_and_all_references_together() {
+    let m:Macro=serde_json::from_value(serde_json::json!({"clip":{
+        "cables":[{"tag":"-W{UNIT}","part":"{ARTICLE}","cores":"{CORE}","values":{"cable.note":"{NOTE}"}}],
+        "wires":[{"cable":"-W{UNIT}","core":"{CORE}"}],
+        "conn_defs":[{"cable":"-W{UNIT}","core":"{CORE}"}],
+        "cable_defs":[{"cable":"-W{UNIT}"}]
+    }})).unwrap();
+    assert_eq!(m.placeholders(),["ARTICLE","CORE","NOTE","UNIT"]);
+    let clip=m.resolve(&BTreeMap::from([("UNIT".into(),"3".into()),("CORE".into(),"BN".into()),("ARTICLE".into(),"C1".into())]));
+    assert_eq!(clip.cables[0].tag,"-W3");assert_eq!(clip.cables[0].part,"C1");assert_eq!(clip.cables[0].values["cable.note"],"{NOTE}");
+    assert_eq!(clip.wires[0].cable,clip.cables[0].tag);assert_eq!(clip.wires[0].core,clip.cables[0].cores);
+    assert_eq!(clip.conn_defs[0].cable,"-W3");assert_eq!(clip.cable_defs[0].cable,"-W3");
+}
+
+#[test]
+fn portable_device_properties_and_owner_placeholders_resolve_with_tags() {
+    let m:Macro=serde_json::from_value(serde_json::json!({"clip":{"devices":{
+        "-K{UNIT}":{"values":{"device.rated_power":"{POWER}","device.material_owner":"-X{OWNER}"}}
+    }}})).unwrap();
+    assert_eq!(m.placeholders(),["OWNER","POWER","UNIT"]);
+    let clip=m.resolve(&BTreeMap::from([("UNIT".into(),"3".into()),("OWNER".into(),"9".into()),("POWER".into(),"7.5".into())]));
+    assert_eq!(clip.devices["-K3"].values["device.material_owner"],"-X9");
+    assert_eq!(clip.devices["-K3"].values["device.rated_power"],"7.5");
+}
+
+#[test]
+fn function_part_references_resolve_and_survive_merging_terminal_parts() {
+    let m: Macro = serde_json::from_value(serde_json::json!({"clip":{
+        "symbols":[{"sym":"term","tag":"-X1","label":"2","values":{"function.part_number":"{ARTICLE}","function.manufacturer":"{MAKER}"}}],
+        "devices":{"-X1":{"parts":[{"number":"{ARTICLE}","count":1}]}},
+        "parts":[{"number":"{ARTICLE}"}]
+    }})).unwrap();
+    assert_eq!(m.placeholders(), ["ARTICLE", "MAKER"]);
+    let clip = m.resolve(&BTreeMap::from([("ARTICLE".into(), "A123".into()), ("MAKER".into(), "Vendor".into())]));
+    let mut prj = Project::default();
+    prj.devices.entry("-X1".into()).or_default().parts.push(crate::model::PartRef { number: "EXISTING".into(), count: 1, total:false });
+    let ids = ops::paste(&mut prj, 0, &clip, p(40., 40.));
+    let id = *ids.iter().find(|id| prj.pages[0].symbols.iter().any(|s| s.id == **id)).unwrap();
+    let function = crate::properties::Object::Function(id);
+    assert_eq!(crate::properties::get(&prj, &function, "part.number"), "A123");
+    assert_eq!(crate::properties::get(&prj, &function, "function.part_index"), "2");
+    assert_eq!(crate::properties::get(&prj, &function, "function.manufacturer"), "Vendor");
+}
+
+#[test]
+fn portable_device_and_catalog_placeholders_resolve_together() {
+    let m: Macro = serde_json::from_value(serde_json::json!({
+        "clip": {
+            "devices": {"-K{UNIT}": {"description": "{LOAD}", "parts": [{"number": "{ARTICLE}", "quantity": 1}]}},
+            "parts": [{"number": "{ARTICLE}", "description": "{LOAD}"}]
+        }
+    })).unwrap();
+    assert_eq!(m.placeholders(), ["ARTICLE", "LOAD", "UNIT"]);
+    let clip = m.resolve(&BTreeMap::from([
+        ("UNIT".into(), "7".into()), ("LOAD".into(), "Pump".into()), ("ARTICLE".into(), "A123".into()),
+    ]));
+    assert_eq!(clip.devices["-K7"].parts[0].number, "A123");
+    assert_eq!(clip.devices["-K7"].description, "Pump");
+    assert_eq!((clip.parts[0].number.as_str(), clip.parts[0].description.as_str()), ("A123", "Pump"));
+}
+
 /// Window macro of the motor feeder on page 2 with placeholders.
 fn motor_macro(prj: &Project) -> Macro {
     let page = &prj.pages[1];

@@ -4,6 +4,17 @@ use crate::panel::{collisions, PanelItem};
 use crate::analysis::Analysis;
 use crate::sample::demo_project;
 
+#[test]
+fn explicit_rotations_turn_asymmetric_drilling_without_scaling_hole_spacing() {
+    let part=Part {number:"ROTATED".into(),width:20.,height:40.,tech_data:"Mounting holes: M5: 3,7".into(),..Default::default()};
+    for (angle,expected) in [(0,p(103.,207.)),(90,p(133.,203.)),(180,p(117.,233.)),(270,p(107.,217.))] {
+        let mut dev=item(1,ItemKind::Device,100.,200.,80.,80.);
+        dev.part=part.number.clone();dev.rotation=crate::panel::PanelRotation::from_degrees(angle);
+        let holes=item_holes(&dev,std::slice::from_ref(&part));
+        assert_eq!(holes.len(),1);assert_eq!(holes[0].pos,expected);assert_eq!(holes[0].thread,"M5");
+    }
+}
+
 fn item(id: u64, kind: ItemKind, x: f32, y: f32, w: f32, h: f32) -> PanelItem {
     PanelItem { id, kind, x, y, w, h, d: 40.0, ..Default::default() }
 }

@@ -12,13 +12,33 @@ fn part(number: &str, wall: bool) -> Part {
 fn project() -> (Project, usize, usize) {
     let mut prj = Project { parts: vec![part("VIC.MPPT", true), Part { number: "GEN.MCB".into(), width: 18.0, height: 90.0, depth: 70.0, ..Default::default() }], ..Default::default() };
     for (tag, number) in [("-T1", "VIC.MPPT"), ("-F1", "GEN.MCB")] {
-        prj.devices.insert(tag.into(), DeviceData { parts: vec![PartRef { number: number.into(), count: 1 }], ..Default::default() });
+        prj.devices.insert(tag.into(), DeviceData { parts: vec![PartRef { number: number.into(), count: 1, total:false }], ..Default::default() });
     }
     let room = new_room(&mut prj, "+ROOM1", 4000.0, 3000.0, 2800.0);
     prj.layout.enclosures.push(room);
     let cab = Enclosure { id: prj.new_id(), name: "+CAB1".into(), width: 600.0, height: 1800.0, depth: 400.0, ..Default::default() };
     prj.layout.enclosures.push(cab);
     (prj, 0, 1)
+}
+
+#[test]
+fn wall_and_outside_mounting_use_the_imported_rail_datum() {
+    let (prj, room, _) = project();
+    for face in [Face::Wall(0), Face::Outside(0), Face::RoofTop] {
+        let mut enclosure = prj.layout.enclosures[room].clone();
+        let rail = PanelItem { kind: ItemKind::Rail, face, x: 0., y: 182.5, w: 300., h: 35., ..Default::default() };
+        let mut device = PanelItem {
+            kind: ItemKind::Device, face, part: "GEN.MCB".into(), x: 100., y: 100., w: 18., h: 100.,
+            rail_mount: openecraft_parts::RailMount { center_offset: 50., ..Default::default() },
+            ..Default::default()
+        };
+        assert!(!rail.rect().contains(device.center()));
+        assert!(rail.rect().contains(device.rail_anchor()));
+        enclosure.items.push(rail);
+        assert!(mount_ok(&prj, &enclosure, &device), "{face:?}");
+        device.rail_mount.center_offset = 0.;
+        assert!(!mount_ok(&prj, &enclosure, &device), "{face:?}");
+    }
 }
 
 /// An L-shaped floor plan: 6 m wide at the rear, 3 m deep on the left, 6 m deep on the
@@ -293,7 +313,7 @@ fn turning_a_cabinet_keeps_its_footprint_in_place() {
 fn with_pump(prj: &mut Project) {
     let pump = Part { number: "GEN.PUMP".into(), width: 300.0, height: 400.0, depth: 600.0, mounting_data: MountingData { floor_mount: true, ..Default::default() }, ..Default::default() };
     prj.parts.push(pump);
-    prj.devices.insert("-P1".into(), DeviceData { parts: vec![PartRef { number: "GEN.PUMP".into(), count: 1 }], ..Default::default() });
+    prj.devices.insert("-P1".into(), DeviceData { parts: vec![PartRef { number: "GEN.PUMP".into(), count: 1, total:false }], ..Default::default() });
 }
 
 #[test]

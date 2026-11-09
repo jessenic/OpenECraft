@@ -13,6 +13,7 @@ use crate::issue::Severity;
 use crate::symbols::{Category, SymbolDef};
 use std::collections::{BTreeMap, BTreeSet};
 pub use crate::model::fluid::{FluidSettings, HoseConfig, LineType, Medium};
+pub use crate::symbols::PortKind;
 
 impl Medium {
     pub const ALL: [Medium; 11] = [
@@ -125,29 +126,9 @@ impl FluidSettings {
     }
 }
 
-/// Function of a port (ISO 1219 / ISO 5599 designations).
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub enum PortKind {
-    /// Output of a pressure source (pump, compressed air supply).
-    Supply,
-    /// Pressure inlet of a valve (P, 1).
-    Pressure,
-    /// Working port (A, B, 2, 4) and the ports of actuators.
-    Working,
-    /// Exhaust (R, S, 3, 5).
-    Exhaust,
-    /// Return to the tank (T).
-    Return,
-    /// Pilot port (X, Y, Z, 12, 14).
-    Pilot,
-    Suction,
-    Leakage,
-    Measuring,
-    /// In-line components (filters, throttles) and process equipment.
-    Passage,
-}
-
 impl PortKind {
+    pub const ALL: [PortKind; 10] = [Self::Supply, Self::Pressure, Self::Working, Self::Exhaust, Self::Return, Self::Pilot, Self::Suction, Self::Leakage, Self::Measuring, Self::Passage];
+
     pub fn title(self) -> &'static str {
         match self {
             PortKind::Supply => tr("supply"),
@@ -275,7 +256,7 @@ pub fn port_kind(def: &SymbolDef, label: &str) -> PortKind {
 pub fn kind_of_pin(prj: &Project, pin: PinRef) -> Option<PortKind> {
     let s = &prj.pages[pin.page].symbols[pin.sym];
     let def = prj.symbol(&s.sym).filter(|d| d.is_fluid())?;
-    Some(port_kind(&def, s.pins.get(pin.pin).map(String::as_str).unwrap_or("")))
+    Some(def.fluid_ports.get(&pin.pin).copied().unwrap_or_else(|| port_kind(&def, s.pins.get(pin.pin).map(String::as_str).unwrap_or(""))))
 }
 
 /// A port in the fluid netlist.

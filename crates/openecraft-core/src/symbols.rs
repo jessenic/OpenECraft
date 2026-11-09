@@ -64,6 +64,10 @@ pub enum Func {
     Main { mirror: bool },
     /// Auxiliary function, belongs to the main function with the same tag.
     Aux(ContactKind),
+    /// Additional device function without a contact classification.
+    Auxiliary,
+    /// Local connection node; its internal bridges define the connected paths.
+    Junction,
     /// Terminal: tag = terminal strip, label = terminal number.
     Terminal,
     /// PLC connection point: tag = PLC card, label = address.
@@ -79,11 +83,13 @@ pub enum Func {
     /// elsewhere: shows cross references to the main function, its connection
     /// points are not part of the netlist.
     Overview,
+    /// Drawing without a device identity or electrical connection points.
+    Graphic,
 }
 
 impl Func {
     pub fn has_tag(self) -> bool {
-        !matches!(self, Func::Potential | Func::Interruption)
+        !matches!(self, Func::Potential | Func::Interruption | Func::Junction | Func::Graphic)
     }
 
     /// Terminals and plug pins: their sides are separate connections that the
@@ -93,7 +99,7 @@ impl Func {
     }
 
     /// All functions a symbol can have (symbol editor).
-    pub const ALL: [Func; 18] = [
+    pub const ALL: [Func; 21] = [
         Func::Main { mirror: false },
         Func::Main { mirror: true },
         Func::Aux(ContactKind::No),
@@ -112,6 +118,9 @@ impl Func {
         Func::Potential,
         Func::Interruption,
         Func::Overview,
+        Func::Auxiliary,
+        Func::Junction,
+        Func::Graphic,
     ];
 
     pub fn title(self) -> &'static str {
@@ -134,6 +143,9 @@ impl Func {
             Func::Potential => tr("Potential"),
             Func::Interruption => tr("Interruption point"),
             Func::Overview => tr("Overview / single-line"),
+            Func::Auxiliary => tr("Auxiliary function"),
+            Func::Junction => tr("Junction"),
+            Func::Graphic => tr("Graphic (no electrical function)"),
         }
     }
 }
@@ -236,14 +248,66 @@ pub enum Anchor {
     Right,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum FieldKind {
     Label,
     Tag,
+    Pin(usize),
+    TagName,
+    /// Display the last N product designation levels, excluding other aspects.
+    Product(usize),
+    FunctionText,
+}
+
+/// A row of an instance attribute block. Empty values consume no space.
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum BlockRow {
+    Property(String),
+    Field(FieldKind),
+    Text(String),
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum BlockAlign { Start, Middle, End }
+
+impl BlockAlign {
+    pub fn fraction(self) -> f32 {
+        match self { Self::Start => 0., Self::Middle => 0.5, Self::End => 1. }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct PropertyBlock {
+    pub rows: Vec<BlockRow>,
+    pub pos: P,
+    pub step: P,
+    pub size: f32,
+    pub anchor: Anchor,
+    pub angle: f32,
+    pub align: BlockAlign,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub color: Option<[u8; 3]>,
+}
+
+impl PropertyBlock {
+    pub fn row_pos(&self, index: usize, lines: usize) -> P {
+        self.pos + self.step * (index as f32 - lines.saturating_sub(1) as f32 * self.align.fraction())
+    }
+}
+
+/// Connectivity domain of an imported or user-defined symbol.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum SymbolDomain {
+    #[default]
+    Electrical,
+    Fluid,
+    Process,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum Prim {
+    /// Embedded bitmap with local corners in texture order (top left clockwise).
+    Image { name: String, data: openecraft_parts::Shared<String>, corners: [P; 4] },
     Line { a: P, b: P, dashed: bool },
     Poly { pts: Vec<P>, closed: bool, fill: bool },
     /// Vector path with an explicit stroke from a symbol library.
@@ -251,13 +315,31 @@ pub enum Prim {
     Circle { c: P, r: f32, fill: bool, #[serde(default, skip_serializing_if = "Option::is_none")] color: Option<[u8;3]> },
     Text { pos: P, text: String, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32>, #[serde(default, skip_serializing_if = "Option::is_none")] color: Option<[u8;3]> },
     /// Instance property drawn at this position (stays horizontal when rotated).
-    Field { kind: FieldKind, pos: P, size: f32, anchor: Anchor },
+    Field { kind: FieldKind, pos: P, size: f32, anchor: Anchor, #[serde(default, skip_serializing_if = "Option::is_none")] angle: Option<f32> },
+    PropertyBlock(PropertyBlock),
+}
+
+/// Function of a fluid port, independently of its printed connection designation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PortKind {
+    Supply,
+    Pressure,
+    Working,
+    Exhaust,
+    Return,
+    Pilot,
+    Suction,
+    Leakage,
+    Measuring,
+    Passage,
 }
 
 #[derive(Clone, Debug)]
 pub struct PinDef {
     pub pos: P,
     pub label: &'static str,
+    pub internal: bool,
 }
 
 /// A single channel represented by a vendor macro. The channel index is
@@ -289,6 +371,20 @@ pub struct AnalogSignal {
     pub data_type: String,
 }
 
+/// One channel of a complete module symbol. Pin indices refer to its physical pins.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(default)]
+pub struct PlcChannelDef {
+    pub key: String,
+    pub index: u16,
+    pub input: Option<bool>,
+    pub analog: bool,
+    pub data_type: String,
+    pub designation: String,
+    pub pins: Vec<usize>,
+    pub signal_pin: Option<usize>,
+}
+
 #[derive(Clone, Debug)]
 pub struct SymbolDef {
     pub key: &'static str,
@@ -300,8 +396,13 @@ pub struct SymbolDef {
     pub letter: &'static str,
     pub func: Func,
     pub plc_channel: Option<PlcChannel>,
+    pub plc_channels: Vec<PlcChannelDef>,
     pub prims: Vec<Prim>,
     pub pins: Vec<PinDef>,
+    pub fluid_ports: std::collections::BTreeMap<usize, PortKind>,
+    pub pin_directions: std::collections::BTreeMap<usize, u8>,
+    /// Junction bridges define physical target paths as well as electrical continuity.
+    pub directed_junction: bool,
     /// Pins that are internally connected (terminals).
     pub bridges: Vec<(usize, usize)>,
     pub default_label: &'static str,
@@ -314,6 +415,18 @@ pub struct SymbolDef {
 }
 
 impl SymbolDef {
+    pub fn has_plc_channels(&self)->bool {
+        !self.plc_channels.is_empty() && !matches!(self.func,Func::Overview|Func::Graphic)
+    }
+
+    pub fn has_function_text_field(&self) -> bool {
+        self.prims.iter().any(|p| match p {
+            Prim::Field { kind: FieldKind::FunctionText, .. } => true,
+            Prim::PropertyBlock(block) => block.rows.iter().any(|row| matches!(row, BlockRow::Field(FieldKind::FunctionText)) || matches!(row, BlockRow::Property(key) if key == "function.function_text")),
+            _ => false,
+        })
+    }
+
     pub fn digital_input(&self) -> Option<bool> {
         match self.key {
             "plc_in" => Some(true),
@@ -324,6 +437,15 @@ impl SymbolDef {
 
     pub fn pin_world(&self, idx: usize, pos: P, rot: u8, mirror: bool) -> P {
         pos + self.pins[idx].pos.transform(rot, mirror)
+    }
+
+    pub fn pin_connection_directions(&self, idx:usize, rot:u8, mirror:bool)->u8 {
+        let Some(&mask)=self.pin_directions.get(&idx) else {return 15;};
+        [(1,p(0.,-1.)),(2,p(1.,0.)),(4,p(0.,1.)),(8,p(-1.,0.))].into_iter()
+            .filter(|(bit,_)|mask&bit!=0).fold(0,|out,(_,vector)| {
+                let q=vector.transform(rot,mirror);
+                out | if q.x.abs()>q.y.abs() {if q.x>0. {2}else{8}} else if q.y>0. {4}else{1}
+            })
     }
 
     pub fn world_bounds(&self, pos: P, rot: u8, mirror: bool) -> R {
@@ -412,11 +534,11 @@ impl B {
         self
     }
     fn field(&mut self, kind: FieldKind, x: f32, y: f32, size: f32, anchor: Anchor) -> &mut Self {
-        self.prims.push(Prim::Field { kind, pos: p(x, y), size, anchor });
+        self.prims.push(Prim::Field { kind, pos: p(x, y), size, anchor, angle: None });
         self
     }
     fn pin(&mut self, x: f32, y: f32, label: &'static str) -> &mut Self {
-        self.pins.push(PinDef { pos: p(x, y), label });
+        self.pins.push(PinDef { pos: p(x, y), label, internal: false });
         self
     }
 
@@ -522,8 +644,12 @@ impl Def {
             letter: self.letter,
             func: self.func,
             plc_channel: None,
+            plc_channels: Vec::new(),
             prims: std::mem::take(&mut b.prims),
             pins: std::mem::take(&mut b.pins),
+            fluid_ports: Default::default(),
+            pin_directions: Default::default(),
+            directed_junction: false,
             bridges: self.bridges,
             default_label: self.label,
             auto_number: self.auto_number,
@@ -544,11 +670,12 @@ pub fn bounds_of(prims: &[Prim], pins: impl Iterator<Item = P>) -> R {
                 bounds.extend(*b);
             }
             Prim::Poly { pts, .. } | Prim::Path {pts,..} => pts.iter().for_each(|q| bounds.extend(*q)),
+            Prim::Image { corners, .. } => corners.iter().for_each(|q| bounds.extend(*q)),
             Prim::Circle { c, r, .. } => {
                 bounds.extend(p(c.x - r, c.y - r));
                 bounds.extend(p(c.x + r, c.y + r));
             }
-            Prim::Text { .. } | Prim::Field { .. } => {}
+            Prim::Text { .. } | Prim::Field { .. } | Prim::PropertyBlock(_) => {}
         }
     }
     for q in pins {

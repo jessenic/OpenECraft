@@ -17,6 +17,7 @@ Address	Adresse
 Angle	Vinkel
 Apply	Anvend
 Approvers	Godkendere
+Automatic	Automatisk
 Bold	Fed
 Bottom	Bund
 Bottom with removable gland plate	Bund med aftagelig flangeplade
@@ -33,6 +34,7 @@ Cable core	Kabelleder
 Cable duct	Kabelkanal
 Cable overview	Kabeloversigt
 Cable tag	Kabelmærkning
+Cable tag, e.g. -W20	Kabelbetegnelse, f.eks. -W20
 Cables	Kabler
 Cancel	Annuller
 Cannot read {}: {}	{} kan ikke læses: {}
@@ -64,6 +66,7 @@ Configurator	Konfigurator
 Connect	Forbind
 Connected to	Forbundet med
 Connecting…	Opretter forbindelse…
+Connection point	Tilslutningspunkt
 Connection points	Tilslutningspunkter
 Connections	Forbindelser
 Connector	Stikforbinder
@@ -85,6 +88,7 @@ DWG drawing	DWG-tegning
 DXF drawing	DXF-tegning
 Dark	Mørk
 Data portal	Dataportal
+Data type	Datatype
 Date	Dato
 Depth	Dybde
 Descending	Faldende
@@ -215,6 +219,7 @@ New name	Nyt navn
 No	Nej
 No Vault item matches a part of the project	Intet Vault-element passer til en artikel i projektet
 No cable {}	Intet kabel {}
+No connection point {}	Intet tilslutningspunkt {}
 No device {}	Ingen enhed {}
 No enclosure {}	Ingen kapsling {}
 No labeling scheme named {}	Intet mærkningsskema med navnet {}
@@ -222,6 +227,7 @@ No machine {}	Ingen maskine {}
 No page named {}	Ingen side med navnet {}
 No page template named {}	Ingen sideskabelon med navnet {}
 No page {}	Ingen side {}
+No part {}	Ingen artikel {}
 No part {} in the project	Ingen del {} i projektet
 No parts found	Ingen artikler fundet
 No plot frame named {}	Ingen plotramme med navnet {}
@@ -235,6 +241,7 @@ No symbol with id {}	Intet symbol med id {}
 Nominal size	Nominel størrelse
 Not a language code: {}	Ikke en sprogkode: {}
 Not a macro file: {}	Ikke en makrofil: {}
+Not a symbol id: {}	Ikke et symbol-id: {}
 Not a valid rule set file: {}	Ikke en gyldig regelsætfil: {}
 Not in the schematic	Ikke i diagrammet
 Note	Bemærkning
@@ -386,6 +393,8 @@ Successor	Efterfølger
 Supplier	Leverandør
 Supply	Forsyning
 Symbol	Symbol
+Symbol key	Symbolnøgle
+Symbolic address	Symbolsk adresse
 Symbols	Symboler
 System	System
 T-junction	T-stykke

@@ -4,6 +4,8 @@
 //! pipes) that are kept apart from the electrical ones.
 
 pub mod junctions;
+mod paths;
+mod contacts;
 
 use crate::geom::{on_segment_interior, P};
 use crate::model::{Page, PageKind, Project};
@@ -40,6 +42,9 @@ pub struct Netlist {
     pub wire_net: HashMap<u64, usize>,
     /// (symbol id, pin index) -> net
     pub pin_net: HashMap<(u64, usize), usize>,
+    /// All connection points on a net, including junction and internal bridge pins.
+    /// These are attachment points, not additional device endpoints.
+    pub connection_point_net: HashMap<(u64, usize), usize>,
     /// (symbol id, pin index) of pins that touch nothing else.
     pub unconnected: Vec<(usize, u64, usize)>,
 }
@@ -77,6 +82,7 @@ struct PageScan {
     nodes: usize,
     /// (symbol index, symbol id, pin, node, fluid port, touches nothing else)
     pins: Vec<(usize, u64, usize, usize, bool, bool)>,
+    connection_points: Vec<(u64, usize, usize)>,
     /// (wire id, node)
     wires: Vec<(u64, usize)>,
     /// (strip, terminal designation) -> node
@@ -89,6 +95,9 @@ struct PageScan {
 
 impl PageScan {
     fn new(prj: &Project, page: &Page, bridge_terminals: bool) -> PageScan {
+        if contacts::enabled(prj,page) {
+            return contacts::scan(prj,page,bridge_terminals);
+        }
         let mut uf = Uf { parent: Vec::new() };
         let mut points: HashMap<(i64, i64), usize> = HashMap::new();
         let mut point = |uf: &mut Uf, q: P| *points.entry(q.key()).or_insert_with(|| uf.add());
@@ -101,6 +110,18 @@ impl PageScan {
         // Crossings and bridges connect the wires passing through their point.
         for j in page.junctions.iter().filter(|j| j.connects()) {
             ends.entry(j.pos.key()).or_insert((j.pos, 0)).1 += 1;
+        }
+        // An authored pin is an attachment point even when a conductor passes
+        // through it without a saved wire endpoint (e.g. a terminal jumper rail).
+        for s in &page.symbols {
+            let Some(def) = prj.symbol(&s.sym) else { continue };
+            if matches!(def.func, Func::Overview | Func::Graphic) {
+                continue;
+            }
+            for i in 0..def.pins.len() {
+                let q = def.pin_world(i, s.pos, s.rot, s.mirror);
+                ends.entry(q.key()).or_insert((q, 0));
+            }
         }
         for w in &page.wires {
             let na = point(&mut uf, w.a);
@@ -119,7 +140,7 @@ impl PageScan {
         }
         for (si, s) in page.symbols.iter().enumerate() {
             let Some(def) = prj.symbol(&s.sym) else { continue };
-            if def.func == Func::Overview {
+            if matches!(def.func, Func::Overview | Func::Graphic) {
                 continue;
             }
             let mut nodes = Vec::new();
@@ -128,7 +149,10 @@ impl PageScan {
                 let n = point(&mut uf, q);
                 *degree.entry(n).or_default() += 1;
                 nodes.push(n);
-                pins.push((si, s.id, i, n, def.is_fluid()));
+                scan.connection_points.push((s.id, i, n));
+                if def.func != Func::Junction && !def.pins[i].internal {
+                    pins.push((si, s.id, i, n, def.is_fluid()));
+                }
             }
             if bridge_terminals || !def.func.is_feedthrough() {
                 for &(x, y) in &def.bridges {
@@ -144,7 +168,7 @@ impl PageScan {
             // A user symbol may have no pin at all.
             match (def.func, nodes.first()) {
                 (Func::Potential, Some(&n)) if !s.label.is_empty() => scan.named.push((format!("pot:{}", s.label), n)),
-                (Func::Interruption, Some(&n)) if !s.label.is_empty() => scan.named.push((format!("int:{}", s.label), n)),
+                (Func::Interruption, Some(&n)) if !s.label.is_empty() => scan.named.push((format!("int:{}", s.interruption_key()), n)),
                 _ => {}
             }
         }
@@ -157,6 +181,9 @@ impl PageScan {
         };
         scan.pins = pins.into_iter().map(|(si, id, i, n, fluid)| (si, id, i, node(&mut uf, n), fluid, degree.get(&n).copied().unwrap_or(0) <= 1)).collect();
         scan.wires = wires.into_iter().map(|(id, n)| (id, node(&mut uf, n))).collect();
+        for (_, _, n) in &mut scan.connection_points {
+            *n = node(&mut uf, *n);
+        }
         for n in scan.terminals.iter_mut().chain(&mut scan.plug_pins).map(|(_, n)| n).chain(scan.named.iter_mut().map(|(_, n)| n)) {
             *n = node(&mut uf, *n);
         }
@@ -178,7 +205,7 @@ pub struct Scans {
 
 impl Scans {
     fn get(&mut self, prj: &Project, page: &Page, bridge_terminals: bool) -> Arc<PageScan> {
-        let fp = page_fingerprint(page);
+        let fp = page_fingerprint(prj, page);
         if let Some((have, scan)) = self.pages.get(&page.id) {
             if *have == fp {
                 return scan.clone();
@@ -192,17 +219,19 @@ impl Scans {
 }
 
 /// Fingerprint of what a page scan reads from the page.
-fn page_fingerprint(page: &Page) -> u64 {
+fn page_fingerprint(prj: &Project, page: &Page) -> u64 {
     let mut h = std::collections::hash_map::DefaultHasher::new();
+    let explicit = contacts::enabled(prj, page);
+    page.values.get("page.explicit_wire_junctions").hash(&mut h);
     page.wires.len().hash(&mut h);
     for w in &page.wires {
-        (w.id, w.a.key(), w.b.key()).hash(&mut h);
+        (w.id, w.a.key(), w.b.key(),w.explicit_junctions).hash(&mut h);
     }
     page.symbols.len().hash(&mut h);
     for s in &page.symbols {
-        (s.id, &s.sym, s.pos.key(), s.rot, s.mirror, &s.tag, &s.label).hash(&mut h);
+        (s.id, &s.sym, s.pos.key(), s.rot, s.mirror, &s.tag, &s.label, s.values.get("function.connection_scope")).hash(&mut h);
     }
-    for j in page.junctions.iter().filter(|j| j.connects()) {
+    for j in page.junctions.iter().filter(|j| explicit || j.connects()) {
         j.pos.key().hash(&mut h);
     }
     h.finish()
@@ -227,6 +256,7 @@ pub fn junctions(prj: &Project, page: &Page) -> Vec<P> {
 
 /// Wire ends that touch nothing: no other wire, no connection point (wire id, end).
 pub fn open_wire_ends(prj: &Project, page: &Page) -> Vec<(u64, P)> {
+    if contacts::enabled(prj,page) {return contacts::open_wire_ends(prj,page);}
     let counts = end_counts(prj, page);
     let mut open: Vec<(u64, P)> = Vec::new();
     for w in &page.wires {
@@ -241,6 +271,7 @@ pub fn open_wire_ends(prj: &Project, page: &Page) -> Vec<(u64, P)> {
 
 /// Wire ends with the number of connections there: wires ending or passing, pins.
 fn end_counts(prj: &Project, page: &Page) -> HashMap<(i64, i64), (P, usize)> {
+    if contacts::enabled(prj,page) {return contacts::counts(prj,page);}
     let mut ends = wire_ends(page);
     for j in page.junctions.iter().filter(|j| j.connects()) {
         ends.entry(j.pos.key()).or_insert((j.pos, 0)).1 += 1;
@@ -387,6 +418,13 @@ impl Netlist {
                 nl.wire_net.insert(wid, ni);
             }
         }
+        for (_, scan, first) in &offsets {
+            for &(symbol, pin, node) in &scan.connection_points {
+                if let Some(&net) = root_net.get(&uf.find(first + node)) {
+                    nl.connection_point_net.insert((symbol, pin), net);
+                }
+            }
+        }
         for (ni, net) in nl.nets.iter_mut().enumerate() {
             net.mixed = net.fluid && electric.get(ni).copied().unwrap_or(false);
         }
@@ -399,7 +437,10 @@ impl Netlist {
             if let Some(&ni) = root_net.get(&r) {
                 match name.split_once(':') {
                     Some(("pot", n)) => pots.entry(ni).or_default().push(n.to_string()),
-                    Some((_, n)) => ints.entry(ni).or_default().push(n.to_string()),
+                    Some((_, n)) => {
+                        let label = n.strip_prefix('\0').and_then(|n| n.split_once('\0')).map_or(n, |(_, label)| label);
+                        ints.entry(ni).or_default().push(label.to_string());
+                    }
                     None => {}
                 }
             }
@@ -443,12 +484,16 @@ pub struct Connection {
     pub b: PinRef,
     pub color: String,
     pub cross_section: String,
+    pub wire_type: String,
     pub number: String,
     /// Cable tag and core, if the wires are a cable core.
     pub cable: String,
     pub core: String,
     /// Harness the connection belongs to.
     pub harness: String,
+    /// Native wire segments on this physical route (page index, wire ID).
+    pub wires: Vec<(usize,u64)>,
+    pub route_traced: bool,
 }
 
 /// Point-to-point connections: the device connection points of each connection of
@@ -464,37 +509,42 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
     let mut out = Vec::new();
     let assigned = crate::harness::assigned(prj);
     let tees = junctions::Tees::new(prj);
+    let paths = paths::Paths::new(prj, open);
     let pos = crate::panel::positions(&prj.layout);
     for net in open.nets.iter().filter(|n| !n.fluid) {
         let on = tees.on_net(prj, net);
-        let pairs: Vec<[PinRef; 2]> = if on.is_empty() {
-            chained_order(prj, &assigned, &pos, net).windows(2).map(|w| [w[0], w[1]]).collect()
+        let traced = paths.trace(prj, open, net, &on);
+        let pairs: Vec<[PinRef; 2]> = if let Some(traced) = &traced {
+            traced.pairs.clone()
+        } else if on.is_empty() {
+            chained_order(prj, &assigned, net, &pos).windows(2).map(|w| [w[0], w[1]]).collect()
         } else {
             junctions::trace(prj, net, &on).pairs
         };
         if pairs.is_empty() {
             continue;
         }
-        let wires = crate::wirenum::wires_of(prj, net);
-        let props = crate::potentials::props_of(prj, nl, net);
-        let (color, cross_section) = (props.color, props.cross_section);
-        // A wire drawn with a cross-section of its own at a connection point (a tap off
-        // the bars of a busbar) gives it to the connection there: the thinner one where
-        // both ends have one.
-        let at_pin = |p: PinRef| -> Option<String> {
-            let s = &prj.pages[p.page].symbols[p.sym];
-            let q = prj.symbol(&s.sym)?.pin_world(p.pin, s.pos, s.rot, s.mirror);
-            prj.pages[p.page].wires.iter().find(|w| !w.cross_section.is_empty() && (w.a.same(q) || w.b.same(q)) && net.wires.contains(&(p.page, w.id))).map(|w| w.cross_section.clone())
-        };
-        let (cable, core) = wires.iter().find(|w| !w.cable.is_empty()).map(|w| (w.cable.clone(), w.core.clone())).unwrap_or_default();
-        let number = crate::wirenum::number_of(prj, net);
         let first = pairs[0][0];
         let potential = nl
             .pin_net
             .get(&(prj.pages[first.page].symbols[first.sym].id, first.pin))
             .map(|&n| nl.nets[n].name.clone())
             .unwrap_or_else(|| net.name.clone());
-        for pair in &pairs {
+        for (i,pair) in pairs.iter().enumerate() {
+            let scoped = traced.as_ref().map(|t| Net {wires:t.wire_routes[i].clone(),..Default::default()});
+            let physical = scoped.as_ref().unwrap_or(net);
+            let wires = crate::wirenum::wires_of(prj, physical);
+            let props = crate::potentials::props_of(prj, nl, physical);
+            let (color,cross_section) = (props.color,props.cross_section);
+            let at_pin = |p: PinRef| -> Option<String> {
+                let s = &prj.pages[p.page].symbols[p.sym];
+                let q = prj.symbol(&s.sym)?.pin_world(p.pin, s.pos, s.rot, s.mirror);
+                prj.pages[p.page].wires.iter().find(|w| !w.cross_section.is_empty() && (w.a.same(q) || w.b.same(q)) && physical.wires.contains(&(p.page, w.id))).map(|w| w.cross_section.clone())
+            };
+            let core_wire=wires.iter().find(|w|!w.cable.is_empty());
+            let (cable,core) = core_wire.map(|w| (w.cable.clone(),w.core.clone())).unwrap_or_default();
+            let color=core_wire.filter(|w|!w.color.is_empty()).map(|w|w.color.clone()).unwrap_or(color);
+            let number = core_wire.filter(|w|!w.number.is_empty()).map(|w|w.number.clone()).unwrap_or_else(||crate::wirenum::number_of(prj,physical));
             let harness = crate::harness::of(prj, &pin_designation(prj, pair[0]), &pin_designation(prj, pair[1]));
             out.push(Connection {
                 net: potential.clone(),
@@ -502,24 +552,31 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
                 b: pair[1],
                 color: color.clone(),
                 cross_section: [pair[0], pair[1]].into_iter().filter_map(at_pin).min_by(|a, b| crate::harness::outer_diameter(a).total_cmp(&crate::harness::outer_diameter(b))).unwrap_or_else(|| cross_section.clone()),
+                wire_type: core_wire.filter(|w|!w.wire_type.is_empty()).or_else(||wires.iter().find(|w|!w.wire_type.is_empty())).map(|w|w.wire_type.clone()).unwrap_or_default(),
                 number: number.clone(),
                 cable: cable.clone(),
                 core: core.clone(),
                 harness,
+                wires: physical.wires.clone(),
+                route_traced: traced.is_some(),
             });
         }
     }
     out
 }
 
+/// Trace a drawn route between exact connection points, without named cross-page jumps.
+/// This includes virtual endpoints such as interruption points and junction ports.
+pub fn local_wire_route(prj:&Project,open:&Netlist,from:(u64,usize),to:(u64,usize))->Option<Vec<(usize,u64)>> {
+    paths::local_route(prj,open,from,to)
+}
+
 /// The device connection points of a net in the order they are chained: schematic
-/// order, devices of one enclosure together with those on a busbar system one after
-/// the other, harness connections kept.
-fn chained_order(prj: &Project, assigned: &std::collections::HashSet<[String; 2]>, pos: &[[f32; 3]], net: &Net) -> Vec<PinRef> {
+/// order, devices of joined busbar systems across enclosures one after the other,
+/// harness connections kept.
+fn chained_order(prj: &Project, assigned: &std::collections::HashSet<[String; 2]>, net: &Net, pos: &[[f32; 3]]) -> Vec<PinRef> {
     let mut pins = chained_pins(prj, net);
-    // Where a device is: its enclosure, on a busbar system the enclosure the system
-    // begins in (a system joined through the sides of bayed enclosures is one).
-    let place = |p: &PinRef| match crate::panel::locate(prj, &prj.pages[p.page].symbols[p.sym].tag) {
+    let place = |p: &PinRef| match crate::panel::locate_symbol(prj, &prj.pages[p.page].symbols[p.sym]) {
         Some((e, it)) => match crate::panel::busbar_system(&prj.layout, pos, e, it) {
             Some((first, bar)) => (first, Some(bar)),
             None => (e, None),
@@ -558,6 +615,11 @@ pub fn chained_pins(prj: &Project, net: &Net) -> Vec<PinRef> {
         let s = &prj.pages[p.page].symbols[p.sym];
         prj.symbol(&s.sym).map(|d| d.pin_world(p.pin, s.pos, s.rot, s.mirror)).unwrap_or(s.pos)
     };
+    // Several source pin records can describe one physical attachment. Keep all
+    // in the electrical net, without inventing a zero-length wire inside the device.
+    pins.sort_by_key(|p| (p.page,p.sym,p.pin));
+    let mut attachments = std::collections::HashSet::new();
+    pins.retain(|p| attachments.insert((p.page,p.sym,at(p).key())));
     pins.sort_by(|a, b| {
         let (qa, qb) = (at(a), at(b));
         a.page.cmp(&b.page).then(qa.x.total_cmp(&qb.x)).then(qa.y.total_cmp(&qb.y))
@@ -573,7 +635,7 @@ pub fn pin_designation(prj: &Project, pin: PinRef) -> String {
         Func::Potential => format!("={}", s.label),
         Func::Interruption => format!("»{}", s.label),
         Func::Terminal | Func::Plug(_) => format!("{}:{}", s.tag, s.label),
-        Func::Plc if def.plc_channel.is_none() => format!("{}:{}", s.tag, s.label),
+        Func::Plc if def.plc_channel.is_none() && def.plc_channels.is_empty() => format!("{}:{}", s.tag, s.label),
         _ => {
             let pl = s.pins.get(pin.pin).map(String::as_str).unwrap_or("");
             if pl.is_empty() {

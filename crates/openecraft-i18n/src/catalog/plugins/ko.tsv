@@ -74,7 +74,6 @@ Busbar machine program (CSV)	부스바 가공기 프로그램(CSV)
 CNC operations	CNC 작업
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	드릴링, 밀링 및 펀칭기용 CNC 프로그램, 동바 굽힘, 외함 컨피규레이터, 생산 인계 및 생산 피드백
 Cable tag, e.g. -W1	케이블 태그(예: -W1)
-Cable tag, e.g. -W20	케이블 태그, 예: -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	생산 피드백의 실제 시간으로 기계의 시간 추정을 보정합니다
 Cannot read the plugin folder {}	플러그인 폴더 {}을(를) 읽을 수 없습니다
 Cannot start {}: {}	{}을(를) 시작할 수 없습니다: {}

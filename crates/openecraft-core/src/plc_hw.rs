@@ -186,9 +186,10 @@ pub fn station_description(prj: &Project, st: &Station) -> Option<DeviceDescript
 
 /// Ports of a station: from its description, otherwise the defaults of its bus.
 pub fn ports(prj: &Project, st: &Station) -> Vec<DescPort> {
-    let desc = station_description(prj, st).map(|d| d.ports).unwrap_or_default();
-    if !desc.is_empty() {
-        return desc;
+    let desc = station_description(prj, st);
+    if let Some(d)=&desc {
+        if !d.ports.is_empty() {return d.ports.clone();}
+        if prj.plc.network(&st.network).is_none() {return Vec::new();}
     }
     let bus = prj.plc.network(&st.network).map(|n| n.kind).unwrap_or_default();
     bus.default_ports().iter().map(|p| DescPort { name: p.to_string(), bus }).collect()
@@ -225,8 +226,18 @@ pub fn used(prj: &Project, card: &str) -> (u32, u32) {
 /// channel names do not allocate bits in the estimated process image.
 fn point_counts(prj: &Project, card: &str) -> [(u32, u32); 2] {
     let mut counts = [(0, 0); 2];
-    for s in prj.pages.iter().flat_map(|p| &p.symbols).filter(|s| s.tag == card) {
+    let mut seen=std::collections::HashSet::new();
+    for s in prj.pages.iter().filter(|p|p.kind==PageKind::Schematic).flat_map(|p| &p.symbols).filter(|s| s.tag == card) {
         if let Some(def) = prj.symbol(&s.sym) {
+            if def.has_plc_channels() {
+                for (index,c) in def.plc_channels.iter().enumerate() {
+                    if crate::model::plc_hw::bindings::group(s,index).is_some_and(|group|!seen.insert(group)) {continue;}
+                    if let Some(input)=c.input {
+                        let count=&mut counts[usize::from(!input)];count.0+=1;count.1+=u32::from(!c.analog);
+                    }
+                }
+                continue;
+            }
             let digital = def.digital_input();
             if let Some(input) = digital.or_else(|| def.plc_channel.as_ref().map(|c| c.input)) {
                 let count = &mut counts[usize::from(!input)];
@@ -301,7 +312,7 @@ pub use crate::model::plc_hw::card_address;
 pub fn convert_addresses(prj: &mut Project) -> usize {
     let mut changes = Vec::new();
     for (pi, pg) in prj.pages.iter().enumerate() {
-        for (si, s) in pg.symbols.iter().enumerate().filter(|(_, s)| prj.symbol(&s.sym).and_then(|d| d.digital_input()).is_some()) {
+        for (si, s) in pg.symbols.iter().enumerate().filter(|(_, s)| prj.symbol(&s.sym).is_some_and(|d|d.plc_channels.is_empty() && d.digital_input().is_some())) {
             let Some(a) = parse_address(&s.label) else { continue };
             let data = prj.plc_cards.get(&s.tag).cloned().unwrap_or_default();
             let start = if a.input { data.start_byte } else { data.output_byte.unwrap_or(data.start_byte) };
@@ -317,7 +328,7 @@ pub fn convert_addresses(prj: &mut Project) -> usize {
     for (pi, si, a) in changes {
         prj.pages[pi].symbols[si].label = a;
     }
-    n
+    n+crate::plc::channels::convert_addresses(prj)
 }
 
 /// Renames a device tag in the stations.

@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Program maszyny do obróbki szyn (CSV)
 CNC operations	Operacje CNC
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	Programy CNC dla wiertarek, frezarek i wykrawarek, gięcie szyn miedzianych, konfigurator obudów, przekazanie do produkcji i informacja zwrotna z produkcji
 Cable tag, e.g. -W1	Oznaczenie kabla, np. -W1
-Cable tag, e.g. -W20	Oznaczenie kabla, np. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Kalibruje szacowanie czasu maszyn na podstawie rzeczywistych czasów z informacji zwrotnej z produkcji
 Cannot read the plugin folder {}	Nie można odczytać folderu wtyczek {}
 Cannot start {}: {}	Nie można uruchomić {}: {}

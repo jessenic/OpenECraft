@@ -91,13 +91,15 @@ Approvals	Zulassungen	Homologations	Homologaciones
 Approved by	Freigegeben von	Approuvé par	Aprobado por
 Arms {} and {}	Arme {} und {}	Bras {} et {}	Brazos {} y {}
 Asset number	Anlagennummer	Numéro d'inventaire	Número de activo
+Assigned part position	Position des zugeordneten Artikels	Position de la pièce affectée	Posición de la pieza asignada
+Assigned part position {} does not exist on this device	Die Position {} des zugeordneten Artikels ist an diesem Gerät nicht vorhanden	La position {} de pièce affectée n’existe pas sur cet appareil	La posición {} de pieza asignada no existe en este dispositivo
 Author of the last revision	Autor der letzten Revision	Auteur de la dernière révision	Autor de la última revisión
-Automatic	Automatisch	Automatique	Automático
 Autotransformer 1-phase	Spartransformator 1-phasig	Autotransformateur monophasé	Autotransformador monofásico
 Autotransformer 1-phase, adjustable	Spartransformator 1-phasig, einstellbar	Autotransformateur monophasé, réglable	Autotransformador monofásico, regulable
 Autotransformer 3-phase	Spartransformator 3-phasig	Autotransformateur triphasé	Autotransformador trifásico
 Autotransformer 3-phase, star connection	Spartransformator 3-phasig, Sternschaltung	Autotransformateur triphasé, couplage étoile	Autotransformador trifásico, conexión en estrella
 Aux. functions	Hilfsfunktionen	Fonctions auxiliaires	Func. auxiliares
+Auxiliary function	Hilfsfunktion	Fonction auxiliaire	Función auxiliar
 Auxiliary function: NC contact	Hilfsfunktion: Öffner	Fonction auxiliaire : contact NF	Función auxiliar: contacto NC
 Auxiliary function: NC contact, off-delay	Hilfsfunktion: Öffner, ausschaltverzögert	Fonction auxiliaire : contact NF, temporisé à la retombée	Función auxiliar: contacto NC, temporizado a la desconexión
 Auxiliary function: NC contact, on-delay	Hilfsfunktion: Öffner, einschaltverzögert	Fonction auxiliaire : contact NF, temporisé à l'appel	Función auxiliar: contacto NC, temporizado a la conexión
@@ -275,10 +277,10 @@ Connection definition point on page {} is not applied to its connection	Verbindu
 Connection definition point on page {} is not on a wire	Verbindungsdefinitionspunkt auf Seite {} liegt nicht auf einer Verbindung	Le point de définition de liaison en page {} n'est pas sur un fil	El punto de definición de conexión en la página {} no está sobre un cable
 Connection definitions	Verbindungsdefinitionen	Définitions de connexion	Definiciones de conexión
 Connection list	Verbindungsliste	Liste des liaisons	Lista de conexiones
-Connection point	Anschluss	Point de raccordement	Punto de conexión
 Connection point descriptions	Anschlussbeschreibungen	Descriptions des points de connexion	Descripciones de los puntos de conexión
 Connection point {} is not on the {} mm grid.	Anschlusspunkt {} liegt nicht auf dem {}-mm-Raster.	Le point de connexion {} n'est pas sur la grille de {} mm.	El punto de conexión {} no está en la cuadrícula de {} mm.
 Connection point {} lies on another one.	Anschlusspunkt {} liegt auf einem anderen.	Le point de connexion {} est superposé à un autre.	El punto de conexión {} coincide con otro.
+Connection scope	Verbindungsbereich	Portée de connexion	Ámbito de conexión
 Connection symbol on page {} wires its connection in a loop: the symbols of the connection give it more wires than its devices need	Verbindungssymbol auf Seite {} verdrahtet seine Verbindung in einer Schleife: die Symbole der Verbindung geben ihr mehr Drähte, als ihre Geräte brauchen	Le symbole de liaison en page {} câble sa liaison en boucle : les symboles de la liaison lui donnent plus de fils que ses appareils n'en ont besoin	El símbolo de conexión en la página {} cablea su conexión en bucle: los símbolos de la conexión le dan más hilos de los que necesitan sus dispositivos
 Connection symbols	Verbindungssymbole	Symboles de liaison	Símbolos de conexión
 Connection type	Anschlussart	Type de raccordement	Tipo de conexión
@@ -371,7 +373,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-Steuerstromkreise sollte
 DC/DC converter	Gleichspannungswandler DC/DC	Convertisseur DC/DC	Convertidor DC/DC
 DWG export failed: {}	DWG-Export fehlgeschlagen: {}	Échec de l'export DWG : {}	Error al exportar el DWG: {}
 Data sheet	Datenblatt	Fiche technique	Hoja de datos
-Data type	Datentyp	Type de données	Tipo de datos
 Date of the last revision	Datum der letzten Revision	Date de la dernière révision	Fecha de la última revisión
 Degree of protection	Schutzart	Indice de protection	Grado de protección
 Delete projects	Projekte löschen	Supprimer des projets	Eliminar proyectos
@@ -601,6 +602,7 @@ Full page name (=A1+CAB1/3)	Vollständiger Seitenname (=A1+CAB1/3)	Nom complet d
 Fullest stretch (mm)	Vollster Abschnitt (mm)	Tronçon le plus rempli (mm)	Tramo más lleno (mm)
 Function and location	Funktion und Ort	Fonction et emplacement	Función y ubicación
 Function category	Funktionskategorie	Catégorie de fonction	Categoría de función
+Function designation	Funktionskennzeichen	Désignation de fonction	Designación de función
 Function of the page	Funktion der Seite	Fonction de la page	Función de la página
 Function, installation site and location	Funktion, Aufstellungsort und Ort	Fonction, lieu d'installation et emplacement	Función, lugar de instalación y ubicación
 Functional bonding	Funktionspotentialausgleich	Liaison équipotentielle fonctionnelle	Conexión equipotencial funcional
@@ -656,6 +658,7 @@ Generic digital output module 16 channels	Generische Digitalausgabebaugruppe 16 
 Generic digital output module 8 channels	Generische Digitalausgabebaugruppe 8 Kanäle	Module de sorties TOR générique 8 voies	Módulo de salidas digitales genérico 8 canales
 Generic function	Allgemeine Funktion	Fonction générique	Función genérica
 Graphic	Grafik	Graphique	Gráfico
+Graphic (no electrical function)	Grafik (ohne elektrische Funktion)	Graphique (sans fonction électrique)	Gráfico (sin función eléctrica)
 Graphics A4 portrait	Grafik A4 hoch	Graphique A4 portrait	Gráfico A4 vertical
 Greenline	Greenline	Greenline	Greenline
 Grid and system protection relay (voltage and frequency)	NA-Schutzrelais (Spannung und Frequenz)	Relais de découplage (tension et fréquence)	Relé de protección de red e instalación (tensión y frecuencia)
@@ -798,6 +801,7 @@ Item ID	Teile-ID	ID d'article	ID de artículo
 Items	Elemente	Éléments	Elementos
 JIS (JIS C 0617)	JIS (JIS C 0617)	JIS (JIS C 0617)	JIS (JIS C 0617)
 Jumpers	Brücken	Ponts	Puentes
+Junction	Verbindungsknoten	Jonction	Nodo de conexión
 Junction box	Abzweigdose	Boîte de dérivation	Caja de derivación
 Keep free	Freihalten	Garder libre	Mantener libre
 Key switch NC	Schlüsselschalter Öffner	Commutateur à clé NF	Interruptor de llave NC
@@ -811,6 +815,7 @@ Lamp voltage	Lampenspannung	Tension de la lampe	Tensión de la lámpara
 Languages and dictionary	Sprachen und Wörterbuch	Langues et dictionnaire	Idiomas y diccionario
 Last edited by	Zuletzt bearbeitet von	Dernière modification par	Última edición por
 Last inspection	Letzte Prüfung	Dernière inspection	Última inspección
+Last page number in section	Letzte Seitennummer im Abschnitt	Dernier numéro de page de la section	Último número de página de la sección
 Last revision	Letzte Revision	Dernière révision	Última revisión
 Latching	Rastend	À accrochage	Enclavamiento
 Lead time (days)	Lieferzeit (Tage)	Délai de livraison (jours)	Plazo de entrega (días)
@@ -839,6 +844,8 @@ Load	Verbraucher	Charge	Carga
 Load calculation	Lastberechnung	Bilan de puissance	Cálculo de cargas
 Loads and power supplies	Verbraucher und Stromversorgungen	Charges et alimentations	Cargas y fuentes de alimentación
 Loads behind it: {}	Nachgeschaltete Verbraucher: {}	Charges en aval : {}	Cargas aguas abajo: {}
+Local page number	Lokale Seitennummer	Numéro de page local	Número de página local
+Location designation	Ortskennzeichen	Désignation de localisation	Designación de ubicación
 Location of the page	Ort der Seite	Emplacement de la page	Ubicación de la página
 Low-voltage switchgear assemblies: rated diversity, temperature rise, documentation	Niederspannungs-Schaltgerätekombinationen: Bemessungsbelastungsfaktor, Erwärmung, Dokumentation	Ensembles d'appareillage à basse tension : facteur de diversité assigné, échauffement, documentation	Conjuntos de aparamenta de baja tensión: factor de diversidad asignado, calentamiento, documentación
 Lubricant	Schmierstoff	Lubrifiant	Lubricante
@@ -951,6 +958,7 @@ Mounting diameter	Einbaudurchmesser	Diamètre de montage	Diámetro de montaje
 Mounting layout	Montageplan	Implantation	Distribución de montaje
 Mounting layout pages	Montageplan-Seiten	Pages de plan d'implantation	Páginas de plano de montaje
 Mounting marks	Montagemarkierungen	Marques de montage	Marcas de montaje
+Mounting plates, rails, ducts and busbars	Montageplatten, Schienen, Kanäle und Sammelschienen	Platines de montage, rails, goulottes et jeux de barres	Placas de montaje, carriles, canaletas y barras colectoras
 Mounting position	Einbaulage	Position de montage	Posición de montaje
 Mounting rails go on the walls and the ceiling	Tragschienen kommen an die Wände und die Decke	Les rails de montage vont sur les murs et le plafond	Los carriles de montaje van en las paredes y el techo
 Mounting site	Montageort	Lieu de montage	Lugar de montaje
@@ -992,8 +1000,8 @@ Network (m)	Netz (m)	Réseau (m)	Red (m)
 Neutral (N)	Neutralleiter (N)	Neutre (N)	Neutro (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Neutralleiter müssen hellblau sein (IEC 60204-1, 13.2.3)	Les conducteurs neutres doivent être bleu clair (IEC 60204-1, 13.2.3)	Los conductores neutros deben ser azul claro (IEC 60204-1, 13.2.3)
 Next inspection	Nächste Prüfung	Prochaine inspection	Próxima inspección
+Next page number in section	Nächste Seitennummer im Abschnitt	Numéro de page suivant dans la section	Número de página siguiente en la sección
 Nibbling	Nibbeln	Grignotage	Roedura
-No connection point {}	Kein Anschlusspunkt {}	Pas de point de connexion {}	No hay punto de conexión {}
 No connection {}	Keine Verbindung {}	Aucune liaison {}	No hay conexión {}
 No devices to add to the single-line diagram	Keine Geräte, die in den Übersichtsschaltplan aufzunehmen sind	Aucun appareil à ajouter au schéma unifilaire	No hay equipos que añadir al esquema unifilar
 No document embedded - choose a file in the page properties	Kein Dokument eingebettet - Datei in den Seiteneigenschaften wählen	Aucun document intégré - choisissez un fichier dans les propriétés de la page	Ningún documento incrustado - elija un archivo en las propiedades de la página
@@ -1002,7 +1010,6 @@ No known column in the header row	Keine bekannte Spalte in der Kopfzeile	Aucune 
 No option {}	Keine Option {}	Aucune option {}	No hay ninguna opción {}
 No page or page item with id {}	Keine Seite und kein Seitenelement mit der ID {}	Aucune page ni élément de page avec l'ID {}	No hay ninguna página ni elemento de página con el ID {}
 No page with id {}	Keine Seite mit der ID {}	Aucune page avec l'ID {}	No hay ninguna página con el ID {}
-No part {}	Kein Artikel {}	Pas d'article {}	No hay artículo {}
 No plugs	Keine Stecker	Aucun connecteur	Sin conectores
 No report block {}	Kein Auswertungsblock {}	Aucun bloc de rapports {}	Ningún bloque de informes {}
 No segment template named {}	Keine Segmentvorlage namens {}	Aucun modèle de segment nommé {}	No hay ninguna plantilla de segmento llamada {}
@@ -1032,7 +1039,6 @@ Not a packed project	Kein gepacktes Projekt	Pas un projet compressé	No es un pr
 Not a project database: {}	Keine Projektdatenbank: {}	Pas une base de données de projets : {}	No es una base de datos de proyectos: {}
 Not a settings scheme: {}	Kein Einstellungsschema: {}	Ce n'est pas un schéma de paramètres : {}	No es un esquema de ajustes: {}
 Not a structure template: {}	Keine Strukturvorlage: {}	Pas un modèle de structure : {}	No es una plantilla de estructura: {}
-Not a symbol id: {}	Keine Symbol-ID: {}	Pas un identifiant de symbole : {}	No es un id de símbolo: {}
 Not a valid JSON file: {}	Keine gültige JSON-Datei: {}	Fichier JSON non valide : {}	Archivo JSON no válido: {}
 Not a valid project file: {}	Keine gültige Projektdatei: {}	Fichier de projet non valide : {}	No es un archivo de proyecto válido: {}
 Not a valid property library: {}	Keine gültige Eigenschaftsbibliothek: {}	Bibliothèque de propriétés invalide : {}	No es una biblioteca de propiedades válida: {}
@@ -1054,6 +1060,7 @@ Number of poles	Polzahl	Nombre de pôles	Número de polos
 Number of sheets	Anzahl der Blätter	Nombre de feuilles	Número de hojas
 Number of switch positions	Anzahl Schaltstellungen	Nombre de positions	Número de posiciones
 Number of symbols	Anzahl Symbole	Nombre de symboles	Número de símbolos
+Numbers (0, 1, 2)	Zahlen (0, 1, 2)	Nombres (0, 1, 2)	Números (0, 1, 2)
 Numbers (1, 2, 3)	Zahlen (1, 2, 3)	Chiffres (1, 2, 3)	Números (1, 2, 3)
 OK	OK	OK	OK
 Ohmmeter	Widerstandsmesser	Ohmmètre	Óhmetro
@@ -1133,6 +1140,10 @@ PLC card 8 digital outputs	SPS-Karte 8 digitale Ausgänge	Carte API 8 sorties nu
 PLC card data of {} without PLC points	SPS-Kartendaten von {} ohne SPS-Anschlüsse	Données de la carte API {} sans points API	Datos de la tarjeta PLC {} sin puntos PLC
 PLC card {} is not assigned to a station	SPS-Karte {} ist keiner Station zugeordnet	La carte automate {} n'est affectée à aucune station	La tarjeta PLC {} no está asignada a ninguna estación
 PLC card {}: station {} does not exist	SPS-Karte {}: Station {} existiert nicht	Carte automate {} : la station {} n'existe pas	Tarjeta PLC {}: la estación {} no existe
+PLC channel address	SPS-Kanaladresse	Adresse du canal API	Dirección del canal PLC
+PLC channel comment	SPS-Kanalkommentar	Commentaire du canal API	Comentario del canal PLC
+PLC channel data type	SPS-Kanaldatentyp	Type de données du canal API	Tipo de datos del canal PLC
+PLC channel symbol	SPS-Kanalsymbol	Symbole du canal API	Símbolo del canal PLC
 PLC connection point	SPS-Anschlusspunkt	Point de connexion API	Punto de conexión PLC
 PLC data	SPS-Daten	Données API	Datos PLC
 PLC device comments for Mitsubishi GX Works (CSV)	SPS-Operandenkommentare für Mitsubishi GX Works (CSV)	Commentaires d'opérandes API pour Mitsubishi GX Works (CSV)	Comentarios de operandos PLC para Mitsubishi GX Works (CSV)
@@ -1167,6 +1178,7 @@ Page {} shows an enclosure that no longer exists	Seite {} zeigt ein Gehäuse, da
 Page {}: its enclosure no longer exists	Seite {}: ihr Gehäuse existiert nicht mehr	Page {} : son armoire n'existe plus	Página {}: su envolvente ya no existe
 Page {}: mounting layout pages stay in the main project	Seite {}: Aufbauplan-Seiten bleiben im Hauptprojekt	Page {} : les pages d'implantation restent dans le projet principal	Página {}: las páginas de montaje permanecen en el proyecto principal
 Page {}: unknown symbol {}	Seite {}: unbekanntes Symbol {}	Page {} : symbole inconnu {}	Página {}: símbolo desconocido {}
+Pages in section	Seiten im Abschnitt	Pages de la section	Páginas de la sección
 Pages of subproject {} cannot be taken out again	Seiten des Teilprojekts {} können nicht erneut ausgelagert werden	Les pages du sous-projet {} ne peuvent pas être extraites à nouveau	Las páginas del subproyecto {} no se pueden extraer de nuevo
 Pages: names and ranges, e.g. 1-3, 5 (default: all pages)	Seiten: Namen und Bereiche, z. B. 1-3, 5 (Standard: alle Seiten)	Pages : noms et plages, p. ex. 1-3, 5 (par défaut : toutes les pages)	Páginas: nombres y rangos, p. ej. 1-3, 5 (por defecto: todas las páginas)
 Panel layout in 3D (IFC)	Schaltschrankaufbau in 3D (IFC)	Implantation d'armoire en 3D (IFC)	Diseño de armario en 3D (IFC)
@@ -1288,6 +1300,7 @@ Pressure switch	Druckschalter	Pressostat	Presostato
 Pressure switch NC	Druckschalter Öffner	Pressostat NF	Presostato NC
 Pressure switch NO	Druckschalter Schließer	Pressostat NO	Presostato NA
 Pressure switch NO (NFPA)	Druckschalter Schließer (NFPA)	Pressostat NO (NFPA)	Presostato NA (NFPA)
+Previous page number in section	Vorherige Seitennummer im Abschnitt	Numéro de page précédent dans la section	Número de página anterior en la sección
 Primary voltage	Primärspannung	Tension primaire	Tensión primaria
 Problem	Problem	Problème	Problema
 Process component	Prozesskomponente	Composant de procédé	Componente de proceso
@@ -1405,6 +1418,7 @@ Remote I/O	Dezentrale Peripherie	E/S déportées	E/S remotas
 Remote I/O {} has no controller	Dezentrale Peripherie {} hat keine Steuerung	Les E/S déportées {} n'ont pas de contrôleur	Las E/S remotas {} no tienen controlador
 Replace needs the text to find	Ersetzen braucht den zu suchenden Text	Remplacer nécessite le texte à rechercher	Reemplazar necesita el texto a buscar
 Replacement part number	Ersatzartikelnummer	Référence de remplacement	Número de artículo de sustitución
+Require explicit wire junctions	Explizite Drahtverbindungen verlangen	Exiger des jonctions explicites	Exigir uniones explícitas
 Residual current device	Fehlerstromschutzschalter	Interrupteur différentiel	Interruptor diferencial
 Residual current device 1-pole	Fehlerstromschutzschalter 1-polig	Interrupteur différentiel 1 pôle	Interruptor diferencial 1 polo
 Residual current device 2-pole	Fehlerstromschutzschalter 2-polig	Interrupteur différentiel 2 pôles	Interruptor diferencial 2 polos
@@ -1466,7 +1480,9 @@ Schematic A4 portrait	Schaltplan A4 hoch	Schéma A4 portrait	Esquema A4 vertical
 Second end only	Nur zweites Ende	Seconde extrémité seulement	Solo el segundo extremo
 Secondary voltage	Sekundärspannung	Tension secondaire	Tensión secundaria
 Segregation: {} run together with power conductors over {} mm	Trennung: {} verlaufen über {} mm mit Energieleitern zusammen	Séparation : {} sont posés avec des conducteurs de puissance sur {} mm	Separación: {} discurren junto a conductores de potencia a lo largo de {} mm
+Selected part	Ausgewählter Artikel	Pièce sélectionnée	Pieza seleccionada
 Selection list	Auswahlliste	Liste de sélection	Lista de selección
+Selection text	Auswahltext	Texte de sélection	Texto de selección
 Selective up to (A)	Selektiv bis (A)	Sélectif jusqu'à (A)	Selectivo hasta (A)
 Selectivity	Selektivität	Sélectivité	Selectividad
 Selector switch (NFPA)	Wahlschalter (NFPA)	Sélecteur (NFPA)	Selector (NFPA)
@@ -1622,8 +1638,6 @@ Switches / Sensors	Schalter / Sensoren	Interrupteurs / capteurs	Interruptores / 
 Switches, pushbuttons	Schalter, Taster	Interrupteurs, boutons-poussoirs	Interruptores, pulsadores
 Switching frequency	Schalthäufigkeit	Fréquence de manœuvre	Frecuencia de maniobras
 Switching output	Schaltausgang	Sortie de commutation	Salida de conmutación
-Symbol key	Symbolschlüssel	Clé du symbole	Clave del símbolo
-Symbolic address	Symbolische Adresse	Adresse symbolique	Dirección simbólica
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	T-Stück auf Seite {} passt nicht zu seinen Verbindungslinien: es braucht eine Linie in seiner Richtung, zwei quer dazu und keinen Anschlusspunkt dort	La pièce en T en page {} ne correspond pas à ses fils : il lui faut un fil dans sa direction, deux en travers et aucun point de connexion à cet endroit	La pieza en T en la página {} no se ajusta a sus cables: necesita un cable en su dirección, dos transversales y ningún punto de conexión allí
 Table of contents	Inhaltsverzeichnis	Table des matières	Índice de contenido
 Tabloid landscape	Tabloid quer	Tabloid paysage	Tabloid horizontal
@@ -1795,6 +1809,7 @@ Unit price	Einzelpreis	Prix unitaire	Precio unitario
 Units	Einheiten	Unités	Unidades
 Units {} to {} are outside the rack ({} U)	Die Einheiten {} bis {} liegen außerhalb des Racks ({} HE)	Les unités {} à {} sont hors de la baie ({} U)	Las unidades {} a {} están fuera del rack ({} U)
 Units {} to {} are taken by {}	Die Einheiten {} bis {} sind durch {} belegt	Les unités {} à {} sont occupées par {}	Las unidades {} a {} están ocupadas por {}
+Unknown	Unbekannt	Inconnu	Desconocido
 Unknown cable {}	Unbekanntes Kabel {}	Câble inconnu {}	Cable desconocido {}
 Unknown device or part: {}	Unbekanntes Gerät oder unbekannter Artikel: {}	Appareil ou article inconnu : {}	Equipo o artículo desconocido: {}
 Unknown device: {}	Unbekanntes Gerät: {}	Appareil inconnu : {}	Equipo desconocido: {}
@@ -1806,6 +1821,7 @@ Unknown revision	Unbekannte Revision	Révision inconnue	Revisión desconocida
 Unknown symbol '{}'	Unbekanntes Symbol '{}'	Symbole inconnu '{}'	Símbolo desconocido '{}'
 Unknown tool {}	Unbekanntes Werkzeug {}	Outil inconnu {}	Herramienta desconocida {}
 Upstream	Vorgeschaltet	Amont	Aguas arriba
+Use drawn wire targets	Gezeichnete Drahtziele verwenden	Utiliser les destinations des fils dessinés	Usar los destinos de los hilos dibujados
 User defined	Benutzerdefiniert	Défini par l'utilisateur	Definido por el usuario
 User symbols	Benutzersymbole	Symboles utilisateur	Símbolos de usuario
 Utilisation (%)	Auslastung (%)	Utilisation (%)	Utilización (%)
@@ -2069,6 +2085,7 @@ yellow	gelb	jaune	amarillo
 {}: breaking capacity {} kA below the short-circuit current {} kA	{}: Schaltvermögen {} kA unter dem Kurzschlussstrom {} kA	{} : pouvoir de coupure {} kA inférieur au courant de court-circuit {} kA	{}: poder de corte {} kA inferior a la corriente de cortocircuito {} kA
 {}: cable duct at {} mm filled {} % (limit {} %)	{}: Kabelkanal bei {} mm zu {} % gefüllt (Grenzwert {} %)	{} : goulotte à {} mm remplie à {} % (limite {} %)	{}: canaleta en {} mm llena al {} % (límite {} %)
 {}: cable duct at {} mm too small: its {} wires cannot be routed side by side	{}: Kabelkanal bei {} mm zu klein: seine {} Drähte lassen sich nicht nebeneinander verlegen	{} : goulotte à {} mm trop petite : ses {} fils ne peuvent pas être posés côte à côte	{}: canaleta en {} mm demasiado pequeña: sus {} cables no se pueden tender uno al lado del otro
+{}: cable length is missing; material quantity is unknown	{}: Kabellänge fehlt; Materialmenge ist unbekannt	{} : longueur du câble manquante ; quantité de matériel inconnue	{}: falta la longitud del cable; se desconoce la cantidad de material
 {}: category 1 needs a high MTTFd	{}: Kategorie 1 braucht eine hohe MTTFd	{} : la catégorie 1 exige un MTTFd élevé	{}: la categoría 1 necesita un MTTFd alto
 {}: category 4 needs a high DCavg and MTTFd	{}: Kategorie 4 braucht einen hohen DCavg und eine hohe MTTFd	{} : la catégorie 4 exige un DCavg et un MTTFd élevés	{}: la categoría 4 necesita un DCavg y un MTTFd altos
 {}: category {} needs a DCavg of at least 60 %	{}: Kategorie {} braucht einen DCavg von mindestens 60 %	{} : la catégorie {} exige un DCavg d'au moins 60 %	{}: la categoría {} necesita un DCavg de al menos el 60 %
@@ -2130,6 +2147,7 @@ yellow	gelb	jaune	amarillo
 {}: rooms {} and {} overlap on level {}	{}: Räume {} und {} überlappen sich auf Ebene {}	{} : les pièces {} et {} se chevauchent au niveau {}	{}: las salas {} y {} se solapan en el nivel {}
 {}: routing path {} is full ({} % of its usable cross-section)	{}: Verlegeweg {} ist voll ({} % seines nutzbaren Querschnitts)	{} : le chemin de routage {} est plein ({} % de sa section utile)	{}: la ruta de tendido {} está llena ({} % de su sección útil)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: Doppelfehlerstrom {} A an {} schaltet nicht innerhalb von {} s ab (benötigt {} A)	{} : le courant de double défaut {} A à {} ne coupe pas en {} s (il faut {} A)	{}: la corriente de doble falta {} A en {} no desconecta en {} s (se necesitan {} A)
+{}: selected part {} is no longer assigned to this device	{}: Der ausgewählte Artikel {} ist diesem Gerät nicht mehr zugeordnet	{} : la pièce sélectionnée {} n’est plus affectée à cet appareil	{}: la pieza seleccionada {} ya no está asignada a este dispositivo
 {}: shaft {} has no valid levels or size	{}: Schacht {} hat keine gültigen Ebenen oder Maße	{} : la gaine {} n'a pas de niveaux ou de dimensions valides	{}: el patinillo {} no tiene niveles o medidas válidos
 {}: shaft {} joins no two rooms	{}: Schacht {} verbindet keine zwei Räume	{} : la gaine {} ne relie pas deux pièces	{}: el patinillo {} no une dos salas
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: einpoliges Symbol '{}' passt nicht zum Stromlaufplan ('{}')	{} : le symbole unifilaire '{}' ne correspond pas au schéma développé ('{}')	{}: el símbolo unifilar '{}' no coincide con el esquema desarrollado ('{}')

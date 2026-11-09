@@ -75,7 +75,6 @@ Approved by	Goedgekeurd door
 Arms {} and {}	Armen {} en {}
 Asset number	Assetnummer
 Author of the last revision	Auteur van de laatste revisie
-Automatic	Automatisch
 Autotransformer 1-phase	Spaartransformator 1-fasig
 Autotransformer 1-phase, adjustable	Spaartransformator 1-fasig, instelbaar
 Autotransformer 3-phase	Spaartransformator 3-fasig
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Verbindi
 Connection definition point on page {} is not on a wire	Verbindingsdefinitiepunt op pagina {} ligt niet op een draad
 Connection definitions	Verbindingsdefinities
 Connection list	Verbindingslijst
-Connection point	Aansluitpunt
 Connection point descriptions	Beschrijvingen van aansluitpunten
 Connection point {} is not on the {} mm grid.	Aansluitpunt {} ligt niet op het raster van {} mm.
 Connection point {} lies on another one.	Aansluitpunt {} ligt op een ander aansluitpunt.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-stuurstroomkringen moete
 DC/DC converter	DC/DC-omvormer
 DWG export failed: {}	DWG-export mislukt: {}
 Data sheet	Gegevensblad
-Data type	Gegevenstype
 Date of the last revision	Datum van de laatste revisie
 Degree of protection	Beschermingsgraad
 Delete projects	Projecten verwijderen
@@ -926,7 +923,6 @@ Neutral (N)	Neutrale geleider (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Neutrale geleiders moeten lichtblauw zijn (IEC 60204-1, 13.2.3)
 Next inspection	Volgende keuring
 Nibbling	Nibbelen
-No connection point {}	Geen aansluitpunt {}
 No connection {}	Geen verbinding {}
 No devices to add to the single-line diagram	Geen apparaten om aan het eenlijnschema toe te voegen
 No document embedded - choose a file in the page properties	Geen document ingesloten - kies een bestand in de pagina-eigenschappen
@@ -935,7 +931,6 @@ No known column in the header row	Geen bekende kolom in de koprij
 No option {}	Geen optie {}
 No page or page item with id {}	Geen pagina of pagina-element met de ID {}
 No page with id {}	Geen pagina met de ID {}
-No part {}	Geen artikel {}
 No plugs	Geen connectoren
 No report block {}	Geen rapportblok {}
 No segment template named {}	Geen segmentsjabloon met de naam {}
@@ -961,7 +956,6 @@ Not a packed project	Geen verpakt project
 Not a project database: {}	Geen projectdatabase: {}
 Not a settings scheme: {}	Geen instellingenschema: {}
 Not a structure template: {}	Geen structuursjabloon: {}
-Not a symbol id: {}	Geen symbool-ID: {}
 Not a valid JSON file: {}	Geen geldig JSON-bestand: {}
 Not a valid project file: {}	Geen geldig projectbestand: {}
 Not a valid property library: {}	Geen geldige eigenschappenbibliotheek: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Schakelaars / sensoren
 Switches, pushbuttons	Schakelaars, drukknoppen
 Switching frequency	Schakelfrequentie
 Switching output	Schakeluitgang
-Symbol key	Symboolsleutel
-Symbolic address	Symbolisch adres
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Het T-stuk op pagina {} past niet bij zijn draden: het heeft één draad in zijn richting, twee dwars en geen aansluitpunt daar nodig
 Table of contents	Inhoudsopgave
 Tabloid landscape	Tabloid liggend

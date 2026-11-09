@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Programa da máquina de processamento de barramento
 CNC operations	Operações CNC
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	Programas CNC para máquinas de furação, fresamento e puncionamento, dobra de barras de cobre, configurador de gabinetes, entrega à produção e retorno da produção
 Cable tag, e.g. -W1	Identificador do cabo, por exemplo, -W1
-Cable tag, e.g. -W20	Identificação do cabo, p. ex. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Calibra a estimativa de tempo das máquinas com os tempos reais do retorno da produção
 Cannot read the plugin folder {}	Não é possível ler a pasta de plug-ins {}
 Cannot start {}: {}	Não é possível iniciar {}: {}

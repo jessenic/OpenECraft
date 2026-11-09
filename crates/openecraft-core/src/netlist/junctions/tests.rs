@@ -59,6 +59,54 @@ fn three_devices() -> Project {
 }
 
 #[test]
+fn joined_busbar_ordering_keeps_explicit_junction_target_tracing() {
+    use crate::panel::{ItemKind, PanelItem};
+    let mut prj = three_devices();
+    for (name, x, tag) in [("+A", 300., "-K2"), ("+B", 0., "-K3")] {
+        let mut enclosure = crate::panel::new_enclosure(&mut prj, "", name);
+        enclosure.items.push(PanelItem {
+            id: prj.new_id(), kind: ItemKind::Busbar, x, y: 100., w: 250., h: 90., d: 40., ..Default::default()
+        });
+        enclosure.items.push(PanelItem {
+            id: prj.new_id(), kind: ItemKind::Device, tag: tag.into(), x: x + 50., y: 80., w: 50., h: 200., z: 40., ..Default::default()
+        });
+        prj.layout.enclosures.push(enclosure);
+    }
+    let id = prj.new_id();
+    prj.layout.enclosures[0].items.push(PanelItem {
+        id, kind: ItemKind::Device, tag: "-K1".into(), x: 100., y: 300., w: 50., h: 100., ..Default::default()
+    });
+    crate::panel::bay_right_of(&mut prj, 1, 0);
+    assert_eq!(pairs(&prj), [pair("-K1:A1", "-K3:A1"), pair("-K3:A1", "-K2:A1")]);
+    tee(&mut prj, 0, p(100., 60.), TeeDir::Down, 3);
+    assert_eq!(pairs(&prj), [pair("-K3:A1", "-K1:A1"), pair("-K3:A1", "-K2:A1")]);
+}
+
+#[test]
+fn square_wire_drag_preserves_directed_junction_tracing() {
+    let mut prj = three_devices();
+    tee(&mut prj, 0, p(100., 60.), TeeDir::Down, 1);
+    let original = prj.clone();
+    let expected = pairs(&prj);
+    let selected: BTreeSet<_> = prj.pages[0].symbols.iter().filter(|s| s.tag == "-K2").map(|s| s.id).collect();
+    let mut moving = crate::routing::Moving::new(&prj, 0, &selected);
+    for delta in [p(8., 16.), p(-4., -8.)] {
+        moving.step(&mut prj, 0, &selected, delta);
+        assert_eq!(pairs(&prj), expected);
+        assert_eq!(prj.pages[0].junctions[0].pos, p(100., 60.));
+        assert!(fits(&prj, &prj.pages[0], &prj.pages[0].junctions[0]));
+        assert!(prj.pages[0].wires.iter().all(|w| w.a.x == w.b.x || w.a.y == w.b.y));
+    }
+    let mut direct = original;
+    crate::routing::move_selection(&mut direct, 0, &selected, p(4., 8.));
+    assert_eq!(prj.pages[0], direct.pages[0], "a drag and a single move must produce the same routing");
+    let all: BTreeSet<_> = ops::all_ids(&prj.pages[0]).into_iter().filter(|id| *id != prj.pages[0].junctions[0].id).collect();
+    crate::routing::move_selection(&mut prj, 0, &all, p(8., 4.));
+    assert_eq!(prj.pages[0].junctions[0].pos, p(108., 64.));
+    assert_eq!(pairs(&prj), expected);
+}
+
+#[test]
 fn without_a_junction_the_devices_are_chained_in_schematic_order() {
     let prj = three_devices();
     assert_eq!(pairs(&prj), [pair("-K1:A1", "-K3:A1"), pair("-K3:A1", "-K2:A1")]);

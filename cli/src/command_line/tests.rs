@@ -1,6 +1,16 @@
 use super::*;
 use crate::testing::temp_dir;
 
+#[test]
+fn json_parameters_can_be_read_from_a_file() {
+    let dir = temp_dir("json-argument");
+    let path = dir.join("parameters.json");
+    std::fs::write(&path, r#"{"macro":"large portable drawing"}"#).unwrap();
+    assert_eq!(read_json_argument(Some(&format!("@{}", path.display()))).unwrap(), Some(r#"{"macro":"large portable drawing"}"#.into()));
+    assert_eq!(read_json_argument(Some("{} ")).unwrap(), Some("{} ".into()));
+    assert!(read_json_argument(Some("@does-not-exist.json")).is_err());
+}
+
 /// Runs the command line in English (the tests do not follow the system language).
 fn cli(words: &[&str]) -> Result<String, String> {
     let argv: Vec<String> = ["--lang", "en"].iter().chain(words).map(|s| s.to_string()).collect();

@@ -11,7 +11,7 @@ fn plant(columns: u32, rows: u32) -> Project {
     let a = PvArray { name: "PV1".into(), x: 5000.0, z: 6000.0, columns, rows, ..Default::default() };
     prj.layout.buildings[bi].roofs.push(Roof { name: "R1".into(), shape: RoofShape::Gable, width: 30_000.0, depth: 30_000.0, pitch: 30.0, solar: vec![a], ..Default::default() });
     let mut inv = crate::model::DeviceData::default();
-    inv.parts.push(openecraft_parts::PartRef { number: "GEN.INV-PV-10KW".into(), count: 1 });
+    inv.parts.push(openecraft_parts::PartRef { number: "GEN.INV-PV-10KW".into(), count: 1, total: false });
     prj.devices.insert("=PV-T1".into(), inv);
     prj
 }

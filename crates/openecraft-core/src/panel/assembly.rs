@@ -55,7 +55,8 @@ impl<'a> Assembly<'a> {
     /// The box of a piece placed into the device item `it` (scaled to the item, turned
     /// with it), as an item of its own.
     pub fn piece_item(&self, it: &PanelItem, piece: &Piece) -> PanelItem {
-        let rotated = super::item_rotated(it, self.h);
+        let rotation = super::item_rotation(it, self.h);
+        let rotated = rotation.is_quarter();
         let (along, across) = if rotated { (it.h, it.w) } else { (it.w, it.h) };
         let sa = along / self.w.max(1e-3);
         let sc = across / self.h.max(1e-3);
@@ -65,7 +66,11 @@ impl<'a> Assembly<'a> {
         let cross = piece.size[1] * sc;
         let c0 = (across - cross) / 2.0 + piece.across * sc;
         let mut sub = it.clone();
-        if rotated {
+        if it.rotation.is_some() {
+            let a=super::front_point(it,rotation,0.,along,[a0/along,c0/across]);
+            let b=super::front_point(it,rotation,0.,along,[(a0+len)/along,(c0+cross)/across]);
+            (sub.x,sub.y,sub.w,sub.h)=(a.x.min(b.x),a.y.min(b.y),(b.x-a.x).abs(),(b.y-a.y).abs());
+        } else if rotated {
             (sub.x, sub.w, sub.y, sub.h) = (it.x + c0, cross, it.y + a0, len);
         } else {
             (sub.x, sub.w, sub.y, sub.h) = (it.x + a0, len, it.y + c0, cross);
@@ -86,7 +91,7 @@ impl<'a> Assembly<'a> {
 /// Terminal strips and devices without parts with dimensions have none.
 pub fn assembly<'a>(prj: &'a Project, tag: &str) -> Option<Assembly<'a>> {
     let data = prj.devices.get(tag)?;
-    let all: Vec<(&Part, u32)> = data.parts.iter().filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|p| (p, r.count.max(1)))).collect();
+    let all: Vec<(&Part, u32)> = data.parts.iter().filter(|r|r.quantity()>0).filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|p| (p, r.quantity()))).collect();
     let parts: Vec<(&Part, [f32; 3], u32)> = all.iter().filter_map(|(p, n)| p.size().map(|s| (*p, s, *n))).collect();
     let (main, size, _) = *parts.iter().find(|(p, _, _)| !p.accessory).or(parts.first())?;
     if super::is_strip_part(main) {
@@ -182,7 +187,7 @@ pub fn assembly<'a>(prj: &'a Project, tag: &str) -> Option<Assembly<'a>> {
 /// The assembly of a placed device item, if parts are mounted on its main part (the
 /// item drawn piece by piece). Door and floor devices are drawn as one.
 pub fn mounted<'a>(prj: &'a Project, it: &PanelItem) -> Option<Assembly<'a>> {
-    if it.kind != ItemKind::Device || matches!(it.face, Face::Door | Face::Bottom) {
+    if it.kind != ItemKind::Device || it.single_part || !it.terminal.is_empty() || matches!(it.face, Face::Door | Face::Bottom) {
         return None;
     }
     assembly(prj, &it.tag).filter(|a| !a.is_plain() && a.main.part.number == it.part)

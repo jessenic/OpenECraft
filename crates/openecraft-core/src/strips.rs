@@ -278,8 +278,8 @@ pub fn strip_layout(prj: &Project, strip: &str) -> Vec<Element> {
 
 /// Terminals and spare terminals of a strip with their parts.
 fn terminal_elements(prj: &Project, strip: &str) -> Vec<Element> {
-    let element = |kind, pe| {
-        let part = terminal_part(prj, strip, pe);
+    let element = |kind, pe, number:Option<&str>| {
+        let part = number.and_then(|n|part_by_number(prj,n)).or_else(||terminal_part(prj, strip, pe));
         let width = part.and_then(|p| p.size()).map(|s| s[0]).unwrap_or(TERMINAL_WIDTH);
         Element { kind, part: part.map(|p| p.number.clone()).unwrap_or_default(), width, levels: Vec::new() }
     };
@@ -294,11 +294,13 @@ fn terminal_elements(prj: &Project, strip: &str) -> Vec<Element> {
             last.levels.push((lv, t.label));
             continue;
         }
-        out.push(element(ElementKind::Terminal(t.label), pe));
+        let symbol=&prj.pages[t.page].symbols[t.sym];
+        let number=symbol.values.contains_key("function.part_number").then(||symbol.selected_part_number(prj)).flatten();
+        out.push(element(ElementKind::Terminal(t.label), pe,number));
     }
     let spares = prj.strips.get(strip).map(|d| d.spares).unwrap_or(0);
     for i in 1..=spares {
-        out.push(element(ElementKind::Spare((max + i).to_string()), false));
+        out.push(element(ElementKind::Spare((max + i).to_string()), false,None));
     }
     out
 }

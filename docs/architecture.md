@@ -57,14 +57,15 @@ Layers, bottom up (a module may use its own layer and the layers below):
    texts are `Issue::plain`).
 2. `symbols`, `symlib`: symbol definitions. The 2D PXF decoder lives in
    `symlib::ema`. The macro module uses its device definitions to construct
-   native multi-device window macros. The built-in library is static
+   native multi-device window macros. Macro resolution also visits primitive text
+   and literal attribute-block rows in these lower-layer definitions. The built-in library is static
    (`symbols::builtin`); the user symbols of a project are resolved through
    `Project::symbol` / `Project::symbol_table()` (`symlib::Symbols`, a snapshot the
    editing functions take as a parameter), never through process-wide state.
 3. `model` with its data submodules (`model/panel.rs`, `model/forms.rs`, …): the
    project file format. Data only, serde, no evaluation. The feature modules re-export
    their data types from here and keep the logic.
-4. Evaluation of the model that everything else builds on: `index`, `netlist` (with
+4. Evaluation of the model that everything else builds on: `index`, `references` (live function and discipline links), `netlist` (with
    `netlist::junctions`, the target tracing of directed T-junctions),
    `structure`, `sections` (page sections: tree, numbers in the page names), `frame`, `wirenum`, `history`, `translation`, `options`,
    `potentials`, `functions`, `properties`, `props`, `numbering` (device and page
@@ -197,3 +198,8 @@ refer to each other (the registry kinds take an `&Analysis`).
   by their snake_case name (`ReportId`), so reports of plugins can be report pages.
   `ReportKind` stays the enum of the built-in kinds; files of format 1 are converted
   when opened.
+
+Page property evaluation uses `sections` for local sheet numbers and section counts.
+Symbol property blocks take their page/project context from the rendering caller;
+part fields keep the selected function assignment. Page template property defaults
+remain data in `model/page_templates.rs`, applied by the shared template insertion.

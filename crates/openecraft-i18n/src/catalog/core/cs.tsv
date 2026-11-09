@@ -75,7 +75,6 @@ Approved by	Schválil
 Arms {} and {}	Ramena {} a {}
 Asset number	Inventární číslo
 Author of the last revision	Autor poslední revize
-Automatic	Automaticky
 Autotransformer 1-phase	Autotransformátor 1fázový
 Autotransformer 1-phase, adjustable	Autotransformátor 1fázový, nastavitelný
 Autotransformer 3-phase	Autotransformátor 3fázový
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Bod defi
 Connection definition point on page {} is not on a wire	Bod definice spojení na stránce {} neleží na vodiči
 Connection definitions	Definice spojení
 Connection list	Seznam spojení
-Connection point	Přípojný bod
 Connection point descriptions	Popisy přípojných bodů
 Connection point {} is not on the {} mm grid.	Přípojný bod {} neleží na rastru {} mm.
 Connection point {} lies on another one.	Přípojný bod {} leží na jiném.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Stejnosměrné řídicí ob
 DC/DC converter	Měnič DC/DC
 DWG export failed: {}	Export DWG selhal: {}
 Data sheet	Katalogový list
-Data type	Datový typ
 Date of the last revision	Datum poslední revize
 Degree of protection	Stupeň krytí
 Delete projects	Odstraňovat projekty
@@ -926,7 +923,6 @@ Neutral (N)	Střední vodič (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Střední vodiče musí být světle modré (IEC 60204-1, 13.2.3)
 Next inspection	Příští revize
 Nibbling	Prostřihování
-No connection point {}	Žádný připojovací bod {}
 No connection {}	Žádné spojení {}
 No devices to add to the single-line diagram	Žádné přístroje k přidání do jednopólového schématu
 No document embedded - choose a file in the page properties	Není vložen žádný dokument - vyberte soubor ve vlastnostech stránky
@@ -935,7 +931,6 @@ No known column in the header row	V záhlaví není žádný známý sloupec
 No option {}	Žádná volba {}
 No page or page item with id {}	Žádná stránka ani prvek stránky s ID {}
 No page with id {}	Žádná stránka s ID {}
-No part {}	Žádný artikl {}
 No plugs	Žádné konektory
 No report block {}	Žádný blok výkazů {}
 No segment template named {}	Žádná šablona segmentu s názvem {}
@@ -961,7 +956,6 @@ Not a packed project	Není zabalený projekt
 Not a project database: {}	Není databáze projektů: {}
 Not a settings scheme: {}	Není schéma nastavení: {}
 Not a structure template: {}	Nejde o šablonu struktury: {}
-Not a symbol id: {}	Není ID symbolu: {}
 Not a valid JSON file: {}	Není platný soubor JSON: {}
 Not a valid project file: {}	Neplatný soubor projektu: {}
 Not a valid property library: {}	Není platná knihovna vlastností: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Spínače / snímače
 Switches, pushbuttons	Spínače, tlačítka
 Switching frequency	Četnost spínání
 Switching output	Spínací výstup
-Symbol key	Klíč symbolu
-Symbolic address	Symbolická adresa
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	T-kus na straně {} neodpovídá svým vodičům: potřebuje jeden vodič ve svém směru, dva napříč a žádný připojovací bod v místě
 Table of contents	Obsah
 Tabloid landscape	Tabloid na šířku

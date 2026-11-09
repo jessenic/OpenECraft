@@ -1,6 +1,20 @@
 use super::*;
 
 #[test]
+fn vendor_neutral_part_assignment_uses_the_project_symbol() {
+    let mut prj = crate::model::Project::default();
+    prj.symbols.push(crate::symlib::UserSymbol {
+        key: "user:vendor_part".into(),
+        pins: vec![crate::symlib::UserPin { pos: p(0., 0.), label: "11".into(), internal: false }],
+        ..Default::default()
+    });
+    let part = openecraft_parts::Part { number: "vendor.part".into(), symbol: "user:vendor_part".into(), ..Default::default() };
+    let (key, pins) = part_symbol(&mut prj, &part, None).unwrap();
+    assert_eq!(key, "user:vendor_part");
+    assert_eq!(pins, vec!["11"]);
+}
+
+#[test]
 fn repeating_a_card_uses_each_channel_then_starts_a_new_device() {
     use crate::{model::Project, ops, parts};
     let mut source = String::from(r#"<EplanPxfRoot Name="Card" Type="WindowMacro">"#);
@@ -207,7 +221,7 @@ fn macro_graphics_and_known_contacts_keep_their_relative_positions() {
     let v = decode(MACRO).unwrap();
     assert_eq!(v.len(), 2);
     assert_ne!(v[0].symbol.key, v[1].symbol.key);
-    assert_eq!(v[0].symbol.pins, [UserPin { pos: p(8., 4.), label: "1".into() }]);
+    assert_eq!(v[0].symbol.pins, [UserPin { pos: p(8., 4.), label: "1".into(), internal: false }]);
     assert_eq!(v[0].symbol.prims[0], Prim::Line { a: p(2., 2.), b: p(4., -1.), dashed: false });
     assert!(v[0].warnings.contains("library SPECIAL/999/1"));
     let mut symbols = Vec::new();
@@ -261,7 +275,7 @@ fn referenced_devices_stay_separate_and_keep_the_macro_origin() {
 fn native_master_mapping_keeps_internal_bridges_and_contact_positions() {
     let mapping = UserSymbol {
         key: "user:eplan-lib:SPECIAL:999:1".into(),
-        pins: vec![UserPin { pos: p(-4., 0.), label: "a".into() }, UserPin { pos: p(4., 0.), label: "b".into() }],
+        pins: vec![UserPin { pos: p(-4., 0.), label: "a".into(), internal: false }, UserPin { pos: p(4., 0.), label: "b".into(), internal: false }],
         bridges: vec![(0, 1)],
         ..Default::default()
     };
@@ -276,7 +290,7 @@ fn native_master_mapping_keeps_internal_bridges_and_contact_positions() {
 fn explicit_logic_and_mirrored_contacts_use_the_master_direction() {
     let text = MACRO.replace("A1263=\"0\"><S61x183 A1061=\"1\"/>", "A1263=\"7\"><S61x183 A1061=\"0\" A1063=\"1\"><S16x1062 A161=\"1\"/></S61x183>");
     let v = decode(&text).unwrap();
-    assert_eq!(v[0].symbol.pins[0], UserPin { pos: p(4., 8.), label: "1".into() });
+    assert_eq!(v[0].symbol.pins[0], UserPin { pos: p(4., 8.), label: "1".into(), internal: false });
     let unknown = &v[0].unresolved[0];
     assert_eq!(unknown.master, "SPECIAL/999/1");
     assert_eq!(unknown.designations, ["9"]);
@@ -287,7 +301,7 @@ fn explicit_logic_and_mirrored_contacts_use_the_master_direction() {
 fn repeated_two_sided_designations_remain_two_independent_endpoints() {
     let text = MACRO.replace("A185=\"1\"", "A185=\"L1;L1\"").replace("A1262=\"13\"", "A1262=\"22\"");
     let v = decode(&text).unwrap();
-    assert_eq!(v[0].symbol.pins, [UserPin { pos: p(8., 4.), label: "L1".into() }, UserPin { pos: p(8., 10.), label: "L1".into() }]);
+    assert_eq!(v[0].symbol.pins, [UserPin { pos: p(8., 4.), label: "L1".into(), internal: false }, UserPin { pos: p(8., 10.), label: "L1".into(), internal: false }]);
     assert!(v[0].symbol.bridges.is_empty());
     let v = decode(&text.replace("L1;L1", "A;B")).unwrap();
     assert!(v[0].symbol.pins.is_empty());

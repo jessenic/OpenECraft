@@ -6,6 +6,8 @@ use serde::{Deserialize, Serialize};
 #[serde(default)]
 pub struct PlotFrame {
     pub name: String,
+    /// Draw the generated border and title block (imported pages may carry their own).
+    pub visible: bool,
     pub paper: Paper,
     pub landscape: bool,
     /// Width and height (as drawn) of custom paper in mm.
@@ -41,6 +43,7 @@ pub enum Paper {
 pub enum Labels {
     /// 1, 2, 3 …
     Numbers,
+    ZeroBasedNumbers,
     /// A, B, … Z, AA, AB …
     Letters,
 }

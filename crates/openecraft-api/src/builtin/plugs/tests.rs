@@ -28,7 +28,7 @@ fn the_pinout_and_flat_cables_are_commands() {
         run(&mut s, "place_symbol", json!({ "page": "1", "symbol": "plug_pair", "x": x, "y": 100, "tag": "-X20", "label": label })).unwrap();
         run(&mut s, "add_wire", json!({ "page": "1", "points": [[x, 80], [x, 96]] })).unwrap();
     }
-    s.project_mut().unwrap().devices.entry("-X20".into()).or_default().parts.push(openecraft_core::parts::PartRef { number: "GEN.CON-IDC-10F".into(), count: 1 });
+    s.project_mut().unwrap().devices.entry("-X20".into()).or_default().parts.push(openecraft_core::parts::PartRef { number: "GEN.CON-IDC-10F".into(), count: 1, total:false });
     s.project_mut().unwrap().cables.push(openecraft_core::model::Cable { id: 77, tag: "-W20".into(), cores: "1 2 3 4 5 6 7 8 9 10".into(), part: "GEN.CBL-FLAT-10".into(), ..Default::default() });
 
     let po = run(&mut s, "get_pinout", json!({ "plug": "-X20" })).unwrap();

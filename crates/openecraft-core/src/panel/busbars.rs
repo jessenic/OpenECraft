@@ -217,7 +217,7 @@ pub fn holder_places(prj: &Project, it: &PanelItem) -> Vec<f32> {
 /// (as high as the part, at most as far as the bars are apart), part and designation;
 /// `None` for a strip that is not across bars or has more terminals than it covers bars.
 pub fn terminals_on_bars(prj: &Project, it: &PanelItem) -> Option<Vec<(PanelItem, String, String)>> {
-    if it.kind != ItemKind::Device {
+    if it.kind != ItemKind::Device || it.single_part || !it.terminal.is_empty() {
         return None;
     }
     super::part_by_number(prj, &it.part).filter(|p| p.mounting.to_lowercase().contains("busbar") && crate::strips::is_terminal_part(p))?;

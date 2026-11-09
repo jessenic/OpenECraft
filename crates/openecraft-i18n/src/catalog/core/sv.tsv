@@ -75,7 +75,6 @@ Approved by	Godkänd av
 Arms {} and {}	Armar {} och {}
 Asset number	Inventarienummer
 Author of the last revision	Författare till den senaste revisionen
-Automatic	Automatisk
 Autotransformer 1-phase	Autotransformator 1-fas
 Autotransformer 1-phase, adjustable	Autotransformator 1-fas, inställbar
 Autotransformer 3-phase	Autotransformator 3-fas
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Förbind
 Connection definition point on page {} is not on a wire	Förbindelsedefinitionspunkten på sida {} ligger inte på en ledning
 Connection definitions	Förbindelsedefinitioner
 Connection list	Förbindelselista
-Connection point	Anslutningspunkt
 Connection point descriptions	Beskrivningar av anslutningspunkter
 Connection point {} is not on the {} mm grid.	Anslutningspunkt {} ligger inte på {} mm-rutnätet.
 Connection point {} lies on another one.	Anslutningspunkt {} ligger på en annan.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-styrkretsar bör vara bl
 DC/DC converter	DC/DC-omvandlare
 DWG export failed: {}	DWG-exporten misslyckades: {}
 Data sheet	Datablad
-Data type	Datatyp
 Date of the last revision	Datum för den senaste revisionen
 Degree of protection	Kapslingsklass
 Delete projects	Ta bort projekt
@@ -926,7 +923,6 @@ Neutral (N)	Neutralledare (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Neutralledare måste vara ljusblå (IEC 60204-1, 13.2.3)
 Next inspection	Nästa besiktning
 Nibbling	Nibbling
-No connection point {}	Ingen anslutningspunkt {}
 No connection {}	Ingen förbindelse {}
 No devices to add to the single-line diagram	Inga apparater att lägga till i enlinjeschemat
 No document embedded - choose a file in the page properties	Inget dokument inbäddat - välj en fil i sidegenskaperna
@@ -935,7 +931,6 @@ No known column in the header row	Ingen känd kolumn i rubrikraden
 No option {}	Inget alternativ {}
 No page or page item with id {}	Ingen sida och inget sidobjekt med ID {}
 No page with id {}	Ingen sida med ID {}
-No part {}	Ingen artikel {}
 No plugs	Inga kontakter
 No report block {}	Inget rapportblock {}
 No segment template named {}	Ingen segmentmall med namnet {}
@@ -961,7 +956,6 @@ Not a packed project	Inte ett packat projekt
 Not a project database: {}	Ingen projektdatabas: {}
 Not a settings scheme: {}	Inte ett inställningsschema: {}
 Not a structure template: {}	Inte en strukturmall: {}
-Not a symbol id: {}	Inget symbol-ID: {}
 Not a valid JSON file: {}	Ingen giltig JSON-fil: {}
 Not a valid project file: {}	Inte en giltig projektfil: {}
 Not a valid property library: {}	Inget giltigt egenskapsbibliotek: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Brytare / givare
 Switches, pushbuttons	Brytare, tryckknappar
 Switching frequency	Kopplingsfrekvens
 Switching output	Kopplingsutgång
-Symbol key	Symbolnyckel
-Symbolic address	Symbolisk adress
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	T-stycket på sida {} passar inte sina ledare: det behöver en ledare i sin riktning, två tvärs över och ingen anslutningspunkt där
 Table of contents	Innehållsförteckning
 Tabloid landscape	Tabloid liggande

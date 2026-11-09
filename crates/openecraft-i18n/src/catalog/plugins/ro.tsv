@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Programul mașinii de prelucrare a barelor (CSV)
 CNC operations	Operații CNC
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	Programe CNC pentru mașini de găurit, frezat și poansonat, îndoirea barelor de cupru, configurator de carcase, predarea către producție și confirmarea producției
 Cable tag, e.g. -W1	Identificator cablu, de ex. -W1
-Cable tag, e.g. -W20	Identificatorul cablului, de ex. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Calibrează estimarea de timp a mașinilor pe baza timpilor reali din confirmările producției
 Cannot read the plugin folder {}	Folderul de pluginuri {} nu poate fi citit
 Cannot start {}: {}	{} nu poate fi pornit: {}

@@ -17,6 +17,7 @@ Address	Adresa
 Angle	Úhel
 Apply	Použít
 Approvers	Schvalovatelé
+Automatic	Automaticky
 Bold	Tučné
 Bottom	Dno
 Bottom with removable gland plate	Dno s odnímatelnou přírubovou deskou
@@ -33,6 +34,7 @@ Cable core	Žíla kabelu
 Cable duct	Kabelový kanál
 Cable overview	Přehled kabelů
 Cable tag	Označení kabelu
+Cable tag, e.g. -W20	Označení kabelu, např. -W20
 Cables	Kabely
 Cancel	Zrušit
 Cannot read {}: {}	Nelze číst {}: {}
@@ -64,6 +66,7 @@ Configurator	Konfigurátor
 Connect	Připojit
 Connected to	Připojeno k
 Connecting…	Připojování…
+Connection point	Přípojný bod
 Connection points	Přípojné body
 Connections	Spojení
 Connector	Konektor
@@ -85,6 +88,7 @@ DWG drawing	Výkres DWG
 DXF drawing	Výkres DXF
 Dark	Tmavý
 Data portal	Datový portál
+Data type	Datový typ
 Date	Datum
 Depth	Hloubka
 Descending	Sestupně
@@ -215,6 +219,7 @@ New name	Nový název
 No	Ne
 No Vault item matches a part of the project	Žádná položka Vault neodpovídá artiklu projektu
 No cable {}	Žádný kabel {}
+No connection point {}	Žádný připojovací bod {}
 No device {}	Přístroj {} neexistuje
 No enclosure {}	Žádná skříň {}
 No labeling scheme named {}	Žádné schéma popisování s názvem {}
@@ -222,6 +227,7 @@ No machine {}	Žádný stroj {}
 No page named {}	Žádná stránka s názvem {}
 No page template named {}	Žádná šablona stránky s názvem {}
 No page {}	Žádná stránka {}
+No part {}	Žádný artikl {}
 No part {} in the project	Žádný díl {} v projektu
 No parts found	Nebyly nalezeny žádné artikly
 No plot frame named {}	Žádný rámeček výkresu s názvem {}
@@ -235,6 +241,7 @@ No symbol with id {}	Žádný symbol s ID {}
 Nominal size	Jmenovitá světlost
 Not a language code: {}	Nejde o kód jazyka: {}
 Not a macro file: {}	Nejde o soubor maker: {}
+Not a symbol id: {}	Není ID symbolu: {}
 Not a valid rule set file: {}	Neplatný soubor sady pravidel: {}
 Not in the schematic	Není ve schématu
 Note	Poznámka
@@ -386,6 +393,8 @@ Successor	Nástupce
 Supplier	Dodavatel
 Supply	Zásobování
 Symbol	Symbol
+Symbol key	Klíč symbolu
+Symbolic address	Symbolická adresa
 Symbols	Symboly
 System	Systém
 T-junction	T-kus

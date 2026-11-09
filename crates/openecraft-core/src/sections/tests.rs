@@ -164,3 +164,35 @@ fn a_section_moves_before_a_sibling_and_into_another_section() {
     assert!(number_after_move(&prj, c, b, None).is_err());
     assert_eq!(full_number(&prj, b), "3.1");
 }
+
+#[test]
+fn new_pages_continue_numeric_stems_of_imported_alphabetic_subpages() {
+    let mut prj=Project::default();prj.pages[0].name="1.a".into();
+    for name in ["2.b","20a","0009.c","Legend"] {
+        let id=prj.new_id();prj.pages.push(crate::model::Page::new(id,name,"",PageKind::Schematic));
+    }
+    assert_eq!(next_page_name(&prj,0),"21");
+    let before=prj.pages.clone();
+    let added=crate::ops::add_page_in(&mut prj,PageKind::Schematic,0);
+    assert_eq!(prj.pages[added].name,"21");assert_eq!(&prj.pages[..before.len()],&before);
+    assert_eq!(next_page_name(&prj,0),"22");
+}
+
+#[test]
+fn subpage_numbering_keeps_section_scope_and_global_name_collisions() {
+    let (mut prj,a,b)=project();
+    for page in prj.pages.iter_mut().filter(|p|p.section==a) {page.name.push_str(".a");}
+    prj.pages[0].name="1.3".into();
+    assert_eq!(next_page_name(&prj,a),"1.4");
+    assert_eq!(next_page_name(&prj,b),"1.1.2");
+    let at=crate::ops::add_page_in(&mut prj,PageKind::Schematic,a);
+    assert_eq!(prj.pages[at].name,"1.4");assert_eq!(prj.pages[at].section,a);
+}
+
+#[test]
+fn very_large_imported_page_numbers_do_not_overflow() {
+    let mut prj=Project::default();prj.pages[0].name="18446744073709551615.a".into();
+    assert_eq!(next_page_name(&prj,0),"1");
+    prj.pages[0].name="4294967295.a".into();
+    assert_eq!(next_page_name(&prj,0),"4294967296");
+}

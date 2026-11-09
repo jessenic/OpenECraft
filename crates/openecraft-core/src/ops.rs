@@ -6,7 +6,7 @@ use crate::model::*;
 use crate::sections;
 use crate::symlib::Symbols;
 use crate::symbols::{ContactKind, Func, PinKind, SymbolDef};
-use std::collections::{BTreeSet, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 pub use crate::model::ops::Clip;
 
 /// Context remembered between placements (e.g. the coil contacts belong to).
@@ -204,23 +204,33 @@ fn letters(n: usize) -> String {
     String::from_utf8(out).unwrap_or_default()
 }
 
+/// Placement defaults without allocating an ID or changing the project.
+pub fn symbol_preview(prj: &Project, def: &SymbolDef) -> SymbolInst {
+    let mut s = SymbolInst {
+        sym: def.key.into(), label: def.default_label.into(),
+        pins: def.pins.iter().map(|x| x.label.to_string()).collect(), ..Default::default()
+    };
+    if let Some(u) = prj.symbols.iter().find(|u| u.key == def.key) {
+        s.function_text.clone_from(&u.default_function_text);
+        s.values.clone_from(&u.default_values);
+    }
+    s
+}
+
 /// Creates a symbol instance for a page with sensible defaults (tag in the page's
 /// structure, numbering, ...).
 pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDef, pos: P, rot: u8, mirror: bool) -> SymbolInst {
     let structure = crate::structure::page_structure(&prj.pages[page]);
     let mut s = SymbolInst {
         id: prj.new_id(),
-        sym: def.key.into(),
         pos,
         rot,
         mirror,
-        label: def.default_label.into(),
-        pins: def.pins.iter().map(|x| x.label.to_string()).collect(),
-        ..Default::default()
+        ..symbol_preview(prj, def)
     };
     match def.func {
         Func::Main { .. } => s.tag = prj.next_tag(&structure, def.letter),
-        Func::Overview => s.tag = ctx.last_main.get(def.letter).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter)),
+        Func::Overview | Func::Auxiliary => s.tag = ctx.last_main.get(def.letter).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter)),
         Func::Aux(kind) => {
             s.tag = ctx.last_main.get(def.letter).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter));
             if def.auto_number {
@@ -246,12 +256,15 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
                     .unwrap_or_else(|| prj.next_tag(&structure, def.letter));
                 s.label = c.address_for(prj, &s.tag);
                 s.function_text = c.function_text.clone();
+            } else if !def.plc_channels.is_empty() {
+                s.tag=prj.next_tag(&structure,def.letter);
+                s.label.clear();
             } else {
                 s.tag = ctx.last_plc.get(def.key).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter));
                 s.label = next_plc_address(prj, &s.tag, !def.default_label.starts_with('Q'));
             }
         }
-        Func::Potential | Func::Interruption => {}
+        Func::Potential | Func::Interruption | Func::Junction | Func::Graphic => {}
     }
     s
 }
@@ -434,6 +447,10 @@ pub fn rotate(symbols: &Symbols, page: &mut Page, sel: &BTreeSet<u64>) {
     for w in page.wires.iter_mut().filter(|w| sel.contains(&w.id)) {
         w.a = rot(w.a);
         w.b = rot(w.b);
+        for label in &mut w.labels {
+            label.offset = label.offset.transform(1, false);
+            label.angle = (label.angle - 90.).rem_euclid(360.);
+        }
     }
     for t in page.texts.iter_mut().filter(|t| sel.contains(&t.id)) {
         t.angle = (t.angle - 90.0).rem_euclid(360.0);
@@ -477,12 +494,21 @@ pub fn delete(page: &mut Page, sel: &BTreeSet<u64>) {
 /// Removes zero length wires and merges exact duplicates.
 pub fn cleanup_wires(page: &mut Page) {
     page.wires.retain(|w| !w.a.same(w.b));
-    let mut seen = std::collections::HashSet::new();
-    page.wires.retain(|w| {
+    let mut seen:HashMap<_,Vec<usize>> = HashMap::new();
+    let mut kept: Vec<Wire> = Vec::new();
+    for w in std::mem::take(&mut page.wires) {
         let (a, b) = (w.a.key(), w.b.key());
         let k = if a <= b { (a, b) } else { (b, a) };
-        seen.insert(k)
-    });
+        let group=seen.entry(k).or_default();
+        if let Some(&index) = group.iter().find(|&&index| w.same_properties(&kept[index])) {
+            let target = &mut kept[index];
+            for mut label in w.labels.clone() {
+                label.rebase(&w, target.a, target.b);
+                if !target.labels.contains(&label) {target.labels.push(label);}
+            }
+        } else {group.push(kept.len());kept.push(w);}
+    }
+    page.wires = kept;
 }
 
 const CLIP_MAGIC: &str = "openecraft-clipboard-v1";
@@ -491,12 +517,15 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
     Clip {
         magic: CLIP_MAGIC.into(),
         anchor: None,
-        symbol_defs: Default::default(),
         function: page.function.clone(),
         installation: page.installation.clone(),
         location: page.location.clone(),
         product: page.product.clone(),
         symbols: page.symbols.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
+        symbol_defs: Default::default(),
+        devices: BTreeMap::new(),
+        parts: Vec::new(),
+        cables: Vec::new(),
         wires: page.wires.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         texts: page.texts.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         shapes: page.shapes.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
@@ -504,11 +533,62 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
         images: page.images.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         conn_defs: page.conn_defs.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
         cable_defs: page.cable_defs.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
+        symbol_cache: Default::default(),
         junctions: page.junctions.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
     }
 }
 
 impl Clip {
+    /// Resolve a portable definition before consulting the destination project.
+    pub fn symbol(&self, project: &Project, key: &str) -> Option<crate::symbols::SymbolRef> {
+        self.symbol_cache.table(&self.symbol_defs).get(key).or_else(|| project.symbol(key))
+    }
+
+    /// Full visible extent for previews; insertion still uses the clip's anchor.
+    pub fn drawing_bounds(&self) -> R {
+        let mut bounds = self.bounds();
+        let symbols = self.symbol_cache.table(&self.symbol_defs);
+        for instance in &self.symbols {
+            if let Some(definition) = symbols.get(&instance.sym) {
+                let b = definition.bounds;
+                for q in [b.min, crate::geom::p(b.max.x,b.min.y), b.max, crate::geom::p(b.min.x,b.max.y)] {
+                    bounds.extend(instance.pos + q.transform(instance.rot,instance.mirror));
+                }
+            }
+        }
+        bounds
+    }
+    /// Carry the definitions and catalog records used by these copied instances.
+    pub fn include_project_data(&mut self, project: &Project) {
+        for instance in &self.symbols {
+            if !self.symbol_defs.iter().any(|s| s.key == instance.sym) {
+                if let Some(definition) = project.symbols.iter().find(|s| s.key == instance.sym) {
+                    self.symbol_defs.push(definition.clone());
+                }
+            }
+            if let Some(device) = project.devices.get(&instance.tag) {
+                self.devices.entry(instance.tag.clone()).or_insert_with(|| device.clone());
+            }
+        }
+        let cable_tags:BTreeSet<_>=self.symbols.iter().map(|s|s.tag.as_str())
+            .chain(self.symbols.iter().filter_map(|s|s.values.get("function.cable").map(String::as_str)))
+            .chain(self.wires.iter().map(|w|w.cable.as_str()))
+            .chain(self.conn_defs.iter().map(|x|x.cable.as_str()))
+            .chain(self.cable_defs.iter().map(|x|x.cable.as_str())).filter(|t|!t.is_empty()).collect();
+        for cable in &project.cables {
+            if cable_tags.contains(cable.tag.as_str()) && !self.cables.iter().any(|c|c.tag==cable.tag) {
+                self.cables.push(cable.clone());
+            }
+        }
+        for number in self.devices.values().flat_map(|d|d.parts.iter().map(|p|p.number.as_str()))
+            .chain(self.cables.iter().map(|c|c.part.as_str())).filter(|n|!n.is_empty()) {
+            if !self.parts.iter().any(|p| p.number == number) {
+                if let Some(part) = project.parts.iter().find(|p| p.number == number) {
+                    self.parts.push(part.clone());
+                }
+            }
+        }
+    }
     /// An empty clip (to be filled with items to insert).
     pub fn new() -> Clip {
         Clip { magic: CLIP_MAGIC.into(), ..Default::default() }
@@ -589,19 +669,55 @@ pub fn paste_offset(clip: &Clip, at: P) -> P {
     (at - clip.anchor.unwrap_or_else(|| clip.bounds().min)).snap(GRID)
 }
 
-/// Pastes the clip so that its top-left corner lands on `at`. Tags move into the
-/// structure of the target page; device tags of main functions that already exist
-/// get new numbers (consistently for coil + contacts). Wire numbers and cable cores
-/// are not copied.
-pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u64> {
-    let source = clip.structure();
-    let target = crate::structure::Dt::of_page(&prj.pages[page_i]);
-    let b = clip.bounds();
-    if !b.is_valid() {
-        return BTreeSet::new();
+fn paste_devices(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target:&crate::structure::Dt,rename:&HashMap<String,String>) {
+    let mapped=|tag:&str| {let full=target.complete(&source.relative(tag));rename.get(&full).cloned().unwrap_or(full)};
+    for (tag,device) in &clip.devices {
+        let mut device=device.clone();
+        if let Some(owner)=device.values.get_mut("device.material_owner") {
+            *owner=if clip.devices.contains_key(owner.as_str()) || clip.symbols.iter().any(|s|s.tag==*owner) {mapped(owner)} else {String::new()};
+        }
+        match prj.devices.entry(mapped(tag)) {
+            std::collections::btree_map::Entry::Vacant(entry)=>{entry.insert(device);}
+            std::collections::btree_map::Entry::Occupied(mut entry)=>{
+                let incoming=entry.get_mut();
+                if incoming.description.is_empty() {incoming.description=device.description;}
+                for reference in device.parts {
+                    if !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
+                }
+                for (key,value) in device.values {incoming.values.entry(key).or_insert(value);}
+            }
+        }
     }
-    let mut library_keys = HashMap::new();
-    for definition in clip.symbol_defs.iter() {
+}
+
+fn paste_cables(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target:&crate::structure::Dt,
+                existing:&BTreeSet<String>,reserved:&mut BTreeSet<String>,rename:&mut HashMap<String,String>)->HashMap<String,String> {
+    let mut cable_tags=HashMap::new();
+    for cable in &clip.cables {
+        if cable.tag.is_empty() || cable_tags.contains_key(&cable.tag) {continue}
+        let tag=target.complete(&source.relative(&cable.tag));
+        let new_tag=if existing.contains(&tag) {
+            let dt=crate::structure::Dt::parse(&tag);
+            let letter=crate::structure::letters_of(&dt.name).unwrap_or_else(||"W".into());
+            prj.next_tag_reserved(&dt.structure(),&letter,reserved)
+        } else {tag.clone()};
+        reserved.insert(new_tag.clone());rename.insert(tag,new_tag.clone());
+        cable_tags.insert(cable.tag.clone(),new_tag.clone());
+        let mut incoming=cable.clone();incoming.id=prj.new_id();incoming.tag=new_tag;
+        prj.cables.push(incoming);
+    }
+    cable_tags
+}
+
+fn paste_symbol_definitions<'a>(prj:&mut Project,clip:&'a Clip)->HashMap<&'a str,String> {
+    clip.symbol_defs.iter().zip(merge_symbol_definitions(prj,&clip.symbol_defs))
+        .map(|(definition,key)|(definition.key.as_str(),key)).collect()
+}
+
+/// Installs definitions without replacing local revisions; returns a key per input.
+pub fn merge_symbol_definitions(prj:&mut Project,definitions:&[crate::symlib::UserSymbol])->Vec<String> {
+    let mut library_keys = Vec::with_capacity(definitions.len());
+    for definition in definitions {
         let mut incoming = definition.clone();
         let mut suffix = 0;
         loop {
@@ -617,11 +733,38 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
                 }
             }
         }
-        library_keys.insert(definition.key.as_str(), incoming.key);
+        library_keys.push(incoming.key);
+    }
+    library_keys
+}
+
+/// Pastes the clip so that its top-left corner lands on `at`. Tags move into the
+/// structure of the target page; device tags of main functions that already exist
+/// get new numbers (consistently for coil + contacts). Owned cables keep their
+/// core assignments under fresh tags; wire numbers are not copied.
+pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u64> {
+    let source = clip.structure();
+    let target = crate::structure::Dt::of_page(&prj.pages[page_i]);
+    let b = clip.bounds();
+    if !b.is_valid() {
+        return BTreeSet::new();
+    }
+    let library_keys = paste_symbol_definitions(prj,clip);
+    for part in &clip.parts {
+        if !prj.parts.iter().any(|p| p.number == part.number) {
+            let mut part = part.clone();
+            if let Some(key) = library_keys.get(part.symbol.as_str()) { part.symbol = key.clone(); }
+            prj.parts.push(part);
+        }
     }
     let d = paste_offset(clip, at);
-    let existing: BTreeSet<String> = prj.all_tags().into_iter().collect();
+    let existing: BTreeSet<String> = prj.all_tags().into_iter().chain(prj.unplaced_tags().map(String::from))
+        .chain(prj.cables.iter().map(|c|c.tag.clone())).chain(prj.harnesses.iter().map(|h|h.tag.clone())).collect();
+    let mut reserved:BTreeSet<_>=clip.symbols.iter().map(|s|s.tag.as_str()).chain(clip.devices.keys().map(String::as_str))
+        .chain(clip.cables.iter().map(|c|c.tag.as_str()))
+        .filter(|tag|!tag.is_empty()).map(|tag|target.complete(&source.relative(tag))).collect();
     let mut rename: HashMap<String, String> = HashMap::new();
+    let cable_tags=paste_cables(prj,clip,&source,&target,&existing,&mut reserved,&mut rename);
     let mut new_ids = BTreeSet::new();
     let mut symbols_out = Vec::new();
     for s in &clip.symbols {
@@ -631,19 +774,23 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         s.id = prj.new_id();
         s.pos = s.pos + d;
+        if let Some(cable)=s.values.get_mut("function.cable") {
+            *cable=cable_tags.get(cable).cloned().unwrap_or_default();
+        }
         if !s.tag.is_empty() {
             s.tag = target.complete(&source.relative(&s.tag));
+            if let Some(tag)=rename.get(&s.tag) {s.tag=tag.clone();}
         }
         if let Some(def) = prj.symbol(&s.sym) {
             match def.func {
-                Func::Main { .. } | Func::Aux(_) if existing.contains(&s.tag) => {
+                Func::Main { .. } | Func::Aux(_) | Func::Auxiliary if existing.contains(&s.tag) => {
                     if let Some(n) = rename.get(&s.tag) {
                         s.tag = n.clone();
                     } else {
                         // The copy keeps the letters of its tag (`-Q1` → `-Q2`).
                         let dt = crate::structure::Dt::parse(&s.tag);
                         let letter = crate::structure::letters_of(&dt.name).unwrap_or_else(|| def.letter.to_string());
-                        let n = prj.next_tag(&dt.structure(), &letter);
+                        let n = prj.next_tag_reserved(&dt.structure(), &letter,&reserved);reserved.insert(n.clone());
                         // Reserve the tag by temporarily recording it.
                         rename.insert(s.tag.clone(), n.clone());
                         s.tag = n;
@@ -663,6 +810,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         prj.pages[page_i].symbols.push(s.clone());
         symbols_out.push(s.id);
     }
+    paste_devices(prj,clip,&source,&target,&rename);
     for w in &clip.wires {
         let mut w = w.clone();
         w.id = prj.new_id();
@@ -670,8 +818,8 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         w.b = w.b + d;
         w.number.clear();
         w.number_fixed = false;
-        w.cable.clear();
-        w.core.clear();
+        if let Some(tag)=cable_tags.get(&w.cable) {w.cable=tag.clone();}
+        else {w.cable.clear();w.core.clear();}
         new_ids.insert(w.id);
         prj.pages[page_i].wires.push(w);
     }
@@ -705,14 +853,14 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         new_ids.insert(x.id);
         prj.pages[page_i].images.push(x);
     }
-    // Connection definitions keep their values except the cable core.
+    // Only cable references backed by a portable definition may be retained.
     for x in &clip.conn_defs {
         let mut x = x.clone();
         x.id = prj.new_id();
         x.pos = x.pos + d;
         x.number.clear();
-        x.cable.clear();
-        x.core.clear();
+        if let Some(tag)=cable_tags.get(&x.cable) {x.cable=tag.clone();}
+        else {x.cable.clear();x.core.clear();}
         new_ids.insert(x.id);
         prj.pages[page_i].conn_defs.push(x);
     }
@@ -721,6 +869,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         x.id = prj.new_id();
         x.a = x.a + d;
         x.b = x.b + d;
+        x.cable=cable_tags.get(&x.cable).cloned().unwrap_or_default();
         new_ids.insert(x.id);
         prj.pages[page_i].cable_defs.push(x);
     }
@@ -749,21 +898,34 @@ pub fn check_tag(tag: &str) -> Result<(), String> {
     Ok(())
 }
 
+/// A legacy imported prefix may contain spaces; renaming keeps it unchanged.
+fn check_renamed_tag(old:&str,new:&str)->Result<(),String> {
+    let result=check_tag(new);
+    if result.is_ok() {return result}
+    if let (Some(before),Some(after))=(old.rfind('-'),new.rfind('-')) {
+        let prefix=&new[..after];
+        if !prefix.is_empty() && prefix==&old[..before] && prefix.starts_with(['=','+','-'])
+            && !prefix.chars().any(|c|c.is_control() || matches!(c,';'|'|'|',')) && check_tag(&new[after..]).is_ok() {return Ok(())}
+    }
+    result
+}
+
 /// Renames a device everywhere (all functions with that tag, device, strip, plug and
 /// PLC card data, panel layout, harnesses, fluid device groups and links).
 /// Why device `old` cannot be renamed to `new` (None: it can): an invalid or used tag,
 /// or a function on a released page, which must stay as it is.
 pub fn rename_problem(prj: &Project, old: &str, new: &str) -> Option<String> {
+    if let Some(id)=sole_cable_id(prj,old) {return cable_rename_problem(prj,id,new);}
     if new == old {
         return None;
     }
-    if let Err(e) = check_tag(new) {
+    if let Err(e) = check_renamed_tag(old,new) {
         return Some(e);
     }
-    if prj.all_tags().iter().any(|t| t == new) {
+    if prj.all_tags().iter().any(|t| t == new) || prj.unplaced_tags().any(|t|t==new) {
         return Some(tr_fmt!("Device {} already exists", new));
     }
-    let released = prj.pages.iter().find(|pg| pg.locked && pg.symbols.iter().any(|s| s.tag == old));
+    let released = prj.pages.iter().find(|pg| pg.locked && pg.symbols.iter().any(|s| s.tag == old && !s.values.get("function.cable").is_some_and(|value|value==old)));
     released.map(|pg| tr_fmt!("{} is on page {}, which is released: renaming it would change the page", old, pg.name))
 }
 
@@ -771,9 +933,13 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
     if old == new || old.is_empty() {
         return;
     }
+    if let Some(id)=sole_cable_id(prj,old) {
+        prj.cables.iter_mut().find(|cable|cable.id==id).unwrap().tag=new.into();
+        rename_cable(prj,old,new);return;
+    }
     for pg in &mut prj.pages {
         for s in &mut pg.symbols {
-            if s.tag == old {
+            if s.tag == old && !s.values.get("function.cable").is_some_and(|value|value==old) {
                 s.tag = new.to_string();
             }
         }
@@ -781,9 +947,15 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
     if let Some(d) = prj.devices.remove(old) {
         prj.devices.entry(new.to_string()).or_insert(d);
     }
-    for it in prj.layout.enclosures.iter_mut().flat_map(|e| e.items.iter_mut()) {
-        if it.tag == old {
-            it.tag = new.to_string();
+    for device in prj.devices.values_mut() {
+        if device.values.get("device.material_owner").is_some_and(|v|v==old) {device.values.insert("device.material_owner".into(),new.into());}
+    }
+    for enclosure in &mut prj.layout.enclosures {
+        if enclosure.device_tag==old {enclosure.device_tag=new.into();}
+        if enclosure.owner_device==old {enclosure.owner_device=new.into();}
+        for it in &mut enclosure.items {
+            if it.tag == old {it.tag = new.to_string();}
+            if it.owner_device==old {it.owner_device=new.into();}
         }
     }
     crate::harness::rename_device(prj, old, new);
@@ -798,7 +970,7 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
     }
     crate::plc_hw::rename_device(prj, old, new);
     crate::electrofluid::rename_device(prj, old, new);
-    prj.field.rename(old, new);
+    prj.field.rename_device(old, new);
     // Lists of device tags elsewhere, and the symbols of inactive options.
     let rename = |tags: &mut Vec<String>| {
         let mut changed = false;
@@ -827,7 +999,7 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
             crate::model::options::Item::Page(pg) => pg.symbols.iter_mut().collect(),
             _ => Vec::new(),
         };
-        for s in symbols.into_iter().filter(|s| s.tag == old) {
+        for s in symbols.into_iter().filter(|s| s.tag == old && !s.values.get("function.cable").is_some_and(|value|value==old)) {
             s.tag = new.to_string();
         }
     }
@@ -852,31 +1024,143 @@ pub fn add_cable(prj: &mut Project, structure: &str) -> String {
     tag
 }
 
-/// The wires of cable `old` move to `new` (after the cable was renamed).
+/// Moves cable references after renaming the inventory entry.
 pub fn rename_cable(prj: &mut Project, old: &str, new: &str) {
-    for w in prj.pages.iter_mut().flat_map(|pg| pg.wires.iter_mut()).filter(|w| w.cable == old) {
-        w.cable = new.to_string();
-    }
+    if old.is_empty() || old==new {return}
+    if !ordinary_device_identity(prj,old) {edit_material_owner_references(prj,old,new);}
+    edit_cable_references(prj,old,new);
     for c in prj.plc.connections.iter_mut().filter(|c| c.cable == old) {
         c.cable = new.to_string();
     }
-    prj.field.rename(old, new);
+    prj.field.rename_cable(old, new);
+}
+
+/// Commits a complete cable tag edit; invalid drafts leave the project unchanged.
+pub fn rename_project_cable(prj:&mut Project,id:u64,new:&str)->Result<bool,String> {
+    let index=prj.cables.iter().position(|cable|cable.id==id).ok_or_else(||tr_fmt!("No cable {}",id))?;
+    let old=prj.cables[index].tag.clone();let new=new.trim();
+    if old==new {return Ok(false)}
+    if let Some(problem)=cable_rename_problem(prj,id,new) {return Err(problem);}
+    prj.cables[index].tag=new.into();rename_cable(prj,&old,new);
+    Ok(true)
+}
+
+/// Why a complete cable rename cannot be committed.
+pub fn cable_rename_problem(prj:&Project,id:u64,new:&str)->Option<String> {
+    let Some(cable)=prj.cables.iter().find(|cable|cable.id==id) else {return Some(tr_fmt!("No cable {}",id))};
+    let old=&cable.tag;let new=new.trim();
+    if old==new {return None}
+    if let Err(problem)=check_renamed_tag(old,new) {return Some(problem)}
+    if prj.cable(new).is_some() {return Some(tr_fmt!("Cable {} already exists",new))}
+    if let Some(page)=prj.pages.iter().find(|page|page.locked && (
+        page.wires.iter().any(|wire|&wire.cable==old) || page.conn_defs.iter().any(|point|&point.cable==old) ||
+        page.cable_defs.iter().any(|line|&line.cable==old) ||
+        page.symbols.iter().any(|symbol|symbol.values.get("function.cable")==Some(old)))) {
+        return Some(tr_fmt!("{} is on page {}, which is released: renaming it would change the page",old,page.name))
+    }
+    None
+}
+
+fn ordinary_device_identity(prj:&Project,tag:&str)->bool {
+    let ordinary=|symbol:&SymbolInst| symbol.tag==tag && symbol.values.get("function.cable").map(String::as_str)!=Some(tag);
+    if prj.devices.contains_key(tag) || prj.strips.contains_key(tag) || prj.plugs.contains_key(tag) || prj.plc_cards.contains_key(tag)
+        || prj.pages.iter().flat_map(|page|&page.symbols).any(ordinary)
+        || prj.layout.enclosures.iter().any(|enclosure|enclosure.device_tag==tag || enclosure.items.iter().any(|item|item.tag==tag)) {return true}
+    use crate::model::options::Item;
+    prj.model_options.options.iter().flat_map(|option|&option.parked).any(|parked|match &parked.item {
+        Item::Symbol(symbol)=>ordinary(symbol),Item::Page(page)=>page.symbols.iter().any(ordinary),_=>false,
+    })
+}
+
+fn sole_cable_id(prj:&Project,tag:&str)->Option<u64> {
+    prj.cable(tag).filter(|_|!ordinary_device_identity(prj,tag)).map(|cable|cable.id)
+}
+
+fn edit_material_owner_references(prj:&mut Project,old:&str,new:&str) {
+    for device in prj.devices.values_mut() {
+        if device.values.get("device.material_owner").is_some_and(|value|value==old) {device.values.insert("device.material_owner".into(),new.into());}
+    }
+    for enclosure in &mut prj.layout.enclosures {
+        if enclosure.owner_device==old {enclosure.owner_device=new.into();}
+        for item in &mut enclosure.items {if item.owner_device==old {item.owner_device=new.into();}}
+    }
+}
+
+fn symbol_cable_id(prj:&Project,id:u64)->Option<u64> {
+    let symbol=prj.pages.iter().flat_map(|page|&page.symbols).find(|symbol|symbol.id==id)?;
+    symbol.values.get("function.cable").filter(|tag|**tag==symbol.tag).and_then(|tag|prj.cable(tag)).map(|cable|cable.id)
+}
+
+/// Resolves a rename through the selected function, preserving shared device tags.
+pub fn symbol_rename_problem(prj:&Project,id:u64,new:&str)->Option<String> {
+    let Some(symbol)=prj.pages.iter().flat_map(|page|&page.symbols).find(|symbol|symbol.id==id) else {return Some(tr_fmt!("No symbol with id {}",id))};
+    if let Some(tag)=symbol.values.get("function.cable").filter(|tag|**tag==symbol.tag) {
+        return match prj.cable(tag) {Some(cable)=>cable_rename_problem(prj,cable.id,new),None=>Some(tr_fmt!("No cable {}",tag))};
+    }
+    rename_problem(prj,&symbol.tag,new.trim())
+}
+
+pub fn rename_symbol_device(prj:&mut Project,id:u64,new:&str)->Result<bool,String> {
+    if let Some(problem)=symbol_rename_problem(prj,id,new) {return Err(problem)}
+    if let Some(cable)=symbol_cable_id(prj,id) {return rename_project_cable(prj,cable,new);}
+    let old=prj.pages.iter().flat_map(|page|&page.symbols).find(|symbol|symbol.id==id).unwrap().tag.clone();
+    let new=new.trim();if old==new {return Ok(false)}
+    rename_device(prj,&old,new);Ok(true)
 }
 
 /// Deletes a cable; its wires lose cable and core.
 pub fn remove_cable(prj: &mut Project, index: usize) -> Cable {
     let cable = prj.cables.remove(index);
-    for w in prj.pages.iter_mut().flat_map(|pg| pg.wires.iter_mut()).filter(|w| w.cable == cable.tag) {
-        w.cable.clear();
-        w.core.clear();
-    }
+    if !ordinary_device_identity(prj,&cable.tag) {edit_material_owner_references(prj,&cable.tag,"");}
+    edit_cable_references(prj,&cable.tag,"");
     for c in prj.plc.connections.iter_mut().filter(|c| c.cable == cable.tag) {
         c.cable.clear();
     }
+    prj.field.routes.retain(|route|route.cable!=cable.tag);
+    prj.field.accessories.retain(|accessory|accessory.cable!=cable.tag);
     cable
 }
 
-/// Takes part number, type, cores and cross section of a cable part.
+fn edit_cable_symbol(symbol:&mut SymbolInst,old:&str,new:&str) {
+    if symbol.values.get("function.cable").is_some_and(|value|value==old) {
+        if symbol.tag==old {symbol.tag=new.into();}
+        if new.is_empty() {symbol.values.remove("function.cable");}
+        else {symbol.values.insert("function.cable".into(),new.into());}
+    }
+}
+
+fn edit_cable_wire(wire:&mut Wire,old:&str,new:&str) {
+    if wire.cable==old {wire.cable=new.into();if new.is_empty() {wire.core.clear();}}
+}
+
+fn edit_cable_conn(point:&mut ConnDef,old:&str,new:&str) {
+    if point.cable==old {point.cable=new.into();if new.is_empty() {point.core.clear();}}
+}
+
+fn edit_cable_page(page:&mut Page,old:&str,new:&str) {
+    for wire in &mut page.wires {edit_cable_wire(wire,old,new);}
+    for point in &mut page.conn_defs {edit_cable_conn(point,old,new);}
+    for line in &mut page.cable_defs {if line.cable==old {line.cable=new.into();}}
+    for symbol in &mut page.symbols {edit_cable_symbol(symbol,old,new);}
+}
+
+fn edit_cable_references(prj:&mut Project,old:&str,new:&str) {
+    if old.is_empty() || old==new {return}
+    for page in &mut prj.pages {edit_cable_page(page,old,new);}
+    use crate::model::options::Item;
+    for parked in prj.model_options.options.iter_mut().flat_map(|option|&mut option.parked) {
+        match &mut parked.item {
+            Item::Page(page)=>edit_cable_page(page,old,new),
+            Item::Symbol(symbol)=>edit_cable_symbol(symbol,old,new),
+            Item::Wire(wire)=>edit_cable_wire(wire,old,new),
+            Item::ConnDef(point)=>edit_cable_conn(point,old,new),
+            Item::CableDef(line) if line.cable==old=>line.cable=new.into(),
+            _=>{}
+        }
+    }
+}
+
+/// Takes the catalog type, cores, cross section and declared outer diameter.
 pub fn apply_cable_part(cable: &mut Cable, part: &Part) {
     cable.part = part.number.clone();
     cable.cable_type = part.type_number.clone();
@@ -886,6 +1170,31 @@ pub fn apply_cable_part(cable: &mut Cable, part: &Part) {
     if let Some(cs) = part.tech_value("Cross-section") {
         cable.cross_section = cs.to_string();
     }
+    cable.diameter = part.dimension_mm("Outer diameter").filter(|d| *d > 0.0).unwrap_or(0.0);
+}
+
+/// Retargets explicit function references that belonged only to this cable article.
+pub fn retarget_cable_part_references(prj:&mut Project,tag:&str,old:&str,new:&str)->usize {
+    if old==new {return 0}
+    let shared=prj.devices.get(tag).is_some_and(|d|d.parts.iter().any(|p|p.number==old));
+    let mut changed=0;
+    for symbol in prj.pages.iter_mut().flat_map(|page|&mut page.symbols) {
+        let bound=symbol.values.get("function.cable").is_some_and(|value|value==tag);
+        if !bound && (symbol.tag!=tag || shared) {continue}
+        if symbol.values.get("function.part_number").is_some_and(|number|number==old) {
+            symbol.values.insert("function.part_number".into(),new.into());changed+=1;
+        }
+    }
+    changed
+}
+
+/// Applies catalog cable data and keeps its placed function article references live.
+pub fn apply_project_cable_part(prj:&mut Project,index:usize,part:&Part)->bool {
+    let Some(cable)=prj.cables.get_mut(index) else {return false};
+    let (tag,old)=(cable.tag.clone(),cable.part.clone());
+    apply_cable_part(cable,part);
+    retarget_cable_part_references(prj,&tag,&old,&part.number);
+    true
 }
 
 /// Assigns wires of a page to the free cores of a cable in order (left to right,

@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Programma van de railbewerkingsmachine (CSV)
 CNC operations	CNC-bewerkingen
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	CNC-programma's voor boor-, frees- en ponsmachines, koperrail buigen, behuizingsconfigurator, overdracht aan de productie en productieterugmelding
 Cable tag, e.g. -W1	Kabelaanduiding, bijv. -W1
-Cable tag, e.g. -W20	Kabelcode, bijv. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Kalibreert de tijdschatting van de machines met de werkelijke tijden uit de productieterugmelding
 Cannot read the plugin folder {}	Kan de pluginmap {} niet lezen
 Cannot start {}: {}	Kan {} niet starten: {}

@@ -1,4 +1,32 @@
 use super::*;
+
+#[test]
+fn cable_endpoints_resolve_individually_placed_terminal_numbers() {
+    let mut prj=crate::sample::demo_project();
+    let terms=crate::strips::terminals(&prj,"-X1");
+    let pins:Vec<_>=terms.iter().take(2).map(|t|PinRef {page:t.page,sym:t.sym,pin:0}).collect();
+    let (ei,whole)=prj.layout.find_device("-X1").map(|(ei,it)|(ei,it.clone())).unwrap();
+    prj.layout.enclosures[ei].items.retain(|i|i.id!=whole.id);
+    let mut ids=Vec::new();
+    for (k,t) in terms.iter().take(2).enumerate() {
+        let mut it=whole.clone();it.id=prj.new_id();it.terminal=t.label.clone();it.x=100.+k as f32*200.;it.w=8.;
+        ids.push(it.id);prj.layout.enclosures[ei].items.push(it);
+    }
+    let pos=panel::positions(&prj.layout);
+    let first=device_end(&prj,&pos,"-X1",&pins[..1]);let second=device_end(&prj,&pos,"-X1",&pins[1..]);
+    assert_eq!(first.item,Some(ids[0]));assert_eq!(second.item,Some(ids[1]));
+    assert!(second.point.unwrap()[0]-first.point.unwrap()[0]>100.);
+    let connection=crate::netlist::Connection {net:"terminal jumper".into(),a:pins[0],b:pins[1],color:String::new(),cross_section:String::new(),
+        wire_type:String::new(),number:String::new(),cable:String::new(),core:String::new(),harness:String::new(),wires:Vec::new(),route_traced:false};
+    let (wires,open)=panel::virtual_wiring(&prj,&[connection]);
+    assert!(open.is_empty());assert_eq!(wires.len(),1);assert!(wires[0].length>100.);
+    let combined=device_end(&prj,&pos,"-X1",&pins);
+    assert_eq!(combined.parts,ids);assert_eq!(combined.cores.len(),2);
+    let mut other=prj.layout.enclosures[ei].clone();other.id=prj.new_id();other.name="Other".into();
+    other.items.retain(|i|i.id==ids[1]);prj.layout.enclosures[ei].items.retain(|i|i.id!=ids[1]);
+    prj.layout.enclosures.push(other);
+    assert!(device_end(&prj,&panel::positions(&prj.layout),"-X1",&pins).point.is_none());
+}
 use crate::model::ReportKind;
 use crate::analysis::Analysis;
 use crate::issue::Severity;

@@ -18,16 +18,22 @@ pub struct Point {
     pub address: String,
     pub input: bool,
     pub analog_type: Option<String>,
+    pub data_type: String,
     pub channel: String,
     pub terminal: String,
     pub function_text: String,
     /// Devices connected to the point.
     pub connected: String,
     pub location: String,
+    /// Channel within a complete module symbol; absent for legacy single points.
+    pub channel_index: Option<usize>,
+    pub symbolic: String,
+    pub direction: Option<bool>,
 }
 
 impl Point {
     pub fn io_kind(&self) -> &'static str {
+        if self.direction.is_none() { return "IO"; }
         match (self.analog_type.is_some(), self.input) {
             (true, true) => "AI", (true, false) => "AO",
             (false, true) => "DI", (false, false) => "DO",
@@ -36,7 +42,7 @@ impl Point {
 }
 
 fn is_plc(symbols: &crate::symlib::Symbols, s: &SymbolInst) -> bool {
-    symbols.get(&s.sym).map(|d| d.func) == Some(Func::Plc)
+    symbols.get(&s.sym).is_some_and(|d|d.func==Func::Plc || !d.plc_channels.is_empty() && !matches!(d.func,Func::Overview|Func::Graphic))
 }
 
 /// Prefix, byte and bit of an address.
@@ -73,8 +79,13 @@ type PinAt = (usize, usize);
 /// Targets listed per PLC point; further ones are counted.
 const MAX_TARGETS: usize = 20;
 
-/// All PLC points, sorted by card and address.
-pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
+/// Logical PLC points, preferring their electrical representation.
+pub fn points(prj:&Project,nl:&Netlist)->Vec<Point> {
+    channels::logical_points(prj,representations(prj,nl))
+}
+
+/// Every authored graphical representation, retaining its own stored fields.
+pub fn representations(prj: &Project, nl: &Netlist) -> Vec<Point> {
     let symbols = prj.symbol_table();
     let mut v = Vec::new();
     // Designations of the pins of each net, built once (nets of potentials can have
@@ -85,7 +96,11 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
             continue;
         }
         for (si, s) in pg.symbols.iter().enumerate() {
-            let Some(def) = symbols.get(&s.sym).filter(|d| d.func == Func::Plc) else { continue };
+            let Some(def) = symbols.get(&s.sym).filter(|_|is_plc(&symbols,s)) else { continue };
+            if !def.plc_channels.is_empty() {
+                v.extend(channels::points(prj,nl,pi,si,&def,&mut by_net));
+                continue;
+            }
             let channel = def.plc_channel.as_ref();
             let analog = channel.and_then(|c| c.analog.as_ref());
             let signal_pin = channel.and_then(|c| c.signal_terminal()).and_then(|pin| def.pins.iter().position(|p| p.label == pin)).unwrap_or(0);
@@ -127,11 +142,15 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
                 address: s.label.clone(),
                 input: channel.map(|c| c.input).or_else(|| def.digital_input()).unwrap_or(s.sym == "plc_ai"),
                 analog_type: analog.map(|a| a.data_type.clone()),
+                data_type: analog.map(|a|a.data_type.clone()).unwrap_or_else(||"Bool".into()),
                 channel: def.plc_channel.as_ref().map(|c| c.designation.clone()).unwrap_or_default(),
                 terminal: s.pins.get(signal_pin).cloned().unwrap_or_default(),
                 function_text: crate::text::function_text(prj, pi, s).replace('\n', " "),
                 connected,
                 location: crate::frame::reference(prj, pi, s.pos),
+                channel_index: None,
+                symbolic: s.values.get("plc.symbolic").cloned().unwrap_or_default(),
+                direction: Some(channel.map(|c|c.input).or_else(||def.digital_input()).unwrap_or(s.sym=="plc_ai")),
             });
         }
     }
@@ -144,7 +163,7 @@ pub fn points(prj: &Project, nl: &Netlist) -> Vec<Point> {
 /// Returns the number of changed addresses.
 pub fn readdress(prj: &mut Project, card: &str) -> usize {
     let symbols = prj.symbol_table();
-    let mut changed = 0;
+    let mut changed = channels::readdress(prj,card);
     for input in [true, false] {
         let mut list: Vec<(usize, usize)> = Vec::new();
         for (pi, pg) in prj.pages.iter().enumerate() {
@@ -179,7 +198,7 @@ pub fn readdress(prj: &mut Project, card: &str) -> usize {
 
 /// Tag name for a PLC tool: letters, digits and underscores.
 fn tag_name(p: &Point) -> String {
-    let base = if p.function_text.trim().is_empty() { format!("{}_{}", p.card, p.address) } else { p.function_text.clone() };
+    let base = if !p.symbolic.trim().is_empty() {p.symbolic.clone()} else if p.function_text.trim().is_empty() { format!("{}_{}", p.card, p.address) } else { p.function_text.clone() };
     let mut s: String = base.chars().map(|c| if c.is_ascii_alphanumeric() { c } else { '_' }).collect();
     while s.contains("__") {
         s = s.replace("__", "_");
@@ -197,6 +216,7 @@ pub fn tags(prj: &Project, nl: &Netlist) -> Vec<(String, Point)> {
     let mut used = HashSet::new();
     let mut v = Vec::new();
     for p in points(prj, nl) {
+        if p.direction.is_none() || p.address.is_empty() {continue;}
         let mut name = tag_name(&p);
         let mut i = 2;
         while !used.insert(name.clone()) {
@@ -404,20 +424,26 @@ pub fn import_symbol_table(prj: &mut Project, text: &str) -> Result<usize, Strin
     let comment_col = find(&["comment", "kommentar"]);
     let name_col = find(&["name", "symbol"]);
     let mut texts = Vec::new();
+    let mut channel_rows=Vec::new();
     for line in lines {
         let cells: Vec<&str> = line.split(sep).map(|c| c.trim().trim_matches('"')).collect();
         let Some(addr) = cells.get(addr_col).filter(|a| !a.is_empty()) else { continue };
         let comment = comment_col.and_then(|i| cells.get(i)).filter(|c| !c.is_empty());
         let text = comment.or(name_col.and_then(|i| cells.get(i))).map(|t| t.to_string()).unwrap_or_default();
+        channel_rows.push((addr.to_string(),name_col.and_then(|i|cells.get(i)).map(|s|s.to_string()).unwrap_or_default(),comment.map(|s|s.to_string()).unwrap_or_default()));
         texts.push((addr.to_string(), text));
     }
-    Ok(apply_texts(prj, None, &texts))
+    Ok(channels::import_rows(prj,&channel_rows)+apply_legacy_texts(prj,None,&texts))
 }
 
 /// Sets the function texts of the points by address (only on the cards of address
 /// space `domain` if given). A leading card tag (as in exported comments) is dropped.
 /// Returns the number of changed points.
 pub fn apply_texts(prj: &mut Project, domain: Option<&str>, texts: &[(String, String)]) -> usize {
+    channels::apply_texts(prj,domain,texts)+apply_legacy_texts(prj,domain,texts)
+}
+
+fn apply_legacy_texts(prj:&mut Project,domain:Option<&str>,texts:&[(String,String)])->usize {
     let symbols = prj.symbol_table();
     let cards: HashSet<_> = cards(prj).into_iter().filter(|c| domain.is_none_or(|d| crate::plc_hw::card_domain(prj, c) == d)).collect();
     let local_key = |addr: &str| addr.trim().trim_start_matches('%').to_ascii_uppercase();
@@ -442,7 +468,7 @@ pub fn apply_texts(prj: &mut Project, domain: Option<&str>, texts: &[(String, St
         }
     }
     let mut n = 0;
-    for s in prj.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|s| cards.contains(&s.tag) && is_plc(&symbols, s)) {
+    for s in prj.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|s| cards.contains(&s.tag) && is_plc(&symbols, s) && symbols.get(&s.sym).is_some_and(|d|d.plc_channels.is_empty())) {
         let text = if analog(s) {
             local.get(&(local_key(&s.label), s.tag.clone())).copied()
         } else {
@@ -461,11 +487,37 @@ pub fn apply_texts(prj: &mut Project, domain: Option<&str>, texts: &[(String, St
 pub fn duplicate_addresses(prj: &Project, nl: &Netlist) -> Vec<(String, Vec<Point>)> {
     let mut by: BTreeMap<(String, AddressKey), Vec<Point>> = BTreeMap::new();
     for p in points(prj, nl) {
-        if p.analog_type.is_some() { continue; } // Local channel names do not allocate process-image addresses.
+        if p.analog_type.is_some() || p.direction.is_none() || p.address.trim().is_empty() { continue; } // Local channel names do not allocate process-image addresses.
         by.entry((crate::plc_hw::card_domain(prj, &p.card), address_key(&p.address))).or_default().push(p);
     }
     by.into_values().filter(|v| v.len() > 1).map(|v| (v[0].address.clone(), v)).collect()
 }
+
+/// Apply a PLC overview row without changing the other channels of its module.
+pub fn edit_point(prj:&mut Project,point:&Point,address:&str,symbolic:&str,comment:&str)->Result<bool,String> {
+    use openecraft_i18n::{tr,tr_fmt};
+    if let Some(index)=point.channel_index {
+        let mut changed=channels::set(prj,point.id,index,"address",address)?;
+        changed|=channels::set(prj,point.id,index,"symbol",symbolic)?;
+        changed|=channels::set(prj,point.id,index,"comment",comment)?;
+        return Ok(changed);
+    }
+    let Some((pi,si))=prj.pages.iter().enumerate().find_map(|(pi,p)|p.symbols.iter().position(|s|s.id==point.id).map(|si|(pi,si))) else {
+        return Err(tr_fmt!("No connection point {}",point.id));
+    };
+    if prj.pages[pi].locked {return Err(tr("The row lies on a released page").into());}
+    let s=&prj.pages[pi].symbols[si];
+    if !is_plc(&prj.symbol_table(),s) || prj.symbol(&s.sym).is_some_and(|d|!d.plc_channels.is_empty()) {
+        return Err(tr_fmt!("No connection point {}",point.id));
+    }
+    let s=&mut prj.pages[pi].symbols[si];
+    let changed=s.label!=address || s.function_text!=comment || s.values.get("plc.symbolic").map(String::as_str).unwrap_or_default()!=symbolic;
+    s.label=address.into();s.function_text=comment.into();
+    if symbolic.is_empty() {s.values.remove("plc.symbolic");} else {s.values.insert("plc.symbolic".into(),symbolic.into());}
+    Ok(changed)
+}
+
+pub mod channels;
 
 #[cfg(test)]
 mod tests;

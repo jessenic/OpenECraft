@@ -17,6 +17,7 @@ Address	Adresă
 Angle	Unghi
 Apply	Aplicare
 Approvers	Avizatori
+Automatic	Automat
 Bold	Aldin
 Bottom	Bază
 Bottom with removable gland plate	Bază cu placă pentru presetupe detașabilă
@@ -33,6 +34,7 @@ Cable core	Fir de cablu
 Cable duct	Canal de cablu
 Cable overview	Prezentare cabluri
 Cable tag	Identificator cablu
+Cable tag, e.g. -W20	Identificatorul cablului, de ex. -W20
 Cables	Cabluri
 Cancel	Anulare
 Cannot read {}: {}	{} nu poate fi citit: {}
@@ -64,6 +66,7 @@ Configurator	Configurator
 Connect	Conectare
 Connected to	Conectat la
 Connecting…	Se conectează…
+Connection point	Punct de conexiune
 Connection points	Puncte de conexiune
 Connections	Conexiuni
 Connector	Conector
@@ -85,6 +88,7 @@ DWG drawing	Desen DWG
 DXF drawing	Desen DXF
 Dark	Întunecat
 Data portal	Portal de date
+Data type	Tip de date
 Date	Dată
 Depth	Adâncime
 Descending	Descrescător
@@ -215,6 +219,7 @@ New name	Nume nou
 No	Nu
 No Vault item matches a part of the project	Niciun element Vault nu corespunde unui articol al proiectului
 No cable {}	Niciun cablu {}
+No connection point {}	Niciun punct de conectare {}
 No device {}	Niciun dispozitiv {}
 No enclosure {}	Nicio carcasă {}
 No labeling scheme named {}	Nicio schemă de marcare cu numele {}
@@ -222,6 +227,7 @@ No machine {}	Nu există mașina {}
 No page named {}	Nicio pagină cu numele {}
 No page template named {}	Niciun șablon de pagină cu numele {}
 No page {}	Nu există pagina {}
+No part {}	Niciun articol {}
 No part {} in the project	Nicio piesă {} în proiect
 No parts found	Nu s-au găsit articole
 No plot frame named {}	Niciun chenar cu numele {}
@@ -235,6 +241,7 @@ No symbol with id {}	Niciun simbol cu ID-ul {}
 Nominal size	Diametru nominal
 Not a language code: {}	Nu este un cod de limbă: {}
 Not a macro file: {}	Nu este un fișier de macro-uri: {}
+Not a symbol id: {}	Nu este un ID de simbol: {}
 Not a valid rule set file: {}	Nu este un fișier valid de set de reguli: {}
 Not in the schematic	Nu este în schemă
 Note	Notă
@@ -386,6 +393,8 @@ Successor	Succesor
 Supplier	Furnizor
 Supply	Alimentare
 Symbol	Simbol
+Symbol key	Cheie simbol
+Symbolic address	Adresă simbolică
 Symbols	Simboluri
 System	Sistem
 T-junction	Piesă T

@@ -46,7 +46,7 @@ impl Phase {
     pub fn title(self) -> &'static str {
         match self {
             Phase::Cutouts => tr("Cutouts"),
-            Phase::Carriers => tr("Rails, ducts and busbars"),
+            Phase::Carriers => tr("Mounting plates, rails, ducts and busbars"),
             Phase::Devices => tr("Devices"),
             Phase::Accessories => tr("Accessories"),
             Phase::DoorAndWalls => tr("Door and walls"),
@@ -57,7 +57,7 @@ impl Phase {
         match (it.face, it.kind) {
             (f, _) if f != Face::Plate => Phase::DoorAndWalls,
             (_, ItemKind::Cutout) => Phase::Cutouts,
-            (_, ItemKind::Rail | ItemKind::Duct | ItemKind::Busbar) => Phase::Carriers,
+            (_, ItemKind::Rail | ItemKind::Duct | ItemKind::Busbar | ItemKind::MountingPlate) => Phase::Carriers,
             (_, ItemKind::Device) => Phase::Devices,
             (_, ItemKind::Accessory) => Phase::Accessories,
         }
@@ -166,6 +166,7 @@ pub fn item_title(it: &PanelItem) -> String {
         ItemKind::Busbar => tr("Busbar"),
         ItemKind::Cutout => tr("Cutout"),
         ItemKind::Accessory => tr("Accessory"),
+        ItemKind::MountingPlate => tr("Mounting plate"),
     };
     match (it.tag.is_empty(), it.part.is_empty()) {
         (false, _) => format!("{} ({kind})", it.tag),

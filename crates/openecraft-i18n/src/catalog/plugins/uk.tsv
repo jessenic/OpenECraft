@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Програма верстата для оброб
 CNC operations	Операції ЧПК
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	Програми ЧПК для свердлильних, фрезерних і пробивних верстатів, згинання мідних шин, конфігуратор корпусів, передача у виробництво та зворотний зв’язок виробництва
 Cable tag, e.g. -W1	Позначення кабелю, напр. -W1
-Cable tag, e.g. -W20	Позначення кабелю, напр. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Калібрує оцінку часу верстатів за фактичним часом зі зворотного зв’язку виробництва
 Cannot read the plugin folder {}	Не вдається прочитати папку плагінів {}
 Cannot start {}: {}	Не вдається запустити {}: {}

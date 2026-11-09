@@ -3497,6 +3497,7 @@ dependencies = [
  "openecraft-jt",
  "openecraft-parts",
  "openecraft-xt",
+ "png",
  "serde",
  "serde_json",
 ]

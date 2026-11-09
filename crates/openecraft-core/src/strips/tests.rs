@@ -1,4 +1,18 @@
 use super::*;
+
+#[test]
+fn terminal_layout_uses_each_functions_explicitly_selected_part() {
+    let mut prj=crate::sample::demo_project();
+    let terms=terminals(&prj,"-X1");let term=&terms[0];
+    let mut part=terminal_part(&prj,"-X1",false).unwrap().clone();
+    part.number="CUSTOM.TERMINAL".into();part.width=12.;prj.parts.push(part);
+    prj.devices.get_mut("-X1").unwrap().parts.push(crate::parts::PartRef {number:"CUSTOM.TERMINAL".into(),count:1, total:false });
+    prj.pages[term.page].symbols[term.sym].values.insert("function.part_number".into(),"CUSTOM.TERMINAL".into());
+    let layout=strip_layout(&prj,"-X1");
+    let chosen=layout.iter().find(|e|e.kind==ElementKind::Terminal(term.label.clone())).unwrap();
+    assert_eq!((&*chosen.part,chosen.width),("CUSTOM.TERMINAL",12.));
+    assert!(layout.iter().any(|e|matches!(e.kind,ElementKind::Terminal(_)) && e.part!="CUSTOM.TERMINAL"));
+}
 use crate::sample::demo_project;
 
 fn labels(prj: &Project) -> Vec<String> {
@@ -145,7 +159,7 @@ fn accessories_are_in_the_bill_of_materials() {
     // Switched off: none, and nothing counted twice when listed by hand.
     let mut manual = prj.clone();
     manual.strips.entry("-X1".into()).or_default().manual_accessories = true;
-    manual.devices.get_mut("-X1").unwrap().parts.push(crate::parts::PartRef { number: "GEN.TB-END".into(), count: 1 });
+    manual.devices.get_mut("-X1").unwrap().parts.push(crate::parts::PartRef { number: "GEN.TB-END".into(), count: 1, total:false });
     let an = crate::analysis::Analysis::checked(&manual);
     let qty = |part: &str| an.report(&manual, ReportKind::BillOfMaterials).unwrap().rows.iter().find(|r| r[3] == part).map(|r| r[1].clone()).unwrap_or_default();
     assert_eq!((qty("GEN.EB-35").as_str(), qty("GEN.TB-END").as_str()), ("", "1"));

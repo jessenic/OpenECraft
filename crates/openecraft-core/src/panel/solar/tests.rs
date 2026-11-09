@@ -155,7 +155,7 @@ fn arrays_across_the_ridge_or_over_windows_are_reported() {
 fn a_device_counts_the_modules_of_its_array() {
     let (mut prj, bi) = building(RoofShape::Gable);
     let mut dev = crate::model::DeviceData::default();
-    dev.parts.push(openecraft_parts::PartRef { number: "GEN.PV-430W".into(), count: 6 });
+    dev.parts.push(openecraft_parts::PartRef { number: "GEN.PV-430W".into(), count: 6, total: false });
     prj.devices.insert("=PV-G1".into(), dev);
     prj.layout.buildings[bi].roofs[0].solar.push(PvArray { device: "=PV-G1".into(), ..array(5000.0, 6000.0) });
     let texts: Vec<String> = problems(&prj).iter().map(|i| i.message()).collect();
@@ -177,4 +177,15 @@ fn modules_and_mounting_are_drawn_on_the_roof() {
     set_module(&prj, &mut a, "GEN.PV-400W-FB").unwrap();
     assert_eq!((a.module_width, a.module_length, a.module_height), (1134.0, 1722.0, 30.0));
     assert!(set_module(&prj, &mut a, "NOPE").is_err());
+}
+
+#[test]
+fn a_literal_zero_quantity_counts_no_modules() {
+    let (mut prj, bi) = building(RoofShape::Gable);
+    let mut dev = crate::model::DeviceData::default();
+    dev.parts.push(openecraft_parts::PartRef { number: "GEN.PV-430W".into(), count: 0, total: true });
+    prj.devices.insert("=PV-G1".into(), dev);
+    prj.layout.buildings[bi].roofs[0].solar.push(PvArray { device: "=PV-G1".into(), ..array(5000.0, 6000.0) });
+    let texts: Vec<String> = problems(&prj).iter().map(|i| i.message()).collect();
+    assert_eq!(texts, vec!["+B1: PV array PV1 has 8 modules, its device =PV-G1 has 0".to_string()]);
 }

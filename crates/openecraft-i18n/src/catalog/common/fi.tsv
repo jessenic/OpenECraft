@@ -17,6 +17,7 @@ Address	Osoite
 Angle	Kulma
 Apply	Käytä
 Approvers	Hyväksyjät
+Automatic	Automaattinen
 Bold	Lihavointi
 Bottom	Pohja
 Bottom with removable gland plate	Pohja irrotettavalla läpivientilevyllä
@@ -33,6 +34,7 @@ Cable core	Kaapelin johdin
 Cable duct	Johtokouru
 Cable overview	Kaapelien yleiskatsaus
 Cable tag	Kaapelitunnus
+Cable tag, e.g. -W20	Kaapelin tunnus, esim. -W20
 Cables	Kaapelit
 Cancel	Peruuta
 Cannot read {}: {}	Ei voi lukea kohdetta {}: {}
@@ -64,6 +66,7 @@ Configurator	Konfiguraattori
 Connect	Yhdistä
 Connected to	Yhdistetty kohteeseen
 Connecting…	Yhdistetään…
+Connection point	Liitäntäpiste
 Connection points	Liitäntäpisteet
 Connections	Yhteydet
 Connector	Liitin
@@ -85,6 +88,7 @@ DWG drawing	DWG-piirustus
 DXF drawing	DXF-piirustus
 Dark	Tumma
 Data portal	Dataportaali
+Data type	Tietotyyppi
 Date	Päivämäärä
 Depth	Syvyys
 Descending	Laskeva
@@ -215,6 +219,7 @@ New name	Uusi nimi
 No	Ei
 No Vault item matches a part of the project	Mikään Vault-nimike ei vastaa projektin osaa
 No cable {}	Ei kaapelia {}
+No connection point {}	Ei liitäntäpistettä {}
 No device {}	Ei laitetta {}
 No enclosure {}	Ei koteloa {}
 No labeling scheme named {}	Merkintäskeemaa nimeltä {} ei ole
@@ -222,6 +227,7 @@ No machine {}	Konetta {} ei ole
 No page named {}	Ei sivua nimeltä {}
 No page template named {}	Ei sivumallia nimeltä {}
 No page {}	Sivua {} ei ole
+No part {}	Ei osaa {}
 No part {} in the project	Projektissa ei ole osaa {}
 No parts found	Osia ei löytynyt
 No plot frame named {}	Ei piirustuskehystä nimeltä {}
@@ -235,6 +241,7 @@ No symbol with id {}	Ei symbolia tunnisteella {}
 Nominal size	Nimelliskoko
 Not a language code: {}	Ei kielikoodi: {}
 Not a macro file: {}	Ei makrotiedosto: {}
+Not a symbol id: {}	Ei symbolin tunnus: {}
 Not a valid rule set file: {}	Ei kelvollinen sääntökokoelmatiedosto: {}
 Not in the schematic	Ei piirikaaviossa
 Note	Huomautus
@@ -386,6 +393,8 @@ Successor	Seuraaja
 Supplier	Toimittaja
 Supply	Syöttö
 Symbol	Symboli
+Symbol key	Symbolin avain
+Symbolic address	Symbolinen osoite
 Symbols	Symbolit
 System	Järjestelmä
 T-junction	T-haara

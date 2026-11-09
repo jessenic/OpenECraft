@@ -72,7 +72,6 @@ Approved by	承認者
 Arms {} and {}	側{}と{}
 Asset number	資産番号
 Author of the last revision	最終リビジョンの作成者
-Automatic	自動
 Autotransformer 1-phase	単相単巻変圧器
 Autotransformer 1-phase, adjustable	単相単巻変圧器 (可変)
 Autotransformer 3-phase	三相単巻変圧器
@@ -239,7 +238,6 @@ Connection definition point on page {} is not applied to its connection	ペー�
 Connection definition point on page {} is not on a wire	ページ {} の接続定義ポイントが電線上にありません
 Connection definitions	接続定義
 Connection list	接続リスト
-Connection point	接続ポイント
 Connection point descriptions	接続ポイントの説明
 Connection point {} is not on the {} mm grid.	接続ポイント {} が {} mm グリッド上にありません。
 Connection point {} lies on another one.	接続ポイント {} が別の接続ポイントと重なっています。
@@ -334,7 +332,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC 制御回路は青にし
 DC/DC converter	DC/DC コンバーター
 DWG export failed: {}	DWG のエクスポートに失敗しました: {}
 Data sheet	データシート
-Data type	データ型
 Date of the last revision	最終リビジョンの日付
 Degree of protection	保護等級
 Delete projects	プロジェクトの削除
@@ -917,7 +914,6 @@ Neutral (N)	中性線 (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	中性線は水色である必要があります (IEC 60204-1、13.2.3)
 Next inspection	次回の点検
 Nibbling	ニブリング
-No connection point {}	接続点 {} がありません
 No connection {}	接続 {} はありません
 No devices to add to the single-line diagram	単線結線図に追加するデバイスはありません
 No document embedded - choose a file in the page properties	ドキュメントが埋め込まれていません - ページプロパティでファイルを選択してください
@@ -926,7 +922,6 @@ No known column in the header row	ヘッダー行に既知の列がありませ�
 No option {}	オプション {} がありません
 No page or page item with id {}	ID {} のページまたはページアイテムがありません
 No page with id {}	ID {} のページがありません
-No part {}	部品 {} がありません
 No plugs	プラグがありません
 No report block {}	レポートブロック {} はありません
 No segment template named {}	{} という名前のセグメントテンプレートはありません
@@ -952,7 +947,6 @@ Not a packed project	パックされたプロジェクトではありません
 Not a project database: {}	プロジェクトデータベースではありません: {}
 Not a settings scheme: {}	設定スキームではありません: {}
 Not a structure template: {}	構造テンプレートではありません: {}
-Not a symbol id: {}	シンボル ID ではありません: {}
 Not a valid JSON file: {}	有効な JSON ファイルではありません: {}
 Not a valid project file: {}	有効なプロジェクトファイルではありません: {}
 Not a valid property library: {}	有効なプロパティライブラリではありません: {}
@@ -1525,8 +1519,6 @@ Switches / Sensors	スイッチ / センサー
 Switches, pushbuttons	スイッチ、押しボタン
 Switching frequency	開閉頻度
 Switching output	スイッチング出力
-Symbol key	シンボルキー
-Symbolic address	シンボリックアドレス
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	ページ {} のT分岐がその接続線と合いません：その方向に1本、横方向に2本の接続線が必要で、その位置に接続点があってはなりません
 Table of contents	目次
 Tabloid landscape	Tabloid 横

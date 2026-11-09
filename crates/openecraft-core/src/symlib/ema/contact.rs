@@ -79,7 +79,7 @@ pub(super) fn decode(el: &Element, f: Frame, id: &str, orientation: &str, target
             format!("{connector}.{label}")
         };
         let along = if i == 0 { outer } else { -2. };
-        target.pins.push(UserPin { pos: at(along, 0.), label });
+        target.pins.push(UserPin { pos: at(along, 0.), label, internal: false });
     }
     if !el.all("S53x5").any(|field| field.attribute("A771") == Some("20039") && field.attribute("A501").is_some()) {
         if let Some(text) = el.attribute("A186").filter(|s| !s.contains(';') && !s.is_empty()) {

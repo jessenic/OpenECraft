@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Kiskontyöstökoneen ohjelma (CSV)
 CNC operations	CNC-työvaiheet
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	CNC-ohjelmat pora-, jyrsin- ja lävistyskoneille, kuparikiskojen taivutus, kotelokonfiguraattori, luovutus tuotantoon ja tuotannon palaute
 Cable tag, e.g. -W1	Kaapelin tunnus, esim. -W1
-Cable tag, e.g. -W20	Kaapelin tunnus, esim. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Kalibroi koneiden aika-arvion tuotannon palautteen toteutuneista ajoista
 Cannot read the plugin folder {}	Laajennuskansiota {} ei voi lukea
 Cannot start {}: {}	Kohdetta {} ei voi käynnistää: {}

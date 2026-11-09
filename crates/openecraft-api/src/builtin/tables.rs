@@ -25,6 +25,24 @@ impl Plugin for Tables {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name:"trace_wire_routes",
+        help:tr_const!("Traces local drawn routes between exact connection points, including interruption points"),
+        params:&[param("routes",Kind::Object,tr_const!("Object with pairs of from and to symbol IDs and zero-based pin indices"))],
+        run:trace_wire_routes,
+    },
+    Spec {
+        name: "list_connections",
+        help: tr_const!("Lists native point-to-point wiring connections by symbol ID and pin index"),
+        params: &[],
+        run: list_connections,
+    },
+    Spec {
+        name: "list_nets",
+        help: tr_const!("Lists native net membership by symbol ID and pin index"),
+        params: &[optional("bridge_terminals", Kind::Bool, tr_const!("Include internal terminal bridges"))],
+        run: list_nets,
+    },
+    Spec {
         name: "find",
         help: tr_const!("Finds text in the whole project: pages, device tags, function texts, free texts, wire numbers, terminals, cables, parts, descriptions"),
         params: &[
@@ -68,6 +86,49 @@ pub static COMMANDS: &[Spec] = &[
 ];
 
 pub const KIND: Param = param("table", Kind::Str, tr_const!("devices, connections, terminals, cables, plugs, plc, pages or parts"));
+
+fn list_connections(prj: &mut Project, _: &Args) -> Result<Value, String> {
+    let potentials = Netlist::build(prj, true);
+    let open = Netlist::build(prj, false);
+    let endpoint = |pin: openecraft_core::netlist::PinRef| {
+        json!({"symbol":prj.pages[pin.page].symbols[pin.sym].id,"pin":pin.pin})
+    };
+    Ok(Value::Array(openecraft_core::netlist::connections(prj, &potentials, &open).iter().map(|c| {
+        json!({"from":endpoint(c.a),"to":endpoint(c.b),"potential":c.net,"number":c.number,
+               "color":c.color,"cross_section":c.cross_section,"wire_type":c.wire_type,"cable":c.cable,"core":c.core,"route_traced":c.route_traced,"wires":c.wires.iter().map(|(page,id)|json!({"page":prj.pages[*page].id,"id":id})).collect::<Vec<_>>()})
+    }).collect()))
+}
+
+fn trace_wire_routes(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let invalid=||openecraft_i18n::tr("Invalid local wire route query");
+    let pairs=a.value("routes").and_then(|v|v.get("pairs")).and_then(Value::as_array).ok_or_else(invalid)?;
+    let open=Netlist::build(prj,false);
+    pairs.iter().map(|pair| {
+        let endpoint=|side:&str|->Result<(u64,usize),String> {
+            let symbol=pair.get(side).and_then(|v|v.get("symbol")).and_then(Value::as_u64).ok_or_else(invalid)?;
+            let pin=pair.get(side).and_then(|v|v.get("pin")).and_then(Value::as_u64).and_then(|p|usize::try_from(p).ok()).ok_or_else(invalid)?;
+            Ok((symbol,pin))
+        };
+        let route=openecraft_core::netlist::local_wire_route(prj,&open,endpoint("from")?,endpoint("to")?);
+        let wires=route.iter().flatten().filter_map(|(page,id)| {
+            let p=&prj.pages[*page];let w=p.wires.iter().find(|w|w.id==*id)?;
+            Some(json!({"page":p.id,"id":id,"wire_type":w.wire_type,"color":w.color,"cross_section":w.cross_section,"number":w.number}))
+        }).collect::<Vec<_>>();
+        Ok(json!({"from":pair["from"],"to":pair["to"],"route_traced":route.is_some(),"wires":wires}))
+    }).collect::<Result<Vec<_>,_>>().map(Value::Array)
+}
+
+fn list_nets(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let netlist = Netlist::build(prj, a.value("bridge_terminals").and_then(Value::as_bool).unwrap_or(true));
+    let mut pins: Vec<_> = netlist.pin_net.iter().map(|(&(symbol, pin), &net)| (symbol, pin, net)).collect();
+    pins.sort_unstable();
+    let mut points: Vec<_> = netlist.connection_point_net.iter().map(|(&(symbol, pin), &net)| (symbol, pin, net)).collect();
+    points.sort_unstable();
+    Ok(json!({
+        "pins": pins.into_iter().map(|(symbol,pin,net)| json!({"symbol":symbol,"pin":pin,"net":net})).collect::<Vec<_>>(),
+        "connection_points": points.into_iter().map(|(symbol,pin,net)| json!({"symbol":symbol,"pin":pin,"net":net})).collect::<Vec<_>>()
+    }))
+}
 
 pub fn kind(a: &Args) -> Result<TableKind, String> {
     TableKind::from_key(a.req("table")).ok_or_else(|| tr_fmt!("Unknown table: {}", a.req("table")))

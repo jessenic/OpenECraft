@@ -563,6 +563,7 @@ fn with_data(out: &mut Project, src: &Project) {
         pages: _,
         sections,
         parts,
+        import_sources,
         devices,
         layout,
         cables,
@@ -608,6 +609,7 @@ fn with_data(out: &mut Project, src: &Project) {
     out.info = info.clone();
     out.sections = sections.clone();
     out.parts = parts.clone();
+    out.import_sources = import_sources.clone();
     out.devices = devices.clone();
     out.layout = layout.clone();
     out.cables = cables.clone();
@@ -655,6 +657,7 @@ fn same_data(a: &Project, b: &Project) -> bool {
         pages,
         sections,
         parts,
+        import_sources,
         devices,
         layout,
         cables,
@@ -701,6 +704,7 @@ fn same_data(a: &Project, b: &Project) -> bool {
         && *info == b.info
         && *sections == b.sections
         && *parts == b.parts
+        && *import_sources == b.import_sources
         && *devices == b.devices
         && *layout == b.layout
         && *cables == b.cables

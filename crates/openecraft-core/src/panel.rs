@@ -28,6 +28,7 @@ mod fill;
 mod lineup;
 mod macros;
 mod manufacturing;
+mod mounting;
 mod placement;
 mod points;
 pub mod rack;
@@ -38,6 +39,7 @@ pub mod stairs;
 mod system;
 pub mod thermal;
 pub use assembly::{assembly, mounted, Assembly, Piece};
+pub use mounting::{can_mount, carry_mounts, mounted_items, mounting_height, remove_items};
 pub use checks::{box_gap, class_collisions, class_title, clearances, data_number, device_class, device_kinds, floor_height, heights, item_class, item_name, validate, CheckKind, ClassRule, Clearances, Finding, PanelRules, CLASSES};
 pub use drives::{drives, Drive, DriveKind, DRIVE, DRIVEN_BY};
 pub use fastening::{fastening_material, Fastening};
@@ -54,7 +56,7 @@ pub use rooms::{
 };
 pub(crate) use rooms::inner_footprint;
 pub use system::{apply_system, components, outward, sync_part, system_of_part, wall_box, Build, Component, Role, System, SYSTEMS};
-pub use crate::model::panel::{Building, Enclosure, EnclosureKind, Face, InnerWall, ItemKind, Layout, Level, LinkKind, Opening, PanelItem, PvArray, PvDesign, PvMounting, PvString, Roof, RoofShape, RoofWindow, Shaft, SiteLink, Stair, StairKind, Swing, Turn};
+pub use crate::model::panel::{Building, Enclosure, EnclosureKind, Face, InnerWall, ItemKind, Layout, Level, LinkKind, Opening, PanelItem, PanelRotation, PvArray, PvDesign, PvMounting, PvString, Roof, RoofShape, RoofWindow, Shaft, SiteLink, Stair, StairKind, Swing, Turn};
 
 /// Distance between enclosure wall and mounting plate edge.
 pub const PLATE_MARGIN: f32 = 25.0;
@@ -233,18 +235,20 @@ impl ItemKind {
             ItemKind::Busbar => tr("Busbar system"),
             ItemKind::Cutout => tr("Cutout"),
             ItemKind::Accessory => tr("Accessory"),
+            ItemKind::MountingPlate => tr("Mounting plate"),
         }
     }
 
     /// Drawing / picking order: higher is on top.
     pub fn layer(self) -> u8 {
         match self {
-            ItemKind::Cutout => 0,
-            ItemKind::Rail => 1,
-            ItemKind::Duct => 2,
-            ItemKind::Busbar => 3,
-            ItemKind::Accessory => 4,
-            ItemKind::Device => 5,
+            ItemKind::Cutout => 1,
+            ItemKind::MountingPlate => 0,
+            ItemKind::Rail => 2,
+            ItemKind::Duct => 3,
+            ItemKind::Busbar => 4,
+            ItemKind::Accessory => 5,
+            ItemKind::Device => 6,
         }
     }
 
@@ -264,21 +268,28 @@ impl PanelItem {
     }
 
     pub fn rail_anchor(&self) -> P {
-        self.center() + p(0., self.rail_mount.center_offset)
+        self.rail_anchor_for(self.rail_vertical)
+    }
+
+    fn rail_anchor_for(&self,vertical:bool)->P {
+        self.center()+if vertical {p(self.rail_mount.center_offset,0.)} else {p(0.,self.rail_mount.center_offset)}
     }
 
     pub fn seated_on(&self, rail: &PanelItem) -> bool {
         let anchor = self.rail_anchor();
-        self.kind == ItemKind::Device && rail.kind == ItemKind::Rail && rail.horizontal()
-            && self.face == rail.face && (rail.x..=rail.x + rail.w).contains(&anchor.x)
-            && (anchor.y - rail.center().y).abs() < 0.01
+        self.kind == ItemKind::Device && rail.kind == ItemKind::Rail && self.rail_vertical!=rail.horizontal()
+            && self.face == rail.face && if rail.horizontal() {(rail.x..=rail.x+rail.w).contains(&anchor.x) && (anchor.y-rail.center().y).abs()<0.01}
+            else {(rail.y..=rail.y+rail.h).contains(&anchor.y) && (anchor.x-rail.center().x).abs()<0.01}
             && (self.z + self.rail_mount.clip_on - rail.z - rail.d).abs() < 0.01
     }
 
     fn seat_on(&mut self, rail: &PanelItem) {
-        self.y = rail.center().y - self.h / 2.0 - self.rail_mount.center_offset;
+        self.rail_vertical = !rail.horizontal();
+        if rail.horizontal() {self.y = rail.center().y - self.h / 2.0 - self.rail_mount.center_offset;}
+        else {self.x=rail.center().x-self.w/2.-self.rail_mount.center_offset;}
         self.z = rail.z + rail.d - self.rail_mount.clip_on;
         self.seated_on_rail = true;
+        self.mounted_on = rail.id;
     }
 
     pub fn horizontal(&self) -> bool {
@@ -304,6 +315,7 @@ impl PanelItem {
     /// Rotates by 90° around the centre.
     pub fn rotate(&mut self) {
         let c = self.center();
+        self.rotation=self.rotation.map(PanelRotation::next);
         std::mem::swap(&mut self.w, &mut self.h);
         self.x = c.x - self.w / 2.0;
         self.y = c.y - self.h / 2.0;
@@ -316,9 +328,14 @@ impl Default for Enclosure {
             id: 0,
             name: "+CAB1".into(),
             part: String::new(),
+            device_tag:String::new(),
+            owner_device:String::new(),
+            bom_excluded:false,
             width: 600.0,
             height: 800.0,
             depth: 250.0,
+            no_implicit_plate:false,
+            mounting_origin:None,
             door_clearance: 0.0,
             items: Vec::new(),
             climate: Default::default(),
@@ -339,6 +356,8 @@ impl Default for Enclosure {
 }
 
 impl Enclosure {
+    pub fn is_assembly(&self)->bool {self.kind==EnclosureKind::Assembly}
+
     pub fn is_room(&self) -> bool {
         self.kind == EnclosureKind::Room
     }
@@ -346,7 +365,8 @@ impl Enclosure {
     /// Faces items can be mounted on: all of a cabinet; the walls and the ceiling of a
     /// room ([`room_faces`]).
     pub fn faces(&self) -> Vec<Face> {
-        if self.is_room() {
+        if self.is_assembly() {vec![Face::Plate]}
+        else if self.is_room() {
             room_faces(self)
         } else {
             Face::ALL.to_vec()
@@ -372,7 +392,20 @@ impl Enclosure {
     }
 
     pub fn plate_size(&self) -> (f32, f32) {
-        ((self.width - 2.0 * PLATE_MARGIN).max(10.0), (self.height - 2.0 * PLATE_MARGIN).max(10.0))
+        let offset=self.face_offset(Face::Plate);
+        ((self.width - 2.0 * offset.x).max(10.0), (self.height - 2.0 * offset.y).max(10.0))
+    }
+
+    pub fn face_offset(&self,face:Face)->P {
+        if face==Face::Plate {
+            if let Some(origin)=self.mounting_origin {return p(origin[0],origin[1]);}
+            if self.is_assembly() {return p(0.,0.);}
+        }
+        p(face.origin(),face.origin())
+    }
+
+    pub fn mounting_z(&self)->f32 {
+        self.mounting_origin.map(|o|o[2]).unwrap_or(if self.is_assembly() {0.} else {PLATE_Z})
     }
 
     pub fn plate_rect(&self) -> R {
@@ -408,12 +441,13 @@ impl Enclosure {
 
     /// Room in front of a face: how far items may reach into the enclosure.
     pub fn face_room(&self, face: Face) -> f32 {
+        if self.is_assembly() {return self.depth.max(0.0);}
         let t = self.wall();
         if self.is_room() {
             return rooms::face_room(self, face);
         }
         match face {
-            Face::Plate => self.depth - PLATE_Z - PLATE_THICKNESS - self.door_clearance,
+            Face::Plate => self.depth - self.mounting_z() - PLATE_THICKNESS - self.door_clearance,
             Face::Door => self.depth - PLATE_Z,
             Face::Left | Face::Right => self.width - 2.0 * t,
             Face::Rear | Face::Wall(_) | Face::Inner(..) | Face::Outside(_) => PLATE_Z - PLATE_THICKNESS - t,
@@ -458,7 +492,7 @@ pub fn face_frame(e: &Enclosure, face: Face) -> [V3; 4] {
     }
     let (w, h, d, t) = (e.width, e.height, e.depth, e.wall());
     match face {
-        Face::Plate => [[PLATE_MARGIN, PLATE_MARGIN, PLATE_Z], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+        Face::Plate => {let offset=e.face_offset(face);[[offset.x,offset.y,e.mounting_z()],[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]},
         Face::Door => [[0.0, 0.0, d], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, -1.0]],
         Face::Left => [[t, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]],
         Face::Right => [[w - t, 0.0, d], [0.0, 0.0, -1.0], [0.0, 1.0, 0.0], [-1.0, 0.0, 0.0]],
@@ -731,6 +765,7 @@ pub fn change_profile(prj: &mut Project, ei: usize, id: u64, part: &str) -> bool
             e.items[j] = dev;
         }
     }
+    crate::parts::replace_device_part(prj,&old.tag,&old.part,part);
     true
 }
 
@@ -762,8 +797,46 @@ pub fn tiles(item_w: f32, model_w: f32) -> usize {
 /// The item is turned by a quarter turn against a part of height `part_h`: the
 /// part's height lies along x.
 pub fn item_rotated(it: &PanelItem, part_h: f32) -> bool {
+    item_rotation(it,part_h).is_quarter()
+}
+
+/// Turns selected items about their centres, keeping room openings fixed.
+pub fn rotate_items(e:&mut Enclosure,ids:&[u64]) {
+    for i in 0..e.items.len() {
+        if ids.contains(&e.items[i].id) && e.items[i].opening.is_cutout() {
+            let mut item=e.items[i].clone();
+            item.rotate();
+            snap_to_rail(e,&mut item);
+            e.items[i]=item;
+        }
+    }
+}
+
+pub fn item_rotation(it:&PanelItem,part_h:f32)->PanelRotation {
+    if let Some(rotation)=it.rotation {return rotation}
     let same = |a: f32, b: f32| (a - b).abs() < 0.5;
-    !same(it.h, part_h) && same(it.w, part_h)
+    if !same(it.h, part_h) && same(it.w, part_h) {PanelRotation::Deg90} else {PanelRotation::Deg0}
+}
+
+pub fn device_rotation(prj:&Project,it:&PanelItem)->PanelRotation {
+    if let Some(rotation)=it.rotation {return rotation}
+    let assembled=(!it.single_part && it.terminal.is_empty()).then(||assembly(prj,&it.tag)).flatten().map(|a|a.h);
+    let height=assembled.or_else(||part_by_number(prj,&it.part).and_then(|part|part.size()).map(|size|size[1])).unwrap_or(it.h);
+    item_rotation(it,height)
+}
+
+/// Places a coordinate of one part cell into an oriented item's face footprint.
+pub fn front_point(it:&PanelItem,rotation:PanelRotation,at:f32,len:f32,[u,v]:[f32;2])->P {
+    match rotation {
+        PanelRotation::Deg0=>p(it.x+at+u*len,it.y+v*it.h),
+        PanelRotation::Deg90=>p(it.x+(1.-v)*it.w,it.y+at+u*len),
+        PanelRotation::Deg180=>p(it.x+it.w-at-u*len,it.y+(1.-v)*it.h),
+        PanelRotation::Deg270=>p(it.x+v*it.w,it.y+it.h-at-u*len),
+    }
+}
+
+pub fn front_cell(it:&PanelItem,rotation:PanelRotation,at:f32,len:f32)->R {
+    R::from_points(front_point(it,rotation,at,len,[0.,0.]),front_point(it,rotation,at,len,[1.,1.]))
 }
 
 /// Triangles of a part's 3D model placed into a device on the plate, in plate
@@ -799,28 +872,26 @@ pub fn place_mesh_in(mesh: &crate::parts::Mesh3d, it: &PanelItem, at: f32, len: 
 /// A point of a part's 3D model placed like [`place_mesh`] places the model.
 pub fn place_point(mesh: &crate::parts::Mesh3d, it: &PanelItem, v: V3) -> V3 {
     let [mw, mh, md] = mesh.size();
-    let len = if it.face == Face::Bottom && item_rotated(it, md) { it.h } else { it.w };
+    let natural_height=if it.face==Face::Bottom {md} else {mh};
+    let len = if item_rotated(it,natural_height) { it.h } else { it.w };
     place_vertex(it, mesh.bounds().0, [mw, mh, md].map(|s| s.max(1e-3)), 0.0, len, v)
 }
 
 /// A vertex of a model with the bounds `min` and the size `[mw, mh, md]` placed into
 /// the stretch `at .. at + len` along the item (see [`place_mesh_in`]).
 fn place_vertex(it: &PanelItem, min: V3, [mw, mh, md]: [f32; 3], at: f32, len: f32, v: V3) -> V3 {
-    let rotated = item_rotated(it, mh);
     // On the floor the model stands up out of it with its front (z) towards the
     // larger y of the floor plan; turned, its depth lies along x.
     let floor = it.face == Face::Bottom;
-    let turned = floor && item_rotated(it, md);
     let (x, y_up, z) = (v[0] - min[0], v[1] - min[1], v[2] - min[2]);
-    if turned {
-        [it.x + z * (it.w / md), it.y + at + (mw - x) * (len / mw), it.z + y_up * (it.d / mh)]
-    } else if floor {
-        [it.x + at + x * (len / mw), it.y + z * (it.h / md), it.z + y_up * (it.d / mh)]
-    } else if rotated {
-        // Quarter turn: model up becomes plate right, model right becomes plate down.
-        [it.x + y_up * (it.w / mh), it.y + at + x * (len / mw), it.z + z * (it.d / md)]
+    if floor {
+        let inferred=item_rotation(it,md);
+        let rotation=if it.rotation.is_none() && inferred==PanelRotation::Deg90 {PanelRotation::Deg270} else {inferred};
+        let q=front_point(it,rotation,at,len,[x/mw,z/md]);
+        [q.x,q.y,it.z+y_up*(it.d/mh)]
     } else {
-        [it.x + at + x * (len / mw), it.y + (mh - y_up) * (it.h / mh), it.z + z * (it.d / md)]
+        let q=front_point(it,item_rotation(it,mh),at,len,[x/mw,(mh-y_up)/mh]);
+        [q.x,q.y,it.z+z*(it.d/md)]
     }
 }
 
@@ -844,12 +915,16 @@ pub fn strip_cells(prj: &Project, it: &PanelItem) -> Vec<Cell> {
     if !crate::strips::is_terminal_part(main) {
         return Vec::new();
     }
+    if it.single_part || !it.terminal.is_empty() {
+        let rotated=device_rotation(prj,it).is_quarter();
+        return vec![Cell {at:0.,len:if rotated {it.h} else {it.w},part:it.part.clone()}];
+    }
     let layout = crate::strips::strip_layout(prj, &it.tag);
     let total: f32 = layout.iter().map(|e| e.width).sum();
     if total <= 0.0 {
         return Vec::new();
     }
-    let rotated = main.size().is_some_and(|s| item_rotated(it, s[1]));
+    let rotated = device_rotation(prj,it).is_quarter();
     let scale = (if rotated { it.h } else { it.w }) / total;
     let mut at = 0.0;
     layout
@@ -988,17 +1063,14 @@ pub fn device_mesh_painted(prj: &Project, it: &PanelItem) -> Option<Vec<(Tri, Op
         let tris = painted(mesh, tris);
         return (!tris.is_empty()).then_some(tris);
     }
-    let rotated = part_by_number(prj, &it.part).and_then(|p| p.size()).is_some_and(|s| item_rotated(it, s[1]));
+    let rotation = device_rotation(prj,it);
     let mut out = Vec::new();
     for c in cells {
         match part_by_number(prj, &c.part).and_then(|p| p.model_3d.as_ref()) {
             Some(mesh) => out.extend(painted(mesh, place_mesh_in(mesh, it, c.at, c.len))),
             None => {
-                let (min, max) = if rotated {
-                    ([it.x, it.y + c.at, it.z], [it.x + it.w, it.y + c.at + c.len, it.z + it.d])
-                } else {
-                    ([it.x + c.at, it.y, it.z], [it.x + c.at + c.len, it.y + it.h, it.z + it.d])
-                };
+                let cell=front_cell(it,rotation,c.at,c.len);
+                let (min,max)=([cell.min.x,cell.min.y,it.z],[cell.max.x,cell.max.y,it.z+it.d]);
                 out.extend(plate_box(min, max).into_iter().map(|t| (t, None)));
             }
         }
@@ -1018,7 +1090,7 @@ pub fn device_size(prj: &Project, tag: &str) -> Option<DeviceSize> {
     let parts: Vec<_> = data
         .parts
         .iter()
-        .filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|pd| (pd, r.count.max(1))))
+        .filter_map(|r| prj.parts.iter().find(|x| x.number == r.number).map(|pd| (pd, r.quantity())))
         .collect();
     let (main, [mw, mh, _]) = parts.iter().find_map(|(pd, _)| pd.size().map(|dims| (*pd, dims)))?;
     let length: f32 = crate::strips::strip_layout(prj, tag).iter().map(|e| e.width).sum();
@@ -1062,6 +1134,29 @@ pub fn locate<'a>(prj: &'a Project, tag: &str) -> Option<(usize, &'a PanelItem)>
         prj.layout.find_device(t).or_else(|| prj.fluid.groups.iter().find(|g| g.members.iter().any(|m| m == t)).and_then(|g| prj.layout.find_device(&g.tag)))
     };
     direct(tag).or_else(|| crate::electrofluid::fluid_devices_of(prj, tag).into_iter().find_map(|f| direct(f)))
+}
+
+/// Resolve a terminal by its designation, with legacy whole-strip placement as a
+/// fallback. Ambiguous terminal positions never choose an arbitrary footprint; a strip
+/// placed whole more than once resolves to its first placement.
+pub fn locate_symbol<'a>(prj:&'a Project,s:&crate::model::SymbolInst)->Option<(usize,&'a PanelItem)> {
+    if prj.symbol(&s.sym).is_none_or(|d|d.func!=crate::symbols::Func::Terminal) {
+        let all:Vec<_>=prj.layout.enclosures.iter().enumerate().flat_map(|(ei,e)|e.items.iter().map(move |it|(ei,it)))
+            .filter(|(_,it)|it.kind==ItemKind::Device && it.tag==s.tag).collect();
+        if !all.iter().any(|(_,it)|it.single_part) {return locate(prj,&s.tag);}
+        let selected=s.selected_part_number(prj);
+        let matching:Vec<_>=all.iter().copied().filter(|(_,it)|selected.is_none_or(|part|part==it.part)).collect();
+        return if matching.len()==1 {Some(matching[0])} else if all.len()==1 {Some(all[0])} else {None};
+    }
+    let find=|label:&str| {
+        let mut matches=prj.layout.enclosures.iter().enumerate().flat_map(|(ei,e)|e.items.iter().map(move |it|(ei,it)))
+            .filter(|(_,it)|it.kind==ItemKind::Device && it.tag==s.tag && it.terminal==label);
+        let first=matches.next();if matches.next().is_some() {None} else {first}
+    };
+    let exact=prj.layout.enclosures.iter().flat_map(|e|&e.items).any(|it|it.kind==ItemKind::Device && it.tag==s.tag && it.terminal==s.label);
+    if exact {return find(&s.label);}
+    prj.layout.enclosures.iter().enumerate().flat_map(|(ei,e)|e.items.iter().map(move |it|(ei,it)))
+        .find(|(_,it)|it.kind==ItemKind::Device && it.tag==s.tag && it.terminal.is_empty())
 }
 
 /// Devices with parts that are not placed in any enclosure yet, and fluid device
@@ -1130,7 +1225,7 @@ pub fn device_preview(prj: &Project, e: &Enclosure, tag: &str, at: P, face: Face
 
 /// Technical value of a part as a number ("Outside: 25" → 25).
 pub fn tech_number(part: &crate::parts::Part, name: &str) -> Option<f32> {
-    part.data_value(name)?.trim().trim_end_matches("mm").trim().replace(',', ".").parse().ok()
+    part.dimension_mm(name)
 }
 
 /// Clamping range of a cable gland part in mm (technical data "Clamping range min" /
@@ -1178,30 +1273,38 @@ pub fn place_accessory(prj: &mut Project, enc: usize, part: &str, face: Face, at
 /// top of it; otherwise they sit directly on the plate (or a wall of a room).
 pub fn snap_to_rail(e: &Enclosure, item: &mut PanelItem) {
     item.seated_on_rail = false;
+    if let Some(rail)=e.item(item.mounted_on).filter(|i|i.kind==ItemKind::Rail) {item.mounted_on=rail.mounted_on;}
     if rack::snap_into_rack(e, item) {
         return;
     }
     if item.kind != ItemKind::Device || (item.face != Face::Plate && !e.is_room()) {
         return;
     }
-    let c = item.rail_anchor();
+    let distance=|rail:&PanelItem| {
+        let anchor=item.rail_anchor_for(!rail.horizontal());
+        if rail.horizontal() {(anchor.y-rail.center().y).abs()} else {(anchor.x-rail.center().x).abs()}
+    };
     let rail = e
         .items
         .iter()
         .filter(|r| {
             r.kind == ItemKind::Rail
                 && r.face == item.face
-                && r.horizontal()
-                && c.x >= r.x
-                && c.x <= r.x + r.w
-                && (c.y - r.center().y).abs() <= item.h / 2.0
+                && if r.horizontal() {
+                    let c=item.rail_anchor_for(false);(r.x..=r.x+r.w).contains(&c.x) && distance(r)<=item.h/2.
+                } else {
+                    let c=item.rail_anchor_for(true);(r.y..=r.y+r.h).contains(&c.y) && distance(r)<=item.w/2.
+                }
         })
-        .min_by(|a, b| (c.y - a.center().y).abs().total_cmp(&(c.y - b.center().y).abs()));
+        .min_by(|a,b|distance(a).total_cmp(&distance(b)));
     match rail {
         Some(r) => item.seat_on(r),
         // Over a busbar system: mounted onto its bars.
         None => {
-            let on = busbars(e, item).next().map_or(0.0, |b| b.z + b.d);
+            item.rail_vertical=false;
+            let support=e.item(item.mounted_on).filter(|i|i.kind==ItemKind::MountingPlate).map(|i|i.z+i.d)
+                .unwrap_or(if item.mounting_explicit {item.z} else {0.});
+            let on = busbars(e, item).next().map_or(support, |b| b.z + b.d);
             item.z = on;
         }
     }
@@ -1211,7 +1314,7 @@ pub fn snap_to_rail(e: &Enclosure, item: &mut PanelItem) {
 /// device in the same row. Use the same result for the ghost, placement and drag.
 pub fn snap_device(e: &Enclosure, item: &mut PanelItem) {
     snap_to_rail(e, item);
-    if item.kind != ItemKind::Device || item.face != Face::Plate || is_rack(e) || e.is_room() {
+    if item.kind != ItemKind::Device || item.face != Face::Plate || is_rack(e) || e.is_room() || item.rail_vertical {
         return;
     }
     const REACH: f32 = 4.0;
@@ -1327,7 +1430,7 @@ pub fn collisions(e: &Enclosure, parts: &[crate::parts::Part]) -> Vec<(u64, u64)
                 // Anything fastened to the plate / door must not sit over an opening;
                 // accessories (fans, glands) are mounted into theirs.
                 let other = if a.kind == ItemKind::Cutout { b } else { a };
-                if a.face == b.face && xy && !matches!(other.kind, ItemKind::Cutout | ItemKind::Accessory) && other.z <= eps {
+                if a.face == b.face && xy && !matches!(other.kind, ItemKind::Cutout | ItemKind::Accessory | ItemKind::MountingPlate) && other.z <= eps {
                     v.push((a.id, b.id));
                 }
                 continue;
@@ -1877,13 +1980,15 @@ pub fn virtual_wiring(prj: &Project, conns: &[Connection]) -> (Vec<RoutedWire>, 
         let sb = &prj.pages[c.b.page].symbols[c.b.sym];
         let from = crate::netlist::pin_designation(prj, c.a);
         let to = crate::netlist::pin_designation(prj, c.b);
-        if sa.tag == sb.tag {
+        if sa.tag == sb.tag && (sa.label==sb.label || prj.symbol(&sa.sym).is_none_or(|d|d.func!=crate::symbols::Func::Terminal)
+            || prj.symbol(&sb.sym).is_none_or(|d|d.func!=crate::symbols::Func::Terminal)) {
             continue; // internal connection (e.g. bridged on the device)
         }
-        let (Some((ea, ia)), Some((eb, ib))) = (locate(prj, &sa.tag), locate(prj, &sb.tag)) else {
+        let (Some((ea, ia)), Some((eb, ib))) = (locate_symbol(prj, sa), locate_symbol(prj, sb)) else {
             open.push(OpenWire { from, to, net: c.net.clone(), reason: "device not placed" });
             continue;
         };
+        if sa.tag==sb.tag && ia.id==ib.id {continue;}
         if busbar_system(&prj.layout, &pos, ea, ia).is_some_and(|system| busbar_system(&prj.layout, &pos, eb, ib) == Some(system)) {
             continue; // connected by the bars of the busbar system both are mounted on
         }
@@ -2067,6 +2172,13 @@ pub fn wiring_end(e: &Enclosure, it: &PanelItem, point: Option<&PlacedPoint>) ->
     }
 }
 
+/// Physical device bindings remain material devices without a schematic function.
+pub fn material_tags(prj:&Project)->std::collections::BTreeSet<&String> {
+    prj.layout.enclosures.iter().flat_map(|e|std::iter::once(&e.device_tag)
+        .chain(e.items.iter().filter(|i|i.kind==ItemKind::Device).map(|i|&i.tag)))
+        .filter(|tag|!tag.is_empty()).collect()
+}
+
 /// Material for the BOM: (part number, quantity, where used) of the enclosures and
 /// their components, rails, ducts, busbars, accessories and fastening hardware. Rails /
 /// ducts are counted by cut length.
@@ -2087,23 +2199,24 @@ pub fn layout_material(prj: &Project) -> Vec<(String, f32, Vec<String>)> {
         }
     };
     for e in &prj.layout.enclosures {
-        for c in components(e) {
-            add(&mut out, &c.part, c.count as f32, e.name.clone());
+        if !e.bom_excluded && !crate::parts::excluded_from_bom(prj,&e.device_tag) {
+            for c in components(e) {add(&mut out, &c.part, c.count as f32, e.name.clone());}
         }
-        for a in e.items.iter().filter(|i| i.kind == ItemKind::Accessory) {
+        let billed=|i:&&PanelItem|!i.bom_excluded && !crate::parts::excluded_from_bom(prj,&i.tag);
+        for a in e.items.iter().filter(|i| matches!(i.kind,ItemKind::Accessory|ItemKind::MountingPlate)).filter(billed) {
             add(&mut out, &a.part, 1.0, e.name.clone());
         }
         let standoffs: usize = e
             .items
             .iter()
-            .filter(|i| i.kind == ItemKind::Rail && i.face == Face::Plate && i.z > 0.01)
+            .filter(|i| i.kind == ItemKind::Rail && i.face == Face::Plate && mounting_height(e,i).is_some_and(|h|h>0.01))
             .map(|i| crate::production::item_holes(i, &prj.parts).len())
             .sum();
-        if standoffs > 0 {
+        if prj.layout.hardware && standoffs > 0 {
             add(&mut out, crate::parts::mechanics::RAIL_STANDOFF, standoffs as f32, e.name.clone());
         }
         let mut lengths: Vec<(String, f32)> = Vec::new();
-        for i in e.items.iter().filter(|i| i.kind.is_profile()) {
+        for i in e.items.iter().filter(|i| i.kind.is_profile()).filter(billed) {
             match lengths.iter_mut().find(|x| x.0 == i.part) {
                 Some(x) => x.1 += i.length(),
                 None => lengths.push((i.part.clone(), i.length())),

@@ -1,4 +1,17 @@
 use super::*;
+
+#[test]
+fn a_direct_plugin_folder_is_loaded_instead_of_scanning_its_children() {
+    let dir = std::env::temp_dir().join(format!("openecraft-direct-plugin-{}", std::process::id()));
+    std::fs::create_dir_all(dir.join("unrelated")).unwrap();
+    std::fs::write(dir.join(external::MANIFEST), r#"{ "id": "direct", "name": "Direct", "api": 99, "run": ["unused"] }"#).unwrap();
+    std::fs::write(dir.join("unrelated").join(external::MANIFEST), "{").unwrap();
+    let mut plugins = Plugins::default();
+    plugins.load_dir(&dir);
+    assert_eq!(plugins.errors.len(), 1);
+    assert!(plugins.errors[0].contains("API 99"), "read the requested manifest: {:?}", plugins.errors);
+    std::fs::remove_dir_all(dir).unwrap();
+}
 use crate::Table;
 use crate::{param, Kind, Text};
 use openecraft_core::sample::demo_project;

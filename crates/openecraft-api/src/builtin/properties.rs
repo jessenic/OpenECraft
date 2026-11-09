@@ -27,6 +27,12 @@ impl Plugin for Properties {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name: "list_function_parts",
+        help: tr_const!("Lists the selected part and editable attribute values of every placed function"),
+        params: &[],
+        run: list_function_parts,
+    },
+    Spec {
         name: "list_property_definitions",
         help: tr_const!("Lists the property definitions (built-in and user defined) with object class, group, type and unit"),
         params: &[
@@ -403,6 +409,23 @@ fn place_property(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let sym = &prj.pages[pi].symbols[si];
     let text = props::text(prj, pi, sym, sym.props.last().unwrap());
     Ok(json!({ "id": id, "key": key, "text": text, "placed": sym.props.len() }))
+}
+
+fn list_function_parts(prj: &mut Project, _: &Args) -> Result<Value, String> {
+    let rows = prj.pages.iter().flat_map(|page| page.symbols.iter().map(|s| {
+        let object = Object::Function(s.id);
+        let value = |key: &str| properties::get(prj, &object, key);
+        json!({
+            "symbol": s.id, "page": page.id, "tag": s.tag,
+            "part_index": value("function.part_index"),
+            "part_reference": s.values.get("function.part_number"),
+            "part_number": value("part.number"),
+            "manufacturer": value("function.manufacturer"),
+            "selection_text": value("function.selection_text"),
+            "supplementary": [value("function.supplementary[1]"), value("function.supplementary[2]"), value("function.supplementary[3]")],
+        })
+    }));
+    Ok(Value::Array(rows.collect()))
 }
 
 #[cfg(test)]

@@ -75,7 +75,6 @@ Approved by	Утвердил
 Arms {} and {}	Плечи {} и {}
 Asset number	Инвентарный номер
 Author of the last revision	Автор последней ревизии
-Automatic	Автоматически
 Autotransformer 1-phase	Автотрансформатор однофазный
 Autotransformer 1-phase, adjustable	Автотрансформатор однофазный, регулируемый
 Autotransformer 3-phase	Автотрансформатор трёхфазный
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Точк
 Connection definition point on page {} is not on a wire	Точка определения соединения на листе {} не лежит на проводе
 Connection definitions	Определения соединений
 Connection list	Список соединений
-Connection point	Точка подключения
 Connection point descriptions	Описания точек подключения
 Connection point {} is not on the {} mm grid.	Точка подключения {} не лежит на сетке {} мм.
 Connection point {} lies on another one.	Точка подключения {} лежит на другой.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Цепи управлени
 DC/DC converter	Преобразователь DC/DC
 DWG export failed: {}	Сбой экспорта DWG: {}
 Data sheet	Технический паспорт
-Data type	Тип данных
 Date of the last revision	Дата последней ревизии
 Degree of protection	Степень защиты
 Delete projects	Удаление проектов
@@ -926,7 +923,6 @@ Neutral (N)	Нейтральный проводник (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Нейтральные проводники должны быть голубыми (IEC 60204-1, 13.2.3)
 Next inspection	Следующая проверка
 Nibbling	Высечка
-No connection point {}	Нет точки подключения {}
 No connection {}	Нет соединения {}
 No devices to add to the single-line diagram	Нет устройств для добавления на однолинейную схему
 No document embedded - choose a file in the page properties	Документ не встроен – выберите файл в свойствах листа
@@ -935,7 +931,6 @@ No known column in the header row	В строке заголовка нет из
 No option {}	Нет опции {}
 No page or page item with id {}	Нет листа или элемента листа с идентификатором {}
 No page with id {}	Нет листа с идентификатором {}
-No part {}	Нет изделия {}
 No plugs	Нет разъёмов
 No report block {}	Нет блока отчёта {}
 No segment template named {}	Нет шаблона сегмента с именем {}
@@ -961,7 +956,6 @@ Not a packed project	Не упакованный проект
 Not a project database: {}	Не база данных проектов: {}
 Not a settings scheme: {}	Не схема настроек: {}
 Not a structure template: {}	Не шаблон структуры: {}
-Not a symbol id: {}	Не идентификатор символа: {}
 Not a valid JSON file: {}	Недопустимый файл JSON: {}
 Not a valid project file: {}	Недопустимый файл проекта: {}
 Not a valid property library: {}	Недопустимая библиотека свойств: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Выключатели / датчики
 Switches, pushbuttons	Выключатели, кнопки
 Switching frequency	Частота коммутаций
 Switching output	Коммутационный выход
-Symbol key	Ключ символа
-Symbolic address	Символьный адрес
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Т-образный узел на странице {} не соответствует своим проводам: нужен один провод в его направлении, два поперёк и никакой точки подключения там
 Table of contents	Содержание
 Tabloid landscape	Tabloid альбомная

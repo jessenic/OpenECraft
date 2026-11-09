@@ -36,6 +36,7 @@ pub mod harness;
 pub mod harness_export;
 pub mod history;
 pub mod index;
+pub mod references;
 pub mod integration;
 pub mod issue;
 pub mod kbl;

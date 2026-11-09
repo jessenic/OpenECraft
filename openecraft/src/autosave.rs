@@ -22,6 +22,11 @@ pub struct Autosave {
 }
 
 impl Autosave {
+    /// Transfers the outstanding write to the closing worker; never joins on the UI.
+    pub fn closing(&mut self) -> (Option<std::thread::JoinHandle<()>>, Store, bool) {
+        (self.writing.take(), self.store.clone(), !self.awaiting_project && self.awaiting_parts.is_none())
+    }
+
     /// Starts reading the stored project and parts database (`parts`: the database the
     /// app starts with).
     pub fn start(store: Store, ctx: &egui::Context, parts: &PartsDb) -> Autosave {
