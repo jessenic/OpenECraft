@@ -59,7 +59,11 @@ pub fn address_key(addr: &str) -> AddressKey {
     let prefix: String = a.chars().take_while(|c| c.is_ascii_alphabetic()).collect();
     let rest = &a[prefix.len()..];
     let (byte, bit) = rest.split_once('.').unwrap_or((rest, "0"));
-    (prefix, byte.parse().unwrap_or(u32::MAX), bit.parse().unwrap_or(0))
+    match (byte.parse(), bit.parse()) {
+        (Ok(byte), Ok(bit)) => (prefix, byte, bit),
+        // Not a byte.bit address: only the same text is the same address.
+        _ => (a, u32::MAX, 0),
+    }
 }
 
 /// Tags of all PLC cards.

@@ -14,6 +14,7 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 - Preserve imported plot-frame artwork and live page fields as reusable frames, separate from selectable page content, including canvas, frame preview and exports.
 
+- PLC addresses that are not byte.bit addresses, such as imported card positions like `A1.3.1`, are compared as whole texts, so different addresses are no longer reported as duplicates.
 - Keep the closing window responsive while preparing recovery data, with progress for the previous autosave, project, parts database and macro library.
 - Reuse Insert center symbol groups and search results while scrolling, refreshing them when definitions, parts, search text or language change.
 - Keep the Insert center responsive while scrolling large libraries by drawing only visible list rows and previews and reusing unplaced-function results until the project or catalog changes.
