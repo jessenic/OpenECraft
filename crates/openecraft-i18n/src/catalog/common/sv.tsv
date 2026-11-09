@@ -92,6 +92,7 @@ Description	Beskrivning
 Designation	Beteckning
 Device	Apparat
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Enhet (solcellsgenerator) som modulerna tillhör; dess artiklar räknar dem då i materiallistan
+Device connection point	Apparatanslutningspunkt
 Device description	Enhetsbeskrivning
 Device tag	Apparatbeteckning
 Device {}	Apparat {}

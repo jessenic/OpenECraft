@@ -70,7 +70,7 @@ Layers, bottom up (a module may use its own layer and the layers below):
    `potentials`, `functions`, `properties`, `props`, `numbering` (device and page
    renumbering), `text` (free texts: lines,
    wrapping, rotation, path function texts).
-5. Feature logic and page editing: `ops`, `routing` (schematic wires: routes, wires that follow a move), `arrange` (align, distribute, multiple copy), `panel`, `electrical`, `fluid`, `plc`,
+5. Feature logic and page editing: `ops`, `routing` (schematic wires: routes, wires that follow a move), `arrange` (align, distribute, multiple copy), `device_boxes` (freely drawn device boxes and their device connection points; `ops` uses it for new points), `panel`, `electrical`, `fluid`, `plc`,
    `plc_hw`, `field`, `routing3d`, `strips`, `plugs`, `pinout` (connector faces, flat cables), `harness`, `marking`, `forms`,
    `report_blocks`, `revision`, `review`, `compare`, …
 6. Derived data and the registry: `analysis` (`Analysis`: index, netlists,

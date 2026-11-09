@@ -169,6 +169,7 @@ Deletes a potential definition	Видаляє визначення потенц�
 Deletes a work area	Видаляє робочу область
 Deletes symbols, wires, texts and shapes	Видаляє символи, проводи, тексти та фігури
 Depth in mm	Глибина в мм
+Device boxes	Блоки пристроїв
 Device description id (empty: from the parts)	Ідентифікатор опису пристрою (порожньо: з виробів)
 Device description id of the head (list_device_descriptions)	Ідентифікатор опису пристрою головного модуля (list_device_descriptions)
 Device group {} already exists	Група пристроїв {} вже існує

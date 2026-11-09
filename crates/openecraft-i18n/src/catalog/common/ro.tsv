@@ -92,6 +92,7 @@ Description	Descriere
 Designation	Denumire
 Device	Dispozitiv
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Dispozitivul (generator fotovoltaic) căruia îi aparțin modulele; piesele lui le numără atunci în lista de materiale
+Device connection point	Punct de conexiune al dispozitivului
 Device description	Descriere de dispozitiv
 Device tag	Identificator de dispozitiv
 Device {}	Dispozitiv {}

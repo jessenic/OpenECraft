@@ -169,6 +169,7 @@ Deletes a potential definition	Verwijdert een potentiaaldefinitie
 Deletes a work area	Verwijdert een werkgebied
 Deletes symbols, wires, texts and shapes	Verwijdert symbolen, draden, teksten en vormen
 Depth in mm	Diepte in mm
+Device boxes	Apparaatboxen
 Device description id (empty: from the parts)	Id van de apparaatbeschrijving (leeg: uit de artikelen)
 Device description id of the head (list_device_descriptions)	Id van de apparaatbeschrijving van de kop (list_device_descriptions)
 Device group {} already exists	Apparaatgroep {} bestaat al

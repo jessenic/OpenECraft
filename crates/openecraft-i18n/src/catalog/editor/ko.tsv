@@ -456,6 +456,7 @@ Descriptions	설명
 Deselect	선택 해제
 Designations separated by blanks; empty: those of the symbol	공백으로 구분된 명칭, 비워 두면 심볼의 명칭
 Destination: each end shows the connection point at the other end	목적지: 각 끝에 반대쪽 끝의 연결 지점 표시
+Device box	장치 박스
 Device description (GSDML, ESI)	장치 설명(GSDML, ESI)
 Device descriptions	장치 설명
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	PROFINET(GSDML) 및 EtherCAT(ESI) 장치의 장치 설명
@@ -1252,11 +1253,13 @@ Place a comment on the page	페이지에 주석 배치
 Place again at all symbols using it	이를 사용하는 모든 심볼에 다시 배치
 Place an enclosure, device or machine location at this node	이 노드에 외함, 장치 또는 기계 위치 배치
 Place connection definition point	연결 정의점 배치
+Place connection points	연결 지점 배치
 Place functions of this device	이 장치의 기능 배치
 Place in schematic	회로도에 배치
 Place in the plant	플랜트 내 위치
 Place in the room	공간 내 위치
 Placed	배치됨
+Placed by hand	수동 배치
 Placed here: {}	여기에 배치됨: {}
 Placed {}× in the project	프로젝트에 {}× 배치됨
 Placeholders	자리 표시자

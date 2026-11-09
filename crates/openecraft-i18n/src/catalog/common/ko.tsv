@@ -90,6 +90,7 @@ Description	설명
 Designation	명칭
 Device	장치
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	모듈이 속한 장치(태양광 발전기); 그 부품이 자재 명세서에서 모듈을 셉니다
+Device connection point	장치 연결 지점
 Device description	장치 설명
 Device tag	장치 태그
 Device {}	장치 {}

@@ -90,6 +90,7 @@ Description	描述
 Designation	标识
 Device	设备
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	组件所属的设备（光伏发电机）；其部件在物料清单中计算组件数量
+Device connection point	设备连接点
 Device description	设备描述
 Device tag	设备标识符
 Device {}	设备 {}

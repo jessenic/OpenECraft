@@ -169,6 +169,7 @@ Deletes a potential definition	Bir potansiyel tanımını siler
 Deletes a work area	Bir çalışma alanını siler
 Deletes symbols, wires, texts and shapes	Sembolleri, telleri, metinleri ve şekilleri siler
 Depth in mm	mm cinsinden derinlik
+Device boxes	Cihaz kutuları
 Device description id (empty: from the parts)	Cihaz tanımı kimliği (boş: parçalardan)
 Device description id of the head (list_device_descriptions)	Kafa modülünün cihaz tanımı kimliği (list_device_descriptions)
 Device group {} already exists	Cihaz grubu {} zaten var

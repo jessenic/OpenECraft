@@ -169,6 +169,7 @@ Deletes a potential definition	Sletter en potentialedefinition
 Deletes a work area	Sletter et arbejdsområde
 Deletes symbols, wires, texts and shapes	Sletter symboler, ledninger, tekster og figurer
 Depth in mm	Dybde i mm
+Device boxes	Enhedsbokse
 Device description id (empty: from the parts)	Id for enhedsbeskrivelse (tom: fra artiklerne)
 Device description id of the head (list_device_descriptions)	Id for hovedets enhedsbeskrivelse (list_device_descriptions)
 Device group {} already exists	Enhedsgruppen {} findes allerede

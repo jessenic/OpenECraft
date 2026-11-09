@@ -92,6 +92,7 @@ Description	Kuvaus
 Designation	Nimitys
 Device	Laite
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Laite (aurinkosähkögeneraattori), johon moduulit kuuluvat; sen osat laskevat ne silloin osaluetteloon
+Device connection point	Laitteen liitäntäpiste
 Device description	Laitekuvaus
 Device tag	Laitetunnus
 Device {}	Laite {}

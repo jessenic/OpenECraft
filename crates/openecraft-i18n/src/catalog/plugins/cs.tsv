@@ -169,6 +169,7 @@ Deletes a potential definition	Odstraní definici potenciálu
 Deletes a work area	Odstraní pracovní oblast
 Deletes symbols, wires, texts and shapes	Odstraní symboly, vodiče, texty a grafiku
 Depth in mm	Hloubka v mm
+Device boxes	Boxy zařízení
 Device description id (empty: from the parts)	ID popisu zařízení (prázdné: z artiklů)
 Device description id of the head (list_device_descriptions)	ID popisu zařízení hlavního modulu (list_device_descriptions)
 Device group {} already exists	Skupina přístrojů {} již existuje

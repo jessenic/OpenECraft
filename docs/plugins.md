@@ -20,7 +20,7 @@ Built-in plugins live in `crates/openecraft-api/src/builtin.rs` and its submodul
 are compiled into every front end (also the web version): the project checks, reports
 and exports of `openecraft-core`, project statistics, panel layout checks, panel
 manufacturing, part lifecycle, and one plugin per area of project commands (pages,
-sheets, drawing, devices, plugs, PLC, potentials, process engineering, single-line
+sheets, drawing, device boxes, devices, plugs, PLC, potentials, process engineering, single-line
 diagrams, tables, engineering, electrical engineering, panel layout, rooms, buildings, 19-inch racks, routing, field
 wiring, wiring, harnesses, integration, languages, structure, properties, configurator, report
 blocks, project management). An area lists its commands in a `COMMANDS` table of

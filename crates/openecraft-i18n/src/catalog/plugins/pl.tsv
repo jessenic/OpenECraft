@@ -169,6 +169,7 @@ Deletes a potential definition	Usuwa definicję potencjału
 Deletes a work area	Usuwa obszar roboczy
 Deletes symbols, wires, texts and shapes	Usuwa symbole, przewody, teksty i kształty
 Depth in mm	Głębokość w mm
+Device boxes	Skrzynki urządzeń
 Device description id (empty: from the parts)	Identyfikator opisu urządzenia (puste: z artykułów)
 Device description id of the head (list_device_descriptions)	Identyfikator opisu urządzenia głowicy (list_device_descriptions)
 Device group {} already exists	Grupa urządzeń {} już istnieje

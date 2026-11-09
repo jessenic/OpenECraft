@@ -92,6 +92,7 @@ Description	Опис
 Designation	Позначення
 Device	Пристрій
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Пристрій (фотоелектричний генератор), до якого належать модулі; його вироби тоді враховують їх у специфікації
+Device connection point	Точка підключення пристрою
 Device description	Опис пристрою
 Device tag	Позначення пристрою
 Device {}	Пристрій {}

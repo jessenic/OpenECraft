@@ -463,6 +463,7 @@ Descriptions	Descrieri
 Deselect	Deselectare
 Designations separated by blanks; empty: those of the symbol	Denumiri separate prin spații; gol: cele ale simbolului
 Destination: each end shows the connection point at the other end	Destinație: fiecare capăt afișează punctul de conexiune de la celălalt capăt
+Device box	Casetă de dispozitiv
 Device description (GSDML, ESI)	Descriere de dispozitiv (GSDML, ESI)
 Device descriptions	Descrieri de dispozitiv
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	Descrieri de dispozitiv pentru dispozitive PROFINET (GSDML) și EtherCAT (ESI)
@@ -1268,6 +1269,7 @@ Place a comment on the page	Plasare comentariu pe pagină
 Place again at all symbols using it	Replasare la toate simbolurile care o folosesc
 Place an enclosure, device or machine location at this node	Plasați o carcasă, un dispozitiv sau un loc al mașinii la acest nod
 Place connection definition point	Plasare punct de definire a conexiunii
+Place connection points	Plasează puncte de conexiune
 Place functions of this device	Plasare funcții ale acestui dispozitiv
 Place in schematic	Plasare în schemă
 Place in the building	Poziția în clădire
@@ -1275,6 +1277,7 @@ Place in the plant	Loc în instalație
 Place in the room	Loc în încăpere
 Place text	Plasare text
 Placed	Plasat
+Placed by hand	Plasat manual
 Placed here: {}	Plasat aici: {}
 Placed {}× in the project	Plasat {}× în proiect
 Placeholders	Substituenți

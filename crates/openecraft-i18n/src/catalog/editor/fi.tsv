@@ -463,6 +463,7 @@ Descriptions	Kuvaukset
 Deselect	Poista valinta
 Designations separated by blanks; empty: those of the symbol	Tunnukset välilyönnein erotettuina; tyhjä: symbolin tunnukset
 Destination: each end shows the connection point at the other end	Kohde: kumpikin pää näyttää toisen pään liitäntäpisteen
+Device box	Laitelaatikko
 Device description (GSDML, ESI)	Laitekuvaus (GSDML, ESI)
 Device descriptions	Laitekuvaukset
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	PROFINET- (GSDML) ja EtherCAT-laitteiden (ESI) laitekuvaukset
@@ -1268,6 +1269,7 @@ Place a comment on the page	Sijoita kommentti sivulle
 Place again at all symbols using it	Sijoita uudelleen kaikkiin sitä käyttäviin symboleihin
 Place an enclosure, device or machine location at this node	Sijoita kotelo, laite tai koneen sijainti tähän solmuun
 Place connection definition point	Sijoita yhteyden määrityspiste
+Place connection points	Sijoita liitäntäpisteet
 Place functions of this device	Sijoita tämän laitteen toiminnot
 Place in schematic	Sijoita piirikaavioon
 Place in the building	Paikka rakennuksessa
@@ -1275,6 +1277,7 @@ Place in the plant	Paikka laitoksessa
 Place in the room	Paikka huoneessa
 Place text	Sijoita teksti
 Placed	Sijoitettu
+Placed by hand	Sijoitettu käsin
 Placed here: {}	Sijoitettu tähän: {}
 Placed {}× in the project	Sijoitettu {}× projektissa
 Placeholders	Paikkamerkit

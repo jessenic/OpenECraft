@@ -169,6 +169,7 @@ Deletes a potential definition	Șterge o definiție de potențial
 Deletes a work area	Șterge o zonă de lucru
 Deletes symbols, wires, texts and shapes	Șterge simboluri, conductoare, texte și forme
 Depth in mm	Adâncime în mm
+Device boxes	Casete de dispozitiv
 Device description id (empty: from the parts)	ID descriere de dispozitiv (gol: din articole)
 Device description id of the head (list_device_descriptions)	ID-ul descrierii de dispozitiv a capului (list_device_descriptions)
 Device group {} already exists	Grupul de dispozitive {} există deja

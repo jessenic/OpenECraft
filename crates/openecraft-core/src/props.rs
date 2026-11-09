@@ -26,7 +26,7 @@ pub fn text(prj: &Project, page_i: usize, s: &SymbolInst, pp: &PlacedProp) -> St
 /// Reference point of placed properties and schemes: right of and below the
 /// symbol graphics, relative to the symbol position.
 pub fn reference(symbols: &Symbols, s: &SymbolInst) -> P {
-    symbols.get(&s.sym).map(|d| d.world_bounds(s.pos, s.rot, s.mirror).max - s.pos + p(1.5, 2.0)).unwrap_or_default()
+    symbols.get(&s.sym).map(|d| s.bounds(&d).max - s.pos + p(1.5, 2.0)).unwrap_or_default()
 }
 
 /// Adds a property text below the ones already placed.

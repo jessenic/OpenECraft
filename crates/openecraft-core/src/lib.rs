@@ -15,6 +15,7 @@ pub mod cabledef;
 pub mod checks;
 pub mod conndef;
 pub mod devdesc;
+pub mod device_boxes;
 pub mod dwg;
 pub mod dxf;
 pub mod dxf_import;

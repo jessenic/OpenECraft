@@ -463,6 +463,7 @@ Descriptions	Descrizioni
 Deselect	Deseleziona
 Designations separated by blanks; empty: those of the symbol	Designazioni separate da spazi; vuoto: quelle del simbolo
 Destination: each end shows the connection point at the other end	Destinazione: ogni estremità mostra il punto di connessione dell'altra estremità
+Device box	Box dispositivo
 Device description (GSDML, ESI)	Descrizione dispositivo (GSDML, ESI)
 Device descriptions	Descrizioni dispositivo
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	Descrizioni dispositivo di dispositivi PROFINET (GSDML) ed EtherCAT (ESI)
@@ -1268,6 +1269,7 @@ Place a comment on the page	Inserisci un commento sulla pagina
 Place again at all symbols using it	Posiziona di nuovo su tutti i simboli che lo utilizzano
 Place an enclosure, device or machine location at this node	Posiziona un armadio, un dispositivo o un luogo macchina su questo nodo
 Place connection definition point	Posiziona punto di definizione collegamento
+Place connection points	Posiziona punti di connessione
 Place functions of this device	Posiziona le funzioni di questo dispositivo
 Place in schematic	Posiziona nello schema
 Place in the building	Posizione nell'edificio
@@ -1275,6 +1277,7 @@ Place in the plant	Posizione nell'impianto
 Place in the room	Posizione nella stanza
 Place text	Posiziona testo
 Placed	Posizionato
+Placed by hand	Posizionato a mano
 Placed here: {}	Posizionato qui: {}
 Placed {}× in the project	Posizionato {}× nel progetto
 Placeholders	Segnaposto

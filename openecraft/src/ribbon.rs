@@ -96,7 +96,7 @@ pub static TABS: &[Tab] = &[
         key_tip: 'I',
         context: false,
         groups: &[
-            g("symbols", tr_const!("Symbols"), &[L(C::InsertCenter), S(C::UnplacedPane)]),
+            g("symbols", tr_const!("Symbols"), &[L(C::InsertCenter), S(C::UnplacedPane), S(C::DeviceBoxTool), S(C::DeviceConnectionTool)]),
             g(
                 "connections",
                 tr_const!("Connections"),

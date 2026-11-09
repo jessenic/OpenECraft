@@ -462,6 +462,7 @@ Descriptions	Описи
 Deselect	Скасувати вибір
 Designations separated by blanks; empty: those of the symbol	Позначення через пробіл; порожньо: позначення символу
 Destination: each end shows the connection point at the other end	Призначення: кожен кінець показує точку підключення на іншому кінці
+Device box	Блок пристрою
 Device description (GSDML, ESI)	Опис пристрою (GSDML, ESI)
 Device descriptions	Описи пристроїв
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	Описи пристроїв PROFINET (GSDML) і EtherCAT (ESI)
@@ -1267,6 +1268,7 @@ Place a comment on the page	Розмістити коментар на стор�
 Place again at all symbols using it	Розмістити знову на всіх символах, що її використовують
 Place an enclosure, device or machine location at this node	Розмістити шафу, пристрій або місце на машині в цьому вузлі
 Place connection definition point	Розмістити точку визначення з’єднання
+Place connection points	Розмістити точки підключення
 Place functions of this device	Розмістити функції цього пристрою
 Place in schematic	Розмістити на схемі
 Place in the building	Місце в будівлі
@@ -1274,6 +1276,7 @@ Place in the plant	Місце на об'єкті
 Place in the room	Місце в приміщенні
 Place text	Розмістити текст
 Placed	Розміщено
+Placed by hand	Розміщено вручну
 Placed here: {}	Розміщено тут: {}
 Placed {}× in the project	Розміщено в проєкті {}×
 Placeholders	Заповнювачі

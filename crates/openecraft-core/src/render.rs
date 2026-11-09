@@ -197,7 +197,7 @@ pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, pa
     for s in &page.symbols {
         let Some(def) = prj.symbol(&s.sym) else { continue };
         let ink = if opts.selected.contains(&s.id) { Ink::Selected } else { Ink::Line };
-        let tag = if continues_strip(prj, page_i, &def, s) {
+        let tag = if hides_tag(prj, page_i, &def, s) {
             String::new()
         } else if structured {
             structure::relative(page, &s.tag)
@@ -440,7 +440,16 @@ fn draw_cable_def(d: &mut dyn Draw, prj: &Project, page: &Page, cd: &CableDef, i
 
 /// Draws only the symbol graphics (used for canvas, ghost and library previews).
 pub fn draw_symbol(d: &mut dyn Draw, def: &SymbolDef, s: &SymbolInst, ink: Ink) {
-    draw_prims(d, &def.prims, s, ink);
+    match s.size {
+        // A device box drawn to its size.
+        Some(sz) => {
+            let c = [p(0.0, 0.0), p(sz.x, 0.0), sz, p(0.0, sz.y)].map(|q| s.pos + q.transform(s.rot, false));
+            for i in 0..4 {
+                d.line(c[i], c[(i + 1) % 4], SYMBOL_W, ink, true);
+            }
+        }
+        None => draw_prims(d, &def.prims, s, ink),
+    }
 }
 
 /// Symbol graphics placed like the instance `s` (also used by the symbol editor).
@@ -580,24 +589,15 @@ fn draw_wire_labels(d: &mut dyn Draw, prj: &Project, an: &Analysis, page_i: usiz
 /// Device tag, function text, connection point designations and cross references.
 pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, s: &SymbolInst, ink: Ink) {
     let text_ink = if ink == Ink::Line { Ink::Text } else { ink };
-    let bounds = def.world_bounds(s.pos, s.rot, s.mirror);
+    let bounds = s.bounds(def);
     let vertical = s.rot.is_multiple_of(2);
 
     // Connection point designations
     if def.show_pin_labels {
-        let c = bounds.center();
         for (i, label) in s.pins.iter().enumerate().take(def.pins.len()) {
-            if label.is_empty() {
-                continue;
-            }
-            let q = def.pin_world(i, s.pos, s.rot, s.mirror);
-            let dlt = q - c;
-            if dlt.y.abs() >= dlt.x.abs() {
-                let y = q.y - dlt.y.signum() * 1.1;
-                d.text(p(q.x - 0.6, y), label, SMALL_SIZE, Anchor::Right, VAnchor::Middle, text_ink);
-            } else {
-                let x = q.x - dlt.x.signum() * 1.1;
-                d.text(p(x, q.y - 0.5), label, SMALL_SIZE, Anchor::Center, VAnchor::Bottom, text_ink);
+            if !label.is_empty() {
+                let (q, h, v) = pin_label_at(def, s, i);
+                d.text(q, label, SMALL_SIZE, h, v, text_ink);
             }
         }
     }
@@ -639,7 +639,7 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
     // Tag block
     if def.show_tag {
         let mut lines: Vec<(String, f32, Ink, Option<usize>)> = Vec::new();
-        if !s.tag.is_empty() && !continues_strip(prj, page_i, def, s) {
+        if !s.tag.is_empty() && !hides_tag(prj, page_i, def, s) {
             lines.push((structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE, text_ink, None));
         }
         if !s.function_text.is_empty() {
@@ -679,6 +679,46 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
     }
 }
 
+/// Where the designation of connection point `i` is written: placed by hand
+/// ([`SymbolInst::pin_label`], the first point), else beside the point, away from
+/// the middle of the symbol.
+pub fn pin_label_at(def: &SymbolDef, s: &SymbolInst, i: usize) -> (P, Anchor, VAnchor) {
+    if let (0, Some(l)) = (i, s.pin_label) {
+        return (s.pos + l.offset, l.anchor, VAnchor::Middle);
+    }
+    let q = def.pin_world(i, s.pos, s.rot, s.mirror);
+    let dlt = q - s.bounds(def).center();
+    if dlt.y.abs() >= dlt.x.abs() {
+        (p(q.x - 0.6, q.y - dlt.y.signum() * 1.1), Anchor::Right, VAnchor::Middle)
+    } else {
+        (p(q.x - dlt.x.signum() * 1.1, q.y - 0.5), Anchor::Center, VAnchor::Bottom)
+    }
+}
+
+/// Area of the designation of the first connection point (to pick and drag it).
+pub fn pin_label_bounds(def: &SymbolDef, s: &SymbolInst) -> Option<R> {
+    let label = s.pins.first().filter(|l| !l.is_empty() && def.show_pin_labels && !def.pins.is_empty())?;
+    let (q, h, v) = pin_label_at(def, s, 0);
+    let (w, ht) = (label.chars().count().max(1) as f32 * SMALL_SIZE * 0.62, SMALL_SIZE * 1.25);
+    let x0 = match h {
+        Anchor::Left => q.x,
+        Anchor::Center => q.x - w / 2.0,
+        Anchor::Right => q.x - w,
+    };
+    let y0 = match v {
+        VAnchor::Top => q.y,
+        VAnchor::Middle => q.y - ht / 2.0,
+        VAnchor::Bottom => q.y - ht,
+    };
+    Some(R::from_points(p(x0, y0), p(x0 + w, y0 + ht)))
+}
+
+/// The tag of a symbol is not written: a terminal continuing its strip, a device
+/// connection point on the box of its device (the box shows it).
+pub fn hides_tag(prj: &Project, page_i: usize, def: &SymbolDef, s: &SymbolInst) -> bool {
+    continues_strip(prj, page_i, def, s) || (def.func == Func::Connection && crate::device_boxes::on_own_box(prj, &prj.pages[page_i], s))
+}
+
 /// A terminal right beside the one before it of the same strip (same row, at most
 /// 20 mm apart): the strip tag is shown once, at the first terminal of the row, or it
 /// would run into the terminal numbers.
@@ -696,10 +736,12 @@ pub fn continues_strip(prj: &Project, page_i: usize, def: &SymbolDef, s: &Symbol
 /// Where the tag block starts: x and top y of the first line and the text anchor
 /// (left of vertical symbols, above horizontal ones, or where it was placed).
 fn tag_block_origin(def: &SymbolDef, s: &SymbolInst, sizes: &[f32]) -> (f32, f32, Anchor) {
-    let bounds = def.world_bounds(s.pos, s.rot, s.mirror);
+    let bounds = s.bounds(def);
     let total: f32 = sizes.iter().map(|z| z * 1.35).sum();
     match s.tag_offset {
         Some(o) => (s.pos.x + o.x, s.pos.y + o.y, Anchor::Left),
+        // Inside the top left corner of a device box, clear of the points on its outline.
+        None if crate::device_boxes::is_box(s) => (bounds.min.x + 1.5, bounds.min.y + 1.5, Anchor::Left),
         None if s.rot.is_multiple_of(2) => (bounds.min.x - 1.2, bounds.center().y - total / 2.0, Anchor::Right),
         None => (bounds.center().x, bounds.min.y - 1.0 - total, Anchor::Center),
     }
@@ -712,7 +754,7 @@ pub fn tag_block_bounds(prj: &Project, page_i: usize, def: &SymbolDef, s: &Symbo
         return None;
     }
     let mut lines: Vec<(String, f32)> = Vec::new();
-    if !s.tag.is_empty() && !continues_strip(prj, page_i, def, s) {
+    if !s.tag.is_empty() && !hides_tag(prj, page_i, def, s) {
         lines.push((structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE));
     }
     lines.extend(s.function_text.lines().map(|l| (l.to_string(), 2.0)));

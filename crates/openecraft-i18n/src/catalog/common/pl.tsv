@@ -92,6 +92,7 @@ Description	Opis
 Designation	Oznaczenie
 Device	Urządzenie
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Urządzenie (generator PV), do którego należą moduły; jego części liczą je wtedy w zestawieniu materiałów
+Device connection point	Punkt przyłączeniowy urządzenia
 Device description	Opis urządzenia
 Device tag	Oznaczenie urządzenia
 Device {}	Urządzenie {}

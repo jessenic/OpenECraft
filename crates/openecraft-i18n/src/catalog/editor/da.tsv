@@ -463,6 +463,7 @@ Descriptions	Beskrivelser
 Deselect	Fravælg
 Designations separated by blanks; empty: those of the symbol	Betegnelser adskilt af mellemrum; tom: symbolets
 Destination: each end shows the connection point at the other end	Destination: Hver ende viser tilslutningspunktet i den anden ende
+Device box	Enhedsboks
 Device description (GSDML, ESI)	Enhedsbeskrivelse (GSDML, ESI)
 Device descriptions	Enhedsbeskrivelser
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	Enhedsbeskrivelser for PROFINET-enheder (GSDML) og EtherCAT-enheder (ESI)
@@ -1268,6 +1269,7 @@ Place a comment on the page	Placer en kommentar på siden
 Place again at all symbols using it	Placer igen ved alle symboler, der bruger det
 Place an enclosure, device or machine location at this node	Placer en kapsling, en enhed eller en maskinplacering ved denne knude
 Place connection definition point	Placer forbindelsesdefinitionspunkt
+Place connection points	Placer tilslutningspunkter
 Place functions of this device	Placer funktioner for denne enhed
 Place in schematic	Placer i diagrammet
 Place in the building	Placering i bygningen
@@ -1275,6 +1277,7 @@ Place in the plant	Placering i anlægget
 Place in the room	Plads i rummet
 Place text	Placer tekst
 Placed	Placeret
+Placed by hand	Placeret manuelt
 Placed here: {}	Placeret her: {}
 Placed {}× in the project	Placeret {}× i projektet
 Placeholders	Pladsholdere

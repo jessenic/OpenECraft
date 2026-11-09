@@ -3,6 +3,20 @@
 The notable changes of each OpenECraft release. The section of a version is the text of
 its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
+## [unreleased]
+
+- **Device boxes with device connection points:** a dashed box of any size drawn on
+  the schematic is a device of its own (power supply, measuring instrument, control
+  module) without a library symbol; device connection points placed on its outline
+  belong to its device, lead away from its edge and are numbered on. Each point is a
+  separate connection (`-A1:L`, `-A1:+24V`) in the connection reports; designations,
+  directions, the box of a point and the place and alignment of its designation are
+  editable, resizing a box takes the points on a moved edge and their wires along, and
+  moving, copying, deleting and macros take a box with its points. Commands
+  `add_device_box`, `update_device_box`, `add_device_connections`,
+  `update_device_connection`, `list_device_boxes`
+  ([schematic](docs/features/schematic.md)).
+
 ## [0.1.1] - 2026-11-08
 
 - **PV arrays on roofs:** rows of solar modules on every roof shape, parallel to a slope

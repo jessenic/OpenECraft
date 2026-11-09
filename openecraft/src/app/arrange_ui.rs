@@ -87,7 +87,8 @@ impl App {
             });
             if apply && !self.editor.selection.is_empty() && self.page_editable() {
                 let (dx, dy) = self.arrange_ui.move_by;
-                routing::move_selection(&mut self.session.prj, page, &self.editor.selection, p(dx, dy));
+                let items = self.editor.items(&self.session.prj, page);
+                routing::move_selection(&mut self.session.prj, page, &items, p(dx, dy));
             }
             self.arrange_ui.show_move = open && !apply && !cancel;
         }
@@ -117,7 +118,8 @@ impl App {
             });
             if apply && !self.editor.selection.is_empty() && self.page_editable() {
                 let (count, (dx, dy)) = (self.arrange_ui.count, self.arrange_ui.copy_by);
-                let ids = arrange::multiple_copy(&mut self.session.prj, page, &self.editor.selection, count, p(dx, dy));
+                let items = self.editor.items(&self.session.prj, page);
+                let ids = arrange::multiple_copy(&mut self.session.prj, page, &items, count, p(dx, dy));
                 self.notify(ctx, if ids.len() == 1 { tr("1 item copied").to_string() } else { tr_fmt!("{} items copied", ids.len()) });
                 self.editor.selection = ids;
             }

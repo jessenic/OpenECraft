@@ -92,6 +92,7 @@ Description	Leírás
 Designation	Megnevezés
 Device	Készülék
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Eszköz (PV-generátor), amelyhez a modulok tartoznak; alkatrészei ekkor számolják őket az anyagjegyzékben
+Device connection point	Eszköz csatlakozási pontja
 Device description	Eszközleírás
 Device tag	Készülékazonosító
 Device {}	{} készülék

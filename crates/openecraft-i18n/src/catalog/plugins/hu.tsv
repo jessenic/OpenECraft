@@ -169,6 +169,7 @@ Deletes a potential definition	Töröl egy potenciáldefiníciót
 Deletes a work area	Töröl egy munkaterületet
 Deletes symbols, wires, texts and shapes	Szimbólumokat, vezetékeket, szövegeket és alakzatokat töröl
 Depth in mm	Mélység mm-ben
+Device boxes	Eszközdobozok
 Device description id (empty: from the parts)	Eszközleírás-azonosító (üres: az alkatrészekből)
 Device description id of the head (list_device_descriptions)	A fejegység eszközleírás-azonosítója (list_device_descriptions)
 Device group {} already exists	A(z) {} készülékcsoport már létezik

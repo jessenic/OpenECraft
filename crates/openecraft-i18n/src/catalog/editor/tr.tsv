@@ -463,6 +463,7 @@ Descriptions	Açıklamalar
 Deselect	Seçimi kaldır
 Designations separated by blanks; empty: those of the symbol	Boşlukla ayrılmış tanımlamalar; boş: sembolünkiler
 Destination: each end shows the connection point at the other end	Hedef: her uç, diğer uçtaki bağlantı noktasını gösterir
+Device box	Cihaz kutusu
 Device description (GSDML, ESI)	Cihaz tanımı (GSDML, ESI)
 Device descriptions	Cihaz tanımları
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	PROFINET (GSDML) ve EtherCAT (ESI) cihazlarının cihaz tanımları
@@ -1268,6 +1269,7 @@ Place a comment on the page	Sayfaya bir yorum yerleştir
 Place again at all symbols using it	Bunu kullanan tüm sembollere yeniden yerleştir
 Place an enclosure, device or machine location at this node	Bu düğüme bir pano, cihaz veya makine konumu yerleştirin
 Place connection definition point	Bağlantı tanım noktası yerleştir
+Place connection points	Bağlantı noktalarını yerleştir
 Place functions of this device	Bu cihazın fonksiyonlarını yerleştir
 Place in schematic	Şemaya yerleştir
 Place in the building	Binadaki yeri
@@ -1275,6 +1277,7 @@ Place in the plant	Tesisteki yer
 Place in the room	Odadaki yer
 Place text	Metin yerleştir
 Placed	Yerleştirildi
+Placed by hand	Elle yerleştirildi
 Placed here: {}	Buraya yerleştirildi: {}
 Placed {}× in the project	Projede {}× yerleştirildi
 Placeholders	Yer tutucular

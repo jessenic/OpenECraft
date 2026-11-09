@@ -80,7 +80,7 @@ impl Index {
                     _ if s.tag.is_empty() => {}
                     Func::Main { .. } => idx.devices.entry(s.tag.clone()).or_default().mains.push(loc),
                     Func::Aux(_) => idx.devices.entry(s.tag.clone()).or_default().auxs.push(loc),
-                    Func::Terminal | Func::Plc | Func::Plug(_) => idx.devices.entry(s.tag.clone()).or_default().others.push(loc),
+                    Func::Terminal | Func::Plc | Func::Plug(_) | Func::Connection => idx.devices.entry(s.tag.clone()).or_default().others.push(loc),
                     Func::Overview => idx.devices.entry(s.tag.clone()).or_default().overviews.push(loc),
                 }
             }

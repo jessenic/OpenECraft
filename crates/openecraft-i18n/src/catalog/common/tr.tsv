@@ -92,6 +92,7 @@ Description	Açıklama
 Designation	Tanım
 Device	Cihaz
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Modüllerin ait olduğu cihaz (PV jeneratörü); parçaları onları malzeme listesinde sayar
+Device connection point	Cihaz bağlantı noktası
 Device description	Cihaz tanımı
 Device tag	Cihaz etiketi
 Device {}	Cihaz {}

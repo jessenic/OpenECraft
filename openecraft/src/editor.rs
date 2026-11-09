@@ -17,7 +17,8 @@ use egui::Mesh;
 use openecraft_core::analysis::Analysis;
 use openecraft_core::review::{Hit, MarkupKind, Pen};
 use openecraft_core::symlib::Symbols;
-use openecraft_core::symbols::{Anchor};
+use openecraft_core::symbols::{Anchor, Func};
+use openecraft_core::device_boxes;
 use openecraft_core::netlist::junctions;
 use openecraft_core::{cabledef, conndef, graphics, routing};
 use egui::{pos2, vec2, Align2, Color32, FontId, Key, Painter, PointerButton, Pos2, Rect, Sense, Shape as EShape, Stroke, Vec2};
@@ -49,6 +50,8 @@ pub enum Tool {
     Comment,
     /// Draw redline / greenline markup.
     Markup(MarkupKind, Pen),
+    /// Device box: two corners of its outline.
+    DeviceBox,
 }
 
 impl Tool {
@@ -60,7 +63,7 @@ impl Tool {
     /// Clicks needed by a graphic tool (None: open ended).
     fn points(&self) -> Option<usize> {
         match self {
-            Tool::Line | Tool::Rect | Tool::Circle | Tool::Ellipse | Tool::CableDef => Some(2),
+            Tool::Line | Tool::Rect | Tool::Circle | Tool::Ellipse | Tool::CableDef | Tool::DeviceBox => Some(2),
             Tool::Arc | Tool::Dimension(_) => Some(3),
             _ => None,
         }
@@ -80,13 +83,22 @@ impl Tool {
     }
 }
 
-/// Part of a symbol that can be dragged on its own: the tag block (None) or a
-/// placed property (index).
-type PropHandle = (u64, Option<usize>);
+/// Part of a symbol that can be dragged on its own.
+#[derive(Clone, Copy, Debug, PartialEq)]
+enum Handle {
+    Tag,
+    /// A placed property (index).
+    Prop(usize),
+    /// The designation of its only connection point.
+    Pin,
+}
+
+type PropHandle = (u64, Handle);
 
 enum Drag {
     None,
-    Move { start: P, applied: P, moving: routing::Moving },
+    /// The selection with the connection points of its device boxes (`items`) moves.
+    Move { start: P, applied: P, moving: routing::Moving, items: BTreeSet<u64> },
     Box { start: Pos2 },
     Prop { handle: PropHandle, start: P, orig: P },
 }
@@ -630,6 +642,11 @@ impl Editor {
         let finish = Action::FinishPolyline.id();
         match &self.tool {
             Tool::Select => tr("Click to select, drag to move, drag on empty space for window selection (from right to left: crossing). Drag the tag or a property text of a selected symbol to place it. Right/middle drag pans, wheel zooms.").to_string(),
+            Tool::Place(key) if *key == openecraft_core::symbols::DEVICE_POINT => tr_fmt!(
+                "Click on the outline of a device box: the point belongs to its device, leads away from the edge and is numbered on · {} turns it off the outline · Esc or right click to finish",
+                self.cmd_key(Cmd::Rotate)
+            ),
+            Tool::DeviceBox => tr("Click two corners of the device box, then place device connection points on its outline · Esc or right click to finish").to_string(),
             Tool::Place(_) => match &self.place_tag {
                 Some(tag) => tr_fmt!("Click to place for device {} · {} rotate · {} mirror · Esc or right click to finish", tag, self.cmd_key(Cmd::Rotate), self.cmd_key(Cmd::Mirror)),
                 None => tr_fmt!("Click to place · {} rotate · {} mirror · Esc or right click to finish", self.cmd_key(Cmd::Rotate), self.cmd_key(Cmd::Mirror)),
@@ -716,6 +733,12 @@ impl Editor {
         self.offset += screen - after;
     }
 
+    /// The selection with the connection points of the device boxes in it: what moves,
+    /// turns, copies and deletes.
+    pub fn items(&self, prj: &Project, page_i: usize) -> BTreeSet<u64> {
+        device_boxes::with_points(prj, page_i, &self.selection)
+    }
+
     /// Hit test: returns the id of the item under `q` (world), preferring texts and
     /// symbols. Items on hidden or locked layers are skipped.
     pub fn hit(&self, prj: &Project, page_i: usize, q: P) -> Option<u64> {
@@ -730,7 +753,11 @@ impl Editor {
         let mut best: Option<(f32, u64)> = None;
         for s in page.symbols.iter().rev() {
             let Some(def) = prj.symbol(&s.sym) else { continue };
-            let b = def.world_bounds(s.pos, s.rot, s.mirror);
+            let b = s.bounds(&def);
+            // A device box is picked at its outline: what is inside stays selectable.
+            if device_boxes::is_box(s) && !device_boxes::outline_hit(b, q, tol) {
+                continue;
+            }
             if b.expand(tol * 0.5).contains(q) {
                 let d = b.center().dist(q) / (b.width() + b.height()).max(1.0);
                 if best.map(|(bd, _)| d < bd).unwrap_or(true) {
@@ -770,12 +797,15 @@ impl Editor {
         for s in page.symbols.iter().filter(|s| self.selection.contains(&s.id)) {
             for (i, pp) in s.props.iter().enumerate() {
                 if render::prop_bounds(prj, page_i, s, pp).expand(0.3).contains(q) {
-                    return Some((s.id, Some(i)));
+                    return Some((s.id, Handle::Prop(i)));
                 }
             }
             let Some(def) = prj.symbol(&s.sym) else { continue };
+            if def.pins.len() == 1 && render::pin_label_bounds(&def, s).is_some_and(|r| r.expand(0.3).contains(q)) {
+                return Some((s.id, Handle::Pin));
+            }
             if render::tag_block_bounds(prj, page_i, &def, s).is_some_and(|r| r.expand(0.3).contains(q)) {
-                return Some((s.id, None));
+                return Some((s.id, Handle::Tag));
             }
         }
         None
@@ -983,7 +1013,7 @@ impl Editor {
         }
 
         let mut opts = Opts {
-            selected: self.selection.clone(),
+            selected: self.items(prj, page_i),
             show_pins: self.show_pins || self.tool == Tool::Wire,
             hide_revision_marks: !self.show_revision_marks,
             review: self.review_layer || self.tool.is_review(),
@@ -1062,8 +1092,9 @@ impl Editor {
             let page = &prj.pages[page_i];
             if let Some(s) = page.symbols.iter().find(|s| self.selection.contains(&s.id)) {
                 let mut boxes: Vec<R> = s.props.iter().map(|pp| render::prop_bounds(prj, page_i, s, pp)).collect();
-                if let Some(r) = prj.symbol(&s.sym).and_then(|def| render::tag_block_bounds(prj, page_i, &def, s)) {
-                    boxes.push(r);
+                if let Some(def) = prj.symbol(&s.sym) {
+                    boxes.extend(render::tag_block_bounds(prj, page_i, &def, s));
+                    boxes.extend(render::pin_label_bounds(&def, s).filter(|_| def.pins.len() == 1));
                 }
                 for r in boxes {
                     let sr = Rect::from_min_max(self.w2s(rect, r.min), self.w2s(rect, r.max)).expand(1.0);
@@ -1116,13 +1147,13 @@ impl Editor {
                     let inst = SymbolInst {
                         sym: def.key.into(),
                         pos: sn,
-                        rot: self.place_rot,
+                        rot: self.place_rotation(prj, page, &def, sn),
                         mirror: self.place_mirror,
                         label: def.default_label.into(),
                         ..Default::default()
                     };
                     // A tinted box behind it: the symbol stays visible on a page zoomed out.
-                    let b = def.world_bounds(sn, self.place_rot, self.place_mirror);
+                    let b = inst.bounds(&def);
                     let r = Rect::from_two_pos(g.w2s(b.min), g.w2s(b.max)).expand(3.0);
                     g.painter.rect_filled(r, 2.0, g.pal.ghost.gamma_multiply(0.18));
                     render::draw_symbol(g, &def, &inst, Ink::Ghost);
@@ -1139,6 +1170,15 @@ impl Editor {
             Tool::Line | Tool::Rect | Tool::Circle | Tool::Ellipse => {
                 if let (Some(&a), Some(kind)) = (self.pts.first(), self.tool.shape_kind()) {
                     ghost_shape(g, kind, a, sn, Vec::new(), 0.0);
+                }
+            }
+            Tool::DeviceBox => {
+                if let Some(&a) = self.pts.first() {
+                    let r = R::from_points(a, sn);
+                    let c = [r.min, p(r.max.x, r.min.y), r.max, p(r.min.x, r.max.y)];
+                    for i in 0..4 {
+                        g.line(c[i], c[(i + 1) % 4], render::SYMBOL_W, Ink::Ghost, true);
+                    }
                 }
             }
             Tool::Arc => match self.pts.as_slice() {
@@ -1280,7 +1320,7 @@ impl Editor {
         // Copy works on read only pages too.
         for ev in &events {
             if matches!(ev, egui::Event::Copy) && !self.selection.is_empty() {
-                let clip = ops::copy(&prj.pages[page_i], &self.selection);
+                let clip = ops::copy(&prj.pages[page_i], &self.items(prj, page_i));
                 ui.ctx().copy_text(clip.to_text());
                 self.clip = Some(clip);
             }
@@ -1305,28 +1345,29 @@ impl Editor {
             } else if matches!(self.tool, Tool::Junction(_)) {
                 self.symbol_proto.turn();
             } else if !self.selection.is_empty() {
-                routing::rotate(prj, page_i, &self.selection);
+                routing::rotate(prj, page_i, &self.items(prj, page_i));
             }
         }
+        let items = self.items(prj, page_i);
         let page = &mut prj.pages[page_i];
         if m {
             if matches!(self.tool, Tool::Place(_)) {
                 self.place_mirror = !self.place_mirror;
             } else {
-                ops::mirror(page, &self.selection);
+                ops::mirror(page, &items);
             }
         }
         if space && self.tool == Tool::Wire {
             self.wire_hfirst = !self.wire_hfirst;
         }
         if del && !self.selection.is_empty() {
-            ops::delete(page, &self.selection);
+            ops::delete(page, &items);
             self.selection.clear();
         }
         if !self.selection.is_empty() && arrows.iter().any(|(pressed, _)| *pressed) {
             for (pressed, d) in arrows {
                 if pressed {
-                    routing::move_selection(prj, page_i, &self.selection, d);
+                    routing::move_selection(prj, page_i, &items, d);
                 }
             }
             // Like a drag: facing connection points of moved symbols are connected.
@@ -1341,11 +1382,12 @@ impl Editor {
         for ev in events {
             match ev {
                 egui::Event::Cut if !self.selection.is_empty() => {
+                    let items = self.items(prj, page_i);
                     let page = &mut prj.pages[page_i];
-                    let clip = ops::copy(page, &self.selection);
+                    let clip = ops::copy(page, &items);
                     ui.ctx().copy_text(clip.to_text());
                     self.clip = Some(clip);
-                    ops::delete(page, &self.selection);
+                    ops::delete(page, &items);
                     self.selection.clear();
                 }
                 egui::Event::Paste(text) => {
@@ -1400,6 +1442,13 @@ impl Editor {
                 self.selection = BTreeSet::from([id]);
                 out.open_properties = true;
             }
+            Tool::DeviceBox => match device_boxes::add_box(prj, page_i, pts[0], pts[1], "", "") {
+                Ok(id) => {
+                    self.selection = BTreeSet::from([id]);
+                    out.open_properties = true;
+                }
+                Err(e) => out.message = Some(e),
+            },
             tool => {
                 let Some(kind) = tool.shape_kind() else { return };
                 let (a, b) = (pts[0], pts[1]);
@@ -1438,8 +1487,12 @@ impl Editor {
             ctx.last_main.insert(def.letter.to_string(), tag.clone());
             ctx.last_plc.insert(def.key.into(), tag.clone());
         }
-        let mut s = ops::new_symbol(prj, page_i, &ctx, &def, sn, self.place_rot, self.place_mirror);
+        let rot = self.place_rotation(prj, &prj.pages[page_i], &def, sn);
+        let mut s = ops::new_symbol(prj, page_i, &ctx, &def, sn, rot, self.place_mirror);
         if let (Some(tag), true) = (&self.place_tag, def.func.has_tag()) {
+            if def.func == Func::Connection && s.tag != *tag {
+                s.pins = vec![device_boxes::next_designation(prj, tag)];
+            }
             s.tag = tag.clone();
         }
         let once = self.place_once.take();
@@ -1470,6 +1523,15 @@ impl Editor {
             if let Some(next) = prj.next_picker_symbol(key) {
                 self.tool = Tool::Place(next);
             }
+        }
+    }
+
+    /// Rotation of a symbol placed at `sn`: a device connection point on the outline of a
+    /// device box leads away from its edge, everything else as turned by the user.
+    fn place_rotation(&self, prj: &Project, page: &Page, def: &openecraft_core::symbols::SymbolDef, sn: P) -> u8 {
+        match def.func {
+            Func::Connection => device_boxes::direction_at(prj, page, sn).unwrap_or(self.place_rot),
+            _ => self.place_rot,
         }
     }
 
@@ -1672,10 +1734,11 @@ impl Editor {
                 let page = &prj.pages[page_i];
                 let s = page.symbols.iter().find(|s| s.id == handle.0);
                 let orig = match (s, handle.1) {
-                    (Some(s), Some(i)) => s.props[i].offset,
-                    (Some(s), None) => s.tag_offset.unwrap_or_else(|| {
+                    (Some(s), Handle::Prop(i)) => s.props[i].offset,
+                    (Some(s), Handle::Tag) => s.tag_offset.unwrap_or_else(|| {
                         prj.symbol(&s.sym).and_then(|def| render::tag_block_bounds(prj, page_i, &def, s)).map(|r| r.min - s.pos).unwrap_or_default()
                     }),
+                    (Some(s), Handle::Pin) => prj.symbol(&s.sym).map(|def| render::pin_label_at(&def, s, 0).0 - s.pos).unwrap_or_default(),
                     _ => P::default(),
                 };
                 self.drag = Drag::Prop { handle, start: ow, orig };
@@ -1686,28 +1749,31 @@ impl Editor {
                     }
                     self.selection.insert(id);
                 }
-                let moving = routing::Moving::new(prj, page_i, &self.selection);
-                self.drag = Drag::Move { start: ow, applied: p(0.0, 0.0), moving };
+                let items = self.items(prj, page_i);
+                let moving = routing::Moving::new(prj, page_i, &items);
+                self.drag = Drag::Move { start: ow, applied: p(0.0, 0.0), moving, items };
             } else {
                 self.drag = Drag::Box { start: origin };
             }
         }
         if resp.dragged_by(PointerButton::Primary) {
             match (&mut self.drag, world) {
-                (Drag::Move { start, applied, moving }, Some(w)) => {
+                (Drag::Move { start, applied, moving, items }, Some(w)) => {
                     let total = (w - *start).snap(self.grid);
                     let delta = total - *applied;
                     if delta.x != 0.0 || delta.y != 0.0 {
-                        moving.step(prj, page_i, &self.selection, delta);
+                        moving.step(prj, page_i, items, delta);
                         *applied = total;
                     }
                 }
                 (Drag::Prop { handle, start, orig }, Some(w)) => {
                     let to = *orig + (w - *start).snap(0.5);
+                    let auto = prj.pages[page_i].symbols.iter().find(|s| s.id == handle.0).and_then(|s| prj.symbol(&s.sym).map(|def| render::pin_label_at(&def, s, 0).1));
                     if let Some(s) = prj.pages[page_i].symbols.iter_mut().find(|s| s.id == handle.0) {
                         match handle.1 {
-                            Some(i) => s.props[i].offset = to,
-                            None => s.tag_offset = Some(to),
+                            Handle::Prop(i) => s.props[i].offset = to,
+                            Handle::Tag => s.tag_offset = Some(to),
+                            Handle::Pin => s.pin_label = Some(PinLabel { offset: to, anchor: auto.unwrap_or(Anchor::Left) }),
                         }
                     }
                 }

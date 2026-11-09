@@ -169,6 +169,7 @@ Deletes a potential definition	Elimina una definizione di potenziale
 Deletes a work area	Elimina un'area di lavoro
 Deletes symbols, wires, texts and shapes	Elimina simboli, conduttori, testi e forme
 Depth in mm	Profondità in mm
+Device boxes	Box dispositivi
 Device description id (empty: from the parts)	ID della descrizione dispositivo (vuoto: dagli articoli)
 Device description id of the head (list_device_descriptions)	ID della descrizione dispositivo della testa (list_device_descriptions)
 Device group {} already exists	Il gruppo di dispositivi {} esiste già

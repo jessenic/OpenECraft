@@ -758,6 +758,44 @@ pub struct SymbolInst {
     /// Function, terminal and PLC connection point property values.
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub values: properties::Values,
+    /// Freely drawn device box: width and height of its outline, from `pos` towards
+    /// +x / +y before the rotation (see [`crate::device_boxes`]).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub size: Option<P>,
+    /// Connection point designation placed by hand (symbols with one connection point,
+    /// such as device connection points); None: beside the connection point.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pin_label: Option<PinLabel>,
+}
+
+/// Position of a connection point designation relative to the symbol position and
+/// its alignment.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct PinLabel {
+    pub offset: P,
+    pub anchor: crate::symbols::Anchor,
+}
+
+impl SymbolInst {
+    /// Area of the symbol graphics in its own coordinates: the outline of a device box,
+    /// else the symbol's.
+    pub fn local_bounds(&self, def: &crate::symbols::SymbolDef) -> crate::geom::R {
+        match self.size {
+            Some(sz) => crate::geom::R::from_points(p(0.0, 0.0), sz),
+            None => def.bounds,
+        }
+    }
+
+    /// Area of the symbol graphics on the page (a device box is not mirrored).
+    pub fn bounds(&self, def: &crate::symbols::SymbolDef) -> crate::geom::R {
+        let b = self.local_bounds(def);
+        let mirror = self.mirror && self.size.is_none();
+        let mut r = crate::geom::R::nothing();
+        for c in [b.min, p(b.max.x, b.min.y), b.max, p(b.min.x, b.max.y)] {
+            r.extend(self.pos + c.transform(self.rot, mirror));
+        }
+        r
+    }
 }
 
 impl Default for SymbolInst {
@@ -777,6 +815,8 @@ impl Default for SymbolInst {
             scheme: String::new(),
             function_def: String::new(),
             values: BTreeMap::new(),
+            size: None,
+            pin_label: None,
         }
     }
 }

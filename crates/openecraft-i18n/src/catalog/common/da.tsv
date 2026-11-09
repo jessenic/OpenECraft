@@ -92,6 +92,7 @@ Description	Beskrivelse
 Designation	Betegnelse
 Device	Enhed
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Enhed (solcellegenerator), som modulerne hører til; dens dele tæller dem så i styklisten
+Device connection point	Enhedstilslutningspunkt
 Device description	Enhedsbeskrivelse
 Device tag	Enhedsmærkning
 Device {}	Enhed {}

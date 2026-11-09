@@ -458,6 +458,7 @@ Descriptions	描述
 Deselect	取消选择
 Designations separated by blanks; empty: those of the symbol	以空格分隔的代号；留空：使用符号的代号
 Destination: each end shows the connection point at the other end	目标：每一端显示另一端的连接点
+Device box	设备框
 Device description (GSDML, ESI)	设备描述（GSDML、ESI）
 Device descriptions	设备描述
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	PROFINET (GSDML) 和 EtherCAT (ESI) 设备的设备描述
@@ -1255,12 +1256,14 @@ Place a comment on the page	在页上放置批注
 Place again at all symbols using it	在所有使用它的符号处重新放置
 Place an enclosure, device or machine location at this node	在此节点上放置机柜、设备或机器位置
 Place connection definition point	放置连接定义点
+Place connection points	放置连接点
 Place functions of this device	放置此设备的功能
 Place in schematic	放置到原理图中
 Place in the plant	在工厂中的位置
 Place in the room	房间中的位置
 Place text	放置文本
 Placed	已放置
+Placed by hand	手动放置
 Placed here: {}	放置在此处：{}
 Placed {}× in the project	在项目中已放置 {}×
 Placeholders	占位符

@@ -92,6 +92,7 @@ Description	Описание
 Designation	Обозначение
 Device	Устройство
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Устройство (фотоэлектрический генератор), к которому относятся модули; его изделия тогда учитывают их в спецификации
+Device connection point	Точка подключения устройства
 Device description	Описание устройства
 Device tag	Обозначение устройства
 Device {}	Устройство {}

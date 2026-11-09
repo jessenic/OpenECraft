@@ -89,6 +89,8 @@ impl App {
             Cmd::BridgeTool => *tool == Tool::Junction(JunctionKind::Bridge),
             Cmd::LineTool => *tool == Tool::Line,
             Cmd::RectTool => *tool == Tool::Rect,
+            Cmd::DeviceBoxTool => *tool == Tool::DeviceBox,
+            Cmd::DeviceConnectionTool => *tool == Tool::Place(openecraft_core::symbols::DEVICE_POINT),
             Cmd::CircleTool => *tool == Tool::Circle,
             Cmd::EllipseTool => *tool == Tool::Ellipse,
             Cmd::ArcTool => *tool == Tool::Arc,
@@ -231,11 +233,12 @@ impl App {
             Cmd::Quit => ctx.send_viewport_cmd(egui::ViewportCommand::Close),
             // ------------------------------------------------------------ home
             Cmd::Cut | Cmd::Copy => {
-                let clip = ops::copy(&self.session.prj.pages[page], &self.editor.selection);
+                let items = self.editor.items(&self.session.prj, page);
+                let clip = ops::copy(&self.session.prj.pages[page], &items);
                 ctx.copy_text(clip.to_text());
                 self.editor.clip = Some(clip);
                 if cmd == Cmd::Cut {
-                    ops::delete(&mut self.session.prj.pages[page], &self.editor.selection);
+                    ops::delete(&mut self.session.prj.pages[page], &items);
                     self.editor.selection.clear();
                 }
             }
@@ -277,21 +280,24 @@ impl App {
                 self.session.redo();
             }
             Cmd::Delete => {
-                ops::delete(&mut self.session.prj.pages[page], &self.editor.selection);
+                let items = self.editor.items(&self.session.prj, page);
+                ops::delete(&mut self.session.prj.pages[page], &items);
                 self.editor.selection.clear();
             }
             Cmd::Rotate => {
                 if matches!(self.editor.tool, Tool::Place(_)) {
                     self.editor.place_rot = (self.editor.place_rot + 1) % 4;
                 } else {
-                    routing::rotate(&mut self.session.prj, page, &self.editor.selection);
+                    let items = self.editor.items(&self.session.prj, page);
+                    routing::rotate(&mut self.session.prj, page, &items);
                 }
             }
             Cmd::Mirror => {
                 if matches!(self.editor.tool, Tool::Place(_)) {
                     self.editor.place_mirror = !self.editor.place_mirror;
                 } else {
-                    ops::mirror(&mut self.session.prj.pages[page], &self.editor.selection);
+                    let items = self.editor.items(&self.session.prj, page);
+                    ops::mirror(&mut self.session.prj.pages[page], &items);
                 }
             }
             Cmd::Find => self.find_ui.open = true,
@@ -316,6 +322,8 @@ impl App {
             Cmd::BridgeTool => self.set_tool(Tool::Junction(JunctionKind::Bridge)),
             Cmd::InterruptionPoint => self.set_tool(Tool::Place("intr")),
             Cmd::PotentialPoint => self.set_tool(Tool::Place("pot")),
+            Cmd::DeviceBoxTool => self.set_tool(Tool::DeviceBox),
+            Cmd::DeviceConnectionTool => self.set_tool(Tool::Place(openecraft_core::symbols::DEVICE_POINT)),
             Cmd::InsertMacro => self.show_pane(Pane::Tool(ToolPane::Macros)),
             Cmd::SaveSelectionAsMacro => self.save_as_macro(false),
             Cmd::SavePageAsMacro => self.save_as_macro(true),

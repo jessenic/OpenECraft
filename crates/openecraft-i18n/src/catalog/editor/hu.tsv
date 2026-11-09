@@ -463,6 +463,7 @@ Descriptions	Leírások
 Deselect	Kijelölés megszüntetése
 Designations separated by blanks; empty: those of the symbol	Szóközzel elválasztott megnevezések; üres: a szimbólum megnevezései
 Destination: each end shows the connection point at the other end	Cél: mindkét vég a másik végen lévő csatlakozási pontot mutatja
+Device box	Eszközdoboz
 Device description (GSDML, ESI)	Eszközleírás (GSDML, ESI)
 Device descriptions	Eszközleírások
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	PROFINET- (GSDML) és EtherCAT- (ESI) eszközök eszközleírásai
@@ -1268,6 +1269,7 @@ Place a comment on the page	Megjegyzés elhelyezése az oldalon
 Place again at all symbols using it	Újbóli elhelyezés minden azt használó szimbólumon
 Place an enclosure, device or machine location at this node	Szekrény, készülék vagy géphely elhelyezése ezen a csomóponton
 Place connection definition point	Összeköttetés-definíciós pont elhelyezése
+Place connection points	Csatlakozási pontok elhelyezése
 Place functions of this device	A készülék funkcióinak elhelyezése
 Place in schematic	Elhelyezés a kapcsolási rajzon
 Place in the building	Hely az épületben
@@ -1275,6 +1277,7 @@ Place in the plant	Hely a létesítményben
 Place in the room	Hely a helyiségben
 Place text	Szöveg elhelyezése
 Placed	Elhelyezve
+Placed by hand	Kézzel elhelyezve
 Placed here: {}	Itt elhelyezve: {}
 Placed {}× in the project	{}× elhelyezve a projektben
 Placeholders	Helyőrzők

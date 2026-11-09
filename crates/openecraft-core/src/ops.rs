@@ -38,6 +38,9 @@ impl PlaceCtx {
                 }
             }
             Func::Plug(_) => self.last_plug = Some(s.tag.clone()),
+            Func::Connection => {
+                self.last_main.insert(def.letter.to_string(), s.tag.clone());
+            }
             _ => {}
         }
     }
@@ -218,6 +221,10 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
         pins: def.pins.iter().map(|x| x.label.to_string()).collect(),
         ..Default::default()
     };
+    // A device box keeps its size of its own.
+    if def.key == crate::symbols::DEVICE_BOX {
+        s.size = Some(def.bounds.max - def.bounds.min);
+    }
     match def.func {
         Func::Main { .. } => s.tag = prj.next_tag(&structure, def.letter),
         Func::Overview => s.tag = ctx.last_main.get(def.letter).cloned().unwrap_or_else(|| prj.next_tag(&structure, def.letter)),
@@ -251,6 +258,14 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
                 s.label = next_plc_address(prj, &s.tag, !def.default_label.starts_with('Q'));
             }
         }
+        Func::Connection => {
+            s.tag = crate::device_boxes::tag_at(prj, page, pos)
+                .or_else(|| ctx.last_main.get(def.letter).cloned())
+                .unwrap_or_else(|| prj.next_tag(&structure, def.letter));
+            if s.pins.len() == 1 {
+                s.pins[0] = crate::device_boxes::next_designation(prj, &s.tag);
+            }
+        }
         Func::Potential | Func::Interruption => {}
     }
     s
@@ -265,7 +280,7 @@ pub fn text_bounds(t: &TextItem) -> R {
 /// Bounding box of any item on a page.
 pub fn item_bounds(symbols: &Symbols, page: &Page, id: u64) -> Option<R> {
     if let Some(s) = page.symbols.iter().find(|s| s.id == id) {
-        return symbols.get(&s.sym).map(|d| d.world_bounds(s.pos, s.rot, s.mirror));
+        return symbols.get(&s.sym).map(|d| s.bounds(&d));
     }
     if let Some(w) = page.wires.iter().find(|w| w.id == id) {
         return Some(R::from_points(w.a, w.b));
@@ -636,7 +651,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         if let Some(def) = prj.symbol(&s.sym) {
             match def.func {
-                Func::Main { .. } | Func::Aux(_) if existing.contains(&s.tag) => {
+                Func::Main { .. } | Func::Aux(_) | Func::Connection if existing.contains(&s.tag) => {
                     if let Some(n) = rename.get(&s.tag) {
                         s.tag = n.clone();
                     } else {

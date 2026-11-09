@@ -169,6 +169,7 @@ Deletes a potential definition	전위 정의를 삭제합니다
 Deletes a work area	작업 영역을 삭제합니다
 Deletes symbols, wires, texts and shapes	심볼, 전선, 텍스트 및 도형을 삭제합니다
 Depth in mm	깊이(mm)
+Device boxes	장치 박스
 Device description id (empty: from the parts)	장치 설명 ID(비우면 부품에서)
 Device description id of the head (list_device_descriptions)	헤드의 장치 설명 ID(list_device_descriptions)
 Device group {} already exists	장치 그룹 {}이(가) 이미 있습니다

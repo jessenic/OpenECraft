@@ -615,3 +615,58 @@ fn the_crossing_tool_connects_crossing_wires_and_turns_with_r() {
     ed.set_tool(Tool::Junction(JunctionKind::Bridge));
     assert_eq!((ed.symbol_proto.kind, ed.symbol_proto.dir), (JunctionKind::Bridge, TeeDir::Up));
 }
+
+#[test]
+fn device_boxes_are_drawn_and_take_their_points_along() {
+    let mut prj = Project::default();
+    let ctx = egui::Context::default();
+    let mut ed = Editor { autoconnect: false, ..Default::default() };
+    ready(&mut ed, &ctx, &mut prj);
+    ed.set_tool(Tool::DeviceBox);
+    click(&mut ed, &ctx, &mut prj, 0, p(80.0, 80.0));
+    click(&mut ed, &ctx, &mut prj, 0, p(120.0, 104.0));
+    let b = prj.pages[0].symbols[0].clone();
+    assert_eq!((b.sym.as_str(), b.tag.as_str(), b.pos, b.size), ("devbox", "-A1", p(80.0, 80.0), Some(p(40.0, 24.0))));
+    assert_eq!(ed.selection, BTreeSet::from([b.id]));
+    // Points on the top and the right edge lead away from them and are numbered on.
+    ed.set_tool(Tool::Place(openecraft_core::symbols::DEVICE_POINT));
+    assert!(ed.hint().contains("device box"), "{}", ed.hint());
+    click(&mut ed, &ctx, &mut prj, 0, p(88.0, 80.0));
+    click(&mut ed, &ctx, &mut prj, 0, p(120.0, 92.0));
+    let points: Vec<(String, String, u8)> = prj.pages[0].symbols[1..].iter().map(|s| (s.tag.clone(), s.pins[0].clone(), s.rot)).collect();
+    assert_eq!(points, vec![("-A1".into(), "1".into(), 0), ("-A1".into(), "2".into(), 1)]);
+    // Inside the box nothing is hit; its outline picks the box.
+    ed.set_tool(Tool::Select);
+    assert_eq!(ed.hit(&prj, 0, p(100.0, 96.0)), None);
+    assert_eq!(ed.hit(&prj, 0, p(100.0, 104.0)), Some(b.id));
+    // Dragging the box moves its points with it.
+    drag(&mut ed, &ctx, &mut prj, 0, p(100.0, 104.0), p(140.0, 120.0));
+    let pg = &prj.pages[0];
+    assert_eq!(pg.symbols[0].pos, p(120.0, 96.0));
+    assert_eq!((pg.symbols[1].pos, pg.symbols[2].pos), (p(128.0, 96.0), p(160.0, 108.0)));
+    // Delete takes them too.
+    frame(&mut ed, &ctx, &mut prj, 0, vec![key(Key::Delete)]);
+    assert!(prj.pages[0].symbols.is_empty());
+}
+
+#[test]
+fn the_designation_of_a_device_connection_point_is_dragged_into_place() {
+    let mut prj = Project::default();
+    let b = openecraft_core::device_boxes::add_box(&mut prj, 0, p(80.0, 80.0), p(120.0, 104.0), "", "").unwrap();
+    let id = openecraft_core::device_boxes::place_point(&mut prj, 0, p(88.0, 80.0), 0, "", "PE").unwrap();
+    let ctx = egui::Context::default();
+    let mut ed = Editor::default();
+    ready(&mut ed, &ctx, &mut prj);
+    ed.selection.insert(id);
+    let s = prj.pages[0].symbols.iter().find(|s| s.id == id).unwrap().clone();
+    let def = prj.symbol(&s.sym).unwrap();
+    let label = render::pin_label_bounds(&def, &s).unwrap();
+    drag(&mut ed, &ctx, &mut prj, 0, label.center(), label.center() + p(6.0, 10.0));
+    let s = prj.pages[0].symbols.iter().find(|s| s.id == id).unwrap();
+    assert_eq!(s.pos, p(88.0, 80.0), "the point stays");
+    let l = s.pin_label.expect("designation placed");
+    let (auto, anchor, _) = render::pin_label_at(&def, &SymbolInst { pin_label: None, ..s.clone() }, 0);
+    assert!(l.offset.dist(auto - s.pos + p(6.0, 10.0)) < 0.6, "{l:?}");
+    assert_eq!(l.anchor, anchor);
+    assert_eq!(openecraft_core::device_boxes::box_of(&prj, &prj.pages[0], s), Some(b));
+}

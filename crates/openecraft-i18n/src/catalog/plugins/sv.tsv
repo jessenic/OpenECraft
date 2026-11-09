@@ -169,6 +169,7 @@ Deletes a potential definition	Tar bort en potentialdefinition
 Deletes a work area	Tar bort ett arbetsområde
 Deletes symbols, wires, texts and shapes	Tar bort symboler, ledningar, texter och former
 Depth in mm	Djup i mm
+Device boxes	Apparatboxar
 Device description id (empty: from the parts)	ID för enhetsbeskrivning (tomt: från artiklarna)
 Device description id of the head (list_device_descriptions)	ID för huvudenhetens enhetsbeskrivning (list_device_descriptions)
 Device group {} already exists	Apparatgrupp {} finns redan

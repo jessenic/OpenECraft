@@ -169,6 +169,7 @@ Deletes a potential definition	電位定義を削除します
 Deletes a work area	作業領域を削除します
 Deletes symbols, wires, texts and shapes	シンボル、電線、テキスト、図形を削除します
 Depth in mm	奥行き (mm)
+Device boxes	機器ボックス
 Device description id (empty: from the parts)	デバイス記述 ID (空: 部品から)
 Device description id of the head (list_device_descriptions)	ヘッドのデバイス記述 ID (list_device_descriptions)
 Device group {} already exists	デバイスグループ {} は既に存在します

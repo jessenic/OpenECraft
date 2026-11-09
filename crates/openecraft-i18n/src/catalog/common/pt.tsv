@@ -92,6 +92,7 @@ Description	Descrição
 Designation	Designação
 Device	Dispositivo
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Dispositivo (gerador fotovoltaico) ao qual os módulos pertencem; suas peças então os contam na lista de materiais
+Device connection point	Ponto de conexão do dispositivo
 Device description	Descrição de dispositivo
 Device tag	Identificador de dispositivo
 Device {}	Dispositivo {}

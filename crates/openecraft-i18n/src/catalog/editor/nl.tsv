@@ -463,6 +463,7 @@ Descriptions	Beschrijvingen
 Deselect	Selectie opheffen
 Designations separated by blanks; empty: those of the symbol	Aanduidingen gescheiden door spaties; leeg: die van het symbool
 Destination: each end shows the connection point at the other end	Bestemming: elk uiteinde toont het aansluitpunt aan het andere uiteinde
+Device box	Apparaatbox
 Device description (GSDML, ESI)	Apparaatbeschrijving (GSDML, ESI)
 Device descriptions	Apparaatbeschrijvingen
 Device descriptions of PROFINET (GSDML) and EtherCAT (ESI) devices	Apparaatbeschrijvingen van PROFINET-apparaten (GSDML) en EtherCAT-apparaten (ESI)
@@ -1268,6 +1269,7 @@ Place a comment on the page	Een opmerking op de pagina plaatsen
 Place again at all symbols using it	Opnieuw plaatsen bij alle symbolen die het gebruiken
 Place an enclosure, device or machine location at this node	Behuizing, apparaat of machineplaats bij dit knooppunt plaatsen
 Place connection definition point	Verbindingsdefinitiepunt plaatsen
+Place connection points	Aansluitpunten plaatsen
 Place functions of this device	Functies van dit apparaat plaatsen
 Place in schematic	In schema plaatsen
 Place in the building	Plaats in het gebouw
@@ -1275,6 +1277,7 @@ Place in the plant	Plaats in de installatie
 Place in the room	Plaats in de ruimte
 Place text	Tekst plaatsen
 Placed	Geplaatst
+Placed by hand	Handmatig geplaatst
 Placed here: {}	Hier geplaatst: {}
 Placed {}× in the project	{}× in het project geplaatst
 Placeholders	Tijdelijke aanduidingen

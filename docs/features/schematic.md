@@ -15,6 +15,27 @@ Device tags (`-K1`, `-S3`, …) are assigned automatically.
 Main function (coil) + auxiliary functions (contacts) form one device. Select a coil and
 place contacts: they are assigned to it and numbered (13/14, 21/22, …).
 
+## Device boxes and device connection points
+
+Power supplies, measuring instruments and control modules without a library symbol:
+*Insert › Device box* draws a dashed box of any size as a new device (`-A1`, with its
+function text and parts like any other device), *Insert › Device connection point*
+places its connections one click after the other. A point placed on the outline of a
+box belongs to the box's device, leads away from the edge it is on and is numbered on
+(1, 2, 3 …; `13` is followed by `14`); its designation (`L`, `N`, `PE`, `+24V`, …) is
+edited in its properties. Each point is a connection of its own, distinct from
+terminals: two points of a box are never connected by the box, they appear as
+`-A1:L`, `-A1:N` in the connection and device connection reports, and the check reports
+a designation used twice on one device. The properties of a point name its device box
+(another box assigns it to that device); a point away from its box shows its device
+tag, on its box the box shows it. Its designation can be dragged to any place and
+aligned left, centred or right. The properties of a box set its width and height:
+points on an edge that moves go with it, their wires follow. Moving, turning, copying,
+cutting, deleting and saving as a macro take a box with its points; copies become a
+new device with their own points. Commands: `add_device_box`, `update_device_box`,
+`add_device_connections` (several at a distance, designations given or numbered on),
+`update_device_connection`, `list_device_boxes`.
+
 ## Structure identifiers (IEC 81346)
 
 Pages carry a function (`=A1`) and a location

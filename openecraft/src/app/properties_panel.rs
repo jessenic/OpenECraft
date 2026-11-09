@@ -3,6 +3,9 @@
 //! fields of a multiple selection, or the page.
 
 use super::*;
+use openecraft_core::device_boxes;
+use openecraft_core::model::PinLabel;
+use openecraft_core::symbols::Anchor;
 
 /// The tabs of a symbol's properties.
 /// What the Belongs to device field does with the text typed when it loses the focus.
@@ -407,6 +410,94 @@ impl App {
         }
     }
 
+    /// Outline of a device box; its connection points are placed with the tool.
+    fn device_box_fields(&mut self, ui: &mut egui::Ui, pi: usize, s: &SymbolInst, points: usize) {
+        let Some(r) = device_boxes::rect(&self.session.prj, s) else { return };
+        let (mut w, mut h) = (r.width(), r.height());
+        ui.separator();
+        egui::Grid::new("devbox").num_columns(2).spacing([8.0, 4.0]).show(ui, |ui| {
+            ui.label(tr("Width"));
+            ui.add(egui::DragValue::new(&mut w).speed(1.0).range(4.0..=2000.0).suffix(" mm"));
+            ui.end_row();
+            ui.label(tr("Height"));
+            ui.add(egui::DragValue::new(&mut h).speed(1.0).range(4.0..=2000.0).suffix(" mm"));
+            ui.end_row();
+            ui.label(tr("Connection points"));
+            ui.label(points.to_string());
+            ui.end_row();
+        });
+        if (w - r.width()).abs() > 0.01 || (h - r.height()).abs() > 0.01 {
+            let to = openecraft_core::geom::R::from_points(r.min, r.min + openecraft_core::geom::p(w, h));
+            if let Err(e) = device_boxes::resize(&mut self.session.prj, pi, s.id, to) {
+                ui.colored_label(crate::style::error(), e);
+            }
+        }
+        if icons::text_button(ui, Icon::DeviceConnection, tr("Place connection points"))
+            .on_hover_text(tr("Click on the outline of the box: each point is a connection of its device, numbered on"))
+            .clicked()
+        {
+            self.editor.set_tool(Tool::Place(openecraft_core::symbols::DEVICE_POINT));
+        }
+    }
+
+    /// The device box a connection point belongs to and the place of its designation.
+    fn device_point_fields(&mut self, ui: &mut egui::Ui, pi: usize, s: &SymbolInst) {
+        let prj = &self.session.prj;
+        let page = &prj.pages[pi];
+        let boxes = device_boxes::boxes(page);
+        let current = device_boxes::box_of(prj, page, s).or_else(|| boxes.iter().find(|b| !s.tag.is_empty() && b.1 == s.tag).map(|b| b.0));
+        let here = Dt::of_page(page);
+        let name = |tag: &str, text: &str| {
+            let tag = here.relative(tag);
+            match text.lines().next().filter(|t| !t.is_empty()) {
+                Some(t) => format!("{tag}  {t}"),
+                None => tag,
+            }
+        };
+        let (auto_at, auto_anchor) = prj.symbol(&s.sym).map(|def| {
+            let (q, a, _) = openecraft_core::render::pin_label_at(&def, &SymbolInst { pin_label: None, ..s.clone() }, 0);
+            (q - s.pos, a)
+        }).unwrap_or((openecraft_core::geom::P::default(), Anchor::Left));
+        let mut chosen = None;
+        let mut label = s.pin_label;
+        ui.separator();
+        egui::Grid::new("devpoint").num_columns(2).spacing([8.0, 4.0]).show(ui, |ui| {
+            ui.label(tr("Device box")).on_hover_text(tr("The device box whose device this point is a connection of; placed on a box, the point takes its device"));
+            let shown = current.and_then(|id| boxes.iter().find(|b| b.0 == id)).map(|b| name(&b.1, &b.2)).unwrap_or_else(|| tr("(none)").to_string());
+            egui::ComboBox::from_id_salt(("devpoint_box", s.id)).selected_text(shown).show_ui(ui, |ui| {
+                for (id, tag, text) in boxes.iter().filter(|b| !b.1.is_empty()) {
+                    if ui.selectable_label(Some(*id) == current, name(tag, text)).clicked() {
+                        chosen = Some(*id);
+                    }
+                }
+            });
+            ui.end_row();
+            ui.label(tr("Designation"));
+            ui.horizontal(|ui| {
+                let mut placed = label.is_some();
+                if ui.checkbox(&mut placed, tr("Placed by hand")).on_hover_text(tr("Drag the designation of the selected point to place it")).changed() {
+                    label = placed.then_some(PinLabel { offset: auto_at, anchor: auto_anchor });
+                }
+                if let Some(l) = &mut label {
+                    for (a, text) in [(Anchor::Left, tr("Left")), (Anchor::Center, tr("Centre")), (Anchor::Right, tr("Right"))] {
+                        ui.selectable_value(&mut l.anchor, a, text);
+                    }
+                }
+            });
+            ui.end_row();
+        });
+        if let Some(b) = chosen {
+            if let Err(e) = device_boxes::assign(&mut self.session.prj, pi, s.id, b) {
+                ui.colored_label(crate::style::error(), e);
+            }
+        }
+        if label != s.pin_label {
+            if let Some(p) = self.session.prj.pages[pi].symbols.iter_mut().find(|p| p.id == s.id) {
+                p.pin_label = label;
+            }
+        }
+    }
+
     #[allow(clippy::too_many_lines)]
     pub(super) fn symbol_properties(&mut self, ui: &mut egui::Ui, idx: &Index, pi: usize, si: usize) {
         let s = self.session.prj.pages[pi].symbols[si].clone();
@@ -537,10 +628,22 @@ impl App {
             }
         }
         }
+        // A device box takes its connection points to another device.
+        let box_points = if device_boxes::is_box(&s) { device_boxes::points_of(&self.session.prj, &self.session.prj.pages[pi], s.id) } else { Vec::new() };
         if edited != s {
             self.session.prj.pages[pi].symbols[si] = edited.clone();
+            if edited.tag != s.tag {
+                for p in self.session.prj.pages[pi].symbols.iter_mut().filter(|p| box_points.contains(&p.id)) {
+                    p.tag.clone_from(&edited.tag);
+                }
+            }
         }
         if tab == PropTab::Device {
+            if device_boxes::is_box(&edited) {
+                self.device_box_fields(ui, pi, &edited, box_points.len());
+            } else if def.func == Func::Connection {
+                self.device_point_fields(ui, pi, &edited);
+            }
             ui.horizontal(|ui| {
                 ui.label(tr("Function definition"));
                 properties_ui::function_def_combo(ui, &mut self.session.prj, s.id);

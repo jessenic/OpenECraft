@@ -205,15 +205,18 @@ pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
             v.push(crate::issue!(Severity::Error, t(&mains[1]), "{}: main function placed {} times", tag, mains.len()));
         }
         if !dev.others.is_empty() {
-            // Duplicate terminal numbers / PLC addresses (plug pins: see `plugs::problems`)
+            // Duplicate terminal numbers / PLC addresses / device connection points (plug
+            // pins: see `plugs::problems`)
             let mut seen: HashMap<String, usize> = HashMap::new();
             for l in &dev.others {
                 let s = prj.pages[l.page].symbols.iter().find(|s| s.id == l.sym_id);
-                if let Some(s) = s.filter(|s| !matches!(prj.symbol(&s.sym).map(|d| d.func), Some(Func::Plug(_)))) {
-                    let c = seen.entry(s.label.clone()).or_default();
+                let func = s.and_then(|s| prj.symbol(&s.sym)).map(|d| d.func);
+                if let Some(s) = s.filter(|_| !matches!(func, Some(Func::Plug(_)))) {
+                    let designation = if func == Some(Func::Connection) { s.pins.first().cloned().unwrap_or_default() } else { s.label.clone() };
+                    let c = seen.entry(designation.clone()).or_default();
                     *c += 1;
                     if *c == 2 {
-                        v.push(crate::issue!(Severity::Warning, t(l), "{}: designation '{}' used more than once", tag, s.label));
+                        v.push(crate::issue!(Severity::Warning, t(l), "{}: designation '{}' used more than once", tag, designation));
                     }
                 }
             }

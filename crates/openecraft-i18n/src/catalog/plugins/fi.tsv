@@ -169,6 +169,7 @@ Deletes a potential definition	Poistaa potentiaalin määrityksen
 Deletes a work area	Poistaa työalueen
 Deletes symbols, wires, texts and shapes	Poistaa symboleja, johtoja, tekstejä ja muotoja
 Depth in mm	Syvyys millimetreinä
+Device boxes	Laitelaatikot
 Device description id (empty: from the parts)	Laitekuvauksen tunniste (tyhjä: osista)
 Device description id of the head (list_device_descriptions)	Pääyksikön laitekuvauksen tunniste (list_device_descriptions)
 Device group {} already exists	Laiteryhmä {} on jo olemassa

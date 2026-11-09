@@ -94,6 +94,7 @@ Description	Beschreibung	Description	Descripción
 Designation	Bezeichnung	Désignation	Designación
 Device	Betriebsmittel	Appareil	Dispositivo
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Betriebsmittel (PV-Generator), zu dem die Module gehören; seine Artikel zählen sie dann in der Stückliste	Appareil (générateur photovoltaïque) auquel appartiennent les modules ; ses articles les comptent alors dans la nomenclature	Dispositivo (generador fotovoltaico) al que pertenecen los módulos; sus artículos los cuentan entonces en la lista de materiales
+Device connection point	Geräteanschlusspunkt	Point de connexion d'appareil	Punto de conexión del dispositivo
 Device description	Gerätebeschreibung	Description d'appareil	Descripción de dispositivo
 Device tag	Betriebsmittelkennzeichen	Repère d'appareil	Designación de dispositivo
 Device {}	Betriebsmittel {}	Appareil {}	Dispositivo {}

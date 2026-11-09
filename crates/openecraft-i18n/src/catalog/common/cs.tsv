@@ -92,6 +92,7 @@ Description	Popis
 Designation	Označení
 Device	Přístroj
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Zařízení (FV generátor), ke kterému moduly patří; jeho díly je pak počítají v kusovníku
+Device connection point	Připojovací bod zařízení
 Device description	Popis zařízení
 Device tag	Označení přístroje
 Device {}	Přístroj {}

@@ -92,6 +92,7 @@ Description	Beschrijving
 Designation	Benaming
 Device	Apparaat
 Device (PV generator) the modules belong to; its parts then count them in the bill of materials	Apparaat (PV-generator) waartoe de modules behoren; zijn artikelen tellen ze dan in de stuklijst
+Device connection point	Apparaataansluitpunt
 Device description	Apparaatbeschrijving
 Device tag	Apparaataanduiding
 Device {}	Apparaat {}

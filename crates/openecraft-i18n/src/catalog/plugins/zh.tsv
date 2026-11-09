@@ -169,6 +169,7 @@ Deletes a potential definition	删除电位定义
 Deletes a work area	删除工作区
 Deletes symbols, wires, texts and shapes	删除符号、导线、文本和形状
 Depth in mm	深度 (mm)
+Device boxes	设备框
 Device description id (empty: from the parts)	设备描述 ID（空：取自部件）
 Device description id of the head (list_device_descriptions)	头模块的设备描述 ID (list_device_descriptions)
 Device group {} already exists	设备组 {} 已存在

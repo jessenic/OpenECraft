@@ -76,6 +76,8 @@ pub enum Cmd {
     BridgeTool,
     InterruptionPoint,
     PotentialPoint,
+    DeviceBoxTool,
+    DeviceConnectionTool,
     InsertMacro,
     SaveSelectionAsMacro,
     SavePageAsMacro,
@@ -283,6 +285,8 @@ pub fn changes_page(cmd: Cmd) -> bool {
             | Cmd::BridgeTool
             | Cmd::InterruptionPoint
             | Cmd::PotentialPoint
+            | Cmd::DeviceBoxTool
+            | Cmd::DeviceConnectionTool
             | Cmd::LineTool
             | Cmd::RectTool
             | Cmd::CircleTool
@@ -463,6 +467,10 @@ pub static ALL: &[Def] = &[
         .tip(tr_const!("Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first")),
     d(C::InterruptionPoint, "interruption_point", tr_const!("Interruption point"), I::Interruption),
     d(C::PotentialPoint, "potential_point", tr_const!("Potential"), I::Potential),
+    d(C::DeviceBoxTool, "device_box", tr_const!("Device box"), I::DeviceBox)
+        .tip(tr_const!("Device box: draw a box of any size as a device (power supply, measuring instrument, control module)")),
+    d(C::DeviceConnectionTool, "device_connection_point", tr_const!("Device connection point"), I::DeviceConnection)
+        .tip(tr_const!("Device connection point: placed on a device box it is a connection of its device, numbered on")),
     d(C::InsertMacro, "insert_macro", tr_const!("Macro…"), I::Macro),
     d(C::SaveSelectionAsMacro, "save_selection_as_macro", tr_const!("Save selection as macro…"), I::Save),
     d(C::SavePageAsMacro, "save_page_as_macro", tr_const!("Save page as macro…"), I::Save),
