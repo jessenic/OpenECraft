@@ -123,3 +123,10 @@ fn pages_and_sections_move_before_others() {
     run(&mut s, "set_section", json!({ "section": "2", "before": "1" })).unwrap();
     assert_eq!(run(&mut s, "list_sections", json!({})).unwrap()[1]["pages"], json!(["2.2", "2.3", "2.1"]));
 }
+
+#[test]
+fn adding_a_page_continues_imported_numeric_subpage_names() {
+    let mut s=new_session();s.project_mut().unwrap().pages[0].name="20a".into();
+    assert_eq!(run(&mut s,"add_page",json!({"kind":"schematic"})).unwrap()["name"],"21");
+    assert_eq!(run(&mut s,"list_pages",json!({})).unwrap()[0]["name"],"20a");
+}

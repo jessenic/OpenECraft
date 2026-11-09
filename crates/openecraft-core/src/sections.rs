@@ -118,9 +118,9 @@ pub fn next_page_name(prj: &Project, section: u64) -> String {
 fn next_name(prj: &Project, section: u64, skip: Option<usize>) -> String {
     let prefix = prefix(prj, section);
     let others = |i: &usize| Some(*i) != skip;
-    let max = (0..prj.pages.len()).filter(others).filter(|&i| of_page(prj, i) == section).filter_map(|i| local_name(prj, i).parse::<u32>().ok()).max().unwrap_or(0);
+    let max = (0..prj.pages.len()).filter(others).filter(|&i| of_page(prj, i) == section).filter_map(|i| local_name(prj, i).chars().take_while(char::is_ascii_digit).collect::<String>().parse::<u64>().ok()).max().unwrap_or(0);
     let used: HashSet<&str> = (0..prj.pages.len()).filter(others).map(|i| prj.pages[i].name.as_str()).collect();
-    (max + 1..).map(|n| format!("{prefix}{n}")).find(|n| !used.contains(n.as_str())).unwrap_or_default()
+    (max.checked_add(1).unwrap_or(1)..).map(|n| format!("{prefix}{n}")).find(|n| !used.contains(n.as_str())).unwrap_or_default()
 }
 
 /// Sorts the pages by the tree; pages of the same section keep their order.
