@@ -60,6 +60,7 @@ pub static COMMANDS: &[Spec] = &[
         params: &[
             PAGE,
             param("macro", Kind::Str, tr_const!("Native macro JSON")),
+            optional("values", Kind::Object, tr_const!("Macro placeholder values by name")),
             param("x", Kind::Num, tr_const!("X position in mm")),
             param("y", Kind::Num, tr_const!("Y position in mm (downwards)")),
         ],
@@ -668,7 +669,12 @@ fn import_ema(prj: &mut Project, a: &Args) -> Result<Value, String> {
 fn insert_macro(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let page = editable(prj, a.req("page"))?;
     let m: openecraft_core::macros::Macro = serde_json::from_str(a.req("macro")).map_err(|e| e.to_string())?;
-    let ids = ops::paste(prj, page, &m.clip, p(a.num("x").unwrap_or_default(), a.num("y").unwrap_or_default()));
+    let values=match a.value("values") {
+        Some(values)=>serde_json::from_value(values.clone()).map_err(|error|error.to_string())?,
+        None=>std::collections::BTreeMap::new(),
+    };
+    let clip=m.resolve(&values);
+    let ids = ops::paste(prj, page, &clip, p(a.num("x").unwrap_or_default(), a.num("y").unwrap_or_default()));
     Ok(json!({ "ids": ids, "symbol_definitions": m.clip.symbol_defs.len() }))
 }
 

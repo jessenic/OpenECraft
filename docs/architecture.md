@@ -57,7 +57,8 @@ Layers, bottom up (a module may use its own layer and the layers below):
    texts are `Issue::plain`).
 2. `symbols`, `symlib`: symbol definitions. The 2D PXF decoder lives in
    `symlib::ema`. The macro module uses its device definitions to construct
-   native multi-device window macros. The built-in library is static
+   native multi-device window macros. Macro resolution also visits primitive text
+   and literal attribute-block rows in these lower-layer definitions. The built-in library is static
    (`symbols::builtin`); the user symbols of a project are resolved through
    `Project::symbol` / `Project::symbol_table()` (`symlib::Symbols`, a snapshot the
    editing functions take as a parameter), never through process-wide state.

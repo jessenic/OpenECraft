@@ -171,6 +171,23 @@ fn texts_mut(clip: &mut Clip) -> Vec<&mut String> {
         v.extend(s.values.values_mut());
         v.extend(s.pins.iter_mut());
     }
+    for definition in clip.symbol_defs.iter_mut() {
+        v.extend([&mut definition.letter,&mut definition.default_label,&mut definition.default_function_text]);
+        v.extend(definition.default_values.values_mut());
+        v.extend(definition.pins.iter_mut().map(|pin|&mut pin.label));
+        for primitive in &mut definition.prims {
+            match primitive {
+                crate::symbols::Prim::Text {text,..}=>v.push(text),
+                crate::symbols::Prim::PropertyBlock(block)=>{
+                    v.extend(block.rows.iter_mut().filter_map(|row|match row {
+                        crate::symbols::BlockRow::Text(text)=>Some(text),
+                        _=>None,
+                    }));
+                }
+                _=>{}
+            }
+        }
+    }
     for w in &mut clip.wires {
         v.push(&mut w.color);
         v.push(&mut w.cross_section);

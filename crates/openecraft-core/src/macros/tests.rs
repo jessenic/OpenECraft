@@ -3,6 +3,35 @@ use crate::geom::p;
 use crate::sample::demo_project;
 
 #[test]
+fn portable_definition_parameters_fill_visible_text_and_defaults_without_touching_source_identity() {
+    let m:Macro=serde_json::from_value(serde_json::json!({"clip":{
+        "symbols":[{"id":1,"sym":"user:{IDENTITY}","tag":"-X{UNIT}","pins":["{PIN}"]}],
+        "symbol_defs":[{"key":"user:{IDENTITY}","letter":"X{UNIT}","default_label":"{LABEL}",
+            "default_function_text":"{LOAD}","default_values":{"function.part_number":"{ARTICLE}"},
+            "pins":[{"label":"{PIN}"}],"source_data":{"xml":"{SOURCE}"},
+            "prims":[{"Text":{"pos":{"x":0,"y":0},"text":"For {LOAD}","size":2,"anchor":"Left"}},
+                {"PropertyBlock":{"rows":[{"Text":"{NOTE}"},{"Property":"{PROPERTY_KEY}"}],
+                    "pos":{"x":0,"y":0},"step":{"x":0,"y":2},"size":2,"anchor":"Left","angle":0,"align":"Start"}}]}]
+    }})).unwrap();
+    assert_eq!(m.placeholders(),["ARTICLE","LABEL","LOAD","NOTE","PIN","UNIT"]);
+    let values=BTreeMap::from([("UNIT".into(),"7".into()),("LOAD".into(),"Pump".into()),("PIN".into(),"13".into()),
+        ("LABEL".into(),"Terminal".into()),("ARTICLE".into(),"A1".into()),("NOTE".into(),"Spare".into())]);
+    let clip=m.resolve(&values);let definition=&clip.symbol_defs[0];
+    assert_eq!(definition.letter,"X7");assert_eq!(definition.default_label,"Terminal");
+    assert_eq!(definition.default_function_text,"Pump");assert_eq!(definition.default_values["function.part_number"],"A1");
+    assert_eq!(definition.pins[0].label,"13");assert_eq!(clip.symbols[0].pins[0],"13");
+    assert_eq!(definition.key,"user:{IDENTITY}");assert_eq!(definition.source_data.as_ref().unwrap()["xml"],"{SOURCE}");
+    let crate::symbols::Prim::Text {text,..}=&definition.prims[0] else {panic!()};assert_eq!(text,"For Pump");
+    let crate::symbols::Prim::PropertyBlock(block)=&definition.prims[1] else {panic!()};
+    assert_eq!(block.rows,[crate::symbols::BlockRow::Text("Spare".into()),crate::symbols::BlockRow::Property("{PROPERTY_KEY}".into())]);
+    let mut project=Project::default();let ids=ops::paste(&mut project,0,&clip,p(10.,10.));
+    let symbol=project.pages[0].symbols.iter().find(|s|ids.contains(&s.id)).unwrap();
+    let installed=project.symbols.iter().find(|d|d.key==symbol.sym).unwrap();
+    assert_eq!(installed.default_function_text,"Pump");assert_eq!(installed.pins[0].label,"13");
+    assert_eq!(m.clip.symbol_defs[0].default_function_text,"{LOAD}");
+}
+
+#[test]
 fn portable_cable_placeholders_resolve_inventory_and_all_references_together() {
     let m:Macro=serde_json::from_value(serde_json::json!({"clip":{
         "cables":[{"tag":"-W{UNIT}","part":"{ARTICLE}","cores":"{CORE}","values":{"cable.note":"{NOTE}"}}],

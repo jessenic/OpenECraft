@@ -451,6 +451,29 @@ fn insert_macro_installs_portable_custom_symbols() {
 }
 
 #[test]
+fn insert_macro_resolves_portable_graphics_and_assignments_through_the_registry() {
+    let mut session=new_session();
+    let m=json!({"name":"Parameterized","clip":{
+        "symbol_defs":[{"key":"user:param","default_function_text":"{LOAD}","pins":[{"label":"{PIN}"}],
+            "prims":[{"Text":{"pos":{"x":0,"y":0},"text":"{LOAD}","size":2,"anchor":"Left"}}]}],
+        "symbols":[{"id":1,"sym":"user:param","tag":"-X{UNIT}","pins":["{PIN}"],"values":{"function.part_number":"{ARTICLE}"}}],
+        "devices":{"-X{UNIT}":{"parts":[{"number":"{ARTICLE}","count":1}]}},"parts":[{"number":"{ARTICLE}"}]
+    }});
+    let request=json!({"page":"1","macro":m.to_string(),"x":40,"y":40,
+        "values":{"LOAD":"Pump","PIN":"13","UNIT":"7","ARTICLE":"A1"}});
+    run(&mut session,"insert_macro",request).unwrap();
+    let project=session.project().unwrap();let symbol=&project.pages[0].symbols[0];
+    assert_eq!(symbol.pins,["13"]);assert_eq!(symbol.values["function.part_number"],"A1");
+    let definition=project.symbols.iter().find(|d|d.key==symbol.sym).unwrap();
+    assert_eq!(definition.default_function_text,"Pump");assert_eq!(definition.pins[0].label,"13");
+    let symbols::Prim::Text {text,..}=&definition.prims[0] else {panic!()};assert_eq!(text,"Pump");
+    assert_eq!(project.devices[&symbol.tag].parts[0].number,"A1");
+    let before=project.clone();
+    assert!(run(&mut session,"insert_macro",json!({"page":"1","macro":m.to_string(),"x":40,"y":40,"values":{"LOAD":1}})).is_err());
+    assert_eq!(*session.project().unwrap(),before);
+}
+
+#[test]
 fn native_net_membership_is_available_through_plugins() {
     let mut session = new_session();
     let first = run(&mut session,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":40,"tag":"-K1"})).unwrap();
