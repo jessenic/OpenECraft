@@ -123,13 +123,21 @@ pub fn call(session: &mut Session, entry: impl Into<Entry>, values: &Map<String,
     let values = &openecraft_api::builtin::current_names(entry.name(), values);
     params::check(entry.params(), values)?;
     let before = if entry.needs_project() { Some(session.project()?.clone()) } else { None };
-    let result = match &entry {
+    let mut result = match &entry {
         Entry::Tool(t) => (t.run)(session, &Args(values)),
         Entry::Plugin(c) => session.run_command(c, values),
     };
-    // A command that fails leaves the project as it was, also halfway through.
-    if let (Err(_), Some(prj)) = (&result, before) {
-        session.restore(prj);
+    match (&mut result, before) {
+        // A command that fails leaves the project as it was, also halfway through.
+        (Err(_), Some(prj)) => session.restore(prj),
+        // Devices moved into or out of structure boxes take their structure.
+        (Ok(value), Some(before)) if matches!(entry, Entry::Plugin(_)) => {
+            let kept = openecraft_core::structure_boxes::follow(session.project_mut()?, &before);
+            if let (false, Some(map)) = (kept.is_empty(), value.as_object_mut()) {
+                map.insert("structure_kept".into(), Value::from(kept));
+            }
+        }
+        _ => {}
     }
     session.commit();
     result

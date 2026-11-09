@@ -202,7 +202,9 @@ Border	Reunus
 Border distance (mm)	Reunaetäisyys (mm)
 Both sides are open: the wires need no cutout	Molemmat puolet ovat avoimia: johdot eivät tarvitse aukkoa
 Bottom edges	Alareunat
+Bottom left	Vasen alakulma
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Kotelon alareuna (ilman sokkelia) lattiasta; korkeudet tarkistetaan, kun se tiedetään tai kotelo on sokkelin päällä
+Bottom right	Oikea alakulma
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Katkaisukyky oikosulkuvirtaa vastaan verkon jokaisessa suojalaitteessa, poiskytkentä pienimmällä vikavirralla piirin lopussa, kaapelien oikosulkukestoisuus ja selektiivisyys edeltävään laitteeseen.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Silta: neljä johdinta; liitos tulee yhdeltä sivulta ja jatkuu kolmelle muulle, ensin vastakkaiselle
 Building {} added with a level at ground level	Rakennus {} lisätty, kerros maan tasolla
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Napsauta
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Napsauta näyttääksesi rakennusten asemapiirroksen tai koko laitoksen 3D-näkymässä
 Click to show, right click for more	Näytä napsauttamalla, lisää hiiren oikealla painikkeella
 Click two corners	Napsauta kahta kulmaa
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Napsauta rakennelaatikon kahta kulmaa ja aseta sen tunnukset ominaisuuksissa · Esc tai hiiren oikea painike lopettaa
 Click two nodes to connect them	Yhdistä kaksi solmua napsauttamalla niitä
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Napsauta kohtaa, jossa neljä johdinta kohtaa: silta vie liitoksen yhdeltä sivulta kolmelle muulle, ensin vastakkaiselle · {} kääntää sen · Esc tai oikea painike lopettaa
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Napsauta kohtaa, jossa kolme johdinta kohtaa: T-haara määrää laitteen, josta johtimet lähtevät, ja kohteiden järjestyksen · {} kääntää sen, missä johtimet eivät vielä kohtaa · Esc tai oikea painike lopettaa
@@ -345,7 +348,7 @@ Comments and markup	Kommentit ja merkinnät
 Compare and baselines	Vertailu ja lähtötasot
 Compare with	Vertaa kohteeseen
 Compare with a baseline, a revision or another project file and take differences over	Vertaa lähtötasoon, revisioon tai toiseen projektitiedostoon ja ota erot käyttöön
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Täydellinen tunnus: {}\nTästä puuttuvat aspektit otetaan sivulta (=toiminto +sijainti).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Täydellinen tunnus: {}\nTästä puuttuvat aspektit otetaan sivulta (=toiminto +sijainti) tai rakennelaatikosta, jossa symboli on.
 Condition	Ehto
 Condition (OPTION=value & …)	Ehto (OPTION=arvo & …)
 Conductive frame	Johtava runko
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG tuotiin sivuk
 DXF import failed: {}	DXF-tuonti epäonnistui: {}
 DXF imported as page {}: {} lines, {} texts	DXF tuotu sivuksi {}: {} viivaa, {} tekstiä
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF tuotu sivuksi {}: {} viivaa, {} tekstiä (ei tuotu: {})
+Dash-dot	Pistekatkoviiva
 Dashed	Katkoviiva
 Decimals	Desimaalit
 Default	Oletus
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	Laite-, riviliitin
 Devices ({})	Laitteet ({})
 Devices are not copied: a device is placed once.	Laitteita ei kopioida: laite sijoitetaan kerran.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Laitteet suunnitellaan yksinapaisilla symboleilla ja toteutetaan moninapaisessa piirikaaviossa; molemmilla on sama laitetunnus.
+Devices in the box: {}	Laitteet laatikossa: {}
 Devices of a channel	Kanavan laitteet
 Devices of the second channel; empty = like the first	Toisen kanavan laitteet; tyhjä = kuten ensimmäinen
 Devices placed on the page get its structure; their tags are shown without it.	Sivulle sijoitetut laitteet saavat sen rakenteen; niiden tunnukset näytetään ilman sitä.
 Devices to place	Sijoitettavat laitteet
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Laitteet, joiden päätoiminto on laatikossa, saavat tässä asetetut tunnukset; tyhjät aspektit peritään sivulta tai ympäröivästä laatikosta.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Laitteet, yhteydet ja riviliittimet: suodata, täytä, etsi ja korvaa, CSV
 Dew point	Kastepiste
 Diameter	Halkaisija
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Ei vielä ka
 No change requests yet.	Ei vielä muutospyyntöjä.
 No changes since the last revision.	Ei muutoksia viimeisimmän revision jälkeen.
 No data of other systems imported yet.	Muiden järjestelmien tietoja ei ole vielä tuotu.
+No device has its main function in the box.	Minkään laitteen päätoiminto ei ole laatikossa.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Millään laitteella ei vielä ole asennustietoja: liitä laitteisiin osat, joilla on mitat (Ominaisuudet › Osat).
 No differences to {}.	Ei eroja kohteeseen {}.
 No document embedded	Dokumenttia ei ole upotettu
@@ -1668,6 +1675,7 @@ Slots	Korttipaikat
 Smallest cross-section of control circuits	Ohjauspiirien pienin poikkipinta-ala
 Smallest cross-section of power circuits	Tehopiirien pienin poikkipinta-ala
 Socket outlets, data and antenna outlets	Pistorasiat, data- ja antennirasiat
+Solid	Yhtenäinen
 Some wires have no length: place their devices in the panel layout or set the field length.	Joillakin johdoilla ei ole pituutta: sijoita niiden laitteet kaappiasennukseen tai aseta kentän pituus.
 Sort by designation	Lajittele nimityksen mukaan
 Sort order	Lajittelujärjestys
@@ -1707,7 +1715,10 @@ Strip {} mm	Kuori {} mm
 Strips / plugs	Rimat / pistoliittimet
 Structure (IEC 81346)	Rakenne (IEC 81346)
 Structure (function / location)…	Rakenne (toiminto / sijainti)…
+Structure box	Rakennelaatikko
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Rakennelaatikko: piirrä suorakulmio alueen ympärille, jonka laitteet saavat eri toiminto- (=) tai sijaintitunnukset (+) kuin sivu
 Structure identifiers (IEC 81346), templates and work areas	Rakennetunnukset (IEC 81346), mallit ja työalueet
+Structure in the box	Rakenne laatikossa
 Structure management	Rakennetunnusten hallinta
 Structure of the target page	Kohdesivun rakenne
 Style	Tyyli
@@ -1770,6 +1781,7 @@ Terminals at least	Riviliittimet vähintään
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Riviliittimet, joilla on sama siltanumero, on silloitettu (sama potentiaali). Varariviliittimet lasketaan mukaan osaluetteloon.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Ehdot merkillä ';' erotettuina: avain=arvo (yhtä kuin), avain~teksti (sisältää) tai teksti missä tahansa
 Test connection	Testaa yhteys
+Text offset	Tekstin siirtymä
 Text size	Tekstin koko
 Texts	Tekstit
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal tarjoaa vain osien haun ja lukemisen: avaa dataportaalin ikkuna lisätäksesi sen osia.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Vaihda kulman suuntaa johtoja piirre
 Toggle routing around symbols (wire tool)	Symbolien kiertävä reititys päälle / pois (johtotyökalu)
 Top	Ylhäällä
 Top edges	Yläreunat
+Top left	Vasen yläkulma
+Top right	Oikea yläkulma
 Total selectivity	Täydellinen selektiivisyys
 Transfer project parts to database	Siirrä projektin osat tietokantaan
 Translate the project texts; documentation per language	Käännä projektin tekstit; dokumentaatio kielittäin
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Rulla: zoomaa · ve
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Rulla: zoomaa · hiiren oikea painike: peruuta · grafiikka kohdistuu 0,5 mm:iin, liitäntäpisteet 4 mm:n ruudukkoon
 When it differs from the page	Kun se poikkeaa sivusta
 Where	Sijainti
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Mistä laitteen rakenne tulee: symbolia ympäröivää rakennetta vastaavat aspektit peritään ja ne muuttuvat, kun symboli siirretään rakennelaatikkoon tai siitä pois; muut aspektit ovat laitteen omia ja säilyvät.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Mistä johto alkaa ja mihin se päättyy: liitäntäpiste osan tiedoista, toimintomallista luotu liitäntäpiste tai laitteen keskikohta, jos mikään liitäntäpiste ei vastaa
 Whole building	Koko rakennus
 Whole words	Kokonaiset sanat
@@ -2013,6 +2028,10 @@ from the parts	osista
 given	annettu
 horizontal	vaakasuora
 if	jos
+inherited	peritty
+inherited from structure box {}	peritty rakennelaatikosta {}
+inherited from the page	peritty sivulta
+inherited: {}	peritty: {}
 kW	kW
 low side at the rear	matala puoli takana
 male	uros
@@ -2046,6 +2065,7 @@ placed / provided by the parts	sijoitettu / osien tarjoama
 reached: PL {}	saavutettu: PL {}
 review round {}	katselmointikierros {}
 ridge {} m	harja {} m
+set on the device	asetettu laitteelle
 sloped ceiling from {} m	vino katto alkaen {} m
 some	jotkin
 taken over	otettu käyttöön

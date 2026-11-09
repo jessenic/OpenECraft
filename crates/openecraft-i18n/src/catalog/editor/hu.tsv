@@ -202,7 +202,9 @@ Border	Szegély
 Border distance (mm)	Margó (mm)
 Both sides are open: the wires need no cutout	Mindkét oldal nyitott: a vezetékeknek nem kell kivágás
 Bottom edges	Alsó élek
+Bottom left	Bal alsó
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	A szekrény alsó éle (lábazat nélkül) a padló felett; a magasságokat akkor ellenőrzi, ha ez ismert, vagy ha a szekrény lábazaton áll
+Bottom right	Jobb alsó
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Megszakítóképesség a zárlati árammal szemben a hálózat minden védőkészülékénél, lekapcsolás a legkisebb hibaáramnál az áramkör végén, a kábelek zárlati szilárdsága és szelektivitás az előtte kapcsolt készülékkel.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Híd: négy vezeték; a kapcsolat egy oldalon érkezik, és a három másikhoz megy, először a szemköztihez
 Building {} added with a level at ground level	A(z) {} épület hozzáadva egy talajszinti szinttel
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Kattints
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Kattintson az épületek helyszínrajzának megjelenítéséhez, vagy a teljes létesítményhez a 3D nézetben
 Click to show, right click for more	Kattintás: megjelenítés, jobb kattintás: továbbiak
 Click two corners	Kattintson két sarokra
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Kattintson a struktúrakeret két sarkára, majd adja meg azonosítóit a tulajdonságokban · Esc vagy jobb kattintás a befejezéshez
 Click two nodes to connect them	Kattintson két csomópontra az összekötésükhöz
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Kattintson oda, ahol négy vezeték találkozik: a híd a kapcsolatot egy oldalról a három másikhoz vezeti, először a szemköztihez · {} elforgatja · Esc vagy jobb kattintás befejezi
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Kattintson oda, ahol három vezeték találkozik: a T-elem megadja, melyik készülékből indulnak a vezetékek, és a céljaik sorrendjét · {} elforgatja, ahol még nem találkoznak vezetékek · Esc vagy jobb kattintás befejezi
@@ -345,7 +348,7 @@ Comments and markup	Megjegyzések és jelölések
 Compare and baselines	Összehasonlítás és alapállapotok
 Compare with	Összehasonlítás ezzel
 Compare with a baseline, a revision or another project file and take differences over	Összehasonlítás egy alapállapottal, revízióval vagy másik projektfájllal, és a különbségek átvétele
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Teljes azonosító: {}\nAz itt hiányzó aspektusok az oldalról származnak (=funkció +szerelési hely).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Teljes azonosító: {}\nAz itt hiányzó aspektusok az oldalról (=funkció +szerelési hely) vagy abból a struktúrakeretből származnak, amelyben a szimbólum van.
 Condition	Feltétel
 Condition (OPTION=value & …)	Feltétel (OPTION=érték & …)
 Conductive frame	Vezetőképes váz
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importálva {
 DXF import failed: {}	Sikertelen DXF-importálás: {}
 DXF imported as page {}: {} lines, {} texts	DXF importálva {}. oldalként: {} vonal, {} szöveg
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF importálva {}. oldalként: {} vonal, {} szöveg (nem importált: {})
+Dash-dot	Pontvonalas
 Dashed	Szaggatott
 Decimals	Tizedesjegyek
 Default	Alapértelmezett
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	Készülék-, sork
 Devices ({})	Készülékek ({})
 Devices are not copied: a device is placed once.	A készülékek nem másolódnak: egy készülék csak egyszer helyezhető el.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	A készülékeket egyvonalas szimbólumokkal tervezik, és a többvonalas kapcsolási rajzon dolgozzák ki; mindkettő ugyanazt a készülékazonosítót használja.
+Devices in the box: {}	Készülékek a keretben: {}
 Devices of a channel	Egy csatorna készülékei
 Devices of the second channel; empty = like the first	A második csatorna készülékei; üres = mint az első
 Devices placed on the page get its structure; their tags are shown without it.	Az oldalon elhelyezett készülékek megkapják annak struktúráját; azonosítóik nélküle jelennek meg.
 Devices to place	Elhelyezendő készülékek
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Azok a készülékek, amelyek főfunkciója a keretben van, az itt megadott azonosítókat kapják; az üres aspektusok az oldaltól vagy egy befoglaló kerettől öröklődnek.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Készülékek, összeköttetések és sorkapcsok: szűrés, kitöltés, keresés és csere, CSV
 Dew point	Harmatpont
 Diameter	Átmérő
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Még nincsen
 No change requests yet.	Még nincsenek módosítási kérelmek.
 No changes since the last revision.	Nincs változás az utolsó revízió óta.
 No data of other systems imported yet.	Még nincsenek más rendszerekből importált adatok.
+No device has its main function in the box.	Egyetlen készülék főfunkciója sincs a keretben.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Még egyik készüléknek sincsenek szerelési adatai: rendeljen a készülékekhez méretekkel rendelkező alkatrészeket (Tulajdonságok › Alkatrészek).
 No differences to {}.	Nincs különbség ehhez képest: {}.
 No document embedded	Nincs beágyazott dokumentum
@@ -1668,6 +1675,7 @@ Slots	Slotok
 Smallest cross-section of control circuits	Vezérlőáramkörök legkisebb keresztmetszete
 Smallest cross-section of power circuits	Erősáramú áramkörök legkisebb keresztmetszete
 Socket outlets, data and antenna outlets	Dugaszolóaljzatok, adat- és antennaaljzatok
+Solid	Folytonos
 Some wires have no length: place their devices in the panel layout or set the field length.	Egyes vezetékeknek nincs hossza: helyezze el a készülékeiket a szekrényelrendezésben, vagy adja meg a mezőhosszt.
 Sort by designation	Rendezés megnevezés szerint
 Sort order	Rendezés
@@ -1707,7 +1715,10 @@ Strip {} mm	Csupaszolás {} mm
 Strips / plugs	Lécek / csatlakozódugók
 Structure (IEC 81346)	Struktúra (IEC 81346)
 Structure (function / location)…	Struktúra (funkció / szerelési hely)…
+Structure box	Struktúrakeret
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Struktúrakeret: rajzoljon téglalapot egy terület köré, amelynek készülékei az oldalétól eltérő funkció- (=) vagy szerelésihely-azonosítót (+) kapnak
 Structure identifiers (IEC 81346), templates and work areas	Struktúraazonosítók (IEC 81346), sablonok és munkaterületek
+Structure in the box	Struktúra a keretben
 Structure management	Struktúrakezelés
 Structure of the target page	A céloldal struktúrája
 Style	Stílus
@@ -1770,6 +1781,7 @@ Terminals at least	Sorkapcsok legalább
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Az azonos áthidalásszámú sorkapcsok össze vannak kötve (azonos potenciál). A tartalék sorkapcsok beszámítanak az anyagjegyzékbe.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Kifejezések ';' karakterrel elválasztva: kulcs=érték (egyenlő), kulcs~szöveg (tartalmazza) vagy bárhol előforduló szöveg
 Test connection	Kapcsolat tesztelése
+Text offset	Szöveg eltolása
 Text size	Szövegméret
 Texts	Szövegek
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	Az EPLAN Data Portal csak alkatrészek keresését és olvasását kínálja: alkatrészeinek hozzáadásához nyissa meg az adatportál ablakát.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Sarokirány váltása vezetékrajzol
 Toggle routing around symbols (wire tool)	Szimbólumok kikerülésének be- és kikapcsolása (vezetékeszköz)
 Top	Fent
 Top edges	Felső élek
+Top left	Bal felső
+Top right	Jobb felső
 Total selectivity	Teljes szelektivitás
 Transfer project parts to database	Projektalkatrészek átvitele az adatbázisba
 Translate the project texts; documentation per language	A projektszövegek fordítása; dokumentáció nyelvenként
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Görgő: nagyítás
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Görgő: nagyítás · jobb kattintás: mégse · a grafika 0,5 mm-re, a csatlakozási pontok a 4 mm-es rácsra illeszkednek
 When it differs from the page	Ha eltér az oldaltól
 Where	Hely
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Honnan származik a készülék struktúrája: a szimbólum körüli struktúrával egyező aspektusok öröklődnek, és követik, ha a szimbólum struktúrakeretbe kerül vagy kikerül onnan; a többi aspektus a készülék sajátja és megmarad.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	A vezeték kezdete és vége: az alkatrészadatokból származó csatlakozási pont, a funkciósablonból generált pont, vagy a készülék közepe, ha egyik csatlakozási pont sem egyezik
 Whole building	Egész épület
 Whole words	Csak teljes szavak
@@ -2013,6 +2028,10 @@ from the parts	az alkatrészekből
 given	megadott
 horizontal	vízszintes
 if	ha
+inherited	öröklött
+inherited from structure box {}	a(z) {} struktúrakerettől öröklött
+inherited from the page	az oldaltól öröklött
+inherited: {}	öröklött: {}
 kW	kW
 low side at the rear	alacsony oldal hátul
 male	tű
@@ -2046,6 +2065,7 @@ placed / provided by the parts	elhelyezve / az alkatrészek által biztosítva
 reached: PL {}	elért: PL {}
 review round {}	{}. véleményezési kör
 ridge {} m	gerinc {} m
+set on the device	a készüléken megadva
 sloped ceiling from {} m	ferde mennyezet {} m-től
 some	néhány
 taken over	átvéve

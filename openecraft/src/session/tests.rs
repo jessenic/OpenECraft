@@ -273,3 +273,35 @@ fn a_snapshot_analyses_like_the_session() {
     .unwrap();
     assert_eq!(an, (s.analysis.issues.len(), s.analysis.reports().len(), s.analysis.routing.clone()));
 }
+
+#[test]
+fn a_device_moved_into_a_structure_box_takes_its_structure_in_the_same_undo_step() {
+    use openecraft_core::geom::p;
+    use openecraft_core::structure::Dt;
+    let mut prj = Project::default();
+    prj.pages[0].location = "CAB1".into();
+    let b = openecraft_core::structure_boxes::new_box(&mut prj, p(100.0, 100.0), p(200.0, 200.0), Dt::parse_structure("+FIELD"), "");
+    prj.pages[0].structure_boxes.push(b);
+    let id = prj.new_id();
+    prj.pages[0].symbols.push(openecraft_core::model::SymbolInst { id, sym: "coil".into(), pos: p(20.0, 20.0), tag: "+CAB1-K1".into(), ..Default::default() });
+    prj.pages[0].symbols.push(openecraft_core::model::SymbolInst { id: id + 100, sym: "coil".into(), pos: p(150.0, 150.0), tag: "+FIELD-K2".into(), ..Default::default() });
+    let mut s = Session::new(prj, None);
+    let start = s.prj.clone();
+    // Dragging: nothing follows before the gesture ends.
+    s.prj.pages[0].symbols[0].pos = p(150.0, 120.0);
+    s.commit(false);
+    assert_eq!(s.prj.pages[0].symbols[0].tag, "+CAB1-K1");
+    assert!(s.commit(true));
+    assert_eq!(s.prj.pages[0].symbols[0].tag, "+FIELD-K1");
+    s.undo();
+    assert_eq!(s.prj, start);
+    // A tag in use is kept and reported once.
+    s.prj.pages[0].symbols[0].tag = "+CAB1-K2".into();
+    s.commit(true);
+    s.prj.pages[0].symbols[0].pos = p(150.0, 120.0);
+    s.commit(true);
+    assert_eq!(s.prj.pages[0].symbols[0].tag, "+CAB1-K2");
+    assert_eq!(std::mem::take(&mut s.structure_kept).len(), 1);
+    s.commit(true);
+    assert!(s.structure_kept.is_empty());
+}

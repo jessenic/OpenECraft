@@ -1495,6 +1495,8 @@ Strip (mm)	Spelatura (mm)
 Stripping from (mm)	Spelatura da (mm)
 Stripping to (mm)	Spelatura a (mm)
 Stroke	Corsa
+Structure box on page {} sets no structure identifier	Il riquadro di struttura a pagina {} non imposta alcun identificatore di struttura
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Riquadri di struttura a pagina {} si sovrappongono senza che uno sia dentro l'altro: i dispositivi in entrambi prendono la struttura del più piccolo
 Structure identifier {} is not defined in the structure management	L'identificatore di struttura {} non è definito nella gestione strutture
 Structure identifier {} must not contain blanks or the signs = + - / :	L'identificatore di struttura {} non deve contenere spazi né i segni = + - / :
 Structure identifiers	Identificatori di struttura
@@ -1907,6 +1909,8 @@ yellow	giallo
 {} is placed at the missing node {}	{} è posizionato sul nodo mancante {}
 {} is planned twice ({} and {})	{} è pianificato due volte ({} e {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} è selettivo rispetto a {} solo fino a {} A (corrente di cortocircuito {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} mantiene la sua struttura: le sue funzioni principali si trovano in riquadri di struttura diversi ({})
+{} keeps its structure: {} exists already	{} mantiene la sua struttura: {} esiste già
 {} lies outside page {}	{} si trova fuori dalla pagina {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} contrassegni di montaggio appartengono a elementi che non esistono più

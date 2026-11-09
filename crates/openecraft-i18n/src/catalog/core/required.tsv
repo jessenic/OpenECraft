@@ -1604,6 +1604,8 @@ Strip (mm)	Abisolierung (mm)	Dénudage (mm)	Pelado (mm)
 Stripping from (mm)	Abisolieren von (mm)	Dénudage début (mm)	Pelado origen (mm)
 Stripping to (mm)	Abisolieren nach (mm)	Dénudage fin (mm)	Pelado destino (mm)
 Stroke	Hub	Course	Carrera
+Structure box on page {} sets no structure identifier	Strukturkasten auf Seite {} setzt kein Strukturkennzeichen	Le cadre de structure de la page {} ne définit aucun identifiant de structure	El recuadro de estructura de la página {} no define ningún identificador de estructura
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Strukturkästen auf Seite {} überlappen sich, ohne dass einer im anderen liegt: Betriebsmittel in beiden erhalten die Struktur des kleineren	Des cadres de structure de la page {} se chevauchent sans que l'un soit à l'intérieur de l'autre : les appareils situés dans les deux prennent la structure du plus petit	Recuadros de estructura de la página {} se solapan sin que uno esté dentro del otro: los dispositivos en ambos toman la estructura del más pequeño
 Structure identifier {} is not defined in the structure management	Strukturkennzeichen {} ist in der Strukturkennzeichenverwaltung nicht definiert	L'identificateur de structure {} n'est pas défini dans la gestion de structure	El identificador de estructura {} no está definido en la gestión de estructura
 Structure identifier {} must not contain blanks or the signs = + - / :	Strukturkennzeichen {} darf keine Leerzeichen und keines der Zeichen = + - / : enthalten	L'identificateur de structure {} ne doit contenir ni espaces ni les signes = + - / :	El identificador de estructura {} no debe contener espacios ni los signos = + - / :
 Structure identifiers	Strukturkennzeichen	Identifiants de structure	Identificadores de estructura
@@ -2047,6 +2049,8 @@ yellow	gelb	jaune	amarillo
 {} is placed at the missing node {}	{} ist am fehlenden Knoten {} platziert	{} est placé au nœud manquant {}	{} está colocado en el nodo inexistente {}
 {} is planned twice ({} and {})	{} ist doppelt geplant ({} und {})	{} est planifié deux fois ({} et {})	{} está planificado dos veces ({} y {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} ist zu {} nur bis {} A selektiv (Kurzschlussstrom {} A)	{} n'est sélectif avec {} que jusqu'à {} A (courant de court-circuit {} A)	{} es selectivo con {} solo hasta {} A (corriente de cortocircuito {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} behält seine Struktur: seine Hauptfunktionen liegen in verschiedenen Strukturkästen ({})	{} garde sa structure : ses fonctions principales se trouvent dans des cadres de structure différents ({})	{} conserva su estructura: sus funciones principales están en recuadros de estructura distintos ({})
+{} keeps its structure: {} exists already	{} behält seine Struktur: {} existiert bereits	{} garde sa structure : {} existe déjà	{} conserva su estructura: {} ya existe
 {} lies outside page {}	{} liegt außerhalb von Seite {}	{} se trouve hors de la page {}	{} está fuera de la página {}
 {} min {} s	{} min {} s	{} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} Montagemarkierungen gehören zu Teilen, die es nicht mehr gibt	{} marques de montage appartiennent à des éléments qui n'existent plus	{} marcas de montaje pertenecen a elementos que ya no existen

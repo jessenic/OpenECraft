@@ -1495,6 +1495,8 @@ Strip (mm)	Afisolering (mm)
 Stripping from (mm)	Afisolering fra (mm)
 Stripping to (mm)	Afisolering til (mm)
 Stroke	Slaglængde
+Structure box on page {} sets no structure identifier	Strukturboks på side {} angiver ingen strukturbetegnelse
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Strukturbokse på side {} overlapper, uden at den ene ligger inden i den anden: enheder i begge får strukturen fra den mindste
 Structure identifier {} is not defined in the structure management	Strukturbetegnelsen {} er ikke defineret i strukturstyringen
 Structure identifier {} must not contain blanks or the signs = + - / :	Strukturbetegnelsen {} må ikke indeholde mellemrum eller tegnene = + - / :
 Structure identifiers	Strukturbetegnelser
@@ -1907,6 +1909,8 @@ yellow	gul
 {} is placed at the missing node {}	{} er placeret ved den manglende knude {}
 {} is planned twice ({} and {})	{} er planlagt to gange ({} og {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} er kun selektiv over for {} op til {} A (kortslutningsstrøm {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} beholder sin struktur: dens hovedfunktioner ligger i forskellige strukturbokse ({})
+{} keeps its structure: {} exists already	{} beholder sin struktur: {} findes allerede
 {} lies outside page {}	{} ligger uden for side {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} monteringsmarkeringer tilhører elementer, der ikke længere findes

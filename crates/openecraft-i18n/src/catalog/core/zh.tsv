@@ -1481,6 +1481,8 @@ Strip (mm)	剥线 (mm)
 Stripping from (mm)	起点端剥线长度 (mm)
 Stripping to (mm)	终点端剥线长度 (mm)
 Stroke	行程
+Structure box on page {} sets no structure identifier	页 {} 上的结构框未设置结构标识符
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	页 {} 上的结构框相互重叠但互不包含：位于两者中的设备采用较小框的结构
 Structure identifier {} is not defined in the structure management	结构标识符 {} 未在结构标识符管理中定义
 Structure identifier {} must not contain blanks or the signs = + - / :	结构标识符 {} 不得包含空格或符号 = + - / :
 Structure identifiers	结构标识符
@@ -1893,6 +1895,8 @@ yellow	黄色
 {} is placed at the missing node {}	{} 放置在不存在的节点 {} 上
 {} is planned twice ({} and {})	{} 被规划了两次（{} 和 {}）
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} 对 {} 的选择性仅达到 {} A（短路电流 {} A）
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} 保留其结构：其主功能位于不同的结构框中 ({})
+{} keeps its structure: {} exists already	{} 保留其结构：{} 已存在
 {} lies outside page {}	{} 位于页面 {} 之外
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} 个安装标记属于已不存在的元件

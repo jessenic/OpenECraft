@@ -1495,6 +1495,8 @@ Strip (mm)	Зачищення (мм)
 Stripping from (mm)	Зачищення від (мм)
 Stripping to (mm)	Зачищення до (мм)
 Stroke	Хід
+Structure box on page {} sets no structure identifier	Рамка структури на сторінці {} не задає жодного структурного позначення
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Рамки структури на сторінці {} перекриваються, але жодна не лежить усередині іншої: пристрої в обох отримують структуру меншої
 Structure identifier {} is not defined in the structure management	Структурне позначення {} не визначено в керуванні структурою
 Structure identifier {} must not contain blanks or the signs = + - / :	Структурне позначення {} не повинно містити пробілів і знаків = + - / :
 Structure identifiers	Структурні позначення
@@ -1907,6 +1909,8 @@ yellow	жовтий
 {} is placed at the missing node {}	{} розміщено у відсутньому вузлі {}
 {} is planned twice ({} and {})	{} заплановано двічі ({} і {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} селективний щодо {} лише до {} A (струм короткого замикання {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} зберігає свою структуру: його головні функції знаходяться в різних рамках структури ({})
+{} keeps its structure: {} exists already	{} зберігає свою структуру: {} вже існує
 {} lies outside page {}	{} знаходиться поза сторінкою {}
 {} min {} s	{} хв {} с
 {} mounting marks belong to items that no longer exist	Позначок встановлення, що належать елементам, яких більше не існує: {}

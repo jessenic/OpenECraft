@@ -94,3 +94,26 @@ fn tidy_removes_the_noise_of_f32_numbers() {
     assert_eq!(v, json!({ "length": 41.8, "list": [0.1, 2], "exact": 0.1, "count": 3 }));
     assert_eq!(serde_json::to_string(&v["length"]).unwrap(), "41.8");
 }
+
+#[test]
+fn devices_moved_by_a_command_follow_structure_boxes() {
+    let mut s = crate::testing::new_session();
+    let run = |s: &mut Session, tool: &str, v: Value| crate::testing::run(s, tool, v);
+    run(&mut s, "set_page", json!({ "page": "1", "function": "SYS", "location": "CAB1" })).unwrap();
+    let k1 = run(&mut s, "place_symbol", json!({ "page": "1", "symbol": "coil", "x": 40, "y": 40 })).unwrap();
+    let k2 = run(&mut s, "place_symbol", json!({ "page": "1", "symbol": "coil", "x": 60, "y": 40 })).unwrap();
+    run(&mut s, "add_structure_box", json!({ "page": "1", "x1": 100, "y1": 100, "x2": 200, "y2": 200, "location": "FIELD" })).unwrap();
+    run(&mut s, "place_symbol", json!({ "page": "1", "symbol": "coil", "x": 120, "y": 120, "tag": "=SYS+FIELD-K2" })).unwrap();
+    // Moved in: the device takes the location of the box.
+    let moved = run(&mut s, "update_symbol", json!({ "page": "1", "id": k1["id"], "x": 140, "y": 140 })).unwrap();
+    assert!(moved.get("structure_kept").is_none(), "{moved}");
+    assert!(s.project().unwrap().all_tags().contains(&"=SYS+FIELD-K1".to_string()));
+    // The tag exists in the box already: kept and reported.
+    let kept = run(&mut s, "update_symbol", json!({ "page": "1", "id": k2["id"], "x": 160, "y": 160 })).unwrap();
+    assert!(kept["structure_kept"][0].as_str().unwrap().contains("=SYS+FIELD-K2"), "{kept}");
+    assert!(s.project().unwrap().all_tags().contains(&"=SYS+CAB1-K2".to_string()));
+    // Undo takes back the move and the new tag in one step.
+    run(&mut s, "undo", json!({})).unwrap();
+    run(&mut s, "undo", json!({})).unwrap();
+    assert!(s.project().unwrap().all_tags().contains(&"=SYS+CAB1-K1".to_string()));
+}

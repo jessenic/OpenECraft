@@ -1495,6 +1495,8 @@ Strip (mm)	Csupaszolás (mm)
 Stripping from (mm)	Csupaszítás kezdete (mm)
 Stripping to (mm)	Csupaszítás vége (mm)
 Stroke	Löket
+Structure box on page {} sets no structure identifier	A(z) {} oldal struktúrakerete nem ad meg struktúraazonosítót
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	A(z) {} oldal struktúrakeretei átfedik egymást anélkül, hogy az egyik a másikban lenne: a mindkettőben lévő készülékek a kisebbik struktúráját kapják
 Structure identifier {} is not defined in the structure management	A(z) {} struktúraazonosító nincs definiálva a struktúrakezelésben
 Structure identifier {} must not contain blanks or the signs = + - / :	A(z) {} struktúraazonosító nem tartalmazhat szóközt és = + - / : jeleket
 Structure identifiers	Struktúraazonosítók
@@ -1907,6 +1909,8 @@ yellow	sárga
 {} is placed at the missing node {}	{} a hiányzó {} csomóponton van elhelyezve
 {} is planned twice ({} and {})	{} kétszer van tervezve ({} és {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{0} csak {2} A-ig szelektív ehhez képest: {1} (zárlati áram {3} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} megtartja a struktúráját: főfunkciói különböző struktúrakeretekben vannak ({})
+{} keeps its structure: {} exists already	{} megtartja a struktúráját: {} már létezik
 {} lies outside page {}	{} a(z) {} oldalon kívül esik
 {} min {} s	{} perc {} mp
 {} mounting marks belong to items that no longer exist	{} szerelési jelölés már nem létező elemekhez tartozik

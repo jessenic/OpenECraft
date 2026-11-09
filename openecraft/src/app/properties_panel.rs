@@ -568,7 +568,23 @@ impl App {
         let device = def.func.has_tag() && !s.tag.is_empty();
         let tab = self.props_tab_bar(ui, device, !def.pins.is_empty(), def.show_tag);
         let mut edited = s.clone();
-        let here = Dt::of_page(&self.session.prj.pages[pi]);
+        // The structure in effect where the symbol is: the page's or a structure box's.
+        let page = &self.session.prj.pages[pi];
+        let here = openecraft_core::structure::scope(page, s.pos);
+        let sources: Vec<(String, String)> = openecraft_core::structure::sources(page, s.pos, &s.tag)
+            .into_iter()
+            .map(|(a, v, src)| {
+                let from = match src {
+                    openecraft_core::structure::Source::Page => tr("inherited from the page").to_string(),
+                    openecraft_core::structure::Source::Box(id) => {
+                        let ids = page.structure_boxes.iter().find(|b| b.id == id).map(|b| b.identifiers()).unwrap_or_default();
+                        tr_fmt!("inherited from structure box {}", ids)
+                    }
+                    openecraft_core::structure::Source::Device => tr("set on the device").to_string(),
+                };
+                (a.format(&v), from)
+            })
+            .collect();
         let mut tag_note: Option<(String, bool)> = None;
         if tab == PropTab::Device {
         egui::Grid::new("sprops").num_columns(2).spacing([8.0, 4.0]).show(ui, |ui| {
@@ -591,7 +607,7 @@ impl App {
                     let mut typed: String = ui.data_mut(|d| d.get_temp(key)).unwrap_or_else(|| now.clone());
                     let r = ui
                         .add(egui::TextEdit::singleline(&mut typed).id(key.with("edit")).desired_width(90.0).font(egui::TextStyle::Monospace))
-                        .on_hover_text(tr_fmt!("Complete tag: {}\nAspects missing here are taken from the page (=function +location).", edited.tag));
+                        .on_hover_text(tr_fmt!("Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.", edited.tag));
                     if r.lost_focus() {
                         let esc = ui.input(|i| i.key_pressed(egui::Key::Escape));
                         if let TagEdit::Move(tag) = tag_edit(&typed, &edited.tag, &here, esc) {
@@ -629,6 +645,18 @@ impl App {
                     } else {
                         ui.weak(text);
                     }
+                    ui.end_row();
+                }
+                if !sources.is_empty() {
+                    ui.label(tr("Structure")).on_hover_text(tr("Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay."));
+                    ui.vertical(|ui| {
+                        for (value, from) in &sources {
+                            ui.horizontal(|ui| {
+                                ui.label(RichText::new(value).monospace());
+                                ui.weak(from);
+                            });
+                        }
+                    });
                     ui.end_row();
                 }
             }

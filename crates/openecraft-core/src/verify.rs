@@ -199,7 +199,7 @@ pub fn repair(prj: &mut Project) -> Vec<String> {
         macro_rules! renumber {
             ($($list:ident),*) => { $(for x in &mut pg.$list { fresh(&mut x.id, &mut next); })* };
         }
-        renumber!(symbols, wires, texts, shapes, dimensions, images, conn_defs, cable_defs, junctions);
+        renumber!(symbols, wires, texts, shapes, dimensions, images, conn_defs, cable_defs, junctions, structure_boxes);
         prj.next_id = next;
     }
     if renumbered > 0 {

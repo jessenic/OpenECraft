@@ -70,6 +70,7 @@ pub enum Cmd {
     TextTool,
     ConnDefTool,
     CableDefTool,
+    StructureBoxTool,
     JunctionTool,
     CornerTool,
     CrossingTool,
@@ -279,6 +280,7 @@ pub fn changes_page(cmd: Cmd) -> bool {
             | Cmd::TextTool
             | Cmd::ConnDefTool
             | Cmd::CableDefTool
+            | Cmd::StructureBoxTool
             | Cmd::JunctionTool
             | Cmd::CornerTool
             | Cmd::CrossingTool
@@ -457,6 +459,8 @@ pub static ALL: &[Def] = &[
         .tip(tr_const!("Connection definition point: defines number, colour, cross-section and cable core of a connection")),
     d(C::CableDefTool, "cable_definition", tr_const!("Cable definition"), I::CableDef)
         .tip(tr_const!("Cable definition: draw a line across the wires that are cores of a cable")),
+    d(C::StructureBoxTool, "structure_box", tr_const!("Structure box"), I::StructureBox)
+        .tip(tr_const!("Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page")),
     d(C::JunctionTool, "t_junction", tr_const!("T-junction"), I::Junction)
         .tip(tr_const!("Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets")),
     d(C::CornerTool, "corner", tr_const!("Corner"), I::Corner)

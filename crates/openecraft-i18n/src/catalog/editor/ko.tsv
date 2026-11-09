@@ -200,7 +200,9 @@ Border	테두리
 Border distance (mm)	테두리 거리(mm)
 Both sides are open: the wires need no cutout	양쪽이 모두 개방됨: 전선에 컷아웃이 필요 없음
 Bottom edges	아래쪽 가장자리
+Bottom left	왼쪽 아래
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	바닥으로부터 외함 하단(받침대 제외)까지의 높이. 이 값을 알거나 외함이 받침대 위에 있으면 높이를 검사합니다
+Bottom right	오른쪽 아래
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	전원의 각 보호 장치에서 단락 전류 대비 차단 용량, 회로 끝의 최소 고장 전류에서의 차단, 케이블의 단락 내량 및 상위 장치와의 선택 차단.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	브리지: 네 연결선. 연결은 한쪽에서 들어와 다른 세 쪽으로, 먼저 반대쪽으로 갑니다
 Building {} added with a level at ground level	지상층 하나로 건물 {}을(를) 추가했습니다
@@ -299,6 +301,7 @@ Click to show the building in the site plan; right-click for new levels	클릭�
 Click to show the site plan of the buildings, or all of the plant in the 3D view	클릭하면 건물의 배치도를, 3D 보기에서는 설비 전체를 표시합니다
 Click to show, right click for more	클릭하면 표시, 마우스 오른쪽 버튼은 추가 기능
 Click two corners	두 모서리를 클릭하세요
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	구조 박스의 두 모서리를 클릭한 다음 속성에서 식별자를 설정합니다 · Esc 또는 오른쪽 클릭으로 종료
 Click two nodes to connect them	두 노드를 클릭하여 연결
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	네 연결선이 만나는 지점을 클릭: 브리지는 연결을 한쪽에서 다른 세 쪽으로, 먼저 반대쪽으로 이끕니다 · {} 로 회전 · Esc 또는 오른쪽 클릭으로 종료
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	세 연결선이 만나는 지점을 클릭: T분기점은 전선이 출발하는 장치와 대상의 순서를 지정합니다 · 아직 연결선이 만나지 않는 곳에서는 {} 로 회전 · Esc 또는 오른쪽 클릭으로 종료
@@ -340,7 +343,7 @@ Comments and markup	주석과 마크업
 Compare and baselines	비교 및 기준선
 Compare with	비교 대상
 Compare with a baseline, a revision or another project file and take differences over	기준선, 개정 또는 다른 프로젝트 파일과 비교하고 차이점 가져오기
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	전체 태그: {}\n여기에 없는 측면은 페이지에서 가져옵니다(=기능 +위치).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	전체 태그: {}\n여기에 없는 측면은 페이지(=기능 +위치) 또는 기호가 있는 구조 박스에서 가져옵니다.
 Condition	조건
 Condition (OPTION=value & …)	조건(OPTION=값 & …)
 Conductive frame	도전성 프레임
@@ -407,6 +410,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG를 {} 페이�
 DXF import failed: {}	DXF 가져오기 실패: {}
 DXF imported as page {}: {} lines, {} texts	DXF를 페이지 {}(으)로 가져옴: 선 {}개, 텍스트 {}개
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF를 페이지 {}(으)로 가져옴: 선 {}개, 텍스트 {}개(가져오지 않음: {})
+Dash-dot	일점쇄선
 Dashed	파선
 Decimals	소수 자릿수
 Default	기본
@@ -472,10 +476,12 @@ Device, terminal, wire and cable markers for marking software	마킹 소프트�
 Devices ({})	장치 ({})
 Devices are not copied: a device is placed once.	장치는 복사되지 않습니다. 장치는 한 번만 배치됩니다.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	장치는 단선 심볼로 계획되고 복선 회로도에서 설계되며, 둘은 장치 태그를 공유합니다.
+Devices in the box: {}	박스 내 장치: {}
 Devices of a channel	채널의 장치
 Devices of the second channel; empty = like the first	두 번째 채널의 장치. 비워 두면 첫 번째 채널과 같음
 Devices placed on the page get its structure; their tags are shown without it.	페이지에 배치된 장치는 페이지의 구조를 상속하며, 태그는 구조 없이 표시됩니다.
 Devices to place	배치할 장치
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	주 기능이 박스 안에 있는 장치는 여기에서 설정한 식별자를 가집니다. 비어 있는 측면은 페이지 또는 바깥 박스에서 상속됩니다.
 Devices, connections and terminals: filter, fill, find and replace, CSV	장치, 연결 및 단자: 필터, 채우기, 찾기 및 바꾸기, CSV
 Dew point	이슬점
 Diameter	직경
@@ -1057,6 +1063,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	아직 케�
 No change requests yet.	아직 변경 요청이 없습니다.
 No changes since the last revision.	마지막 개정 이후 변경 내용이 없습니다.
 No data of other systems imported yet.	아직 가져온 다른 시스템의 데이터가 없습니다.
+No device has its main function in the box.	주 기능이 박스 안에 있는 장치가 없습니다.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	아직 장착 데이터가 있는 장치가 없습니다: 장치에 치수가 있는 부품을 할당하십시오(속성 › 부품).
 No differences to {}.	{}와(과) 차이점이 없습니다.
 No document embedded	포함된 문서 없음
@@ -1645,6 +1652,7 @@ Slots	슬롯
 Smallest cross-section of control circuits	제어 회로의 최소 단면적
 Smallest cross-section of power circuits	전력 회로의 최소 단면적
 Socket outlets, data and antenna outlets	전원 콘센트, 데이터 및 안테나 콘센트
+Solid	실선
 Some wires have no length: place their devices in the panel layout or set the field length.	일부 전선에 길이가 없습니다. 패널 레이아웃에 해당 장치를 배치하거나 필드 길이를 설정하세요.
 Sort by designation	명칭순 정렬
 Sort order	정렬 순서
@@ -1684,7 +1692,10 @@ Strip {} mm	피복 제거 {} mm
 Strips / plugs	단자대 / 플러그
 Structure (IEC 81346)	구조(IEC 81346)
 Structure (function / location)…	구조(기능 / 위치)…
+Structure box	구조 박스
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	구조 박스: 페이지와 다른 기능(=) 또는 위치(+) 식별자를 장치에 부여할 영역 주위에 사각형을 그립니다
 Structure identifiers (IEC 81346), templates and work areas	구조 식별자(IEC 81346), 템플릿 및 작업 영역
+Structure in the box	박스 내 구조
 Structure management	구조 관리
 Structure of the target page	대상 페이지의 구조
 Style	스타일
@@ -1747,6 +1758,7 @@ Terminals at least	단자 최소 높이
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	점퍼 번호가 같은 단자는 브리지됩니다(동일 전위). 예비 단자는 자재 명세서에 포함됩니다.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	검색어는 ';'으로 구분: key=value(일치), key~text(포함) 또는 위치에 관계없이 찾을 텍스트
 Test connection	연결 테스트
+Text offset	텍스트 오프셋
 Text size	텍스트 크기
 Texts	텍스트
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal은 부품 검색 및 읽기만 제공합니다. 부품을 추가하려면 데이터 포털 창을 여세요.
@@ -1809,6 +1821,8 @@ Toggle corner direction while drawing wires	전선을 그리는 동안 꺾임 �
 Toggle routing around symbols (wire tool)	심볼 우회 경로 설정 켜기/끄기(전선 도구)
 Top	위쪽
 Top edges	위쪽 가장자리
+Top left	왼쪽 위
+Top right	오른쪽 위
 Total selectivity	완전 선택 차단
 Transfer project parts to database	프로젝트 부품을 데이터베이스로 전송
 Translate the project texts; documentation per language	프로젝트 텍스트 번역, 언어별 문서
@@ -1895,6 +1909,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	휠: 확대/축소 
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	휠: 확대/축소 · 오른쪽 클릭: 취소 · 그래픽은 0.5mm, 연결 지점은 4mm 그리드에 맞춰짐
 When it differs from the page	페이지와 다를 때
 Where	위치
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	장치 구조의 출처: 기호 주변 구조와 같은 측면은 상속되며 기호를 구조 박스 안으로 또는 밖으로 이동하면 함께 변경됩니다. 다른 측면은 장치 고유의 것으로 유지됩니다.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	전선이 시작하고 끝나는 곳: 부품 데이터의 연결 지점, 기능 템플릿에서 생성된 연결 지점 또는 일치하는 연결 지점이 없으면 장치 중심
 Whole building	건물 전체
 Whole words	단어 단위로
@@ -1987,6 +2002,10 @@ female	암
 from the parts	부품에서
 horizontal	수평
 if	만약
+inherited	상속됨
+inherited from structure box {}	구조 박스 {}에서 상속됨
+inherited from the page	페이지에서 상속됨
+inherited: {}	상속됨: {}
 kW	kW
 low side at the rear	낮은 쪽 뒤
 male	수
@@ -2018,6 +2037,7 @@ placed / provided by the parts	배치됨 / 부품에서 제공
 reached: PL {}	달성: PL {}
 review round {}	검토 차수 {}
 ridge {} m	용마루 {} m
+set on the device	장치에서 설정됨
 sloped ceiling from {} m	{} m부터 경사 천장
 some	일부
 taken over	반영됨

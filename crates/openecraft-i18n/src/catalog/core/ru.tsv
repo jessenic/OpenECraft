@@ -1495,6 +1495,8 @@ Strip (mm)	Зачистка (мм)
 Stripping from (mm)	Зачистка, начало (мм)
 Stripping to (mm)	Зачистка, конец (мм)
 Stroke	Ход
+Structure box on page {} sets no structure identifier	Рамка структуры на листе {} не задаёт ни одного идентификатора структуры
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Рамки структуры на листе {} перекрываются, но ни одна не лежит внутри другой: устройства в обеих получают структуру меньшей
 Structure identifier {} is not defined in the structure management	Идентификатор структуры {} не определён в управлении структурой
 Structure identifier {} must not contain blanks or the signs = + - / :	Идентификатор структуры {} не должен содержать пробелов и знаков = + - / :
 Structure identifiers	Идентификаторы структуры
@@ -1907,6 +1909,8 @@ yellow	жёлтый
 {} is placed at the missing node {}	{} размещён в отсутствующем узле {}
 {} is planned twice ({} and {})	{} запланировано дважды ({} и {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} селективен по отношению к {} только до {} A (ток короткого замыкания {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} сохраняет свою структуру: его главные функции находятся в разных рамках структуры ({})
+{} keeps its structure: {} exists already	{} сохраняет свою структуру: {} уже существует
 {} lies outside page {}	{} находится за пределами страницы {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	Отметок монтажа, относящихся к элементам, которых больше нет: {}

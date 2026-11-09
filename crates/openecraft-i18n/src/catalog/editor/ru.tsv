@@ -202,7 +202,9 @@ Border	Граница
 Border distance (mm)	Отступ рамки (мм)
 Both sides are open: the wires need no cutout	Обе стороны открыты: проводам не нужен вырез
 Bottom edges	По нижнему краю
+Bottom left	Слева снизу
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Нижний край корпуса (без цоколя) над полом; высоты проверяются, если он известен или корпус стоит на цоколе
+Bottom right	Справа снизу
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Отключающая способность по отношению к току короткого замыкания на каждом защитном устройстве сети, отключение при наименьшем токе замыкания в конце его цепи, стойкость кабелей к короткому замыканию и селективность с вышестоящим устройством.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Мост: четыре провода; соединение приходит с одной стороны и идёт к трём другим, сначала к противоположной
 Building {} added with a level at ground level	Здание {} добавлено с этажом на уровне земли
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Щёлк
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Щёлкните, чтобы показать ситуационный план зданий или всю установку в 3D-виде
 Click to show, right click for more	Щелчок — показать, правая кнопка — ещё
 Click two corners	Щёлкните два угла
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Щёлкните два угла рамки структуры, затем задайте её идентификаторы в свойствах · Esc или правый щелчок для завершения
 Click two nodes to connect them	Щёлкните два узла, чтобы соединить их
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Щёлкните, где сходятся четыре провода: мост ведёт соединение с одной стороны к трём другим, сначала к противоположной · {} поворачивает его · Esc или правая кнопка завершает
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Щёлкните, где сходятся три провода: Т-образный узел задаёт устройство, от которого идут провода, и порядок их целей · {} поворачивает его, где провода ещё не сходятся · Esc или правая кнопка завершает
@@ -344,7 +347,7 @@ Comments and markup	Комментарии и пометки
 Compare and baselines	Сравнение и базовые версии
 Compare with	Сравнить с
 Compare with a baseline, a revision or another project file and take differences over	Сравнить с базовой версией, ревизией или другим файлом проекта и принять различия
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Полное обозначение: {}\nНедостающие аспекты берутся из листа (=функц. назначение +место установки).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Полное обозначение: {}\nНедостающие аспекты берутся из листа (=функц. назначение +место установки) или из рамки структуры, в которой лежит символ.
 Condition	Условие
 Condition (OPTION=value & …)	Условие (OPTION=значение & …)
 Conductive frame	Проводящая конструкция
@@ -411,6 +414,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG импорт�
 DXF import failed: {}	Ошибка импорта DXF: {}
 DXF imported as page {}: {} lines, {} texts	DXF импортирован как лист {}: линий – {}, текстов – {}
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF импортирован как лист {}: линий – {}, текстов – {} (не импортировано: {})
+Dash-dot	Штрихпунктирная
 Dashed	Штриховая
 Decimals	Знаков после запятой
 Default	По умолчанию
@@ -478,10 +482,12 @@ Device, terminal, wire and cable markers for marking software	Маркировк
 Devices ({})	Устройства ({})
 Devices are not copied: a device is placed once.	Устройства не копируются: устройство размещается один раз.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Устройства планируются однолинейными символами и проектируются на многолинейной схеме; у обоих общее обозначение устройства.
+Devices in the box: {}	Устройства в рамке: {}
 Devices of a channel	Устройства канала
 Devices of the second channel; empty = like the first	Устройства второго канала; пусто = как у первого
 Devices placed on the page get its structure; their tags are shown without it.	Устройства, размещённые на листе, получают его структуру; их обозначения показываются без неё.
 Devices to place	Устройства для размещения
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Устройства, главная функция которых находится в рамке, получают заданные здесь идентификаторы; пустые аспекты наследуются от листа или охватывающей рамки.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Устройства, соединения и клеммы: фильтр, заполнение, поиск и замена, CSV
 Dew point	Точка росы
 Diameter	Диаметр
@@ -1072,6 +1078,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Кабеле
 No change requests yet.	Запросов на изменение пока нет.
 No changes since the last revision.	Нет изменений с последней ревизии.
 No data of other systems imported yet.	Данные других систем ещё не импортированы.
+No device has its main function in the box.	Ни у одного устройства главная функция не находится в рамке.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Ни у одного устройства пока нет монтажных данных: назначьте устройствам изделия с размерами (Свойства › Изделия).
 No differences to {}.	Нет различий с {}.
 No document embedded	Документ не встроен
@@ -1667,6 +1674,7 @@ Slots	Слоты
 Smallest cross-section of control circuits	Наименьшее сечение цепей управления
 Smallest cross-section of power circuits	Наименьшее сечение силовых цепей
 Socket outlets, data and antenna outlets	Розетки, информационные и антенные розетки
+Solid	Сплошная
 Some wires have no length: place their devices in the panel layout or set the field length.	У некоторых проводов нет длины: разместите их устройства в компоновке шкафа или задайте длину поля.
 Sort by designation	Сортировать по обозначению
 Sort order	Порядок сортировки
@@ -1706,7 +1714,10 @@ Strip {} mm	Зачистка {} мм
 Strips / plugs	Колодки / штекеры
 Structure (IEC 81346)	Структура (IEC 81346)
 Structure (function / location)…	Структура (функц. назначение / место установки)…
+Structure box	Рамка структуры
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Рамка структуры: нарисуйте прямоугольник вокруг области, устройства которой получают иные идентификаторы функции (=) или места установки (+), чем лист
 Structure identifiers (IEC 81346), templates and work areas	Идентификаторы структуры (IEC 81346), шаблоны и рабочие области
+Structure in the box	Структура в рамке
 Structure management	Управление структурой
 Structure of the target page	Структура целевого листа
 Style	Стиль
@@ -1769,6 +1780,7 @@ Terminals at least	Клеммы не ниже
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Клеммы с одинаковым номером перемычки соединены (один потенциал). Резервные клеммы учитываются в спецификации.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Условия через ';': ключ=значение (равно), ключ~текст (содержит) или текст в любом месте
 Test connection	Проверить подключение
+Text offset	Смещение текста
 Text size	Размер текста
 Texts	Тексты
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal позволяет только искать и читать изделия: откройте окно портала данных, чтобы добавить его изделия.
@@ -1832,6 +1844,8 @@ Toggle corner direction while drawing wires	Переключать направ�
 Toggle routing around symbols (wire tool)	Обход символов вкл. / выкл. (инструмент «Соединение»)
 Top	Сверху
 Top edges	По верхнему краю
+Top left	Слева сверху
+Top right	Справа сверху
 Total selectivity	Полная селективность
 Transfer project parts to database	Передать изделия проекта в базу данных
 Translate the project texts; documentation per language	Перевод текстов проекта; документация на каждом языке
@@ -1919,6 +1933,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Колесо: ма�
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Колесо: масштаб · правый щелчок: отмена · графика привязывается к 0,5 мм, точки подключения – к сетке 4 мм
 When it differs from the page	Если отличается от листа
 Where	Положение
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Откуда берётся структура устройства: аспекты, равные структуре вокруг символа, наследуются и меняются при перемещении в рамку структуры или из неё; остальные аспекты принадлежат устройству и сохраняются.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Где провод начинается и заканчивается: точка подключения из данных изделия, точка, созданная из шаблона функций, или центр устройства, если ни одна точка подключения не подходит
 Whole building	Всё здание
 Whole words	Слова целиком
@@ -2012,6 +2027,10 @@ from the parts	из изделий
 given	задана
 horizontal	горизонтально
 if	если
+inherited	наследуется
+inherited from structure box {}	унаследовано от рамки структуры {}
+inherited from the page	унаследовано от листа
+inherited: {}	наследуется: {}
 kW	kW
 low side at the rear	низкая сторона сзади
 male	штырь
@@ -2045,6 +2064,7 @@ placed / provided by the parts	размещено / предоставлено �
 reached: PL {}	достигнуто: PL {}
 review round {}	раунд рецензирования {}
 ridge {} m	конёк {} м
+set on the device	задано у устройства
 sloped ceiling from {} m	скошенный потолок от {} м
 some	некоторые
 taken over	перенесено

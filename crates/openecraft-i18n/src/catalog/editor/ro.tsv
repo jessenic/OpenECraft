@@ -202,7 +202,9 @@ Border	Bordură
 Border distance (mm)	Distanță față de margine (mm)
 Both sides are open: the wires need no cutout	Ambele părți sunt deschise: conductoarele nu necesită decupaj
 Bottom edges	Marginile de jos
+Bottom left	Stânga jos
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Partea inferioară a carcasei (fără soclu) deasupra podelei; înălțimile sunt verificate dacă aceasta este cunoscută sau dacă carcasa stă pe un soclu
+Bottom right	Dreapta jos
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Capacitatea de rupere față de curentul de scurtcircuit la fiecare dispozitiv de protecție al rețelei, deconectarea la cel mai mic curent de defect la capătul circuitului său, rezistența la scurtcircuit a cablurilor și selectivitatea față de dispozitivul din amonte.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Punte: patru fire; conexiunea intră pe o latură și merge spre celelalte trei, întâi spre latura opusă
 Building {} added with a level at ground level	Clădirea {} adăugată cu un nivel la nivelul solului
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Clic pen
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Clic pentru a afișa planul de situație al clădirilor, sau toată instalația în vederea 3D
 Click to show, right click for more	Clic pentru afișare, clic dreapta pentru mai multe
 Click two corners	Faceți clic pe două colțuri
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Faceți clic pe două colțuri ale casetei de structură, apoi stabiliți identificatorii ei în proprietăți · Esc sau clic dreapta pentru a termina
 Click two nodes to connect them	Faceți clic pe două noduri pentru a le conecta
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Faceți clic unde se întâlnesc patru fire: puntea duce conexiunea de pe o latură spre celelalte trei, întâi spre cea opusă · {} o rotește · Esc sau clic dreapta pentru a termina
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Faceți clic unde se întâlnesc trei fire: piesa T indică aparatul de la care pornesc firele și ordinea țintelor lor · {} o rotește unde încă nu se întâlnesc fire · Esc sau clic dreapta pentru a termina
@@ -345,7 +348,7 @@ Comments and markup	Comentarii și marcaje
 Compare and baselines	Comparare și versiuni de referință
 Compare with	Comparare cu
 Compare with a baseline, a revision or another project file and take differences over	Comparare cu o versiune de referință, o revizie sau alt fișier de proiect și preluarea diferențelor
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Identificator complet: {}\nAspectele care lipsesc aici se preiau de la pagină (=funcție +loc de montare).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Identificator complet: {}\nAspectele care lipsesc aici se preiau de la pagină (=funcție +loc de montare) sau de la caseta de structură în care se află simbolul.
 Condition	Condiție
 Condition (OPTION=value & …)	Condiție (OPTION=valoare & …)
 Conductive frame	Cadru conductor
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importat ca p
 DXF import failed: {}	Importul DXF nu a reușit: {}
 DXF imported as page {}: {} lines, {} texts	DXF importat ca pagina {}: {} linii, {} texte
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF importat ca pagina {}: {} linii, {} texte (neimportate: {})
+Dash-dot	Linie-punct
 Dashed	Întrerupt
 Decimals	Zecimale
 Default	Implicit
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	Marcaje de dispozi
 Devices ({})	Dispozitive ({})
 Devices are not copied: a device is placed once.	Dispozitivele nu se copiază: un dispozitiv se plasează o singură dată.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Dispozitivele sunt planificate cu simboluri monofilare și proiectate în schema multifilară; ambele au același identificator de dispozitiv.
+Devices in the box: {}	Dispozitive în casetă: {}
 Devices of a channel	Dispozitivele unui canal
 Devices of the second channel; empty = like the first	Dispozitivele celui de-al doilea canal; gol = ca primul
 Devices placed on the page get its structure; their tags are shown without it.	Dispozitivele plasate pe pagină preiau structura acesteia; identificatorii lor se afișează fără ea.
 Devices to place	Dispozitive de plasat
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Dispozitivele a căror funcție principală se află în casetă primesc identificatorii stabiliți aici; aspectele goale se moștenesc de la pagină sau de la o casetă care o cuprinde.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Dispozitive, conexiuni și borne: filtrare, completare, căutare și înlocuire, CSV
 Dew point	Punct de rouă
 Diameter	Diametru
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Încă nu ex
 No change requests yet.	Încă nu există cereri de modificare.
 No changes since the last revision.	Nicio modificare de la ultima revizie.
 No data of other systems imported yet.	Încă nu au fost importate date ale altor sisteme.
+No device has its main function in the box.	Niciun dispozitiv nu are funcția principală în casetă.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Niciun dispozitiv nu are încă date de montaj: atribuiți dispozitivelor articole cu dimensiuni (Proprietăți › Articole).
 No differences to {}.	Nicio diferență față de {}.
 No document embedded	Niciun document încorporat
@@ -1668,6 +1675,7 @@ Slots	Sloturi
 Smallest cross-section of control circuits	Cea mai mică secțiune a circuitelor de comandă
 Smallest cross-section of power circuits	Cea mai mică secțiune a circuitelor de putere
 Socket outlets, data and antenna outlets	Prize, prize de date și de antenă
+Solid	Continuu
 Some wires have no length: place their devices in the panel layout or set the field length.	Unele conductoare nu au lungime: plasați dispozitivele lor în amplasarea în tablou sau setați lungimea câmpului.
 Sort by designation	Sortare după denumire
 Sort order	Ordine de sortare
@@ -1707,7 +1715,10 @@ Strip {} mm	Dezizolare {} mm
 Strips / plugs	Șiruri de borne / conectori
 Structure (IEC 81346)	Structură (IEC 81346)
 Structure (function / location)…	Structură (funcție / loc de montare)…
+Structure box	Casetă de structură
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Casetă de structură: trasați un dreptunghi în jurul unei zone ale cărei dispozitive primesc alți identificatori de funcție (=) sau de loc de montare (+) decât pagina
 Structure identifiers (IEC 81346), templates and work areas	Identificatori de structură (IEC 81346), șabloane și zone de lucru
+Structure in the box	Structura din casetă
 Structure management	Gestionare structură
 Structure of the target page	Structura paginii țintă
 Style	Stil
@@ -1770,6 +1781,7 @@ Terminals at least	Borne cel puțin
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Bornele cu același număr de punte sunt legate prin punte (același potențial). Bornele de rezervă sunt incluse în lista de materiale.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Termeni separați prin ';': cheie=valoare (egal), cheie~text (conține) sau text găsit oriunde
 Test connection	Testare conexiune
+Text offset	Decalaj text
 Text size	Dimensiune text
 Texts	Texte
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal oferă numai căutarea și citirea articolelor: deschideți fereastra portalului de date pentru a adăuga articolele sale.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Comutare direcție colț la desenare
 Toggle routing around symbols (wire tool)	Comutare pozare în jurul simbolurilor (instrument conductor)
 Top	Sus
 Top edges	Marginile de sus
+Top left	Stânga sus
+Top right	Dreapta sus
 Total selectivity	Selectivitate totală
 Transfer project parts to database	Transfer articole proiect în baza de date
 Translate the project texts; documentation per language	Traducerea textelor proiectului; documentație pe limbi
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Rotiță: zoom · t
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Rotiță: zoom · clic dreapta: anulare · grafica se aliniază la 0,5 mm, punctele de conexiune la grila de 4 mm
 When it differs from the page	Când diferă de pagină
 Where	Poziție
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	De unde provine structura dispozitivului: aspectele egale cu structura din jurul simbolului sunt moștenite și se schimbă când acesta este mutat într-o casetă de structură sau în afara ei; celelalte aspecte sunt ale dispozitivului și rămân.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Unde începe și se termină conductorul: un punct de conexiune din datele articolului, unul generat din șablonul de funcție sau centrul dispozitivului dacă niciun punct de conexiune nu corespunde
 Whole building	Întreaga clădire
 Whole words	Cuvinte întregi
@@ -2013,6 +2028,10 @@ from the parts	din articole
 given	dată
 horizontal	orizontal
 if	dacă
+inherited	moștenit
+inherited from structure box {}	moștenit de la caseta de structură {}
+inherited from the page	moștenit de la pagină
+inherited: {}	moștenit: {}
 kW	kW
 low side at the rear	latura joasă în spate
 male	tată
@@ -2046,6 +2065,7 @@ placed / provided by the parts	plasat / furnizat de articole
 reached: PL {}	atins: PL {}
 review round {}	runda de examinare {}
 ridge {} m	coamă {} m
+set on the device	stabilit pe dispozitiv
 sloped ceiling from {} m	tavan înclinat de la {} m
 some	unele
 taken over	preluat

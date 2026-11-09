@@ -39,6 +39,9 @@ pub struct Session {
     /// The search in the background failed: the next analysis searches here, where a
     /// failure shows.
     route_here: bool,
+    /// Devices that could not follow the structure box they were moved into (see
+    /// `openecraft_core::structure_boxes::follow`), to be shown once.
+    pub structure_kept: Vec<String>,
 }
 
 /// An analysis built in the background for the history revision `rev` in the language
@@ -88,6 +91,7 @@ impl Session {
             waiting: None,
             routing: None,
             route_here: false,
+            structure_kept: Vec::new(),
         }
     }
 
@@ -137,8 +141,13 @@ impl Session {
 
     /// Makes the finished edits one undo step (`can_commit` is false while the user
     /// is still dragging or typing).
-    /// Returns whether a change was committed (the shell shows it at once).
+    /// Returns whether a change was committed (the shell shows it at once). Devices
+    /// moved into or out of structure boxes take their structure in the same undo step.
     pub fn commit(&mut self, can_commit: bool) -> bool {
+        if can_commit {
+            let kept = openecraft_core::structure_boxes::follow(&mut self.prj, self.history.committed());
+            self.structure_kept.extend(kept);
+        }
         self.history.track(&self.prj, can_commit)
     }
 
@@ -318,7 +327,7 @@ impl Session {
     /// an empty page is deleted without asking.
     pub fn page_items(&self, page: usize) -> usize {
         let Some(p) = self.prj.pages.get(page) else { return 0 };
-        p.symbols.len() + p.wires.len() + p.texts.len() + p.shapes.len() + p.dimensions.len() + p.images.len() + p.conn_defs.len() + p.cable_defs.len() + p.junctions.len() + p.macro_boxes.len() + usize::from(p.document.is_some())
+        p.symbols.len() + p.wires.len() + p.texts.len() + p.shapes.len() + p.dimensions.len() + p.images.len() + p.conn_defs.len() + p.cable_defs.len() + p.junctions.len() + p.macro_boxes.len() + p.structure_boxes.len() + usize::from(p.document.is_some())
     }
 }
 

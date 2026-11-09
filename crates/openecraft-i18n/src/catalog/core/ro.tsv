@@ -1495,6 +1495,8 @@ Strip (mm)	Dezizolare (mm)
 Stripping from (mm)	Dezizolare de la (mm)
 Stripping to (mm)	Dezizolare la (mm)
 Stroke	Cursă
+Structure box on page {} sets no structure identifier	Caseta de structură de pe pagina {} nu stabilește niciun identificator de structură
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Casetele de structură de pe pagina {} se suprapun fără ca una să se afle în cealaltă: dispozitivele din ambele preiau structura celei mai mici
 Structure identifier {} is not defined in the structure management	Identificatorul de structură {} nu este definit în gestionarea structurii
 Structure identifier {} must not contain blanks or the signs = + - / :	Identificatorul de structură {} nu trebuie să conțină spații sau semnele = + - / :
 Structure identifiers	Identificatori de structură
@@ -1907,6 +1909,8 @@ yellow	galben
 {} is placed at the missing node {}	{} este plasat la nodul lipsă {}
 {} is planned twice ({} and {})	{} este planificat de două ori ({} și {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} este selectiv față de {} doar până la {} A (curent de scurtcircuit {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} își păstrează structura: funcțiile sale principale se află în casete de structură diferite ({})
+{} keeps its structure: {} exists already	{} își păstrează structura: {} există deja
 {} lies outside page {}	{} se află în afara paginii {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} marcaje de montaj aparțin unor elemente care nu mai există

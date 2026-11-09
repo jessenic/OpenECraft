@@ -44,4 +44,6 @@ pub struct Clip {
     pub(crate) symbol_cache: crate::symlib::SymbolCache,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub junctions: Vec<Junction>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub structure_boxes: Vec<super::structure::StructureBox>,
 }

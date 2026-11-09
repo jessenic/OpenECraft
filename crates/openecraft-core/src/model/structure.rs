@@ -49,6 +49,62 @@ pub struct WorkArea {
     pub filter: Dt,
 }
 
+/// A structure box drawn on a schematic page: the devices whose insertion point lies
+/// in the rectangle `a`..`b` take the aspects set in `structure` instead of the
+/// page's (empty aspects are inherited from the page or an enclosing box).
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct StructureBox {
+    pub id: u64,
+    /// Corners: `a` top left, `b` bottom right.
+    pub a: crate::geom::P,
+    pub b: crate::geom::P,
+    /// Aspects the box sets (without prefix signs); `name` is not used.
+    pub structure: Dt,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub description: String,
+    /// Corner of the box where its identifiers are written.
+    #[serde(skip_serializing_if = "is_top_left")]
+    pub label: BoxCorner,
+    /// Shift of the identifiers from their corner.
+    #[serde(skip_serializing_if = "is_origin")]
+    pub label_offset: crate::geom::P,
+    #[serde(skip_serializing_if = "is_dash_dot")]
+    pub line: BoxLine,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub color: Option<[u8; 3]>,
+}
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum BoxCorner {
+    #[default]
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
+}
+
+/// Outline of a structure box.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum BoxLine {
+    #[default]
+    DashDot,
+    Dashed,
+    Solid,
+}
+
+fn is_top_left(c: &BoxCorner) -> bool {
+    *c == BoxCorner::TopLeft
+}
+
+fn is_origin(q: &crate::geom::P) -> bool {
+    q.x == 0.0 && q.y == 0.0
+}
+
+fn is_dash_dot(l: &BoxLine) -> bool {
+    *l == BoxLine::DashDot
+}
+
 /// A device tag split into its aspects (stored without the prefix signs, except
 /// the device name which keeps its `-`). Product levels are separated by `-`.
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]

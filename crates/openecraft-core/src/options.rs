@@ -76,6 +76,7 @@ fn page_max_id(pg: &Page) -> u64 {
     ids.extend(pg.conn_defs.iter().map(|x| x.id));
     ids.extend(pg.cable_defs.iter().map(|x| x.id));
     ids.extend(pg.junctions.iter().map(|x| x.id));
+    ids.extend(pg.structure_boxes.iter().map(|x| x.id));
     ids.into_iter().max().unwrap_or(0)
 }
 
@@ -90,6 +91,7 @@ pub fn item_ids(pg: &Page) -> Vec<u64> {
     ids.extend(pg.conn_defs.iter().map(|x| x.id));
     ids.extend(pg.cable_defs.iter().map(|x| x.id));
     ids.extend(pg.junctions.iter().map(|x| x.id));
+    ids.extend(pg.structure_boxes.iter().map(|x| x.id));
     ids
 }
 

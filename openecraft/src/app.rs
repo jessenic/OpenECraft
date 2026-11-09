@@ -1041,6 +1041,9 @@ impl eframe::App for App {
             // Undo, the title and the status bar show the change at once.
             ctx.request_repaint();
         }
+        for kept in std::mem::take(&mut self.session.structure_kept) {
+            self.notify_warning(&ctx, kept);
+        }
         if let Some(r) = self.discard.after_save(self.session.dirty(), self.remote.busy() || self.vault.busy()) {
             self.perform(&ctx, r);
         }

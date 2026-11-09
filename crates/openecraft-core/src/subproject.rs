@@ -175,7 +175,7 @@ pub fn insert(prj: &mut Project, sub: &Project, date: &str) -> Result<Inserted, 
         macro_rules! renumber {
             ($($list:ident),*) => { $(for x in &mut pg.$list { fresh(&mut x.id, prj); })* };
         }
-        renumber!(symbols, wires, texts, shapes, dimensions, images, conn_defs, cable_defs, junctions);
+        renumber!(symbols, wires, texts, shapes, dimensions, images, conn_defs, cable_defs, junctions, structure_boxes);
     }
     let pages_inserted = pages.len();
     for (i, pg) in pages.into_iter().enumerate() {

@@ -202,7 +202,9 @@ Border	Obramowanie
 Border distance (mm)	Odległość ramki (mm)
 Both sides are open: the wires need no cutout	Obie strony są otwarte: przewody nie potrzebują wycięcia
 Bottom edges	Dolne krawędzie
+Bottom left	Lewy dolny
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Dolna krawędź obudowy (bez cokołu) nad podłogą; wysokości są sprawdzane, gdy jest ona znana lub obudowa stoi na cokole
+Bottom right	Prawy dolny
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Zdolność wyłączania w odniesieniu do prądu zwarciowego w każdym urządzeniu zabezpieczającym sieci, wyłączenie przy najmniejszym prądzie zwarcia na końcu jego obwodu, wytrzymałość zwarciowa kabli i selektywność względem urządzenia zabezpieczającego przed nim.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Mostek: cztery przewody; połączenie wchodzi z jednej strony i idzie do trzech pozostałych, najpierw do przeciwległej
 Building {} added with a level at ground level	Dodano budynek {} z kondygnacją na poziomie terenu
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Kliknij,
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Kliknij, aby pokazać plan sytuacyjny budynków lub całą instalację w widoku 3D
 Click to show, right click for more	Kliknij, aby pokazać, prawy przycisk – więcej
 Click two corners	Kliknij dwa narożniki
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Kliknij dwa narożniki ramki struktury, a następnie ustaw jej identyfikatory we właściwościach · Esc lub prawy przycisk kończy
 Click two nodes to connect them	Kliknij dwa węzły, aby je połączyć
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Kliknij tam, gdzie spotykają się cztery przewody: mostek prowadzi połączenie z jednej strony do trzech pozostałych, najpierw do przeciwległej · {} obraca go · Esc lub prawy przycisk kończy
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Kliknij tam, gdzie spotykają się trzy przewody: trójnik wskazuje urządzenie, od którego wychodzą przewody, i kolejność ich celów · {} obraca go tam, gdzie przewody jeszcze się nie spotykają · Esc lub prawy przycisk kończy
@@ -345,7 +348,7 @@ Comments and markup	Komentarze i oznaczenia
 Compare and baselines	Porównanie i wersje bazowe
 Compare with	Porównaj z
 Compare with a baseline, a revision or another project file and take differences over	Porównaj z wersją bazową, rewizją lub innym plikiem projektu i przejmij różnice
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Pełne oznaczenie: {}\nBrakujące tu aspekty są przejmowane ze strony (=funkcja +miejsce montażu).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Pełne oznaczenie: {}\nBrakujące tu aspekty są przejmowane ze strony (=funkcja +miejsce montażu) lub z ramki struktury, w której leży symbol.
 Condition	Warunek
 Condition (OPTION=value & …)	Warunek (OPTION=wartość & …)
 Conductive frame	Rama przewodząca
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	Zaimportowano DWG
 DXF import failed: {}	Import DXF nie powiódł się: {}
 DXF imported as page {}: {} lines, {} texts	Zaimportowano DXF jako stronę {}: linie: {}, teksty: {}
 DXF imported as page {}: {} lines, {} texts (not imported: {})	Zaimportowano DXF jako stronę {}: linie: {}, teksty: {} (nie zaimportowano: {})
+Dash-dot	Kreska-kropka
 Dashed	Kreskowana
 Decimals	Miejsca dziesiętne
 Default	Domyślne
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	Oznaczniki urządz
 Devices ({})	Urządzenia ({})
 Devices are not copied: a device is placed once.	Urządzenia nie są kopiowane: urządzenie jest umieszczane jeden raz.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Urządzenia są planowane za pomocą symboli jednokreskowych i projektowane na schemacie wielokreskowym; obie reprezentacje mają wspólne oznaczenie urządzenia.
+Devices in the box: {}	Urządzenia w ramce: {}
 Devices of a channel	Urządzenia kanału
 Devices of the second channel; empty = like the first	Urządzenia drugiego kanału; puste = jak w pierwszym
 Devices placed on the page get its structure; their tags are shown without it.	Urządzenia umieszczone na stronie otrzymują jej strukturę; ich oznaczenia są wyświetlane bez niej.
 Devices to place	Urządzenia do umieszczenia
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Urządzenia, których funkcja główna leży w ramce, otrzymują ustawione tu identyfikatory; puste aspekty są dziedziczone ze strony lub z otaczającej ramki.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Urządzenia, połączenia i zaciski: filtrowanie, wypełnianie, znajdowanie i zastępowanie, CSV
 Dew point	Punkt rosy
 Diameter	Średnica
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Brak kabli. 
 No change requests yet.	Brak wniosków o zmianę.
 No changes since the last revision.	Brak zmian od ostatniej rewizji.
 No data of other systems imported yet.	Nie zaimportowano jeszcze danych innych systemów.
+No device has its main function in the box.	Żadne urządzenie nie ma funkcji głównej w ramce.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Żadne urządzenie nie ma jeszcze danych montażowych: przypisz urządzeniom artykuły z wymiarami (Właściwości › Artykuły).
 No differences to {}.	Brak różnic w stosunku do {}.
 No document embedded	Brak osadzonego dokumentu
@@ -1668,6 +1675,7 @@ Slots	Gniazda
 Smallest cross-section of control circuits	Najmniejszy przekrój obwodów sterowania
 Smallest cross-section of power circuits	Najmniejszy przekrój obwodów mocy
 Socket outlets, data and antenna outlets	Gniazda wtyczkowe, gniazda danych i antenowe
+Solid	Ciągła
 Some wires have no length: place their devices in the panel layout or set the field length.	Niektóre przewody nie mają długości: umieść ich urządzenia w zabudowie szafy lub ustaw długość pola.
 Sort by designation	Sortuj według oznaczenia
 Sort order	Kolejność sortowania
@@ -1707,7 +1715,10 @@ Strip {} mm	Odizolowanie {} mm
 Strips / plugs	Listwy / wtyki
 Structure (IEC 81346)	Struktura (IEC 81346)
 Structure (function / location)…	Struktura (funkcja / miejsce montażu)…
+Structure box	Ramka struktury
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Ramka struktury: narysuj prostokąt wokół obszaru, którego urządzenia otrzymują inne identyfikatory funkcji (=) lub miejsca montażu (+) niż strona
 Structure identifiers (IEC 81346), templates and work areas	Identyfikatory struktury (IEC 81346), szablony i obszary robocze
+Structure in the box	Struktura w ramce
 Structure management	Zarządzanie strukturą
 Structure of the target page	Struktura strony docelowej
 Style	Styl
@@ -1770,6 +1781,7 @@ Terminals at least	Zaciski co najmniej
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Zaciski o tym samym numerze mostka są zmostkowane (ten sam potencjał). Zaciski rezerwowe są liczone w zestawieniu materiałów.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Terminy rozdzielone znakiem ';': klucz=wartość (równe), klucz~tekst (zawiera) lub tekst w dowolnym miejscu
 Test connection	Testuj połączenie
+Text offset	Przesunięcie tekstu
 Text size	Rozmiar tekstu
 Texts	Teksty
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal umożliwia tylko wyszukiwanie i odczyt artykułów: otwórz okno portalu danych, aby dodać jego artykuły.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Przełącz kierunek narożnika podcz
 Toggle routing around symbols (wire tool)	Włącz / wyłącz prowadzenie wokół symboli (narzędzie przewodu)
 Top	Góra
 Top edges	Górne krawędzie
+Top left	Lewy górny
+Top right	Prawy górny
 Total selectivity	Selektywność pełna
 Transfer project parts to database	Przenieś artykuły projektu do bazy danych
 Translate the project texts; documentation per language	Tłumacz teksty projektu; dokumentacja w każdym języku
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Kółko: powiększe
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Kółko myszy: powiększenie · prawy przycisk: anuluj · grafika przyciąga do 0,5 mm, punkty połączeń do siatki 4 mm
 When it differs from the page	Gdy różni się od strony
 Where	Położenie
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Skąd pochodzi struktura urządzenia: aspekty równe strukturze wokół symbolu są dziedziczone i zmieniają się, gdy przesuwa się on do ramki struktury lub z niej; pozostałe aspekty należą do urządzenia i pozostają.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Gdzie przewód zaczyna się i kończy: punkt połączenia z danych artykułu, punkt wygenerowany z szablonu funkcji lub środek urządzenia, jeśli żaden punkt połączenia nie pasuje
 Whole building	Cały budynek
 Whole words	Całe wyrazy
@@ -2013,6 +2028,10 @@ from the parts	z artykułów
 given	zadana
 horizontal	poziomo
 if	jeśli
+inherited	dziedziczone
+inherited from structure box {}	dziedziczone z ramki struktury {}
+inherited from the page	dziedziczone ze strony
+inherited: {}	dziedziczone: {}
 kW	kW
 low side at the rear	niska strona z tyłu
 male	męski
@@ -2046,6 +2065,7 @@ placed / provided by the parts	umieszczone / zapewnione przez artykuły
 reached: PL {}	osiągnięto: PL {}
 review round {}	runda przeglądu {}
 ridge {} m	kalenica {} m
+set on the device	ustawione w urządzeniu
 sloped ceiling from {} m	skos sufitu od {} m
 some	niektóre
 taken over	przejęte

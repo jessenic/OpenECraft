@@ -11,6 +11,7 @@
 //! [`Template`]) and the work areas that limit the pages and devices shown.
 
 use openecraft_i18n::{tr, tr_const, tr_fmt};
+use crate::geom::{P as Pt, R};
 use crate::model::{natural_cmp, Page, PageKind, Project};
 use std::collections::BTreeSet;
 
@@ -234,6 +235,127 @@ pub fn relative(page: &Page, tag: &str) -> String {
     Dt::of_page(page).relative(tag)
 }
 
+impl StructureBox {
+    pub fn rect(&self) -> R {
+        R::from_points(self.a, self.b)
+    }
+
+    /// Membership rule: a symbol belongs to the box when its insertion point lies in
+    /// the rectangle (edges included).
+    pub fn contains(&self, q: Pt) -> bool {
+        self.rect().contains(q)
+    }
+
+    /// The identifiers the box sets, e.g. `+FIELD` (empty if it sets none).
+    pub fn identifiers(&self) -> String {
+        self.structure.structure()
+    }
+
+    fn area(&self) -> f32 {
+        let r = self.rect();
+        r.width() * r.height()
+    }
+}
+
+/// The structure boxes of a page that contain `q`, outermost (largest) first.
+pub fn boxes_at(page: &Page, q: Pt) -> Vec<&StructureBox> {
+    let mut v: Vec<&StructureBox> = page.structure_boxes.iter().filter(|b| b.contains(q)).collect();
+    v.sort_by(|a, b| b.area().total_cmp(&a.area()));
+    v
+}
+
+/// Structure in effect at `q`: the page's, with the aspects set by the structure
+/// boxes containing `q`; of nested boxes the innermost wins.
+pub fn scope(page: &Page, q: Pt) -> Dt {
+    let mut dt = Dt::of_page(page);
+    for b in boxes_at(page, q) {
+        for a in Aspect::ALL {
+            if !b.structure.get(a).is_empty() {
+                *dt.get_mut(a) = b.structure.get(a).to_string();
+            }
+        }
+    }
+    dt
+}
+
+/// Structure inside a box (not counting the boxes nested in it): the page's with the
+/// aspects of the boxes enclosing it and its own.
+pub fn box_scope(page: &Page, b: &StructureBox) -> Dt {
+    let mut around = page.clone();
+    around.structure_boxes.retain(|o| o.id == b.id || (o.rect().contains_rect(&b.rect()) && o.area() > b.area()));
+    scope(&around, b.rect().center())
+}
+
+/// Structure around a box: [`box_scope`] without the box's own aspects.
+pub fn around_box(page: &Page, b: &StructureBox) -> Dt {
+    let mut around = page.clone();
+    around.structure_boxes.retain(|o| o.id != b.id && o.rect().contains_rect(&b.rect()) && o.area() > b.area());
+    scope(&around, b.rect().center())
+}
+
+/// The innermost structure box at `q` that sets `aspect`.
+pub fn box_for(page: &Page, q: Pt, aspect: Aspect) -> Option<&StructureBox> {
+    boxes_at(page, q).into_iter().rev().find(|b| !b.structure.get(aspect).is_empty())
+}
+
+/// Complete tag of a tag entered at `q` on a page (see [`scope`]).
+pub fn complete_at(page: &Page, q: Pt, entered: &str) -> String {
+    scope(page, q).complete(entered)
+}
+
+/// Shortest form of a complete tag at `q` on a page: aspects equal to the structure
+/// in effect there are left out.
+pub fn relative_at(page: &Page, q: Pt, tag: &str) -> String {
+    scope(page, q).relative(tag)
+}
+
+/// Where an aspect of a device tag comes from.
+#[derive(Clone, Debug, PartialEq)]
+pub enum Source {
+    /// Inherited from the page structure.
+    Page,
+    /// Inherited from a structure box (its id).
+    Box(u64),
+    /// Set on the device itself, differing from the structure around it.
+    Device,
+}
+
+/// The aspects of a tag placed at `q` with their values and where they come from:
+/// an aspect equal to the structure in effect there is inherited, any other is the
+/// device's own.
+pub fn sources(page: &Page, q: Pt, tag: &str) -> Vec<(Aspect, String, Source)> {
+    let (dt, here) = (Dt::parse(tag), scope(page, q));
+    Aspect::ALL
+        .into_iter()
+        .filter(|a| !dt.get(*a).is_empty())
+        .map(|a| {
+            let source = if dt.get(a) != here.get(a) {
+                Source::Device
+            } else {
+                box_for(page, q, a).map_or(Source::Page, |b| Source::Box(b.id))
+            };
+            (a, dt.get(a).to_string(), source)
+        })
+        .collect()
+}
+
+/// Pairs of structure boxes of a page that overlap without one lying inside the
+/// other: their common area has no clear structure.
+pub fn overlapping(page: &Page) -> Vec<(u64, u64)> {
+    let boxes = &page.structure_boxes;
+    let mut v = Vec::new();
+    for (i, a) in boxes.iter().enumerate() {
+        for b in &boxes[i + 1..] {
+            let (ra, rb) = (a.rect(), b.rect());
+            let apart = ra.max.x <= rb.min.x || rb.max.x <= ra.min.x || ra.max.y <= rb.min.y || rb.max.y <= ra.min.y;
+            if !apart && !ra.contains_rect(&rb) && !rb.contains_rect(&ra) {
+                v.push((a.id, b.id));
+            }
+        }
+    }
+    v
+}
+
 impl Structures {
     pub fn is_default(&self) -> bool {
         *self == Structures::default()
@@ -362,7 +484,7 @@ pub struct Template {
 }
 
 use Aspect::{Function as F, Installation as I, Location as L, Product as P};
-pub use crate::model::structure::{Aspect, Dt, Entry, Structures, WorkArea};
+pub use crate::model::structure::{Aspect, BoxCorner, BoxLine, Dt, Entry, StructureBox, Structures, WorkArea};
 
 pub static TEMPLATES: &[Template] = &[
     Template { name: tr_const!("Function and location"), aspects: &[F, L], entries: &[] },
@@ -430,7 +552,7 @@ pub struct Usage {
     pub id: String,
     pub description: String,
     pub defined: bool,
-    /// Pages with this identifier.
+    /// Pages and structure boxes with this identifier.
     pub pages: usize,
     /// Devices with this identifier.
     pub devices: usize,
@@ -455,9 +577,10 @@ pub fn overview(prj: &Project) -> Vec<Usage> {
     };
     let mut counts = Vec::new();
     for pg in &prj.pages {
-        let dt = Dt::of_page(pg);
-        for a in Aspect::ALL.into_iter().filter(|a| !dt.get(*a).is_empty()) {
-            counts.push((row(a, dt.get(a)), true));
+        for dt in std::iter::once(Dt::of_page(pg)).chain(pg.structure_boxes.iter().map(|b| b.structure.clone())) {
+            for a in Aspect::ALL.into_iter().filter(|a| !dt.get(*a).is_empty()) {
+                counts.push((row(a, dt.get(a)), true));
+            }
         }
     }
     for tag in device_tags(prj) {
@@ -495,7 +618,7 @@ pub fn remove_unused(prj: &mut Project) -> usize {
     unused.len()
 }
 
-/// Renames an identifier in the whole project: pages, device tags (with all their
+/// Renames an identifier in the whole project: pages, structure boxes, device tags (with all their
 /// data, see [`crate::ops::rename_device`]), cables, harnesses, definition and work
 /// areas. Returns the number of renamed pages and devices; fails without changes
 /// when a renamed device tag exists already.
@@ -527,6 +650,9 @@ pub fn rename(prj: &mut Project, aspect: Aspect, old: &str, new: &str) -> Result
             *dt.get_mut(aspect) = new.clone();
             dt.apply_to(pg);
             n += 1;
+        }
+        for b in pg.structure_boxes.iter_mut().filter(|b| b.structure.get(aspect) == old) {
+            *b.structure.get_mut(aspect) = new.clone();
         }
     }
     for (from, to) in &renames {

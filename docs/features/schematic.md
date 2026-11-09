@@ -45,6 +45,22 @@ tags are numbered per structure, copy / paste moves devices into the target stru
 changing a page structure can move its devices along. The device navigator groups by
 structure; the title block shows the full page name (`=A1+CAB1/3`).
 
+**Structure boxes** (*Insert › Structure box*) give an area of a page its own function,
+location (or installation site, product): draw a rectangle and set the aspects it
+overrides in the properties; empty aspects are inherited from the page or an enclosing
+box, nested boxes resolve to the innermost. A device belongs to the box its main
+function's insertion point lies in: it gets the box's structure (`=SYS+FIELD-S1` on a
+page `=SYS+CAB1`), its tag on the page omits what the box shows, and its full tag is
+what the navigator, numbering, cross references and reports use. An aspect of a tag
+equal to the structure around the symbol is inherited, any other is the device's own:
+moving the main function into or out of a box, or moving, resizing, changing or
+deleting the box, renames the device (all its functions) in its inherited aspects in
+the same undo step and keeps its own; a tag that exists already is refused and reported
+instead of merging two devices. The symbol properties show where each aspect comes
+from. Boxes are copied, pasted and saved in macros with their devices; the check
+*Structure identifiers* reports boxes that overlap without one lying inside the other.
+Commands `add_structure_box`, `update_structure_box`, `list_structure_boxes`.
+
 ## Live cross references
 
 Contacts show where their coil is (`/3.4`), coils show a

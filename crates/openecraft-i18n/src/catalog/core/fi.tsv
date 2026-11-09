@@ -1495,6 +1495,8 @@ Strip (mm)	Kuorinta (mm)
 Stripping from (mm)	Kuorinta alkaen (mm)
 Stripping to (mm)	Kuorinta päättyen (mm)
 Stroke	Isku
+Structure box on page {} sets no structure identifier	Sivun {} rakennelaatikko ei aseta yhtään rakennetunnusta
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Sivun {} rakennelaatikot menevät päällekkäin ilman, että toinen on toisen sisällä: molemmissa olevat laitteet saavat pienemmän rakenteen
 Structure identifier {} is not defined in the structure management	Rakennetunnusta {} ei ole määritetty rakennetunnusten hallinnassa
 Structure identifier {} must not contain blanks or the signs = + - / :	Rakennetunnus {} ei saa sisältää välilyöntejä eikä merkkejä = + - / :
 Structure identifiers	Rakennetunnukset
@@ -1907,6 +1909,8 @@ yellow	keltainen
 {} is placed at the missing node {}	{} on sijoitettu puuttuvaan solmuun {}
 {} is planned twice ({} and {})	{} on suunniteltu kahdesti ({} ja {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} on selektiivinen kohteeseen {} vain {} A:iin asti (oikosulkuvirta {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} säilyttää rakenteensa: sen päätoiminnot ovat eri rakennelaatikoissa ({})
+{} keeps its structure: {} exists already	{} säilyttää rakenteensa: {} on jo olemassa
 {} lies outside page {}	{} on sivun {} ulkopuolella
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} asennusmerkintää kuuluu kohteisiin, joita ei enää ole

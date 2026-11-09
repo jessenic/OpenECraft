@@ -1495,6 +1495,8 @@ Strip (mm)	Strippen (mm)
 Stripping from (mm)	Strippen van (mm)
 Stripping to (mm)	Strippen naar (mm)
 Stroke	Slag
+Structure box on page {} sets no structure identifier	Structuurkader op pagina {} stelt geen structuuraanduiding in
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Structuurkaders op pagina {} overlappen zonder dat het ene in het andere ligt: apparaten in beide krijgen de structuur van het kleinste
 Structure identifier {} is not defined in the structure management	Structuuraanduiding {} is niet gedefinieerd in het structuurbeheer
 Structure identifier {} must not contain blanks or the signs = + - / :	Structuuraanduiding {} mag geen spaties en geen van de tekens = + - / : bevatten
 Structure identifiers	Structuuraanduidingen
@@ -1907,6 +1909,8 @@ yellow	geel
 {} is placed at the missing node {}	{} is geplaatst bij het ontbrekende knooppunt {}
 {} is planned twice ({} and {})	{} is twee keer gepland ({} en {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} is selectief ten opzichte van {} tot slechts {} A (kortsluitstroom {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} behoudt zijn structuur: zijn hoofdfuncties liggen in verschillende structuurkaders ({})
+{} keeps its structure: {} exists already	{} behoudt zijn structuur: {} bestaat al
 {} lies outside page {}	{} ligt buiten pagina {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} montagemarkeringen horen bij elementen die niet meer bestaan

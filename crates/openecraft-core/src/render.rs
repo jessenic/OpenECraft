@@ -165,6 +165,10 @@ pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, pa
         draw_dimension(d, dm, item_ink(dm.id, None, &dm.layer, Ink::Line));
     }
     d.layer(None);
+    for b in &page.structure_boxes {
+        let ink = if opts.selected.contains(&b.id) { Ink::Selected } else { b.color.map(Ink::Color).unwrap_or(Ink::Line) };
+        draw_structure_box(d, b, ink);
+    }
     let colors = if prj.wire_colors && page.kind == PageKind::Schematic {
         crate::potentials::wire_colors(prj, &an.netlist, &an.open)
     } else {
@@ -202,14 +206,14 @@ pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, pa
         draw_junction(d, prj, page, j, ink);
     }
     draw_wire_labels(d, prj, an, page_i);
-    let structured = !structure::page_structure(page).is_empty();
+    let structured = !structure::page_structure(page).is_empty() || !page.structure_boxes.is_empty();
     for s in &page.symbols {
         let Some(def) = prj.symbol(&s.sym) else { continue };
         let ink = if opts.selected.contains(&s.id) { Ink::Selected } else { Ink::Line };
         let tag = if hides_tag(prj, page_i, &def, s) {
             String::new()
         } else if structured {
-            structure::relative(page, &s.tag)
+            structure::relative_at(page, s.pos, &s.tag)
         } else {
             s.tag.clone()
         };
@@ -332,6 +336,57 @@ pub fn draw_shape(d: &mut dyn Draw, s: &Shape, ink: Ink) {
         }
     } else {
         d.poly(&pts, closed, width, ink, false);
+    }
+}
+
+/// Outline of a structure box (dash-dot, dashed or solid) with its identifiers and
+/// description inside the chosen corner.
+pub fn draw_structure_box(d: &mut dyn Draw, b: &structure::StructureBox, ink: Ink) {
+    let r = b.rect();
+    let corners = [r.min, p(r.max.x, r.min.y), r.max, p(r.min.x, r.max.y)];
+    for i in 0..4 {
+        let (a, c) = (corners[i], corners[(i + 1) % 4]);
+        match b.line {
+            structure::BoxLine::Solid => d.line(a, c, SYMBOL_W, ink, false),
+            structure::BoxLine::Dashed => d.line(a, c, SYMBOL_W, ink, true),
+            structure::BoxLine::DashDot => dash_dot(d, a, c, SYMBOL_W, ink),
+        }
+    }
+    let lines = crate::structure_boxes::label_lines(b);
+    let at = crate::structure_boxes::label_pos(b);
+    let (h, top) = match b.label {
+        structure::BoxCorner::TopLeft => (Anchor::Left, true),
+        structure::BoxCorner::TopRight => (Anchor::Right, true),
+        structure::BoxCorner::BottomLeft => (Anchor::Left, false),
+        structure::BoxCorner::BottomRight => (Anchor::Right, false),
+    };
+    let step = TAG_SIZE * 1.35;
+    let n = lines.len() as f32;
+    for (i, l) in lines.iter().enumerate() {
+        let y = if top { at.y + i as f32 * step } else { at.y - (n - 1.0 - i as f32) * step };
+        d.text(p(at.x, y), l, TAG_SIZE, h, if top { VAnchor::Top } else { VAnchor::Bottom }, ink);
+    }
+}
+
+/// Dash-dot line (long dash, gap, dot, gap) as single strokes, so that every back end
+/// draws it alike.
+fn dash_dot(d: &mut dyn Draw, a: P, b: P, width: f32, ink: Ink) {
+    let len = a.dist(b);
+    if len <= 0.0 {
+        return;
+    }
+    let dir = (b - a) * (1.0 / len);
+    let pattern = [(6.0, true), (1.2, false), (0.4, true), (1.2, false)];
+    let mut t = 0.0;
+    let mut i = 0;
+    while t < len {
+        let (l, ink_on) = pattern[i % pattern.len()];
+        let e = (t + l).min(len);
+        if ink_on {
+            d.line(a + dir * t, a + dir * e, width, ink, false);
+        }
+        t = e;
+        i += 1;
     }
 }
 
@@ -958,7 +1013,7 @@ fn neighbours<'a>(prj: &'a Project, page_i: usize, s: &SymbolInst) -> Vec<(&'a S
 fn tag_block_layout(prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, s: &SymbolInst) -> (Vec<TagLine>, TagSide) {
     let mut lines: Vec<TagLine> = if def.has_function_text_field() { Vec::new() } else { s.function_text.lines().map(|l| TagLine::text(l.to_string(), 2.0)).collect() };
     lines.extend(block_references(prj, idx, page_i, def, s).into_iter().map(|(text, page)| TagLine { text, size: 2.0, reference: true, page }));
-    let tag = (!s.tag.is_empty() && !hides_tag(prj, page_i, def, s)).then(|| TagLine::text(structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE));
+    let tag = (!s.tag.is_empty() && !hides_tag(prj, page_i, def, s)).then(|| TagLine::text(structure::relative_at(&prj.pages[page_i], s.pos, &s.tag), TAG_SIZE));
     let usual = TagSide::order(s)[0];
     if s.tag_offset.is_some() {
         lines.splice(0..0, tag);

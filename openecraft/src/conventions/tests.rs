@@ -157,7 +157,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     // 4 evaluation of the model
     ("index", &["frame", "geom", "model", "structure", "symbols"]),
     ("netlist", &["geom", "harness", "issue", "model", "panel", "potentials", "strips", "symbols", "symlib", "wirenum"]),
-    ("structure", &["model", "ops"]),
+    ("structure", &["geom", "model", "ops"]),
     ("sections", &["model"]),
     ("frame", &["geom", "model"]),
     ("text", &["frame", "geom", "model", "symbols"]),
@@ -205,6 +205,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("rules", &["electrical", "issue", "model", "netlist", "potentials", "production", "routing3d", "sizing", "symbols"]),
     ("singleline", &["fluid", "geom", "index", "issue", "model", "netlist", "ops", "structure", "symbols"]),
     ("cabledef", &["geom", "issue", "model", "ops", "structure"]),
+    ("structure_boxes", &["geom", "issue", "model", "ops", "structure", "symbols"]),
     ("conndef", &["geom", "issue", "model", "netlist", "wirenum"]),
     ("wiring", &["model", "panel", "production"]),
     ("production", &["dxf", "geom", "model", "panel", "parts"]),
@@ -224,12 +225,12 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("testkit", &["analysis", "geom", "model", "parts", "symbols"]),
     // 6 derived data, checks, reports, registry
     ("analysis", &["ext", "field", "index", "issue", "model", "netlist", "panel", "parallel", "revision", "routing3d", "table"]),
-    ("checks", &["analysis", "cabledef", "climate", "conndef", "electrofluid", "emc", "ext", "fluid", "frame", "harness", "index", "integration", "issue", "loads", "model", "mounting", "netlist", "panel", "parts", "pinout", "plc", "plc_hw", "plugs", "potentials", "preplanning", "process", "production", "reports", "routing3d", "rules", "safety", "shortcircuit", "singleline", "sizing", "strips", "structure", "symbols", "translation", "wirenum", "wiring"]),
+    ("checks", &["analysis", "cabledef", "climate", "conndef", "electrofluid", "emc", "ext", "fluid", "frame", "harness", "index", "integration", "issue", "loads", "model", "mounting", "netlist", "panel", "parts", "pinout", "plc", "plc_hw", "plugs", "potentials", "preplanning", "process", "production", "reports", "routing3d", "rules", "safety", "shortcircuit", "singleline", "sizing", "strips", "structure", "structure_boxes", "symbols", "translation", "wirenum", "wiring"]),
     ("reports", &["analysis", "checks", "climate", "electrofluid", "ext", "field", "fluid", "frame", "geom", "harness", "index", "issue", "loads", "marking", "model", "netlist", "panel", "params", "parts", "plc", "plc_hw", "plugs", "process", "production", "revision", "routing3d", "rules", "safety", "shortcircuit", "sizing", "strips", "symbols", "table", "text"]),
     ("ext", &["analysis", "issue", "model", "params", "table"]),
     ("exporters", &["aml", "analysis", "dwg", "dxf", "export3d", "ext", "harness", "harness_export", "kbl", "marking", "model", "nailboard", "page_select", "params", "pdf", "pinout", "plc", "plugs", "reports", "svg", "translation", "xlsx"]),
     // 7 output and exchange formats
-    ("render", &["analysis", "cabledef", "conndef", "device_boxes", "document", "electrofluid", "forms", "frame", "geom", "graphics", "index", "macro_boxes", "model", "netlist", "panel", "parts", "potentials", "production", "props", "references", "report_blocks", "review", "revision", "structure", "symbols", "text", "wirenum"]),
+    ("render", &["analysis", "cabledef", "conndef", "device_boxes", "document", "electrofluid", "forms", "frame", "geom", "graphics", "index", "macro_boxes", "model", "netlist", "panel", "parts", "potentials", "production", "props", "references", "report_blocks", "review", "revision", "structure", "structure_boxes", "symbols", "text", "wirenum"]),
     ("svg", &["analysis", "frame", "geom", "model", "render", "symbols", "text"]),
     ("pdf", &["analysis", "document", "frame", "geom", "model", "render", "structure", "symbols", "text", "ttf"]),
     ("pdf_comments", &["geom", "model", "review"]),

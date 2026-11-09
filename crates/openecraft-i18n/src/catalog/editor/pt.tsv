@@ -202,7 +202,9 @@ Border	Borda
 Border distance (mm)	Distância da borda (mm)
 Both sides are open: the wires need no cutout	Os dois lados estão abertos: os fios não precisam de recorte
 Bottom edges	Bordas inferiores
+Bottom left	Inferior esquerdo
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Parte inferior do gabinete (sem base) acima do piso; as alturas são verificadas quando ela é conhecida ou quando o gabinete está sobre uma base
+Bottom right	Inferior direito
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Capacidade de interrupção em relação à corrente de curto-circuito em cada dispositivo de proteção da rede, seccionamento com a menor corrente de falta no fim de seu circuito, suportabilidade a curto-circuito dos cabos e seletividade com o dispositivo a montante.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Ponte: quatro fios; a conexão entra por um lado e vai para os outros três, primeiro para o lado oposto
 Building {} added with a level at ground level	Edifício {} adicionado com um piso ao nível do solo
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Clique p
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Clique para mostrar a planta de situação dos edifícios, ou toda a instalação na vista 3D
 Click to show, right click for more	Clique para mostrar, botão direito para mais
 Click two corners	Clique em dois cantos
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Clique em dois cantos da caixa de estrutura e depois defina seus identificadores nas propriedades · Esc ou clique direito para terminar
 Click two nodes to connect them	Clique em dois nós para conectá-los
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Clique onde quatro fios se encontram: a ponte leva a conexão de um lado para os outros três, primeiro para o oposto · {} gira-a · Esc ou clique direito para terminar
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Clique onde três fios se encontram: a peça em T indica o dispositivo de onde partem os fios e a ordem dos seus destinos · {} gira-a onde ainda não se encontram fios · Esc ou clique direito para terminar
@@ -345,7 +348,7 @@ Comments and markup	Comentários e marcações
 Compare and baselines	Comparação e linhas de base
 Compare with	Comparar com
 Compare with a baseline, a revision or another project file and take differences over	Comparar com uma linha de base, uma revisão ou outro arquivo de projeto e aplicar as diferenças
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Identificador completo: {}\nOs aspectos ausentes aqui são obtidos da página (=função +localização).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Identificador completo: {}\nOs aspectos ausentes aqui são obtidos da página (=função +localização) ou da caixa de estrutura em que o símbolo está.
 Condition	Condição
 Condition (OPTION=value & …)	Condição (OPTION=valor & …)
 Conductive frame	Estrutura condutora
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importado com
 DXF import failed: {}	Falha na importação do DXF: {}
 DXF imported as page {}: {} lines, {} texts	DXF importado como página {}: {} linhas, {} textos
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF importado como página {}: {} linhas, {} textos (não importado: {})
+Dash-dot	Traço-ponto
 Dashed	Tracejado
 Decimals	Casas decimais
 Default	Padrão
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	Marcadores de disp
 Devices ({})	Dispositivos ({})
 Devices are not copied: a device is placed once.	Os dispositivos não são copiados: um dispositivo é posicionado uma única vez.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Os dispositivos são planejados com símbolos unifilares e projetados no esquema elétrico multifilar; ambos compartilham o identificador do dispositivo.
+Devices in the box: {}	Dispositivos na caixa: {}
 Devices of a channel	Dispositivos de um canal
 Devices of the second channel; empty = like the first	Dispositivos do segundo canal; vazio = como o primeiro
 Devices placed on the page get its structure; their tags are shown without it.	Os dispositivos posicionados na página recebem sua estrutura; seus identificadores são exibidos sem ela.
 Devices to place	Dispositivos a posicionar
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Os dispositivos cuja função principal está na caixa recebem os identificadores definidos aqui; aspectos vazios são herdados da página ou de uma caixa envolvente.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Dispositivos, conexões e bornes: filtrar, preencher, localizar e substituir, CSV
 Dew point	Ponto de orvalho
 Diameter	Diâmetro
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Ainda não h
 No change requests yet.	Ainda não há solicitações de alteração.
 No changes since the last revision.	Nenhuma alteração desde a última revisão.
 No data of other systems imported yet.	Nenhum dado de outros sistemas importado ainda.
+No device has its main function in the box.	Nenhum dispositivo tem sua função principal na caixa.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Nenhum dispositivo tem dados de montagem ainda: atribua peças com dimensões aos dispositivos (Propriedades › Peças).
 No differences to {}.	Nenhuma diferença em relação a {}.
 No document embedded	Nenhum documento incorporado
@@ -1668,6 +1675,7 @@ Slots	Slots
 Smallest cross-section of control circuits	Menor seção transversal dos circuitos de comando
 Smallest cross-section of power circuits	Menor seção transversal dos circuitos de potência
 Socket outlets, data and antenna outlets	Tomadas de energia, de dados e de antena
+Solid	Contínuo
 Some wires have no length: place their devices in the panel layout or set the field length.	Alguns fios não têm comprimento: posicione seus dispositivos no layout do painel ou defina o comprimento do campo.
 Sort by designation	Classificar por designação
 Sort order	Ordem de classificação
@@ -1707,7 +1715,10 @@ Strip {} mm	Decapar {} mm
 Strips / plugs	Réguas / plugues
 Structure (IEC 81346)	Estrutura (IEC 81346)
 Structure (function / location)…	Estrutura (função / localização)…
+Structure box	Caixa de estrutura
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Caixa de estrutura: desenhe um retângulo em torno de uma área cujos dispositivos recebem identificadores de função (=) ou localização (+) diferentes dos da página
 Structure identifiers (IEC 81346), templates and work areas	Identificadores de estrutura (IEC 81346), modelos e áreas de trabalho
+Structure in the box	Estrutura na caixa
 Structure management	Gerenciamento de estruturas
 Structure of the target page	Estrutura da página de destino
 Style	Estilo
@@ -1770,6 +1781,7 @@ Terminals at least	Bornes no mínimo
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Bornes com o mesmo número de ponte são interligados (mesmo potencial). Os bornes de reserva são contados na lista de materiais.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Termos separados por ';': chave=valor (igual), chave~texto (contém) ou texto encontrado em qualquer lugar
 Test connection	Testar conexão
+Text offset	Deslocamento do texto
 Text size	Tamanho do texto
 Texts	Textos
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	O EPLAN Data Portal oferece somente pesquisa e leitura de peças: abra a janela do portal de dados para adicionar suas peças.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Alternar a direção do canto ao des
 Toggle routing around symbols (wire tool)	Alternar roteamento em volta dos símbolos (ferramenta de fio)
 Top	Superior
 Top edges	Bordas superiores
+Top left	Superior esquerdo
+Top right	Superior direito
 Total selectivity	Seletividade total
 Transfer project parts to database	Transferir peças do projeto para o banco de dados
 Translate the project texts; documentation per language	Traduzir os textos do projeto; documentação por idioma
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Roda: zoom · arras
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Roda: zoom · clique com o botão direito: cancelar · os gráficos se ajustam a 0,5 mm, os pontos de conexão à grade de 4 mm
 When it differs from the page	Quando difere da página
 Where	Posição
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	De onde vem a estrutura do dispositivo: aspectos iguais à estrutura em torno do símbolo são herdados e acompanham quando ele entra ou sai de uma caixa de estrutura; os outros aspectos são do próprio dispositivo e permanecem.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Onde o fio começa e termina: um ponto de conexão dos dados da peça, um gerado a partir do modelo de função ou o centro do dispositivo, se nenhum ponto de conexão corresponder
 Whole building	Edifício inteiro
 Whole words	Palavras inteiras
@@ -2013,6 +2028,10 @@ from the parts	das peças
 given	fixado
 horizontal	horizontal
 if	se
+inherited	herdado
+inherited from structure box {}	herdado da caixa de estrutura {}
+inherited from the page	herdado da página
+inherited: {}	herdado: {}
 kW	kW
 low side at the rear	lado baixo atrás
 male	macho
@@ -2046,6 +2065,7 @@ placed / provided by the parts	posicionado / fornecido pelas peças
 reached: PL {}	atingido: PL {}
 review round {}	rodada de análise {}
 ridge {} m	cumeeira {} m
+set on the device	definido no dispositivo
 sloped ceiling from {} m	teto inclinado a partir de {} m
 some	alguns
 taken over	aplicado

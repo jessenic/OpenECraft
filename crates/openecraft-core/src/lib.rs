@@ -92,6 +92,7 @@ pub mod singleline;
 pub mod sizing;
 pub mod strips;
 pub mod structure;
+pub mod structure_boxes;
 pub mod subproject;
 pub mod svg;
 pub mod symbols;

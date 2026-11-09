@@ -46,6 +46,11 @@ impl History {
         self.next_state - 1
     }
 
+    /// The project as last committed.
+    pub fn committed(&self) -> &Project {
+        &self.committed
+    }
+
     /// Id of the committed state.
     pub fn state(&self) -> u64 {
         self.state

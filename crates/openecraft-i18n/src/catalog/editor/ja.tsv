@@ -200,7 +200,9 @@ Border	外枠
 Border distance (mm)	枠の余白 (mm)
 Both sides are open: the wires need no cutout	両側が開放されています: 電線に切り欠きは不要です
 Bottom edges	下端
+Bottom left	左下
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	床面からのエンクロージャー下端の高さ (台座を除く)。この値が既知の場合、またはエンクロージャーが台座に設置されている場合に高さがチェックされます
+Bottom right	右下
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	電源系統の各保護機器における短絡電流に対する遮断容量、回路末端の最小故障電流での遮断、ケーブルの短絡耐量、上位機器との選択遮断。
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	ブリッジ：4本の接続線。接続は一方の側から入り、他の3方向へ、まず反対側へ向かいます
 Building {} added with a level at ground level	地上階 1 つで建物 {} を追加しました
@@ -301,6 +303,7 @@ Click to show the building in the site plan; right-click for new levels	クリ�
 Click to show the site plan of the buildings, or all of the plant in the 3D view	クリックで建物の配置図を表示、3D ビューでは設備全体を表示
 Click to show, right click for more	クリックで表示、右クリックでその他
 Click two corners	2 つのコーナーをクリックします
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	構造ボックスの 2 つの角をクリックし、プロパティで識別子を設定します · Esc または右クリックで終了
 Click two nodes to connect them	2 つのノードをクリックして接続します
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	4本の接続線が交わる点をクリック：ブリッジは接続を一方の側から他の3方向へ、まず反対側へ導きます · {} で回転 · Esc または右クリックで終了
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	3本の接続線が交わる点をクリック：T分岐は電線が出る機器と目標の順序を指定します · まだ接続線が交わらない場所では {} で回転 · Esc または右クリックで終了
@@ -342,7 +345,7 @@ Comments and markup	コメントとマークアップ
 Compare and baselines	比較とベースライン
 Compare with	比較対象
 Compare with a baseline, a revision or another project file and take differences over	ベースライン、リビジョン、または別のプロジェクトファイルと比較して、相違点を反映します
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	完全なタグ: {}\nここで不足しているアスペクトはページから取得されます (=機能 +取付場所)。
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	完全なタグ: {}\nここで不足しているアスペクトは、ページ (=機能 +取付場所) またはシンボルがある構造ボックスから取得されます。
 Condition	条件
 Condition (OPTION=value & …)	条件 (OPTION=値 & …)
 Conductive frame	導電性フレーム
@@ -474,10 +477,12 @@ Device, terminal, wire and cable markers for marking software	マーキングソ
 Devices ({})	デバイス ({})
 Devices are not copied: a device is placed once.	デバイスはコピーされません: デバイスは 1 回だけ配置されます。
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	デバイスは単線シンボルで計画し、複線回路図で設計します。両方で同じデバイスタグを共有します。
+Devices in the box: {}	ボックス内のデバイス: {}
 Devices of a channel	チャンネルのデバイス
 Devices of the second channel; empty = like the first	第 2 チャンネルのデバイス。空欄 = 第 1 チャンネルと同じ
 Devices placed on the page get its structure; their tags are shown without it.	ページに配置されたデバイスはページの構造を引き継ぎます。タグは構造なしで表示されます。
 Devices to place	配置するデバイス
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	主機能がボックス内にあるデバイスは、ここで設定した識別子を取ります。空のアスペクトはページまたは外側のボックスから継承されます。
 Devices, connections and terminals: filter, fill, find and replace, CSV	デバイス、接続、端子: フィルター、入力、検索と置換、CSV
 Dew point	露点
 Diameter	直径
@@ -1060,6 +1065,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	ケーブル
 No change requests yet.	変更依頼はまだありません。
 No changes since the last revision.	最終リビジョン以降の変更はありません。
 No data of other systems imported yet.	他のシステムのデータはまだインポートされていません。
+No device has its main function in the box.	主機能がボックス内にあるデバイスはありません。
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	取付データを持つデバイスはまだありません: 寸法のある部品をデバイスに割り当ててください (プロパティ › 部品)。
 No differences to {}.	{} との相違点はありません。
 No document embedded	ドキュメントが埋め込まれていません
@@ -1649,6 +1655,7 @@ Slots	スロット
 Smallest cross-section of control circuits	制御回路の最小断面積
 Smallest cross-section of power circuits	動力回路の最小断面積
 Socket outlets, data and antenna outlets	コンセント、データおよびアンテナコンセント
+Solid	実線
 Some wires have no length: place their devices in the panel layout or set the field length.	一部の電線に長さがありません: 盤レイアウトでそのデバイスを配置するか、フィールド長を設定してください。
 Sort by designation	名称で並べ替え
 Sort order	並べ替え順
@@ -1688,7 +1695,10 @@ Strip {} mm	被覆剥き {} mm
 Strips / plugs	端子台 / プラグ
 Structure (IEC 81346)	構造 (IEC 81346)
 Structure (function / location)…	構造 (機能 / 取付場所)…
+Structure box	構造ボックス
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	構造ボックス: ページとは異なる機能 (=) または取付場所 (+) の識別子をデバイスに与える領域の周りに四角形を描画します
 Structure identifiers (IEC 81346), templates and work areas	構造識別子 (IEC 81346)、テンプレート、作業領域
+Structure in the box	ボックス内の構造
 Structure management	構造管理
 Structure of the target page	参照先ページの構造
 Style	スタイル
@@ -1751,6 +1761,7 @@ Terminals at least	端子の最低高さ
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	同じジャンパー番号の端子はジャンパー接続されます (同電位)。予備端子は部品表に計上されます。
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	条件は ';' で区切ります: キー=値 (一致)、キー~テキスト (含む)、または任意の位置にあるテキスト
 Test connection	接続をテスト
+Text offset	テキストのオフセット
 Text size	テキストサイズ
 Texts	テキスト
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal では部品の検索と読み取りのみ可能です。部品を追加するには、データポータルのウィンドウを開いてください。
@@ -1814,6 +1825,8 @@ Toggle corner direction while drawing wires	電線描画中にコーナーの向
 Toggle routing around symbols (wire tool)	シンボル回避ルーティングの切り替え (電線ツール)
 Top	上
 Top edges	上端
+Top left	左上
+Top right	右上
 Total selectivity	完全選択遮断
 Transfer project parts to database	プロジェクト部品をデータベースに転送
 Translate the project texts; documentation per language	プロジェクトテキストを翻訳します。言語ごとのドキュメント
@@ -1900,6 +1913,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	ホイール：ズ�
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	ホイール: ズーム · 右クリック: キャンセル · 図形は 0.5 mm、接続ポイントは 4 mm グリッドにスナップ
 When it differs from the page	ページと異なる場合
 Where	位置
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	デバイスの構造の由来: シンボル周囲の構造と等しいアスペクトは継承され、構造ボックスへの出し入れに追従します。その他のアスペクトはデバイス固有のもので、変わりません。
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	電線の始点と終点: 部品データの接続ポイント、機能テンプレートから生成された接続ポイント、または一致する接続ポイントがない場合はデバイスの中心
 Whole building	建物全体
 Whole words	単語単位
@@ -1992,6 +2006,10 @@ female	メス
 from the parts	部品から
 horizontal	水平
 if	条件
+inherited	継承
+inherited from structure box {}	構造ボックス {} から継承
+inherited from the page	ページから継承
+inherited: {}	継承: {}
 kW	kW
 low side at the rear	低い側を後ろに
 male	オス
@@ -2023,6 +2041,7 @@ placed / provided by the parts	配置済み / 部品が提供
 reached: PL {}	達成: PL {}
 review round {}	レビューラウンド {}
 ridge {} m	棟 {} m
+set on the device	デバイスで設定
 sloped ceiling from {} m	{} m からの傾斜天井
 some	一部
 taken over	反映済み

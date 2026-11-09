@@ -202,7 +202,9 @@ Border	Обрамлення
 Border distance (mm)	Відступ рамки (мм)
 Both sides are open: the wires need no cutout	Обидві сторони відкриті: проводам не потрібен виріз
 Bottom edges	Нижні краї
+Bottom left	Ліворуч унизу
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Нижній край корпусу (без цоколя) над підлогою; висоти перевіряються, якщо його відомо або корпус стоїть на цоколі
+Bottom right	Праворуч унизу
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Відключна здатність щодо струму короткого замикання на кожному захисному пристрої мережі, вимкнення за найменшого струму замикання в кінці його кола, стійкість кабелів до короткого замикання та селективність із пристроєм, розташованим вище за схемою.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Міст: чотири проводи; з'єднання надходить з одного боку і йде до трьох інших, спочатку до протилежного
 Building {} added with a level at ground level	Будівлю {} додано з поверхом на рівні землі
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Клац
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Клацніть, щоб показати ситуаційний план будівель або всю установку в 3D-вигляді
 Click to show, right click for more	Клацніть, щоб показати, права кнопка — більше
 Click two corners	Клацніть два кути
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Клацніть два кути рамки структури, потім задайте її позначення у властивостях · Esc або правий клік для завершення
 Click two nodes to connect them	Клацніть два вузли, щоб з’єднати їх
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Клацніть, де сходяться чотири проводи: міст веде з'єднання з одного боку до трьох інших, спочатку до протилежного · {} повертає його · Esc або права кнопка завершує
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Клацніть, де сходяться три проводи: Т-подібний вузол задає пристрій, від якого йдуть проводи, і порядок їхніх цілей · {} повертає його, де проводи ще не сходяться · Esc або права кнопка завершує
@@ -344,7 +347,7 @@ Comments and markup	Коментарі та позначки
 Compare and baselines	Порівняння та базові версії
 Compare with	Порівняти з
 Compare with a baseline, a revision or another project file and take differences over	Порівняти з базовою версією, ревізією або іншим файлом проєкту та перенести відмінності
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Повне позначення: {}\nАспекти, яких тут бракує, беруться зі сторінки (=функція +розташування).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Повне позначення: {}\nАспекти, яких тут бракує, беруться зі сторінки (=функція +розташування) або з рамки структури, у якій лежить символ.
 Condition	Умова
 Condition (OPTION=value & …)	Умова (OPTION=значення & …)
 Conductive frame	Струмопровідна рама
@@ -411,6 +414,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG імпорт�
 DXF import failed: {}	Помилка імпорту DXF: {}
 DXF imported as page {}: {} lines, {} texts	DXF імпортовано як сторінку {}: ліній – {}, текстів – {}
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF імпортовано як сторінку {}: ліній – {}, текстів – {} (не імпортовано: {})
+Dash-dot	Штрихпунктирна
 Dashed	Штрихова
 Decimals	Десяткові знаки
 Default	За замовчуванням
@@ -478,10 +482,12 @@ Device, terminal, wire and cable markers for marking software	Маркери п�
 Devices ({})	Пристрої ({})
 Devices are not copied: a device is placed once.	Пристрої не копіюються: пристрій розміщується один раз.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Пристрої плануються однолінійними символами і проєктуються в багатолінійній схемі; обидва мають спільне позначення пристрою.
+Devices in the box: {}	Пристрої в рамці: {}
 Devices of a channel	Пристрої каналу
 Devices of the second channel; empty = like the first	Пристрої другого каналу; порожньо = як у першого
 Devices placed on the page get its structure; their tags are shown without it.	Пристрої, розміщені на сторінці, отримують її структуру; їхні позначення показано без неї.
 Devices to place	Пристрої для розміщення
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Пристрої, головна функція яких знаходиться в рамці, отримують задані тут позначення; порожні аспекти успадковуються від сторінки або зовнішньої рамки.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Пристрої, з’єднання та клеми: фільтрування, заповнення, пошук і заміна, CSV
 Dew point	Точка роси
 Diameter	Діаметр
@@ -1072,6 +1078,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Кабелі
 No change requests yet.	Запитів на зміни ще немає.
 No changes since the last revision.	Немає змін після останньої ревізії.
 No data of other systems imported yet.	Дані інших систем ще не імпортовано.
+No device has its main function in the box.	Жоден пристрій не має головної функції в рамці.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Жоден пристрій ще не має даних монтажу: призначте пристроям вироби з розмірами (Властивості › Вироби).
 No differences to {}.	Немає відмінностей від {}.
 No document embedded	Документ не вбудовано
@@ -1667,6 +1674,7 @@ Slots	Слоти
 Smallest cross-section of control circuits	Найменший переріз кіл керування
 Smallest cross-section of power circuits	Найменший переріз силових кіл
 Socket outlets, data and antenna outlets	Розетки, інформаційні та антенні розетки
+Solid	Суцільна
 Some wires have no length: place their devices in the panel layout or set the field length.	Деякі проводи не мають довжини: розмістіть їхні пристрої в компонуванні шафи або задайте довжину поля.
 Sort by designation	Сортувати за позначенням
 Sort order	Порядок сортування
@@ -1706,7 +1714,10 @@ Strip {} mm	Зачистити {} мм
 Strips / plugs	Колодки / штекери
 Structure (IEC 81346)	Структура (IEC 81346)
 Structure (function / location)…	Структура (функція / розташування)…
+Structure box	Рамка структури
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Рамка структури: намалюйте прямокутник навколо області, пристрої якої отримують інші позначення функції (=) або розташування (+), ніж сторінка
 Structure identifiers (IEC 81346), templates and work areas	Структурні позначення (IEC 81346), шаблони та робочі області
+Structure in the box	Структура в рамці
 Structure management	Керування структурою
 Structure of the target page	Структура цільової сторінки
 Style	Стиль
@@ -1769,6 +1780,7 @@ Terminals at least	Клеми щонайменше
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Клеми з однаковим номером перемички з’єднані (однаковий потенціал). Резервні клеми враховуються в специфікації.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Умови через ';': ключ=значення (дорівнює), ключ~текст (містить) або текст у будь-якому місці
 Test connection	Перевірити підключення
+Text offset	Зміщення тексту
 Text size	Розмір тексту
 Texts	Тексти
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal пропонує лише пошук і читання виробів: відкрийте вікно порталу даних, щоб додати його вироби.
@@ -1832,6 +1844,8 @@ Toggle corner direction while drawing wires	Перемикати напрямо�
 Toggle routing around symbols (wire tool)	Увімкнути / вимкнути обхід символів (інструмент «Провід»)
 Top	Угорі
 Top edges	Верхні краї
+Top left	Ліворуч угорі
+Top right	Праворуч угорі
 Total selectivity	Повна селективність
 Transfer project parts to database	Передати вироби проєкту до бази даних
 Translate the project texts; documentation per language	Переклад текстів проєкту; документація для кожної мови
@@ -1919,6 +1933,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Коліщатко:
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Коліщатко: масштаб · правий клік: скасувати · графіка прив’язується до 0,5 мм, точки підключення – до сітки 4 мм
 When it differs from the page	Якщо відрізняється від сторінки
 Where	Положення
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Звідки береться структура пристрою: аспекти, що збігаються зі структурою навколо символу, успадковуються і змінюються, коли він переміщується в рамку структури або з неї; інші аспекти належать пристрою і зберігаються.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Де провід починається й закінчується: точка підключення з даних виробу, згенерована із шаблону функцій або центр пристрою, якщо жодна точка підключення не підходить
 Whole building	Уся будівля
 Whole words	Цілі слова
@@ -2012,6 +2027,10 @@ from the parts	з виробів
 given	задана
 horizontal	горизонтально
 if	якщо
+inherited	успадковується
+inherited from structure box {}	успадковано від рамки структури {}
+inherited from the page	успадковано від сторінки
+inherited: {}	успадковується: {}
 kW	kW
 low side at the rear	низький бік ззаду
 male	штир
@@ -2045,6 +2064,7 @@ placed / provided by the parts	розміщено / надано виробам�
 reached: PL {}	досягнуто: PL {}
 review round {}	раунд рецензування {}
 ridge {} m	гребінь {} м
+set on the device	задано в пристрої
 sloped ceiling from {} m	скошена стеля від {} м
 some	деякі
 taken over	перенесено

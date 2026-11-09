@@ -188,3 +188,34 @@ fn names_codes_and_identifiers_are_checked() {
     assert!(run("add_rule", serde_json::json!({ "macro": "M", "condition": "Nope=a" })).is_err());
     assert!(run("add_rule", serde_json::json!({ "macro": "M", "condition": "Opt=a" })).is_ok());
 }
+
+#[test]
+fn structure_boxes_give_their_devices_a_structure() {
+    let p = Plugins::new(Vec::<String>::new());
+    let mut prj = openecraft_core::model::Project::default();
+    prj.pages[0].function = "SYS".into();
+    prj.pages[0].location = "CAB1".into();
+    let mut run = |name: &str, args: serde_json::Value| p.run(p.command(name).unwrap(), &mut prj, args.as_object().unwrap());
+    let coil = run("place_symbol", serde_json::json!({ "page": "1", "symbol": "coil", "x": 100, "y": 100 })).unwrap();
+    assert_eq!(coil["tag"], "=SYS+CAB1-K1");
+    let b = run("add_structure_box", serde_json::json!({ "page": "1", "x1": 160, "y1": 160, "x2": 80, "y2": 80, "location": "+FIELD", "description": "Field" })).unwrap();
+    assert_eq!((b["identifiers"].as_str(), b["structure"].as_str()), (Some("+FIELD"), Some("=SYS+FIELD")));
+    assert_eq!(b["from"], serde_json::json!([80.0, 80.0]));
+    assert_eq!(b["devices"], serde_json::json!(["=SYS+FIELD-K1"]));
+    // A new function in the box takes its structure.
+    let other = run("place_symbol", serde_json::json!({ "page": "1", "symbol": "pb_no", "x": 120, "y": 120 })).unwrap();
+    assert_eq!(other["tag"], "=SYS+FIELD-S1");
+    // Made smaller: the device left outside goes back to the page structure.
+    let id = b["id"].clone();
+    let b = run("update_structure_box", serde_json::json!({ "page": "1", "id": id, "x2": 110, "y2": 110, "label": "bottom_right", "line": "solid" })).unwrap();
+    assert_eq!(b["devices"], serde_json::json!(["=SYS+FIELD-K1"]));
+    assert_eq!((b["label"].as_str(), b["line"].as_str()), (Some("bottom_right"), Some("solid")));
+    assert_eq!(run("list_structure_boxes", serde_json::json!({})).unwrap().as_array().unwrap().len(), 1);
+    assert!(run("add_structure_box", serde_json::json!({ "page": "1", "x1": 10, "y1": 10, "x2": 10, "y2": 50 })).unwrap_err().contains("width and a height"));
+    assert!(run("update_structure_box", serde_json::json!({ "page": "1", "id": 999 })).is_err());
+    assert!(run("update_structure_box", serde_json::json!({ "page": "1", "id": id, "label": "middle" })).is_err());
+    assert!(run("update_structure_box", serde_json::json!({ "page": "1", "id": id, "location": "A B" })).is_err());
+    let mut tags = prj.all_tags();
+    tags.sort();
+    assert_eq!(tags, vec!["=SYS+CAB1-S1".to_string(), "=SYS+FIELD-K1".to_string()]);
+}

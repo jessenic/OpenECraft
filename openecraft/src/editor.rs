@@ -20,7 +20,8 @@ use openecraft_core::symlib::Symbols;
 use openecraft_core::symbols::{Anchor, Func};
 use openecraft_core::device_boxes;
 use openecraft_core::netlist::junctions;
-use openecraft_core::{cabledef, conndef, graphics, routing};
+use openecraft_core::structure::StructureBox;
+use openecraft_core::{cabledef, conndef, graphics, routing, structure_boxes};
 use egui::{pos2, vec2, Align2, Color32, FontId, Key, Painter, PointerButton, Pos2, Rect, Sense, Shape as EShape, Stroke, Vec2};
 use std::collections::{BTreeSet, HashMap, HashSet};
 
@@ -42,6 +43,8 @@ pub enum Tool {
     ConnDef,
     /// Cable definition line across wires.
     CableDef,
+    /// Structure box: a rectangle whose devices take other structure identifiers.
+    StructureBox,
     /// Connection symbol: a directed T-junction where three wires meet, or a corner.
     Junction(JunctionKind),
     /// Place the items of `Editor::insert` (macro, image).
@@ -63,7 +66,7 @@ impl Tool {
     /// Clicks needed by a graphic tool (None: open ended).
     fn points(&self) -> Option<usize> {
         match self {
-            Tool::Line | Tool::Rect | Tool::Circle | Tool::Ellipse | Tool::CableDef | Tool::DeviceBox => Some(2),
+            Tool::Line | Tool::Rect | Tool::Circle | Tool::Ellipse | Tool::CableDef | Tool::DeviceBox | Tool::StructureBox => Some(2),
             Tool::Arc | Tool::Dimension(_) => Some(3),
             _ => None,
         }
@@ -703,6 +706,7 @@ impl Editor {
             ),
             Tool::CableDef if self.cable_target.is_empty() => tr("Draw a line across the wires that are cores of a new cable · Esc or right click to finish").to_string(),
             Tool::CableDef => tr_fmt!("Draw a line across the wires that are cores of cable {} · Esc or right click to finish", self.cable_target),
+            Tool::StructureBox => tr("Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish").to_string(),
             Tool::Insert => tr("Click to insert · Esc cancel").to_string(),
             Tool::Comment => tr("Click to place a comment").to_string(),
             Tool::Markup(..) => tr("Click to place the markup text").to_string(),
@@ -814,6 +818,10 @@ impl Editor {
         }
         if let Some(s) = page.shapes.iter().rev().find(|s| usable(&s.layer) && graphics::shape_hit(s, q, tol)) {
             return Some(s.id);
+        }
+        // A structure box is picked at its outline, so that clicks inside reach its devices.
+        if let Some(b) = page.structure_boxes.iter().rev().find(|b| structure_boxes::outline_distance(b, q) <= tol) {
+            return Some(b.id);
         }
         page.images.iter().rev().find(|i| usable(&i.layer) && R::from_points(i.a, i.b).contains(q)).map(|i| i.id)
     }
@@ -1155,6 +1163,8 @@ impl Editor {
                         s += &format!("   |  {}", graphics::dim_text(dm));
                     } else if let Some(c) = page.cable_defs.iter().find(|c| c.id == id) {
                         s += &format!("   |  {}", c.cable);
+                    } else if let Some(b) = page.structure_boxes.iter().find(|b| b.id == id) {
+                        s += &format!("   |  {} {}", tr("Structure box"), b.identifiers());
                     }
                 }
                 if self.tool == Tool::Wire && self.autoroute {
@@ -1204,6 +1214,12 @@ impl Editor {
                     for i in 0..4 {
                         g.line(c[i], c[(i + 1) % 4], render::SYMBOL_W, Ink::Ghost, true);
                     }
+                }
+            }
+            Tool::StructureBox => {
+                if let Some(&a) = self.pts.first() {
+                    let r = R::from_points(a, sn);
+                    render::draw_structure_box(g, &StructureBox { a: r.min, b: r.max, ..Default::default() }, Ink::Ghost);
                 }
             }
             Tool::Arc => match self.pts.as_slice() {
@@ -1456,6 +1472,15 @@ impl Editor {
                 if graphics::dim_length(&dm).abs() > 0.01 {
                     dm.id = prj.new_id();
                     prj.pages[page_i].dimensions.push(dm);
+                }
+            }
+            Tool::StructureBox => {
+                let r = R::from_points(pts[0], pts[1]);
+                if r.width() > 0.0 && r.height() > 0.0 {
+                    let b = structure_boxes::new_box(prj, r.min, r.max, Default::default(), "");
+                    self.selection = BTreeSet::from([b.id]);
+                    prj.pages[page_i].structure_boxes.push(b);
+                    out.open_properties = true;
                 }
             }
             Tool::CableDef => {
@@ -1822,7 +1847,9 @@ impl Editor {
                         let page = &prj.pages[page_i];
                         for id in ops::all_ids(page) {
                             let usable = graphics::item_layer(page, id).is_none_or(|l| graphics::shown(prj, l, false) && !graphics::locked(prj, l));
-                            if usable && ops::item_bounds(&symbols, page, id).is_some_and(|bb| box_selects(sel, crossing, bb)) {
+                            // A crossing window inside a structure box touches its devices, not the box.
+                            let within_box = crossing && page.structure_boxes.iter().any(|b| b.id == id && b.rect().contains_rect(&sel));
+                            if usable && !within_box && ops::item_bounds(&symbols, page, id).is_some_and(|bb| box_selects(sel, crossing, bb)) {
                                 self.selection.insert(id);
                             }
                         }

@@ -1483,6 +1483,8 @@ Strip (mm)	피복 제거(mm)
 Stripping from (mm)	피복 제거 시작(mm)
 Stripping to (mm)	피복 제거 끝(mm)
 Stroke	스트로크
+Structure box on page {} sets no structure identifier	페이지 {}의 구조 박스가 구조 식별자를 설정하지 않습니다
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	페이지 {}의 구조 박스가 서로 포함하지 않고 겹칩니다: 두 박스에 모두 있는 장치는 더 작은 박스의 구조를 가집니다
 Structure identifier {} is not defined in the structure management	구조 식별자 {}이(가) 구조 관리에 정의되어 있지 않습니다
 Structure identifier {} must not contain blanks or the signs = + - / :	구조 식별자 {}에는 공백이나 기호 = + - / :를 사용할 수 없습니다
 Structure identifiers	구조 식별자
@@ -1895,6 +1897,8 @@ yellow	노랑
 {} is placed at the missing node {}	{}이(가) 누락된 노드 {}에 배치되어 있습니다
 {} is planned twice ({} and {})	{}이(가) 두 번 계획되었습니다({} 및 {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{0}은(는) {1}에 대해 {2} A까지만 선택 차단됩니다(단락 전류 {3} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{}의 구조가 유지됩니다: 주 기능이 서로 다른 구조 박스에 있습니다({})
+{} keeps its structure: {} exists already	{}의 구조가 유지됩니다: {}이(가) 이미 있습니다
 {} lies outside page {}	{}이(가) 페이지 {} 밖에 있습니다
 {} min {} s	{}분 {}초
 {} mounting marks belong to items that no longer exist	장착 표시 {}개가 더 이상 존재하지 않는 항목에 속합니다

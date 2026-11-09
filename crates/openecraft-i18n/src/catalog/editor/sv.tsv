@@ -202,7 +202,9 @@ Border	Kantlinje
 Border distance (mm)	Kantavstånd (mm)
 Both sides are open: the wires need no cutout	Båda sidorna är öppna: ledningarna behöver inget urtag
 Bottom edges	Underkanter
+Bottom left	Nedre vänster
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Kapslingens underkant (utan sockel) över golvet; höjderna kontrolleras när den är känd eller när kapslingen står på en sockel
+Bottom right	Nedre höger
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Brytförmåga mot kortslutningsströmmen vid varje skyddsdon i nätet, frånkoppling vid den lägsta felströmmen i slutet av dess krets, kablarnas kortslutningshållfasthet och selektivitet mot skyddsdonet före.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Brygga: fyra ledare; förbindelsen kommer in på en sida och går till de tre andra, den motsatta sidan först
 Building {} added with a level at ground level	Byggnad {} tillagd med en våning i marknivå
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Klicka f
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Klicka för att visa situationsplanen för byggnaderna, eller hela anläggningen i 3D-vyn
 Click to show, right click for more	Klicka för att visa, högerklicka för mer
 Click two corners	Klicka på två hörn
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Klicka på två hörn av strukturrutan och ange sedan dess beteckningar i egenskaperna · Esc eller högerklick avslutar
 Click two nodes to connect them	Klicka på två noder för att förbinda dem
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Klicka där fyra ledare möts: bryggan leder förbindelsen från en sida till de tre andra, den motsatta först · {} vrider den · Esc eller högerklick avslutar
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Klicka där tre ledare möts: T-stycket anger den apparat som ledarna utgår från och ordningen på deras mål · {} vrider det där inga ledare möts ännu · Esc eller högerklick avslutar
@@ -345,7 +348,7 @@ Comments and markup	Kommentarer och markeringar
 Compare and baselines	Jämför och baslinjer
 Compare with	Jämför med
 Compare with a baseline, a revision or another project file and take differences over	Jämför med en baslinje, en revision eller en annan projektfil och överför skillnader
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Fullständig beteckning: {}\nAspekter som saknas här hämtas från sidan (=funktion +placering).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Fullständig beteckning: {}\nAspekter som saknas här hämtas från sidan (=funktion +placering) eller från strukturrutan som symbolen ligger i.
 Condition	Villkor
 Condition (OPTION=value & …)	Villkor (OPTION=värde & …)
 Conductive frame	Ledande stativ
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importerad so
 DXF import failed: {}	DXF-importen misslyckades: {}
 DXF imported as page {}: {} lines, {} texts	DXF importerad som sida {}: {} linjer, {} texter
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF importerad som sida {}: {} linjer, {} texter (inte importerat: {})
+Dash-dot	Streckprickad
 Dashed	Streckad
 Decimals	Decimaler
 Default	Standard
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	Apparat-, plint-, 
 Devices ({})	Apparater ({})
 Devices are not copied: a device is placed once.	Apparater kopieras inte: en apparat placeras en gång.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Apparater planeras med enlinjesymboler och projekteras i flerlinjeschemat; båda delar apparatbeteckningen.
+Devices in the box: {}	Apparater i rutan: {}
 Devices of a channel	Apparater i en kanal
 Devices of the second channel; empty = like the first	Apparater i den andra kanalen; tomt = som den första
 Devices placed on the page get its structure; their tags are shown without it.	Apparater som placeras på sidan får dess struktur; deras beteckningar visas utan den.
 Devices to place	Apparater att placera
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Apparater vars huvudfunktion ligger i rutan får beteckningarna som anges här; tomma aspekter ärvs från sidan eller en omgivande ruta.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Apparater, förbindelser och plintar: filtrera, fyll, sök och ersätt, CSV
 Dew point	Daggpunkt
 Diameter	Diameter
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Inga kablar 
 No change requests yet.	Inga ändringsbegäranden ännu.
 No changes since the last revision.	Inga ändringar sedan den senaste revisionen.
 No data of other systems imported yet.	Inga data från andra system har importerats ännu.
+No device has its main function in the box.	Ingen apparat har sin huvudfunktion i rutan.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Ingen apparat har monteringsdata ännu: tilldela apparaterna artiklar med mått (Egenskaper › Artiklar).
 No differences to {}.	Inga skillnader mot {}.
 No document embedded	Inget dokument inbäddat
@@ -1668,6 +1675,7 @@ Slots	Kortplatser
 Smallest cross-section of control circuits	Minsta tvärsnitt för styrkretsar
 Smallest cross-section of power circuits	Minsta tvärsnitt för kraftkretsar
 Socket outlets, data and antenna outlets	Vägguttag, data- och antennuttag
+Solid	Heldragen
 Some wires have no length: place their devices in the panel layout or set the field length.	Vissa ledningar saknar längd: placera deras apparater i skåplayouten eller ange fältlängden.
 Sort by designation	Sortera efter beteckning
 Sort order	Sorteringsordning
@@ -1707,7 +1715,10 @@ Strip {} mm	Skala av {} mm
 Strips / plugs	Plintrader / kontaktdon
 Structure (IEC 81346)	Struktur (IEC 81346)
 Structure (function / location)…	Struktur (funktion / placering)…
+Structure box	Strukturruta
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Strukturruta: rita en rektangel runt ett område vars apparater får andra funktions- (=) eller placeringsbeteckningar (+) än sidan
 Structure identifiers (IEC 81346), templates and work areas	Strukturbeteckningar (IEC 81346), mallar och arbetsområden
+Structure in the box	Struktur i rutan
 Structure management	Strukturhantering
 Structure of the target page	Målsidans struktur
 Style	Stil
@@ -1770,6 +1781,7 @@ Terminals at least	Plintar minst
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Plintar med samma bygelnummer är byglade (samma potential). Reservplintar räknas i stycklistan.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Termer åtskilda med ';': nyckel=värde (lika med), nyckel~text (innehåller) eller text var som helst
 Test connection	Testa anslutning
+Text offset	Textförskjutning
 Text size	Textstorlek
 Texts	Texter
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal erbjuder endast sökning och läsning av artiklar: öppna dataportalfönstret för att lägga till dess artiklar.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Växla hörnriktning när ledningar 
 Toggle routing around symbols (wire tool)	Växla dragning runt symboler (ledningsverktyg)
 Top	Överkant
 Top edges	Överkanter
+Top left	Övre vänster
+Top right	Övre höger
 Total selectivity	Total selektivitet
 Transfer project parts to database	Överför projektartiklar till databasen
 Translate the project texts; documentation per language	Översätt projekttexterna; dokumentation per språk
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Hjul: zoom · dra: 
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Hjul: zooma · högerklick: avbryt · grafik fäster mot 0,5 mm, anslutningspunkter mot 4 mm-rutnätet
 When it differs from the page	När den skiljer sig från sidan
 Where	Läge
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Varifrån apparatens struktur kommer: aspekter som är lika med strukturen runt symbolen ärvs och följer med när den flyttas in i eller ut ur en strukturruta; andra aspekter är apparatens egna och står kvar.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Var ledningen börjar och slutar: en anslutningspunkt från artikeldata, en som genererats från funktionsmallen eller apparatens mitt om ingen anslutningspunkt matchar
 Whole building	Hela byggnaden
 Whole words	Hela ord
@@ -2013,6 +2028,10 @@ from the parts	från artiklarna
 given	angiven
 horizontal	horisontell
 if	om
+inherited	ärvs
+inherited from structure box {}	ärvt från strukturrutan {}
+inherited from the page	ärvt från sidan
+inherited: {}	ärvs: {}
 kW	kW
 low side at the rear	låg sida bak
 male	hane
@@ -2046,6 +2065,7 @@ placed / provided by the parts	placerade / tillhandahållna av artiklarna
 reached: PL {}	uppnådd: PL {}
 review round {}	granskningsomgång {}
 ridge {} m	nock {} m
+set on the device	angivet på apparaten
 sloped ceiling from {} m	snedtak från {} m
 some	några
 taken over	överförd

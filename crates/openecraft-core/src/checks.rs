@@ -56,7 +56,9 @@ pub fn builtin() -> Vec<Check> {
         entry("buildings", tr_const!("Buildings, levels and shafts"), |prj, _| crate::panel::buildings::problems(prj)),
         entry("routing_3d", tr_const!("3D routing"), |_, an| check_routing(&an.routing)),
         entry("structure", tr_const!("Structure identifiers"), |prj, _| {
-            crate::structure::problems(prj).into_iter().map(|message| Issue::plain(Severity::Warning, message, None)).collect()
+            let mut v: Vec<Issue> = crate::structure::problems(prj).into_iter().map(|message| Issue::plain(Severity::Warning, message, None)).collect();
+            v.extend(crate::structure_boxes::problems(prj));
+            v
         }),
         entry("translations", tr_const!("Project languages"), |prj, _| check_translations(prj)),
         entry("harnesses", tr_const!("Harnesses"), check_harnesses),

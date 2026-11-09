@@ -656,6 +656,10 @@ pub struct Page {
     /// Window macros placed on the page (macro boxes).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub macro_boxes: Vec<macro_box::MacroBox>,
+    /// Structure boxes: areas whose devices take other structure identifiers than
+    /// the page's (`crate::structure::scope`).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub structure_boxes: Vec<structure::StructureBox>,
 }
 
 impl Default for Page {
@@ -699,6 +703,7 @@ impl Page {
             junctions: Vec::new(),
             values: BTreeMap::new(),
             macro_boxes: Vec::new(),
+            structure_boxes: Vec::new(),
         }
     }
 
@@ -712,6 +717,7 @@ impl Page {
             && self.conn_defs.is_empty()
             && self.cable_defs.is_empty()
             && self.junctions.is_empty()
+            && self.structure_boxes.is_empty()
     }
 }
 
@@ -1790,6 +1796,7 @@ impl Project {
             max = pg.conn_defs.iter().map(|s| s.id).fold(max, u64::max);
             max = pg.cable_defs.iter().map(|s| s.id).fold(max, u64::max);
             max = pg.junctions.iter().map(|s| s.id).fold(max, u64::max);
+            max = pg.structure_boxes.iter().map(|s| s.id).fold(max, u64::max);
         }
         for e in &self.layout.enclosures {
             max = max.max(e.id);

@@ -1495,6 +1495,8 @@ Strip (mm)	Soyma (mm)
 Stripping from (mm)	Soyma başlangıç (mm)
 Stripping to (mm)	Soyma bitiş (mm)
 Stroke	Strok
+Structure box on page {} sets no structure identifier	{} sayfasındaki yapı kutusu hiçbir yapı tanımlayıcısı belirlemiyor
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	{} sayfasındaki yapı kutuları biri diğerinin içinde olmadan çakışıyor: her ikisindeki cihazlar küçük olanın yapısını alır
 Structure identifier {} is not defined in the structure management	Yapı tanımlayıcısı {} yapı yönetiminde tanımlı değil
 Structure identifier {} must not contain blanks or the signs = + - / :	Yapı tanımlayıcısı {} boşluk veya = + - / : işaretlerini içeremez
 Structure identifiers	Yapı tanımlayıcıları
@@ -1907,6 +1909,8 @@ yellow	sarı
 {} is placed at the missing node {}	{}, mevcut olmayan {} düğümüne yerleştirilmiş
 {} is planned twice ({} and {})	{} iki kez planlanmış ({} ve {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{}, {} ile yalnızca {} A'ya kadar seçici (kısa devre akımı {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} yapısını korur: ana fonksiyonları farklı yapı kutularında ({})
+{} keeps its structure: {} exists already	{} yapısını korur: {} zaten var
 {} lies outside page {}	{} sayfa {} dışında
 {} min {} s	{} dk {} sn
 {} mounting marks belong to items that no longer exist	{} montaj işareti artık mevcut olmayan öğelere ait

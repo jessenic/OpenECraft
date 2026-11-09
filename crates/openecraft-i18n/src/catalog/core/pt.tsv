@@ -1495,6 +1495,8 @@ Strip (mm)	Decapagem (mm)
 Stripping from (mm)	Decapagem de (mm)
 Stripping to (mm)	Decapagem para (mm)
 Stroke	Curso
+Structure box on page {} sets no structure identifier	A caixa de estrutura da página {} não define nenhum identificador de estrutura
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Caixas de estrutura da página {} se sobrepõem sem que uma esteja dentro da outra: os dispositivos em ambas recebem a estrutura da menor
 Structure identifier {} is not defined in the structure management	O identificador de estrutura {} não está definido no gerenciamento de estruturas
 Structure identifier {} must not contain blanks or the signs = + - / :	O identificador de estrutura {} não pode conter espaços nem os sinais = + - / :
 Structure identifiers	Identificadores de estrutura
@@ -1907,6 +1909,8 @@ yellow	amarelo
 {} is placed at the missing node {}	{} está posicionado no nó ausente {}
 {} is planned twice ({} and {})	{} está planejado duas vezes ({} e {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} é seletivo em relação a {} apenas até {} A (corrente de curto-circuito {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} mantém sua estrutura: suas funções principais estão em caixas de estrutura diferentes ({})
+{} keeps its structure: {} exists already	{} mantém sua estrutura: {} já existe
 {} lies outside page {}	{} está fora da página {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} marcas de montagem pertencem a itens que não existem mais

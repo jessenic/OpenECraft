@@ -183,8 +183,9 @@ impl Pg<'_> {
     fn sym(&mut self, key: &str, x: f32, y: f32, rot: u8, tag: &str, label: &str, ftext: &str) -> &mut Self {
         let def = self.prj.symbol(key).expect("symbol");
         let id = self.prj.new_id();
-        // Tags take the missing structure aspects from the page (`-K1` → `=A1+CAB1-K1`).
-        let tag = if tag.is_empty() { String::new() } else { crate::structure::complete(&self.prj.pages[self.page], tag) };
+        // Tags take the missing structure aspects from the page or the structure box
+        // they are in (`-K1` → `=A1+CAB1-K1`).
+        let tag = if tag.is_empty() { String::new() } else { crate::structure::complete_at(&self.prj.pages[self.page], p(x, y), tag) };
         let s = SymbolInst {
             id,
             sym: key.into(),

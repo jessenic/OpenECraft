@@ -202,7 +202,9 @@ Border	Rand
 Border distance (mm)	Randafstand (mm)
 Both sides are open: the wires need no cutout	Beide zijden zijn open: de draden hebben geen uitsparing nodig
 Bottom edges	Onderranden
+Bottom left	Linksonder
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Onderkant van de behuizing (zonder sokkel) boven de vloer; de hoogten worden gecontroleerd als deze bekend is of de behuizing op een sokkel staat
+Bottom right	Rechtsonder
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Uitschakelvermogen ten opzichte van de kortsluitstroom bij elk beveiligingsapparaat van het net, uitschakeling bij de laagste foutstroom aan het einde van de stroomkring, kortsluitvastheid van de kabels en selectiviteit met het voorgeschakelde apparaat.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Brug: vier draden; de verbinding komt aan één zijde binnen en gaat naar de drie andere, eerst de tegenoverliggende
 Building {} added with a level at ground level	Gebouw {} toegevoegd met een verdieping op maaiveldhoogte
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Klik om 
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Klik om de situatietekening van de gebouwen te tonen, of de hele installatie in de 3D-weergave
 Click to show, right click for more	Klik om te tonen, rechtsklik voor meer
 Click two corners	Klik op twee hoeken
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Klik op twee hoeken van het structuurkader en stel daarna de aanduidingen in bij de eigenschappen · Esc of rechtsklik om te beëindigen
 Click two nodes to connect them	Klik op twee knooppunten om ze te verbinden
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Klik waar vier draden samenkomen: de brug leidt de verbinding van één zijde naar de drie andere, eerst de tegenoverliggende · {} draait hem · Esc of rechtsklik om te beëindigen
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Klik waar drie draden samenkomen: het T-stuk benoemt het apparaat waar de draden beginnen en de volgorde van hun doelen · {} draait het waar nog geen draden samenkomen · Esc of rechtsklik om te beëindigen
@@ -345,7 +348,7 @@ Comments and markup	Opmerkingen en markeringen
 Compare and baselines	Vergelijken en baselines
 Compare with	Vergelijken met
 Compare with a baseline, a revision or another project file and take differences over	Vergelijken met een baseline, een revisie of een ander projectbestand en verschillen overnemen
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Volledige aanduiding: {}\nAspecten die hier ontbreken, worden van de pagina overgenomen (=functie +locatie).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Volledige aanduiding: {}\nAspecten die hier ontbreken, worden overgenomen van de pagina (=functie +locatie) of van het structuurkader waarin het symbool ligt.
 Condition	Voorwaarde
 Condition (OPTION=value & …)	Voorwaarde (OPTION=waarde & …)
 Conductive frame	Geleidend frame
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG geïmporteerd
 DXF import failed: {}	DXF importeren mislukt: {}
 DXF imported as page {}: {} lines, {} texts	DXF geïmporteerd als pagina {}: {} lijnen, {} teksten
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF geïmporteerd als pagina {}: {} lijnen, {} teksten (niet geïmporteerd: {})
+Dash-dot	Streep-punt
 Dashed	Gestreept
 Decimals	Decimalen
 Default	Standaard
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	Apparaat-, klem-, 
 Devices ({})	Apparaten ({})
 Devices are not copied: a device is placed once.	Apparaten worden niet gekopieerd: een apparaat wordt één keer geplaatst.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Apparaten worden gepland met eenlijnige symbolen en uitgewerkt in het meerlijnige schema; beide delen de apparaataanduiding.
+Devices in the box: {}	Apparaten in het kader: {}
 Devices of a channel	Apparaten van een kanaal
 Devices of the second channel; empty = like the first	Apparaten van het tweede kanaal; leeg = zoals het eerste
 Devices placed on the page get its structure; their tags are shown without it.	Apparaten die op de pagina worden geplaatst, krijgen de structuur ervan; hun aanduidingen worden zonder die structuur getoond.
 Devices to place	Te plaatsen apparaten
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Apparaten waarvan de hoofdfunctie in het kader ligt, krijgen de hier ingestelde aanduidingen; lege aspecten worden geërfd van de pagina of een omsluitend kader.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Apparaten, verbindingen en klemmen: filteren, vullen, zoeken en vervangen, CSV
 Dew point	Dauwpunt
 Diameter	Diameter
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Nog geen kab
 No change requests yet.	Nog geen wijzigingsverzoeken.
 No changes since the last revision.	Geen wijzigingen sinds de laatste revisie.
 No data of other systems imported yet.	Nog geen gegevens van andere systemen geïmporteerd.
+No device has its main function in the box.	Geen apparaat heeft zijn hoofdfunctie in het kader.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Nog geen apparaat heeft montagegegevens: wijs de apparaten artikelen met afmetingen toe (Eigenschappen › Artikelen).
 No differences to {}.	Geen verschillen met {}.
 No document embedded	Geen document ingesloten
@@ -1668,6 +1675,7 @@ Slots	Slots
 Smallest cross-section of control circuits	Kleinste doorsnede van stuurstroomkringen
 Smallest cross-section of power circuits	Kleinste doorsnede van hoofdstroomkringen
 Socket outlets, data and antenna outlets	Wandcontactdozen, data- en antennedozen
+Solid	Doorgetrokken
 Some wires have no length: place their devices in the panel layout or set the field length.	Sommige draden hebben geen lengte: plaats hun apparaten in de kastlay-out of stel de veldlengte in.
 Sort by designation	Sorteren op benaming
 Sort order	Sorteervolgorde
@@ -1707,7 +1715,10 @@ Strip {} mm	Strippen {} mm
 Strips / plugs	Stroken / stekkers
 Structure (IEC 81346)	Structuur (IEC 81346)
 Structure (function / location)…	Structuur (functie / locatie)…
+Structure box	Structuurkader
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Structuurkader: teken een rechthoek rond een gebied waarvan de apparaten andere functie- (=) of locatieaanduidingen (+) krijgen dan de pagina
 Structure identifiers (IEC 81346), templates and work areas	Structuuraanduidingen (IEC 81346), sjablonen en werkgebieden
+Structure in the box	Structuur in het kader
 Structure management	Structuurbeheer
 Structure of the target page	Structuur van de doelpagina
 Style	Stijl
@@ -1770,6 +1781,7 @@ Terminals at least	Klemmen minimaal
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Klemmen met hetzelfde brugnummer zijn doorverbonden (dezelfde potentiaal). Reserveklemmen worden in de stuklijst meegeteld.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	Termen gescheiden door ';': sleutel=waarde (gelijk), sleutel~tekst (bevat) of tekst op een willekeurige plaats
 Test connection	Verbinding testen
+Text offset	Tekstverschuiving
 Text size	Tekstgrootte
 Texts	Teksten
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	Het EPLAN Data Portal biedt alleen het zoeken en lezen van artikelen: open het venster Dataportaal om de artikelen ervan toe te voegen.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Hoekrichting wisselen bij het tekene
 Toggle routing around symbols (wire tool)	Routering om symbolen aan / uit (draadgereedschap)
 Top	Boven
 Top edges	Bovenranden
+Top left	Linksboven
+Top right	Rechtsboven
 Total selectivity	Volledige selectiviteit
 Transfer project parts to database	Projectartikelen overnemen in de database
 Translate the project texts; documentation per language	De projectteksten vertalen; documentatie per taal
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Wiel: zoomen · sle
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Muiswiel: zoomen · rechtsklik: annuleren · grafiek springt naar 0,5 mm, aansluitpunten naar het raster van 4 mm
 When it differs from the page	Wanneer deze afwijkt van de pagina
 Where	Plaats
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Waar de structuur van het apparaat vandaan komt: aspecten die gelijk zijn aan de structuur rond het symbool zijn geërfd en volgen wanneer het in of uit een structuurkader wordt verplaatst; andere aspecten zijn van het apparaat zelf en blijven.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Waar de draad begint en eindigt: een aansluitpunt uit de artikelgegevens, een aansluitpunt gegenereerd uit de functiesjabloon, of het midden van het apparaat als geen aansluitpunt overeenkomt
 Whole building	Heel gebouw
 Whole words	Hele woorden
@@ -2013,6 +2028,10 @@ from the parts	uit de artikelen
 given	vast
 horizontal	horizontaal
 if	als
+inherited	geërfd
+inherited from structure box {}	geërfd van structuurkader {}
+inherited from the page	geërfd van de pagina
+inherited: {}	geërfd: {}
 kW	kW
 low side at the rear	lage kant achter
 male	pen
@@ -2046,6 +2065,7 @@ placed / provided by the parts	geplaatst / door de artikelen geleverd
 reached: PL {}	bereikt: PL {}
 review round {}	reviewronde {}
 ridge {} m	nok {} m
+set on the device	ingesteld op het apparaat
 sloped ceiling from {} m	schuin plafond vanaf {} m
 some	enkele
 taken over	overgenomen

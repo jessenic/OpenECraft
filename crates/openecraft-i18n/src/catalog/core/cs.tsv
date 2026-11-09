@@ -1495,6 +1495,8 @@ Strip (mm)	Odizolování (mm)
 Stripping from (mm)	Odizolování od (mm)
 Stripping to (mm)	Odizolování do (mm)
 Stroke	Zdvih
+Structure box on page {} sets no structure identifier	Rámeček struktury na stránce {} nenastavuje žádný identifikátor struktury
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Rámečky struktury na stránce {} se překrývají, aniž by jeden ležel uvnitř druhého: přístroje v obou přebírají strukturu menšího
 Structure identifier {} is not defined in the structure management	Identifikátor struktury {} není definován ve správě struktury
 Structure identifier {} must not contain blanks or the signs = + - / :	Identifikátor struktury {} nesmí obsahovat mezery ani znaky = + - / :
 Structure identifiers	Identifikátory struktury
@@ -1907,6 +1909,8 @@ yellow	žlutá
 {} is placed at the missing node {}	{} je umístěno v chybějícím uzlu {}
 {} is planned twice ({} and {})	{} je plánováno dvakrát ({} a {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} je selektivní vůči {} jen do {} A (zkratový proud {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} si ponechává svou strukturu: jeho hlavní funkce leží v různých rámečcích struktury ({})
+{} keeps its structure: {} exists already	{} si ponechává svou strukturu: {} již existuje
 {} lies outside page {}	{} leží mimo stránku {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} značek montáže patří k prvkům, které již neexistují

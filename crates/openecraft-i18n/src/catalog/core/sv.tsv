@@ -1495,6 +1495,8 @@ Strip (mm)	Avskalning (mm)
 Stripping from (mm)	Avisolering från (mm)
 Stripping to (mm)	Avisolering till (mm)
 Stroke	Slaglängd
+Structure box on page {} sets no structure identifier	Strukturruta på sida {} anger ingen strukturbeteckning
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Strukturrutor på sida {} överlappar utan att den ena ligger inuti den andra: apparater i båda får strukturen från den mindre
 Structure identifier {} is not defined in the structure management	Strukturbeteckningen {} är inte definierad i strukturhanteringen
 Structure identifier {} must not contain blanks or the signs = + - / :	Strukturbeteckningen {} får inte innehålla blanksteg eller tecknen = + - / :
 Structure identifiers	Strukturbeteckningar
@@ -1907,6 +1909,8 @@ yellow	gul
 {} is placed at the missing node {}	{} är placerad vid den saknade noden {}
 {} is planned twice ({} and {})	{} är planerad två gånger ({} och {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} är selektiv mot {} endast upp till {} A (kortslutningsström {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} behåller sin struktur: dess huvudfunktioner ligger i olika strukturrutor ({})
+{} keeps its structure: {} exists already	{} behåller sin struktur: {} finns redan
 {} lies outside page {}	{} ligger utanför sida {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	{} monteringsmarkeringar hör till objekt som inte längre finns

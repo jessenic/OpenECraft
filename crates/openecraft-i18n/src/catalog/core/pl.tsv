@@ -1495,6 +1495,8 @@ Strip (mm)	Odizolowanie (mm)
 Stripping from (mm)	Odizolowanie od (mm)
 Stripping to (mm)	Odizolowanie do (mm)
 Stroke	Skok
+Structure box on page {} sets no structure identifier	Ramka struktury na stronie {} nie ustawia żadnego identyfikatora struktury
+Structure boxes on page {} overlap without one lying inside the other: devices in both take the structure of the smaller one	Ramki struktury na stronie {} nakładają się, przy czym żadna nie leży w drugiej: urządzenia w obu przejmują strukturę mniejszej
 Structure identifier {} is not defined in the structure management	Identyfikator struktury {} nie jest zdefiniowany w zarządzaniu strukturą
 Structure identifier {} must not contain blanks or the signs = + - / :	Identyfikator struktury {} nie może zawierać spacji ani znaków = + - / :
 Structure identifiers	Identyfikatory struktury
@@ -1907,6 +1909,8 @@ yellow	żółty
 {} is placed at the missing node {}	{} jest umieszczone w brakującym węźle {}
 {} is planned twice ({} and {})	{} jest zaplanowane dwukrotnie ({} i {})
 {} is selective to {} only up to {} A (short-circuit current {} A)	{} jest selektywny względem {} tylko do {} A (prąd zwarciowy {} A)
+{} keeps its structure: its main functions lie in different structure boxes ({})	{} zachowuje swoją strukturę: jego funkcje główne leżą w różnych ramkach struktury ({})
+{} keeps its structure: {} exists already	{} zachowuje swoją strukturę: {} już istnieje
 {} lies outside page {}	{} leży poza stroną {}
 {} min {} s	{} min {} s
 {} mounting marks belong to items that no longer exist	Znaczniki montażu należące do elementów, które już nie istnieją: {}

@@ -200,7 +200,9 @@ Border	边框
 Border distance (mm)	边距 (mm)
 Both sides are open: the wires need no cutout	两侧均开放：导线无需开孔
 Bottom edges	下边缘
+Bottom left	左下
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	机柜底部（不含底座）离地高度；当该值已知或机柜立于底座上时检查高度
+Bottom right	右下
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	电网中每个保护设备的分断能力与短路电流的对比、其电路末端最小故障电流时的切断、电缆的短路耐受能力以及与上级设备的选择性。
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	桥接：四条连接线；连接从一侧进入并通往另外三侧，先到对侧
 Building {} added with a level at ground level	已添加建筑物 {}，含一个地面层
@@ -301,6 +303,7 @@ Click to show the building in the site plan; right-click for new levels	单击�
 Click to show the site plan of the buildings, or all of the plant in the 3D view	单击以显示建筑物的总平面图，或在三维视图中显示整个设施
 Click to show, right click for more	单击显示，右键查看更多
 Click two corners	单击两个角点
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	单击结构框的两个角，然后在属性中设置其标识符 · Esc 或右键结束
 Click two nodes to connect them	单击两个节点以连接它们
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	在四条连接线相交处单击：桥接将连接从一侧引向另外三侧，先到对侧 · {} 可旋转 · Esc 或右键结束
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	在三条连接线相交处单击：T型节点指定导线出发的设备以及目标的顺序 · 在尚无连接线相交处 {} 可旋转 · Esc 或右键结束
@@ -342,7 +345,7 @@ Comments and markup	批注和标记
 Compare and baselines	比较和基线
 Compare with	比较对象
 Compare with a baseline, a revision or another project file and take differences over	与基线、修订或其他项目文件进行比较，并采用差异
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	完整标识符：{}\n此处缺少的结构部分取自页 (=功能 +位置)。
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	完整标识符：{}\n此处缺少的结构部分取自页 (=功能 +位置) 或符号所在的结构框。
 Condition	条件
 Condition (OPTION=value & …)	条件（OPTION=值 & …）
 Conductive frame	导电框架
@@ -409,6 +412,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	已将 DWG 导入
 DXF import failed: {}	DXF 导入失败：{}
 DXF imported as page {}: {} lines, {} texts	已将 DXF 导入为页 {}：{} 条线，{} 个文本
 DXF imported as page {}: {} lines, {} texts (not imported: {})	已将 DXF 导入为页 {}：{} 条线，{} 个文本（未导入：{}）
+Dash-dot	点划线
 Dashed	虚线
 Decimals	小数位数
 Default	默认
@@ -474,10 +478,12 @@ Device, terminal, wire and cable markers for marking software	用于标记软件
 Devices ({})	设备 ({})
 Devices are not copied: a device is placed once.	不复制设备：一个设备只放置一次。
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	设备用单线符号规划，在多线原理图中设计；两者共享设备标识符。
+Devices in the box: {}	框内设备：{}
 Devices of a channel	通道的设备
 Devices of the second channel; empty = like the first	第二通道的设备；留空 = 与第一通道相同
 Devices placed on the page get its structure; their tags are shown without it.	放置在页上的设备将获得该页的结构；其标识符显示时不含该结构。
 Devices to place	待放置的设备
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	主功能位于框内的设备采用此处设置的标识符；空的结构部分继承自页或外围的框。
 Devices, connections and terminals: filter, fill, find and replace, CSV	设备、连接和端子：筛选、填充、查找和替换、CSV
 Dew point	露点
 Diameter	直径
@@ -1060,6 +1066,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	尚无电缆
 No change requests yet.	尚无变更请求。
 No changes since the last revision.	自上次修订以来无更改。
 No data of other systems imported yet.	尚未导入其他系统的数据。
+No device has its main function in the box.	没有设备的主功能位于框内。
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	尚无设备具有安装数据：请为设备分配带尺寸的部件（属性 › 部件）。
 No differences to {}.	与 {} 无差异。
 No document embedded	未嵌入文档
@@ -1649,6 +1656,7 @@ Slots	插槽
 Smallest cross-section of control circuits	控制电路的最小截面积
 Smallest cross-section of power circuits	主电路的最小截面积
 Socket outlets, data and antenna outlets	电源插座、数据和天线插座
+Solid	实线
 Some wires have no length: place their devices in the panel layout or set the field length.	部分导线没有长度：请在安装板布局中放置其设备或设置字段长度。
 Sort by designation	按标识排序
 Sort order	排序顺序
@@ -1688,7 +1696,10 @@ Strip {} mm	剥线 {} mm
 Strips / plugs	端子排 / 插头
 Structure (IEC 81346)	结构 (IEC 81346)
 Structure (function / location)…	结构（功能 / 位置）…
+Structure box	结构框
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	结构框：在一个区域周围画矩形，区域中的设备采用与页不同的功能 (=) 或位置 (+) 标识符
 Structure identifiers (IEC 81346), templates and work areas	结构标识符 (IEC 81346)、模板和工作区
+Structure in the box	框内结构
 Structure management	结构标识符管理
 Structure of the target page	目标页的结构
 Style	样式
@@ -1751,6 +1762,7 @@ Terminals at least	端子最低
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	跳线编号相同的端子相互桥接（电位相同）。备用端子计入物料清单。
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	各条件以 ';' 分隔：键=值（等于）、键~文本（包含）或任意位置出现的文本
 Test connection	测试连接
+Text offset	文本偏移
 Text size	文本大小
 Texts	文本
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal 仅支持搜索和读取部件：请打开“数据门户”窗口以添加其部件。
@@ -1814,6 +1826,8 @@ Toggle corner direction while drawing wires	绘制导线时切换拐角方向
 Toggle routing around symbols (wire tool)	切换绕开符号布线（导线工具）
 Top	顶部
 Top edges	上边缘
+Top left	左上
+Top right	右上
 Total selectivity	完全选择性
 Transfer project parts to database	将项目部件传输到数据库
 Translate the project texts; documentation per language	翻译项目文本；按语言生成文档
@@ -1899,6 +1913,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	滚轮：缩放 · 
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	滚轮：缩放 · 右键单击：取消 · 图形捕捉到 0.5 mm，连接点捕捉到 4 mm 栅格
 When it differs from the page	与该页不同时
 Where	位置
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	设备结构的来源：与符号周围结构相同的结构部分为继承，符号移入或移出结构框时随之改变；其他结构部分属于设备本身，保持不变。
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	导线的起点和终点：部件数据中的连接点、由功能模板生成的连接点，或在没有匹配的连接点时使用设备中心
 Whole building	整个建筑
 Whole words	全字匹配
@@ -1991,6 +2006,10 @@ female	插孔
 from the parts	取自部件
 horizontal	水平
 if	如果
+inherited	继承
+inherited from structure box {}	继承自结构框 {}
+inherited from the page	继承自页
+inherited: {}	继承：{}
 kW	kW
 low side at the rear	低侧在后
 male	插针
@@ -2022,6 +2041,7 @@ placed / provided by the parts	已放置 / 由部件提供
 reached: PL {}	已达到：PL {}
 review round {}	第 {} 轮审阅
 ridge {} m	屋脊 {} m
+set on the device	在设备上设置
 sloped ceiling from {} m	斜顶自 {} m
 some	部分
 taken over	已采用

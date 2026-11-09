@@ -202,7 +202,9 @@ Border	Kenarlık
 Border distance (mm)	Kenar mesafesi (mm)
 Both sides are open: the wires need no cutout	Her iki taraf da açık: tellerin kesime ihtiyacı yok
 Bottom edges	Alt kenarlar
+Bottom left	Sol alt
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Panonun (kaide hariç) alt kenarının zeminden yüksekliği; bu değer biliniyorsa veya pano bir kaide üzerinde duruyorsa yükseklikler kontrol edilir
+Bottom right	Sağ alt
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Şebekenin her koruma cihazında kısa devre akımına karşı kesme kapasitesi, devresinin sonundaki en düşük arıza akımında açma, kabloların kısa devre dayanımı ve üst kademedeki cihazla seçicilik.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Köprü: dört tel; bağlantı bir taraftan gelir ve diğer üçüne gider, önce karşı tarafa
 Building {} added with a level at ground level	{} binası zemin seviyesinde bir katla eklendi
@@ -304,6 +306,7 @@ Click to show the building in the site plan; right-click for new levels	Binayı 
 Click to show the site plan of the buildings, or all of the plant in the 3D view	Binaların vaziyet planını veya 3B görünümde tüm tesisi göstermek için tıklayın
 Click to show, right click for more	Göstermek için tıklayın, daha fazlası için sağ tıklayın
 Click two corners	İki köşeye tıklayın
+Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Yapı kutusunun iki köşesine tıklayın, ardından tanımlayıcılarını özelliklerde belirleyin · Bitirmek için Esc veya sağ tık
 Click two nodes to connect them	Bağlamak için iki düğüme tıklayın
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Dört telin birleştiği yere tıklayın: köprü bağlantıyı bir taraftan diğer üçüne götürür, önce karşı tarafa · {} döndürür · Bitirmek için Esc veya sağ tık
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Üç telin birleştiği yere tıklayın: T parçası tellerin çıktığı cihazı ve hedeflerinin sırasını belirler · {} henüz tel birleşmeyen yerde döndürür · Bitirmek için Esc veya sağ tık
@@ -345,7 +348,7 @@ Comments and markup	Yorumlar ve işaretlemeler
 Compare and baselines	Karşılaştırma ve referans sürümler
 Compare with	Karşılaştır
 Compare with a baseline, a revision or another project file and take differences over	Bir referans sürümle, bir revizyonla veya başka bir proje dosyasıyla karşılaştır ve farklılıkları aktar
-Complete tag: {}\nAspects missing here are taken from the page (=function +location).	Tam etiket: {}\nBurada eksik olan yönler sayfadan alınır (=fonksiyon +konum).
+Complete tag: {}\nAspects missing here are taken from the page (=function +location) or the structure box the symbol lies in.	Tam etiket: {}\nBurada eksik olan yönler sayfadan (=fonksiyon +konum) veya sembolün bulunduğu yapı kutusundan alınır.
 Condition	Koşul
 Condition (OPTION=value & …)	Koşul (SEÇENEK=değer & …)
 Conductive frame	İletken şasi
@@ -412,6 +415,7 @@ DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG, {} sayfası 
 DXF import failed: {}	DXF içe aktarma başarısız oldu: {}
 DXF imported as page {}: {} lines, {} texts	DXF, {} sayfası olarak içe aktarıldı: {} çizgi, {} metin
 DXF imported as page {}: {} lines, {} texts (not imported: {})	DXF, {} sayfası olarak içe aktarıldı: {} çizgi, {} metin (içe aktarılmayan: {})
+Dash-dot	Çizgi-nokta
 Dashed	Kesik çizgili
 Decimals	Ondalık basamak
 Default	Varsayılan
@@ -479,10 +483,12 @@ Device, terminal, wire and cable markers for marking software	İşaretleme yazı
 Devices ({})	Cihazlar ({})
 Devices are not copied: a device is placed once.	Cihazlar kopyalanmaz: bir cihaz bir kez yerleştirilir.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Cihazlar tek hatlı sembollerle planlanır ve çok hatlı şemada projelendirilir; ikisi aynı cihaz etiketini paylaşır.
+Devices in the box: {}	Kutudaki cihazlar: {}
 Devices of a channel	Bir kanalın cihazları
 Devices of the second channel; empty = like the first	İkinci kanalın cihazları; boş = birinci gibi
 Devices placed on the page get its structure; their tags are shown without it.	Sayfaya yerleştirilen cihazlar sayfanın yapısını alır; etiketleri bu yapı olmadan gösterilir.
 Devices to place	Yerleştirilecek cihazlar
+Devices whose main function lies in the box take the identifiers set here; empty aspects are inherited from the page or an enclosing box.	Ana fonksiyonu kutuda bulunan cihazlar burada belirlenen tanımlayıcıları alır; boş yönler sayfadan veya çevreleyen bir kutudan devralınır.
 Devices, connections and terminals: filter, fill, find and replace, CSV	Cihazlar, bağlantılar ve klemensler: filtrele, doldur, bul ve değiştir, CSV
 Dew point	Çiğ noktası
 Diameter	Çap
@@ -1073,6 +1079,7 @@ No cables yet. Draw a cable definition across wires or add a cable.	Henüz kablo
 No change requests yet.	Henüz değişiklik talebi yok.
 No changes since the last revision.	Son revizyondan bu yana değişiklik yok.
 No data of other systems imported yet.	Henüz diğer sistemlerden veri içe aktarılmadı.
+No device has its main function in the box.	Hiçbir cihazın ana fonksiyonu kutuda değil.
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Henüz hiçbir cihazın montaj verisi yok: cihazlara boyutları olan parçalar atayın (Özellikler › Parçalar).
 No differences to {}.	{} ile fark yok.
 No document embedded	Gömülü belge yok
@@ -1668,6 +1675,7 @@ Slots	Slotlar
 Smallest cross-section of control circuits	Kumanda devrelerinin en küçük kesiti
 Smallest cross-section of power circuits	Güç devrelerinin en küçük kesiti
 Socket outlets, data and antenna outlets	Prizler, veri ve anten prizleri
+Solid	Düz
 Some wires have no length: place their devices in the panel layout or set the field length.	Bazı tellerin uzunluğu yok: cihazlarını pano yerleşimine yerleştirin veya alan uzunluğunu ayarlayın.
 Sort by designation	Tanıma göre sırala
 Sort order	Sıralama
@@ -1707,7 +1715,10 @@ Strip {} mm	Soyma {} mm
 Strips / plugs	Şeritler / fişler
 Structure (IEC 81346)	Yapı (IEC 81346)
 Structure (function / location)…	Yapı (fonksiyon / konum)…
+Structure box	Yapı kutusu
+Structure box: draw a rectangle around an area whose devices take other function (=) or location (+) identifiers than the page	Yapı kutusu: cihazları sayfadan farklı fonksiyon (=) veya konum (+) tanımlayıcıları alan bir alanın çevresine dikdörtgen çizin
 Structure identifiers (IEC 81346), templates and work areas	Yapı tanımlayıcıları (IEC 81346), şablonlar ve çalışma alanları
+Structure in the box	Kutudaki yapı
 Structure management	Yapı yönetimi
 Structure of the target page	Hedef sayfanın yapısı
 Style	Stil
@@ -1770,6 +1781,7 @@ Terminals at least	Klemensler en az
 Terminals with the same jumper number are bridged (same potential). Spare terminals are counted in the bill of materials.	Aynı köprü numarasına sahip klemensler köprülenir (aynı potansiyel). Yedek klemensler malzeme listesinde sayılır.
 Terms separated by ';': key=value (equal), key~text (contains) or text found anywhere	';' ile ayrılmış terimler: anahtar=değer (eşit), anahtar~metin (içerir) veya herhangi bir yerde bulunan metin
 Test connection	Bağlantıyı test et
+Text offset	Metin kaydırması
 Text size	Metin boyutu
 Texts	Metinler
 The EPLAN Data Portal only offers searching and reading parts: open the data portal window to add its parts.	EPLAN Data Portal yalnızca parça arama ve okuma sunar: parçalarını eklemek için veri portalı penceresini açın.
@@ -1833,6 +1845,8 @@ Toggle corner direction while drawing wires	Tel çizerken köşe yönünü deği
 Toggle routing around symbols (wire tool)	Sembollerin etrafından yönlendirmeyi aç / kapat (tel aracı)
 Top	Üst
 Top edges	Üst kenarlar
+Top left	Sol üst
+Top right	Sağ üst
 Total selectivity	Tam seçicilik
 Transfer project parts to database	Proje parçalarını veritabanına aktar
 Translate the project texts; documentation per language	Proje metinlerini çevir; dil başına dokümantasyon
@@ -1920,6 +1934,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan	Tekerlek: yakınla�
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Tekerlek: yakınlaştır · sağ tık: iptal · grafikler 0,5 mm'ye, bağlantı noktaları 4 mm ızgaraya yaslanır
 When it differs from the page	Sayfadan farklı olduğunda
 Where	Konum
+Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Cihazın yapısının kaynağı: sembolün çevresindeki yapıya eşit olan yönler devralınır ve sembol bir yapı kutusuna girdiğinde veya çıktığında değişir; diğer yönler cihazın kendisine aittir ve korunur.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Telin başladığı ve bittiği yer: parça verilerinden bir bağlantı noktası, fonksiyon şablonundan oluşturulan bir nokta veya eşleşen bağlantı noktası yoksa cihaz merkezi
 Whole building	Tüm bina
 Whole words	Tam sözcükler
@@ -2013,6 +2028,10 @@ from the parts	parçalardan
 given	verilmiş
 horizontal	yatay
 if	eğer
+inherited	devralınır
+inherited from structure box {}	{} yapı kutusundan devralındı
+inherited from the page	sayfadan devralındı
+inherited: {}	devralınır: {}
 kW	kW
 low side at the rear	alçak taraf arkada
 male	erkek
@@ -2046,6 +2065,7 @@ placed / provided by the parts	yerleştirilen / parçaların sağladığı
 reached: PL {}	ulaşılan: PL {}
 review round {}	inceleme turu {}
 ridge {} m	mahya {} m
+set on the device	cihazda belirlendi
 sloped ceiling from {} m	{} m'den itibaren eğimli tavan
 some	bazıları
 taken over	aktarıldı

@@ -257,6 +257,9 @@ fn get_page(prj: &mut Project, a: &Args) -> Result<Value, String> {
         .collect();
     v["texts"] = pg.texts.iter().map(|t| json!({ "id": t.id, "x": t.pos.x, "y": t.pos.y, "text": t.text, "size": t.size })).collect();
     v["shapes"] = serde_json::to_value(&pg.shapes).unwrap_or_default();
+    if !pg.structure_boxes.is_empty() {
+        v["structure_boxes"] = serde_json::to_value(&pg.structure_boxes).unwrap_or_default();
+    }
     Ok(v)
 }
 
