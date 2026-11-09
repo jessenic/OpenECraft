@@ -5,6 +5,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Keep frame references to the previous, next and last sheet current within their section, including schemes whose numbering starts above one.
+
+- Keep page and project property blocks live in drawing graphics, expose local sheet numbers and section page counts, and retain editable page defaults in reusable page templates. Offer page and project fields in the symbol editor's property picker.
+
 - Advertise parallel cable-core support to external importers so a newer verification CLI cannot mask an older running editor.
 
 - Resolve portable macro parameters in symbol graphics, pin labels and library defaults as well as placed instance data.

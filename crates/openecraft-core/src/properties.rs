@@ -803,11 +803,31 @@ fn computed(prj: &Project, obj: &Object, key: &str) -> Option<String> {
             })
         }
         Object::Page(id) => {
-            let pg = prj.pages.iter().find(|p| p.id == *id)?;
+            let page_i=prj.pages.iter().position(|p|p.id==*id)?;
+            let pg = &prj.pages[page_i];
             Some(match key {
                 "page.name" => pg.name.clone(),
                 "page.description" => pg.description.clone(),
                 "page.full_name" => format!("{}/{}", crate::structure::page_structure(pg), pg.name),
+                "page.local_name" => crate::sections::local_name(prj,page_i).to_owned(),
+                "page.section_pages" => {
+                    let section=crate::sections::of_page(prj,page_i);
+                    prj.pages.iter().enumerate().filter(|(i,_)|crate::sections::of_page(prj,*i)==section).count().to_string()
+                }
+                "page.section_last_number" => {
+                    let section=crate::sections::of_page(prj,page_i);
+                    (0..prj.pages.len()).filter(|&i|crate::sections::of_page(prj,i)==section)
+                        .map(|i|crate::sections::local_name(prj,i)).max_by(|a,b|crate::model::natural_cmp(a,b))
+                        .unwrap_or_default().to_owned()
+                }
+                "page.previous_local_name"|"page.next_local_name" => {
+                    let section=crate::sections::of_page(prj,page_i);
+                    let same=|i:&usize|crate::sections::of_page(prj,*i)==section;
+                    let other=if key=="page.previous_local_name" {(0..page_i).rev().find(same)} else {(page_i+1..prj.pages.len()).find(same)};
+                    other.map(|i|crate::sections::local_name(prj,i).to_owned()).unwrap_or_default()
+                }
+                "page.function_designation"=>format!("={}",pg.function.trim_start_matches('=')),
+                "page.location_designation"=>format!("+{}",pg.location.trim_start_matches('+')),
                 "page.type" => pg.kind.label(),
                 "page.symbols" => pg.symbols.len().to_string(),
                 "page.released" => yes_no(pg.locked),

@@ -213,7 +213,7 @@ pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, pa
         } else {
             s.tag.clone()
         };
-        let property = |key: &str| crate::props::function_property_text(prj, s.id, key);
+        let property = |key: &str| crate::props::symbol_property_text(prj, page_i, s, key);
         if tag != s.tag {
             draw_symbol_resolved(d, &def, &SymbolInst { tag, ..s.clone() }, ink, &property);
         } else {

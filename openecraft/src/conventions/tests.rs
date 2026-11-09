@@ -172,7 +172,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("options", &["model"]),
     ("potentials", &["model", "netlist", "wirenum"]),
     ("functions", &["model", "parts", "properties", "props", "symbols"]),
-    ("properties", &["frame", "functions", "model", "parts", "props", "structure", "symbols"]),
+    ("properties", &["frame", "functions", "model", "parts", "props", "sections", "structure", "symbols"]),
     ("props", &["geom", "model", "properties", "symbols", "symlib"]),
     // 5 feature logic and page editing
     ("ops", &["electrofluid", "geom", "graphics", "harness", "model", "plc_hw", "sections", "structure", "symbols", "symlib", "text"]),

@@ -1,5 +1,31 @@
 use super::*;
 
+#[test]
+fn sheet_frames_follow_numbered_sections_after_inserting_renaming_and_deleting_pages() {
+    let mut prj=Project::default();prj.pages.clear();
+    prj.sections.push(Section {id:100,number:"1".into(),..Default::default()});
+    for number in 11..=23 {
+        let mut page=Page::new(number,&format!("1.{number}"),"CC1",PageKind::Schematic);
+        page.section=100;page.function="Site".into();page.location="CC1".into();prj.pages.push(page);
+    }
+    let page=Object::Page(16);
+    for (key,value) in [("page.local_name","16"),("page.section_pages","13"),("page.section_last_number","23"),
+        ("page.previous_local_name","15"),("page.next_local_name","17"),("page.function_designation","=Site"),("page.location_designation","+CC1")] {
+        assert_eq!(get(&prj,&page,key),value,"{key}");
+        assert!(valid_key(&prj,key).unwrap().read_only);
+    }
+    let at=crate::ops::add_page(&mut prj,PageKind::Schematic,13);
+    assert_eq!(get(&prj,&page,"page.section_last_number"),"24");
+    assert_eq!(get(&prj,&page,"page.section_pages"),"14");
+    let added=Object::Page(prj.pages[at].id);
+    set(&mut prj,&added,"page.name","1.25").unwrap();
+    assert_eq!(get(&prj,&page,"page.section_last_number"),"25");
+    prj.pages.retain(|p|p.id!=17);
+    assert_eq!(get(&prj,&page,"page.next_local_name"),"18");
+    assert_eq!(get(&prj,&Object::Page(11),"page.previous_local_name"),"");
+    assert_eq!(get(&prj,&added,"page.next_local_name"),"");
+}
+
 fn project() -> Project {
     let mut prj = Project::default();
     prj.parts.push(Part { number: "GEN.MOTOR".into(), voltage: "400".into(), weight: 12.5, datasheet: "motor.pdf".into(), ..Default::default() });

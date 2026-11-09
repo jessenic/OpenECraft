@@ -6541,3 +6541,10 @@ unknown	tuntematon
 Buildings, levels and shafts	Rakennukset, kerrokset ja kuilut
 15 · Plant with buildings, levels and a shaft	15 · Laitos, jossa rakennuksia, kerroksia ja kuilu
 {} {} is routed to the cable entries of its enclosures: they stand in no common room, the way between them is not part of the layout	{} {} on reititetty koteloidensa kaapeliläpivienteihin: ne eivät ole samassa huoneessa, niiden välinen reitti ei kuulu sijoitteluun
+Local page number	Paikallinen sivunumero
+Pages in section	Osan sivumäärä
+Last page number in section	Osan viimeinen sivunumero
+Previous page number in section	Osan edellinen sivunumero
+Next page number in section	Osan seuraava sivunumero
+Function designation	Toimintotunnus
+Location designation	Sijaintitunnus

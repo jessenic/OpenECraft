@@ -1,4 +1,17 @@
 use super::*;
+
+#[test]
+fn live_sheet_frame_fields_are_available_through_the_shared_property_registry() {
+    let mut s=new_session();
+    run(&mut s,"set_page",json!({"page":"1","name":"16","function":"Site","location":"CC1"})).unwrap();
+    let output=run(&mut s,"get_properties",json!({"object":"page:16","all":true})).unwrap();
+    let rows=output["properties"].as_array().unwrap();
+    for (key,value) in [("page.local_name","16"),("page.section_last_number","16"),
+        ("page.function_designation","=Site"),("page.location_designation","+CC1")] {
+        assert_eq!(rows.iter().find(|r|r["key"]==key).unwrap()["display"],value,"{key}");
+    }
+    assert!(run(&mut s,"set_properties",json!({"object":"page:16","values":{"page.section_last_number":"99"}})).is_err());
+}
 use crate::builtin::testing::*;
 
 fn motor_session() -> (Session, u64) {

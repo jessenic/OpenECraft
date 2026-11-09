@@ -42,10 +42,14 @@ fn pages_are_made_from_templates() {
     assert!(run(&mut s, "add_page", json!({ "template": "Nothing" })).unwrap_err().contains("No page template"));
 
     run(&mut s, "set_page", json!({ "page": "1", "function": "A1", "frame": "A4 landscape" })).unwrap();
+    run(&mut s,"set_properties",json!({"object":"page:1","values":{"page.drawing_number":"DOC-7"}})).unwrap();
     let t = run(&mut s, "save_page_template", json!({ "page": "1", "name": "Motor" })).unwrap();
     assert_eq!(t["name"], "Motor");
+    let list=run(&mut s,"list_page_templates",json!({})).unwrap();
+    assert_eq!(list.as_array().unwrap().iter().find(|t|t["name"]=="Motor").unwrap()["values"]["page.drawing_number"],"DOC-7");
     let pg = run(&mut s, "add_page", json!({ "template": "Motor", "after": "1" })).unwrap();
     assert_eq!((pg["function"].as_str(), pg["frame"].as_str()), (Some("A1"), Some("A4 landscape")));
+    assert_eq!(s.project().unwrap().pages.iter().find(|p|p.name==pg["name"].as_str().unwrap()).unwrap().values["page.drawing_number"],"DOC-7");
     run(&mut s, "delete_page_template", json!({ "name": "Motor" })).unwrap();
     assert!(run(&mut s, "delete_page_template", json!({ "name": "Motor" })).is_err());
 }

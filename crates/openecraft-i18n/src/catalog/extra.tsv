@@ -6364,3 +6364,10 @@ Applies a catalog part to a cable, including cores, cross-section and declared o
 Lists cable parts available from the project and the built-in catalog	Listet verfügbare Kabelartikel aus dem Projekt und dem integrierten Katalog auf	Liste les articles de câble disponibles dans le projet et le catalogue intégré	Lista los artículos de cable disponibles en el proyecto y el catálogo integrado
 Part {} is not a cable	Artikel {} ist kein Kabel	La pièce {} n'est pas un câble	La pieza {} no es un cable
 Macro placeholder values by name	Makro-Platzhalterwerte nach Name	Valeurs des variables de macro par nom	Valores de marcadores de macro por nombre
+Local page number	Lokale Seitennummer	Numéro de page local	Número de página local
+Pages in section	Seiten im Abschnitt	Pages de la section	Páginas de la sección
+Last page number in section	Letzte Seitennummer im Abschnitt	Dernier numéro de page de la section	Último número de página de la sección
+Previous page number in section	Vorherige Seitennummer im Abschnitt	Numéro de page précédent dans la section	Número de página anterior en la sección
+Next page number in section	Nächste Seitennummer im Abschnitt	Numéro de page suivant dans la section	Número de página siguiente en la sección
+Function designation	Funktionskennzeichen	Désignation de fonction	Designación de función
+Location designation	Ortskennzeichen	Désignation de localisation	Designación de ubicación

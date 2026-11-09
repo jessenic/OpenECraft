@@ -194,3 +194,8 @@ refer to each other (the registry kinds take an `&Analysis`).
   by their snake_case name (`ReportId`), so reports of plugins can be report pages.
   `ReportKind` stays the enum of the built-in kinds; files of format 1 are converted
   when opened.
+
+Page property evaluation uses `sections` for local sheet numbers and section counts.
+Symbol property blocks take their page/project context from the rendering caller;
+part fields keep the selected function assignment. Page template property defaults
+remain data in `model/page_templates.rs`, applied by the shared template insertion.

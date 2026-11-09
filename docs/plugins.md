@@ -408,3 +408,25 @@ The `parallel_cable_cores` host feature confirms that physical connection consum
 retain distinct authored parallel core routes. Importers must check the running
 host as well as any separate verification CLI before accepting circuits containing
 assigned cable cores; a newer verifier cannot update an older editor's report engine.
+
+The `page_property_blocks` feature resolves project/page properties in symbol
+attribute blocks using their placed drawing context. Other fields retain function
+selection, including the selected part article. Read-only `page.local_name` returns
+the page number without its section prefix; `page.section_pages` counts pages in
+the same section (top-level pages form section zero). Both update after edits.
+
+The `page_template_values` feature retains a page template's `values` map when
+saving, exchanging and inserting it. Empty legacy maps remain compatible. The
+shared list_page_templates command returns these defaults, and every frontend
+applies them through the same insertion operation. Importers should check both
+features before supplying reusable source frames with editable context fields.
+
+The `page_frame_fields` feature adds computed `page.section_last_number`,
+`page.previous_local_name` and `page.next_local_name` properties. The last number
+uses natural ordering; adjacent pages follow the editable order of their section,
+with empty values at either end. For sheets 11 through 23, the page count is 13
+while the last number is 23. Insertions, deletions and renumbering update these
+fields. `page.function_designation` and `page.location_designation` include the
+`=` and `+` aspect signs, including bare signs for an unconfigured aspect.
+These read-only properties are available through the shared property registry,
+symbol attribute blocks, free-text placeholders and title-block forms.

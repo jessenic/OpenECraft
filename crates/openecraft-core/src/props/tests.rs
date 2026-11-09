@@ -1,6 +1,26 @@
 use super::*;
 use crate::geom::p;
 
+#[test]
+fn property_blocks_follow_the_page_and_project_while_retaining_the_selected_function_part() {
+    let mut prj=project();
+    prj.sections.push(Section {id:100,number:"1".into(),..Default::default()});
+    prj.pages[0].section=100;prj.pages[0].name="1.16".into();prj.pages[0].description="CPU".into();
+    let mut second=Page::new(101,"1.17","Inputs",PageKind::Schematic);second.section=100;prj.pages.push(second);
+    prj.pages.push(Page::new(102,"99","Outside",PageKind::Schematic));
+    prj.parts.push(Part {number:"SECOND".into(),..Default::default()});
+    prj.devices.get_mut("-K1").unwrap().parts.push(PartRef {number:"SECOND".into(),count:1,total:false});
+    prj.pages[0].symbols[0].values.insert("function.part_number".into(),"SECOND".into());
+    let symbol=&prj.pages[0].symbols[0];
+    for (key,expected) in [("page.local_name","16"),("page.section_pages","2"),("page.description","CPU"),("part.number","SECOND")] {
+        assert_eq!(symbol_property_text(&prj,0,symbol,key),expected,"{key}");
+    }
+    prj.pages[0].name="1.20".into();prj.info.name="Edited plant".into();
+    let symbol=&prj.pages[0].symbols[0];
+    assert_eq!(symbol_property_text(&prj,0,symbol,"page.local_name"),"20");
+    assert_eq!(symbol_property_text(&prj,0,symbol,"project.name"),"Edited plant");
+}
+
 fn project() -> Project {
     let mut prj = Project::default();
     prj.parts.push(Part { number: "SIE.3RT2015".into(), type_number: "3RT2015-1BB41".into(), manufacturer: "Siemens".into(), ..Default::default() });

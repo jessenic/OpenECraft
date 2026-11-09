@@ -192,6 +192,7 @@ fn list_page_templates(prj: &mut Project, _: &Args) -> Result<Value, String> {
             "title_block": t.title_block,
             "description": t.description,
             "structure": t.structure.structure(),
+            "values": t.values,
             "items": t.content.symbols.len() + t.content.wires.len() + t.content.texts.len() + t.content.shapes.len(),
         })
     });

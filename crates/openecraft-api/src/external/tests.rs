@@ -6,6 +6,8 @@ fn requests_advertise_directional_contact_support_of_the_actual_host() {
         assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="directional_pin_contacts"));
         assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="explicit_wire_junctions"));
         assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="parallel_cable_cores"));
+        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="page_property_blocks"));
+        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="page_template_values"));
         Ok(json!({"result":true}))
     });
     assert_eq!(ask(&transport,json!({"method":"describe"})).unwrap()["result"],true);
