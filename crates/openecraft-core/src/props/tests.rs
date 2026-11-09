@@ -1,4 +1,15 @@
 use super::*;
+
+#[test]
+fn unbound_core_marker_values_remain_individually_editable() {
+    let mut prj=Project::default();
+    prj.pages[0].symbols=vec![SymbolInst {id:10,values:[("function.cable_core[1]".into(),"BN".into())].into(),..Default::default()}];
+    let object=properties::Object::Function(10);
+    assert_eq!(function_property_text(&prj,10,"function.cable_core[1]"),"BN");
+    properties::set(&mut prj,&object,"function.cable_core[1]","BU").unwrap();
+    let reopened=Project::from_json(&prj.to_json()).unwrap();
+    assert_eq!(function_property_text(&reopened,10,"function.cable_core[1]"),"BU");
+}
 use crate::geom::p;
 
 #[test]

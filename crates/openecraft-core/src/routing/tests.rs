@@ -1,6 +1,35 @@
 use super::*;
 
 #[test]
+fn joining_reversed_wires_preserves_all_live_label_positions() {
+    use crate::model::wiring::WireLabel;
+    let mut prj=Project::default();
+    prj.pages[0].wires=vec![
+        Wire {id:1,a:p(40.,40.),b:p(60.,40.),core:"BN".into(),labels:vec![WireLabel::default()],..Default::default()},
+        Wire {id:2,a:p(80.,40.),b:p(60.,40.),core:"BN".into(),labels:vec![WireLabel::default()],..Default::default()},
+    ];
+    let expected:Vec<_>=prj.pages[0].wires.iter().flat_map(|w|w.labels.iter().map(|label|label.position(w))).collect();
+    assert_eq!(merge_collinear(&prj.symbol_table(),&mut prj.pages[0]),1);
+    let wire=&prj.pages[0].wires[0];
+    assert_eq!(wire.labels.iter().map(|label|label.position(wire)).collect::<Vec<_>>(),expected);
+}
+
+#[test]
+fn jogged_wires_keep_each_label_once_on_the_correct_leg() {
+    use crate::model::wiring::WireLabel;
+    let old=Wire {id:1,a:p(40.,40.),b:p(80.,40.),core:"BN".into(),
+        labels:vec![WireLabel {along:0.25,..Default::default()},WireLabel {along:0.75,..Default::default()}],..Default::default()};
+    let mut page=Project::default().pages.remove(0);
+    page.wires=vec![Wire {a:p(40.,60.),b:p(60.,60.),..old.clone()},
+        Wire {id:2,a:p(60.,60.),b:p(60.,40.),..old.clone()},Wire {id:3,a:p(60.,40.),b:p(80.,40.),..old.clone()}];
+    place_wire_labels(&mut page,&old,&[p(40.,60.),p(60.,60.),p(60.,40.),p(80.,40.)],&[2,3]);
+    assert_eq!(page.wires.iter().map(|w|w.labels.len()).sum::<usize>(),2);
+    assert_eq!(page.wires[0].labels[0].attachment(&page.wires[0]),p(55.,60.));
+    assert_eq!(page.wires[2].labels[0].attachment(&page.wires[2]),p(70.,40.));
+    assert!(page.wires[1].labels.is_empty());
+}
+
+#[test]
 fn automatic_connections_do_not_duplicate_a_wire_running_through_the_ports() {
     use crate::symlib::{UserSymbol,UserPin};
     let mut prj=Project::default();

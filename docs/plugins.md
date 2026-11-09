@@ -465,3 +465,17 @@ same-tag cable context. This context also applies to placed cable properties and
 is shared by the canvas and exports. The symbol editor offers Cable properties.
 Placed Part-class properties resolve the function's selected catalog article,
 including the current linked cable article and non-primary device assignments.
+
+Hosts advertising `placed_wire_labels` retain `Wire.labels` even when
+`hide_labels` suppresses automatic labels. Each layout contains `kind` (`Core`,
+`Cable`, `Number` or `Color`), attachment fraction `along` (0..1 from a to b),
+`offset` in drawing mm, `size`, `anchor`, `angle` and optional RGB `color`.
+Text comes from the current owning wire. `update_wire` accepts
+`labels: {"items": [...]}` to replace the layouts, or an empty items array to
+remove them. Invalid layouts reject the entire command. Labels follow their
+wire during editing and are redistributed once when routing creates new legs.
+
+Unattached core markers can retain independent editable text in the indexed
+`function.cable_core[1]` through `[64]` properties. Importers should use placed
+wire labels for markers that reference an actual physical wire, so wire core
+edits change the displayed text automatically.

@@ -892,6 +892,9 @@ pub struct Wire {
     /// Suppress automatic number and cable/core labels when annotations are placed separately.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub hide_labels: bool,
+    /// Explicit live labels, retained independently of automatic label visibility.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub labels: Vec<wiring::WireLabel>,
     /// Per-wire junction policy; None inherits the page's legacy setting.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub explicit_junctions: Option<bool>,

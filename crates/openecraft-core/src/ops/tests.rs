@@ -1,4 +1,22 @@
 use super::*;
+
+#[test]
+fn duplicate_wire_cleanup_keeps_distinct_label_layouts_with_reversed_ends() {
+    use crate::model::wiring::WireLabel;
+    let mut prj=Project::default();
+    prj.pages[0].wires=vec![
+        Wire {id:1,a:p(40.,40.),b:p(80.,40.),core:"BN".into(),labels:vec![WireLabel {along:0.25,..Default::default()}],..Default::default()},
+        Wire {id:2,a:p(80.,40.),b:p(40.,40.),core:"BN".into(),labels:vec![WireLabel {along:0.25,..Default::default()}],..Default::default()},
+    ];
+    cleanup_wires(&mut prj.pages[0]);
+    assert_eq!(prj.pages[0].wires.len(),1);
+    let wire=&prj.pages[0].wires[0];
+    assert_eq!(wire.labels.len(),2);
+    assert_eq!(wire.labels.iter().map(|label|label.position(wire)).collect::<Vec<_>>(),[p(50.,39.),p(70.,39.)]);
+    let selected=BTreeSet::from([1]);
+    rotate(&prj.symbol_table(),&mut prj.pages[0],&selected);
+    assert!(prj.pages[0].wires[0].labels.iter().all(|label|label.angle==270.));
+}
 use crate::geom::p;
 use crate::symlib::Symbols;
 

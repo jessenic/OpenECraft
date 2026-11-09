@@ -1,6 +1,27 @@
 use super::*;
 
 #[test]
+fn placed_wire_labels_are_editable_through_the_registry_and_reject_invalid_layouts_atomically() {
+    let mut s=crate::builtin::testing::new_session();
+    let added=run(&mut s,"add_wire",json!({"page":"1","points":[[40,40],[80,40]]})).unwrap();
+    let id=added["ids"][0].as_u64().unwrap();
+    let labels=json!({"items":[{"kind":"Core","along":0.25,"offset":{"x":-0.5,"y":-0.25},"angle":-90}]});
+    let changed=run(&mut s,"update_wire",json!({"page":"1","id":id,"core":"BN","hide_labels":true,"labels":labels})).unwrap();
+    assert_eq!(changed["labels"][0]["kind"],"Core");
+    let reopened=Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let wire=&reopened.pages[0].wires[0];
+    assert_eq!(wire.labels[0].text(wire),"BN");
+    let before=s.project().unwrap().to_json();
+    for invalid in [json!({"items":[{"along":1.1}]}),json!({"items":[{"size":0.1}]}),json!({"items":{}})] {
+        assert!(run(&mut s,"update_wire",json!({"page":"1","id":id,"core":"Bad","labels":invalid})).is_err());
+        assert_eq!(s.project().unwrap().to_json(),before);
+    }
+    let edited=run(&mut s,"update_wire",json!({"page":"1","id":id,"core":"BU"})).unwrap();
+    assert_eq!(edited["labels"],changed["labels"]);
+    assert_eq!(s.project().unwrap().pages[0].wires[0].labels[0].text(&s.project().unwrap().pages[0].wires[0]),"BU");
+}
+
+#[test]
 fn per_wire_junction_policy_is_created_edited_and_reset_through_the_registry() {
     let mut s=crate::builtin::testing::new_session();
     let wire=run(&mut s,"add_wire",json!({"page":"1","points":[[40,40],[80,40]],"junction_policy":"explicit"})).unwrap();

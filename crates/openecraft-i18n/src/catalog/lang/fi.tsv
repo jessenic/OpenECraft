@@ -6548,3 +6548,6 @@ Previous page number in section	Osan edellinen sivunumero
 Next page number in section	Osan seuraava sivunumero
 Function designation	Toimintotunnus
 Location designation	Sijaintitunnus
+Placed wire labels	Sijoitetut johdinmerkinnät
+Invalid wire label layout	Virheellinen johdinmerkintöjen asettelu
+Offset	Siirtymä

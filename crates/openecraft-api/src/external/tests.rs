@@ -10,6 +10,7 @@ fn requests_advertise_directional_contact_support_of_the_actual_host() {
         assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="page_template_values"));
         assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="function_cable_references"));
         assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="cable_property_blocks"));
+        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="placed_wire_labels"));
         Ok(json!({"result":true}))
     });
     assert_eq!(ask(&transport,json!({"method":"describe"})).unwrap()["result"],true);

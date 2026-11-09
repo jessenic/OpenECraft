@@ -4,6 +4,44 @@
 
 use super::*;
 
+fn wire_labels_ui(ui: &mut egui::Ui, labels: &mut Vec<openecraft_core::model::wiring::WireLabel>) {
+    use openecraft_core::model::wiring::{WireLabel, WireLabelKind};
+    ui.collapsing(tr("Placed wire labels"), |ui| {
+        let mut remove = None;
+        for (index, label) in labels.iter_mut().enumerate() {
+            ui.push_id(index, |ui| {
+                ui.horizontal(|ui| {
+                    let title = |kind| match kind {
+                        WireLabelKind::Core => tr("Core"), WireLabelKind::Cable => tr("Cable"),
+                        WireLabelKind::Number => tr("Wire number"), WireLabelKind::Color => tr("Colour"),
+                    };
+                    egui::ComboBox::from_id_salt("kind").selected_text(title(label.kind)).show_ui(ui, |ui| {
+                        for kind in [WireLabelKind::Core, WireLabelKind::Cable, WireLabelKind::Number, WireLabelKind::Color] {
+                            ui.selectable_value(&mut label.kind, kind, title(kind));
+                        }
+                    });
+                    if ui.button(tr("Delete")).clicked() {remove = Some(index);}
+                });
+                egui::Grid::new("layout").num_columns(2).show(ui, |ui| {
+                    ui.label(tr("Position"));
+                    ui.add(egui::DragValue::new(&mut label.along).speed(0.01).range(0.0..=1.0));ui.end_row();
+                    ui.label(tr("Offset"));
+                    ui.horizontal(|ui| {
+                        ui.add(egui::DragValue::new(&mut label.offset.x).speed(0.1).prefix("X "));
+                        ui.add(egui::DragValue::new(&mut label.offset.y).speed(0.1).prefix("Y "));
+                    });ui.end_row();
+                    ui.label(tr("Size"));
+                    ui.add(egui::DragValue::new(&mut label.size).speed(0.1).range(0.5..=100.0));ui.end_row();
+                    ui.label(tr("Angle"));
+                    ui.add(egui::DragValue::new(&mut label.angle).speed(1.0));ui.end_row();
+                });
+            });
+        }
+        if let Some(index) = remove {labels.remove(index);}
+        if ui.button(tr("Add row")).clicked() {labels.push(WireLabel::default());}
+    });
+}
+
 /// The tabs of a symbol's properties.
 /// What the Belongs to device field does with the text typed when it loses the focus.
 #[derive(Debug, PartialEq, Eq)]
@@ -393,6 +431,7 @@ impl App {
                 ui.label(format!("{:.0} / {:.0}", w.b.x, w.b.y));
                 ui.end_row();
             });
+            wire_labels_ui(ui, &mut w.labels);
             if number != number_now {
                 if let Some(net) = &open_net {
                     wirenum::set(&mut self.session.prj, net, number.trim(), true);

@@ -643,6 +643,15 @@ fn wire_text(d: &mut dyn Draw, w: &Wire, t: f32, text: &str, below: bool, ink: I
 /// (a stroke across the wire, the core and once per page the cable tag).
 fn draw_wire_labels(d: &mut dyn Draw, prj: &Project, an: &Analysis, page_i: usize) {
     let page = &prj.pages[page_i];
+    for w in &page.wires {
+        for label in &w.labels {
+            if label.is_valid() && !label.text(w).is_empty() {
+                let mut style = TextStyle::plain(label.size, label.anchor, VAnchor::Middle);
+                style.angle = label.angle;
+                d.styled_text(label.position(w), label.text(w), &style, label.color.map_or(Ink::Text, Ink::Color));
+            }
+        }
+    }
     for net in &an.open.nets {
         let Some(w) = wirenum::label_wire(page, page_i, net) else { continue };
         let number = wirenum::number_of(prj, net);

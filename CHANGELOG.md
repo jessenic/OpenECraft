@@ -5,6 +5,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Placed wire labels read live core, cable, wire number or colour values, retain
+  their layout through routing splits, joins, rotation and portable copy/paste,
+  and can be edited in wire properties or the shared `update_wire` command.
+
 - Cable properties in symbol attribute blocks and placed annotations follow the
   linked inventory entry, including custom marker captions. Placed part properties
   show the selected article consistently with attribute blocks and exports.

@@ -1,6 +1,26 @@
 use super::*;
 
 #[test]
+fn placed_wire_labels_render_live_values_despite_hidden_automatic_labels_after_reopen() {
+    use crate::model::wiring::WireLabel;
+    let mut prj=Project::default();
+    prj.pages[0].wires.push(Wire {id:10,a:p(40.,40.),b:p(80.,40.),core:"BN".into(),hide_labels:true,
+        labels:vec![WireLabel {along:0.25,offset:p(-0.5,-0.25),angle:-90.,..Default::default()}],..Default::default()});
+    for value in ["BN","BU",""] {
+        prj.pages[0].wires[0].core=value.into();
+        prj=Project::from_json(&prj.to_json()).unwrap();
+        let an=Analysis::with_builtin(&prj);let mut draw=Rec::default();
+        draw_wire_labels(&mut draw,&prj,&an,0);
+        if value.is_empty() {assert!(draw.styled.is_empty());}
+        else {
+            assert_eq!(draw.styled.len(),1);
+            assert_eq!(draw.styled[0].0,p(49.5,39.75));assert_eq!(draw.styled[0].1,value);
+            assert_eq!(draw.styled[0].2.angle,-90.);
+        }
+    }
+}
+
+#[test]
 fn attribute_blocks_flow_live_values_and_transform_every_line() {
     use crate::symbols::{BlockAlign, PropertyBlock};
     let block = PropertyBlock {

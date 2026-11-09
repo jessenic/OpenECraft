@@ -156,6 +156,7 @@ pub static COMMANDS: &[Spec] = &[
             param("id", Kind::Int, tr_const!("Item id")),
             optional("number", Kind::Str, tr_const!("Wire number (kept when renumbering)")),
             optional("hide_labels", Kind::Bool, tr_const!("Hide automatic wire and cable labels")),
+            optional("labels", Kind::Object, tr_const!("Placed wire labels")),
             JUNCTION_POLICY,
             optional("color", Kind::Str, tr_const!("Wire colour, e.g. BU (empty = from the potential definition)")),
             optional("cross_section", Kind::Str, tr_const!("Cross section, e.g. 1.5 mm² (empty = from the potential definition)")),
@@ -831,6 +832,12 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if let Some(hide) = a.value("hide_labels").and_then(Value::as_bool) {
         w.hide_labels = hide;
     }
+    if let Some(layout) = a.value("labels") {
+        let labels: Vec<openecraft_core::model::wiring::WireLabel> = layout.get("items").cloned()
+            .and_then(|items| serde_json::from_value(items).ok()).ok_or_else(|| tr("Invalid wire label layout").to_string())?;
+        if labels.iter().any(|label| !label.is_valid()) {return Err(tr("Invalid wire label layout").into());}
+        w.labels = labels;
+    }
     let color = a.str("color").map(wire_color).transpose()?;
     let cross = a.str("cross_section").map(cross_section).transpose()?;
     for (name, field) in [("cable", &mut w.cable), ("core", &mut w.core), ("wire_type", &mut w.wire_type)] {
@@ -854,7 +861,7 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
         w.length = l;
     }
     let medium = w.medium.map(|m| m.code()).unwrap_or_default();
-    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels,"junction_policy":w.junction_policy(), "color": w.color, "cross_section": w.cross_section, "wire_type": w.wire_type, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
+    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels,"labels":w.labels,"junction_policy":w.junction_policy(), "color": w.color, "cross_section": w.cross_section, "wire_type": w.wire_type, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
 }
 
 /// Takes the style parameters of `add_text` / `update_text` that are given.

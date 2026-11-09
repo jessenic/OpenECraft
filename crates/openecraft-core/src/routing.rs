@@ -324,6 +324,23 @@ fn place_points(page: &mut Page, before: &Before, bent: &HashMap<u64, (Vec<P>, V
     }
 }
 
+/// Redistributes placed labels once when a stretched wire becomes several legs.
+fn place_wire_labels(page: &mut Page, old: &Wire, course: &[P], added: &[u64]) {
+    let owns = |id| id == old.id || added.contains(&id);
+    for wire in page.wires.iter_mut().filter(|w| owns(w.id)) {wire.labels.clear();}
+    let length: f32 = course.windows(2).map(|s| s[0].dist(s[1])).sum();
+    for label in &old.labels {
+        let previous = label.attachment(old);
+        let at = if course.windows(2).any(|s| dist_to_segment(previous, s[0], s[1]) < TOUCH) {previous}
+            else {point_along(course, label.along * length)};
+        if let Some(wire) = page.wires.iter_mut().find(|w| owns(w.id) && dist_to_segment(at, w.a, w.b) < TOUCH) {
+            let mut placed = label.clone();
+            placed.along = wire.a.dist(at) / wire.a.dist(wire.b).max(TOUCH);
+            wire.labels.push(placed);
+        }
+    }
+}
+
 /// First and last place, as distances from `at` in direction `dir`, where `wires`
 /// cross the endless line through `at`.
 fn reach<'a>(wires: impl Iterator<Item = &'a Wire>, at: P, dir: P) -> Option<(f32, f32)> {
@@ -435,13 +452,14 @@ pub fn square_wires(prj: &mut Project, page_i: usize, before: &Before) {
         let mut added = Vec::new();
         for seg in path[1..].windows(2) {
             let nid = prj.new_id();
-            prj.pages[page_i].wires.push(Wire { id: nid, a: seg[0], b: seg[1], ..w.clone() });
+            prj.pages[page_i].wires.push(Wire { id: nid, a: seg[0], b: seg[1], labels:Vec::new(), ..w.clone() });
             added.push(nid);
         }
         let mut course = path;
         if !a_moved {
             course.reverse();
         }
+        place_wire_labels(&mut prj.pages[page_i], &w, &course, &added);
         split.insert(id, (course, added));
     }
     place_points(&mut prj.pages[page_i], before, &split);
@@ -583,8 +601,16 @@ pub fn merge_collinear(symbols: &Symbols, page: &mut Page) -> usize {
             }
         }
         let Some((i, j, a, b)) = merged else { break };
+        let mut labels = Vec::new();
+        for wire in [&page.wires[i], &page.wires[j]] {
+            for mut label in wire.labels.clone() {
+                label.rebase(wire, a, b);
+                if !labels.contains(&label) {labels.push(label);}
+            }
+        }
         page.wires[i].a = a;
         page.wires[i].b = b;
+        page.wires[i].labels = labels;
         page.wires.remove(j);
         removed += 1;
     }

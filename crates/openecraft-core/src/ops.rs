@@ -447,6 +447,10 @@ pub fn rotate(symbols: &Symbols, page: &mut Page, sel: &BTreeSet<u64>) {
     for w in page.wires.iter_mut().filter(|w| sel.contains(&w.id)) {
         w.a = rot(w.a);
         w.b = rot(w.b);
+        for label in &mut w.labels {
+            label.offset = label.offset.transform(1, false);
+            label.angle = (label.angle - 90.).rem_euclid(360.);
+        }
     }
     for t in page.texts.iter_mut().filter(|t| sel.contains(&t.id)) {
         t.angle = (t.angle - 90.0).rem_euclid(360.0);
@@ -490,13 +494,21 @@ pub fn delete(page: &mut Page, sel: &BTreeSet<u64>) {
 /// Removes zero length wires and merges exact duplicates.
 pub fn cleanup_wires(page: &mut Page) {
     page.wires.retain(|w| !w.a.same(w.b));
-    let mut seen:HashMap<_,Vec<Wire>> = HashMap::new();
-    page.wires.retain(|w| {
+    let mut seen:HashMap<_,Vec<usize>> = HashMap::new();
+    let mut kept: Vec<Wire> = Vec::new();
+    for w in std::mem::take(&mut page.wires) {
         let (a, b) = (w.a.key(), w.b.key());
         let k = if a <= b { (a, b) } else { (b, a) };
         let group=seen.entry(k).or_default();
-        if group.iter().any(|other|w.same_properties(other)) {false} else {group.push(w.clone());true}
-    });
+        if let Some(&index) = group.iter().find(|&&index| w.same_properties(&kept[index])) {
+            let target = &mut kept[index];
+            for mut label in w.labels.clone() {
+                label.rebase(&w, target.a, target.b);
+                if !target.labels.contains(&label) {target.labels.push(label);}
+            }
+        } else {group.push(kept.len());kept.push(w);}
+    }
+    page.wires = kept;
 }
 
 const CLIP_MAGIC: &str = "openecraft-clipboard-v1";
