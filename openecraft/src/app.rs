@@ -240,8 +240,9 @@ pub struct App {
     layout_name: Option<String>,
     /// What waits for the user to keep or drop the unsaved changes.
     discard: crate::session::Guard<Replace>,
-    /// The user agreed to close: the next close request is not cancelled.
+    /// Recovery data is ready: the next close request is not cancelled.
     closing: bool,
+    shutdown: Option<crate::shutdown::Shutdown>,
     /// Page (id) whose deletion waits for the confirmation.
     confirm_delete_page: Option<u64>,
     /// Saved workspace whose deletion waits for the confirmation.
@@ -498,6 +499,7 @@ impl App {
             layout_name: None,
             discard: Default::default(),
             closing: false,
+            shutdown: None,
             confirm_delete_page: None,
             confirm_remove_layout: None,
             pending_example: None,
@@ -668,8 +670,9 @@ impl App {
             Replace::Shared(name) => self.remote.open(&name),
             Replace::Vault(file) => self.vault.download(*file, crate::vault::Use::Project),
             Replace::Close => {
-                self.closing = true;
-                ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+                if self.shutdown.is_none() {
+                    self.shutdown = Some(crate::shutdown::Shutdown::start(&mut self.autosave, &self.session, &self.parts_db, &self.macro_lib, ctx));
+                }
             }
         }
     }
@@ -949,10 +952,16 @@ impl eframe::App for App {
         self.apply_scale(&ctx);
         self.panel_ui.wall_opacity = self.shell.wall_opacity;
         self.panel_ui.gpu_3d = self.shell.gpu_3d && frame.gl().is_some();
-        // Closing the window with unsaved changes asks first (the second close, after
-        // the answer, goes through).
-        if ctx.input(|i| i.viewport().close_requested()) && !self.closing && self.discard.request(self.session.dirty(), Replace::Close).is_none() {
+        // Ask about unsaved changes, then keep the window until recovery is ready.
+        if ctx.input(|i| i.viewport().close_requested()) && !self.closing {
             ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
+            if self.shutdown.is_none() {
+                self.request_replace(&ctx, Replace::Close);
+            }
+        }
+        if self.shutdown.is_some() {
+            self.closing_window(ui);
+            return;
         }
         self.poll_loaded(&ctx);
         self.poll_jobs(&ctx);
@@ -1044,9 +1053,12 @@ impl eframe::App for App {
     }
 
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
-        // The project and the parts database go to the app's store (IndexedDB in the
-        // browser); until it works they are also kept here, the project packed.
-        if self.autosave.save(&self.session, &self.parts_db) {
+        // Large values go to the app's store, with eframe storage as a fallback.
+        // During closing the worker prepares them and this callback only copies them.
+        if let Some(shutdown) = &self.shutdown {
+            let Some(prepared) = &shutdown.prepared else { return };
+            prepared.apply(storage);
+        } else if self.autosave.save(&self.session, &self.parts_db) {
             storage.set_string("project_packed", String::new());
             storage.set_string("parts_db", String::new());
         } else {
@@ -1058,7 +1070,9 @@ impl eframe::App for App {
         eframe::set_value(storage, "parts_server_url", &self.parts_ui.server.url_of(PortalKind::OpenECraft));
         eframe::set_value(storage, "eplan_portal_url", &self.parts_ui.server.url_of(PortalKind::Eplan));
         eframe::set_value(storage, "parts_server_kind", &self.parts_ui.server.kind);
-        eframe::set_value(storage, "macros", &self.macro_lib);
+        if self.shutdown.is_none() {
+            eframe::set_value(storage, "macros", &self.macro_lib);
+        }
         eframe::set_value(storage, "project_database", &self.projects_ui.db);
         eframe::set_value(storage, "project_server_url", &self.remote.url);
         eframe::set_value(storage, "project_server_user", &self.remote.user);

@@ -6389,3 +6389,9 @@ Installs symbol definitions while preserving local revisions and returns a key p
 Symbol definitions in an items array	Symboldefinitionen in einem items-Array	Définitions de symboles dans un tableau items	Definiciones de símbolos en una matriz items
 Symbol definitions need an items array	Symboldefinitionen benötigen ein items-Array	Les définitions de symboles nécessitent un tableau items	Las definiciones de símbolos necesitan una matriz items
 A symbol definition needs a key	Eine Symboldefinition benötigt einen Schlüssel	Une définition de symbole nécessite une clé	Una definición de símbolo necesita una clave
+Closing OpenECraft	OpenECraft wird geschlossen	Fermeture d’OpenECraft	Cerrando OpenECraft
+Waiting for the previous autosave	Warten auf die vorherige automatische Speicherung	Attente de la sauvegarde automatique précédente	Esperando el guardado automático anterior
+Saving the recovery project	Wiederherstellungsprojekt wird gespeichert	Enregistrement du projet de récupération	Guardando el proyecto de recuperación
+Saving the parts database	Artikeldatenbank wird gespeichert	Enregistrement de la base de données d’articles	Guardando la base de datos de artículos
+Preparing the macro library	Makrobibliothek wird vorbereitet	Préparation de la bibliothèque de macros	Preparando la biblioteca de macros
+Could not prepare the recovery data.	Die Wiederherstellungsdaten konnten nicht vorbereitet werden.	Impossible de préparer les données de récupération.	No se pudieron preparar los datos de recuperación.

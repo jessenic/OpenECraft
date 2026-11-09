@@ -3,6 +3,15 @@
 
 use std::sync::{Arc, Mutex};
 
+/// Runs work off the desktop UI thread, including on single-core machines.
+/// The browser has no worker threads and runs it immediately.
+pub fn background(work: impl FnOnce() + Send + 'static) {
+    #[cfg(not(target_arch = "wasm32"))]
+    std::thread::spawn(work);
+    #[cfg(target_arch = "wasm32")]
+    work();
+}
+
 /// What a file is opened for; provides the file dialog filter.
 pub trait FileKind: Copy + Send + 'static {
     /// Filter name and extensions.

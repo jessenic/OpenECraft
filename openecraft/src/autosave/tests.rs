@@ -1,6 +1,11 @@
 use super::*;
 use openecraft_core::model::Project;
 
+impl Autosave {
+    pub fn set_pending_for_test(&mut self, writing: std::thread::JoinHandle<()>) { self.writing = Some(writing); }
+    pub fn use_store_for_test(&mut self, store: Store) { self.store = store; }
+}
+
 fn store(name: &str) -> Store {
     let dir = std::env::temp_dir().join(format!("openecraft-autosave-{name}-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
