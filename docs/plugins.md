@@ -106,7 +106,8 @@ code, with the message on stderr) is an error. `project` is the project as in a
 fails. Plugins run with the rights of the user: load only plugin folders you trust.
 
 Requests also include `project_features`, an array advertising model support in the
-running host. Current names are `directional_pin_contacts`, `explicit_wire_junctions`,
+running host (`PROJECT_FEATURES` in `openecraft-api`); each is described with the data
+it concerns, for example `directional_pin_contacts`, `explicit_wire_junctions`,
 `directed_junction_paths`, `fluid_port_roles`, `wire_hide_labels` and
 `scoped_connections`. Importers can require features before returning a changed
 project; using a separate updated CLI does not give an older editor these features.
@@ -150,7 +151,8 @@ The
 and `y`. The editor, CLI and MCP expose the same command. Large CLI parameter
 objects can be supplied as `--json @parameters.json` to avoid shell argument limits.
 User symbol pins may set `internal: true` for jumper attachment nodes. They still
-participate in local bridges but do not appear as physical device endpoints.
+participate in local bridges but do not appear as physical device endpoints. A wire
+passing through an internal pin connects to it; other pins need a wire end there.
 `list_nets` exposes native membership by symbol ID and zero-based pin index;
 its `pins` array contains physical device endpoints. The additional
 `connection_points` array includes junction and internal bridge attachment points
@@ -166,7 +168,9 @@ User junction symbols may set `directed_junction: true`: their `bridges` then al
 describe physical target paths between spaced ports. `set_symbol_junction_paths`
 accepts a symbol key and `paths: {"links": [[0, 1], [0, 2]], "directed": true}`;
 the symbol editor exposes the same paths. The page property
-`page.use_drawn_wire_targets` preserves explicit branches at device connection points.
+`page.use_drawn_wire_targets` preserves explicit branches at device connection points
+and traces wires through the internal bridges of devices. On such pages and on pages
+with explicit junctions, pins of one symbol at the same position count as one attachment.
 User symbols can supply `pin_directions`, a map from zero-based pin indices to local
 direction masks (up 1, right 2, down 4, left 8). Omitted entries allow every side;
 zero disables automatic side contacts. Directions follow instance rotation and
@@ -316,7 +320,8 @@ exclusion suppresses only its physical material entry; the editable device prope
 and can suppress all material assigned to a device. Ownership references follow
 device renaming. Reusable panel macros clear external owner tags and retain explicit
 placement exclusion. Panel queries expose `mounting_height` above the explicit
-support (null if unknown); generated rail standoffs use that height and require
+support (null if unknown); generated standoffs of rails on an explicit support use
+that height and require
 `layout.hardware`, rather than treating the support thickness as a spacer.
 
 Cabinet device bindings also participate in `list_devices` and the material list
@@ -330,7 +335,8 @@ The `portable_macro_materials` feature guarantees that portable macro insertion
 preserves device property values and distinct automatic
 and literal references to the same article, including zero. When extending an
 existing device, missing reference modes and properties are filled while local
-quantities and property values remain unchanged. Material owners within a clip
+quantities and property values remain unchanged. Articles the device does not use are
+added only when it has none yet or when a function of the clip selects them. Material owners within a clip
 follow target page structure and collision renaming; external owners are cleared.
 Incoming device tags are reserved before allocating replacements, including
 material-only existing tags. Conductive auxiliary views follow their master tag.

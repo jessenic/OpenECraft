@@ -30,6 +30,7 @@ impl App {
         });
         if cancel {
             self.shutdown = None;
+            self.updater.restart = false;
         } else if complete {
             self.closing = true;
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);

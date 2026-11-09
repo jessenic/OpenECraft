@@ -102,14 +102,16 @@ fn list_connections(prj: &mut Project, _: &Args) -> Result<Value, String> {
 fn trace_wire_routes(prj:&mut Project,a:&Args)->Result<Value,String> {
     let invalid=||openecraft_i18n::tr("Invalid local wire route query");
     let pairs=a.value("routes").and_then(|v|v.get("pairs")).and_then(Value::as_array).ok_or_else(invalid)?;
+    let prj=&*prj;
     let open=Netlist::build(prj,false);
+    let routes=openecraft_core::netlist::LocalRoutes::new(prj,&open);
     pairs.iter().map(|pair| {
         let endpoint=|side:&str|->Result<(u64,usize),String> {
             let symbol=pair.get(side).and_then(|v|v.get("symbol")).and_then(Value::as_u64).ok_or_else(invalid)?;
             let pin=pair.get(side).and_then(|v|v.get("pin")).and_then(Value::as_u64).and_then(|p|usize::try_from(p).ok()).ok_or_else(invalid)?;
             Ok((symbol,pin))
         };
-        let route=openecraft_core::netlist::local_wire_route(prj,&open,endpoint("from")?,endpoint("to")?);
+        let route=routes.route(endpoint("from")?,endpoint("to")?);
         let wires=route.iter().flatten().filter_map(|(page,id)| {
             let p=&prj.pages[*page];let w=p.wires.iter().find(|w|w.id==*id)?;
             Some(json!({"page":p.id,"id":id,"wire_type":w.wire_type,"color":w.color,"cross_section":w.cross_section,"number":w.number}))

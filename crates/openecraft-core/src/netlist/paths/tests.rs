@@ -48,12 +48,12 @@ fn local_route_keeps_the_exact_interruption_endpoint_without_named_shortcuts() {
         prj.pages[0].wires.push(Wire {id,a,b,..Default::default()});
     }
     let open=Netlist::build(&prj,false);
-    assert_eq!(local_route(&prj,&open,(1,0),(3,0)),Some(vec![(0,11),(0,12),(0,13)]));
+    assert_eq!(LocalRoutes::new(&prj,&open).route((1,0),(3,0)),Some(vec![(0,11),(0,12),(0,13)]));
     prj.pages[0].wires.retain(|w|w.id!=12);
     let open=Netlist::build(&prj,false);
     assert_eq!(open.connection_point_net[&(1,0)],open.connection_point_net[&(3,0)]);
-    assert_eq!(local_route(&prj,&open,(1,0),(3,0)),None);
-    assert_eq!(local_route(&prj,&open,(1,99),(3,0)),None);
+    assert_eq!(LocalRoutes::new(&prj,&open).route((1,0),(3,0)),None);
+    assert_eq!(LocalRoutes::new(&prj,&open).route((1,99),(3,0)),None);
 }
 
 #[test]
@@ -130,6 +130,8 @@ fn coincident_pin_records_keep_electrical_membership_without_a_phantom_wire() {
     ];
     prj.pages[0].wires.push(Wire {id:10,a:p(20.,40.),b:p(20.,76.),..Default::default()});
     let (nl,open)=(Netlist::build(&prj,true),Netlist::build(&prj,false));
+    assert_eq!(connections(&prj,&nl,&open).len(),2,"implicit pages keep a connection per pin");
+    prj.pages[0].values.insert("page.use_drawn_wire_targets".into(),"true".into());
     assert_eq!(nl.pin_net[&(1,0)],nl.pin_net[&(1,1)]);
     let physical=connections(&prj,&nl,&open);
     assert_eq!(physical.len(),1);
@@ -153,6 +155,8 @@ fn internal_component_bridges_are_not_external_wires_or_shared_cable_properties(
     ];
     let (nl,open)=(Netlist::build(&prj,true),Netlist::build(&prj,false));
     assert_eq!(nl.pin_net[&(1,0)],nl.pin_net[&(3,1)]);
+    assert!(connections(&prj,&nl,&open).iter().all(|c|!c.route_traced),"device bridges alone do not start path tracing");
+    prj.pages[0].values.insert("page.use_drawn_wire_targets".into(),"true".into());
     let connections=connections(&prj,&nl,&open);
     assert_eq!(connections.len(),2);
     assert!(!connections.iter().any(|c|c.a.sym==1 && c.b.sym==1));
@@ -203,4 +207,22 @@ fn spaced_junction_ports_preserve_the_authored_fanout_after_reopen() {
     prj.symbols[0].directed_junction = false;
     assert_ne!(before,crate::symlib::fingerprint(&prj.symbols));
     assert_eq!(endpoint_pairs(&prj),HashSet::from([(1,2),(2,3)]));
+}
+
+#[test]
+fn a_traced_pair_without_wires_keeps_the_properties_of_its_net() {
+    let mut prj=Project::default();
+    prj.symbols.push(UserSymbol {key:"user:point".into(),pins:vec![UserPin::default()],..Default::default()});
+    for (id,x) in [(1,0.),(2,0.),(3,40.)] {
+        prj.pages[0].symbols.push(SymbolInst {id,sym:"user:point".into(),tag:format!("-A{id}"),pos:p(x,0.),..Default::default()});
+    }
+    prj.pages[0].wires.push(Wire {id:10,a:p(0.,0.),b:p(40.,0.),color:"RD".into(),cross_section:"1.5".into(),number:"101".into(),
+        cable:"-W1".into(),core:"BN".into(),explicit_junctions:Some(true),..Default::default()});
+    let (nl,open)=(Netlist::build(&prj,true),Netlist::build(&prj,false));
+    let all=connections(&prj,&nl,&open);
+    let joined=all.iter().find(|c|c.wires.is_empty()).expect("pair without a wire");
+    assert!(joined.route_traced);
+    assert_eq!((joined.color.as_str(),joined.cross_section.as_str(),joined.number.as_str()),("RD","1.5","101"));
+    assert_eq!((joined.cable.as_str(),joined.core.as_str()),("",""),"no conductor of its own");
+    assert!(all.iter().any(|c|c.wires==[(0,10)] && c.cable=="-W1"));
 }

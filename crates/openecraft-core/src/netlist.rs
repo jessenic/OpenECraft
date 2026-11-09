@@ -5,6 +5,7 @@
 
 pub mod junctions;
 mod paths;
+pub use paths::LocalRoutes;
 mod contacts;
 
 use crate::geom::{on_segment_interior, P};
@@ -111,14 +112,14 @@ impl PageScan {
         for j in page.junctions.iter().filter(|j| j.connects()) {
             ends.entry(j.pos.key()).or_insert((j.pos, 0)).1 += 1;
         }
-        // An authored pin is an attachment point even when a conductor passes
-        // through it without a saved wire endpoint (e.g. a terminal jumper rail).
+        // An internal attachment point joins a conductor passing through it (e.g. a
+        // terminal jumper rail); other pins need a wire end.
         for s in &page.symbols {
             let Some(def) = prj.symbol(&s.sym) else { continue };
             if matches!(def.func, Func::Overview | Func::Graphic) {
                 continue;
             }
-            for i in 0..def.pins.len() {
+            for i in (0..def.pins.len()).filter(|&i| def.pins[i].internal) {
                 let q = def.pin_world(i, s.pos, s.rot, s.mirror);
                 ends.entry(q.key()).or_insert((q, 0));
             }
@@ -531,7 +532,9 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
             .map(|&n| nl.nets[n].name.clone())
             .unwrap_or_else(|| net.name.clone());
         for (i,pair) in pairs.iter().enumerate() {
-            let scoped = traced.as_ref().map(|t| Net {wires:t.wire_routes[i].clone(),..Default::default()});
+            // A pair joined without a wire of its own keeps the properties of its net.
+            let route = traced.as_ref().map(|t| &t.wire_routes[i]);
+            let scoped = route.filter(|r| !r.is_empty()).map(|wires| Net {wires:wires.clone(),..Default::default()});
             let physical = scoped.as_ref().unwrap_or(net);
             let wires = crate::wirenum::wires_of(prj, physical);
             let props = crate::potentials::props_of(prj, nl, physical);
@@ -541,7 +544,7 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
                 let q = prj.symbol(&s.sym)?.pin_world(p.pin, s.pos, s.rot, s.mirror);
                 prj.pages[p.page].wires.iter().find(|w| !w.cross_section.is_empty() && (w.a.same(q) || w.b.same(q)) && physical.wires.contains(&(p.page, w.id))).map(|w| w.cross_section.clone())
             };
-            let core_wire=wires.iter().find(|w|!w.cable.is_empty());
+            let core_wire=wires.iter().find(|w|!w.cable.is_empty()).filter(|_|route.is_none_or(|r|!r.is_empty()));
             let (cable,core) = core_wire.map(|w| (w.cable.clone(),w.core.clone())).unwrap_or_default();
             let color=core_wire.filter(|w|!w.color.is_empty()).map(|w|w.color.clone()).unwrap_or(color);
             let number = core_wire.filter(|w|!w.number.is_empty()).map(|w|w.number.clone()).unwrap_or_else(||crate::wirenum::number_of(prj,physical));
@@ -557,18 +560,12 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
                 cable: cable.clone(),
                 core: core.clone(),
                 harness,
-                wires: physical.wires.clone(),
+                wires: route.unwrap_or(&net.wires).clone(),
                 route_traced: traced.is_some(),
             });
         }
     }
     out
-}
-
-/// Trace a drawn route between exact connection points, without named cross-page jumps.
-/// This includes virtual endpoints such as interruption points and junction ports.
-pub fn local_wire_route(prj:&Project,open:&Netlist,from:(u64,usize),to:(u64,usize))->Option<Vec<(usize,u64)>> {
-    paths::local_route(prj,open,from,to)
 }
 
 /// The device connection points of a net in the order they are chained: schematic
@@ -615,16 +612,22 @@ pub fn chained_pins(prj: &Project, net: &Net) -> Vec<PinRef> {
         let s = &prj.pages[p.page].symbols[p.sym];
         prj.symbol(&s.sym).map(|d| d.pin_world(p.pin, s.pos, s.rot, s.mirror)).unwrap_or(s.pos)
     };
-    // Several source pin records can describe one physical attachment. Keep all
-    // in the electrical net, without inventing a zero-length wire inside the device.
+    // On pages with authored connectivity, several pin records can describe one
+    // physical attachment. Keep all in the electrical net, without inventing a
+    // zero-length wire inside the device.
     pins.sort_by_key(|p| (p.page,p.sym,p.pin));
     let mut attachments = std::collections::HashSet::new();
-    pins.retain(|p| attachments.insert((p.page,p.sym,at(p).key())));
+    pins.retain(|p| attachments.insert((p.page,p.sym,at(p).key())) || !authored_targets(prj,&prj.pages[p.page]));
     pins.sort_by(|a, b| {
         let (qa, qb) = (at(a), at(b));
         a.page.cmp(&b.page).then(qa.x.total_cmp(&qb.x)).then(qa.y.total_cmp(&qb.y))
     });
     pins
+}
+
+/// Whether a page states its physical connections instead of leaving them to geometry.
+fn authored_targets(prj: &Project, page: &Page) -> bool {
+    contacts::enabled(prj,page) || page.values.get("page.use_drawn_wire_targets").is_some_and(|v|v=="true")
 }
 
 /// Human readable designation of a pin: `-K1:A1`, `=L1`, `-X1:3`.

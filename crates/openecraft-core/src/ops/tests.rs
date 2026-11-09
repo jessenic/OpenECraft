@@ -312,6 +312,24 @@ fn portable_owner_links_follow_structure_and_renaming_without_consuming_another_
 }
 
 #[test]
+fn pasting_a_device_keeps_the_articles_of_an_existing_one_and_fills_an_empty_one() {
+    let mut prj=Project::default();let mut clip=Clip::new();
+    clip.symbols.push(SymbolInst {id:1,sym:"term".into(),tag:"-X1".into(),label:"1".into(),..Default::default()});
+    let part=|number:&str|PartRef {number:number.into(),count:1,total:false};
+    clip.devices.insert("-X1".into(),DeviceData {parts:vec![part("WDU2.5")],..Default::default()});
+    prj.devices.insert("-X1".into(),DeviceData {parts:vec![part("PT2.5")],..Default::default()});
+    paste(&mut prj,0,&clip,p(80.,40.));
+    assert_eq!(prj.devices["-X1"].parts,[part("PT2.5")]);
+    clip.symbols[0].values.insert("function.part_number".into(),"WDU2.5".into());
+    paste(&mut prj,0,&clip,p(100.,40.));
+    assert_eq!(prj.devices["-X1"].parts,[part("PT2.5"),part("WDU2.5")],"a selected article stays resolvable");
+    clip.symbols[0].values.clear();
+    prj.devices.get_mut("-X1").unwrap().parts.clear();
+    paste(&mut prj,0,&clip,p(120.,40.));
+    assert_eq!(prj.devices["-X1"].parts,[part("WDU2.5")]);
+}
+
+#[test]
 fn merging_a_terminal_macro_fills_missing_modes_and_preserves_local_quantities_and_properties() {
     let mut prj=Project::default();let mut clip=Clip::new();
     clip.symbols.push(SymbolInst {id:1,sym:"term".into(),tag:"-X1".into(),label:"1".into(),..Default::default()});

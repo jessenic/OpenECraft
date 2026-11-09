@@ -237,6 +237,7 @@ fn rail_standoffs_use_support_height_and_respect_hardware_setting() {
     prj.layout.hardware=false;assert_eq!(qty(&prj),0.);prj.layout.hardware=true;
     prj.layout.enclosures[0].items[1].mounted_on=0;assert_eq!(qty(&prj),0.,"unknown explicit support");
     prj.layout.enclosures[0].items[1].mounting_explicit=false;assert!(qty(&prj)>0.,"legacy datum remains valid");
+    prj.layout.hardware=false;assert!(qty(&prj)>0.,"rails without an explicit support do not depend on the hardware setting");
 }
 
 #[test]

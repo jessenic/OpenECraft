@@ -681,8 +681,13 @@ fn paste_devices(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target
             std::collections::btree_map::Entry::Occupied(mut entry)=>{
                 let incoming=entry.get_mut();
                 if incoming.description.is_empty() {incoming.description=device.description;}
+                // The articles of an existing device stay; only a missing count mode of
+                // one of them or an article a pasted function selects is added.
+                let assigned=!incoming.parts.is_empty();
                 for reference in device.parts {
-                    if !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
+                    let known=incoming.parts.iter().any(|p|p.number==reference.number);
+                    let selected=clip.symbols.iter().any(|s|s.tag==*tag && s.values.get("function.part_number")==Some(&reference.number));
+                    if (known || selected || !assigned) && !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
                 }
                 for (key,value) in device.values {incoming.values.entry(key).or_insert(value);}
             }

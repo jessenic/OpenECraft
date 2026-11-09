@@ -1,17 +1,17 @@
 use super::*;
 
 #[test]
+fn every_project_feature_is_documented() {
+    let docs=include_str!("../../../../docs/plugins.md");
+    for feature in PROJECT_FEATURES {
+        assert!(docs.contains(&format!("`{feature}`")),"{feature} is missing in docs/plugins.md");
+    }
+}
+
+#[test]
 fn requests_advertise_directional_contact_support_of_the_actual_host() {
     let transport:Transport=std::sync::Arc::new(|request| {
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="explicit_panel_rotations"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="directional_pin_contacts"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="explicit_wire_junctions"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="parallel_cable_cores"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="page_property_blocks"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="page_template_values"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="function_cable_references"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="cable_property_blocks"));
-        assert!(request["project_features"].as_array().unwrap().iter().any(|v|v=="placed_wire_labels"));
+        assert_eq!(request["project_features"],json!(PROJECT_FEATURES));
         Ok(json!({"result":true}))
     });
     assert_eq!(ask(&transport,json!({"method":"describe"})).unwrap()["result"],true);

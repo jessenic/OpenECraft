@@ -2210,9 +2210,10 @@ pub fn layout_material(prj: &Project) -> Vec<(String, f32, Vec<String>)> {
             .items
             .iter()
             .filter(|i| i.kind == ItemKind::Rail && i.face == Face::Plate && mounting_height(e,i).is_some_and(|h|h>0.01))
+            .filter(|i| prj.layout.hardware || !(i.mounting_explicit || i.mounted_on != 0))
             .map(|i| crate::production::item_holes(i, &prj.parts).len())
             .sum();
-        if prj.layout.hardware && standoffs > 0 {
+        if standoffs > 0 {
             add(&mut out, crate::parts::mechanics::RAIL_STANDOFF, standoffs as f32, e.name.clone());
         }
         let mut lengths: Vec<(String, f32)> = Vec::new();

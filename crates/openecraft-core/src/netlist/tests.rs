@@ -264,3 +264,17 @@ fn decorative_symbols_do_not_create_device_endpoints() {
     assert!(Netlist::build(&project,true).pin_net.is_empty());
     assert!(crate::index::Index::build(&project).devices.is_empty());
 }
+
+#[test]
+fn a_wire_passing_through_a_pin_on_an_implicit_page_does_not_join_it() {
+    let mut project=Project::default();
+    project.symbols.push(crate::symlib::UserSymbol {key:"user:point".into(),pins:vec![crate::symlib::UserPin::default()],..Default::default()});
+    for (id,x) in [(1,0.),(2,20.)] {
+        project.pages[0].symbols.push(SymbolInst {id,sym:"user:point".into(),tag:format!("-A{id}"),pos:p(x,0.),..Default::default()});
+    }
+    project.pages[0].wires.push(crate::model::Wire {id:10,a:p(0.,0.),b:p(40.,0.),..Default::default()});
+    project.pages[0].wires.push(crate::model::Wire {id:11,a:p(20.,-20.),b:p(20.,20.),..Default::default()});
+    let net=Netlist::build(&project,true);
+    assert_ne!(net.pin_net.get(&(2,0)),net.pin_net.get(&(1,0)));
+    assert_ne!(net.wire_net[&10],net.wire_net[&11],"the pin does not short the crossing wires");
+}

@@ -93,22 +93,41 @@ fn same_address(a:&str,b:&str)->bool {
     a.trim().trim_start_matches('%').eq_ignore_ascii_case(b.trim().trim_start_matches('%'))
 }
 
+struct Addressed {
+    id:u64,
+    index:usize,
+    card:String,
+    address:String,
+}
+
+/// The logical channels with an address (a linked channel once).
+fn addressed(prj:&Project)->Vec<Addressed> {
+    crate::model::plc_hw::bindings::placed(prj).into_iter().filter_map(|(pi,si,index)| {
+        let s=&prj.pages[pi].symbols[si];
+        let mut address=value(s,"address",index);
+        if address.is_empty() && crate::model::plc_hw::bindings::group(s,index).is_some() {
+            address=crate::model::plc_hw::bindings::value(prj,s.id,index,"address").unwrap_or_default();
+        }
+        (!address.is_empty()).then(||Addressed {id:s.id,index,card:s.tag.clone(),address})
+    }).collect()
+}
+
 pub(super) fn apply_texts(prj:&mut Project,domain:Option<&str>,texts:&[(String,String)])->usize {
-    let nl=Netlist::build(prj,true);let mut updates=Vec::new();
-    for point in super::points(prj,&nl).into_iter().filter(|p|p.channel_index.is_some() && !p.address.is_empty()) {
+    let mut updates=Vec::new();
+    for point in addressed(prj) {
         if domain.is_some_and(|d|crate::plc_hw::card_domain(prj,&point.card)!=d) {continue;}
         if let Some((_,text))=texts.iter().find(|(a,_)|same_address(a,&point.address)) {
-            updates.push((point.id,point.channel_index.unwrap(),text.strip_prefix(&format!("{} ",point.card)).unwrap_or(text).to_owned()));
+            updates.push((point.id,point.index,text.strip_prefix(&format!("{} ",point.card)).unwrap_or(text).to_owned()));
         }
     }
     updates.into_iter().filter(|(id,index,text)|set(prj,*id,*index,"comment",text).unwrap_or(false)).count()
 }
 
 pub(super) fn import_rows(prj:&mut Project,rows:&[(String,String,String)])->usize {
-    let nl=Netlist::build(prj,true);let mut updates=Vec::new();
-    for point in super::points(prj,&nl).into_iter().filter(|p|p.channel_index.is_some() && !p.address.is_empty()) {
+    let mut updates=Vec::new();
+    for point in addressed(prj) {
         if let Some((_,name,comment))=rows.iter().find(|(a,_,_)|same_address(a,&point.address)) {
-            updates.push((point.id,point.channel_index.unwrap(),name.clone(),comment.strip_prefix(&format!("{} ",point.card)).unwrap_or(comment).to_owned()));
+            updates.push((point.id,point.index,name.clone(),comment.strip_prefix(&format!("{} ",point.card)).unwrap_or(comment).to_owned()));
         }
     }
     updates.into_iter().filter(|(id,index,name,comment)| {
