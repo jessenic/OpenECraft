@@ -5,6 +5,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Renaming a placed cable marker follows its explicit cable reference and keeps
+  ordinary devices with a shared tag independent. Unambiguous cable material-owner
+  references follow renames and are cleared when the cable is removed.
+
 - Placed wire labels read live core, cable, wire number or colour values, retain
   their layout through routing splits, joins, rotation and portable copy/paste,
   and can be edited in wire properties or the shared `update_wire` command.

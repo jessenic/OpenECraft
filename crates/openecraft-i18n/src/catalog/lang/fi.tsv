@@ -6551,3 +6551,6 @@ Location designation	Sijaintitunnus
 Placed wire labels	Sijoitetut johdinmerkinnät
 Invalid wire label layout	Virheellinen johdinmerkintöjen asettelu
 Offset	Siirtymä
+Renames the device or cable referenced by a placed function	Nimeää sijoitetun toiminnon viittaaman laitteen tai kaapelin uudelleen
+Rename cable	Nimeä kaapeli uudelleen
+Changes the cable tag and its references	Muuttaa kaapelin tunnuksen ja siihen viittaavat tiedot

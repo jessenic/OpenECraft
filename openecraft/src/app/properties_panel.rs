@@ -730,12 +730,15 @@ impl App {
             // The text typed belongs to this device; another device starts with its own tag.
             let rename_id = ui.scope_id().with(("rename", &edited.tag));
             let mut new_tag: String = ui.data_mut(|d| d.get_temp(rename_id)).unwrap_or_else(|| edited.tag.clone());
-            let problem = super::drawing_ui::rename_problem(&self.session.prj, &edited.tag, new_tag.trim());
+            let problem = ops::symbol_rename_problem(&self.session.prj, edited.id, new_tag.trim());
+            let cable_rename=edited.values.get("function.cable")==Some(&edited.tag) && self.session.prj.cable(&edited.tag).is_some();
             ui.horizontal(|ui| {
                 ui.add(egui::TextEdit::singleline(&mut new_tag).desired_width(90.0));
                 let ok = problem.is_none() && new_tag.trim() != edited.tag;
-                if ui.add_enabled(ok, egui::Button::new(tr("Rename device"))).on_hover_text(tr("Changes the tag of all functions of this device")).clicked() {
-                    ops::rename_device(&mut self.session.prj, &edited.tag, new_tag.trim());
+                let title=if cable_rename {tr("Rename cable")} else {tr("Rename device")};
+                let hint=if cable_rename {tr("Changes the cable tag and its references")} else {tr("Changes the tag of all functions of this device")};
+                if ui.add_enabled(ok, egui::Button::new(title)).on_hover_text(hint).clicked() {
+                    if let Err(error)=ops::rename_symbol_device(&mut self.session.prj,edited.id,new_tag.trim()) {self.notify_error(ui.ctx(),error);}
                 }
             });
             if let Some(p) = problem {

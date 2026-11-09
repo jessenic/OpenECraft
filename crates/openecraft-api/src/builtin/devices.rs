@@ -55,6 +55,15 @@ pub static COMMANDS: &[Spec] = &[
         run: rename_device,
     },
     Spec {
+        name: "rename_symbol_device",
+        help: tr_const!("Renames the device or cable referenced by a placed function"),
+        params: &[
+            param("id", Kind::Int, tr_const!("Symbol id")),
+            param("new_tag", Kind::Str, tr_const!("New device tag")),
+        ],
+        run: rename_symbol_device,
+    },
+    Spec {
         name: "list_accessories",
         help: tr_const!("Lists the accessories that fit a part or the parts of a device, and the parts an accessory fits (project parts, built-in and bundled catalogs)"),
         params: &[
@@ -233,6 +242,12 @@ fn rename_device(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     ops::rename_device(prj, old, new);
     Ok(json!({ "old": old, "new": new }))
+}
+
+fn rename_symbol_device(prj:&mut Project,a:&Args)->Result<Value,String> {
+    let id=a.int("id").unwrap_or_default() as u64;let new=a.req("new_tag").trim();
+    let changed=ops::rename_symbol_device(prj,id,new)?;
+    Ok(json!({"id":id,"new_tag":new,"changed":changed}))
 }
 
 #[cfg(test)]

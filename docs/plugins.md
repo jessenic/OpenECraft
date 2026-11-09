@@ -479,3 +479,13 @@ Unattached core markers can retain independent editable text in the indexed
 `function.cable_core[1]` through `[64]` properties. Importers should use placed
 wire labels for markers that reference an actual physical wire, so wire core
 edits change the displayed text automatically.
+
+`rename_symbol_device` accepts a placed symbol `id` and `new_tag`. An explicit
+`function.cable` reference matching its displayed tag selects the cable inventory;
+ordinary shared-tag devices remain independent. Missing cable targets, duplicate
+cable tags and released drawing references reject the operation. The editor's
+selected-function rename uses the same operation. `rename_device` follows the
+cable inventory when no ordinary device identity shares that tag. Material owner
+references follow cable edits only while the old tag has no ordinary device identity.
+Renaming a device or cable can retain an unchanged imported prefix containing
+spaces; the new final device name still follows the normal tag validation rules.

@@ -892,15 +892,28 @@ pub fn check_tag(tag: &str) -> Result<(), String> {
     Ok(())
 }
 
+/// A legacy imported prefix may contain spaces; renaming keeps it unchanged.
+fn check_renamed_tag(old:&str,new:&str)->Result<(),String> {
+    let result=check_tag(new);
+    if result.is_ok() {return result}
+    if let (Some(before),Some(after))=(old.rfind('-'),new.rfind('-')) {
+        let prefix=&new[..after];
+        if !prefix.is_empty() && prefix==&old[..before] && prefix.starts_with(['=','+','-'])
+            && !prefix.chars().any(|c|c.is_control() || matches!(c,';'|'|'|',')) && check_tag(&new[after..]).is_ok() {return Ok(())}
+    }
+    result
+}
+
 /// Renames a device everywhere (all functions with that tag, device, strip, plug and
 /// PLC card data, panel layout, harnesses, fluid device groups and links).
 /// Why device `old` cannot be renamed to `new` (None: it can): an invalid or used tag,
 /// or a function on a released page, which must stay as it is.
 pub fn rename_problem(prj: &Project, old: &str, new: &str) -> Option<String> {
+    if let Some(id)=sole_cable_id(prj,old) {return cable_rename_problem(prj,id,new);}
     if new == old {
         return None;
     }
-    if let Err(e) = check_tag(new) {
+    if let Err(e) = check_renamed_tag(old,new) {
         return Some(e);
     }
     if prj.all_tags().iter().any(|t| t == new) || prj.unplaced_tags().any(|t|t==new) {
@@ -913,6 +926,10 @@ pub fn rename_problem(prj: &Project, old: &str, new: &str) -> Option<String> {
 pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
     if old == new || old.is_empty() {
         return;
+    }
+    if let Some(id)=sole_cable_id(prj,old) {
+        prj.cables.iter_mut().find(|cable|cable.id==id).unwrap().tag=new.into();
+        rename_cable(prj,old,new);return;
     }
     for pg in &mut prj.pages {
         for s in &mut pg.symbols {
@@ -1004,6 +1021,7 @@ pub fn add_cable(prj: &mut Project, structure: &str) -> String {
 /// Moves cable references after renaming the inventory entry.
 pub fn rename_cable(prj: &mut Project, old: &str, new: &str) {
     if old.is_empty() || old==new {return}
+    if !ordinary_device_identity(prj,old) {edit_material_owner_references(prj,old,new);}
     edit_cable_references(prj,old,new);
     for c in prj.plc.connections.iter_mut().filter(|c| c.cable == old) {
         c.cable = new.to_string();
@@ -1016,21 +1034,78 @@ pub fn rename_project_cable(prj:&mut Project,id:u64,new:&str)->Result<bool,Strin
     let index=prj.cables.iter().position(|cable|cable.id==id).ok_or_else(||tr_fmt!("No cable {}",id))?;
     let old=prj.cables[index].tag.clone();let new=new.trim();
     if old==new {return Ok(false)}
-    check_tag(new)?;
-    if prj.cable(new).is_some() {return Err(tr_fmt!("Cable {} already exists",new))}
-    if let Some(page)=prj.pages.iter().find(|page|page.locked && (
-        page.wires.iter().any(|wire|wire.cable==old) || page.conn_defs.iter().any(|point|point.cable==old) ||
-        page.cable_defs.iter().any(|line|line.cable==old) ||
-        page.symbols.iter().any(|symbol|symbol.values.get("function.cable")==Some(&old)))) {
-        return Err(tr_fmt!("{} is on page {}, which is released: renaming it would change the page",old,page.name))
-    }
+    if let Some(problem)=cable_rename_problem(prj,id,new) {return Err(problem);}
     prj.cables[index].tag=new.into();rename_cable(prj,&old,new);
     Ok(true)
+}
+
+/// Why a complete cable rename cannot be committed.
+pub fn cable_rename_problem(prj:&Project,id:u64,new:&str)->Option<String> {
+    let Some(cable)=prj.cables.iter().find(|cable|cable.id==id) else {return Some(tr_fmt!("No cable {}",id))};
+    let old=&cable.tag;let new=new.trim();
+    if old==new {return None}
+    if let Err(problem)=check_renamed_tag(old,new) {return Some(problem)}
+    if prj.cable(new).is_some() {return Some(tr_fmt!("Cable {} already exists",new))}
+    if let Some(page)=prj.pages.iter().find(|page|page.locked && (
+        page.wires.iter().any(|wire|&wire.cable==old) || page.conn_defs.iter().any(|point|&point.cable==old) ||
+        page.cable_defs.iter().any(|line|&line.cable==old) ||
+        page.symbols.iter().any(|symbol|symbol.values.get("function.cable")==Some(old)))) {
+        return Some(tr_fmt!("{} is on page {}, which is released: renaming it would change the page",old,page.name))
+    }
+    None
+}
+
+fn ordinary_device_identity(prj:&Project,tag:&str)->bool {
+    let ordinary=|symbol:&SymbolInst| symbol.tag==tag && symbol.values.get("function.cable").map(String::as_str)!=Some(tag);
+    if prj.devices.contains_key(tag) || prj.strips.contains_key(tag) || prj.plugs.contains_key(tag) || prj.plc_cards.contains_key(tag)
+        || prj.pages.iter().flat_map(|page|&page.symbols).any(ordinary)
+        || prj.layout.enclosures.iter().any(|enclosure|enclosure.device_tag==tag || enclosure.items.iter().any(|item|item.tag==tag)) {return true}
+    use crate::model::options::Item;
+    prj.model_options.options.iter().flat_map(|option|&option.parked).any(|parked|match &parked.item {
+        Item::Symbol(symbol)=>ordinary(symbol),Item::Page(page)=>page.symbols.iter().any(ordinary),_=>false,
+    })
+}
+
+fn sole_cable_id(prj:&Project,tag:&str)->Option<u64> {
+    prj.cable(tag).filter(|_|!ordinary_device_identity(prj,tag)).map(|cable|cable.id)
+}
+
+fn edit_material_owner_references(prj:&mut Project,old:&str,new:&str) {
+    for device in prj.devices.values_mut() {
+        if device.values.get("device.material_owner").is_some_and(|value|value==old) {device.values.insert("device.material_owner".into(),new.into());}
+    }
+    for enclosure in &mut prj.layout.enclosures {
+        if enclosure.owner_device==old {enclosure.owner_device=new.into();}
+        for item in &mut enclosure.items {if item.owner_device==old {item.owner_device=new.into();}}
+    }
+}
+
+fn symbol_cable_id(prj:&Project,id:u64)->Option<u64> {
+    let symbol=prj.pages.iter().flat_map(|page|&page.symbols).find(|symbol|symbol.id==id)?;
+    symbol.values.get("function.cable").filter(|tag|**tag==symbol.tag).and_then(|tag|prj.cable(tag)).map(|cable|cable.id)
+}
+
+/// Resolves a rename through the selected function, preserving shared device tags.
+pub fn symbol_rename_problem(prj:&Project,id:u64,new:&str)->Option<String> {
+    let Some(symbol)=prj.pages.iter().flat_map(|page|&page.symbols).find(|symbol|symbol.id==id) else {return Some(tr_fmt!("No symbol with id {}",id))};
+    if let Some(tag)=symbol.values.get("function.cable").filter(|tag|**tag==symbol.tag) {
+        return match prj.cable(tag) {Some(cable)=>cable_rename_problem(prj,cable.id,new),None=>Some(tr_fmt!("No cable {}",tag))};
+    }
+    rename_problem(prj,&symbol.tag,new.trim())
+}
+
+pub fn rename_symbol_device(prj:&mut Project,id:u64,new:&str)->Result<bool,String> {
+    if let Some(problem)=symbol_rename_problem(prj,id,new) {return Err(problem)}
+    if let Some(cable)=symbol_cable_id(prj,id) {return rename_project_cable(prj,cable,new);}
+    let old=prj.pages.iter().flat_map(|page|&page.symbols).find(|symbol|symbol.id==id).unwrap().tag.clone();
+    let new=new.trim();if old==new {return Ok(false)}
+    rename_device(prj,&old,new);Ok(true)
 }
 
 /// Deletes a cable; its wires lose cable and core.
 pub fn remove_cable(prj: &mut Project, index: usize) -> Cable {
     let cable = prj.cables.remove(index);
+    if !ordinary_device_identity(prj,&cable.tag) {edit_material_owner_references(prj,&cable.tag,"");}
     edit_cable_references(prj,&cable.tag,"");
     for c in prj.plc.connections.iter_mut().filter(|c| c.cable == cable.tag) {
         c.cable.clear();

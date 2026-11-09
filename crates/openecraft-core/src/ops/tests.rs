@@ -1,6 +1,87 @@
 use super::*;
 
 #[test]
+fn controlled_temporary_renames_keep_cables_consistent_during_batch_operations() {
+    let mut prj=cable_rename_project(false);
+    let temporary="\u{1}0";
+    assert!(rename_problem(&prj,"-W1",temporary).is_some());
+    rename_device(&mut prj,"-W1",temporary);
+    assert_eq!(prj.cables[0].tag,temporary);assert_eq!(prj.pages[0].symbols[0].tag,temporary);
+    assert_eq!(prj.pages[0].wires[0].cable,temporary);
+    rename_device(&mut prj,temporary,"-W2");
+    assert_eq!(prj.cables[0].tag,"-W2");assert_eq!(prj.pages[0].symbols[0].tag,"-W2");
+    assert_eq!(prj.devices["-Child"].values["device.material_owner"],"-W2");
+}
+
+#[test]
+fn renaming_preserves_an_imported_prefix_without_allowing_new_spaced_names() {
+    let old="+A1 TEST UNIT-W1.01.1";
+    assert!(check_tag(old).is_err());
+    assert!(check_renamed_tag(old,"+A1 TEST UNIT-W2").is_ok());
+    assert!(check_renamed_tag("+CAB-Old Group-K1","+CAB-Old Group-K2").is_ok());
+    for invalid in ["+B2 TEST UNIT-W2","+A1 TEST UNIT-W 2","+A1 TEST UNIT-W2;other"] {
+        assert!(check_renamed_tag(old,invalid).is_err(),"{invalid}");
+    }
+    let mut prj=cable_rename_project(false);
+    prj.cables[0].tag=old.into();prj.pages[0].symbols[0].tag=old.into();
+    prj.pages[0].symbols[0].values.insert("function.cable".into(),old.into());prj.pages[0].wires[0].cable=old.into();
+    rename_symbol_device(&mut prj,11,"+A1 TEST UNIT-W2").unwrap();
+    rename_symbol_device(&mut prj,11,old).unwrap();assert_eq!(prj.cables[0].tag,old);
+}
+
+fn cable_rename_project(shared:bool)->Project {
+    let mut prj=Project::default();
+    prj.cables.push(Cable {id:10,tag:"-W1".into(),..Default::default()});
+    prj.pages[0].symbols.push(SymbolInst {id:11,tag:"-W1".into(),values:[("function.cable".into(),"-W1".into())].into(),..Default::default()});
+    prj.pages[0].wires.push(Wire {id:12,a:p(40.,40.),b:p(80.,40.),cable:"-W1".into(),core:"BN".into(),..Default::default()});
+    prj.devices.entry("-Child".into()).or_default().values.insert("device.material_owner".into(),"-W1".into());
+    prj.layout.enclosures.push(crate::panel::Enclosure {owner_device:"-W1".into(),items:vec![crate::panel::PanelItem {owner_device:"-W1".into(),..Default::default()}],..Default::default()});
+    if shared {
+        prj.devices.entry("-W1".into()).or_default();
+        prj.pages[0].symbols.push(SymbolInst {id:13,tag:"-W1".into(),..Default::default()});
+    }
+    prj
+}
+
+#[test]
+fn generic_rename_uses_the_cable_identity_when_no_ordinary_device_shares_it() {
+    let mut prj=cable_rename_project(false);
+    assert!(rename_problem(&prj,"-W1","-W2").is_none());rename_device(&mut prj,"-W1","-W2");
+    assert_eq!(prj.cables[0].tag,"-W2");assert_eq!(prj.pages[0].symbols[0].tag,"-W2");
+    assert_eq!(prj.pages[0].wires[0].cable,"-W2");assert_eq!(prj.pages[0].wires[0].core,"BN");
+    assert_eq!(prj.devices["-Child"].values["device.material_owner"],"-W2");
+    assert_eq!(prj.layout.enclosures[0].owner_device,"-W2");assert_eq!(prj.layout.enclosures[0].items[0].owner_device,"-W2");
+    remove_cable(&mut prj,0);
+    assert!(prj.devices["-Child"].values["device.material_owner"].is_empty());
+    assert!(prj.layout.enclosures[0].owner_device.is_empty());
+}
+
+#[test]
+fn selected_cable_rename_preserves_the_shared_ordinary_device_and_its_ownership() {
+    let mut prj=cable_rename_project(true);
+    assert!(rename_symbol_device(&mut prj,11,"-W2").unwrap());
+    assert_eq!(prj.cables[0].tag,"-W2");assert_eq!(prj.pages[0].symbols[0].tag,"-W2");
+    assert_eq!(prj.pages[0].symbols[1].tag,"-W1");assert!(prj.devices.contains_key("-W1"));
+    assert_eq!(prj.devices["-Child"].values["device.material_owner"],"-W1");
+    assert_eq!(prj.layout.enclosures[0].owner_device,"-W1");
+    assert!(rename_symbol_device(&mut prj,13,"-K1").unwrap());
+    assert_eq!(prj.cables[0].tag,"-W2");assert_eq!(prj.pages[0].symbols[0].tag,"-W2");
+    assert_eq!(prj.pages[0].symbols[1].tag,"-K1");assert_eq!(prj.devices["-Child"].values["device.material_owner"],"-K1");
+}
+
+#[test]
+fn selected_cable_renames_validate_all_references_and_missing_inventory_atomically() {
+    let mut prj=cable_rename_project(true);let before=prj.clone();
+    for (id,new) in [(11,""),(11,"bad tag"),(999,"-W2")] {
+        assert!(rename_symbol_device(&mut prj,id,new).is_err());assert_eq!(prj,before);
+    }
+    prj.pages[0].locked=true;let before=prj.clone();
+    assert!(rename_symbol_device(&mut prj,11,"-W2").is_err());assert_eq!(prj,before);
+    prj.pages[0].locked=false;prj.cables.clear();let before=prj.clone();
+    assert!(rename_symbol_device(&mut prj,11,"-W2").is_err());assert_eq!(prj,before);
+}
+
+#[test]
 fn duplicate_wire_cleanup_keeps_distinct_label_layouts_with_reversed_ends() {
     use crate::model::wiring::WireLabel;
     let mut prj=Project::default();

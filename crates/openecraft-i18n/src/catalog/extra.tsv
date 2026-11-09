@@ -6374,3 +6374,6 @@ Location designation	Ortskennzeichen	Désignation de localisation	Designación d
 Placed wire labels	Platzierte Aderbeschriftungen	Étiquettes de fils placées	Etiquetas de cables colocadas
 Invalid wire label layout	Ungültige Anordnung der Aderbeschriftungen	Disposition des étiquettes de fils non valide	Disposición de etiquetas de cables no válida
 Offset	Versatz	Décalage	Desplazamiento
+Renames the device or cable referenced by a placed function	Benennt das Gerät oder Kabel einer platzierten Funktion um	Renomme l’appareil ou le câble référencé par une fonction placée	Renombra el dispositivo o cable referenciado por una función colocada
+Rename cable	Kabel umbenennen	Renommer le câble	Renombrar cable
+Changes the cable tag and its references	Ändert das Kabelkennzeichen und seine Verweise	Modifie le repère du câble et ses références	Cambia la designación del cable y sus referencias

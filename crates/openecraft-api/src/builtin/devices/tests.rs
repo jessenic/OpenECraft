@@ -1,5 +1,23 @@
 use super::*;
 use crate::builtin::testing::*;
+use openecraft_core::model::{Cable,SymbolInst};
+
+#[test]
+fn renaming_a_selected_cable_marker_does_not_rename_a_device_sharing_its_tag() {
+    let mut s=new_session();let prj=s.project_mut().unwrap();
+    prj.cables.push(Cable {id:10,tag:"-W1".into(),..Default::default()});
+    prj.devices.entry("-W1".into()).or_default();
+    prj.pages[0].symbols.push(SymbolInst {id:11,sym:"coil".into(),tag:"-W1".into(),values:[("function.cable".into(),"-W1".into())].into(),..Default::default()});
+    prj.pages[0].symbols.push(SymbolInst {id:12,sym:"coil".into(),tag:"-W1".into(),..Default::default()});
+    let renamed=run(&mut s,"rename_symbol_device",json!({"id":11,"new_tag":"-W2"})).unwrap();
+    assert_eq!(renamed["changed"],true);let prj=s.project().unwrap();
+    assert_eq!(prj.cables[0].tag,"-W2");assert_eq!(prj.pages[0].symbols[0].tag,"-W2");
+    assert_eq!(prj.pages[0].symbols[1].tag,"-W1");assert!(prj.devices.contains_key("-W1"));
+    let before=prj.to_json();assert!(run(&mut s,"rename_symbol_device",json!({"id":11,"new_tag":"bad tag"})).is_err());
+    assert_eq!(s.project().unwrap().to_json(),before);
+    run(&mut s,"rename_device",json!({"tag":"-W2","new_tag":"-W3"})).unwrap();
+    assert_eq!(s.project().unwrap().cables[0].tag,"-W3");
+}
 
 #[test]
 fn physical_devices_without_a_schematic_or_extras_remain_listed() {
