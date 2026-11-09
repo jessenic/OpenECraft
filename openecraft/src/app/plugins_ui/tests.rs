@@ -3,6 +3,14 @@ use openecraft_api::{optional, param};
 use serde_json::json;
 
 #[test]
+fn optional_boolean_form_distinguishes_plugin_default_and_explicit_false() {
+    let params=[optional("parameterize",Kind::Bool,"Insertion parameters")];
+    assert!(form_args(&params,&[String::new()]).unwrap().is_empty());
+    assert_eq!(form_args(&params,&["false".into()]).unwrap()["parameterize"],false);
+    assert_eq!(form_args(&params,&["true".into()]).unwrap()["parameterize"],true);
+}
+
+#[test]
 fn plugin_folder_loading_remembers_success_and_allows_retrying_errors() {
     let dir = std::env::temp_dir().join(format!("openecraft-ui-plugin-folder-{}", std::process::id()));
     std::fs::create_dir_all(&dir).unwrap();

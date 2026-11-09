@@ -1449,7 +1449,8 @@ fn draw_model_2d(d: &mut dyn Draw, m: &Model2d, it: &PanelItem, tf: &dyn Fn(f32,
     if m.width <= 0.0 || m.height <= 0.0 {
         return;
     }
-    let rotated = panel::item_rotated(it, m.height);
+    let rotation = panel::item_rotation(it, m.height);
+    let rotated = rotation.is_quarter();
     let n = if rotated { 1 } else { panel::tiles(it.w, m.width) };
     let cell = (if rotated { it.h } else { it.w }) / n as f32;
     for tile in 0..n {
@@ -1463,33 +1464,28 @@ fn draw_model_2d_in(d: &mut dyn Draw, m: &Model2d, it: &PanelItem, tf: &dyn Fn(f
     if m.width <= 0.0 || m.height <= 0.0 {
         return;
     }
-    let rotated = panel::item_rotated(it, m.height);
+    let rotation = panel::item_rotation(it, m.height);
+    let rotated = rotation.is_quarter();
     let (sx, sy) = if rotated { (it.w / m.height, len / m.width) } else { (len / m.width, it.h / m.height) };
     let s = (sx + sy) / 2.0;
     let map = |q: [f32; 2]| {
-        if rotated {
-            tf(it.x + (m.height - q[1]) * sx, it.y + at + q[0] * sy)
-        } else {
-            tf(it.x + at + q[0] * sx, it.y + q[1] * sy)
-        }
+        let point=panel::front_point(it,rotation,at,len,[q[0]/m.width,q[1]/m.height]);tf(point.x,point.y)
     };
-    draw_prims_2d(d, &m.prims, &map, s * k, 0.15, ink);
+    let angle=if it.rotation.is_some() {-(rotation.degrees() as f32)} else {0.};
+    draw_prims_2d_at_angle(d, &m.prims, &map, s * k, 0.15, ink,angle);
 }
 
 /// The elements of a terminal strip: each part's front view in its cell, a plain
 /// outline where a part has none.
 #[allow(clippy::too_many_arguments)]
 fn draw_strip_2d(d: &mut dyn Draw, prj: &Project, it: &PanelItem, cells: &[panel::Cell], tf: &dyn Fn(f32, f32) -> P, k: f32, ink: Ink) {
-    let rotated = prj.parts.iter().chain(parts::catalog()).find(|x| x.number == it.part).and_then(|x| x.size()).is_some_and(|s| panel::item_rotated(it, s[1]));
+    let rotation=panel::device_rotation(prj,it);
     for c in cells {
         match prj.parts.iter().chain(parts::catalog()).find(|x| x.number == c.part).and_then(|x| prj.symbol_cache.front_view(x)).as_deref() {
             Some(m) => draw_model_2d_in(d, m, it, tf, k, ink, c.at, c.len),
             None => {
-                let (a, b) = if rotated {
-                    (tf(it.x, it.y + c.at), tf(it.x + it.w, it.y + c.at + c.len))
-                } else {
-                    (tf(it.x + c.at, it.y), tf(it.x + c.at + c.len, it.y + it.h))
-                };
+                let cell=panel::front_cell(it,rotation,c.at,c.len);
+                let (a,b)=(tf(cell.min.x,cell.min.y),tf(cell.max.x,cell.max.y));
                 d.rect(a, b, 0.15, ink, false);
             }
         }
@@ -1497,6 +1493,10 @@ fn draw_strip_2d(d: &mut dyn Draw, prj: &Project, it: &PanelItem, cells: &[panel
 }
 
 pub fn draw_prims_2d(d: &mut dyn Draw, prims: &[Prim2d], map: &dyn Fn([f32; 2]) -> P, s: f32, w: f32, ink: Ink) {
+    draw_prims_2d_at_angle(d,prims,map,s,w,ink,0.);
+}
+
+fn draw_prims_2d_at_angle(d: &mut dyn Draw, prims: &[Prim2d], map: &dyn Fn([f32; 2]) -> P, s: f32, w: f32, ink: Ink,angle:f32) {
     for prim in prims {
         match prim {
             Prim2d::Line { a, b } => d.line(map(*a), map(*b), w, ink, false),
@@ -1511,7 +1511,11 @@ pub fn draw_prims_2d(d: &mut dyn Draw, prims: &[Prim2d], map: &dyn Fn([f32; 2]) 
             }
             Prim2d::Text { pos, text, size } => {
                 let ink = if ink == Ink::Line { Ink::Text } else { ink };
-                d.text(map(*pos), text, size * s, Anchor::Left, VAnchor::Middle, ink)
+                if angle==0. {d.text(map(*pos), text, size * s, Anchor::Left, VAnchor::Middle, ink);}
+                else {
+                    let mut style=TextStyle::plain(size*s,Anchor::Left,VAnchor::Middle);style.angle=angle;
+                    d.styled_text(map(*pos),text,&style,ink);
+                }
             }
         }
     }

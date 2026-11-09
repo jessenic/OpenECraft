@@ -6554,3 +6554,11 @@ Offset	Siirtymä
 Renames the device or cable referenced by a placed function	Nimeää sijoitetun toiminnon viittaaman laitteen tai kaapelin uudelleen
 Rename cable	Nimeä kaapeli uudelleen
 Changes the cable tag and its references	Muuttaa kaapelin tunnuksen ja siihen viittaavat tiedot
+Clockwise panel rotation in degrees (0, 90, 180 or 270)	Kierto myötäpäivään asteina (0, 90, 180 tai 270)
+Infer panel rotation from part dimensions	Päättele kierto osan mitoista
+Choose explicit rotation or dimension inference	Valitse annettu kierto tai päättely mitoista
+Panel rotation must be a multiple of 90 degrees	Kierron on oltava 90 asteen monikerta
+Use plugin default	Käytä liitännäisen oletusta
+Enabled	Käytössä
+Disabled	Pois käytöstä
+left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern

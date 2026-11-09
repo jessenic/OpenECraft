@@ -489,3 +489,23 @@ cable inventory when no ordinary device identity shares that tag. Material owner
 references follow cable edits only while the old tag has no ordinary device identity.
 Renaming a device or cable can retain an unchanged imported prefix containing
 spaces; the new final device name still follows the normal tag validation rules.
+
+### Explicit cabinet orientation
+
+Hosts advertising `explicit_panel_rotations` preserve optional numeric
+`PanelItem.rotation` values 0, 90, 180 and 270 (clockwise in the face plane).
+Negative multiples of 90 are accepted and normalized. Missing values preserve
+legacy dimension inference; explicit zero suppresses that inference. The saved
+`x`, `y`, `w`, `h` remain the already oriented footprint. Importers must not rotate
+those dimensions a second time. Graphics, meshes, connection point positions and
+exit directions, assembly accessories and exact drilling patterns follow the angle.
+
+`set_panel_item(rotation: ...)` changes orientation without moving or resizing the
+footprint. `infer_rotation: true` clears the explicit angle; supplying both is an
+error. Item queries return `rotation` and `effective_rotation`.
+`arrange_panel_items(action: "rotate")` turns selected items 90 degrees around their
+centres and swaps width and height, matching the editor Rotate action.
+
+Optional boolean parameters in the editor offer Use plugin default, Enabled and
+Disabled. The first omits the argument so external plugins retain their documented
+defaults; explicit false remains distinct from omission in every frontend.

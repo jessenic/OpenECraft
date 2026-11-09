@@ -134,9 +134,10 @@ fn pattern_holes(it: &PanelItem, parts: &[Part]) -> Vec<Hole> {
                 Some((thread, pts)) => {
                     // Turned devices (width and height swapped) turn their pattern.
                     let pd = part.unwrap();
-                    let rotated = (pd.width - pd.height).abs() > 0.5 && (it.w - pd.height).abs() < 0.5 && (it.h - pd.width).abs() < 0.5;
+                    let inferred=if (pd.width - pd.height).abs() > 0.5 && (it.w - pd.height).abs() < 0.5 && (it.h - pd.width).abs() < 0.5 {crate::panel::PanelRotation::Deg90} else {crate::panel::PanelRotation::Deg0};
+                    let rotation=it.rotation.unwrap_or(inferred);
                     pts.into_iter()
-                        .map(|q| if rotated { p(it.x + pd.height - q.y, it.y + q.x) } else { p(it.x + q.x, it.y + q.y) })
+                        .map(|q| {let [x,y]=rotation.map([q.x,q.y],[pd.width,pd.height]);p(it.x+x,it.y+y)})
                         .map(|q| hole(it.id, q, &thread))
                         .collect()
                 }

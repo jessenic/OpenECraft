@@ -4,6 +4,23 @@ use crate::parts::ConnectionPoint;
 use crate::sample::demo_project;
 
 #[test]
+fn explicit_rotations_transform_exact_pin_positions_and_exit_directions() {
+    let mut prj=Project::default();
+    prj.parts.push(Part {number:"ASYMMETRIC".into(),width:20.,height:40.,depth:10.,
+        connection_points:vec![ConnectionPoint {pin:"A1".into(),pos:[3.,7.,4.],exit:Exit::Up}],..Default::default()});
+    for (angle,expected,exit) in [(0,[103.,207.,4.],Exit::Up),(90,[133.,203.,4.],Exit::Right),
+        (180,[117.,233.,4.],Exit::Down),(270,[107.,217.,4.],Exit::Left)] {
+        let rotation=crate::panel::PanelRotation::from_degrees(angle).unwrap();
+        let (w,h)=if rotation.is_quarter() {(40.,20.)} else {(20.,40.)};
+        let it=PanelItem {kind:ItemKind::Device,part:"ASYMMETRIC".into(),single_part:true,terminal:"7".into(),
+            x:100.,y:200.,w,h,d:10.,rotation:Some(rotation),..Default::default()};
+        let points=device_points(&prj,&it);
+        assert_eq!(points.len(),1);assert_eq!(points[0].pos,expected);assert_eq!(points[0].exit,exit);
+        assert_eq!(points[0].pin,"A1");assert_eq!(points[0].terminal,"7");assert!(points[0].exact);
+    }
+}
+
+#[test]
 fn individually_placed_terminals_use_their_own_parts_and_never_expand_the_strip() {
     let mut prj=demo_project();
     let whole=item(&prj,"-X1");

@@ -219,7 +219,14 @@ impl App {
                         let name = super::ribbon_ui::humanize(&p.name);
                         let name = if p.required { format!("{name} *") } else { name };
                         ui.label(name).on_hover_text(text(&p.help));
-                        if p.kind == Kind::Bool {
+                        if p.kind == Kind::Bool && !p.required {
+                            let label=match Kind::Bool.parse(t) {Some(Value::Bool(true))=>tr("Enabled"),Some(Value::Bool(false))=>tr("Disabled"),_=>tr("Use plugin default")};
+                            egui::ComboBox::from_id_salt((&cmd.name,&p.name)).selected_text(label).show_ui(ui,|ui| {
+                                ui.selectable_value(t,String::new(),tr("Use plugin default"));
+                                ui.selectable_value(t,"true".into(),tr("Enabled"));
+                                ui.selectable_value(t,"false".into(),tr("Disabled"));
+                            });
+                        } else if p.kind == Kind::Bool {
                             let mut on = Kind::Bool.parse(t) == Some(Value::Bool(true));
                             if ui.checkbox(&mut on, "").changed() {
                                 *t = on.to_string();

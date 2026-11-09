@@ -1279,6 +1279,20 @@ impl PanelUi {
                 }
             });
             ui.horizontal(|ui| {
+                if !opening {
+                    let label=it.rotation.map(|r|format!("{}°",r.degrees())).unwrap_or_else(||tr("Infer panel rotation from part dimensions").into());
+                    egui::ComboBox::from_id_salt("panel_rotation").selected_text(label).show_ui(ui,|ui| {
+                        ui.selectable_value(&mut it.rotation,None,tr("Infer panel rotation from part dimensions"));
+                        for degrees in [0,90,180,270] {
+                            let target=panel::PanelRotation::from_degrees(degrees).unwrap();
+                            if ui.selectable_label(it.rotation==Some(target),format!("{degrees}°")).clicked() {
+                                let height=part.as_ref().and_then(|p|p.size()).map(|s|s[1]).unwrap_or(it.h);
+                                if panel::item_rotation(&it,height).is_quarter()!=target.is_quarter() {it.rotate();}
+                                it.rotation=Some(target);
+                            }
+                        }
+                    });
+                }
                 if !opening && icons::text_button(ui, Icon::Rotate, tr("Rotate")).on_hover_text("R").clicked() {
                     it.rotate();
                 }
@@ -3094,15 +3108,7 @@ fn ungroup(e: &mut Enclosure, ids: &[u64]) {
 }
 
 fn rotate(e: &mut Enclosure, sel: &BTreeSet<u64>) {
-    for i in 0..e.items.len() {
-        // Doors and windows of a room keep their size (only width and height are theirs).
-        if sel.contains(&e.items[i].id) && e.items[i].opening.is_cutout() {
-            e.items[i].rotate();
-            let mut it = e.items[i].clone();
-            panel::snap_to_rail(e, &mut it);
-            e.items[i] = it;
-        }
-    }
+    panel::rotate_items(e,&sel.iter().copied().collect::<Vec<_>>());
 }
 
 /// Mouse wheel movement in points (same handling as the schematic canvas).

@@ -262,6 +262,9 @@ pub struct PanelItem {
     pub y: f32,
     pub w: f32,
     pub h: f32,
+    /// Clockwise orientation in the face plane; none retains legacy size inference.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rotation: Option<PanelRotation>,
     /// Height of the item (extent away from the plate).
     pub d: f32,
     /// Base height above the plate (devices on a rail sit on the rail).
@@ -301,6 +304,47 @@ pub struct PanelItem {
     /// Cutouts in the wall of a room: a door or a window.
     #[serde(skip_serializing_if = "Opening::is_cutout")]
     pub opening: Opening,
+}
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(try_from = "i32", into = "i32")]
+pub enum PanelRotation {
+    #[default]
+    Deg0,
+    Deg90,
+    Deg180,
+    Deg270,
+}
+
+impl PanelRotation {
+    pub fn degrees(self) -> i32 {
+        match self {Self::Deg0=>0,Self::Deg90=>90,Self::Deg180=>180,Self::Deg270=>270}
+    }
+
+    pub fn from_degrees(degrees:i32)->Option<Self> {
+        if degrees%90!=0 {return None}
+        Some(match degrees.rem_euclid(360) {0=>Self::Deg0,90=>Self::Deg90,180=>Self::Deg180,_=>Self::Deg270})
+    }
+
+    pub fn is_quarter(self)->bool {matches!(self,Self::Deg90|Self::Deg270)}
+
+    pub fn next(self)->Self {Self::from_degrees(self.degrees()+90).unwrap()}
+
+    /// Rotates a top-left-origin coordinate into the turned bounding rectangle.
+    pub fn map(self,[x,y]:[f32;2],[w,h]:[f32;2])->[f32;2] {
+        match self {Self::Deg0=>[x,y],Self::Deg90=>[h-y,x],Self::Deg180=>[w-x,h-y],Self::Deg270=>[y,w-x]}
+    }
+}
+
+impl From<PanelRotation> for i32 {
+    fn from(value:PanelRotation)->Self {value.degrees()}
+}
+
+impl TryFrom<i32> for PanelRotation {
+    type Error=&'static str;
+    fn try_from(value:i32)->Result<Self,Self::Error> {
+        Self::from_degrees(value).ok_or("Panel rotation must be a multiple of 90 degrees")
+    }
 }
 
 impl super::Project {

@@ -53,7 +53,7 @@ pub use rooms::{
 };
 pub(crate) use rooms::inner_footprint;
 pub use system::{apply_system, components, outward, sync_part, system_of_part, wall_box, Build, Component, Role, System, SYSTEMS};
-pub use crate::model::panel::{Building, Enclosure, EnclosureKind, Face, InnerWall, ItemKind, Layout, Level, LinkKind, Opening, PanelItem, Shaft, SiteLink};
+pub use crate::model::panel::{Building, Enclosure, EnclosureKind, Face, InnerWall, ItemKind, Layout, Level, LinkKind, Opening, PanelItem, PanelRotation, Shaft, SiteLink};
 
 /// Distance between enclosure wall and mounting plate edge.
 pub const PLATE_MARGIN: f32 = 25.0;
@@ -280,6 +280,7 @@ impl PanelItem {
     /// Rotates by 90° around the centre.
     pub fn rotate(&mut self) {
         let c = self.center();
+        self.rotation=self.rotation.map(PanelRotation::next);
         std::mem::swap(&mut self.w, &mut self.h);
         self.x = c.x - self.w / 2.0;
         self.y = c.y - self.h / 2.0;
@@ -759,8 +760,46 @@ pub fn tiles(item_w: f32, model_w: f32) -> usize {
 /// The item is turned by a quarter turn against a part of height `part_h`: the
 /// part's height lies along x.
 pub fn item_rotated(it: &PanelItem, part_h: f32) -> bool {
+    item_rotation(it,part_h).is_quarter()
+}
+
+/// Turns selected items about their centres, keeping room openings fixed.
+pub fn rotate_items(e:&mut Enclosure,ids:&[u64]) {
+    for i in 0..e.items.len() {
+        if ids.contains(&e.items[i].id) && e.items[i].opening.is_cutout() {
+            let mut item=e.items[i].clone();
+            item.rotate();
+            snap_to_rail(e,&mut item);
+            e.items[i]=item;
+        }
+    }
+}
+
+pub fn item_rotation(it:&PanelItem,part_h:f32)->PanelRotation {
+    if let Some(rotation)=it.rotation {return rotation}
     let same = |a: f32, b: f32| (a - b).abs() < 0.5;
-    !same(it.h, part_h) && same(it.w, part_h)
+    if !same(it.h, part_h) && same(it.w, part_h) {PanelRotation::Deg90} else {PanelRotation::Deg0}
+}
+
+pub fn device_rotation(prj:&Project,it:&PanelItem)->PanelRotation {
+    if let Some(rotation)=it.rotation {return rotation}
+    let assembled=(!it.single_part && it.terminal.is_empty()).then(||assembly(prj,&it.tag)).flatten().map(|a|a.h);
+    let height=assembled.or_else(||part_by_number(prj,&it.part).and_then(|part|part.size()).map(|size|size[1])).unwrap_or(it.h);
+    item_rotation(it,height)
+}
+
+/// Places a coordinate of one part cell into an oriented item's face footprint.
+pub fn front_point(it:&PanelItem,rotation:PanelRotation,at:f32,len:f32,[u,v]:[f32;2])->P {
+    match rotation {
+        PanelRotation::Deg0=>p(it.x+at+u*len,it.y+v*it.h),
+        PanelRotation::Deg90=>p(it.x+(1.-v)*it.w,it.y+at+u*len),
+        PanelRotation::Deg180=>p(it.x+it.w-at-u*len,it.y+(1.-v)*it.h),
+        PanelRotation::Deg270=>p(it.x+v*it.w,it.y+it.h-at-u*len),
+    }
+}
+
+pub fn front_cell(it:&PanelItem,rotation:PanelRotation,at:f32,len:f32)->R {
+    R::from_points(front_point(it,rotation,at,len,[0.,0.]),front_point(it,rotation,at,len,[1.,1.]))
 }
 
 /// Triangles of a part's 3D model placed into a device on the plate, in plate
@@ -796,28 +835,26 @@ pub fn place_mesh_in(mesh: &crate::parts::Mesh3d, it: &PanelItem, at: f32, len: 
 /// A point of a part's 3D model placed like [`place_mesh`] places the model.
 pub fn place_point(mesh: &crate::parts::Mesh3d, it: &PanelItem, v: V3) -> V3 {
     let [mw, mh, md] = mesh.size();
-    let len = if it.face == Face::Bottom && item_rotated(it, md) { it.h } else { it.w };
+    let natural_height=if it.face==Face::Bottom {md} else {mh};
+    let len = if item_rotated(it,natural_height) { it.h } else { it.w };
     place_vertex(it, mesh.bounds().0, [mw, mh, md].map(|s| s.max(1e-3)), 0.0, len, v)
 }
 
 /// A vertex of a model with the bounds `min` and the size `[mw, mh, md]` placed into
 /// the stretch `at .. at + len` along the item (see [`place_mesh_in`]).
 fn place_vertex(it: &PanelItem, min: V3, [mw, mh, md]: [f32; 3], at: f32, len: f32, v: V3) -> V3 {
-    let rotated = item_rotated(it, mh);
     // On the floor the model stands up out of it with its front (z) towards the
     // larger y of the floor plan; turned, its depth lies along x.
     let floor = it.face == Face::Bottom;
-    let turned = floor && item_rotated(it, md);
     let (x, y_up, z) = (v[0] - min[0], v[1] - min[1], v[2] - min[2]);
-    if turned {
-        [it.x + z * (it.w / md), it.y + at + (mw - x) * (len / mw), it.z + y_up * (it.d / mh)]
-    } else if floor {
-        [it.x + at + x * (len / mw), it.y + z * (it.h / md), it.z + y_up * (it.d / mh)]
-    } else if rotated {
-        // Quarter turn: model up becomes plate right, model right becomes plate down.
-        [it.x + y_up * (it.w / mh), it.y + at + x * (len / mw), it.z + z * (it.d / md)]
+    if floor {
+        let inferred=item_rotation(it,md);
+        let rotation=if it.rotation.is_none() && inferred==PanelRotation::Deg90 {PanelRotation::Deg270} else {inferred};
+        let q=front_point(it,rotation,at,len,[x/mw,z/md]);
+        [q.x,q.y,it.z+y_up*(it.d/mh)]
     } else {
-        [it.x + at + x * (len / mw), it.y + (mh - y_up) * (it.h / mh), it.z + z * (it.d / md)]
+        let q=front_point(it,item_rotation(it,mh),at,len,[x/mw,(mh-y_up)/mh]);
+        [q.x,q.y,it.z+z*(it.d/md)]
     }
 }
 
@@ -842,7 +879,7 @@ pub fn strip_cells(prj: &Project, it: &PanelItem) -> Vec<Cell> {
         return Vec::new();
     }
     if it.single_part || !it.terminal.is_empty() {
-        let rotated=main.size().is_some_and(|s|item_rotated(it,s[1]));
+        let rotated=device_rotation(prj,it).is_quarter();
         return vec![Cell {at:0.,len:if rotated {it.h} else {it.w},part:it.part.clone()}];
     }
     let layout = crate::strips::strip_layout(prj, &it.tag);
@@ -850,7 +887,7 @@ pub fn strip_cells(prj: &Project, it: &PanelItem) -> Vec<Cell> {
     if total <= 0.0 {
         return Vec::new();
     }
-    let rotated = main.size().is_some_and(|s| item_rotated(it, s[1]));
+    let rotated = device_rotation(prj,it).is_quarter();
     let scale = (if rotated { it.h } else { it.w }) / total;
     let mut at = 0.0;
     layout
@@ -989,17 +1026,14 @@ pub fn device_mesh_painted(prj: &Project, it: &PanelItem) -> Option<Vec<(Tri, Op
         let tris = painted(mesh, tris);
         return (!tris.is_empty()).then_some(tris);
     }
-    let rotated = part_by_number(prj, &it.part).and_then(|p| p.size()).is_some_and(|s| item_rotated(it, s[1]));
+    let rotation = device_rotation(prj,it);
     let mut out = Vec::new();
     for c in cells {
         match part_by_number(prj, &c.part).and_then(|p| p.model_3d.as_ref()) {
             Some(mesh) => out.extend(painted(mesh, place_mesh_in(mesh, it, c.at, c.len))),
             None => {
-                let (min, max) = if rotated {
-                    ([it.x, it.y + c.at, it.z], [it.x + it.w, it.y + c.at + c.len, it.z + it.d])
-                } else {
-                    ([it.x + c.at, it.y, it.z], [it.x + c.at + c.len, it.y + it.h, it.z + it.d])
-                };
+                let cell=front_cell(it,rotation,c.at,c.len);
+                let (min,max)=([cell.min.x,cell.min.y,it.z],[cell.max.x,cell.max.y,it.z+it.d]);
                 out.extend(plate_box(min, max).into_iter().map(|t| (t, None)));
             }
         }

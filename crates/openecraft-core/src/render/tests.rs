@@ -1,6 +1,19 @@
 use super::*;
 
 #[test]
+fn cabinet_front_artwork_and_text_follow_explicit_half_turn() {
+    let model=Model2d {width:20.,height:40.,prims:vec![
+        Prim2d::Line {a:[3.,7.],b:[5.,11.]},
+        Prim2d::Text {pos:[3.,7.],text:"A1".into(),size:2.},
+    ]};
+    let item=PanelItem {x:100.,y:200.,w:20.,h:40.,rotation:Some(panel::PanelRotation::Deg180),..Default::default()};
+    let mut draw=Rec::default();
+    draw_model_2d(&mut draw,&model,&item,&p,1.,Ink::Line);
+    assert_eq!(draw.line_positions[0],(p(117.,233.),p(115.,229.)));
+    assert_eq!(draw.styled[0].0,p(117.,233.));assert_eq!(draw.styled[0].2.angle,-180.);
+}
+
+#[test]
 fn placed_wire_labels_render_live_values_despite_hidden_automatic_labels_after_reopen() {
     use crate::model::wiring::WireLabel;
     let mut prj=Project::default();
@@ -121,11 +134,13 @@ struct Rec {
     polys: Vec<(Vec<P>, Ink, bool)>,
     urls: Vec<(P, P, String)>,
     lines: Vec<Ink>,
+    line_positions: Vec<(P,P)>,
 }
 
 impl Draw for Rec {
-    fn line(&mut self, _: P, _: P, _: f32, ink: Ink, _: bool) {
+    fn line(&mut self, a: P, b: P, _: f32, ink: Ink, _: bool) {
         self.lines.push(ink);
+        self.line_positions.push((a,b));
     }
     fn poly(&mut self, pts: &[P], _: bool, _: f32, ink: Ink, fill: bool) {
         self.polys.push((pts.to_vec(), ink, fill));

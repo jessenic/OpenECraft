@@ -5,6 +5,9 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Preserve explicit cabinet rotations through front artwork, meshes, pins, wire exits and drilling; expose orientation editing through the editor and plugin commands.
+- Distinguish plugin defaults from explicit false for optional boolean form fields.
+
 - Renaming a placed cable marker follows its explicit cable reference and keeps
   ordinary devices with a shared tag independent. Unambiguous cable material-owner
   references follow renames and are cleared when the cable is removed.

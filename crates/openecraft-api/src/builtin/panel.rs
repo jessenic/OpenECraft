@@ -162,6 +162,8 @@ pub static COMMANDS: &[Spec] = &[
             optional("width",Kind::Num,tr_const!("Width in mm")),
             optional("height",Kind::Num,tr_const!("Height in mm")),
             optional("depth",Kind::Num,tr_const!("Depth in mm")),
+            optional("rotation",Kind::Int,tr_const!("Clockwise panel rotation in degrees (0, 90, 180 or 270)")),
+            optional("infer_rotation",Kind::Bool,tr_const!("Infer panel rotation from part dimensions")),
             optional("anchor_x", Kind::Str, ANCHOR),
             optional("anchor_y", Kind::Str, ANCHOR),
             optional("fastening", Kind::Str, tr_const!("auto, tapped, through, rivet_nut, stud, clip or adhesive")),
@@ -183,7 +185,7 @@ pub static COMMANDS: &[Spec] = &[
         params: &[
             param("enclosure", Kind::Str, ENCLOSURE),
             param("ids", Kind::Ids, IDS),
-            param("action", Kind::Str, tr_const!("left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rail or pattern")),
+            param("action", Kind::Str, tr_const!("left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern")),
             optional("rail", Kind::Int, tr_const!("Rail id (action rail)")),
             optional("gap", Kind::Num, tr_const!("Gap between the devices on the rail in mm")),
             optional("columns", Kind::Int, tr_const!("Columns of the pattern")),
@@ -262,6 +264,7 @@ fn item_json(prj: &Project, it: &PanelItem) -> Value {
         "part": it.part,
         "face": it.face.key(),
         "x": it.x, "y": it.y, "w": it.w, "h": it.h, "z": it.z, "d": it.d,
+        "rotation":it.rotation,"effective_rotation":panel::device_rotation(prj,it).degrees(),
         "fastening": Fastening::resolve(it, part).key(),
         "anchor": [it.anchor.x.text(), it.anchor.y.text()],
         "group": it.group,
@@ -511,6 +514,13 @@ fn set_panel_item(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let e = &mut prj.layout.enclosures[ei];
     let idx = e.items.iter().position(|i| i.id == id).ok_or_else(|| tr_fmt!("No item {}", id))?;
     let mut it = e.items[idx].clone();
+    if a.flag("infer_rotation") && a.int("rotation").is_some() {
+        return Err(tr("Choose explicit rotation or dimension inference").into());
+    }
+    if let Some(degrees)=a.int("rotation") {
+        it.rotation=Some(i32::try_from(degrees).ok().and_then(panel::PanelRotation::from_degrees)
+            .ok_or_else(||tr("Panel rotation must be a multiple of 90 degrees").to_string())?);
+    } else if a.flag("infer_rotation") {it.rotation=None;}
     let old_part=it.part.clone();let tag=it.tag.clone();
     if let Some(part)=a.str("part") {it.part=part.into();}
     let before=e.items.clone();
@@ -562,6 +572,7 @@ fn arrange_panel_items(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let mut created = Vec::new();
     let e = &mut prj.layout.enclosures[ei];
     match action.as_str() {
+        "rotate" => panel::rotate_items(e,&ids),
         "distribute_x" => panel::distribute(e, &ids, true),
         "distribute_y" => panel::distribute(e, &ids, false),
         "rail" => {

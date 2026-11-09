@@ -2,6 +2,26 @@ use super::*;
 use crate::builtin::testing::*;
 
 #[test]
+fn panel_rotation_is_queryable_editable_and_validated_atomically_through_registry() {
+    let mut s=demo();
+    run(&mut s,"add_enclosure",json!({"name":"Rotations"})).unwrap();
+    let created=run(&mut s,"place_mounting_plate",json!({"enclosure":"Rotations","width":20,"height":40})).unwrap();
+    let id=created["id"].clone();
+    let set=run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"rotation":-90})).unwrap();
+    assert_eq!(set["rotation"],270);assert_eq!(set["w"],20.);assert_eq!(set["h"],40.);
+    let before=s.project().unwrap().to_json();
+    assert!(run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"x":900,"rotation":45})).is_err());
+    assert_eq!(s.project().unwrap().to_json(),before);
+    assert!(run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"rotation":0,"infer_rotation":true})).is_err());
+    assert_eq!(s.project().unwrap().to_json(),before);
+    let rotated=run(&mut s,"arrange_panel_items",json!({"enclosure":"Rotations","ids":[id],"action":"rotate"})).unwrap();
+    assert_eq!(rotated["items"][0]["rotation"],0);
+    assert_eq!(rotated["items"][0]["w"],40.);
+    let inferred=run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"infer_rotation":true})).unwrap();
+    assert!(inferred["rotation"].is_null());
+}
+
+#[test]
 fn material_ownership_and_exclusion_are_editable_without_changing_mounts() {
     let mut s=demo();
     let e=run(&mut s,"add_enclosure",json!({"name":"Owned","owner_device":"-X1","bom_excluded":true})).unwrap();

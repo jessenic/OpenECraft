@@ -2,6 +2,26 @@ use super::*;
 use crate::parts::{bundled, PartsDb};
 use crate::panel::{device_mesh, device_points, device_size, new_enclosure, place_device};
 
+#[test]
+fn explicit_half_turn_reverses_side_accessories_and_their_connection_points() {
+    let mut prj=project(&[("-F1", &["HAG.CCA216D", "HAG.CZ001"])]);
+    let mut it=placed(&mut prj,"-F1");
+    it.rotation=Some(crate::panel::PanelRotation::Deg0);
+    let initial=device_points(&prj,&it);
+    it.rotation=Some(crate::panel::PanelRotation::Deg180);
+    let turned=device_points(&prj,&it);
+    assert_eq!(initial.len(),turned.len());
+    for (a,b) in initial.iter().zip(&turned) {
+        assert_eq!(a.pin,b.pin);
+        assert!((a.pos[0]+b.pos[0]-2.*it.x-it.w).abs()<0.001);
+        assert!((a.pos[1]+b.pos[1]-2.*it.y-it.h).abs()<0.001);
+    }
+    let assembly=assembly(&prj,"-F1").unwrap();
+    let side=assembly.piece_item(&it,&assembly.sides[0]);
+    assert!((side.x-(it.x+it.w-9.)).abs()<0.001);
+    assert_eq!(side.rotation,it.rotation);
+}
+
 /// A project with an enclosure and devices of the given parts.
 fn project(devices: &[(&str, &[&str])]) -> Project {
     let mut prj = Project::default();

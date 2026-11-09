@@ -6377,3 +6377,11 @@ Offset	Versatz	Décalage	Desplazamiento
 Renames the device or cable referenced by a placed function	Benennt das Gerät oder Kabel einer platzierten Funktion um	Renomme l’appareil ou le câble référencé par une fonction placée	Renombra el dispositivo o cable referenciado por una función colocada
 Rename cable	Kabel umbenennen	Renommer le câble	Renombrar cable
 Changes the cable tag and its references	Ändert das Kabelkennzeichen und seine Verweise	Modifie le repère du câble et ses références	Cambia la designación del cable y sus referencias
+Clockwise panel rotation in degrees (0, 90, 180 or 270)	Drehung im Uhrzeigersinn in Grad (0, 90, 180 oder 270)	Rotation horaire en degrés (0, 90, 180 ou 270)	Rotación horaria en grados (0, 90, 180 o 270)
+Infer panel rotation from part dimensions	Drehung aus Artikelabmessungen ableiten	Déduire la rotation des dimensions de l’article	Deducir la rotación de las dimensiones del artículo
+Choose explicit rotation or dimension inference	Explizite Drehung oder Ableitung aus Abmessungen wählen	Choisir une rotation explicite ou la déduction des dimensions	Elija rotación explícita o deducción de dimensiones
+Panel rotation must be a multiple of 90 degrees	Die Drehung muss ein Vielfaches von 90 Grad sein	La rotation doit être un multiple de 90 degrés	La rotación debe ser un múltiplo de 90 grados
+Use plugin default	Plugin-Standard verwenden	Utiliser la valeur par défaut du plugin	Usar el valor predeterminado del plugin
+Enabled	Aktiviert	Activé	Activado
+Disabled	Deaktiviert	Désactivé	Desactivado
+left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rotate, rail or pattern
