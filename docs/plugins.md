@@ -430,3 +430,38 @@ fields. `page.function_designation` and `page.location_designation` include the
 `=` and `+` aspect signs, including bare signs for an unconfigured aspect.
 These read-only properties are available through the shared property registry,
 symbol attribute blocks, free-text placeholders and title-block forms.
+
+
+The `function_cable_references` host feature provides the editable Function
+property `function.cable`, containing the full cable tag for a placed marker.
+Renaming the cable through the cable table or editor updates these references,
+matching marker tags, wire assignments, connection points and definition lines,
+including inactive model options. Ordinary device symbols sharing a tag remain
+separate. Deleting the inventory entry clears its explicit marker association and
+core assignments, removes its owned route and accessory definitions, and retains
+ordinary device endpoint places. Portable macro/clipboard content carries the referenced cable
+and maps the association to the fresh pasted cable tag. Use `set_properties` on
+`function:<symbol id>` to edit the association; existing registry operations apply
+equally to desktop, CLI and MCP.
+
+
+Cable tag cells (`table_set`, table `cables`, column `Cable`) and the cable manager
+use the same atomic `ops::rename_project_cable` operation. It trims the entered
+tag, validates its designation, refuses duplicates and released drawing changes,
+and updates references only after validation. The cable manager keeps draft text
+outside the project until Enter or focus loss; Escape cancels the draft.
+
+A function with an explicit `function.cable` reference resolves its selected and
+assigned primary article through that cable inventory entry. A changed, cleared or
+missing cable article is reflected immediately, including direct cable property
+and table edits. Cached function part selections do not shadow this association.
+Ordinary function article selection keeps its existing explicit-reference rules.
+
+
+The `cable_property_blocks` feature resolves Cable-class rows in symbol attribute
+blocks against the symbol's explicit `function.cable` reference. A missing explicit
+target stays unresolved; symbols without that reference retain the legacy
+same-tag cable context. This context also applies to placed cable properties and
+is shared by the canvas and exports. The symbol editor offers Cable properties.
+Placed Part-class properties resolve the function's selected catalog article,
+including the current linked cable article and non-primary device assignments.

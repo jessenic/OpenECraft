@@ -530,9 +530,13 @@ pub fn object_at_symbol(prj: &Project, page_i: usize, s: &SymbolInst, class: Obj
     Some(match class {
         ObjectClass::Project => Object::Project,
         ObjectClass::Page => Object::Page(prj.pages.get(page_i)?.id),
-        ObjectClass::Device | ObjectClass::Part if !s.tag.is_empty() => Object::Device(s.tag.clone()),
+        ObjectClass::Device if !s.tag.is_empty() => Object::Device(s.tag.clone()),
+        ObjectClass::Part => Object::Part(s.selected_part_number(prj)?.to_string()),
         ObjectClass::Function | ObjectClass::Terminal | ObjectClass::PlcPoint => Object::Function(s.id),
-        ObjectClass::Cable if prj.cable(&s.tag).is_some() => Object::Cable(s.tag.clone()),
+        ObjectClass::Cable => {
+            let tag=s.values.get("function.cable").filter(|tag|!tag.is_empty()).map(String::as_str).unwrap_or(&s.tag);
+            prj.cable(tag)?;Object::Cable(tag.into())
+        }
         _ => return None,
     })
 }

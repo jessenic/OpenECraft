@@ -303,8 +303,8 @@ fn apply_cable_part(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let part=prj.parts.iter().chain(catalog.iter()).find(|p|p.number==number).cloned().ok_or_else(||tr_fmt!("No part {}",number))?;
     if part.group!="Cables" {return Err(tr_fmt!("Part {} is not a cable",number));}
     if !prj.parts.iter().any(|p|p.number==number) {prj.parts.push(part.clone());}
-    let cable=&mut prj.cables[index];
-    openecraft_core::ops::apply_cable_part(cable,&part);
+    openecraft_core::ops::apply_project_cable_part(prj,index,&part);
+    let cable=&prj.cables[index];
     Ok(json!({"cable":cable.tag,"part":cable.part,"cable_type":cable.cable_type,"cores":cable.cores,
               "cross_section":cable.cross_section,"diameter_mm":cable.diameter}))
 }

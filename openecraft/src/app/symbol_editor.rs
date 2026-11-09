@@ -366,7 +366,7 @@ fn block_properties(ui: &mut egui::Ui, prj: &Project, block: &mut PropertyBlock)
             match row {
                 BlockRow::Property(key) => {
                     let title = properties::valid_key(prj, key).map(|d| d.title_of(key)).unwrap_or_else(|| key.clone());
-                    if let Some(picked) = super::properties_ui::key_picker(ui, prj, &[ObjectClass::Function, ObjectClass::Terminal, ObjectClass::PlcPoint, ObjectClass::Part, ObjectClass::Page, ObjectClass::Project], false, &title) { *key = picked; }
+                    if let Some(picked) = super::properties_ui::key_picker(ui, prj, &[ObjectClass::Function, ObjectClass::Terminal, ObjectClass::PlcPoint, ObjectClass::Part, ObjectClass::Cable, ObjectClass::Page, ObjectClass::Project], false, &title) { *key = picked; }
                 }
                 BlockRow::Text(text) => { ui.text_edit_multiline(text); }
                 BlockRow::Field(kind) => { ui.push_id(i, |ui| { field_kind_edit(ui, kind); }); }

@@ -559,6 +559,7 @@ impl Clip {
             }
         }
         let cable_tags:BTreeSet<_>=self.symbols.iter().map(|s|s.tag.as_str())
+            .chain(self.symbols.iter().filter_map(|s|s.values.get("function.cable").map(String::as_str)))
             .chain(self.wires.iter().map(|w|w.cable.as_str()))
             .chain(self.conn_defs.iter().map(|x|x.cable.as_str()))
             .chain(self.cable_defs.iter().map(|x|x.cable.as_str())).filter(|t|!t.is_empty()).collect();
@@ -696,17 +697,7 @@ fn paste_cables(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target:
     cable_tags
 }
 
-/// Pastes the clip so that its top-left corner lands on `at`. Tags move into the
-/// structure of the target page; device tags of main functions that already exist
-/// get new numbers (consistently for coil + contacts). Owned cables keep their
-/// core assignments under fresh tags; wire numbers are not copied.
-pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u64> {
-    let source = clip.structure();
-    let target = crate::structure::Dt::of_page(&prj.pages[page_i]);
-    let b = clip.bounds();
-    if !b.is_valid() {
-        return BTreeSet::new();
-    }
+fn paste_symbol_definitions<'a>(prj:&mut Project,clip:&'a Clip)->HashMap<&'a str,String> {
     let mut library_keys = HashMap::new();
     for definition in clip.symbol_defs.iter() {
         let mut incoming = definition.clone();
@@ -726,6 +717,21 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         library_keys.insert(definition.key.as_str(), incoming.key);
     }
+    library_keys
+}
+
+/// Pastes the clip so that its top-left corner lands on `at`. Tags move into the
+/// structure of the target page; device tags of main functions that already exist
+/// get new numbers (consistently for coil + contacts). Owned cables keep their
+/// core assignments under fresh tags; wire numbers are not copied.
+pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u64> {
+    let source = clip.structure();
+    let target = crate::structure::Dt::of_page(&prj.pages[page_i]);
+    let b = clip.bounds();
+    if !b.is_valid() {
+        return BTreeSet::new();
+    }
+    let library_keys = paste_symbol_definitions(prj,clip);
     for part in &clip.parts {
         if !prj.parts.iter().any(|p| p.number == part.number) {
             let mut part = part.clone();
@@ -750,6 +756,9 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         s.id = prj.new_id();
         s.pos = s.pos + d;
+        if let Some(cable)=s.values.get_mut("function.cable") {
+            *cable=cable_tags.get(cable).cloned().unwrap_or_default();
+        }
         if !s.tag.is_empty() {
             s.tag = target.complete(&source.relative(&s.tag));
             if let Some(tag)=rename.get(&s.tag) {s.tag=tag.clone();}
@@ -885,7 +894,7 @@ pub fn rename_problem(prj: &Project, old: &str, new: &str) -> Option<String> {
     if prj.all_tags().iter().any(|t| t == new) || prj.unplaced_tags().any(|t|t==new) {
         return Some(tr_fmt!("Device {} already exists", new));
     }
-    let released = prj.pages.iter().find(|pg| pg.locked && pg.symbols.iter().any(|s| s.tag == old));
+    let released = prj.pages.iter().find(|pg| pg.locked && pg.symbols.iter().any(|s| s.tag == old && !s.values.get("function.cable").is_some_and(|value|value==old)));
     released.map(|pg| tr_fmt!("{} is on page {}, which is released: renaming it would change the page", old, pg.name))
 }
 
@@ -895,7 +904,7 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
     }
     for pg in &mut prj.pages {
         for s in &mut pg.symbols {
-            if s.tag == old {
+            if s.tag == old && !s.values.get("function.cable").is_some_and(|value|value==old) {
                 s.tag = new.to_string();
             }
         }
@@ -926,7 +935,7 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
     }
     crate::plc_hw::rename_device(prj, old, new);
     crate::electrofluid::rename_device(prj, old, new);
-    prj.field.rename(old, new);
+    prj.field.rename_device(old, new);
     // Lists of device tags elsewhere, and the symbols of inactive options.
     let rename = |tags: &mut Vec<String>| {
         let mut changed = false;
@@ -955,7 +964,7 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
             crate::model::options::Item::Page(pg) => pg.symbols.iter_mut().collect(),
             _ => Vec::new(),
         };
-        for s in symbols.into_iter().filter(|s| s.tag == old) {
+        for s in symbols.into_iter().filter(|s| s.tag == old && !s.values.get("function.cable").is_some_and(|value|value==old)) {
             s.tag = new.to_string();
         }
     }
@@ -980,28 +989,82 @@ pub fn add_cable(prj: &mut Project, structure: &str) -> String {
     tag
 }
 
-/// The wires of cable `old` move to `new` (after the cable was renamed).
+/// Moves cable references after renaming the inventory entry.
 pub fn rename_cable(prj: &mut Project, old: &str, new: &str) {
-    for w in prj.pages.iter_mut().flat_map(|pg| pg.wires.iter_mut()).filter(|w| w.cable == old) {
-        w.cable = new.to_string();
-    }
+    if old.is_empty() || old==new {return}
+    edit_cable_references(prj,old,new);
     for c in prj.plc.connections.iter_mut().filter(|c| c.cable == old) {
         c.cable = new.to_string();
     }
-    prj.field.rename(old, new);
+    prj.field.rename_cable(old, new);
+}
+
+/// Commits a complete cable tag edit; invalid drafts leave the project unchanged.
+pub fn rename_project_cable(prj:&mut Project,id:u64,new:&str)->Result<bool,String> {
+    let index=prj.cables.iter().position(|cable|cable.id==id).ok_or_else(||tr_fmt!("No cable {}",id))?;
+    let old=prj.cables[index].tag.clone();let new=new.trim();
+    if old==new {return Ok(false)}
+    check_tag(new)?;
+    if prj.cable(new).is_some() {return Err(tr_fmt!("Cable {} already exists",new))}
+    if let Some(page)=prj.pages.iter().find(|page|page.locked && (
+        page.wires.iter().any(|wire|wire.cable==old) || page.conn_defs.iter().any(|point|point.cable==old) ||
+        page.cable_defs.iter().any(|line|line.cable==old) ||
+        page.symbols.iter().any(|symbol|symbol.values.get("function.cable")==Some(&old)))) {
+        return Err(tr_fmt!("{} is on page {}, which is released: renaming it would change the page",old,page.name))
+    }
+    prj.cables[index].tag=new.into();rename_cable(prj,&old,new);
+    Ok(true)
 }
 
 /// Deletes a cable; its wires lose cable and core.
 pub fn remove_cable(prj: &mut Project, index: usize) -> Cable {
     let cable = prj.cables.remove(index);
-    for w in prj.pages.iter_mut().flat_map(|pg| pg.wires.iter_mut()).filter(|w| w.cable == cable.tag) {
-        w.cable.clear();
-        w.core.clear();
-    }
+    edit_cable_references(prj,&cable.tag,"");
     for c in prj.plc.connections.iter_mut().filter(|c| c.cable == cable.tag) {
         c.cable.clear();
     }
+    prj.field.routes.retain(|route|route.cable!=cable.tag);
+    prj.field.accessories.retain(|accessory|accessory.cable!=cable.tag);
     cable
+}
+
+fn edit_cable_symbol(symbol:&mut SymbolInst,old:&str,new:&str) {
+    if symbol.values.get("function.cable").is_some_and(|value|value==old) {
+        if symbol.tag==old {symbol.tag=new.into();}
+        if new.is_empty() {symbol.values.remove("function.cable");}
+        else {symbol.values.insert("function.cable".into(),new.into());}
+    }
+}
+
+fn edit_cable_wire(wire:&mut Wire,old:&str,new:&str) {
+    if wire.cable==old {wire.cable=new.into();if new.is_empty() {wire.core.clear();}}
+}
+
+fn edit_cable_conn(point:&mut ConnDef,old:&str,new:&str) {
+    if point.cable==old {point.cable=new.into();if new.is_empty() {point.core.clear();}}
+}
+
+fn edit_cable_page(page:&mut Page,old:&str,new:&str) {
+    for wire in &mut page.wires {edit_cable_wire(wire,old,new);}
+    for point in &mut page.conn_defs {edit_cable_conn(point,old,new);}
+    for line in &mut page.cable_defs {if line.cable==old {line.cable=new.into();}}
+    for symbol in &mut page.symbols {edit_cable_symbol(symbol,old,new);}
+}
+
+fn edit_cable_references(prj:&mut Project,old:&str,new:&str) {
+    if old.is_empty() || old==new {return}
+    for page in &mut prj.pages {edit_cable_page(page,old,new);}
+    use crate::model::options::Item;
+    for parked in prj.model_options.options.iter_mut().flat_map(|option|&mut option.parked) {
+        match &mut parked.item {
+            Item::Page(page)=>edit_cable_page(page,old,new),
+            Item::Symbol(symbol)=>edit_cable_symbol(symbol,old,new),
+            Item::Wire(wire)=>edit_cable_wire(wire,old,new),
+            Item::ConnDef(point)=>edit_cable_conn(point,old,new),
+            Item::CableDef(line) if line.cable==old=>line.cable=new.into(),
+            _=>{}
+        }
+    }
 }
 
 /// Takes the catalog type, cores, cross section and declared outer diameter.
@@ -1015,6 +1078,30 @@ pub fn apply_cable_part(cable: &mut Cable, part: &Part) {
         cable.cross_section = cs.to_string();
     }
     cable.diameter = part.dimension_mm("Outer diameter").filter(|d| *d > 0.0).unwrap_or(0.0);
+}
+
+/// Retargets explicit function references that belonged only to this cable article.
+pub fn retarget_cable_part_references(prj:&mut Project,tag:&str,old:&str,new:&str)->usize {
+    if old==new {return 0}
+    let shared=prj.devices.get(tag).is_some_and(|d|d.parts.iter().any(|p|p.number==old));
+    let mut changed=0;
+    for symbol in prj.pages.iter_mut().flat_map(|page|&mut page.symbols) {
+        let bound=symbol.values.get("function.cable").is_some_and(|value|value==tag);
+        if !bound && (symbol.tag!=tag || shared) {continue}
+        if symbol.values.get("function.part_number").is_some_and(|number|number==old) {
+            symbol.values.insert("function.part_number".into(),new.into());changed+=1;
+        }
+    }
+    changed
+}
+
+/// Applies catalog cable data and keeps its placed function article references live.
+pub fn apply_project_cable_part(prj:&mut Project,index:usize,part:&Part)->bool {
+    let Some(cable)=prj.cables.get_mut(index) else {return false};
+    let (tag,old)=(cable.tag.clone(),cable.part.clone());
+    apply_cable_part(cable,part);
+    retarget_cable_part_references(prj,&tag,&old,&part.number);
+    true
 }
 
 /// Assigns wires of a page to the free cores of a cable in order (left to right,

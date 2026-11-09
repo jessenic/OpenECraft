@@ -470,16 +470,7 @@ fn set(prj: &mut Project, open: &Netlist, kind: TableKind, key: &str, column: us
             let id: u64 = key.parse().map_err(|_| tr_fmt!("No cable {}", key))?;
             let Some(i) = prj.cables.iter().position(|c| c.id == id) else { return Err(tr_fmt!("No cable {}", key)) };
             if column == 0 {
-                let old = prj.cables[i].tag.clone();
-                if value == old {
-                    return Ok(false);
-                }
-                if value.is_empty() || prj.cable(value).is_some() {
-                    return Err(tr_fmt!("Cable {} already exists", value));
-                }
-                prj.cables[i].tag = value.to_string();
-                crate::ops::rename_cable(prj, &old, value);
-                return Ok(true);
+                return crate::ops::rename_project_cable(prj,id,value);
             }
             let c = &mut prj.cables[i];
             return Ok(match column {

@@ -764,11 +764,14 @@ pub struct SymbolInst {
 }
 
 impl SymbolInst {
-    /// Assigned part selected by this function; an explicit reference never falls back.
+    /// A cable marker follows its inventory; other explicit part references never fall back.
     pub fn selected_part_number<'a>(&self, prj: &'a Project) -> Option<&'a str> {
+        if let Some(tag)=self.values.get("function.cable").filter(|tag|!tag.is_empty()) {
+            return prj.cable(tag).filter(|cable|!cable.part.is_empty()).map(|cable|cable.part.as_str())
+        }
         if let Some(number) = self.values.get("function.part_number") {
             if let Some(device) = prj.devices.get(&self.tag) {
-                return device.parts.iter().find(|p| p.number == *number).map(|p| p.number.as_str());
+                if let Some(part)=device.parts.iter().find(|p|p.number==*number) {return Some(part.number.as_str());}
             }
             return prj.cable(&self.tag).filter(|c| c.part == *number).map(|c| c.part.as_str());
         }
@@ -777,6 +780,9 @@ impl SymbolInst {
 
     pub(crate) fn assigned_part_number<'a>(&self, prj: &'a Project, index: usize) -> Option<&'a str> {
         let index = index.checked_sub(1)?;
+        if let Some(tag)=self.values.get("function.cable").filter(|tag|!tag.is_empty()) {
+            return prj.cable(tag).filter(|cable|index==0 && !cable.part.is_empty()).map(|cable|cable.part.as_str())
+        }
         if let Some(device) = prj.devices.get(&self.tag) {
             return device.parts.get(index).map(|part| part.number.as_str());
         }

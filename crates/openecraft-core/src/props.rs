@@ -28,10 +28,10 @@ pub fn function_property_text(prj: &Project, id: u64, key: &str) -> String {
     properties::display(prj, &properties::Object::Function(id), key)
 }
 
-/// Page and project fields use the drawing context; part fields retain function selection.
+/// Drawing and cable fields use their context; part fields retain function selection.
 pub fn symbol_property_text(prj:&Project,page_i:usize,symbol:&SymbolInst,key:&str)->String {
     if let Some(definition)=properties::valid_key(prj,key)
-        .filter(|d|matches!(d.class,properties::ObjectClass::Project|properties::ObjectClass::Page)) {
+        .filter(|d|matches!(d.class,properties::ObjectClass::Project|properties::ObjectClass::Page|properties::ObjectClass::Cable)) {
         return properties::object_at_symbol(prj,page_i,symbol,definition.class)
             .map(|object|properties::display(prj,&object,key)).unwrap_or_default();
     }

@@ -3,13 +3,136 @@ use crate::geom::p;
 use crate::symlib::Symbols;
 
 #[test]
+fn invalid_cable_tag_drafts_do_not_change_inventory_or_drawing_references() {
+    let mut prj=Project {cables:vec![Cable {id:10,tag:"-W1".into(),..Default::default()},Cable {id:20,tag:"-W2".into(),..Default::default()}],..Default::default()};
+    prj.pages[0].wires.push(Wire {id:30,cable:"-W1".into(),core:"BN".into(),..Default::default()});
+    prj.pages[0].symbols.push(SymbolInst {id:31,tag:"-W1".into(),values:BTreeMap::from([("function.cable".into(),"-W1".into())]),..Default::default()});
+    let baseline=prj.clone();
+    for value in [""," ","-W2","W3","-W 3","-W3;4"] {
+        assert!(rename_project_cable(&mut prj,10,value).is_err());assert_eq!(prj,baseline,"{value}");
+    }
+    assert!(rename_project_cable(&mut prj,99,"-W3").is_err());assert_eq!(prj,baseline);
+    assert!(!rename_project_cable(&mut prj,10," -W1 ").unwrap());assert_eq!(prj,baseline);
+    prj.pages[0].locked=true;let released=prj.clone();
+    assert!(rename_project_cable(&mut prj,10,"-W3").is_err());assert_eq!(prj,released);
+    prj.pages[0].locked=false;assert!(rename_project_cable(&mut prj,10," -W3 ").unwrap());
+    assert_eq!(prj.cables[0].tag,"-W3");assert_eq!(prj.pages[0].wires[0].cable,"-W3");
+    assert_eq!(prj.pages[0].symbols[0].values["function.cable"],"-W3");assert_eq!(prj.pages[0].wires[0].core,"BN");
+}
+
+#[test]
+fn explicit_cable_marker_articles_retarget_even_when_the_old_article_is_shared() {
+    let mut prj=Project::default();
+    prj.cables.push(Cable {tag:"-Shared".into(),part:"OLD".into(),..Default::default()});
+    prj.devices.insert("-Shared".into(),DeviceData {parts:vec![PartRef {number:"OLD".into(),count:1,total:false}],..Default::default()});
+    for (id,tag,bound) in [(1,"-Shared",true),(2,"Custom caption",true),(3,"-Shared",false)] {
+        let mut symbol=SymbolInst {id,tag:tag.into(),values:BTreeMap::from([("function.part_number".into(),"OLD".into())]),..Default::default()};
+        if bound {symbol.values.insert("function.cable".into(),"-Shared".into());}
+        prj.pages[0].symbols.push(symbol);
+    }
+    assert!(apply_project_cable_part(&mut prj,0,&Part {number:"NEW".into(),..Default::default()}));
+    for symbol in &prj.pages[0].symbols[..2] {
+        assert_eq!(symbol.values["function.part_number"],"NEW");assert_eq!(symbol.selected_part_number(&prj),Some("NEW"));
+    }
+    assert_eq!(prj.pages[0].symbols[2].values["function.part_number"],"OLD");
+    assert_eq!(prj.pages[0].symbols[2].selected_part_number(&prj),Some("OLD"));
+}
+
+#[test]
+fn cable_renames_follow_explicit_markers_definitions_and_inactive_options() {
+    use crate::model::options::{Item,ModelOption,Parked};
+    let mut prj=Project::default();
+    prj.cables.push(Cable {id:100,tag:"-Shared".into(),cores:"BN BU".into(),..Default::default()});
+    prj.pages[0].symbols=vec![SymbolInst {id:1,tag:"-Shared".into(),values:BTreeMap::from([("function.cable".into(),"-Shared".into())]),..Default::default()},
+                            SymbolInst {id:2,tag:"-Shared".into(),function_text:"Motor".into(),..Default::default()}];
+    prj.devices.insert("-Shared".into(),DeviceData::default());
+    prj.field.places.push(crate::field::Place {tag:"-Shared".into(),..Default::default()});
+    prj.field.route_mut("-Shared").via.push(9);
+    prj.field.accessories.push(crate::field::Accessory {cable:"-Shared".into(),at:"-Shared".into(),..Default::default()});
+    prj.pages[0].wires.push(Wire {id:3,cable:"-Shared".into(),core:"BN".into(),..Default::default()});
+    prj.pages[0].conn_defs.push(ConnDef {id:4,cable:"-Shared".into(),core:"BU".into(),..Default::default()});
+    prj.pages[0].cable_defs.push(CableDef {id:5,cable:"-Shared".into(),shield:true,..Default::default()});
+    let mut parked_page=prj.pages[0].clone();parked_page.id=50;
+    let items=vec![Item::Page(Box::new(parked_page)),Item::Symbol(Box::new(prj.pages[0].symbols[0].clone())),
+                   Item::Wire(Box::new(prj.pages[0].wires[0].clone())),Item::ConnDef(prj.pages[0].conn_defs[0].clone()),
+                   Item::CableDef(prj.pages[0].cable_defs[0].clone())];
+    prj.model_options.options.push(ModelOption {parked:items.into_iter().map(|item|Parked {page:1,index:0,item,order:vec![]}).collect(),..Default::default()});
+    prj.cables[0].tag="-W10".into();rename_cable(&mut prj,"-Shared","-W10");
+    assert_eq!(prj.pages[0].symbols[0].tag,"-W10");assert_eq!(prj.pages[0].symbols[0].values["function.cable"],"-W10");
+    assert_eq!(prj.pages[0].symbols[1].tag,"-Shared");assert!(prj.devices.contains_key("-Shared"));
+    assert_eq!(prj.field.places[0].tag,"-Shared");assert_eq!(prj.field.accessories[0].at,"-Shared");
+    assert_eq!(prj.field.routes[0].cable,"-W10");assert_eq!(prj.field.accessories[0].cable,"-W10");
+    assert_eq!(prj.pages[0].conn_defs[0].cable,"-W10");assert_eq!(prj.pages[0].cable_defs[0].cable,"-W10");
+    let text=serde_json::to_string(&prj).unwrap();assert!(!text.contains("\"cable\":\"-Shared\""));
+    let mut reopened:Project=serde_json::from_str(&text).unwrap();remove_cable(&mut reopened,0);
+    assert!(reopened.pages[0].symbols[0].tag.is_empty());assert!(!reopened.pages[0].symbols[0].values.contains_key("function.cable"));
+    assert!(reopened.pages[0].conn_defs[0].cable.is_empty() && reopened.pages[0].conn_defs[0].core.is_empty());
+    assert!(reopened.pages[0].wires[0].core.is_empty());assert!(reopened.pages[0].cable_defs[0].cable.is_empty());
+    assert_eq!(reopened.pages[0].symbols[1].tag,"-Shared");
+    assert!(reopened.field.routes.is_empty() && reopened.field.accessories.is_empty());
+    assert_eq!(reopened.field.places[0].tag,"-Shared");
+    let text=serde_json::to_string(&reopened).unwrap();assert!(!text.contains("\"cable\":\"-W10\""));
+}
+
+#[test]
+fn device_rename_preserves_a_shared_explicit_cable_marker_and_its_route() {
+    let mut prj=Project::default();
+    prj.cables.push(Cable {tag:"-Shared".into(),..Default::default()});
+    prj.pages[0].symbols=vec![SymbolInst {id:1,tag:"-Shared".into(),values:BTreeMap::from([("function.cable".into(),"-Shared".into())]),..Default::default()},
+                            SymbolInst {id:2,tag:"-Shared".into(),..Default::default()}];
+    prj.field.route_mut("-Shared").via.push(9);
+    prj.field.places.push(crate::field::Place {tag:"-Shared".into(),..Default::default()});
+    prj.field.accessories.push(crate::field::Accessory {cable:"-Shared".into(),at:"-Shared".into(),..Default::default()});
+    rename_device(&mut prj,"-Shared","-M10");
+    assert_eq!(prj.pages[0].symbols[0].tag,"-Shared");assert_eq!(prj.pages[0].symbols[0].values["function.cable"],"-Shared");
+    assert_eq!(prj.pages[0].symbols[1].tag,"-M10");assert_eq!(prj.cables[0].tag,"-Shared");
+    assert_eq!(prj.field.routes[0].cable,"-Shared");assert_eq!(prj.field.places[0].tag,"-M10");
+    assert_eq!(prj.field.accessories[0].cable,"-Shared");assert_eq!(prj.field.accessories[0].at,"-M10");
+}
+
+#[test]
+fn applying_a_cable_article_retargets_its_explicit_functions_and_preserves_shared_motor_selection() {
+    let mut prj=Project::default();
+    prj.cables.push(Cable {id:10,tag:"-Shared".into(),part:"OLD".into(),length:25.,cores:"BN BU".into(),..Default::default()});
+    prj.devices.insert("-Shared".into(),DeviceData {parts:vec![PartRef {number:"MOTOR".into(),count:1,total:false}],..Default::default()});
+    for (id,number) in [(1,"OLD"),(2,"MOTOR"),(3,"MISSING")] {
+        prj.pages[0].symbols.push(SymbolInst {id,tag:"-Shared".into(),values:BTreeMap::from([("function.part_number".into(),number.into())]),..Default::default()});
+    }
+    let before=serde_json::to_value(&prj).unwrap();
+    let part=Part {number:"NEW".into(),tech_data:"Outer diameter: 6.3 mm".into(),..Default::default()};
+    assert!(!apply_project_cable_part(&mut prj,99,&part));assert_eq!(serde_json::to_value(&prj).unwrap(),before);
+    assert!(apply_project_cable_part(&mut prj,0,&part));
+    let symbols=&prj.pages[0].symbols;
+    assert_eq!(symbols[0].selected_part_number(&prj),Some("NEW"));
+    assert_eq!(symbols[1].selected_part_number(&prj),Some("MOTOR"));
+    assert_eq!(symbols[2].values["function.part_number"],"MISSING");
+    assert_eq!(prj.cables[0].length,25.);assert_eq!(prj.cables[0].cores,"BN BU");
+    assert_eq!(prj.cables[0].diameter,6.3);assert_eq!(prj.devices["-Shared"].parts[0].number,"MOTOR");
+    // The direct text editor uses the same reference operation after changing the value.
+    prj.cables[0].part.clear();assert_eq!(retarget_cable_part_references(&mut prj,"-Shared","NEW",""),1);
+    assert_eq!(prj.pages[0].symbols[0].values["function.part_number"],"");
+    assert!(apply_project_cable_part(&mut prj,0,&part));
+    assert_eq!(prj.pages[0].symbols[0].selected_part_number(&prj),Some("NEW"));
+}
+
+#[test]
+fn ordinary_device_article_references_are_not_retargeted_as_cable_material() {
+    let mut prj=Project::default();
+    prj.devices.insert("-Shared".into(),DeviceData {parts:vec![PartRef {number:"OLD".into(),count:1,total:false}],..Default::default()});
+    prj.pages[0].symbols.push(SymbolInst {tag:"-Shared".into(),values:BTreeMap::from([("function.part_number".into(),"OLD".into())]),..Default::default()});
+    assert_eq!(retarget_cable_part_references(&mut prj,"-Shared","OLD","NEW"),0);
+    assert_eq!(prj.pages[0].symbols[0].selected_part_number(&prj),Some("OLD"));
+}
+
+#[test]
 fn portable_cables_keep_core_links_and_reserve_incoming_tags_across_structures() {
     let mut prj=Project::default();prj.pages[0].function="DST".into();prj.pages[0].location="NEW".into();
     prj.cables.push(Cable {id:90,tag:"=DST+NEW-W1".into(),description:"Existing".into(),..Default::default()});
     let mut clip=Clip::new();clip.function="SRC".into();clip.location="OLD".into();
     for (id,tag) in [(1,"=SRC+OLD-W1"),(2,"=SRC+OLD-W2")] {
         clip.cables.push(Cable {id,tag:tag.into(),cores:"BN BU".into(),length:25.,part:"C1".into(),diameter:6.3,..Default::default()});
-        clip.symbols.push(SymbolInst {id:id+10,sym:"coil".into(),tag:tag.into(),pos:p(id as f32*10.,0.),..Default::default()});
+        clip.symbols.push(SymbolInst {id:id+10,sym:"coil".into(),tag:tag.into(),pos:p(id as f32*10.,0.),
+            values:BTreeMap::from([("function.cable".into(),tag.into())]),..Default::default()});
         clip.wires.push(Wire {id:id+20,a:p(0.,id as f32*5.),b:p(40.,id as f32*5.),cable:tag.into(),core:"BN".into(),..Default::default()});
     }
     clip.conn_defs.push(ConnDef {id:40,pos:p(20.,5.),cable:"=SRC+OLD-W1".into(),core:"BU".into(),..Default::default()});
@@ -22,6 +145,7 @@ fn portable_cables_keep_core_links_and_reserve_incoming_tags_across_structures()
     for (i,wire) in prj.pages[0].wires.iter().enumerate() {
         let cable=&prj.cables[i+1];assert_eq!(wire.cable,cable.tag);assert_eq!(wire.core,"BN");
         assert_eq!(prj.pages[0].symbols[i].tag,cable.tag);assert_eq!(cable.part,"C1");assert_eq!(cable.length,25.);
+        assert_eq!(prj.pages[0].symbols[i].values["function.cable"],cable.tag);
     }
     assert_eq!(prj.pages[0].conn_defs[0].cable,"=DST+NEW-W3");assert_eq!(prj.pages[0].conn_defs[0].core,"BU");
     assert_eq!(prj.pages[0].cable_defs[1].cable,"=DST+NEW-W4");

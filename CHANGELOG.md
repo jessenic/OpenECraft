@@ -5,6 +5,20 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Cable properties in symbol attribute blocks and placed annotations follow the
+  linked inventory entry, including custom marker captions. Placed part properties
+  show the selected article consistently with attribute blocks and exports.
+
+- Cable tag entry commits on Enter or leaving the field; empty, duplicate and
+  invalid tags leave the inventory and drawing references intact. The editor and
+  table command share validation, including released drawings.
+- Explicit cable markers follow the current cable article through property,
+  table and catalog edits, including when their displayed caption is customized.
+
+- Cable renames keep explicitly linked drawing markers, connection definitions,
+  cable definition lines and inactive options synchronized; shared ordinary
+  device tags stay separate. Portable copies retain the cable association.
+
 - Keep frame references to the previous, next and last sheet current within their section, including schemes whose numbering starts above one.
 
 - Keep page and project property blocks live in drawing graphics, expose local sheet numbers and section page counts, and retain editable page defaults in reusable page templates. Offer page and project fields in the symbol editor's property picker.
