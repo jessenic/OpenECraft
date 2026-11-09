@@ -733,65 +733,34 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
         }
     }
 
-    // Cross references
-    let mut refs: Vec<(String, Option<usize>)> = Vec::new();
-    let dev = idx.devices.get(&s.tag);
-    match def.func {
-        Func::Aux(_) | Func::Auxiliary => match dev.map(|d| d.mains.as_slice()) {
-            Some([]) | None => refs.push(("?".into(), None)),
-            Some(mains) => refs.extend(mains.iter().map(|m| (m.reference_from(prj, page_i), Some(m.page)))),
-        },
-        Func::Overview => {
-            if let Some(dev) = dev {
-                refs.extend(dev.mains.iter().map(|m| (m.reference_from(prj, page_i), Some(m.page))));
-            }
+    // Cross reference of an interruption point, beside it
+    if matches!(def.func, Func::Interruption) && !references::has_field(def, s) && idx.interruptions.contains_key(&s.interruption_key()) {
+        let others: Vec<Loc> = idx.interruption_targets(prj, &s.interruption_key(), s.id);
+        let q = s.pos + p(2.2, 1.6).transform(s.rot, s.mirror) + p(0.0, 2.6);
+        let txt = if others.is_empty() { "?".to_string() } else { others.iter().map(|l| l.reference_from(prj, page_i)).collect::<Vec<_>>().join(" ") };
+        let ink = if others.is_empty() { Ink::Error } else { Ink::CrossRef };
+        d.text(q, &txt, SMALL_SIZE, Anchor::Left, VAnchor::Middle, ink);
+        if let Some(l) = others.first() {
+            link_text(d, q, &txt, SMALL_SIZE, Anchor::Left, l.page);
         }
-        Func::Main { mirror: false } => {
-            if let Some(dev) = dev {
-                refs.extend(dev.auxs.iter().map(|a| (a.reference_from(prj, page_i), Some(a.page))));
-            }
-        }
-        Func::Interruption if !references::has_field(def, s) && idx.interruptions.contains_key(&s.interruption_key()) => {
-            let others: Vec<Loc> = idx.interruption_targets(prj, &s.interruption_key(), s.id);
-            let q = s.pos + p(2.2, 1.6).transform(s.rot, s.mirror) + p(0.0, 2.6);
-            let txt = if others.is_empty() { "?".to_string() } else { others.iter().map(|l| l.reference_from(prj, page_i)).collect::<Vec<_>>().join(" ") };
-            let ink = if others.is_empty() { Ink::Error } else { Ink::CrossRef };
-            d.text(q, &txt, SMALL_SIZE, Anchor::Left, VAnchor::Middle, ink);
-            if let Some(l) = others.first() {
-                link_text(d, q, &txt, SMALL_SIZE, Anchor::Left, l.page);
-            }
-        }
-        _ => {}
-    }
-    if matches!(def.func, Func::Main { .. }) && !s.tag.is_empty() {
-        refs.extend(crate::electrofluid::cross_refs(prj, idx, page_i, &s.tag));
     }
 
-    if references::has_field(def, s) { refs.clear(); }
-
-    // Tag block
+    // Tag block with the cross references
     if def.show_tag {
-        let mut lines: Vec<(String, f32, Ink, Option<usize>)> = Vec::new();
-        if !s.tag.is_empty() && !hides_tag(prj, page_i, def, s) {
-            lines.push((structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE, text_ink, None));
-        }
-        if !s.function_text.is_empty() && !def.has_function_text_field() {
-            for l in s.function_text.lines() {
-                lines.push((l.to_string(), 2.0, text_ink, None));
+        let (lines, side) = tag_block_layout(prj, idx, page_i, def, s);
+        let (x, mut y, anchor) = tag_block_origin(def, s, &lines.iter().map(|l| l.size).collect::<Vec<_>>(), side);
+        for l in &lines {
+            let q = p(x, y + l.size * 0.675);
+            let ink = match (l.reference, l.text.as_str()) {
+                (false, _) => text_ink,
+                (true, "?") => Ink::Error,
+                (true, _) => Ink::CrossRef,
+            };
+            d.text(q, &l.text, l.size, anchor, VAnchor::Middle, ink);
+            if let Some(page) = l.page {
+                link_text(d, q, &l.text, l.size, anchor, page);
             }
-        }
-        for (r, target) in refs {
-            let ink = if r == "?" { Ink::Error } else { Ink::CrossRef };
-            lines.push((r, 2.0, ink, target));
-        }
-        let (x, mut y, anchor) = tag_block_origin(def, s, &lines.iter().map(|l| l.1).collect::<Vec<_>>());
-        for (t, size, ink, target) in &lines {
-            let q = p(x, y + size * 0.675);
-            d.text(q, t, *size, anchor, VAnchor::Middle, *ink);
-            if let Some(page) = target {
-                link_text(d, q, t, *size, anchor, *page);
-            }
-            y += size * 1.35;
+            y += l.size * 1.35;
         }
     }
 
@@ -808,7 +777,7 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
 
     // Contact image (mirror) below coils
     if matches!(def.func, Func::Main { mirror: true }) {
-        if let Some(dev) = dev {
+        if let Some(dev) = idx.devices.get(&s.tag) {
             if !prj.xref.hide_contact_image {
                 draw_contact_image(d, prj, page_i, &s.tag, dev.auxs.as_slice(), &bounds, vertical, text_ink);
             }
@@ -870,42 +839,172 @@ pub fn continues_strip(prj: &Project, page_i: usize, def: &SymbolDef, s: &Symbol
         })
 }
 
-/// Where the tag block starts: x and top y of the first line and the text anchor
-/// (left of vertical symbols, above horizontal ones, or where it was placed).
-fn tag_block_origin(def: &SymbolDef, s: &SymbolInst, sizes: &[f32]) -> (f32, f32, Anchor) {
-    let bounds = s.bounds(def);
-    let total: f32 = sizes.iter().map(|z| z * 1.35).sum();
-    match s.tag_offset {
-        Some(o) => (s.pos.x + o.x, s.pos.y + o.y, Anchor::Left),
-        // Inside the top left corner of a device box, clear of the points on its outline.
-        None if crate::device_boxes::is_box(s) => (bounds.min.x + 1.5, bounds.min.y + 1.5, Anchor::Left),
-        None if s.rot.is_multiple_of(2) => (bounds.min.x - 1.2, bounds.center().y - total / 2.0, Anchor::Right),
-        None => (bounds.center().x, bounds.min.y - 1.0 - total, Anchor::Center),
+/// Side of its symbol a tag block is placed on automatically.
+#[derive(Clone, Copy, Debug, PartialEq)]
+enum TagSide {
+    Left,
+    Right,
+    Above,
+    Below,
+}
+
+impl TagSide {
+    /// Sides tried in turn: the usual one (left of vertical symbols, above horizontal
+    /// ones), the opposite one, then the other two.
+    fn order(s: &SymbolInst) -> [TagSide; 4] {
+        use TagSide::*;
+        if s.rot.is_multiple_of(2) { [Left, Right, Above, Below] } else { [Above, Below, Left, Right] }
     }
 }
 
-/// Approximate area of the tag block (tag and function text) of a placed symbol,
-/// used to pick and drag it.
-pub fn tag_block_bounds(prj: &Project, page_i: usize, def: &SymbolDef, s: &SymbolInst) -> Option<R> {
-    if !def.show_tag || (s.tag.is_empty() && (s.function_text.is_empty() || def.has_function_text_field())) {
-        return None;
+/// Where the tag block starts: x and top y of the first line and the text anchor
+/// (on side `side` of the symbol, or where it was placed).
+fn tag_block_origin(def: &SymbolDef, s: &SymbolInst, sizes: &[f32], side: TagSide) -> (f32, f32, Anchor) {
+    let bounds = s.bounds(def);
+    let total: f32 = sizes.iter().map(|z| z * 1.35).sum();
+    match (s.tag_offset, side) {
+        (Some(o), _) => (s.pos.x + o.x, s.pos.y + o.y, Anchor::Left),
+        // Inside the top left corner of a device box, clear of the points on its outline.
+        (None, _) if crate::device_boxes::is_box(s) => (bounds.min.x + 1.5, bounds.min.y + 1.5, Anchor::Left),
+        (None, TagSide::Left) => (bounds.min.x - 1.2, bounds.center().y - total / 2.0, Anchor::Right),
+        (None, TagSide::Right) => (bounds.max.x + 1.2, bounds.center().y - total / 2.0, Anchor::Left),
+        (None, TagSide::Above) => (bounds.center().x, bounds.min.y - 1.0 - total, Anchor::Center),
+        (None, TagSide::Below) => (bounds.center().x, bounds.max.y + 1.0, Anchor::Center),
     }
-    let mut lines: Vec<(String, f32)> = Vec::new();
-    if !s.tag.is_empty() && !hides_tag(prj, page_i, def, s) {
-        lines.push((structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE));
+}
+
+/// A line of a tag block: the tag, a line of the function text or a cross reference
+/// (with the page it links to).
+struct TagLine {
+    text: String,
+    size: f32,
+    reference: bool,
+    page: Option<usize>,
+}
+
+impl TagLine {
+    fn text(text: String, size: f32) -> TagLine {
+        TagLine { text, size, reference: false, page: None }
     }
-    if !def.has_function_text_field() {
-        lines.extend(s.function_text.lines().map(|l| (l.to_string(), 2.0)));
+}
+
+/// Cross references shown in the tag block of a placed symbol: text and target page
+/// (none where an authored field shows them).
+fn block_references(prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, s: &SymbolInst) -> Vec<(String, Option<usize>)> {
+    if references::has_field(def, s) {
+        return Vec::new();
     }
-    let (x, y, anchor) = tag_block_origin(def, s, &lines.iter().map(|l| l.1).collect::<Vec<_>>());
-    let w = lines.iter().map(|(t, z)| t.chars().count() as f32 * z * 0.62).fold(0.0, f32::max);
-    let h: f32 = lines.iter().map(|l| l.1 * 1.35).sum();
+    let mut refs: Vec<(String, Option<usize>)> = Vec::new();
+    let dev = idx.devices.get(&s.tag);
+    match def.func {
+        Func::Aux(_) | Func::Auxiliary => match dev.map(|d| d.mains.as_slice()) {
+            Some([]) | None => refs.push(("?".into(), None)),
+            Some(mains) => refs.extend(mains.iter().map(|m| (m.reference_from(prj, page_i), Some(m.page)))),
+        },
+        Func::Overview => {
+            if let Some(dev) = dev {
+                refs.extend(dev.mains.iter().map(|m| (m.reference_from(prj, page_i), Some(m.page))));
+            }
+        }
+        Func::Main { mirror: false } => {
+            if let Some(dev) = dev {
+                refs.extend(dev.auxs.iter().map(|a| (a.reference_from(prj, page_i), Some(a.page))));
+            }
+        }
+        _ => {}
+    }
+    if matches!(def.func, Func::Main { .. }) && !s.tag.is_empty() {
+        refs.extend(crate::electrofluid::cross_refs(prj, idx, page_i, &s.tag));
+    }
+    refs
+}
+
+/// Estimated area of tag block lines starting at `x`, `y`.
+fn lines_box(x: f32, y: f32, anchor: Anchor, lines: &[TagLine]) -> R {
+    let w = lines.iter().map(|l| text_width(&l.text, l.size)).fold(0.0, f32::max);
+    let h: f32 = lines.iter().map(|l| l.size * 1.35).sum();
     let x0 = match anchor {
         Anchor::Left => x,
         Anchor::Center => x - w / 2.0,
         Anchor::Right => x - w,
     };
-    Some(R::from_points(p(x0, y), p(x0 + w, y + h)))
+    R::from_points(p(x0, y), p(x0 + w, y + h))
+}
+
+/// The other symbols near `s` on its page with their definitions and areas.
+fn neighbours<'a>(prj: &'a Project, page_i: usize, s: &SymbolInst) -> Vec<(&'a SymbolInst, crate::symbols::SymbolRef, R)> {
+    let symbols = prj.symbol_table();
+    prj.pages[page_i]
+        .symbols
+        .iter()
+        .filter(|o| o.id != s.id && (o.pos.x - s.pos.x).abs() < 60.0 && (o.pos.y - s.pos.y).abs() < 60.0)
+        .filter_map(|o| {
+            let d = symbols.get(&o.sym)?;
+            let r = o.bounds(&d);
+            Some((o, d, r))
+        })
+        .collect()
+}
+
+/// Lines of the tag block (tag, function text and cross references) and the side of
+/// the symbol it goes on.
+///
+/// The tag of a function right beside one before it of the same device (same row
+/// and turn) is left out where it would run into that function, so that it is shown
+/// once at the first of them, like the strip tag of a row of terminals. A block that
+/// runs into another symbol on its usual side goes on the first other side that is
+/// clear of symbols and wires, else it stays. Blocks placed by hand stay where they
+/// are.
+fn tag_block_layout(prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, s: &SymbolInst) -> (Vec<TagLine>, TagSide) {
+    let mut lines: Vec<TagLine> = if def.has_function_text_field() { Vec::new() } else { s.function_text.lines().map(|l| TagLine::text(l.to_string(), 2.0)).collect() };
+    lines.extend(block_references(prj, idx, page_i, def, s).into_iter().map(|(text, page)| TagLine { text, size: 2.0, reference: true, page }));
+    let tag = (!s.tag.is_empty() && !hides_tag(prj, page_i, def, s)).then(|| TagLine::text(structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE));
+    let usual = TagSide::order(s)[0];
+    if s.tag_offset.is_some() {
+        lines.splice(0..0, tag);
+        return (lines, usual);
+    }
+    let near = neighbours(prj, page_i, s);
+    let place = |lines: &[TagLine], side: TagSide| {
+        let (x, y, anchor) = tag_block_origin(def, s, &lines.iter().map(|l| l.size).collect::<Vec<_>>(), side);
+        lines_box(x, y, anchor, lines)
+    };
+    if let Some(tag) = tag {
+        lines.insert(0, tag);
+        let r = place(&lines, usual);
+        let is_terminal = |d: &SymbolDef| matches!(d.func, Func::Terminal);
+        let repeats = s.rot.is_multiple_of(2)
+            && !is_terminal(def)
+            && near.iter().any(|(o, od, ob)| o.tag == s.tag && o.rot == s.rot && (o.pos.y - s.pos.y).abs() < 0.1 && o.pos.x < s.pos.x && od.show_tag && !is_terminal(od) && r.overlaps(ob));
+        if repeats {
+            lines.remove(0);
+        }
+    }
+    let hits_symbol = |r: &R| near.iter().any(|(_, _, ob)| r.overlaps(ob));
+    if lines.is_empty() || !hits_symbol(&place(&lines, usual)) {
+        return (lines, usual);
+    }
+    let wires: Vec<(P, P)> = prj.pages[page_i].wires.iter().map(|w| (w.a, w.b)).collect();
+    let side = TagSide::order(s)[1..]
+        .iter()
+        .copied()
+        .find(|side| {
+            let r = place(&lines, *side);
+            !hits_symbol(&r) && !wires.iter().any(|(a, b)| r.crosses(*a, *b))
+        })
+        .unwrap_or(usual);
+    (lines, side)
+}
+
+/// Approximate area of the tag block (tag, function text and cross references) of a
+/// placed symbol, used to pick and drag it.
+pub fn tag_block_bounds(prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, s: &SymbolInst) -> Option<R> {
+    if !def.show_tag || (s.tag.is_empty() && (s.function_text.is_empty() || def.has_function_text_field())) {
+        return None;
+    }
+    let (lines, side) = tag_block_layout(prj, idx, page_i, def, s);
+    let (x, y, anchor) = tag_block_origin(def, s, &lines.iter().map(|l| l.size).collect::<Vec<_>>(), side);
+    Some(lines_box(x, y, anchor, &lines))
 }
 
 /// Area of a placed property text.

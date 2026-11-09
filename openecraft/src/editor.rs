@@ -819,7 +819,7 @@ impl Editor {
     }
 
     /// Tag block or placed property of a selected symbol under `q`.
-    fn prop_hit(&self, prj: &Project, page_i: usize, q: P) -> Option<PropHandle> {
+    fn prop_hit(&self, prj: &Project, idx: &Index, page_i: usize, q: P) -> Option<PropHandle> {
         let page = &prj.pages[page_i];
         for s in page.symbols.iter().filter(|s| self.selection.contains(&s.id)) {
             for (i, pp) in s.props.iter().enumerate() {
@@ -831,7 +831,7 @@ impl Editor {
             if def.pins.len() == 1 && render::pin_label_bounds(&def, s).is_some_and(|r| r.expand(0.3).contains(q)) {
                 return Some((s.id, Handle::Pin));
             }
-            if render::tag_block_bounds(prj, page_i, &def, s).is_some_and(|r| r.expand(0.3).contains(q)) {
+            if render::tag_block_bounds(prj, idx, page_i, &def, s).is_some_and(|r| r.expand(0.3).contains(q)) {
                 return Some((s.id, Handle::Tag));
             }
         }
@@ -1010,7 +1010,7 @@ impl Editor {
         if self.tool.is_review() {
             self.review_mouse(&resp, world, &mut out);
         } else if editable {
-            self.mouse(ui, &resp, prj, page_i, rect, world, snapped, an, &mut out);
+            self.mouse(ui, &resp, prj, page_i, rect, world, snapped, an, idx, &mut out);
         } else if resp.dnd_hover_payload::<PartDrag>().is_some() {
             // A part dragged onto a released, locked or generated page: say why it
             // cannot be dropped here instead of ignoring it.
@@ -1023,11 +1023,11 @@ impl Editor {
             if let Some(q) = self.typed.take() {
                 self.select_at(prj, page_i, q, false);
             }
-            self.select_mouse(ui, &resp, prj, page_i, rect, world, false, &mut out);
+            self.select_mouse(ui, &resp, prj, idx, page_i, rect, world, false, &mut out);
         } else if self.typed.take().is_some() {
             out.message = Some(tr("The page is read only").to_string());
         }
-        self.cursor(ui, &resp, prj, page_i, world, editable);
+        self.cursor(ui, &resp, prj, idx, page_i, world, editable);
 
         // ------------------------------------------------------------ drawing
         self.update_textures(ui.ctx(), &prj.pages[page_i]);
@@ -1120,7 +1120,7 @@ impl Editor {
             if let Some(s) = page.symbols.iter().find(|s| self.selection.contains(&s.id)) {
                 let mut boxes: Vec<R> = s.props.iter().map(|pp| render::prop_bounds(prj, page_i, s, pp)).collect();
                 if let Some(def) = prj.symbol(&s.sym) {
-                    boxes.extend(render::tag_block_bounds(prj, page_i, &def, s));
+                    boxes.extend(render::tag_block_bounds(prj, idx, page_i, &def, s));
                     boxes.extend(render::pin_label_bounds(&def, s).filter(|_| def.pins.len() == 1));
                 }
                 for r in boxes {
@@ -1601,6 +1601,7 @@ impl Editor {
         world: Option<P>,
         snapped: Option<P>,
         an: &Analysis,
+        idx: &Index,
         out: &mut CanvasOutput,
     ) {
         let shift = ui.input(|i| i.modifiers.shift);
@@ -1640,7 +1641,7 @@ impl Editor {
                 if let Some(q) = click.filter(|_| !resp.clicked_by(PointerButton::Primary)) {
                     self.select_at(prj, page_i, q, shift);
                 }
-                self.select_mouse(ui, resp, prj, page_i, rect, world, true, out);
+                self.select_mouse(ui, resp, prj, idx, page_i, rect, world, true, out);
             }
             Tool::Insert => {
                 if let (Some(sn), Some(clip)) = (click, click.and_then(|_| self.insert.take())) {
@@ -1746,12 +1747,12 @@ impl Editor {
     /// Select tool: clicks select, drags move the selection or the texts of a single
     /// selected symbol, drags on empty space select by window. On a page that is not
     /// `editable` only the selection changes.
-    fn select_mouse(&mut self, ui: &egui::Ui, resp: &egui::Response, prj: &mut Project, page_i: usize, rect: Rect, world: Option<P>, editable: bool, out: &mut CanvasOutput) {
+    fn select_mouse(&mut self, ui: &egui::Ui, resp: &egui::Response, prj: &mut Project, idx: &Index, page_i: usize, rect: Rect, world: Option<P>, editable: bool, out: &mut CanvasOutput) {
         let shift = ui.input(|i| i.modifiers.shift);
         if resp.drag_started_by(PointerButton::Primary) {
             let origin = ui.input(|i| i.pointer.press_origin()).unwrap_or(rect.center());
             let ow = self.s2w(rect, origin);
-            let handle = self.prop_hit(prj, page_i, ow).filter(|_| editable);
+            let handle = self.prop_hit(prj, idx, page_i, ow).filter(|_| editable);
             // The texts of a single selected symbol are placed on their own; with several
             // selected, dragging a text moves them all.
             let group = handle.filter(|_| self.selection.len() > 1).map(|h| h.0);
@@ -1762,7 +1763,7 @@ impl Editor {
                 let orig = match (s, handle.1) {
                     (Some(s), Handle::Prop(i)) => s.props[i].offset,
                     (Some(s), Handle::Tag) => s.tag_offset.unwrap_or_else(|| {
-                        prj.symbol(&s.sym).and_then(|def| render::tag_block_bounds(prj, page_i, &def, s)).map(|r| r.min - s.pos).unwrap_or_default()
+                        prj.symbol(&s.sym).and_then(|def| render::tag_block_bounds(prj, idx, page_i, &def, s)).map(|r| r.min - s.pos).unwrap_or_default()
                     }),
                     (Some(s), Handle::Pin) => prj.symbol(&s.sym).map(|def| render::pin_label_at(&def, s, 0).0 - s.pos).unwrap_or_default(),
                     _ => P::default(),
@@ -1886,14 +1887,15 @@ impl Editor {
 
     /// Pointer shape over the page: move or point over an item, grab over the texts
     /// of a selected symbol, crosshair for the drawing tools.
-    fn cursor(&self, ui: &egui::Ui, resp: &egui::Response, prj: &Project, page_i: usize, world: Option<P>, editable: bool) {
+    #[allow(clippy::too_many_arguments)]
+    fn cursor(&self, ui: &egui::Ui, resp: &egui::Response, prj: &Project, idx: &Index, page_i: usize, world: Option<P>, editable: bool) {
         let Some(w) = world.filter(|_| resp.hovered() || resp.dragged()) else { return };
         let icon = match (&self.tool, &self.drag) {
             (_, Drag::Prop { .. }) => egui::CursorIcon::Grabbing,
             (_, Drag::Move { .. }) => egui::CursorIcon::Move,
             (_, Drag::Box { .. }) => egui::CursorIcon::Crosshair,
-            (Tool::Select, Drag::None) if editable && self.selection.len() == 1 && self.prop_hit(prj, page_i, w).is_some() => egui::CursorIcon::Grab,
-            (Tool::Select, Drag::None) if editable && self.prop_hit(prj, page_i, w).is_some() => egui::CursorIcon::Move,
+            (Tool::Select, Drag::None) if editable && self.selection.len() == 1 && self.prop_hit(prj, idx, page_i, w).is_some() => egui::CursorIcon::Grab,
+            (Tool::Select, Drag::None) if editable && self.prop_hit(prj, idx, page_i, w).is_some() => egui::CursorIcon::Move,
             (Tool::Select, Drag::None) => match self.hit(prj, page_i, w) {
                 Some(_) if editable => egui::CursorIcon::Move,
                 Some(_) => egui::CursorIcon::PointingHand,
