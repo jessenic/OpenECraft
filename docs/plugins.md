@@ -181,6 +181,9 @@ The page property `page.explicit_wire_junctions` makes endpoint-to-interior cros
 nonconductive unless a junction connects them, and device ports connect only to
 authored wire endpoints. Internal rail attachments and junction ports retain side
 contacts. Junction dots and open-end checks use the same rules.
+`device_box_roles` adds `SymbolInst.box_role` to device boxes: `extension` adds connection points to
+the device of the box's tag, `view` shows connection points it already has and connects them across
+pages by device and designation; the default `device` is left out of the file.
 An interruption instance can store `function.connection_scope` in its `values`.
 Points connect and cross-reference only others with the same scope and label;
 an empty scope retains the existing project-wide behavior. The label stays the

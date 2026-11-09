@@ -7,7 +7,7 @@ use crate::{Info, Plugin, Registry};
 use super::{add_commands, info, Spec};
 use openecraft_core::device_boxes as boxes;
 use openecraft_core::geom::{p, P, R, GRID};
-use openecraft_core::model::{PinLabel, Project, SymbolInst};
+use openecraft_core::model::{DeviceBoxRole, PinLabel, Project, SymbolInst};
 use openecraft_core::symbols::Anchor;
 use openecraft_i18n::{tr, tr_const, tr_fmt};
 use serde_json::{json, Value};
@@ -25,6 +25,7 @@ impl Plugin for DeviceBoxes {
 }
 
 const ID: Param = param("id", Kind::Int, tr_const!("Item id"));
+const ROLE: Param = optional("role", Kind::Str, tr_const!("What the box is: device (default), extension (more connection points of a device placed elsewhere) or view (shows connection points a device placed elsewhere already has)"));
 const DIRECTION: Param = optional("direction", Kind::Str, tr_const!("Direction the connection leads away: up, right, down or left (default: away from the edge of the box it is on)"));
 
 pub static COMMANDS: &[Spec] = &[
@@ -39,6 +40,7 @@ pub static COMMANDS: &[Spec] = &[
             param("height", Kind::Num, tr_const!("Height in mm")),
             optional("tag", Kind::Str, tr_const!("Device tag, e.g. -A1 (default: the next free -A tag)")),
             optional("function_text", Kind::Str, tr_const!("Function text")),
+            ROLE,
         ],
         run: add_device_box,
     },
@@ -54,6 +56,7 @@ pub static COMMANDS: &[Spec] = &[
             optional("height", Kind::Num, tr_const!("Height in mm")),
             optional("tag", Kind::Str, tr_const!("New device tag of the box and its connection points")),
             optional("function_text", Kind::Str, tr_const!("Function text")),
+            ROLE,
         ],
         run: update_device_box,
     },
@@ -90,6 +93,12 @@ pub static COMMANDS: &[Spec] = &[
         run: update_device_connection,
     },
     Spec {
+        name: "show_device_pins",
+        help: tr_const!("Makes a pin view show exactly the connection points named: new ones are placed on its outline, the others are removed"),
+        params: &[PAGE, ID, param("designations", Kind::Str, tr_const!("Connection point designations to show, comma separated"))],
+        run: show_device_pins,
+    },
+    Spec {
         name: "list_device_boxes",
         help: tr_const!("Lists the device boxes of a page with their outline and their device connection points"),
         params: &[PAGE],
@@ -107,6 +116,26 @@ fn direction(a: &Args) -> Result<Option<u8>, String> {
             "left" => Ok(Some(3)),
             _ => Err(tr_fmt!("Unknown direction: {}", d)),
         },
+    }
+}
+
+fn box_role(a: &Args) -> Result<Option<DeviceBoxRole>, String> {
+    match a.str("role").map(|r| r.trim().to_ascii_lowercase()) {
+        None => Ok(None),
+        Some(r) => match r.as_str() {
+            "device" => Ok(Some(DeviceBoxRole::Device)),
+            "extension" => Ok(Some(DeviceBoxRole::Extension)),
+            "view" => Ok(Some(DeviceBoxRole::View)),
+            _ => Err(tr_fmt!("Unknown device box role: {}", r)),
+        },
+    }
+}
+
+fn role_name(role: DeviceBoxRole) -> &'static str {
+    match role {
+        DeviceBoxRole::Device => "device",
+        DeviceBoxRole::Extension => "extension",
+        DeviceBoxRole::View => "view",
     }
 }
 
@@ -150,6 +179,8 @@ fn box_json(prj: &Project, page: usize, id: u64) -> Value {
         "id": b.id,
         "tag": b.tag,
         "function_text": b.function_text,
+        "role": role_name(b.box_role),
+        "device_pins": boxes::device_pins(prj, &b.tag),
         "x": r.min.x,
         "y": r.min.y,
         "width": r.width(),
@@ -168,9 +199,16 @@ fn add_device_box(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if !tag.trim().is_empty() {
         openecraft_core::ops::check_tag(tag)?;
     }
+    let role = box_role(a)?;
+    if role.is_some_and(|r| !r.is_device()) && tag.trim().is_empty() {
+        return Err(tr("A device box that extends or shows a device needs the tag of that device").to_string());
+    }
     let at = p(a.num("x").unwrap_or_default(), a.num("y").unwrap_or_default());
     let size = p(a.num("width").unwrap_or_default(), a.num("height").unwrap_or_default());
     let id = boxes::add_box(prj, i, at, at + size, tag, a.str("function_text").unwrap_or_default())?;
+    if let Some(role) = role {
+        boxes::set_role(prj, i, id, role)?;
+    }
     Ok(box_json(prj, i, id))
 }
 
@@ -200,6 +238,17 @@ fn update_device_box(prj: &mut Project, a: &Args) -> Result<Value, String> {
             s.function_text = t.into();
         }
     }
+    if let Some(role) = box_role(a)? {
+        boxes::set_role(prj, i, id, role)?;
+    }
+    Ok(box_json(prj, i, id))
+}
+
+fn show_device_pins(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let i = editable(prj, a.req("page"))?;
+    let id = a.int("id").unwrap_or_default() as u64;
+    let names: Vec<String> = a.str("designations").unwrap_or_default().split(',').map(|d| d.trim().to_string()).filter(|d| !d.is_empty()).collect();
+    boxes::show_pins(prj, i, id, &names)?;
     Ok(box_json(prj, i, id))
 }
 

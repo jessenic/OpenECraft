@@ -16,6 +16,12 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   `add_device_box`, `update_device_box`, `add_device_connections`,
   `update_device_connection`, `list_device_boxes`
   ([schematic](docs/features/schematic.md)).
+- **Device box roles:** a device box with the tag of a device placed elsewhere can add
+  connection points to it (*Extension*) or show only selected connection points of it
+  on another page (*Pin view*). Wires at a view belong to the point it shows, reports
+  list that connection once, and neither role counts as a second main function. Role
+  on `add_device_box` and `update_device_box`, command `show_device_pins`
+  ([schematic](docs/features/schematic.md)).
 
 - **Plot boundary:** the boundary of the plot is drawn in the site plan corner by corner
   and its corners are dragged afterwards; all buildings have to stay inside it, the check

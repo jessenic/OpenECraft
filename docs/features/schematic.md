@@ -36,6 +36,20 @@ new device with their own points. Commands: `add_device_box`, `update_device_box
 `add_device_connections` (several at a distance, designations given or numbered on),
 `update_device_connection`, `list_device_boxes`.
 
+A box can also continue a device placed elsewhere: give it the device's tag and choose
+its *Role* in the properties (`role` of `add_device_box` and `update_device_box`). An
+*Extension* adds connection points to the device, for a device too large for one box or
+a library symbol that lacks some connections. Its points are new connections, and a
+designation the device already has is reported as used twice. A *Pin view* shows some
+connection points the device already has, for example only the supply of a PLC card on
+the power page; tick them in the properties (`show_device_pins`) or place points with
+their designations. A point on a view is the connection point it shows: wires drawn
+there belong to that point's potential on every page, reports list the connection once,
+from the device's own point, and the check reports a view of a point the device does
+not have. Neither role is a second main function. The box shows a cross reference to
+the device, and the device's main function to its boxes; copied without the device,
+these boxes stay on it. A box with a role but no device placed is reported.
+
 ## Structure identifiers (IEC 81346)
 
 Pages carry a function (`=A1`) and a location

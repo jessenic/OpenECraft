@@ -961,9 +961,14 @@ fn block_references(prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, 
                 refs.extend(dev.mains.iter().map(|m| (m.reference_from(prj, page_i), Some(m.page))));
             }
         }
+        Func::Main { .. } if !s.box_role.is_device() => {
+            if let Some(dev) = dev {
+                refs.extend(dev.mains.iter().filter(|m| m.page != page_i).map(|m| (m.reference_from(prj, page_i), Some(m.page))));
+            }
+        }
         Func::Main { mirror: false } => {
             if let Some(dev) = dev {
-                refs.extend(dev.auxs.iter().map(|a| (a.reference_from(prj, page_i), Some(a.page))));
+                refs.extend(dev.auxs.iter().chain(dev.boxes.iter().filter(|b| b.page != page_i)).map(|a| (a.reference_from(prj, page_i), Some(a.page))));
             }
         }
         _ => {}

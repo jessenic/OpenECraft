@@ -206,17 +206,30 @@ pub fn check(prj: &Project, idx: &Index, nl: &Netlist) -> Vec<Issue> {
         if mains.len() > 1 && !poles_of_one_device(prj, tag, &mains) {
             v.push(crate::issue!(Severity::Error, t(&mains[1]), "{}: main function placed {} times", tag, mains.len()));
         }
+        if let Some(l) = dev.boxes.first().filter(|_| dev.mains.is_empty()) {
+            v.push(crate::issue!(Severity::Warning, t(l), "{}: device box extends or shows a device that is not placed", tag));
+        }
         if !dev.others.is_empty() {
             // Duplicate terminal numbers / PLC addresses / device connection points (plug
             // pins: see `plugs::problems`)
             let mut seen: HashMap<String, usize> = HashMap::new();
+            let function_pins: Vec<&String> = dev.mains.iter().chain(&dev.auxs)
+                .filter_map(|l| prj.pages[l.page].symbols.iter().find(|s| s.id == l.sym_id))
+                .flat_map(|s| s.pins.iter()).filter(|d| !d.is_empty()).collect();
+            let mut pins: Option<Vec<String>> = None;
             for l in &dev.others {
                 let s = prj.pages[l.page].symbols.iter().find(|s| s.id == l.sym_id);
                 let func = s.and_then(|s| prj.symbol(&s.sym)).map(|d| d.func);
                 if let Some(s) = s.filter(|_| !matches!(func, Some(Func::Plug(_)))) {
                     let designation = if func == Some(Func::Connection) { s.pins.first().cloned().unwrap_or_default() } else { s.label.clone() };
+                    if crate::device_boxes::is_view_point(prj, &prj.pages[l.page], s) {
+                        if !pins.get_or_insert_with(|| crate::device_boxes::device_pins(prj, tag)).contains(&designation) {
+                            v.push(crate::issue!(Severity::Warning, t(l), "{}: device box shows connection point '{}' that the device does not have", tag, designation));
+                        }
+                        continue;
+                    }
                     let c = seen.entry(designation.clone()).or_default();
-                    *c += 1;
+                    *c += 1 + usize::from(*c == 0 && func == Some(Func::Connection) && function_pins.contains(&&designation));
                     if *c == 2 {
                         v.push(crate::issue!(Severity::Warning, t(l), "{}: designation '{}' used more than once", tag, designation));
                     }

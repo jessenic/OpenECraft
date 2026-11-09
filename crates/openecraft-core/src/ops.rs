@@ -276,7 +276,7 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
                 .or_else(|| ctx.last_main.get(def.letter).cloned())
                 .unwrap_or_else(|| prj.next_tag(&structure, def.letter));
             if s.pins.len() == 1 {
-                s.pins[0] = crate::device_boxes::next_designation(prj, &s.tag);
+                s.pins[0] = crate::device_boxes::designation_at(prj, page, pos, &s.tag);
             }
         }
         Func::Potential | Func::Interruption | Func::Junction | Func::Graphic => {}
@@ -811,6 +811,10 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         .filter(|tag|!tag.is_empty()).map(|tag|target.complete(&source.relative(tag))).collect();
     let mut rename: HashMap<String, String> = HashMap::new();
     let cable_tags=paste_cables(prj,clip,&source,&target,&existing,&mut reserved,&mut rename);
+    // Boxes continuing a device that is not copied with them stay on it, with their points.
+    let own_device = |s: &&SymbolInst| s.box_role.is_device() && prj.symbol(&s.sym).is_some_and(|d| matches!(d.func, Func::Main { .. }));
+    let copied: BTreeSet<&str> = clip.symbols.iter().filter(own_device).map(|s| s.tag.as_str()).collect();
+    let continuing: BTreeSet<String> = clip.symbols.iter().filter(|s| !s.box_role.is_device() && !copied.contains(s.tag.as_str())).map(|s| target.complete(&source.relative(&s.tag))).collect();
     let mut new_ids = BTreeSet::new();
     // Structure boxes first: the symbols take the structure of the place they land.
     for x in &clip.structure_boxes {
@@ -838,7 +842,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         if let Some(def) = prj.symbol(&s.sym) {
             match def.func {
-                Func::Main { .. } | Func::Aux(_) | Func::Auxiliary | Func::Connection if existing.contains(&s.tag) => {
+                Func::Main { .. } | Func::Aux(_) | Func::Auxiliary | Func::Connection if existing.contains(&s.tag) && !continuing.contains(&s.tag) => {
                     if let Some(n) = rename.get(&s.tag) {
                         s.tag = n.clone();
                     } else {

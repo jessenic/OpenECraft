@@ -779,6 +779,28 @@ pub struct SymbolInst {
     /// such as device connection points); None: beside the connection point.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pin_label: Option<PinLabel>,
+    /// What a device box does for the device of its tag (see [`crate::device_boxes`]).
+    #[serde(skip_serializing_if = "DeviceBoxRole::is_device")]
+    pub box_role: DeviceBoxRole,
+}
+
+/// What a device box does for the device of its tag.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DeviceBoxRole {
+    /// The box is the device.
+    #[default]
+    Device,
+    /// More connection points of a device placed elsewhere.
+    Extension,
+    /// Connection points a device placed elsewhere already has, shown again.
+    View,
+}
+
+impl DeviceBoxRole {
+    pub fn is_device(&self) -> bool {
+        *self == DeviceBoxRole::Device
+    }
 }
 
 /// Position of a connection point designation relative to the symbol position and
@@ -864,6 +886,7 @@ impl Default for SymbolInst {
             plc_bindings: BTreeMap::new(),
             size: None,
             pin_label: None,
+            box_role: DeviceBoxRole::Device,
         }
     }
 }

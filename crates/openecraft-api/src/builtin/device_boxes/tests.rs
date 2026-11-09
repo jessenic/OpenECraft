@@ -56,3 +56,18 @@ fn copies_and_deletes_take_a_box_with_its_points() {
     let symbols = run(&mut s, "list_symbols", json!({ "query": "devconn" })).unwrap();
     assert_eq!(symbols[0]["function"], "device_connection");
 }
+#[test]
+fn a_view_box_shows_the_points_it_is_told_to() {
+    let mut s = new_session();
+    run(&mut s, "add_device_box", json!({ "page": "1", "x": 100, "y": 100, "width": 48, "height": 24, "tag": "-A1" })).unwrap();
+    run(&mut s, "add_device_connections", json!({ "page": "1", "x": 108, "y": 100, "designations": "L,N,PE" })).unwrap();
+    assert!(run(&mut s, "add_device_box", json!({ "page": "1", "x": 200, "y": 100, "width": 48, "height": 24, "role": "view" })).is_err());
+    let v = run(&mut s, "add_device_box", json!({ "page": "1", "x": 200, "y": 100, "width": 48, "height": 24, "tag": "-A1", "role": "view" })).unwrap();
+    assert_eq!(v["role"], "view");
+    assert_eq!(v["device_pins"], json!(["L", "N", "PE"]));
+    let shown = run(&mut s, "show_device_pins", json!({ "page": "1", "id": v["id"], "designations": "PE, N" })).unwrap();
+    let names: Vec<&str> = shown["points"].as_array().unwrap().iter().map(|p| p["designation"].as_str().unwrap()).collect();
+    assert_eq!(names, ["PE", "N"]);
+    assert!(run(&mut s, "show_device_pins", json!({ "page": "1", "id": v["id"], "designations": "X" })).is_err());
+    assert!(run(&mut s, "update_device_box", json!({ "page": "1", "id": v["id"], "role": "other" })).is_err());
+}

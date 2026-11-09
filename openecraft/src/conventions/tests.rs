@@ -156,7 +156,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("model", &["geom", "symbols", "symlib"]),
     // 4 evaluation of the model
     ("index", &["frame", "geom", "model", "structure", "symbols"]),
-    ("netlist", &["geom", "harness", "issue", "model", "panel", "potentials", "strips", "symbols", "symlib", "wirenum"]),
+    ("netlist", &["device_boxes", "geom", "harness", "issue", "model", "panel", "potentials", "strips", "symbols", "symlib", "wirenum"]),
     ("structure", &["geom", "model", "ops"]),
     ("sections", &["model"]),
     ("frame", &["geom", "model"]),
@@ -225,7 +225,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("testkit", &["analysis", "geom", "model", "parts", "symbols"]),
     // 6 derived data, checks, reports, registry
     ("analysis", &["ext", "field", "index", "issue", "model", "netlist", "panel", "parallel", "revision", "routing3d", "table"]),
-    ("checks", &["analysis", "cabledef", "climate", "conndef", "electrofluid", "emc", "ext", "fluid", "frame", "harness", "index", "integration", "issue", "loads", "model", "mounting", "netlist", "panel", "parts", "pinout", "plc", "plc_hw", "plugs", "potentials", "preplanning", "process", "production", "reports", "routing3d", "rules", "safety", "shortcircuit", "singleline", "sizing", "strips", "structure", "structure_boxes", "symbols", "translation", "wirenum", "wiring"]),
+    ("checks", &["analysis", "cabledef", "climate", "conndef", "device_boxes", "electrofluid", "emc", "ext", "fluid", "frame", "harness", "index", "integration", "issue", "loads", "model", "mounting", "netlist", "panel", "parts", "pinout", "plc", "plc_hw", "plugs", "potentials", "preplanning", "process", "production", "reports", "routing3d", "rules", "safety", "shortcircuit", "singleline", "sizing", "strips", "structure", "structure_boxes", "symbols", "translation", "wirenum", "wiring"]),
     ("reports", &["analysis", "checks", "climate", "electrofluid", "ext", "field", "fluid", "frame", "geom", "harness", "index", "issue", "loads", "marking", "model", "netlist", "panel", "params", "parts", "plc", "plc_hw", "plugs", "process", "production", "revision", "routing3d", "rules", "safety", "shortcircuit", "sizing", "strips", "symbols", "table", "text"]),
     ("ext", &["analysis", "issue", "model", "params", "table"]),
     ("exporters", &["aml", "analysis", "dwg", "dxf", "export3d", "ext", "harness", "harness_export", "kbl", "marking", "model", "nailboard", "page_select", "params", "pdf", "pinout", "plc", "plugs", "reports", "svg", "translation", "xlsx"]),

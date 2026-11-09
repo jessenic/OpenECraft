@@ -448,6 +448,7 @@ Connection definition point	Verbindungsdefinitionspunkt	Point de définition de 
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Verbindungsdefinitionspunkt: legt Nummer, Farbe, Querschnitt und Kabelader einer Verbindung fest	Point de définition de liaison : définit le numéro, la couleur, la section et le conducteur de câble d'une liaison	Punto de definición de conexión: define número, color, sección y conductor de cable de una conexión
 Connection point {}	Anschlusspunkt {}	Point de connexion {}	Punto de conexión {}
 Connection points 1 and 2 are connected inside	Anschlusspunkte 1 und 2 sind intern verbunden	Les points de connexion 1 et 2 sont reliés en interne	Los puntos de conexión 1 y 2 están conectados internamente
+Connection points shown	Gezeigte Anschlusspunkte	Points de connexion affichés	Puntos de conexión mostrados
 Connection:	Verbindung:	Liaison :	Conexión:
 Connections ({})	Verbindungen ({})	Liaisons ({})	Conexiones ({})
 Connections / harness	Verbindungen / Kabelbaum	Liaisons / faisceau	Conexiones / mazo
@@ -586,6 +587,7 @@ Device properties	Geräteeigenschaften	Propriétés de l'appareil	Propiedades de
 Device selection	Gerätewahl	Sélection d'appareil	Selección de dispositivo
 Device tags, separated by commas	Gerätekennzeichen, durch Kommas getrennt	Repères d'appareils, séparés par des virgules	Identificadores de dispositivos, separados por comas
 Device, terminal, wire and cable markers for marking software	Betriebsmittel-, Klemmen-, Leitungs- und Kabelmarkierer für Beschriftungssoftware	Repères d'appareils, de bornes, de fils et de câbles pour logiciel de marquage	Marcadores de equipos, bornas, cables y mangueras para software de marcado
+Device: the box is the device. Extension: more connection points of a device placed elsewhere. Pin view: shows connection points the device already has; wires drawn here connect to them	Betriebsmittel: Die Box ist das Betriebsmittel. Erweiterung: weitere Anschlusspunkte eines anderswo platzierten Betriebsmittels. Anschlussansicht: zeigt vorhandene Anschlusspunkte des Betriebsmittels; hier gezeichnete Leitungen sind mit ihnen verbunden	Appareil : la boîte est l'appareil. Extension : autres points de connexion d'un appareil placé ailleurs. Vue de connexions : montre des points de connexion existants de l'appareil ; les fils dessinés ici y sont reliés	Dispositivo: la caja es el dispositivo. Extensión: más puntos de conexión de un dispositivo colocado en otro lugar. Vista de conexiones: muestra puntos de conexión existentes del dispositivo; los cables dibujados aquí se conectan a ellos
 Devices ({})	Betriebsmittel ({})	Appareils ({})	Dispositivos ({})
 Devices are not copied: a device is placed once.	Geräte werden nicht kopiert: ein Gerät wird einmal platziert.	Les appareils ne sont pas copiés : un appareil est placé une seule fois.	Los aparatos no se copian: un aparato se coloca una sola vez.
 Devices are planned with single-line symbols and engineered in the multi-line schematic; both share the device tag.	Geräte werden mit einpoligen Symbolen geplant und im allpoligen Stromlaufplan projektiert; beide teilen das Betriebsmittelkennzeichen.	Les appareils sont planifiés avec des symboles unifilaires et étudiés dans le schéma développé multifilaire ; les deux partagent le repère de l'appareil.	Los equipos se planifican con símbolos unifilares y se proyectan en el esquema desarrollado multifilar; ambos comparten la identificación del equipo.
@@ -759,6 +761,7 @@ Export the messages as CSV	Meldungen als CSV exportieren	Exporter les messages e
 Exported {}	{} exportiert	{} exporté	{} exportado
 Exporting {}	Exportiere {}	Exportation de {}	Exportando {}
 Export…	Exportieren…	Exporter…	Exportar…
+Extension	Erweiterung	Extension	Extensión
 Extent of the floor plan; change it by its walls	Ausdehnung des Grundrisses; über seine Wände ändern	Étendue du plan ; à modifier par ses murs	Extensión del plano; se cambia mediante sus paredes
 Extras	Extras	Extras	Extras
 Facing	Ausrichtung	Orientation	Orientación
@@ -1466,6 +1469,7 @@ Path function text	Pfad-Funktionstext	Texte de fonction de chemin	Texto de funci
 Path to connection point {}	Pfad zu Anschlusspunkt {}	Chemin vers le point de connexion {}	Ruta al punto de conexión {}
 Pattern	Muster	Motif	Patrón
 Pattern…	Muster…	Motif…	Patrón…
+Pin view	Anschlussansicht	Vue de connexions	Vista de conexiones
 Pin-out	Pinbelegung	Brochage	Asignación de pines
 Pipe run	Rohrtrasse	Chemin de tuyauterie	Recorrido de tuberías
 Pipe run on a wall, the ceiling or the floor of the room, along which hoses, tubes and pipes are routed: click the corners, double-click or Enter to finish	Rohrtrasse an einer Wand, der Decke oder dem Boden des Raums, entlang der Schläuche, Rohre und Rohrleitungen verlegt werden: Eckpunkte anklicken, Doppelklick oder Enter zum Abschließen	Chemin de tuyauterie sur un mur, le plafond ou le sol de la salle, le long duquel sont posés flexibles, tubes et tuyaux : cliquer les coins, double-clic ou Entrée pour terminer	Recorrido de tuberías en una pared, el techo o el suelo de la sala, a lo largo del cual se tienden mangueras, tubos y tuberías: haga clic en las esquinas, doble clic o Intro para terminar
@@ -2054,6 +2058,7 @@ The commands of all plugins by plugin, with a search; the star pins a command to
 The crossed wires get free cores of the cable in order	Die gekreuzten Verbindungen erhalten der Reihe nach freie Adern des Kabels	Les fils croisés reçoivent dans l'ordre les conducteurs libres du câble	Los cables cruzados reciben en orden los conductores libres de la manguera
 The current page belongs to option {}.	Die aktuelle Seite gehört zur Option {}.	La page actuelle appartient à l'option {}.	La página actual pertenece a la opción {}.
 The device box whose device this point is a connection of; placed on a box, the point takes its device	Die Gerätebox, deren Betriebsmittel dieser Punkt als Anschluss gehört; auf eine Box gesetzt, übernimmt der Punkt ihr Betriebsmittel	La boîte d'appareil dont l'appareil a ce point comme connexion ; placé sur une boîte, le point prend son appareil	La caja de dispositivo de cuyo dispositivo este punto es una conexión; colocado en una caja, el punto toma su dispositivo
+The device has no connection points to show	Das Betriebsmittel hat keine Anschlusspunkte zum Anzeigen	L'appareil n'a aucun point de connexion à afficher	El dispositivo no tiene puntos de conexión que mostrar
 The device this function belongs to. Another tag moves the function to that device (Enter applies, Esc restores); Rename device below renames the whole device.	Das Betriebsmittel, zu dem diese Funktion gehört. Ein anderes BMK verschiebt die Funktion zu diesem Betriebsmittel (Enter übernimmt, Esc stellt wieder her); Betriebsmittel umbenennen weiter unten benennt das ganze Betriebsmittel um.	L'appareil auquel appartient cette fonction. Un autre repère déplace la fonction vers cet appareil (Entrée applique, Échap rétablit) ; Renommer l'appareil plus bas renomme l'appareil entier.	El dispositivo al que pertenece esta función. Otra identificación mueve la función a ese dispositivo (Intro aplica, Esc restablece); Renombrar dispositivo más abajo renombra el dispositivo completo.
 The devices do not fit onto the rail	Die Geräte passen nicht auf die Schiene	Les appareils ne tiennent pas sur le rail	Los aparatos no caben en el carril
 The dictionary is empty: collect the texts from the project.	Das Wörterbuch ist leer: Sammeln Sie die Texte aus dem Projekt.	Le dictionnaire est vide : collectez les textes du projet.	El diccionario está vacío: recopile los textos del proyecto.

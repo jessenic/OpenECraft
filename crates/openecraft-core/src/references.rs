@@ -34,8 +34,11 @@ pub fn of_symbol(prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, sym
         Func::Overview => {
             if let Some(device) = device { for loc in &device.mains { add(loc); } }
         }
+        Func::Main { .. } if !symbol.box_role.is_device() => {
+            if let Some(device) = device { for loc in device.mains.iter().filter(|l| l.page != page_i) { add(loc); } }
+        }
         Func::Main { .. } => {
-            if let Some(device) = device { for loc in &device.auxs { add(loc); } }
+            if let Some(device) = device { for loc in device.auxs.iter().chain(device.boxes.iter().filter(|l| l.page != page_i)) { add(loc); } }
         }
         Func::Interruption => {
             let others = idx.interruption_targets(prj, &symbol.interruption_key(), symbol.id);

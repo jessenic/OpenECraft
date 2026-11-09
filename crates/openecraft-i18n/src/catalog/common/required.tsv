@@ -4,6 +4,7 @@
 --json needs a JSON object	--json erwartet ein JSON-Objekt	--json attend un objet JSON	--json necesita un objeto JSON
 3D model	3D-Modell	Modèle 3D	Modelo 3D
 3D routing	3D-Verlegung	Routage 3D	Enrutado 3D
+A device box that extends or shows a device needs the tag of that device	Eine Gerätebox, die ein Betriebsmittel erweitert oder zeigt, braucht dessen Kennzeichen	Une boîte d'appareil qui étend ou montre un appareil a besoin du repère de cet appareil	Una caja de dispositivo que amplía o muestra un dispositivo necesita la etiqueta de ese dispositivo
 A page named {} already exists	Eine Seite mit dem Namen {} existiert bereits	Une page nommée {} existe déjà	Ya existe una página llamada {}
 A page needs a name	Eine Seite braucht einen Namen	Une page doit avoir un nom	Una página necesita un nombre
 A routing path needs {} points at least	Ein Verlegeweg braucht mindestens {} Punkte	Un chemin de routage nécessite au moins {} points	Una ruta de tendido necesita al menos {} puntos

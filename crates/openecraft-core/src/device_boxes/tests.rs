@@ -171,3 +171,128 @@ fn only_the_outline_of_a_box_is_hit() {
     assert!(outline_hit(r, p(40.2, 10.0), 0.5));
     assert!(!outline_hit(r, p(20.0, 10.0), 0.5));
 }
+/// The device of `setup` and an empty second page.
+fn with_second_page() -> Project {
+    let (mut prj, _, _) = setup();
+    let id = prj.new_id();
+    prj.pages.push(Page { id, ..Default::default() });
+    prj
+}
+
+fn messages(prj: &Project) -> Vec<String> {
+    crate::checks::check(prj, &crate::index::Index::build(prj), &crate::netlist::Netlist::build(prj, true)).iter().map(|i| i.message().to_string()).collect()
+}
+
+fn continuing(prj: &mut Project, role: DeviceBoxRole) -> u64 {
+    let b = add_box(prj, 1, p(40.0, 40.0), p(80.0, 64.0), "-A1", "").unwrap();
+    set_role(prj, 1, b, role).unwrap();
+    b
+}
+
+#[test]
+fn an_extension_adds_connection_points_without_a_second_device() {
+    let mut prj = with_second_page();
+    continuing(&mut prj, DeviceBoxRole::Extension);
+    let x = place_point(&mut prj, 1, p(48.0, 40.0), 0, "", "").unwrap();
+    assert_eq!((sym(&prj, x).tag.as_str(), sym(&prj, x).pins[0].as_str()), ("-A1", "3"));
+    assert_eq!(device_pins(&prj, "-A1"), ["1", "2", "L", "3"]);
+    let found = messages(&prj);
+    assert!(!found.iter().any(|m| m.contains("main function placed") || m.contains("more than once")), "{found:?}");
+    place_point(&mut prj, 1, p(56.0, 40.0), 0, "", "L").unwrap();
+    assert!(messages(&prj).iter().any(|m| m == "-A1: designation 'L' used more than once"));
+}
+
+#[test]
+fn a_view_connects_the_points_it_shows_and_lists_them_once() {
+    for explicit in [false, true] {
+        let mut prj = with_second_page();
+        if explicit {
+            prj.pages[1].values.insert("page.explicit_wire_junctions".into(), "true".into());
+        }
+        let v = continuing(&mut prj, DeviceBoxRole::View);
+        show_pins(&mut prj, 1, v, &["L".to_string()]).unwrap();
+        let point = points_of(&prj, &prj.pages[1], v)[0];
+        let far = sym(&prj, point).pos + p(40.0, -20.0);
+        let other = place_point(&mut prj, 1, far, 2, "-A9", "1").unwrap();
+        let def = prj.symbol(DEVICE_POINT).unwrap();
+        let end = |s: &SymbolInst| def.pin_world(0, s.pos, s.rot, s.mirror);
+        let (a, b) = (end(sym(&prj, point)), end(sym(&prj, other)));
+        let id = prj.new_id();
+        prj.pages[1].wires.push(Wire { id, a, b, ..Default::default() });
+        let (bridged, open) = (crate::netlist::Netlist::build(&prj, true), crate::netlist::Netlist::build(&prj, false));
+        let net = &bridged.nets[bridged.pin_net[&(point, 0)]];
+        let mut pins: Vec<String> = net.pins.iter().map(|&q| pin_designation(&prj, q)).collect();
+        pins.sort();
+        assert_eq!(pins, ["-A1:L", "-A9:1"]);
+        assert_eq!(net.view_pins.len(), 1);
+        let source = prj.pages[0].symbols.iter().find(|s| s.pins.first().is_some_and(|d| d == "L")).unwrap().id;
+        assert!(!bridged.unconnected.iter().any(|u| u.1 == source), "wired through the view");
+        let connections = crate::netlist::connections(&prj, &bridged, &open);
+        let pairs: Vec<[String; 2]> = connections.iter().map(|c| [pin_designation(&prj, c.a), pin_designation(&prj, c.b)]).collect();
+        assert_eq!(pairs, [["-A1:L", "-A9:1"]], "explicit: {explicit}");
+        assert_eq!(device_pins(&prj, "-A1"), ["1", "2", "L"], "a view adds nothing");
+        assert!(!messages(&prj).iter().any(|m| m.contains("-A1:") && (m.contains("main function placed") || m.contains("more than once"))));
+    }
+}
+
+#[test]
+fn views_only_show_points_the_device_has() {
+    let mut prj = with_second_page();
+    let v = continuing(&mut prj, DeviceBoxRole::View);
+    assert!(show_pins(&mut prj, 1, v, &["X9".to_string()]).is_err());
+    let unknown = place_point(&mut prj, 1, p(48.0, 40.0), 0, "", "X9").unwrap();
+    assert!(messages(&prj).iter().any(|m| m == "-A1: device box shows connection point 'X9' that the device does not have"));
+    ops::delete(&mut prj.pages[1], &BTreeSet::from([unknown]));
+    // Without a designation the next point not shown yet is taken, on the top edge.
+    let first = place_point(&mut prj, 1, p(48.0, 40.0), 0, "", "").unwrap();
+    assert_eq!(sym(&prj, first).pins[0], "1");
+    let second = place_point(&mut prj, 1, p(56.0, 40.0), 0, "", "").unwrap();
+    assert_eq!(sym(&prj, second).pins[0], "2");
+    show_pins(&mut prj, 1, v, &["L".to_string(), "2".to_string()]).unwrap();
+    let shown = shown_pins(&prj, &prj.pages[1], v);
+    assert!(shown.contains(&"L".to_string()) && shown.contains(&"2".to_string()) && !shown.contains(&"1".to_string()), "{shown:?}");
+}
+
+#[test]
+fn a_continuing_box_without_its_device_is_reported() {
+    let mut prj = Project::default();
+    let b = add_box(&mut prj, 0, p(40.0, 40.0), p(80.0, 64.0), "-A5", "").unwrap();
+    set_role(&mut prj, 0, b, DeviceBoxRole::Extension).unwrap();
+    assert!(messages(&prj).iter().any(|m| m == "-A5: device box extends or shows a device that is not placed"));
+}
+
+#[test]
+fn copies_of_a_continuing_box_stay_on_the_device() {
+    let mut prj = with_second_page();
+    let v = continuing(&mut prj, DeviceBoxRole::View);
+    show_pins(&mut prj, 1, v, &["L".to_string()]).unwrap();
+    let sel = with_points(&prj, 1, &BTreeSet::from([v]));
+    let clip = ops::copy(&prj.pages[1], &sel);
+    let ids = ops::paste(&mut prj, 1, &clip, p(120.0, 40.0));
+    assert_eq!(ids.len(), 2);
+    assert!(prj.pages[1].symbols.iter().filter(|s| ids.contains(&s.id)).all(|s| s.tag == "-A1"));
+}
+
+#[test]
+fn the_role_survives_saving_and_the_default_is_not_written() {
+    let mut prj = with_second_page();
+    let v = continuing(&mut prj, DeviceBoxRole::View);
+    let back = crate::archive::unpack(&crate::archive::pack(&prj)).unwrap();
+    assert_eq!(sym(&back, v).box_role, DeviceBoxRole::View);
+    let plain = serde_json::to_string(&prj.pages[0].symbols[0]).unwrap();
+    assert!(!plain.contains("box_role"), "{plain}");
+}
+
+#[test]
+fn boxes_refer_to_their_device_and_the_device_to_its_boxes() {
+    let mut prj = with_second_page();
+    let e = continuing(&mut prj, DeviceBoxRole::Extension);
+    let idx = crate::index::Index::build(&prj);
+    let at = |prj: &Project, page: usize, id: u64| {
+        let s = sym(prj, id);
+        crate::references::of_symbol(prj, &idx, page, &prj.symbol(&s.sym).unwrap(), s).iter().map(|r| r.page).collect::<Vec<_>>()
+    };
+    let main = prj.pages[0].symbols.iter().find(|s| is_box(s)).unwrap().id;
+    assert_eq!(at(&prj, 0, main), [Some(1)]);
+    assert_eq!(at(&prj, 1, e), [Some(0)]);
+}

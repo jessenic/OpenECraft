@@ -1,7 +1,7 @@
 //! Device / cross-reference index of a project.
 
 use crate::geom::P;
-use crate::model::{natural_cmp, InterruptionMode, PageKind, Project, XrefStructure};
+use crate::model::{natural_cmp, DeviceBoxRole, InterruptionMode, PageKind, Project, XrefStructure};
 use crate::structure;
 use crate::symbols::Func;
 use std::collections::{BTreeMap, HashMap};
@@ -51,6 +51,8 @@ pub struct DeviceEntry {
     pub others: Vec<Loc>,
     /// Single-line / overview representations.
     pub overviews: Vec<Loc>,
+    /// Device boxes extending the device or showing its connection points.
+    pub boxes: Vec<Loc>,
 }
 
 #[derive(Default)]
@@ -78,6 +80,7 @@ impl Index {
                     Func::Interruption => idx.interruptions.entry(s.interruption_key()).or_default().push(loc),
                     Func::Potential | Func::Junction | Func::Graphic => {}
                     _ if s.tag.is_empty() => {}
+                    Func::Main { .. } if s.box_role != DeviceBoxRole::Device => idx.devices.entry(s.tag.clone()).or_default().boxes.push(loc),
                     Func::Main { .. } => idx.devices.entry(s.tag.clone()).or_default().mains.push(loc),
                     Func::Aux(_) | Func::Auxiliary => idx.devices.entry(s.tag.clone()).or_default().auxs.push(loc),
                     Func::Terminal | Func::Plc | Func::Plug(_) | Func::Connection => idx.devices.entry(s.tag.clone()).or_default().others.push(loc),

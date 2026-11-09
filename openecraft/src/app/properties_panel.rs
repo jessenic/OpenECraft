@@ -471,8 +471,18 @@ impl App {
 
     /// Outline of a device box; its connection points are placed with the tool.
     fn device_box_fields(&mut self, ui: &mut egui::Ui, pi: usize, s: &SymbolInst, points: usize) {
+        use openecraft_core::model::DeviceBoxRole as Role;
         let Some(r) = device_boxes::rect(&self.session.prj, s) else { return };
         let (mut w, mut h) = (r.width(), r.height());
+        let title = |role| match role {
+            Role::Device => tr("Device"),
+            Role::Extension => tr("Extension"),
+            Role::View => tr("Pin view"),
+        };
+        let mut role = s.box_role;
+        let mut device = None;
+        let tags: Vec<String> = if role.is_device() { Vec::new() } else { self.session.prj.all_tags().into_iter().filter(|t| *t != s.tag).collect() };
+        let here = Dt::of_page(&self.session.prj.pages[pi]);
         ui.separator();
         egui::Grid::new("devbox").num_columns(2).spacing([8.0, 4.0]).show(ui, |ui| {
             ui.label(tr("Width"));
@@ -484,7 +494,59 @@ impl App {
             ui.label(tr("Connection points"));
             ui.label(points.to_string());
             ui.end_row();
+            ui.label(tr("Role")).on_hover_text(tr("Device: the box is the device. Extension: more connection points of a device placed elsewhere. Pin view: shows connection points the device already has; wires drawn here connect to them"));
+            egui::ComboBox::from_id_salt(("devbox_role", s.id)).selected_text(title(role)).show_ui(ui, |ui| {
+                for option in [Role::Device, Role::Extension, Role::View] {
+                    ui.selectable_value(&mut role, option, title(option));
+                }
+            });
+            ui.end_row();
+            if !s.box_role.is_device() {
+                ui.label(tr("Device"));
+                egui::ComboBox::from_id_salt(("devbox_device", s.id)).selected_text(here.relative(&s.tag)).show_ui(ui, |ui| {
+                    for tag in &tags {
+                        if ui.selectable_label(false, here.relative(tag)).clicked() {
+                            device = Some(tag.clone());
+                        }
+                    }
+                });
+                ui.end_row();
+            }
         });
+        if role != s.box_role {
+            if let Err(e) = device_boxes::set_role(&mut self.session.prj, pi, s.id, role) {
+                ui.colored_label(crate::style::error(), e);
+            }
+        }
+        if let Some(tag) = device {
+            device_boxes::set_tag(&mut self.session.prj, pi, s.id, &tag);
+        }
+        if s.box_role == Role::View {
+            let prj = &self.session.prj;
+            let all = device_boxes::device_pins(prj, &s.tag);
+            let shown = device_boxes::shown_pins(prj, &prj.pages[pi], s.id);
+            let mut wanted = shown.clone();
+            ui.label(tr("Connection points shown"));
+            if all.is_empty() {
+                ui.weak(tr("The device has no connection points to show"));
+            }
+            ui.horizontal_wrapped(|ui| {
+                for pin in &all {
+                    let mut on = shown.contains(pin);
+                    if ui.checkbox(&mut on, pin).changed() {
+                        wanted.retain(|d| d != pin);
+                        if on {
+                            wanted.push(pin.clone());
+                        }
+                    }
+                }
+            });
+            if wanted != shown {
+                if let Err(e) = device_boxes::show_pins(&mut self.session.prj, pi, s.id, &wanted) {
+                    ui.colored_label(crate::style::error(), e);
+                }
+            }
+        }
         if (w - r.width()).abs() > 0.01 || (h - r.height()).abs() > 0.01 {
             let to = openecraft_core::geom::R::from_points(r.min, r.min + openecraft_core::geom::p(w, h));
             if let Err(e) = device_boxes::resize(&mut self.session.prj, pi, s.id, to) {

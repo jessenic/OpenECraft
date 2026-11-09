@@ -182,6 +182,7 @@ pub const PROJECT_FEATURES: &[&str] = &[
     "fluid_port_roles",
     "wire_hide_labels",
     "scoped_connections",
+    "device_box_roles",
     "product_designation_fields",
     "function_text_fields",
     "function_part_selection",
