@@ -205,7 +205,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("rules", &["electrical", "issue", "model", "netlist", "potentials", "production", "routing3d", "sizing", "symbols"]),
     ("singleline", &["fluid", "geom", "index", "issue", "model", "netlist", "ops", "structure", "symbols"]),
     ("cabledef", &["geom", "issue", "model", "ops", "structure"]),
-    ("structure_boxes", &["geom", "issue", "model", "ops", "structure", "symbols"]),
+    ("structure_boxes", &["device_boxes", "geom", "issue", "model", "ops", "structure", "symbols"]),
     ("conndef", &["geom", "issue", "model", "netlist", "wirenum"]),
     ("wiring", &["model", "panel", "production"]),
     ("production", &["dxf", "geom", "model", "panel", "parts"]),

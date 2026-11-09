@@ -97,6 +97,13 @@ pub fn is_view_point(prj: &Project, page: &Page, s: &SymbolInst) -> bool {
     is_point(prj, s) && on_view(&view_outlines(prj, page), s)
 }
 
+/// Does the symbol continue a device placed elsewhere: a box with a role, or a
+/// connection point on one?
+pub fn continues_device(prj: &Project, page: &Page, s: &SymbolInst) -> bool {
+    !s.box_role.is_device()
+        || (is_point(prj, s) && page.symbols.iter().any(|b| is_box(b) && !b.box_role.is_device() && b.tag == s.tag && rect(prj, b).is_some_and(|r| r.expand(TOUCH).contains(s.pos))))
+}
+
 /// Do the designations of this function name connection points of its device?
 pub fn names_device_pins(func: Func) -> bool {
     matches!(func, Func::Main { .. } | Func::Aux(_) | Func::Auxiliary | Func::Connection)
@@ -205,7 +212,7 @@ pub fn add_box(prj: &mut Project, page_i: usize, a: P, b: P, tag: &str, function
     let def = prj.symbol(DEVICE_BOX).ok_or("devbox")?;
     let mut s = ops::new_symbol(prj, page_i, &ops::PlaceCtx::default(), &def, r.min, 0, false);
     if !tag.trim().is_empty() {
-        s.tag = crate::structure::Dt::of_page(&prj.pages[page_i]).complete(tag.trim());
+        s.tag = crate::structure::scope(&prj.pages[page_i], r.min).complete(tag.trim());
     }
     s.function_text = function_text.into();
     s.size = Some(p(r.width(), r.height()));
@@ -222,7 +229,7 @@ pub fn place_point(prj: &mut Project, page_i: usize, pos: P, rot: u8, tag: &str,
     let pos = pos.snap(GRID);
     let tag = match tag.trim() {
         "" => tag_at(prj, page_i, pos).ok_or_else(|| tr("There is no device box at this point: give the device tag").to_string())?,
-        t => crate::structure::Dt::of_page(&prj.pages[page_i]).complete(t),
+        t => crate::structure::scope(&prj.pages[page_i], pos).complete(t),
     };
     let def = prj.symbol(DEVICE_POINT).ok_or("devconn")?;
     let mut s = ops::new_symbol(prj, page_i, &ops::PlaceCtx::default(), &def, pos, rot % 4, false);

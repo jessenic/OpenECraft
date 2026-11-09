@@ -2051,6 +2051,7 @@ yellow	gelb	jaune	amarillo
 {} is a built-in scheme	{} ist ein eingebautes Schema	{} est un schéma intégré	{} es un esquema integrado
 {} is a busbar machine and makes no sheets	{} ist eine Schienenbearbeitungsmaschine und fertigt keine Bleche	{} est une machine à barres et ne fabrique pas de tôles	{} es una máquina de pletinas y no fabrica chapas
 {} is a room and cannot stand in another room	{} ist ein Raum und kann nicht in einem anderen Raum stehen	{} est une salle et ne peut pas se trouver dans une autre salle	{} es una sala y no puede estar en otra sala
+{} is inside the structure box {} but has another structure	{} liegt im Strukturkasten {}, hat aber eine andere Struktur	{} se trouve dans le cadre de structure {} mais a une autre structure	{} está dentro del recuadro de estructura {} pero tiene otra estructura
 {} is no 19-inch part ({} mm wide)	{} ist kein 19-Zoll-Teil ({} mm breit)	{} n'est pas une pièce 19 pouces ({} mm de large)	{} no es una pieza de 19 pulgadas ({} mm de ancho)
 {} is not a busbar machine	{} ist keine Schienenbearbeitungsmaschine	{} n'est pas une machine à barres	{} no es una máquina de pletinas
 {} is not a property of {}	{} ist keine Eigenschaft von {}	{} n'est pas une propriété de {}	{} no es una propiedad de {}

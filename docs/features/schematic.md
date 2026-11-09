@@ -72,7 +72,8 @@ deleting the box, renames the device (all its functions) in its inherited aspect
 the same undo step and keeps its own; a tag that exists already is refused and reported
 instead of merging two devices. The symbol properties show where each aspect comes
 from. Boxes are copied, pasted and saved in macros with their devices; the check
-*Structure identifiers* reports boxes that overlap without one lying inside the other.
+*Structure identifiers* reports boxes that overlap without one lying inside the other, and
+devices inside a box whose tag has another value for an aspect the box sets.
 Commands `add_structure_box`, `update_structure_box`, `list_structure_boxes`.
 
 ## Live cross references

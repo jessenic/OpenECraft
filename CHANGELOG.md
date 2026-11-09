@@ -48,7 +48,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   the box is moved, resized or changed (in one undo step); aspects set on a device stay,
   and a tag that exists already is refused instead of merging two devices. Tags on the
   page omit what the box shows; the symbol properties show where each aspect comes from;
-  the structure check reports overlapping boxes. Commands `add_structure_box`,
+  the structure check reports overlapping boxes and devices inside a box with another
+  structure. Commands `add_structure_box`,
   `update_structure_box`, `list_structure_boxes`
   ([schematic](docs/features/schematic.md#structure-identifiers-iec-81346)).
 

@@ -482,7 +482,7 @@ impl App {
         let mut role = s.box_role;
         let mut device = None;
         let tags: Vec<String> = if role.is_device() { Vec::new() } else { self.session.prj.all_tags().into_iter().filter(|t| *t != s.tag).collect() };
-        let here = Dt::of_page(&self.session.prj.pages[pi]);
+        let here = openecraft_core::structure::scope(&self.session.prj.pages[pi], s.pos);
         ui.separator();
         egui::Grid::new("devbox").num_columns(2).spacing([8.0, 4.0]).show(ui, |ui| {
             ui.label(tr("Width"));

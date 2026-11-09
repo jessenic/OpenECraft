@@ -230,7 +230,8 @@ fn update_device_box(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     if let Some(tag) = a.str("tag") {
         openecraft_core::ops::check_tag(tag)?;
-        let tag = openecraft_core::structure::Dt::of_page(&prj.pages[i]).complete(tag.trim());
+        let pos = find(prj, i, id).map_or(p(0.0, 0.0), |s| s.pos);
+        let tag = openecraft_core::structure::scope(&prj.pages[i], pos).complete(tag.trim());
         boxes::set_tag(prj, i, id, &tag);
     }
     if let Some(t) = a.str("function_text") {

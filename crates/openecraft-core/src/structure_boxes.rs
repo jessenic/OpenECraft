@@ -106,7 +106,8 @@ pub fn follow(prj: &mut Project, before: &Project) -> Vec<String> {
 }
 
 /// Structure boxes that overlap without one lying inside the other (their common
-/// area has no clear structure) and boxes that set no identifier.
+/// area has no clear structure), boxes that set no identifier, and devices inside a
+/// box whose tag has another value for an aspect the box sets.
 pub fn problems(prj: &Project) -> Vec<Issue> {
     let mut v = Vec::new();
     for (pi, pg) in prj.pages.iter().enumerate() {
@@ -115,6 +116,17 @@ pub fn problems(prj: &Project) -> Vec<Issue> {
         }
         for b in pg.structure_boxes.iter().filter(|b| b.identifiers().is_empty()) {
             v.push(crate::issue!(Severity::Info, Some((pi, b.id)), "Structure box on page {} sets no structure identifier", pg.name));
+        }
+        if pg.structure_boxes.is_empty() {
+            continue;
+        }
+        for s in pg.symbols.iter().filter(|s| !s.tag.is_empty() && !crate::device_boxes::continues_device(prj, pg, s)) {
+            let around = structure::boxes_at(pg, s.pos);
+            let Some(inner) = around.last() else { continue };
+            let (want, have) = (structure::scope(pg, s.pos), Dt::parse(&s.tag));
+            if Aspect::ALL.into_iter().any(|a| around.iter().any(|b| !b.structure.get(a).is_empty()) && want.get(a) != have.get(a)) {
+                v.push(crate::issue!(Severity::Warning, Some((pi, s.id)), "{} is inside the structure box {} but has another structure", s.tag, inner.identifiers()));
+            }
         }
     }
     v
