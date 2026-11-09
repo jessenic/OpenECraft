@@ -525,3 +525,20 @@ The editor, CLI, MCP and external plugins all use the same registered command.
 Native typing normalizes default fields and numeric precision before comparison;
 importers should use this operation instead of comparing raw saved JSON objects.
 This is the same core operation used when pasting portable macro definitions.
+
+### Live function reference fields
+
+Hosts advertising `function_cross_references` resolve the read-only
+`function.cross_references` property from the current native device/interruption
+index and reference settings. Property-block rows retain authored placement and
+flow while their text follows renamed pages, sections and changed device targets.
+Their per-line target-page links survive PDF export; canvas and SVG text use the
+same resolver. An explicit field replaces
+the automatic reference text; ordinary symbols retain automatic annotations.
+Library/ghost previews without project context leave the reference row empty.
+
+The shared `list_cross_references` command returns each function's `id`, `page`,
+`tag`, multiline `text` and `references` (text and target page, null for missing
+targets). Optional `id` and `page` filters use native symbol IDs and page names.
+The property is also available through `get_properties` and property pickers;
+`set_properties` rejects attempts to freeze its computed value.

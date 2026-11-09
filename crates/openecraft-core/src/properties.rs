@@ -887,6 +887,7 @@ fn computed(prj: &Project, obj: &Object, key: &str) -> Option<String> {
                 "function.symbol_key" => s.sym.clone(),
                 "function.position" => position(prj, pi, s),
                 "function.page" => prj.pages[pi].name.clone(),
+                "function.cross_references" => crate::references::property(prj, pi, s),
                 "function.definition" => functions::of_symbol(prj, s).map(|f| f.title()).unwrap_or_default(),
                 "function.category" => functions::of_symbol(prj, s).map(|f| f.category.title().to_string()).unwrap_or_default(),
                 "function.main" => yes_no(matches!(sd.map(|d| d.func), Some(Func::Main { .. }))),

@@ -1,6 +1,25 @@
 use super::*;
 
 #[test]
+fn live_function_references_are_read_only_and_queryable_through_the_registry() {
+    let mut s = new_session();
+    run(&mut s, "place_symbol", json!({"page":"1","symbol":"coil","tag":"-K1","x":40,"y":40})).unwrap();
+    s.project_mut().unwrap().pages.push(openecraft_core::model::Page {name:"2".into(),..Default::default()});
+    let aux = run(&mut s, "place_symbol", json!({"page":"2","symbol":"no","tag":"-K1","x":80,"y":40})).unwrap();
+    let id = aux["id"].as_u64().unwrap();
+    let before = run(&mut s, "list_cross_references", json!({"id":id})).unwrap();
+    assert_eq!(before[0]["references"][0]["page"], "1");
+    run(&mut s, "set_page", json!({"page":"1","name":"37a"})).unwrap();
+    let after = run(&mut s, "list_cross_references", json!({"id":id,"page":"2"})).unwrap();
+    assert_eq!(after[0]["references"][0]["page"], "37a");
+    assert_ne!(before[0]["text"],after[0]["text"]);
+    let properties = run(&mut s,"get_properties",json!({"object":format!("function:{id}"),"all":true})).unwrap();
+    let row = properties["properties"].as_array().unwrap().iter().find(|r|r["key"]=="function.cross_references").unwrap();
+    assert_eq!(row["display"],after[0]["text"]);
+    assert!(run(&mut s,"set_properties",json!({"object":format!("function:{id}"),"values":{"function.cross_references":"old"}})).is_err());
+}
+
+#[test]
 fn live_sheet_frame_fields_are_available_through_the_shared_property_registry() {
     let mut s=new_session();
     run(&mut s,"set_page",json!({"page":"1","name":"16","function":"Site","location":"CC1"})).unwrap();

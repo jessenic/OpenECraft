@@ -65,7 +65,7 @@ Layers, bottom up (a module may use its own layer and the layers below):
 3. `model` with its data submodules (`model/panel.rs`, `model/forms.rs`, …): the
    project file format. Data only, serde, no evaluation. The feature modules re-export
    their data types from here and keep the logic.
-4. Evaluation of the model that everything else builds on: `index`, `netlist` (with
+4. Evaluation of the model that everything else builds on: `index`, `references` (live function and discipline links), `netlist` (with
    `netlist::junctions`, the target tracing of directed T-junctions),
    `structure`, `sections` (page sections: tree, numbers in the page names), `frame`, `wirenum`, `history`, `translation`, `options`,
    `potentials`, `functions`, `properties`, `props`, `numbering` (device and page

@@ -1,6 +1,47 @@
 use super::*;
 
 #[test]
+fn live_reference_rows_flow_and_keep_page_links_under_every_symbol_transform() {
+    use crate::symbols::{BlockAlign,PropertyBlock};
+    let block = PropertyBlock { rows:vec![BlockRow::Field(FieldKind::FunctionText),BlockRow::Property(references::PROPERTY.into()),BlockRow::Text("Tail".into())],
+        pos:p(2.,3.),step:p(0.,3.),size:2.,anchor:Anchor::Left,angle:90.,align:BlockAlign::End,color:None };
+    let refs = vec![references::Reference {text:"/11.4".into(),page:Some(0)},references::Reference {text:"/12.2".into(),page:Some(1)}];
+    for rot in 0..4 { for mirror in [false,true] {
+        let mut s = SymbolInst {pos:p(40.,40.),rot,mirror,function_text:"Header".into(),..Default::default()};
+        let mut draw = Rec::default();
+        draw_property_block(&mut draw,&block,&s,Ink::Line,&|_|String::new(),&refs);
+        assert_eq!(draw.styled.iter().map(|(_,t,_)|t.as_str()).collect::<Vec<_>>(),["Header","/11.4","/12.2","Tail"]);
+        assert_eq!(draw.page_links.iter().map(|(_,_,page)|*page).collect::<Vec<_>>(),[0,1]);
+        for ((min,max,_),(pos,text,style)) in draw.page_links.iter().zip(draw.styled.iter().skip(1)) {
+            let actual = text::bounds(&TextItem {pos:*pos,size:style.size,align:style.h,valign:style.v,angle:style.angle,..Default::default()},text);
+            assert_eq!((*min,*max),(actual.min,actual.max));
+        }
+        s.function_text.clear();
+        let mut short = Rec::default();
+        draw_property_block(&mut short,&block,&s,Ink::Line,&|_|String::new(),&refs);
+        assert_eq!(short.styled.len(),3);
+        assert_eq!(short.styled[0].0,s.pos+block.row_pos(0,3).transform(rot,mirror));
+    }}
+}
+
+#[test]
+fn an_explicit_reference_field_suppresses_only_duplicate_automatic_references() {
+    use crate::symbols::{BlockAlign,PropertyBlock};
+    let mut prj = Project::default();
+    prj.pages[0].symbols=vec![SymbolInst {id:1,sym:"coil".into(),tag:"-K1".into(),pos:p(40.,40.),..Default::default()},
+        SymbolInst {id:2,sym:"no".into(),tag:"-K1".into(),pos:p(80.,40.),..Default::default()}];
+    let symbol=&prj.pages[0].symbols[1];let idx=Index::build(&prj);
+    let mut def=(*prj.symbol("no").unwrap()).clone();
+    let mut automatic=Rec::default();draw_annotations(&mut automatic,&prj,&idx,0,&def,symbol,Ink::Line);
+    assert_eq!(automatic.page_links.len(),1);
+    def.prims.push(Prim::PropertyBlock(PropertyBlock {rows:vec![BlockRow::Property(references::PROPERTY.into())],
+        pos:p(0.,0.),step:p(0.,3.),size:2.,anchor:Anchor::Left,angle:0.,align:BlockAlign::Start,color:None}));
+    let mut explicit=Rec::default();draw_annotations(&mut explicit,&prj,&idx,0,&def,symbol,Ink::Line);
+    assert!(explicit.page_links.is_empty());
+    assert!(explicit.texts.iter().any(|(_,t,_,_)|t=="-K1"));
+}
+
+#[test]
 fn cabinet_front_artwork_and_text_follow_explicit_half_turn() {
     let model=Model2d {width:20.,height:40.,prims:vec![
         Prim2d::Line {a:[3.,7.],b:[5.,11.]},
@@ -135,6 +176,7 @@ struct Rec {
     urls: Vec<(P, P, String)>,
     lines: Vec<Ink>,
     line_positions: Vec<(P,P)>,
+    page_links: Vec<(P,P,usize)>,
 }
 
 impl Draw for Rec {
@@ -159,6 +201,7 @@ impl Draw for Rec {
     fn link_url(&mut self, min: P, max: P, url: &str) {
         self.urls.push((min, max, url.into()));
     }
+    fn link(&mut self, min:P, max:P, page:usize) { self.page_links.push((min,max,page)); }
 }
 
 #[test]

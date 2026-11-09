@@ -435,6 +435,7 @@ pub(super) const ROWS: &[Row] = &[
     r("function.symbol_key", tr_const!("Symbol key"), Function, General, Text, "").ro(),
     r("function.position", tr_const!("Position"), Function, General, Text, "").ro(),
     r("function.page", tr_const!("Page"), Function, General, Text, "").ro(),
+    r("function.cross_references", tr_const!("Cross references"), Function, General, MultiLine, "").ro(),
     r("function.definition", tr_const!("Function definition"), Function, General, Text, "").ro(),
     r("function.category", tr_const!("Function category"), Function, General, Text, "").ro(),
     r("function.main", tr_const!("Main function"), Function, General, Bool, "").ro(),

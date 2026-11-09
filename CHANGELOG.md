@@ -5,6 +5,8 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Add live function cross-reference fields with native page links, multiline attribute flow and a shared reference query. Authored tag fields can retain reference placement without freezing sheet names.
+
 - Expose native symbol definition reconciliation to importers, preserving local revisions and reusing equal definitions.
 
 - Continue new page numbering after imported alphabetic subpages such as 20a and 20.a, within each section.

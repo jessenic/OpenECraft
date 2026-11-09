@@ -74,6 +74,15 @@ pub static COMMANDS: &[Spec] = &[
         run: set_cross_references,
     },
     Spec {
+        name: "list_cross_references",
+        help: tr_const!("Cross references"),
+        params: &[
+            optional("id", Kind::Int, tr_const!("Symbol ID")),
+            optional("page", Kind::Str, tr_const!("Page")),
+        ],
+        run: list_cross_references,
+    },
+    Spec {
         name: "renumber_pages",
         help: tr_const!("Numbers the pages with a start value and step; released pages keep their name"),
         params: &[
@@ -349,6 +358,23 @@ fn set_cross_references(prj: &mut Project, a: &Args) -> Result<Value, String> {
         InterruptionMode::Pairs => "pairs",
     };
     Ok(json!({ "prefix": x.prefix, "separator": x.separator, "row": x.row, "structure": structure, "interruptions": interruptions, "contact_image": !x.hide_contact_image }))
+}
+
+fn list_cross_references(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let selected_page = a.str("page").map(|name| page_index(prj, name)).transpose()?;
+    let selected_id = a.int("id").map(|id| u64::try_from(id).map_err(|_| tr_fmt!("Not a symbol id: {}", id))).transpose()?;
+    let idx = openecraft_core::index::Index::build(prj);
+    let mut rows = Vec::new();
+    for (pi, page) in prj.pages.iter().enumerate().filter(|(pi, _)| selected_page.is_none_or(|p| p == *pi)) {
+        for symbol in page.symbols.iter().filter(|s| selected_id.is_none_or(|id| id == s.id)) {
+            let Some(def) = prj.symbol(&symbol.sym) else { continue };
+            let refs = openecraft_core::references::of_symbol(prj, &idx, pi, &def, symbol);
+            rows.push(json!({"id":symbol.id,"page":page.name,"tag":symbol.tag,
+                "text":openecraft_core::references::text(&refs),
+                "references":refs.iter().map(|r|json!({"text":r.text,"page":r.page.map(|p|prj.pages[p].name.as_str())})).collect::<Vec<_>>() }));
+        }
+    }
+    Ok(rows.into())
 }
 
 fn renumber_pages(prj: &mut Project, a: &Args) -> Result<Value, String> {
