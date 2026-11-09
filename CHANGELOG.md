@@ -5,6 +5,16 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.1] - unreleased
 
+- Advertise parallel cable-core support to external importers so a newer verification CLI cannot mask an older running editor.
+
+- Resolve portable macro parameters in symbol graphics, pin labels and library defaults as well as placed instance data.
+
+- Keep imported cable symbol article references current when choosing or typing a new cable part, while preserving ordinary device selections.
+
+- Preserve explicit function article lookup when an ordinary device and a cable share an authored tag, without duplicating cable material.
+
+- Retain distinct parallel cable cores between the same terminals in physical connections and regenerated cable reports.
+
 - Preserve owned cable definitions, catalog parts and core assignments when copying circuits or inserting macros, with fresh consistent tags.
 
 - Include imported project cable parts in the cable picker, preserve local catalog overrides, and expose the same available parts through the shared registry.

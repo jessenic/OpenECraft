@@ -4,6 +4,38 @@ use crate::model::{SymbolInst, Wire};
 use crate::symlib::{UserPin, UserSymbol};
 
 #[test]
+fn parallel_core_routes_reach_connections_and_regenerated_cable_reports_without_spurs() {
+    let mut prj=Project::default();
+    prj.symbols.push(UserSymbol {key:"user:point".into(),pins:vec![UserPin::default()],..Default::default()});
+    for (id,x) in [(1,-10.),(2,50.)] {
+        prj.pages[0].symbols.push(SymbolInst {id,sym:"user:point".into(),tag:format!("-A{id}"),pos:p(x,0.),..Default::default()});
+    }
+    for (id,a,b) in [(8,p(-10.,0.),p(0.,0.)),(9,p(40.,0.),p(50.,0.))] {
+        prj.pages[0].wires.push(Wire {id,a,b,color:"RD".into(),explicit_junctions:Some(true),..Default::default()});
+    }
+    for (id,a,b,core) in [(10,p(0.,0.),p(40.,0.),"OG"),(11,p(0.,0.),p(0.,20.),""),
+                         (12,p(0.,20.),p(40.,20.),"WH"),(13,p(40.,20.),p(40.,0.),""),
+                         (14,p(0.,0.),p(-20.,0.),""),(15,p(-20.,0.),p(-20.,20.),"BU")] {
+        prj.pages[0].wires.push(Wire {id,a,b,explicit_junctions:Some(true),
+            cable:if core.is_empty() {String::new()} else {"-W1".into()},core:core.into(),color:core.into(),..Default::default()});
+    }
+    prj.cables.push(crate::model::Cable {id:90,tag:"-W1".into(),cores:"OG WH BU".into(),..Default::default()});
+    let nl=Netlist::build(&prj,true);let open=Netlist::build(&prj,false);let connections=connections(&prj,&nl,&open);
+    assert_eq!(connections.len(),2);
+    let by_core:std::collections::BTreeMap<_,_>=connections.iter().map(|c|(c.core.as_str(),c)).collect();
+    assert_eq!(by_core.keys().copied().collect::<Vec<_>>(),["OG","WH"]);
+    assert_eq!(by_core["OG"].wires,[(0,8),(0,10),(0,9)]);
+    assert_eq!(by_core["WH"].wires,[(0,8),(0,11),(0,12),(0,13),(0,9)]);
+    assert_eq!(by_core["OG"].color,"OG");assert_eq!(by_core["WH"].color,"WH");
+    assert!(connections.iter().all(|c|c.route_traced && c.cable=="-W1"));
+    let analysis=crate::analysis::Analysis::with_builtin(&prj);
+    let report=analysis.report(&prj,crate::model::ReportKind::CableConnections).unwrap();
+    for core in ["OG","WH"] {
+        assert!(report.rows.iter().any(|row|row[0]=="-W1" && row[4]==core && !row[3].is_empty() && !row[5].is_empty()));
+    }
+}
+
+#[test]
 fn local_route_keeps_the_exact_interruption_endpoint_without_named_shortcuts() {
     let mut prj=Project::default();
     prj.symbols.push(UserSymbol {key:"user:point".into(),pins:vec![UserPin::default()],..Default::default()});

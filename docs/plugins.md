@@ -370,3 +370,41 @@ marker symbols, wires, connection definitions and cable definition lines. Core
 assignments are retained only for cables owned by the clip. Legacy clips without
 cable definitions continue to clear wire/core references. Cable text fields also
 support native macro placeholders. This behavior is shared by all frontends.
+
+An explicit function article reference can resolve the matching cable article
+when the same tag also has an ordinary device material record. The selected
+article must match an actual assignment; unknown references remain invalid.
+Cable material stays in the cable inventory rather than being duplicated in
+the ordinary device bill of materials.
+
+Physical connection results can contain the same endpoint pair more than once
+when separate cable cores have distinct simple drawn routes. Each connection
+retains its own wire IDs and cable/core properties for reports and routing. A
+dangling spur is not treated as an additional complete connection. The existing
+connection commands and report registry expose this behavior in every frontend.
+
+The shared `apply_cable_part` command updates explicit placed-function references
+that belonged only to the previous cable article. References to an ordinary
+device article under the same tag, and invalid or unrelated explicit references,
+are preserved. The cable editor uses the same core reference operation for
+catalog selection and direct part-number edits. Length and conductor assignments
+are retained when applying catalog cable data.
+
+The `macro_definition_parameters` host feature extends native macro placeholders
+to portable symbol definition letters, default labels/function texts/properties,
+pin labels, text primitives and literal attribute-block rows. Symbol keys, property
+keys, encoded images and raw source metadata retain their identity. Resolution
+operates on a clip copy before installation and is shared by desktop, CLI and MCP.
+Importers converting source template parameters should require this feature so
+older hosts do not leave static graphics inconsistent with resolved instances.
+
+`insert_macro` accepts optional `values`, an object mapping placeholder names to
+strings. It resolves instance and portable definition fields together before paste;
+unknown placeholders stay literal. Invalid non-string values fail before any edit.
+Omitting the parameter preserves existing unresolved template text. This option is
+available through the shared registry in every frontend.
+
+The `parallel_cable_cores` host feature confirms that physical connection consumers
+retain distinct authored parallel core routes. Importers must check the running
+host as well as any separate verification CLI before accepting circuits containing
+assigned cable cores; a newer verifier cannot update an older editor's report engine.

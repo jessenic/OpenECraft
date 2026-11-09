@@ -541,8 +541,10 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
                 let q = prj.symbol(&s.sym)?.pin_world(p.pin, s.pos, s.rot, s.mirror);
                 prj.pages[p.page].wires.iter().find(|w| !w.cross_section.is_empty() && (w.a.same(q) || w.b.same(q)) && physical.wires.contains(&(p.page, w.id))).map(|w| w.cross_section.clone())
             };
-            let (cable,core) = wires.iter().find(|w| !w.cable.is_empty()).map(|w| (w.cable.clone(),w.core.clone())).unwrap_or_default();
-            let number = crate::wirenum::number_of(prj,physical);
+            let core_wire=wires.iter().find(|w|!w.cable.is_empty());
+            let (cable,core) = core_wire.map(|w| (w.cable.clone(),w.core.clone())).unwrap_or_default();
+            let color=core_wire.filter(|w|!w.color.is_empty()).map(|w|w.color.clone()).unwrap_or(color);
+            let number = core_wire.filter(|w|!w.number.is_empty()).map(|w|w.number.clone()).unwrap_or_else(||crate::wirenum::number_of(prj,physical));
             let harness = crate::harness::of(prj, &pin_designation(prj, pair[0]), &pin_designation(prj, pair[1]));
             out.push(Connection {
                 net: potential.clone(),
@@ -550,7 +552,7 @@ pub fn connections(prj: &Project, nl: &Netlist, open: &Netlist) -> Vec<Connectio
                 b: pair[1],
                 color: color.clone(),
                 cross_section: [pair[0], pair[1]].into_iter().filter_map(at_pin).min_by(|a, b| crate::harness::outer_diameter(a).total_cmp(&crate::harness::outer_diameter(b))).unwrap_or_else(|| cross_section.clone()),
-                wire_type: wires.iter().find(|w| !w.wire_type.is_empty()).map(|w| w.wire_type.clone()).unwrap_or_default(),
+                wire_type: core_wire.filter(|w|!w.wire_type.is_empty()).or_else(||wires.iter().find(|w|!w.wire_type.is_empty())).map(|w|w.wire_type.clone()).unwrap_or_default(),
                 number: number.clone(),
                 cable: cable.clone(),
                 core: core.clone(),

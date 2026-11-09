@@ -220,7 +220,9 @@ fn trace(prj: &Project, net: &Net, sites: &[Site], attachments:&[Attachment]) ->
             _=>Vec::new(),
         }
     }).collect();
-    TracedPaths {pairs,wire_routes}
+    let mut traced=TracedPaths {pairs,wire_routes};
+    core_routes::extend(prj,net,&edges,&pin_nodes,&nodes,&mut traced);
+    traced
 }
 
 type Edge=(usize,u64,Option<(usize,u64)>);
@@ -366,6 +368,8 @@ impl Context<'_> {
 }
 
 mod contacts;
+
+mod core_routes;
 
 #[cfg(test)]
 mod tests;
