@@ -261,3 +261,15 @@ fn bayed_enclosures_touch_and_stand_on_the_floor() {
     assert_eq!(s[0].offset[1], 100.0, "lifted by its plinth");
     assert_eq!(s[2].offset[0], 800.0 + 600.0 + panel::LINEUP_GAP);
 }
+
+#[test]
+fn the_ifc_site_has_the_name_and_place_of_the_plot() {
+    let mut prj = demo_project();
+    assert!(ifc(&prj, "x.ifc").contains(",'Site',$,$,#"), "no plot: a site without a place");
+    prj.layout.plot.name = "Flur 3, 112/4".into();
+    prj.layout.plot.reference = Some(crate::panel::GeoReference { height: 54.25, latitude: Some(52.520_008), longitude: Some(-13.404_954), ..Default::default() });
+    let text = ifc(&prj, "x.ifc");
+    assert!(text.contains(",'Flur 3, 112/4',$,$,#"), "{text}");
+    assert!(text.contains(".ELEMENT.,(52,31,12,28800),(-13,-24,-17,-834400),54250.0,$,$)"), "{text}");
+    assert_references_defined(&text);
+}

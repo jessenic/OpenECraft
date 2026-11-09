@@ -182,6 +182,8 @@ pub(super) struct Scene3d {
     pub ducts: Vec<bool>,
     /// Front edges of the enclosures.
     pub outlines: Vec<(V3, V3)>,
+    /// The boundary of the plot on the ground and the reference point.
+    pub plot_lines: Vec<(V3, V3)>,
     pub labels: Vec<SceneLabel>,
     /// Branch points of the bundles.
     pub branches: Vec<V3>,
@@ -566,7 +568,14 @@ impl PanelUi {
         for bi in self.buildings_3d(prj, ei) {
             let b = &layout.buildings[bi];
             let bp = bld::building_pose(b);
-            let geos: Vec<stairs::StairGeometry> = b.stairs.iter().filter_map(|st| stairs::geometry(b, st)).collect();
+            // The level shown alone: the stairs reaching it, no roofs.
+            let level = self.level_3d().and_then(|l| bld::level_by_id(layout, l));
+            let geos: Vec<stairs::StairGeometry> = b
+                .stairs
+                .iter()
+                .filter_map(|st| stairs::geometry(b, st))
+                .filter(|g| level.is_none_or(|l| g.from <= l.elevation + 0.5 && g.to >= l.elevation - 0.5))
+                .collect();
             // The floor slab of each room shown, open where a stair comes up through it.
             for &(k, pose) in shown.iter().filter(|(k, _)| bld::building_of(layout, *k) == Some(bi)) {
                 let e = &layout.enclosures[k];
@@ -611,7 +620,7 @@ impl PanelUi {
                     }
                 }
             }
-            if self.hide_ceiling {
+            if self.hide_ceiling || level.is_some() {
                 continue;
             }
             // The roofs: translucent from outside like the walls, behind everything from
@@ -647,6 +656,20 @@ impl PanelUi {
                     let n = turn(f.normal);
                     add_poly(s, &pts, n, lit(base, n), 0, None, false);
                 }
+            }
+        }
+        // All of the plant: the plot boundary on the ground and the reference point as a
+        // post with a cross at its foot.
+        if self.whole_site() && self.level_3d().is_none() {
+            let plot = &layout.plot;
+            let n = plot.outline.len();
+            s.plot_lines.extend((0..n).map(|i| {
+                let (a, b) = (plot.outline[i], plot.outline[(i + 1) % n]);
+                ([a[0], 0.0, a[1]], [b[0], 0.0, b[1]])
+            }));
+            if let Some(r) = &plot.reference {
+                let c = 500.0;
+                s.plot_lines.extend([([r.x - c, r.y, r.z], [r.x + c, r.y, r.z]), ([r.x, r.y, r.z - c], [r.x, r.y, r.z + c]), ([r.x, r.y, r.z], [r.x, r.y + 2000.0, r.z])]);
             }
         }
     }
@@ -711,7 +734,7 @@ impl PanelUi {
         self.selection.hash(&mut h);
         self.wire_index(an).hash(&mut h);
         (self.show_wires, self.hide_ceiling, self.open_ducts, self.door_angle.to_bits()).hash(&mut h);
-        (self.whole_site(), self.show_building, self.show_zones, self.open_walls).hash(&mut h);
+        (self.whole_site(), self.level_3d(), self.show_building, self.show_zones, self.open_walls).hash(&mut h);
         (&self.selected_route, self.selected_object).hash(&mut h);
         unordered(self.done_items.iter()).hash(&mut h);
         unordered(self.done_wires.iter()).hash(&mut h);

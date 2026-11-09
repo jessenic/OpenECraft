@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Sayfaları bir klasör gibi içeren numaralı bir bölüm; sayfa adları onun numarasıyla başlar (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil, nötr alanları belirli bir sistemin sütun adlarıyla eşler (ör. SAP'de ERP numarası için MATNR). Eşleme yoksa İngilizce ve Almanca yaygın adlar tanınır.
 A project definition based on this one, with its own defaults and scheme	Kendi varsayılanları ve şemasıyla bu tanıma dayanan bir proje tanımı
+A reference point at the origin of the plant	Tesisin orijininde bir referans noktası
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Rapor bloğu, bir raporun sayfalarını oluşturur (ör. şerit başına bir klemens şeması) ve bunları günceller.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Geçerli sayfadan sonra 3.1, 3.2, … şeklinde bir şema sayfası; yeniden numaralandırmada alt sayfa olarak kalır
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Sayfa makrosu olan ve henüz şemada bulunmayan her planlanmış cihaz için bir şema sayfası (seçili segment, aksi halde tümü)
@@ -162,6 +163,7 @@ Assign to harness	Kablo demetine ata
 Assign wires: select them in the schematic › Assign to cable.	Telleri ata: bunları şemada seçin › Kabloya ata.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Şebekedeki asenkron motorlar en yüksek kısa devre akımını artırır (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	En yüksek ortam sıcaklığında; ısıtıcı çiğ noktasını korur. 0 = dikkate alınmaz
+At the origin	Orijinde
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	Besleme noktasında: Ik3 maks {} kA, Ik1 min {} kA
 At the top level	En üst düzeyde
 Author	Yazar
@@ -205,6 +207,7 @@ Bottom edges	Alt kenarlar
 Bottom left	Sol alt
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Panonun (kaide hariç) alt kenarının zeminden yüksekliği; bu değer biliniyorsa veya pano bir kaide üzerinde duruyorsa yükseklikler kontrol edilir
 Bottom right	Sağ alt
+Boundary	Sınır
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Şebekenin her koruma cihazında kısa devre akımına karşı kesme kapasitesi, devresinin sonundaki en düşük arıza akımında açma, kabloların kısa devre dayanımı ve üst kademedeki cihazla seçicilik.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Köprü: dört tel; bağlantı bir taraftan gelir ve diğer üçüne gider, önce karşı tarafa
 Building {} added with a level at ground level	{} binası zemin seviyesinde bir katla eklendi
@@ -293,6 +296,7 @@ Click on the 4 mm grid	4 mm ızgarada tıklayın
 Click on the wall: the part goes there at its mounting height	Duvara tıklayın: parça orada montaj yüksekliğine yerleşir
 Click start and end point	Başlangıç ve bitiş noktasına tıklayın
 Click the corners of a machine or building, double-click to finish	Bir makinenin veya binanın köşelerine tıklayın, bitirmek için çift tıklayın
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Arsa sınırının köşelerine tıklayın · ilkine tıklama, çift tıklama veya Enter: kapat · Geri: geri al · Esc: dur
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	İç duvarların uçlarına tıklayın; her tıklama bir sonrakini başlatır, duvara yakın uçlar duvara yapışır. Esc, Enter veya çift tıklama zinciri, ikinci Esc aracı bitirir.
 Click to add a node of the route network	Güzergâh ağına düğüm eklemek için tıklayın
 Click to add to the selected text.	Seçili metne eklemek için tıklayın.
@@ -308,7 +312,10 @@ Click to show, right click for more	Göstermek için tıklayın, daha fazlası i
 Click two corners	İki köşeye tıklayın
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Yapı kutusunun iki köşesine tıklayın, ardından tanımlayıcılarını özelliklerde belirleyin · Bitirmek için Esc veya sağ tık
 Click two nodes to connect them	Bağlamak için iki düğüme tıklayın
+Click two points to measure from one to the other · Esc: stop	Birinden diğerine ölçmek için iki noktaya tıklayın · Esc: dur
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Dört telin birleştiği yere tıklayın: köprü bağlantıyı bir taraftan diğer üçüne götürür, önce karşı tarafa · {} döndürür · Bitirmek için Esc veya sağ tık
+Click where it is in the site plan	Vaziyet planında yerine tıklayın
+Click where the reference point is	Referans noktasının olduğu yere tıklayın
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Üç telin birleştiği yere tıklayın: T parçası tellerin çıktığı cihazı ve hedeflerinin sırasını belirler · {} henüz tel birleşmeyen yerde döndürür · Bitirmek için Esc veya sağ tık
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	İki telin kesiştiği yere tıklayın: kesişme onları bağlar ve çizgisinin her ucunu önce düz, sonra enine götürür · {} döndürür · Bitirmek için Esc veya sağ tık
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	İki telin dik açıyla birleştiği veya bağlantı noktalarının köşe üzerinden birbirine baktığı yere tıklayın: otomatik bağlama açıkken ona teller çizilir · {} döndürür · Bitirmek için Esc veya sağ tık
@@ -370,6 +377,7 @@ Consecutive addresses from the start byte, in schematic order	Başlangıç bayt�
 Contact image below coils	Bobinlerin altında kontak görüntüsü
 Content	İçerik
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Etkin olmayan bir seçeneğin içeriği gizlidir: çizilmez, değerlendirilmez, raporlanmaz veya dışa aktarılmaz.
+Coordinate reference system	Koordinat referans sistemi
 Copies	Kopya sayısı
 Copies function texts between both representations where one is empty	Birinin boş olduğu yerlerde fonksiyon metinlerini iki gösterim arasında kopyalar
 Copies in rows and columns	Satır ve sütunlar halinde kopyalar
@@ -498,6 +506,7 @@ Digits	Basamak
 Dimension	Ölçü
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Yönlü T parçası: üç telin birleştiği yerde bağlantının iki telinin çıktığı cihazı ve hedeflerinin sırasını belirler
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Yönlü kesişme: orada kesişen iki teli bağlar; çizgisinin her ucu önce düz, sonra enine bağlanır
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Grid kuzeyinin yönü, üstten bakıldığında tesisin arkasından (-z) saat yönünün tersine
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Modüllerin baktığı yön, yukarıdan bakıldığında saat yönünün tersine (0: öne doğru)
 Discard changes	Değişiklikleri at
 Discard draft	Taslağı at
@@ -548,6 +557,8 @@ Draw cable definition	Kablo tanımı çiz
 Draw connections	Bağlantı çiz
 Draw connections between facing connection points when symbols are placed or moved	Semboller yerleştirildiğinde veya taşındığında karşılıklı bağlantı noktaları arasına bağlantı çiz
 Draw inner walls	İç duvar çiz
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	Arsa sınırını vaziyet planında çizin: köşelere tıklayın, kapatmak için ilkine tıklayın veya Enter'a basın; tüm binalar içinde kalmalıdır
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	Arsa sınırını vaziyet planında çizin; tüm binalar içinde kalmalıdır
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Sayfayı kendiniz çizin: her sayfa için grafikler ve her satır için tekrarlanan bir satır çizimi; metinler sütunları yer tutucu olarak alır
 Draw the three wires of the T-junction to it: one in its direction and two across	T parçasının üç telini ona çizin: biri yönünde, ikisi enine
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Köşenin iki telini ona çizin ya da otomatik bağlamayı açıp onu boş bağlantı noktalarına bakacak şekilde yerleştirin
@@ -572,6 +583,7 @@ Duplicate	Çoğalt
 Each example builds on the one before and shows more of the features.	Her örnek bir öncekinin üzerine kurulur ve özelliklerin daha fazlasını gösterir.
 Each point-to-point connection can belong to a harness	Her noktadan noktaya bağlantı bir kablo demetine ait olabilir
 Earthing system	Topraklama sistemi
+Easting, northing	Doğu, kuzey koordinatı
 Eaves	Saçak
 Edge length of the routing grid: smaller is finer and slower	Yönlendirme ızgarasının kenar uzunluğu: küçük değer daha hassas ve daha yavaştır
 Edit	Düzen
@@ -730,6 +742,7 @@ Graphic rectangle	Grafik dikdörtgen
 Graphical form	Grafik form
 Greatest distance of the roof hooks along a rail	Bir ray boyunca çatı kancalarının en büyük aralığı
 Grid	Izgara
+Grid north	Grid kuzeyi
 Grid size	Izgara boyutu
 Grid {} mm	Izgara {} mm
 Group as assembly	Montaj grubu olarak grupla
@@ -745,6 +758,7 @@ Heat map	Isı haritası
 Heating	Isıtma
 Heating circuit manifolds and control boxes	Isıtma devresi kollektörleri ve kontrol kutuları
 Height (mm)	Yükseklik (mm)
+Height above sea level	Deniz seviyesinden yükseklik
 Height above the floor	Zeminden yükseklik
 Height above the mounting plate	Montaj plakası üzerindeki yükseklik
 Height above the plate	Plaka üzerindeki yükseklik
@@ -870,6 +884,7 @@ Label field	Yazı alanı
 Labeling scheme	Etiketleme şeması
 Landscape	Yatay
 Larger texts and buttons for a touch screen at the workbench	Tezgâhtaki dokunmatik ekran için daha büyük metinler ve düğmeler
+Latitude, longitude	Enlem, boylam
 Layer	Katman
 Layer {}	Katman {}
 Layer: {}	Katman: {}
@@ -895,6 +910,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Bu mesaj türünün seviyesi
 Level on top	Üste kat
 Level {} added to building {}; new rooms go onto it	{1} binasına {0} katı eklendi; yeni odalar bu kata gelir
+Level {} of building {}	{1} binasının {0} katı
 Levels	Katlar
 Library	Kütüphane
 Limits	Sınırlar
@@ -966,6 +982,8 @@ Max. pressure	Maks. basınç
 Max. width	Maks. genişlik
 Maximum fill of a carrier	Bir taşıyıcının maksimum doluluğu
 Mean: typical operation	Ortalama: tipik çalışma
+Measure	Ölç
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Vaziyet planında ölçün: mesafe, doğu ve kuzeye uzaklık ve kuzeyden yön için iki noktaya tıklayın
 Measured	Ölçülen
 Measures against common cause failure (at least 65 points)	Ortak nedenli arızalara karşı önlemler (en az 65 puan)
 Merge a symbol library file	Bir sembol kütüphanesi dosyasını birleştir
@@ -1199,6 +1217,7 @@ Options	Seçenekler
 Ordinary cable	Normal kablo
 Orientation	Yön
 Origin	Köken
+Origin of the plant	Tesisin orijini
 Other values ({})	Diğer değerler ({})
 Otherwise from the plant layout, or next to the other line-ups	Aksi halde tesis yerleşiminden veya diğer pano dizilerinin yanına
 Out since {} (pages locked)	{} tarihinden beri dışarıda (sayfalar kilitli)
@@ -1211,6 +1230,7 @@ Output failed: {}	Çıktı başarısız oldu: {}
 Output to another project	Başka bir projeye çıktı
 Output to project…	Projeye çıktı al…
 Outputs	Çıkışlar
+Outside the plot boundary: {}	Arsa sınırının dışında: {}
 Overhang	Taşma
 Own colour	Özel renk
 Own drawn form	Kendi çizilmiş form
@@ -1282,7 +1302,10 @@ Place in schematic	Şemaya yerleştir
 Place in the building	Binadaki yeri
 Place in the plant	Tesisteki yer
 Place in the room	Odadaki yer
+Place in the site plan	Vaziyet planına yerleştir
 Place text	Metin yerleştir
+Place the georeferenced point everything is measured from	Her şeyin ölçüldüğü coğrafi referanslı noktayı yerleştirin
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Tesisin coğrafi referanslı noktasını vaziyet planına yerleştirin; koordinatları Binalar paneline girilir, her nokta ondan ölçülür
 Placed	Yerleştirildi
 Placed by hand	Elle yerleştirildi
 Placed here: {}	Buraya yerleştirildi: {}
@@ -1300,7 +1323,12 @@ Plant layout	Tesis yerleşimi
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	Tesis yerleşimi, güzergâh ağı, saha kablosu planlaması, eş potansiyel kuşaklama ve kablo aksesuarları
 Plant segments with planned devices before the schematic	Şemadan önce planlanmış cihazlarla tesis segmentleri
 Plate outline, holes per diameter, cutouts	Plaka dış hattı, çapa göre delikler, kesimler
+Plot	Arsa
+Plot boundary	Arsa sınırı
+Plot boundary drawn: {} m²	Arsa sınırı çizildi: {} m²
+Plot boundary drawn: {} m²; outside it: {}	Arsa sınırı çizildi: {} m²; dışında: {}
 Plot frames	Çizim çerçeveleri
+Plot, {}	Arsa, {}
 Plug in card	Kartı tak
 Plugin commands	Eklenti komutları
 Plugins	Eklentiler
@@ -1390,6 +1418,8 @@ Record	Kaydet
 Rectangular	Dikdörtgen
 Redline: to be changed · Greenline: changed as built	Redline: değiştirilecek · Greenline: uygulandığı gibi değiştirildi
 Redo	Yinele
+Reference point	Referans noktası
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referans noktası x {} m, z {} m konumuna yerleştirildi; koordinatlarını Binalar panelinde girin
 Refresh	Yenile
 Refresh example catalog parts (GEN.*)	Örnek katalog parçalarını yenile (GEN.*)
 Reject	Reddet
@@ -1806,6 +1836,7 @@ The page name gets the section number	Sayfa adı bölüm numarasını alır
 The page type, plot frame, title block, structure, description and the whole content are saved.	Sayfa tipi, çizim çerçevesi, antet, yapı, açıklama ve tüm içerik kaydedilir.
 The pages it generated stay	Oluşturduğu sayfalar kalır
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	Parça veritabanı tüm projeler tarafından paylaşılır. Parçalar bir cihaza atandığında projeye kopyalanır.
+The point's coordinates in the coordinate reference system	Noktanın koordinat referans sistemindeki koordinatları
 The project changed since the search.	Proje aramadan bu yana değişti.
 The project check	Proje kontrolü
 The project database needs the desktop version: the browser cannot search folders.	Proje veritabanı için masaüstü sürümü gerekir: tarayıcı klasörlerde arama yapamaz.
@@ -1816,6 +1847,7 @@ The properties of the selection in a window beside the page	Seçimin özellikler
 The rail or mounting base; its accessories are the hooks, clamps and ballast	Ray veya montaj tabanı; aksesuarları kancalar, kelepçeler ve balasttır
 The recalculation keeps frozen routes as long as they are still possible	Yeniden hesaplama, mümkün olduğu sürece dondurulmuş güzergâhları korur
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Dosya sekmeli şerit menülerin yerini alır; Ctrl+Shift+P her komutu bulur.
+The rooms of the level side by side; click the level again for all of the plant	Katın odaları yan yana; tüm tesis için kata yeniden tıklayın
 The second fault is checked at the line-to-earth voltage	İkinci arıza faz-toprak geriliminde kontrol edilir
 The selected devices side by side on the selected rail, from its left end	Seçili cihazlar seçili ray üzerinde, sol ucundan başlayarak yan yana
 The side of {} is open	{} tarafı açık
@@ -1919,6 +1951,7 @@ Visible	Görünür
 Voltage (line to line)	Gerilim (fazlar arası)
 Voltage drop	Gerilim düşümü
 W A S D / arrows, Q / E	W A S D / oklar, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, IFC dışa aktarımlarının arsasına yazılır
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Duvar {}, {} m: taşımak için sürükleyin, donatmak için çift tıklayarak gösterin
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Duvar {}, {} m: duvar görünümünde gösterilen duvar (vurgulu); taşımak için sürükleyin
 Wall-mounted part	Duvara monte parça
@@ -1931,9 +1964,11 @@ What is new	Yenilikler
 What should be checked or changed?	Ne kontrol edilmeli veya değiştirilmeli?
 Wheel / right or middle drag	Tekerlek / sağ veya orta tuşla sürükleme
 Wheel: zoom · drag: move · click on a room: its floor plan	Tekerlek: yakınlaştır · sürükle: kaydır · odaya tıkla: kat planı
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Tekerlek: yakınlaştır · sürükle: taşı · odaya tıkla: kat planı · arsa sınırının köşesini sürükle
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Tekerlek: yakınlaştır · sağ tık: iptal · grafikler 0,5 mm'ye, bağlantı noktaları 4 mm ızgaraya yaslanır
 When it differs from the page	Sayfadan farklı olduğunda
 Where	Konum
+Where the point is in the plant; y: its height above the ground level of the plant	Noktanın tesisteki yeri; y: tesisin zemin seviyesinin üzerindeki yüksekliği
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Cihazın yapısının kaynağı: sembolün çevresindeki yapıya eşit olan yönler devralınır ve sembol bir yapı kutusuna girdiğinde veya çıktığında değişir; diğer yönler cihazın kendisine aittir ve korunur.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Telin başladığı ve bittiği yer: parça verilerinden bir bağlantı noktası, fonksiyon şablonundan oluşturulan bir nokta veya eşleşen bağlantı noktası yoksa cihaz merkezi
 Whole building	Tüm bina
@@ -1972,6 +2007,7 @@ With everything below it	Altındaki her şeyle birlikte
 With the current pages; the approvals so far become void	Geçerli sayfalarla; şimdiye kadarki onaylar geçersiz olur
 With values only	Yalnızca değerli olanlar
 Withdraw	Geri çek
+Without a reference point the plant is measured from its origin, north towards the rear.	Referans noktası yoksa tesis orijininden ölçülür, kuzey arkaya doğrudur.
 Without approvers a new revision is released directly.	Onaylayıcı yoksa yeni bir revizyon doğrudan yayımlanır.
 Without bus system	Bus sistemi olmadan
 Without power loss data: {}	Güç kaybı verisi olmayanlar: {}
@@ -2033,6 +2069,7 @@ inherited from structure box {}	{} yapı kutusundan devralındı
 inherited from the page	sayfadan devralındı
 inherited: {}	devralınır: {}
 kW	kW
+known	biliniyor
 low side at the rear	alçak taraf arkada
 male	erkek
 manual	manuel
@@ -2077,6 +2114,7 @@ value set…	değer kümesi…
 vertical	dikey
 with bus cables	bus kablolarıyla
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   referans noktasının {} m doğusu, {} m kuzeyi
 {}  (door)	{}  (kapı)
 {}  (free)	{}  (boş)
 {}  (used)	{}  (kullanılıyor)
@@ -2132,6 +2170,7 @@ x y	x y
 {} copies placed	{} kopya yerleştirildi
 {} corner points	{} köşe noktası
 {} corners	{} köşe
+{} corners, {} m², {} m round	{} köşe, {} m², çevre {} m
 {} details	{} ayrıntı
 {} device descriptions imported	{} cihaz tanımı içe aktarıldı
 {} devices	{} cihaz
@@ -2165,6 +2204,7 @@ x y	x y
 {} items, {} %	{} öğe, %{}
 {} links created, {} function texts copied	{} ilişki oluşturuldu, {} fonksiyon metni kopyalandı
 {} m of {} m wired	{} m / {} m kablolandı
+{} m: {} m east, {} m north, {}° from north	{} m: {} m doğuya, {} m kuzeye, kuzeyden {}°
 {} macro boxes updated	{} makro kutusu güncellendi
 {} markers	{} işaret
 {} mm	{} mm

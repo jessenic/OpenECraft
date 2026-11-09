@@ -212,6 +212,8 @@ Mounting plate	장착 플레이트
 Mounting rail	장착 레일
 Name	이름
 Name of the block	블록 이름
+Name of the plot, e.g. the cadastral parcel	부지 이름 (예: 지번)
+Name of the point, e.g. a survey point	점 이름 (예: 측량점)
 Name of the scheme	스키마 이름
 Net	네트
 New name	새 이름
@@ -334,6 +336,8 @@ Relay	릴레이
 Released pages cannot be moved	릴리스된 페이지는 이동할 수 없습니다
 Remove	제거
 Remove from favorites	즐겨찾기에서 제거
+Remove the boundary	경계 제거
+Remove the reference point	기준점 제거
 Report	보고서
 Report blocks	보고서 블록
 Report: {}	보고서: {}

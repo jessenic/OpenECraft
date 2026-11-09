@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Elrum
 A device tag must not be empty	En komponentbetegnelse må ikke være tom
 A pipe run turns at right angles	Et rørtracé drejer i rette vinkler
+A plot boundary has at least three corners	En grundgrænse har mindst tre hjørner
 A port cannot be connected to itself	En port kan ikke forbindes med sig selv
 A room needs at least four walls	Et rum skal have mindst fire vægge
 A section number consists of letters and digits and does not start with 0	Et afsnitsnummer består af bogstaver og cifre og begynder ikke med 0
@@ -748,6 +749,7 @@ Last edited by	Senest redigeret af
 Last inspection	Seneste inspektion
 Last revision	Seneste revision
 Latching	Låsende
+Latitude is within ±90° and longitude within ±180°	Breddegraden ligger inden for ±90° og længdegraden inden for ±180°
 Lead time (days)	Leveringstid (dage)
 Leakage current	Lækstrøm
 Leakage line	Lækolieledning
@@ -1344,6 +1346,7 @@ Roller switch NO	Rulleafbryder, slutte
 Roof	Tag
 Roof top	Tag
 Room floor	Rummets gulv
+Room {} stands outside the plot boundary	Rum {} står uden for grundgrænsen
 Rotation	Rotation
 Round punch	Rundt stempel
 Routing list (3D)	Føringsliste (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Tavlefabrikanten skal
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Tavlerækken i sit rum: L-formet plan, indervæg, dør og vindue, tavlerækken på sin plads, en skinne med en stikkontakt på en væg, en vægmonteret nødbelysning og en kabelbakke under loftet.
 The configuration is not a JSON object	Konfigurationen er ikke et JSON-objekt
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Transportbåndet efter den første frigivelse: en frigivet og låst revision, ændringer markeret siden, gennemgangskommentarer med rødmarkering, en ændringsanmodning, revision B i godkendelsesforløbet og en baseline at sammenligne med.
+The coordinates of the reference point must be numbers	Referencepunktets koordinater skal være tal
+The coordinates of the reference point {} are not valid	Referencepunktets {} koordinater er ugyldige
+The corners of the plot boundary must be numbers	Grundgrænsens hjørner skal være tal
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Demoprojektet: PLC-ind- og udgange, tavlelayout med skinner, kabelkanaler og dørkomponenter, dørkabelbundt og motorkabel.
 The embedded document {} is damaged	Det integrerede dokument {} er beskadiget
 The file is empty	Filen er tom
@@ -1586,6 +1592,9 @@ The next free id is already in use	Det næste ledige id er allerede i brug
 The option needs a name	Optionen skal have et navn
 The page needs a number	Siden skal have et nummer
 The pages were changed after the submission; submit the revision again	Siderne blev ændret efter indsendelsen; send revisionen igen
+The plot boundary crosses itself	Grundgrænsen krydser sig selv
+The plot boundary encloses no area	Grundgrænsen omslutter intet areal
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Grundgrænsen er ingen polygon: den krydser sig selv eller har færre end tre hjørner
 The project has no panel layout	Projektet har intet tavlelayout
 The property needs a name	Egenskaben skal have et navn
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Pumpestationen bygget ind i to sammenbyggede gulvskabe: skinnesystem, skinner og kabelkanaler, dørkomponenter og greb, filterventilator, lys, PE-skinne, kabelforskruninger, en kabelgennemføring, klimaberegning, kanalfyldning og 3D-føring.
@@ -1922,6 +1931,7 @@ yellow	gul
 {} report references converted to report names	{} rapporthenvisninger konverteret til rapportnavne
 {} s	{} s
 {} single part assignments converted to part lists	{} enkelte artikeltildelinger konverteret til artikellister
+{} stands outside the plot boundary	{} står uden for grundgrænsen
 {} symbols, {} wires, {} texts / graphics	{} symboler, {} ledninger, {} tekster / grafik
 {} texts are not translated into {}	{} tekster er ikke oversat til {}
 {} unused device data records removed	{} ubrugte enhedsdataposter fjernet
@@ -2006,6 +2016,8 @@ yellow	gul
 {}: port {} is not a {} port	{}: Porten {} er ikke en {}-port
 {}: ports with different media ({})	{}: porte med forskellige medier ({})
 {}: replace {} after {} years (T10d)	{}: udskift {} efter {} år (T10d)
+{}: roof {} reaches over the plot boundary	{}: tag {} rager ud over grundgrænsen
+{}: room {} stands outside the plot boundary	{}: rum {} står uden for grundgrænsen
 {}: routing path {} is full ({} % of its usable cross-section)	{}: Føringsvejen {} er fuld ({} % af dens anvendelige tværsnit)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: dobbeltfejlstrøm {} A ved {} afbryder ikke inden for {} s (kræver {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: det enstregede symbol '{}' passer ikke til diagrammet ('{}')

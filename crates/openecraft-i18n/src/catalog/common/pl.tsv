@@ -214,6 +214,8 @@ Mounting plate	Płyta montażowa
 Mounting rail	Szyna montażowa
 Name	Nazwa
 Name of the block	Nazwa bloku
+Name of the plot, e.g. the cadastral parcel	Nazwa działki, np. działka ewidencyjna
+Name of the point, e.g. a survey point	Nazwa punktu, np. punkt osnowy
 Name of the scheme	Nazwa wzorca
 Net	Sieć
 New name	Nowa nazwa
@@ -336,6 +338,8 @@ Relay	Przekaźnik
 Released pages cannot be moved	Nie można przenosić wydanych stron
 Remove	Usuń
 Remove from favorites	Usuń z ulubionych
+Remove the boundary	Usuń granicę
+Remove the reference point	Usuń punkt odniesienia
 Report	Raport
 Report blocks	Bloki raportów
 Report: {}	Raport: {}

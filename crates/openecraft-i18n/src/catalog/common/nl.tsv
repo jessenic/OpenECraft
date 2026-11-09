@@ -214,6 +214,8 @@ Mounting plate	Montageplaat
 Mounting rail	Montagerail
 Name	Naam
 Name of the block	Naam van het blok
+Name of the plot, e.g. the cadastral parcel	Naam van het perceel, bijv. het kadastrale perceel
+Name of the point, e.g. a survey point	Naam van het punt, bijv. een meetpunt
 Name of the scheme	Naam van het schema
 Net	Net
 New name	Nieuwe naam
@@ -336,6 +338,8 @@ Relay	Relais
 Released pages cannot be moved	Vrijgegeven pagina's kunnen niet worden verplaatst
 Remove	Verwijderen
 Remove from favorites	Verwijderen uit favorieten
+Remove the boundary	Grens verwijderen
+Remove the reference point	Referentiepunt verwijderen
 Report	Rapport
 Report blocks	Rapportblokken
 Report: {}	Rapport: {}

@@ -214,6 +214,8 @@ Mounting plate	Monteringsplade
 Mounting rail	Monteringsskinne
 Name	Navn
 Name of the block	Blokkens navn
+Name of the plot, e.g. the cadastral parcel	Grundens navn, f.eks. matriklen
+Name of the point, e.g. a survey point	Punktets navn, f.eks. et målepunkt
 Name of the scheme	Skemaets navn
 Net	Net
 New name	Nyt navn
@@ -336,6 +338,8 @@ Relay	Relæ
 Released pages cannot be moved	Frigivne sider kan ikke flyttes
 Remove	Fjern
 Remove from favorites	Fjern fra favoritter
+Remove the boundary	Fjern grænsen
+Remove the reference point	Fjern referencepunktet
 Report	Rapport
 Report blocks	Rapportblokke
 Report: {}	Rapport: {}

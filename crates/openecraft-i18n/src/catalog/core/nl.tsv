@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Elektrische ruimte
 A device tag must not be empty	Een apparaatcode mag niet leeg zijn
 A pipe run turns at right angles	Een leidingtracé buigt haaks af
+A plot boundary has at least three corners	Een perceelgrens heeft minstens drie hoeken
 A port cannot be connected to itself	Een poort kan niet met zichzelf worden verbonden
 A room needs at least four walls	Een ruimte heeft minstens vier wanden nodig
 A section number consists of letters and digits and does not start with 0	Een sectienummer bestaat uit letters en cijfers en begint niet met 0
@@ -748,6 +749,7 @@ Last edited by	Laatst bewerkt door
 Last inspection	Laatste keuring
 Last revision	Laatste revisie
 Latching	Vergrendelend
+Latitude is within ±90° and longitude within ±180°	De breedtegraad ligt binnen ±90° en de lengtegraad binnen ±180°
 Lead time (days)	Levertijd (dagen)
 Leakage current	Lekstroom
 Leakage line	Lekolieleiding
@@ -1344,6 +1346,7 @@ Roller switch NO	Rolschakelaar maakcontact
 Roof	Dak
 Roof top	Dak
 Room floor	Vloer van de ruimte
+Room {} stands outside the plot boundary	Ruimte {} staat buiten de perceelgrens
 Rotation	Draaiing
 Round punch	Ronde stempel
 Routing list (3D)	Routeringslijst (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	De fabrikant van de v
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	De kastenrij in haar ruimte: L-vormige plattegrond, binnenwand, deur en raam, de kastenrij op haar plaats, een montagerail met een wandcontactdoos, een op de wand gemonteerde noodverlichting en een kabelgoot onder het plafond.
 The configuration is not a JSON object	De configuratie is geen JSON-object
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	De transportband na de eerste vrijgave: een vrijgegeven en vergrendelde revisie, sindsdien gemarkeerde wijzigingen, reviewopmerkingen met redlining, een wijzigingsverzoek, revisie B in de goedkeuringsworkflow en een baseline om mee te vergelijken.
+The coordinates of the reference point must be numbers	De coördinaten van het referentiepunt moeten getallen zijn
+The coordinates of the reference point {} are not valid	De coördinaten van het referentiepunt {} zijn ongeldig
+The corners of the plot boundary must be numbers	De hoeken van de perceelgrens moeten getallen zijn
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Het demoproject: PLC-in- en uitgangen, opbouwtekening van de kast met rails, kabelgoten en deurapparaten, deurkabelboom en motorkabel.
 The embedded document {} is damaged	Het ingesloten document {} is beschadigd
 The file is empty	Het bestand is leeg
@@ -1586,6 +1592,9 @@ The next free id is already in use	De volgende vrije ID is al in gebruik
 The option needs a name	De optie heeft een naam nodig
 The page needs a number	De pagina heeft een nummer nodig
 The pages were changed after the submission; submit the revision again	De pagina's zijn na het indienen gewijzigd; dien de revisie opnieuw in
+The plot boundary crosses itself	De perceelgrens snijdt zichzelf
+The plot boundary encloses no area	De perceelgrens omsluit geen oppervlak
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	De perceelgrens is geen veelhoek: ze snijdt zichzelf of heeft minder dan drie hoeken
 The project has no panel layout	Het project heeft geen kastlay-out
 The property needs a name	De eigenschap heeft een naam nodig
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Het pompstation ingebouwd in twee aaneengeschakelde vloerkasten: railsysteem, montagerails en kabelgoten, deurapparaten en grepen, filterventilator, verlichting, aardrail, kabelwartels, een kabeldoorvoer, klimaatberekening, gootvulling en 3D-routing.
@@ -1922,6 +1931,7 @@ yellow	geel
 {} report references converted to report names	{} rapportverwijzingen omgezet in rapportnamen
 {} s	{} s
 {} single part assignments converted to part lists	{} afzonderlijke artikeltoewijzingen omgezet in artikellijsten
+{} stands outside the plot boundary	{} staat buiten de perceelgrens
 {} symbols, {} wires, {} texts / graphics	{} symbolen, {} draden, {} teksten / grafieken
 {} texts are not translated into {}	{} teksten zijn niet vertaald in {}
 {} unused device data records removed	{} ongebruikte apparaatgegevensrecords verwijderd
@@ -2006,6 +2016,8 @@ yellow	geel
 {}: port {} is not a {} port	{}: poort {} is geen {}-poort
 {}: ports with different media ({})	{}: poorten met verschillende media ({})
 {}: replace {} after {} years (T10d)	{}: {} na {} jaar vervangen (T10d)
+{}: roof {} reaches over the plot boundary	{}: dak {} steekt over de perceelgrens
+{}: room {} stands outside the plot boundary	{}: ruimte {} staat buiten de perceelgrens
 {}: routing path {} is full ({} % of its usable cross-section)	{}: routeringspad {} is vol ({} % van de bruikbare doorsnede)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: dubbele foutstroom {} A bij {} schakelt niet af binnen {} s (vereist {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: eenlijnig symbool '{}' komt niet overeen met het schema ('{}')

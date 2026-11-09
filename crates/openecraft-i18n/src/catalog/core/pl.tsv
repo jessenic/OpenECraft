@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Pomieszczenie elektryczne
 A device tag must not be empty	Oznaczenie urządzenia nie może być puste
 A pipe run turns at right angles	Trasa rurociągu skręca pod kątem prostym
+A plot boundary has at least three corners	Granica działki ma co najmniej trzy narożniki
 A port cannot be connected to itself	Portu nie można połączyć z nim samym
 A room needs at least four walls	Pomieszczenie wymaga co najmniej czterech ścian
 A section number consists of letters and digits and does not start with 0	Numer sekcji składa się z liter i cyfr i nie zaczyna się od 0
@@ -748,6 +749,7 @@ Last edited by	Ostatnio edytowane przez
 Last inspection	Ostatnia kontrola
 Last revision	Ostatnia rewizja
 Latching	Z zatrzaskiem
+Latitude is within ±90° and longitude within ±180°	Szerokość geograficzna mieści się w ±90°, a długość w ±180°
 Lead time (days)	Czas dostawy (dni)
 Leakage current	Prąd upływu
 Leakage line	Przewód przecieku
@@ -1344,6 +1346,7 @@ Roller switch NO	Łącznik rolkowy, zwierny
 Roof	Dach
 Roof top	Dach
 Room floor	Podłoga pomieszczenia
+Room {} stands outside the plot boundary	Pomieszczenie {} stoi poza granicą działki
 Rotation	Obrót
 Round punch	Stempel okrągły
 Routing list (3D)	Lista prowadzenia (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Należy podać produc
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Szereg szaf w swoim pomieszczeniu: rzut w kształcie litery L, ściana wewnętrzna, drzwi i okno, szereg szaf na swoim miejscu, szyna z gniazdem na ścianie, oprawa awaryjna montowana na ścianie i korytko kablowe pod sufitem.
 The configuration is not a JSON object	Konfiguracja nie jest obiektem JSON
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Przenośnik po pierwszym wydaniu: wydana i zablokowana rewizja, zmiany oznaczone od tego czasu, komentarze z przeglądu z oznaczeniami na czerwono, wniosek o zmianę, rewizja B w procesie zatwierdzania i stan bazowy do porównania.
+The coordinates of the reference point must be numbers	Współrzędne punktu odniesienia muszą być liczbami
+The coordinates of the reference point {} are not valid	Współrzędne punktu odniesienia {} są nieprawidłowe
+The corners of the plot boundary must be numbers	Narożniki granicy działki muszą być liczbami
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Projekt demonstracyjny: wejścia i wyjścia PLC, rozmieszczenie w obudowie z szynami, korytkami i urządzeniami na drzwiach, wiązka drzwiowa i kabel silnika.
 The embedded document {} is damaged	Osadzony dokument {} jest uszkodzony
 The file is empty	Plik jest pusty
@@ -1586,6 +1592,9 @@ The next free id is already in use	Następny wolny identyfikator jest już zaję
 The option needs a name	Opcja wymaga nazwy
 The page needs a number	Strona wymaga numeru
 The pages were changed after the submission; submit the revision again	Strony zostały zmienione po przesłaniu; prześlij rewizję ponownie
+The plot boundary crosses itself	Granica działki przecina samą siebie
+The plot boundary encloses no area	Granica działki nie obejmuje żadnej powierzchni
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Granica działki nie jest wielokątem: przecina samą siebie lub ma mniej niż trzy narożniki
 The project has no panel layout	Projekt nie ma zabudowy szafy
 The property needs a name	Właściwość wymaga nazwy
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Przepompownia zabudowana w dwóch szeregowanych szafach stojących: system szyn zbiorczych, szyny i korytka, urządzenia na drzwiach i uchwyty, wentylator z filtrem, oświetlenie, szyna PE, dławnice kablowe, przepust kablowy, obliczenia klimatyzacji, zapełnienie korytek i trasowanie 3D.
@@ -1922,6 +1931,7 @@ yellow	żółty
 {} report references converted to report names	Przekonwertowano odwołania do raportów na nazwy raportów: {}
 {} s	{} s
 {} single part assignments converted to part lists	Przekonwertowano pojedyncze przypisania artykułów na listy artykułów: {}
+{} stands outside the plot boundary	{} stoi poza granicą działki
 {} symbols, {} wires, {} texts / graphics	Symbole: {}, przewody: {}, teksty / grafiki: {}
 {} texts are not translated into {}	Teksty nieprzetłumaczone na {1}: {0}
 {} unused device data records removed	Usunięto nieużywane rekordy danych urządzeń: {}
@@ -2006,6 +2016,8 @@ yellow	żółty
 {}: port {} is not a {} port	{}: port {} nie jest portem {}
 {}: ports with different media ({})	{}: przyłącza z różnymi mediami ({})
 {}: replace {} after {} years (T10d)	{}: wymień {} po {} latach (T10d)
+{}: roof {} reaches over the plot boundary	{}: dach {} wystaje poza granicę działki
+{}: room {} stands outside the plot boundary	{}: pomieszczenie {} stoi poza granicą działki
 {}: routing path {} is full ({} % of its usable cross-section)	{}: ścieżka prowadzenia {} jest pełna ({} % jej użytecznego przekroju)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: prąd podwójnego zwarcia {} A w {} nie powoduje wyłączenia w ciągu {} s (wymaga {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: symbol jednokreskowy '{}' nie pasuje do schematu elektrycznego ('{}')

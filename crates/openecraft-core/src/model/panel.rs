@@ -47,6 +47,66 @@ pub struct Layout {
     /// building entry of another.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub site_links: Vec<SiteLink>,
+    /// The plot the plant stands on: its boundary, which the buildings stay inside, and
+    /// the reference point that ties the plant to a geographic coordinate system (see
+    /// `crate::panel::plot`).
+    #[serde(skip_serializing_if = "Plot::is_default")]
+    pub plot: Plot,
+}
+
+/// The plot (parcel of land) of the plant.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct Plot {
+    /// Name, e.g. the cadastral parcel.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub name: String,
+    /// Corners of its boundary in the plant (x, z in mm); empty for none.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub outline: Vec<[f32; 2]>,
+    /// The georeferenced point everything is measured from.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reference: Option<GeoReference>,
+}
+
+impl Plot {
+    pub fn is_default(&self) -> bool {
+        *self == Plot::default()
+    }
+}
+
+/// A point of the plant with its coordinates in a geographic (projected) coordinate
+/// reference system: the plant's x and z are measured from it towards east and north,
+/// turned by the direction of grid north.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct GeoReference {
+    /// Name, e.g. a survey point.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub name: String,
+    /// Where it is in the plant: x and z of the floor plan, mm.
+    pub x: f32,
+    pub z: f32,
+    /// Its height above the plant's ground level (±0), mm.
+    #[serde(skip_serializing_if = "is_zero")]
+    pub y: f32,
+    /// Its easting and northing in the coordinate reference system, m.
+    pub easting: f64,
+    pub northing: f64,
+    /// Its height above the datum of the coordinate reference system (sea level), m.
+    pub height: f64,
+    /// Coordinate reference system, e.g. "EPSG:25832" (ETRS89 / UTM zone 32N).
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub crs: String,
+    /// Direction of grid north in the plant, degrees counter-clockwise seen from above
+    /// from -z (at 0 north is towards the rear, at 90 towards -x).
+    #[serde(skip_serializing_if = "is_zero")]
+    pub north: f32,
+    /// Its latitude and longitude (WGS 84), degrees, if known (IFC export).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub latitude: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub longitude: Option<f64>,
 }
 
 /// A building of the plant: levels on top of each other on which its rooms stand, and

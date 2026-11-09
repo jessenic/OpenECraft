@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	像目录一样包含页的编号分节；页名称以其编号开头 (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	配置文件将中性字段映射到特定系统的列名（例如 SAP 中 ERP 编号对应的 MATNR）。没有映射时，可识别常见的英文和德文名称。
 A project definition based on this one, with its own defaults and scheme	基于此定义的项目定义，具有自己的默认值和方案
+A reference point at the origin of the plant	位于设施原点的参考点
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	报表块生成报表的页（例如每个端子排一个端子图）并更新这些页。
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	当前页之后的原理图页 3.1、3.2 …，重新编号时保持为子页
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	为每个具有页宏且尚未在原理图中的已规划设备生成一个原理图页（所选规划段，否则全部）
@@ -161,6 +162,7 @@ Assign to harness	分配给线束
 Assign wires: select them in the schematic › Assign to cable.	分配导线：在原理图中选择导线 › 分配给电缆。
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	电网上的异步电机会增大最大短路电流 (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	在最高环境温度下；加热器保持在露点以上。0 = 不考虑
+At the origin	在原点
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	在供电点：Ik3 max {} kA，Ik1 min {} kA
 At the top level	在顶层
 Author	作者
@@ -203,6 +205,7 @@ Bottom edges	下边缘
 Bottom left	左下
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	机柜底部（不含底座）离地高度；当该值已知或机柜立于底座上时检查高度
 Bottom right	右下
+Boundary	边界
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	电网中每个保护设备的分断能力与短路电流的对比、其电路末端最小故障电流时的切断、电缆的短路耐受能力以及与上级设备的选择性。
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	桥接：四条连接线；连接从一侧进入并通往另外三侧，先到对侧
 Building {} added with a level at ground level	已添加建筑物 {}，含一个地面层
@@ -290,6 +293,7 @@ Click on the 4 mm grid	在 4 mm 栅格上单击
 Click on the wall: the part goes there at its mounting height	单击墙壁：部件以其安装高度放在该处
 Click start and end point	单击起点和终点
 Click the corners of a machine or building, double-click to finish	单击机器或建筑物的各个角点，双击完成
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	单击场地边界的角点 · 单击第一个、双击或 Enter：闭合 · Backspace：后退 · Esc：停止
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	单击内墙的端点；每次单击开始下一段，靠近墙的端点会吸附到墙上。Esc、Enter 或双击结束连续绘制，再按 Esc 退出工具。
 Click to add a node of the route network	单击以添加布线网络的节点
 Click to add to the selected text.	单击以添加到所选文本。
@@ -305,7 +309,10 @@ Click to show, right click for more	单击显示，右键查看更多
 Click two corners	单击两个角点
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	单击结构框的两个角，然后在属性中设置其标识符 · Esc 或右键结束
 Click two nodes to connect them	单击两个节点以连接它们
+Click two points to measure from one to the other · Esc: stop	单击两点以从一点测量到另一点 · Esc：停止
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	在四条连接线相交处单击：桥接将连接从一侧引向另外三侧，先到对侧 · {} 可旋转 · Esc 或右键结束
+Click where it is in the site plan	在总平面图中单击其位置
+Click where the reference point is	单击参考点所在位置
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	在三条连接线相交处单击：T型节点指定导线出发的设备以及目标的顺序 · 在尚无连接线相交处 {} 可旋转 · Esc 或右键结束
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	在两条连接线交叉处单击：交叉连接二者，并将其直线的每一端先直通再横向引出 · {} 可旋转 · Esc 或右键结束
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	在两条连接线直角相交处或连接点隔着拐角相对处单击：开启自动连接时会向它绘制连接线 · {} 可旋转 · Esc 或右键结束
@@ -367,6 +374,7 @@ Consecutive addresses from the start byte, in schematic order	从起始字节开
 Contact image below coils	线圈下方的触点映像
 Content	内容
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	未激活选项的内容将被隐藏：不会被绘制、评估、生成报表或导出。
+Coordinate reference system	坐标参考系
 Copies	副本数
 Copies function texts between both representations where one is empty	在两种表示之间复制功能文本（仅当一方为空时）
 Copies in rows and columns	按行和列复制
@@ -493,6 +501,7 @@ Digits	位数
 Dimension	尺寸标注
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	有向T型节点：在三条连接线相交处指定连接的两条导线从哪个设备出发以及目标的顺序
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	有向交叉：连接在此交叉的两条连接线；其直线的每一端先直通再横向接线
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	坐标北的方向，从上方看自设施后方 (-z) 逆时针
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	组件朝向的方向，从上方看逆时针（0：朝前）
 Discard changes	放弃更改
 Discard draft	放弃草稿
@@ -543,6 +552,8 @@ Draw cable definition	绘制电缆定义
 Draw connections	绘制连接
 Draw connections between facing connection points when symbols are placed or moved	放置或移动符号时，在相对的连接点之间绘制连接
 Draw inner walls	绘制内墙
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	在总平面图中绘制场地边界：单击其角点，单击第一个或按 Enter 闭合；所有建筑必须位于其内
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	在总平面图中绘制场地边界；所有建筑必须位于其内
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	自行绘制页：每页的图形，以及每行重复的行图形；文本将列用作占位符
 Draw the three wires of the T-junction to it: one in its direction and two across	将T型节点的三条连接线画到此处：一条沿其方向，两条横向
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	将拐角的两条连接线画到此处，或开启自动连接并将其放在正对空闲连接点的位置
@@ -567,6 +578,7 @@ Duplicate	复制
 Each example builds on the one before and shows more of the features.	每个示例都以前一个为起点，并展示更多功能。
 Each point-to-point connection can belong to a harness	每个点对点连接都可以属于一个线束
 Earthing system	接地系统
+Easting, northing	东坐标、北坐标
 Eaves	檐口
 Edge length of the routing grid: smaller is finer and slower	布线栅格的边长：越小越精细，但越慢
 Edit	编辑
@@ -723,6 +735,7 @@ Graphic rectangle	图形矩形
 Graphical form	图形表格
 Greatest distance of the roof hooks along a rail	沿导轨的屋面挂钩最大间距
 Grid	栅格
+Grid north	坐标北
 Grid size	栅格大小
 Grid {} mm	栅格 {} mm
 Group as assembly	组合为组件
@@ -738,6 +751,7 @@ Heat map	热分布图
 Heating	加热
 Heating circuit manifolds and control boxes	供暖分配器和控制盒
 Height (mm)	高度 (mm)
+Height above sea level	海拔高度
 Height above the floor	离地高度
 Height above the mounting plate	安装板以上高度
 Height above the plate	板以上高度
@@ -862,6 +876,7 @@ Label field	标签字段
 Labeling scheme	标记方案
 Landscape	横向
 Larger texts and buttons for a touch screen at the workbench	为工作台触摸屏提供更大的文字和按钮
+Latitude, longitude	纬度、经度
 Layer	图层
 Layer {}	图层 {}
 Layer: {}	图层：{}
@@ -886,6 +901,7 @@ Letters, digits, space, - _ . (up to 64 characters)	字母、数字、空格、-
 Level of a multi-level terminal: upper levels sit on the block of the terminal before	多层端子的层：上层位于前一个端子的端子块上
 Level of this kind of message	此类消息的级别
 Level {} added to building {}; new rooms go onto it	已向建筑物 {1} 添加楼层 {0}；新房间将放在该层
+Level {} of building {}	建筑 {1} 的楼层 {0}
 Library	库
 Limits	限值
 Limits in effect	生效的限值
@@ -955,6 +971,8 @@ Max. pressure	最大压力
 Max. width	最大宽度
 Maximum fill of a carrier	电缆桥架的最大填充率
 Mean: typical operation	平均：典型运行
+Measure	测量
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	在总平面图中测量：单击两点以获得距离、东向和北向偏移以及自北的方向
 Measured	测量值
 Measures against common cause failure (at least 65 points)	防止共因失效的措施（至少 65 分）
 Merge a symbol library file	合并符号库文件
@@ -1186,6 +1204,7 @@ Options	选项
 Ordinary cable	普通电缆
 Orientation	方向
 Origin	来源
+Origin of the plant	设施原点
 Other values ({})	其他值 ({})
 Otherwise from the plant layout, or next to the other line-ups	否则根据工厂布局放置，或放在其他柜排旁边
 Out since {} (pages locked)	自 {} 起已移出（页已锁定）
@@ -1198,6 +1217,7 @@ Output failed: {}	输出失败：{}
 Output to another project	输出到另一个项目
 Output to project…	输出到项目…
 Outputs	输出
+Outside the plot boundary: {}	场地边界之外：{}
 Overhang	挑檐
 Own colour	自定义颜色
 Own drawn form	自绘表格
@@ -1268,7 +1288,10 @@ Place functions of this device	放置此设备的功能
 Place in schematic	放置到原理图中
 Place in the plant	在工厂中的位置
 Place in the room	房间中的位置
+Place in the site plan	在总平面图中放置
 Place text	放置文本
+Place the georeferenced point everything is measured from	放置用于测量一切的地理参考点
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	在总平面图中放置设施的地理参考点；其坐标在建筑窗格中输入，所有点都从它测量
 Placed	已放置
 Placed by hand	手动放置
 Placed here: {}	放置在此处：{}
@@ -1286,7 +1309,12 @@ Plant layout	工厂布局
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	工厂布局、布线网络、现场电缆规划、等电位联结和电缆附件
 Plant segments with planned devices before the schematic	在原理图之前包含已规划设备的工厂规划段
 Plate outline, holes per diameter, cutouts	板轮廓、按直径分组的孔、开孔
+Plot	场地
+Plot boundary	场地边界
+Plot boundary drawn: {} m²	已绘制场地边界：{} m²
+Plot boundary drawn: {} m²; outside it: {}	已绘制场地边界：{} m²；其外：{}
 Plot frames	图框
+Plot, {}	场地，{}
 Plug in card	插入卡件
 Plugin commands	插件命令
 Plugins	插件
@@ -1373,6 +1401,8 @@ Record	录制
 Rectangular	矩形
 Redline: to be changed · Greenline: changed as built	红线：待更改 · 绿线：已按竣工状态更改
 Redo	重做
+Reference point	参考点
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	参考点已放置在 x {} m、z {} m；请在建筑窗格中输入其坐标
 Refresh	刷新
 Refresh example catalog parts (GEN.*)	刷新示例目录部件 (GEN.*)
 Reject	拒绝
@@ -1787,6 +1817,7 @@ The page name gets the section number	页名称获得分节号
 The page type, plot frame, title block, structure, description and the whole content are saved.	将保存页类型、图框、标题栏、结构、描述和全部内容。
 The pages it generated stay	其生成的页保留
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	部件数据库由所有项目共享。将部件分配给设备时，部件会被复制到项目中。
+The point's coordinates in the coordinate reference system	该点在坐标参考系中的坐标
 The project changed since the search.	自搜索以来项目已更改。
 The project check	项目检查
 The project database needs the desktop version: the browser cannot search folders.	项目数据库需要桌面版：浏览器无法搜索文件夹。
@@ -1797,6 +1828,7 @@ The properties of the selection in a window beside the page	在页面旁的窗�
 The rail or mounting base; its accessories are the hooks, clamps and ballast	导轨或安装底座；其附件为挂钩、压块和压载
 The recalculation keeps frozen routes as long as they are still possible	只要仍然可行，重新计算会保留冻结的布线
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	带“文件”选项卡的功能区取代了菜单；Ctrl+Shift+P 可查找任意命令。
+The rooms of the level side by side; click the level again for all of the plant	楼层的房间并排显示；再次单击楼层可显示整个设施
 The second fault is checked at the line-to-earth voltage	二次故障按相对地电压进行检查
 The selected devices side by side on the selected rail, from its left end	将所选设备从所选导轨的左端开始并排放置
 The side of {} is open	{} 的侧面是开放的
@@ -1899,6 +1931,7 @@ Visible	可见
 Voltage (line to line)	电压（线电压）
 Voltage drop	电压降
 W A S D / arrows, Q / E	W A S D / 方向键，Q / E
+WGS 84, written into the site of IFC exports	WGS 84，写入 IFC 导出的场地
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	墙 {}，{} m：拖动以移动，双击显示以进行布置
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	墙 {}，{} m：墙视图中显示的墙（突出显示）；拖动以移动
 Wall-mounted part	墙面安装部件
@@ -1910,9 +1943,11 @@ What is new	新功能
 What should be checked or changed?	应检查或更改什么？
 Wheel / right or middle drag	滚轮 / 右键或中键拖动
 Wheel: zoom · drag: move · click on a room: its floor plan	滚轮：缩放 · 拖动：移动 · 单击房间：其平面图
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	滚轮：缩放 · 拖动：移动 · 单击房间：其平面图 · 拖动场地边界的角点
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	滚轮：缩放 · 右键单击：取消 · 图形捕捉到 0.5 mm，连接点捕捉到 4 mm 栅格
 When it differs from the page	与该页不同时
 Where	位置
+Where the point is in the plant; y: its height above the ground level of the plant	该点在设施中的位置；y：其高于设施地面的高度
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	设备结构的来源：与符号周围结构相同的结构部分为继承，符号移入或移出结构框时随之改变；其他结构部分属于设备本身，保持不变。
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	导线的起点和终点：部件数据中的连接点、由功能模板生成的连接点，或在没有匹配的连接点时使用设备中心
 Whole building	整个建筑
@@ -1951,6 +1986,7 @@ With everything below it	包括其下的所有内容
 With the current pages; the approvals so far become void	使用当前页；之前的审批将失效
 With values only	仅显示有值的
 Withdraw	撤回
+Without a reference point the plant is measured from its origin, north towards the rear.	没有参考点时，设施从其原点测量，北向后方。
 Without approvers a new revision is released directly.	没有审批人时，新修订将直接发布。
 Without bus system	无总线系统
 Without power loss data: {}	无功率损耗数据：{}
@@ -2011,6 +2047,7 @@ inherited from structure box {}	继承自结构框 {}
 inherited from the page	继承自页
 inherited: {}	继承：{}
 kW	kW
+known	已知
 low side at the rear	低侧在后
 male	插针
 manual	手动
@@ -2052,6 +2089,7 @@ value set…	值集…
 vertical	垂直
 with bus cables	带总线电缆
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   参考点以东 {} m、以北 {} m
 {}  (door)	{}  （柜门）
 {}  (free)	{}  （空闲）
 {}  (used)	{}  （已使用）
@@ -2105,6 +2143,7 @@ x y	x y
 {} copies placed	已放置 {} 个副本
 {} corner points	{} 个拐点
 {} corners	{} 个角点
+{} corners, {} m², {} m round	{} 个角点，{} m²，周长 {} m
 {} details	{} 详细信息
 {} device descriptions imported	已导入 {} 个设备描述
 {} devices	{} 个设备
@@ -2138,6 +2177,7 @@ x y	x y
 {} items, {} %	{} 个元素，{} %
 {} links created, {} function texts copied	已创建 {} 个关联，已复制 {} 个功能文本
 {} m of {} m wired	已接线 {} m / {} m
+{} m: {} m east, {} m north, {}° from north	{} m：向东 {} m，向北 {} m，自北 {}°
 {} macro boxes updated	已更新 {} 个宏边框
 {} markers	{} 个标记
 {} mm	{} mm

@@ -548,7 +548,8 @@ fn plan_cells(prj: &Project, poses: &[SitePose], ri: usize) -> Vec<[[f32; 2]; 4]
 /// shafts that join no rooms, and cabinets or floor-standing devices standing in a
 /// shaft; links between buildings whose building entries are gone; the problems of
 /// their stairs ([`super::stairs::problems`]), roofs ([`super::roofs::problems`]) and
-/// PV arrays ([`super::solar::problems`]).
+/// PV arrays ([`super::solar::problems`]), and what stands outside the plot boundary
+/// ([`super::plot::problems`]).
 pub fn problems(prj: &Project) -> Vec<Issue> {
     let layout = &prj.layout;
     let poses = site_poses(prj);
@@ -621,6 +622,7 @@ pub fn problems(prj: &Project) -> Vec<Issue> {
     v.extend(super::roofs::problems(prj));
     v.extend(super::solar::problems(prj));
     v.extend(super::solar::strings::problems(prj));
+    v.extend(super::plot::problems(prj));
     v
 }
 

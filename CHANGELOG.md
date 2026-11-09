@@ -17,6 +17,24 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   `update_device_connection`, `list_device_boxes`
   ([schematic](docs/features/schematic.md)).
 
+- **Plot boundary:** the boundary of the plot is drawn in the site plan corner by corner
+  and its corners are dragged afterwards; all buildings have to stay inside it, the check
+  reports rooms, roofs and cabinets outside it and the site plan draws them red.
+  Commands `plot`, `set_plot` ([panel layout](docs/features/panel-layout.md)).
+- **Georeferenced reference point:** a point of the plant with its easting, northing,
+  height and coordinate reference system and the direction of grid north; the site plan
+  shows the coordinates under the pointer and a north arrow, `list_buildings` the
+  coordinates of the buildings, IFC exports the plot's name, latitude and longitude.
+  *Site › Measure* measures distance and direction between two points. Commands
+  `set_reference_point`, `locate`, `measure`.
+- **A level in 3D:** a level clicked in the navigator while the 3D view is shown shows
+  all rooms of that level side by side at their places, with their cabinets, floor
+  slabs and stairs.
+- **Project properties:** the name and value fields of the custom properties use the
+  width of the dialog instead of shrinking to a few characters; the dialog can be
+  resized, and a long list of properties scrolls. A renamed property is applied when
+  its name field loses focus (Esc keeps the old name), so the text cursor no longer
+  jumps to another property while typing.
 - **Structure boxes:** *Insert › Structure box* draws a rectangle whose devices take other
   function (`=`) or location (`+`) identifiers than the page (also installation site and
   product); only the aspects set on the box override the page, nested boxes resolve to
@@ -37,6 +55,7 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 - Preserve imported plot-frame artwork and live page fields as reusable frames, separate from selectable page content, including canvas, frame preview and exports.
 
+- PLC addresses that are not byte.bit addresses, such as imported card positions like `A1.3.1`, are compared as whole texts, so different addresses are no longer reported as duplicates.
 - Keep the closing window responsive while preparing recovery data, with progress for the previous autosave, project, parts database and macro library.
 - Reuse Insert center symbol groups and search results while scrolling, refreshing them when definitions, parts, search text or language change.
 - Keep the Insert center responsive while scrolling large libraries by drawing only visible list rows and previews and reusing unplaced-function results until the project or catalog changes.

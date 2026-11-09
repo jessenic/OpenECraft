@@ -214,6 +214,8 @@ Mounting plate	Placa de montagem
 Mounting rail	Trilho de montagem
 Name	Nome
 Name of the block	Nome do bloco
+Name of the plot, e.g. the cadastral parcel	Nome do terreno, p. ex. o lote cadastral
+Name of the point, e.g. a survey point	Nome do ponto, p. ex. um marco topográfico
 Name of the scheme	Nome do esquema
 Net	Rede
 New name	Novo nome
@@ -336,6 +338,8 @@ Relay	Relé
 Released pages cannot be moved	Páginas liberadas não podem ser movidas
 Remove	Remover
 Remove from favorites	Remover dos favoritos
+Remove the boundary	Remover o limite
+Remove the reference point	Remover o ponto de referência
 Report	Relatório
 Report blocks	Blocos de relatório
 Report: {}	Relatório: {}

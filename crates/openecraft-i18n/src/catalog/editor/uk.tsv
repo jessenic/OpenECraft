@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Нумерований розділ, що містить сторінки як тека; імена сторінок починаються з його номера (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Профіль зіставляє нейтральні поля з назвами стовпців певної системи (напр. MATNR для номера ERP у SAP). Без зіставлення розпізнаються поширені англійські та німецькі назви.
 A project definition based on this one, with its own defaults and scheme	Визначення проєкту на основі цього, з власними стандартними значеннями та схемою
+A reference point at the origin of the plant	Опорна точка в початку координат установки
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Блок звітів генерує сторінки звіту, напр. одну схему клем на колодку, і оновлює їх.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Сторінка схеми 3.1, 3.2, … після поточної сторінки, що залишається підсторінкою під час перенумерування
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Сторінка схеми для кожного запланованого пристрою з макросом сторінки, якого ще немає на схемі (вибраний сегмент, інакше всі)
@@ -162,6 +163,7 @@ Assign to harness	Призначити джгуту
 Assign wires: select them in the schematic › Assign to cable.	Призначення проводів: виберіть їх на схемі › Призначити кабелю.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Асинхронні двигуни в мережі збільшують максимальний струм короткого замикання (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	За найвищої температури навколишнього середовища; нагрівач підтримує температуру вище точки роси. 0 = не враховується
+At the origin	У початку координат
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	У точці живлення: Ik3 max {} kA, Ik1 min {} kA
 At the top level	На верхньому рівні
 Author	Автор
@@ -205,6 +207,7 @@ Bottom edges	Нижні краї
 Bottom left	Ліворуч унизу
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Нижній край корпусу (без цоколя) над підлогою; висоти перевіряються, якщо його відомо або корпус стоїть на цоколі
 Bottom right	Праворуч унизу
+Boundary	Межа
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Відключна здатність щодо струму короткого замикання на кожному захисному пристрої мережі, вимкнення за найменшого струму замикання в кінці його кола, стійкість кабелів до короткого замикання та селективність із пристроєм, розташованим вище за схемою.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Міст: чотири проводи; з'єднання надходить з одного боку і йде до трьох інших, спочатку до протилежного
 Building {} added with a level at ground level	Будівлю {} додано з поверхом на рівні землі
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Клацніть на сітці 4 мм
 Click on the wall: the part goes there at its mounting height	Клацніть на стіну: виріб стане там на свою висоту монтажу
 Click start and end point	Клацніть початкову й кінцеву точки
 Click the corners of a machine or building, double-click to finish	Клацайте кути машини або будівлі, двічі клацніть для завершення
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Клацайте по кутах межі ділянки · по першому, подвійне клацання або Enter: замкнути · Backspace: назад · Esc: стоп
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Клацайте кінці внутрішніх стін; кожне клацання починає наступну, кінці біля стіни прилипають до неї. Esc, Enter або подвійне клацання завершують ланцюжок, повторний Esc — інструмент.
 Click to add a node of the route network	Клацніть, щоб додати вузол мережі трас
 Click to add to the selected text.	Клацніть, щоб додати до вибраного тексту.
@@ -308,7 +312,10 @@ Click to show, right click for more	Клацніть, щоб показати, �
 Click two corners	Клацніть два кути
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Клацніть два кути рамки структури, потім задайте її позначення у властивостях · Esc або правий клік для завершення
 Click two nodes to connect them	Клацніть два вузли, щоб з’єднати їх
+Click two points to measure from one to the other · Esc: stop	Клацніть дві точки, щоб виміряти від однієї до іншої · Esc: стоп
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Клацніть, де сходяться чотири проводи: міст веде з'єднання з одного боку до трьох інших, спочатку до протилежного · {} повертає його · Esc або права кнопка завершує
+Click where it is in the site plan	Клацніть на його місці на генплані
+Click where the reference point is	Клацніть там, де розташована опорна точка
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Клацніть, де сходяться три проводи: Т-подібний вузол задає пристрій, від якого йдуть проводи, і порядок їхніх цілей · {} повертає його, де проводи ще не сходяться · Esc або права кнопка завершує
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Клацніть, де перехрещуються два проводи: перехрестя з'єднує їх і веде кожен кінець своєї лінії спочатку прямо, потім упоперек · {} повертає його · Esc або права кнопка завершує
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Клацніть, де два проводи сходяться під прямим кутом, або де точки підключення розташовані навпроти через кут: за ввімкненого автоз'єднання до нього проводяться проводи · {} повертає його · Esc або права кнопка завершує
@@ -369,6 +376,7 @@ Consecutive addresses from the start byte, in schematic order	Послідовн
 Contact image below coils	Відображення контактів під котушками
 Content	Вміст
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Вміст неактивної опції приховано: він не відображається, не обробляється, не потрапляє до звітів і не експортується.
+Coordinate reference system	Система координат
 Copies	Копії
 Copies function texts between both representations where one is empty	Копіює тексти функцій між обома поданнями там, де одне порожнє
 Copies in rows and columns	Копії в рядках і стовпцях
@@ -497,6 +505,7 @@ Digits	Цифри
 Dimension	Розмір
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Спрямований Т-подібний вузол: де сходяться три проводи, задає пристрій, від якого йдуть два проводи з'єднання, і порядок їхніх цілей
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Спрямоване перехрестя: з'єднує два проводи, що там перехрещуються; кожен кінець його лінії з'єднується спочатку прямо, потім упоперек
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Напрямок півночі сітки, проти годинникової стрілки при погляді згори від задньої сторони установки (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Напрямок, у який спрямовані модулі, проти годинникової стрілки при погляді згори (0: вперед)
 Discard changes	Скасувати зміни
 Discard draft	Відхилити чернетку
@@ -547,6 +556,8 @@ Draw cable definition	Намалювати визначення кабелю
 Draw connections	Малювати з’єднання
 Draw connections between facing connection points when symbols are placed or moved	Малювати з’єднання між протилежними точками підключення під час розміщення або переміщення символів
 Draw inner walls	Малювати внутрішні стіни
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	Намалювати межу ділянки на генплані: клацайте по кутах, по першому або Enter, щоб замкнути; усі будівлі мають залишатися всередині
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	Намалювати межу ділянки на генплані; усі будівлі мають залишатися всередині неї
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Накресліть сторінку самостійно: графіка для кожної сторінки та креслення рядка, що повторюється для кожного рядка; тексти використовують стовпці як заповнювачі
 Draw the three wires of the T-junction to it: one in its direction and two across	Проведіть до Т-подібного вузла його три проводи: один у його напрямку і два впоперек
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Проведіть до кута його два проводи або ввімкніть автоз'єднання і поставте його навпроти вільних точок підключення
@@ -571,6 +582,7 @@ Duplicate	Дублювати
 Each example builds on the one before and shows more of the features.	Кожен приклад ґрунтується на попередньому та показує більше функцій.
 Each point-to-point connection can belong to a harness	Кожне з’єднання «точка–точка» може належати до джгута
 Earthing system	Тип системи заземлення
+Easting, northing	Східна, північна координата
 Eaves	Карниз
 Edge length of the routing grid: smaller is finer and slower	Довжина ребра сітки прокладання: менше – точніше й повільніше
 Edit	Редагувати
@@ -729,6 +741,7 @@ Graphic rectangle	Графічний прямокутник
 Graphical form	Графічна форма
 Greatest distance of the roof hooks along a rail	Найбільша відстань покрівельних гаків уздовж рейки
 Grid	Сітка
+Grid north	Північ сітки
 Grid size	Крок сітки
 Grid {} mm	Сітка {} мм
 Group as assembly	Згрупувати як збірку
@@ -744,6 +757,7 @@ Heat map	Теплова карта
 Heating	Обігрів
 Heating circuit manifolds and control boxes	Розподільники опалення та регулювальні коробки
 Height (mm)	Висота (мм)
+Height above sea level	Висота над рівнем моря
 Height above the floor	Висота над підлогою
 Height above the mounting plate	Висота над монтажною панеллю
 Height above the plate	Висота над панеллю
@@ -869,6 +883,7 @@ Label field	Поле мітки
 Labeling scheme	Схема маркування
 Landscape	Альбомна
 Larger texts and buttons for a touch screen at the workbench	Більші тексти й кнопки для сенсорного екрана на робочому місці
+Latitude, longitude	Широта, довгота
 Layer	Шар
 Layer {}	Шар {}
 Layer: {}	Шар: {}
@@ -894,6 +909,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Рівень цього типу повідомлень
 Level on top	Поверх зверху
 Level {} added to building {}; new rooms go onto it	Поверх {} додано до будівлі {}; нові приміщення розміщуються на ньому
+Level {} of building {}	Поверх {} будівлі {}
 Levels	Поверхи
 Library	Бібліотека
 Limits	Граничні значення
@@ -965,6 +981,8 @@ Max. pressure	Макс. тиск
 Max. width	Макс. ширина
 Maximum fill of a carrier	Максимальне заповнення кабельної конструкції
 Mean: typical operation	Середня: типова робота
+Measure	Виміряти
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Вимірювання на генплані: клацніть дві точки, щоб дізнатися відстань, зміщення на схід і північ та напрямок від півночі
 Measured	Виміряно
 Measures against common cause failure (at least 65 points)	Заходи проти відмов зі спільної причини (щонайменше 65 балів)
 Merge a symbol library file	Об’єднати файл бібліотеки символів
@@ -1198,6 +1216,7 @@ Options	Параметри
 Ordinary cable	Звичайний кабель
 Orientation	Орієнтація
 Origin	Походження
+Origin of the plant	Початок координат установки
 Other values ({})	Інші значення ({})
 Otherwise from the plant layout, or next to the other line-ups	Інакше – за планом установки або поруч з іншими рядами
 Out since {} (pages locked)	Винесено з {} (сторінки заблоковано)
@@ -1210,6 +1229,7 @@ Output failed: {}	Помилка виведення: {}
 Output to another project	Виведення в інший проєкт
 Output to project…	Вивести в проєкт…
 Outputs	Виходи
+Outside the plot boundary: {}	За межею ділянки: {}
 Overhang	Звис
 Own colour	Власний колір
 Own drawn form	Власна накреслена форма
@@ -1281,7 +1301,10 @@ Place in schematic	Розмістити на схемі
 Place in the building	Місце в будівлі
 Place in the plant	Місце на об'єкті
 Place in the room	Місце в приміщенні
+Place in the site plan	Розмістити на генплані
 Place text	Розмістити текст
+Place the georeferenced point everything is measured from	Розмістити геоприв'язану точку, від якої все вимірюється
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Розмістити геоприв'язану точку установки на генплані; її координати вводяться на панелі Будівлі, кожна точка вимірюється від неї
 Placed	Розміщено
 Placed by hand	Розміщено вручну
 Placed here: {}	Розміщено тут: {}
@@ -1299,7 +1322,12 @@ Plant layout	План установки
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	План установки, мережа трас, планування польових кабелів, вирівнювання потенціалів і кабельні аксесуари
 Plant segments with planned devices before the schematic	Сегменти установки із запланованими пристроями до створення схеми
 Plate outline, holes per diameter, cutouts	Контур панелі, отвори за діаметрами, вирізи
+Plot	Ділянка
+Plot boundary	Межа ділянки
+Plot boundary drawn: {} m²	Межу ділянки намальовано: {} м²
+Plot boundary drawn: {} m²; outside it: {}	Межу ділянки намальовано: {} м²; за нею: {}
 Plot frames	Рамки аркушів
+Plot, {}	Ділянка, {}
 Plug in card	Встановити плату
 Plugin commands	Команди плагінів
 Plugins	Плагіни
@@ -1389,6 +1417,8 @@ Record	Записати
 Rectangular	Прямокутний
 Redline: to be changed · Greenline: changed as built	Червона розмітка: слід змінити · Зелена розмітка: змінено за фактом виконання
 Redo	Повторити
+Reference point	Опорна точка
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Опорну точку розміщено в x {} м, z {} м; введіть її координати на панелі Будівлі
 Refresh	Оновити
 Refresh example catalog parts (GEN.*)	Оновити вироби прикладу каталогу (GEN.*)
 Reject	Відхилити
@@ -1805,6 +1835,7 @@ The page name gets the section number	Ім'я сторінки отримує н
 The page type, plot frame, title block, structure, description and the whole content are saved.	Зберігаються тип сторінки, рамка аркуша, основний напис, структура, опис і весь вміст.
 The pages it generated stay	Згенеровані ним сторінки залишаються
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	База даних виробів спільна для всіх проєктів. Вироби копіюються в проєкт, коли їх призначають пристрою.
+The point's coordinates in the coordinate reference system	Координати точки в системі координат
 The project changed since the search.	Проєкт змінився після пошуку.
 The project check	Перевірка проєкту
 The project database needs the desktop version: the browser cannot search folders.	Для бази даних проєктів потрібна настільна версія: браузер не може шукати в папках.
@@ -1815,6 +1846,7 @@ The properties of the selection in a window beside the page	Властивост
 The rail or mounting base; its accessories are the hooks, clamps and ballast	Рейка або монтажна основа; її приладдя — гаки, затискачі та баласт
 The recalculation keeps frozen routes as long as they are still possible	Під час перерахунку зафіксовані траси зберігаються, доки це можливо
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Стрічка з вкладкою Файл замінює меню; Ctrl+Shift+P знаходить будь-яку команду.
+The rooms of the level side by side; click the level again for all of the plant	Приміщення поверху поруч; клацніть поверх ще раз, щоб побачити всю установку
 The second fault is checked at the line-to-earth voltage	Подвійне замикання перевіряється при напрузі між фазою та землею
 The selected devices side by side on the selected rail, from its left end	Вибрані пристрої поруч один з одним на вибраній рейці, від її лівого кінця
 The side of {} is open	Сторона {} відкрита
@@ -1918,6 +1950,7 @@ Visible	Видимий
 Voltage (line to line)	Напруга (лінійна)
 Voltage drop	Спад напруги
 W A S D / arrows, Q / E	W A S D / стрілки, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, записується в ділянку під час експорту IFC
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Стіна {}, {} м: перетягніть, щоб перемістити, подвійне клацання покаже її для оснащення
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Стіна {}, {} м: стіна, показана у вигляді стіни (виділена); перетягніть, щоб перемістити
 Wall-mounted part	Настінний виріб
@@ -1930,9 +1963,11 @@ What is new	Що нового
 What should be checked or changed?	Що слід перевірити або змінити?
 Wheel / right or middle drag	Коліщатко / перетягування правою або середньою кнопкою
 Wheel: zoom · drag: move · click on a room: its floor plan	Коліщатко: масштаб · перетягування: зсув · клац по приміщенню: його план
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Коліщатко: масштаб · перетягування: зсув · клацання по приміщенню: його план · перетягніть кут межі ділянки
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Коліщатко: масштаб · правий клік: скасувати · графіка прив’язується до 0,5 мм, точки підключення – до сітки 4 мм
 When it differs from the page	Якщо відрізняється від сторінки
 Where	Положення
+Where the point is in the plant; y: its height above the ground level of the plant	Де точка розташована в установці; y: її висота над рівнем землі установки
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Звідки береться структура пристрою: аспекти, що збігаються зі структурою навколо символу, успадковуються і змінюються, коли він переміщується в рамку структури або з неї; інші аспекти належать пристрою і зберігаються.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Де провід починається й закінчується: точка підключення з даних виробу, згенерована із шаблону функцій або центр пристрою, якщо жодна точка підключення не підходить
 Whole building	Уся будівля
@@ -1971,6 +2006,7 @@ With everything below it	З усім, що під ним
 With the current pages; the approvals so far become void	З поточними сторінками; наявні погодження втрачають чинність
 With values only	Лише зі значеннями
 Withdraw	Відкликати
+Without a reference point the plant is measured from its origin, north towards the rear.	Без опорної точки установка вимірюється від початку координат, північ — назад.
 Without approvers a new revision is released directly.	Без погоджувачів нова ревізія затверджується одразу.
 Without bus system	Без шинної системи
 Without power loss data: {}	Без даних про втрати потужності: {}
@@ -2032,6 +2068,7 @@ inherited from structure box {}	успадковано від рамки стр�
 inherited from the page	успадковано від сторінки
 inherited: {}	успадковується: {}
 kW	kW
+known	відома
 low side at the rear	низький бік ззаду
 male	штир
 manual	вручну
@@ -2076,6 +2113,7 @@ value set…	набір значень…
 vertical	вертикально
 with bus cables	із шинними кабелями
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} м на схід, {} м на північ від опорної точки
 {}  (door)	{}  (двері)
 {}  (free)	{}  (вільна)
 {}  (used)	{}  (використовується)
@@ -2131,6 +2169,7 @@ x y	x y
 {} copies placed	Розміщено копій: {}
 {} corner points	Кутових точок: {}
 {} corners	Кутів: {}
+{} corners, {} m², {} m round	{} кутів, {} м², периметр {} м
 {} details	{} – подробиці
 {} device descriptions imported	Імпортовано описів пристроїв: {}
 {} devices	Пристрої: {}
@@ -2164,6 +2203,7 @@ x y	x y
 {} items, {} %	Елементів: {}, {} %
 {} links created, {} function texts copied	Створено зв’язків: {}, скопійовано текстів функцій: {}
 {} m of {} m wired	Змонтовано {} м з {} м
+{} m: {} m east, {} m north, {}° from north	{} м: {} м на схід, {} м на північ, {}° від півночі
 {} macro boxes updated	Оновлено рамок макросів: {}
 {} markers	Маркерів: {}
 {} mm	{} мм

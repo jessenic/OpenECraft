@@ -214,6 +214,8 @@ Mounting plate	Asennuslevy
 Mounting rail	Asennuskisko
 Name	Nimi
 Name of the block	Lohkon nimi
+Name of the plot, e.g. the cadastral parcel	Tontin nimi, esim. kiinteistötunnus
+Name of the point, e.g. a survey point	Pisteen nimi, esim. mittapiste
 Name of the scheme	Mallin nimi
 Net	Verkko
 New name	Uusi nimi
@@ -336,6 +338,8 @@ Relay	Rele
 Released pages cannot be moved	Vapautettuja sivuja ei voi siirtää
 Remove	Poista
 Remove from favorites	Poista suosikeista
+Remove the boundary	Poista raja
+Remove the reference point	Poista vertailupiste
 Report	Raportti
 Report blocks	Raporttilohkot
 Report: {}	Raportti: {}

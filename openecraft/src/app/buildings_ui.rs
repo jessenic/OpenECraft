@@ -1,15 +1,17 @@
-//! Buildings pane: the buildings of the plant with their levels, the rooms on them,
-//! their shafts, stairs and roofs (with roof windows and PV arrays), the links between
-//! buildings and a site plan of all of them ([`openecraft_core::panel::buildings`],
+//! Buildings pane: the plot with its boundary and reference point, the buildings of the
+//! plant with their levels, the rooms on them, their shafts, stairs and roofs (with
+//! roof windows and PV arrays), the links between buildings and a site plan of all of
+//! them ([`openecraft_core::panel::plot`], [`openecraft_core::panel::buildings`],
 //! [`openecraft_core::panel::stairs`], [`openecraft_core::panel::roofs`],
 //! [`openecraft_core::panel::solar`]).
 
 use super::App;
 use crate::panel_ui::site_plan::{self, SitePlan};
+use crate::panel_ui::SiteTool;
 use egui::{vec2, RichText, Sense};
 use openecraft_core::model::Project;
 use openecraft_core::panel::solar::strings;
-use openecraft_core::panel::{self, buildings as bld, roofs, solar, stairs, LinkKind, Opening, PvMounting, RoofShape, StairKind, Turn};
+use openecraft_core::panel::{self, buildings as bld, plot, roofs, solar, stairs, GeoReference, LinkKind, Opening, PvMounting, RoofShape, StairKind, Turn};
 use openecraft_i18n::{tr, tr_fmt};
 use openecraft_ui::icons::{self, Icon};
 
@@ -278,6 +280,10 @@ impl App {
                 }
             });
         }
+        if let Some(tool) = plot_section(ui, prj) {
+            self.panel_ui.choose_site_tool(tool);
+        }
+        ui.separator();
         if prj.layout.buildings.is_empty() {
             ui.weak(tr("No building yet: create one with New building, then put rooms on its levels."));
             return;
@@ -312,6 +318,116 @@ impl App {
             site_plan_section(ui, prj, st);
         });
     }
+}
+
+/// A coordinate reference system shown as the example (an EPSG code, not translated).
+const CRS_EXAMPLE: &str = "EPSG:25832";
+
+/// The plot: its name, its boundary (drawn in the site plan) and the reference point
+/// with its coordinates; gives the tool of the site plan to choose.
+#[allow(clippy::too_many_lines)]
+fn plot_section(ui: &mut egui::Ui, prj: &mut Project) -> Option<SiteTool> {
+    let mut tool = None;
+    let outside: Vec<String> = plot::outside(prj)
+        .into_iter()
+        .map(|s| match s {
+            plot::Standing::Room(i) | plot::Standing::Cabinet(i) => prj.layout.enclosures[i].name.clone(),
+            plot::Standing::Roof(bi, k) => format!("{} {}", prj.layout.buildings[bi].name, prj.layout.buildings[bi].roofs[k].name),
+        })
+        .collect();
+    let p = &mut prj.layout.plot;
+    egui::CollapsingHeader::new(RichText::new(tr("Plot")).strong()).id_salt("bldplot").default_open(true).show(ui, |ui| {
+        egui::Grid::new("bldplotgrid").num_columns(2).spacing([10.0, 5.0]).show(ui, |ui| {
+            ui.label(tr("Name"));
+            ui.text_edit_singleline(&mut p.name).on_hover_text(tr("Name of the plot, e.g. the cadastral parcel"));
+            ui.end_row();
+            ui.label(tr("Boundary"));
+            ui.horizontal(|ui| {
+                if p.outline.is_empty() {
+                    ui.weak(tr("none"));
+                } else {
+                    ui.label(tr_fmt!("{} corners, {} m², {} m round", p.outline.len(), format!("{:.1}", plot::area(&p.outline)), format!("{:.2}", plot::perimeter(&p.outline))));
+                }
+                if icons::text_button(ui, Icon::Polygon, tr("Draw")).on_hover_text(tr("Draw the boundary of the plot in the site plan; all buildings have to stay inside it")).clicked() {
+                    tool = Some(SiteTool::Boundary);
+                }
+                if !p.outline.is_empty() && icons::button(ui, Icon::Delete, tr("Remove the boundary")).clicked() {
+                    p.outline.clear();
+                }
+            });
+            ui.end_row();
+        });
+        if !outside.is_empty() {
+            ui.colored_label(crate::style::error(), tr_fmt!("Outside the plot boundary: {}", outside.join(", ")));
+        }
+        ui.horizontal(|ui| {
+            ui.label(RichText::new(tr("Reference point")).strong());
+            if icons::text_button(ui, Icon::Pin, tr("Place in the site plan")).on_hover_text(tr("Click where it is in the site plan")).clicked() {
+                tool = Some(SiteTool::Reference);
+            }
+            if p.reference.is_none() {
+                if icons::text_button(ui, Icon::Plus, tr("At the origin")).on_hover_text(tr("A reference point at the origin of the plant")).clicked() {
+                    p.reference = Some(GeoReference::default());
+                }
+            } else if icons::button(ui, Icon::Delete, tr("Remove the reference point")).clicked() {
+                p.reference = None;
+            }
+        });
+        let Some(r) = &mut p.reference else {
+            ui.weak(tr("Without a reference point the plant is measured from its origin, north towards the rear."));
+            return;
+        };
+        egui::Grid::new("bldrefgrid").num_columns(2).spacing([10.0, 5.0]).show(ui, |ui| {
+            ui.label(tr("Name"));
+            ui.text_edit_singleline(&mut r.name).on_hover_text(tr("Name of the point, e.g. a survey point"));
+            ui.end_row();
+            ui.label(tr("Place in the plant"));
+            ui.horizontal(|ui| {
+                ui.add(egui::DragValue::new(&mut r.x).speed(50.0).prefix("x ").suffix(" mm"));
+                ui.add(egui::DragValue::new(&mut r.z).speed(50.0).prefix("z ").suffix(" mm"));
+                ui.add(egui::DragValue::new(&mut r.y).speed(10.0).prefix("y ").suffix(" mm"));
+            })
+            .response
+            .on_hover_text(tr("Where the point is in the plant; y: its height above the ground level of the plant"));
+            ui.end_row();
+            ui.label(tr("Easting, northing"));
+            ui.horizontal(|ui| {
+                ui.add(egui::DragValue::new(&mut r.easting).speed(0.01).fixed_decimals(3).prefix("E ").suffix(" m"));
+                ui.add(egui::DragValue::new(&mut r.northing).speed(0.01).fixed_decimals(3).prefix("N ").suffix(" m"));
+            })
+            .response
+            .on_hover_text(tr("The point's coordinates in the coordinate reference system"));
+            ui.end_row();
+            ui.label(tr("Height above sea level"));
+            ui.add(egui::DragValue::new(&mut r.height).speed(0.01).fixed_decimals(3).suffix(" m"));
+            ui.end_row();
+            ui.label(tr("Coordinate reference system"));
+            ui.add(egui::TextEdit::singleline(&mut r.crs).hint_text(CRS_EXAMPLE).desired_width(140.0));
+            ui.end_row();
+            ui.label(tr("Grid north"));
+            if ui.add(egui::DragValue::new(&mut r.north).speed(0.5).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)")).changed() {
+                r.north = r.north.rem_euclid(360.0);
+            }
+            ui.end_row();
+            ui.label(tr("Latitude, longitude"));
+            ui.horizontal(|ui| {
+                let mut known = r.latitude.is_some() && r.longitude.is_some();
+                if ui.checkbox(&mut known, tr("known")).on_hover_text(tr("WGS 84, written into the site of IFC exports")).changed() {
+                    (r.latitude, r.longitude) = if known { (Some(0.0), Some(0.0)) } else { (None, None) };
+                }
+                if let (Some(lat), Some(lon)) = (&mut r.latitude, &mut r.longitude) {
+                    ui.add(egui::DragValue::new(lat).speed(0.000_01).range(-90.0..=90.0).fixed_decimals(7).suffix(" °"));
+                    ui.add(egui::DragValue::new(lon).speed(0.000_01).range(-180.0..=180.0).fixed_decimals(7).suffix(" °"));
+                }
+            });
+            ui.end_row();
+            let g = plot::to_geo(r, [0.0; 3]);
+            ui.label(tr("Origin of the plant"));
+            ui.label(format!("E {:.3}  N {:.3}  {:.3} m", g[0], g[1], g[2]));
+            ui.end_row();
+        });
+    });
+    tool
 }
 
 fn building_section(ui: &mut egui::Ui, prj: &mut Project, st: &mut BuildingsUi, bi: usize) {

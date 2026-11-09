@@ -200,6 +200,11 @@ impl Args<'_> {
         self.0.get(name).and_then(Value::as_f64).map(|v| v as f32)
     }
 
+    /// A number with the precision of `f64` (geographic coordinates).
+    pub fn real(&self, name: &str) -> Option<f64> {
+        self.0.get(name).and_then(Value::as_f64)
+    }
+
     pub fn int(&self, name: &str) -> Option<i64> {
         self.0.get(name).and_then(integer)
     }

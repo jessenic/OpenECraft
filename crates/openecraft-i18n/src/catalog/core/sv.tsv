@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Elrum
 A device tag must not be empty	En apparatbeteckning får inte vara tom
 A pipe run turns at right angles	En rörgata svänger i räta vinklar
+A plot boundary has at least three corners	En tomtgräns har minst tre hörn
 A port cannot be connected to itself	En port kan inte anslutas till sig själv
 A room needs at least four walls	Ett rum behöver minst fyra väggar
 A section number consists of letters and digits and does not start with 0	Ett avsnittsnummer består av bokstäver och siffror och börjar inte med 0
@@ -748,6 +749,7 @@ Last edited by	Senast redigerad av
 Last inspection	Senaste besiktning
 Last revision	Senaste revision
 Latching	Låsande
+Latitude is within ±90° and longitude within ±180°	Latituden ligger inom ±90° och longituden inom ±180°
 Lead time (days)	Ledtid (dagar)
 Leakage current	Läckström
 Leakage line	Läckledning
@@ -1344,6 +1346,7 @@ Roller switch NO	Rullbrytare, slutande
 Roof	Tak
 Roof top	Tak
 Room floor	Rummets golv
+Room {} stands outside the plot boundary	Rum {} står utanför tomtgränsen
 Rotation	Vridning
 Round punch	Rund stans
 Routing list (3D)	Dragningslista (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Tillverkaren av koppl
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Skåpraden i sitt rum: L-format planritning, innervägg, dörr och fönster, skåpraden på sin plats, en skena med ett vägguttag, en väggmonterad nödbelysning och en kabelstege under taket.
 The configuration is not a JSON object	Konfigurationen är inte ett JSON-objekt
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Transportören efter första frisläppningen: en frisläppt och låst revision, ändringar markerade sedan dess, granskningskommentarer med rödmarkering, en ändringsbegäran, revision B i godkännandeflödet och en baslinje att jämföra med.
+The coordinates of the reference point must be numbers	Referenspunktens koordinater måste vara tal
+The coordinates of the reference point {} are not valid	Referenspunktens {} koordinater är ogiltiga
+The corners of the plot boundary must be numbers	Tomtgränsens hörn måste vara tal
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Demoprojektet: PLC-in- och utgångar, skåplayout med skenor, kabelkanaler och dörrapparater, dörrkabelstam och motorkabel.
 The embedded document {} is damaged	Det inbäddade dokumentet {} är skadat
 The file is empty	Filen är tom
@@ -1586,6 +1592,9 @@ The next free id is already in use	Nästa lediga ID används redan
 The option needs a name	Alternativet behöver ett namn
 The page needs a number	Sidan behöver ett nummer
 The pages were changed after the submission; submit the revision again	Sidorna ändrades efter att de skickades; skicka revisionen igen
+The plot boundary crosses itself	Tomtgränsen korsar sig själv
+The plot boundary encloses no area	Tomtgränsen omsluter ingen yta
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Tomtgränsen är ingen polygon: den korsar sig själv eller har färre än tre hörn
 The project has no panel layout	Projektet har ingen skåplayout
 The property needs a name	Egenskapen behöver ett namn
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Pumpstationen inbyggd i två sammanbyggda golvskåp: skensystem, skenor och kabelkanaler, dörrapparater och handtag, filterfläkt, belysning, PE-skena, kabelförskruvningar, en kabelgenomföring, klimatberäkning, kanalfyllnad och 3D-dragning.
@@ -1922,6 +1931,7 @@ yellow	gul
 {} report references converted to report names	{} rapportreferenser konverterade till rapportnamn
 {} s	{} s
 {} single part assignments converted to part lists	{} enskilda artikeltilldelningar konverterade till artikellistor
+{} stands outside the plot boundary	{} står utanför tomtgränsen
 {} symbols, {} wires, {} texts / graphics	{} symboler, {} ledningar, {} texter / grafik
 {} texts are not translated into {}	{} texter är inte översatta till {}
 {} unused device data records removed	{} oanvända apparatdataposter borttagna
@@ -2006,6 +2016,8 @@ yellow	gul
 {}: port {} is not a {} port	{}: port {} är inte en {}-port
 {}: ports with different media ({})	{}: portar med olika medier ({})
 {}: replace {} after {} years (T10d)	{}: byt ut {} efter {} år (T10d)
+{}: roof {} reaches over the plot boundary	{}: tak {} sticker ut över tomtgränsen
+{}: room {} stands outside the plot boundary	{}: rum {} står utanför tomtgränsen
 {}: routing path {} is full ({} % of its usable cross-section)	{}: dragningsväg {} är full ({} % av dess användbara tvärsnitt)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: dubbelfelsströmmen {} A vid {} kopplar inte bort inom {} s (behöver {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: enlinjesymbolen '{}' matchar inte kretsschemat ('{}')

@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Ett numrerat avsnitt som innehåller sidor som en mapp; sidnamnen börjar med dess nummer (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	En profil mappar de neutrala fälten till kolumnnamnen i ett visst system (t.ex. MATNR för ERP-numret i SAP). Utan mappning identifieras vanliga engelska och tyska namn.
 A project definition based on this one, with its own defaults and scheme	En projektdefinition baserad på den här, med egna standardvärden och schema
+A reference point at the origin of the plant	En referenspunkt i anläggningens origo
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Ett rapportblock genererar sidorna i en rapport, t.ex. ett plintschema per plintrad, och uppdaterar dem.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	En schemasida 3.1, 3.2, … efter den aktuella sidan, som förblir undersida vid omnumrering
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	En schemasida för varje planerad apparat med ett sidmakro som ännu inte finns i kretsschemat (markerat segment, annars alla)
@@ -162,6 +163,7 @@ Assign to harness	Tilldela kabelstam
 Assign wires: select them in the schematic › Assign to cable.	Tilldela ledningar: välj dem i schemat › Tilldela kabel.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Asynkronmotorer på nätet ökar den högsta kortslutningsströmmen (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	Vid den högsta omgivningstemperaturen; värmaren håller daggpunkten. 0 = beaktas inte
+At the origin	I origo
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	Vid matningspunkten: Ik3 max {} kA, Ik1 min {} kA
 At the top level	På översta nivån
 Author	Författare
@@ -205,6 +207,7 @@ Bottom edges	Underkanter
 Bottom left	Nedre vänster
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Kapslingens underkant (utan sockel) över golvet; höjderna kontrolleras när den är känd eller när kapslingen står på en sockel
 Bottom right	Nedre höger
+Boundary	Gräns
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Brytförmåga mot kortslutningsströmmen vid varje skyddsdon i nätet, frånkoppling vid den lägsta felströmmen i slutet av dess krets, kablarnas kortslutningshållfasthet och selektivitet mot skyddsdonet före.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Brygga: fyra ledare; förbindelsen kommer in på en sida och går till de tre andra, den motsatta sidan först
 Building {} added with a level at ground level	Byggnad {} tillagd med en våning i marknivå
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Klicka på 4 mm-rutnätet
 Click on the wall: the part goes there at its mounting height	Klicka på väggen: delen hamnar där på sin monteringshöjd
 Click start and end point	Klicka på start- och slutpunkt
 Click the corners of a machine or building, double-click to finish	Klicka på hörnen av en maskin eller byggnad, dubbelklicka för att avsluta
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Klicka på tomtgränsens hörn · klicka på det första, dubbelklicka eller Enter: stäng · Backsteg: tillbaka · Esc: sluta
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Klicka på innerväggarnas ändar; varje klick börjar nästa, ändar nära en vägg fäster mot den. Esc, Enter eller dubbelklick avslutar kedjan, Esc igen verktyget.
 Click to add a node of the route network	Klicka för att lägga till en nod i kabelvägsnätet
 Click to add to the selected text.	Klicka för att lägga till i den markerade texten.
@@ -308,7 +312,10 @@ Click to show, right click for more	Klicka för att visa, högerklicka för mer
 Click two corners	Klicka på två hörn
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Klicka på två hörn av strukturrutan och ange sedan dess beteckningar i egenskaperna · Esc eller högerklick avslutar
 Click two nodes to connect them	Klicka på två noder för att förbinda dem
+Click two points to measure from one to the other · Esc: stop	Klicka på två punkter för att mäta från den ena till den andra · Esc: sluta
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Klicka där fyra ledare möts: bryggan leder förbindelsen från en sida till de tre andra, den motsatta först · {} vrider den · Esc eller högerklick avslutar
+Click where it is in the site plan	Klicka där den ligger i situationsplanen
+Click where the reference point is	Klicka där referenspunkten ligger
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Klicka där tre ledare möts: T-stycket anger den apparat som ledarna utgår från och ordningen på deras mål · {} vrider det där inga ledare möts ännu · Esc eller högerklick avslutar
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Klicka där två ledare korsar varandra: korsningen förbinder dem och leder varje ände av sin linje först rakt fram, sedan tvärs över · {} vrider den · Esc eller högerklick avslutar
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Klicka där två ledare möts i rät vinkel, eller där anslutningspunkter är vända mot varandra över hörnet: med automatisk anslutning på ritas ledare till det · {} vrider det · Esc eller högerklick avslutar
@@ -370,6 +377,7 @@ Consecutive addresses from the start byte, in schematic order	Löpande adresser 
 Contact image below coils	Kontaktavbildning under spolar
 Content	Innehåll
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Innehåll i ett inaktivt alternativ är dolt: det ritas inte, utvärderas inte, rapporteras inte och exporteras inte.
+Coordinate reference system	Referenssystem för koordinater
 Copies	Kopior
 Copies function texts between both representations where one is empty	Kopierar funktionstexter mellan de båda representationerna där den ena är tom
 Copies in rows and columns	Kopior i rader och kolumner
@@ -498,6 +506,7 @@ Digits	Siffror
 Dimension	Måttsättning
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Riktat T-stycke: där tre ledare möts anger det den apparat som förbindelsens två ledare utgår från och ordningen på deras mål
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Riktad korsning: förbinder de två ledare som korsar varandra där; varje ände av dess linje kopplas först rakt fram och sedan tvärs över
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Gridnorrs riktning, moturs sett ovanifrån från anläggningens baksida (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Riktning som modulerna vetter mot, moturs sett ovanifrån (0: framåt)
 Discard changes	Släng ändringarna
 Discard draft	Ignorera utkast
@@ -548,6 +557,8 @@ Draw cable definition	Rita kabeldefinition
 Draw connections	Rita förbindelser
 Draw connections between facing connection points when symbols are placed or moved	Rita förbindelser mellan motstående anslutningspunkter när symboler placeras eller flyttas
 Draw inner walls	Rita innerväggar
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	Rita tomtgränsen i situationsplanen: klicka på hörnen, på det första eller tryck Enter för att stänga; alla byggnader måste ligga innanför
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	Rita tomtgränsen i situationsplanen; alla byggnader måste ligga innanför
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Rita sidan själv: grafik för varje sida och en radritning som upprepas för varje rad; texter använder kolumnerna som platshållare
 Draw the three wires of the T-junction to it: one in its direction and two across	Rita T-styckets tre ledare till det: en i dess riktning och två tvärs över
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Rita hörnets två ledare till det, eller slå på automatisk anslutning och placera det vänt mot fria anslutningspunkter
@@ -572,6 +583,7 @@ Duplicate	Duplicera
 Each example builds on the one before and shows more of the features.	Varje exempel bygger på det föregående och visar fler av funktionerna.
 Each point-to-point connection can belong to a harness	Varje punkt-till-punkt-förbindelse kan tillhöra en kabelstam
 Earthing system	Jordningssystem
+Easting, northing	Östkoordinat, nordkoordinat
 Eaves	Takfot
 Edge length of the routing grid: smaller is finer and slower	Kantlängd för dragningsrutnätet: mindre är finare och långsammare
 Edit	Redigera
@@ -730,6 +742,7 @@ Graphic rectangle	Grafisk rektangel
 Graphical form	Grafiskt formulär
 Greatest distance of the roof hooks along a rail	Största avstånd mellan takkrokarna längs en skena
 Grid	Rutnät
+Grid north	Gridnorr
 Grid size	Rutnätsstorlek
 Grid {} mm	Rutnät {} mm
 Group as assembly	Gruppera som byggrupp
@@ -745,6 +758,7 @@ Heat map	Värmekarta
 Heating	Värme
 Heating circuit manifolds and control boxes	Golvvärmefördelare och reglerboxar
 Height (mm)	Höjd (mm)
+Height above sea level	Höjd över havet
 Height above the floor	Höjd över golvet
 Height above the mounting plate	Höjd över monteringsplåten
 Height above the plate	Höjd över plåten
@@ -870,6 +884,7 @@ Label field	Etikettfält
 Labeling scheme	Märkningsschema
 Landscape	Liggande
 Larger texts and buttons for a touch screen at the workbench	Större texter och knappar för en pekskärm vid arbetsbänken
+Latitude, longitude	Latitud, longitud
 Layer	Lager
 Layer {}	Lager {}
 Layer: {}	Lager: {}
@@ -895,6 +910,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Nivå för den här meddelandetypen
 Level on top	Våning överst
 Level {} added to building {}; new rooms go onto it	Våning {} tillagd i byggnad {}; nya rum hamnar på den
+Level {} of building {}	Plan {} i byggnad {}
 Levels	Våningar
 Library	Bibliotek
 Limits	Gränsvärden
@@ -966,6 +982,8 @@ Max. pressure	Max. tryck
 Max. width	Max. bredd
 Maximum fill of a carrier	Högsta fyllnadsgrad för en kabelbärare
 Mean: typical operation	Medel: typisk drift
+Measure	Mät
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Mät i situationsplanen: klicka på två punkter för avståndet, hur långt österut och norrut och riktningen från norr
 Measured	Uppmätt
 Measures against common cause failure (at least 65 points)	Åtgärder mot fel med gemensam orsak (minst 65 poäng)
 Merge a symbol library file	Sammanfoga en symbolbiblioteksfil
@@ -1199,6 +1217,7 @@ Options	Alternativ
 Ordinary cable	Vanlig kabel
 Orientation	Orientering
 Origin	Ursprung
+Origin of the plant	Anläggningens origo
 Other values ({})	Övriga värden ({})
 Otherwise from the plant layout, or next to the other line-ups	Annars från anläggningslayouten, eller bredvid de andra skåpsraderna
 Out since {} (pages locked)	Utlyft sedan {} (sidorna är låsta)
@@ -1211,6 +1230,7 @@ Output failed: {}	Utmatningen misslyckades: {}
 Output to another project	Mata ut till ett annat projekt
 Output to project…	Mata ut till projekt…
 Outputs	Utgångar
+Outside the plot boundary: {}	Utanför tomtgränsen: {}
 Overhang	Takutsprång
 Own colour	Egen färg
 Own drawn form	Eget ritat formulär
@@ -1282,7 +1302,10 @@ Place in schematic	Placera i schemat
 Place in the building	Plats i byggnaden
 Place in the plant	Plats i anläggningen
 Place in the room	Plats i rummet
+Place in the site plan	Placera i situationsplanen
 Place text	Placera text
+Place the georeferenced point everything is measured from	Placera den georefererade punkten som allt mäts från
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Placera anläggningens georefererade punkt i situationsplanen; dess koordinater anges i panelen Byggnader, varje punkt mäts sedan från den
 Placed	Placerad
 Placed by hand	Placerad manuellt
 Placed here: {}	Placerat här: {}
@@ -1300,7 +1323,12 @@ Plant layout	Anläggningslayout
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	Anläggningslayout, kabelvägsnät, fältkabelplanering, potentialutjämning och kabeltillbehör
 Plant segments with planned devices before the schematic	Anläggningssegment med planerade apparater före kretsschemat
 Plate outline, holes per diameter, cutouts	Plåtkontur, hål per diameter, urtag
+Plot	Tomt
+Plot boundary	Tomtgräns
+Plot boundary drawn: {} m²	Tomtgräns ritad: {} m²
+Plot boundary drawn: {} m²; outside it: {}	Tomtgräns ritad: {} m²; utanför: {}
 Plot frames	Ritningsramar
+Plot, {}	Tomt, {}
 Plug in card	Sätt i kort
 Plugin commands	Plugin-kommandon
 Plugins	Plugins
@@ -1390,6 +1418,8 @@ Record	Spela in
 Rectangular	Rektangulär
 Redline: to be changed · Greenline: changed as built	Redline: ska ändras · Greenline: ändrat enligt utförande
 Redo	Gör om
+Reference point	Referenspunkt
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referenspunkten placerad vid x {} m, z {} m; ange dess koordinater i panelen Byggnader
 Refresh	Uppdatera
 Refresh example catalog parts (GEN.*)	Uppdatera exempelkatalogens artiklar (GEN.*)
 Reject	Avvisa
@@ -1806,6 +1836,7 @@ The page name gets the section number	Sidnamnet får avsnittsnumret
 The page type, plot frame, title block, structure, description and the whole content are saved.	Sidtyp, ritningsram, namnruta, struktur, beskrivning och hela innehållet sparas.
 The pages it generated stay	De sidor det genererade finns kvar
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	Artikeldatabasen delas av alla projekt. Artiklar kopieras till ett projekt när de tilldelas en apparat.
+The point's coordinates in the coordinate reference system	Punktens koordinater i referenssystemet
 The project changed since the search.	Projektet har ändrats sedan sökningen.
 The project check	Projektkontrollen
 The project database needs the desktop version: the browser cannot search folders.	Projektdatabasen kräver skrivbordsversionen: webbläsaren kan inte söka i mappar.
@@ -1816,6 +1847,7 @@ The properties of the selection in a window beside the page	Markeringens egenska
 The rail or mounting base; its accessories are the hooks, clamps and ballast	Skenan eller monteringsfoten; dess tillbehör är krokar, klämmor och ballast
 The recalculation keeps frozen routes as long as they are still possible	Omberäkningen behåller frysta dragningar så länge de fortfarande är möjliga
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Menyfliksområdet med fliken Arkiv ersätter menyerna; Ctrl+Shift+P hittar alla kommandon.
+The rooms of the level side by side; click the level again for all of the plant	Planets rum sida vid sida; klicka på planet igen för hela anläggningen
 The second fault is checked at the line-to-earth voltage	Dubbelfelet kontrolleras vid spänningen fas–jord
 The selected devices side by side on the selected rail, from its left end	De markerade apparaterna sida vid sida på den markerade skenan, från dess vänstra ände
 The side of {} is open	Sidan av {} är öppen
@@ -1919,6 +1951,7 @@ Visible	Synligt
 Voltage (line to line)	Spänning (huvudspänning)
 Voltage drop	Spänningsfall
 W A S D / arrows, Q / E	W A S D / pilar, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, skrivs in i tomten vid IFC-export
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Vägg {}, {} m: dra för att flytta, dubbelklick visar den för att utrusta den
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Vägg {}, {} m: väggen som visas i väggvyn (markerad); dra för att flytta den
 Wall-mounted part	Väggmonterad artikel
@@ -1931,9 +1964,11 @@ What is new	Nyheter
 What should be checked or changed?	Vad ska kontrolleras eller ändras?
 Wheel / right or middle drag	Hjul / dra med höger- eller mittknappen
 Wheel: zoom · drag: move · click on a room: its floor plan	Hjul: zoom · dra: flytta · klicka på ett rum: dess planritning
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Hjul: zooma · dra: flytta · klicka på ett rum: dess planritning · dra ett hörn av tomtgränsen
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Hjul: zooma · högerklick: avbryt · grafik fäster mot 0,5 mm, anslutningspunkter mot 4 mm-rutnätet
 When it differs from the page	När den skiljer sig från sidan
 Where	Läge
+Where the point is in the plant; y: its height above the ground level of the plant	Var punkten ligger i anläggningen; y: dess höjd över anläggningens marknivå
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Varifrån apparatens struktur kommer: aspekter som är lika med strukturen runt symbolen ärvs och följer med när den flyttas in i eller ut ur en strukturruta; andra aspekter är apparatens egna och står kvar.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Var ledningen börjar och slutar: en anslutningspunkt från artikeldata, en som genererats från funktionsmallen eller apparatens mitt om ingen anslutningspunkt matchar
 Whole building	Hela byggnaden
@@ -1972,6 +2007,7 @@ With everything below it	Med allt under det
 With the current pages; the approvals so far become void	Med de aktuella sidorna; de hittillsvarande godkännandena blir ogiltiga
 With values only	Endast med värden
 Withdraw	Dra tillbaka
+Without a reference point the plant is measured from its origin, north towards the rear.	Utan referenspunkt mäts anläggningen från sitt origo, norr bakåt.
 Without approvers a new revision is released directly.	Utan godkännare frisläpps en ny revision direkt.
 Without bus system	Utan bussystem
 Without power loss data: {}	Utan data om effektförlust: {}
@@ -2033,6 +2069,7 @@ inherited from structure box {}	ärvt från strukturrutan {}
 inherited from the page	ärvt från sidan
 inherited: {}	ärvs: {}
 kW	kW
+known	känd
 low side at the rear	låg sida bak
 male	hane
 manual	manuell
@@ -2077,6 +2114,7 @@ value set…	värdeuppsättning…
 vertical	vertikal
 with bus cables	med busskablar
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} m öster, {} m norr om referenspunkten
 {}  (door)	{}  (dörr)
 {}  (free)	{}  (ledig)
 {}  (used)	{}  (används)
@@ -2132,6 +2170,7 @@ x y	x y
 {} copies placed	{} kopior placerade
 {} corner points	{} hörnpunkter
 {} corners	{} hörn
+{} corners, {} m², {} m round	{} hörn, {} m², omkrets {} m
 {} details	{} detaljer
 {} device descriptions imported	{} enhetsbeskrivningar importerade
 {} devices	{} enheter
@@ -2165,6 +2204,7 @@ x y	x y
 {} items, {} %	{} objekt, {} %
 {} links created, {} function texts copied	{} länkar skapade, {} funktionstexter kopierade
 {} m of {} m wired	{} m av {} m inkopplade
+{} m: {} m east, {} m north, {}° from north	{} m: {} m österut, {} m norrut, {}° från norr
 {} macro boxes updated	{} makrorutor uppdaterade
 {} markers	{} märkningar
 {} mm	{} mm

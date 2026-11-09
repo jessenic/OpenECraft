@@ -242,6 +242,9 @@ pub enum Cmd {
     LayoutLineup,
     LayoutSite,
     LayoutBuilding,
+    LayoutPlotBoundary,
+    LayoutReferencePoint,
+    LayoutMeasure,
     LayoutZones,
     LayoutOpenWalls,
     LayoutHideFrontWalls,
@@ -676,6 +679,15 @@ pub static ALL: &[Def] = &[
     d(C::LayoutFloorPlan, "layout_floor_plan", tr_const!("Floor plan"), I::Grid)
         .toggle()
         .tip(tr_const!("Floor plan of the room: drag walls to move them, drag cabinets to their places")),
+    d(C::LayoutPlotBoundary, "layout_plot_boundary", tr_const!("Plot boundary"), I::Polygon)
+        .toggle()
+        .tip(tr_const!("Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it")),
+    d(C::LayoutReferencePoint, "layout_reference_point", tr_const!("Reference point"), I::Pin)
+        .toggle()
+        .tip(tr_const!("Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it")),
+    d(C::LayoutMeasure, "layout_measure", tr_const!("Measure"), I::Dimension)
+        .toggle()
+        .tip(tr_const!("Measure in the site plan: click two points for the distance, how far east and north and the direction from north")),
     d(C::LayoutDrawWalls, "layout_draw_walls", tr_const!("Draw walls"), I::Polyline)
         .toggle()
         .tip(tr_const!("Draw the walls of the room: click the corners, walls run at right angles; click the first corner or press Enter to close")),

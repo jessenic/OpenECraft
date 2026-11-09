@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Sähkötila
 A device tag must not be empty	Laitetunnus ei saa olla tyhjä
 A pipe run turns at right angles	Putkireitti kääntyy suorassa kulmassa
+A plot boundary has at least three corners	Tontin rajalla on vähintään kolme kulmaa
 A port cannot be connected to itself	Porttia ei voi yhdistää itseensä
 A room needs at least four walls	Tilassa on oltava vähintään neljä seinää
 A section number consists of letters and digits and does not start with 0	Osion numero koostuu kirjaimista ja numeroista eikä ala numerolla 0
@@ -748,6 +749,7 @@ Last edited by	Viimeksi muokannut
 Last inspection	Viimeisin tarkastus
 Last revision	Viimeisin revisio
 Latching	Lukittuva
+Latitude is within ±90° and longitude within ±180°	Leveysaste on välillä ±90° ja pituusaste välillä ±180°
 Lead time (days)	Toimitusaika (päivää)
 Leakage current	Vuotovirta
 Leakage line	Vuotolinja
@@ -1344,6 +1346,7 @@ Roller switch NO	Rullakytkin, sulkeutuva
 Roof	Katto
 Roof top	Katto
 Room floor	Huoneen lattia
+Room {} stands outside the plot boundary	Tila {} on tontin rajan ulkopuolella
 Rotation	Kierto
 Round punch	Pyöreä lävistin
 Routing list (3D)	Reititysluettelo (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Kojeiston valmistaja 
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Kaappirivi tilassaan: L-muotoinen pohjapiirros, väliseinä, ovi ja ikkuna, kaappirivi paikallaan, seinällä kisko ja pistorasia, seinään asennettu turvavalaisin ja kaapelihylly katon alla.
 The configuration is not a JSON object	Konfiguraatio ei ole JSON-objekti
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Kuljetin ensimmäisen julkaisun jälkeen: julkaistu ja lukittu revisio, sen jälkeen merkityt muutokset, tarkastuskommentit punamerkintöineen, muutospyyntö, revisio B hyväksyntäprosessissa ja vertailupohja.
+The coordinates of the reference point must be numbers	Vertailupisteen koordinaattien on oltava lukuja
+The coordinates of the reference point {} are not valid	Vertailupisteen {} koordinaatit eivät kelpaa
+The corners of the plot boundary must be numbers	Tontin rajan kulmien on oltava lukuja
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Esittelyprojekti: logiikan tulot ja lähdöt, kotelon asennuskuva kiskoineen, johtokanavineen ja ovilaitteineen, oven johdinsarja ja moottorikaapeli.
 The embedded document {} is damaged	Upotettu dokumentti {} on vahingoittunut
 The file is empty	Tiedosto on tyhjä
@@ -1586,6 +1592,9 @@ The next free id is already in use	Seuraava vapaa tunnus on jo käytössä
 The option needs a name	Vaihtoehto tarvitsee nimen
 The page needs a number	Sivu tarvitsee numeron
 The pages were changed after the submission; submit the revision again	Sivuja muutettiin lähettämisen jälkeen; lähetä revisio uudelleen
+The plot boundary crosses itself	Tontin raja leikkaa itsensä
+The plot boundary encloses no area	Tontin raja ei rajaa pinta-alaa
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Tontin raja ei ole monikulmio: se leikkaa itsensä tai sillä on alle kolme kulmaa
 The project has no panel layout	Projektissa ei ole kaappiasennusta
 The property needs a name	Ominaisuus tarvitsee nimen
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Pumppaamo kahteen rinnakkain liitettyyn lattiakaappiin rakennettuna: kiskojärjestelmä, kiskot ja johtokanavat, ovilaitteet ja kahvat, suodatintuuletin, valaisin, PE-kisko, kaapeliläpiviennit, kaapeliläpivienti kaappien välillä, ilmastointilaskenta, kanavien täyttöaste ja 3D-reititys.
@@ -1922,6 +1931,7 @@ yellow	keltainen
 {} report references converted to report names	{} raporttiviittausta muunnettiin raporttien nimiksi
 {} s	{} s
 {} single part assignments converted to part lists	{} yksittäistä osan määritystä muunnettiin osaluetteloiksi
+{} stands outside the plot boundary	{} on tontin rajan ulkopuolella
 {} symbols, {} wires, {} texts / graphics	{} symbolia, {} johtoa, {} tekstiä / grafiikkaa
 {} texts are not translated into {}	{} tekstiä ei ole käännetty kielelle {}
 {} unused device data records removed	{} käyttämätöntä laitetietuetta poistettiin
@@ -2006,6 +2016,8 @@ yellow	keltainen
 {}: port {} is not a {} port	{}: portti {} ei ole {}-portti
 {}: ports with different media ({})	{}: portit eri väliaineilla ({})
 {}: replace {} after {} years (T10d)	{}: vaihda {} {} vuoden jälkeen (T10d)
+{}: roof {} reaches over the plot boundary	{}: katto {} ulottuu tontin rajan yli
+{}: room {} stands outside the plot boundary	{}: tila {} on tontin rajan ulkopuolella
 {}: routing path {} is full ({} % of its usable cross-section)	{}: reitityspolku {} on täynnä ({} % sen käytettävästä poikkipinta-alasta)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: toinen vikavirta {} A kohteessa {} ei katkaise {} s:n kuluessa (tarvitaan {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: yksinapainen symboli '{}' ei vastaa piirikaaviota ('{}')

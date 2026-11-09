@@ -214,6 +214,8 @@ Mounting plate	Monteringsplåt
 Mounting rail	Monteringsskena
 Name	Namn
 Name of the block	Blockets namn
+Name of the plot, e.g. the cadastral parcel	Tomtens namn, t.ex. fastighetsbeteckningen
+Name of the point, e.g. a survey point	Punktens namn, t.ex. en mätpunkt
 Name of the scheme	Schemats namn
 Net	Nät
 New name	Nytt namn
@@ -336,6 +338,8 @@ Relay	Relä
 Released pages cannot be moved	Frisläppta sidor kan inte flyttas
 Remove	Ta bort
 Remove from favorites	Ta bort från favoriter
+Remove the boundary	Ta bort gränsen
+Remove the reference point	Ta bort referenspunkten
 Report	Rapport
 Report blocks	Rapportblock
 Report: {}	Rapport: {}

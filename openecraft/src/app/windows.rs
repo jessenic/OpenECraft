@@ -6,6 +6,37 @@ use super::*;
 use crate::shortcuts::Shortcut;
 use openecraft_core::analysis::{Progress, Step};
 
+/// Least width of the name and value fields of a project property.
+const PROPERTY_NAME_WIDTH: f32 = 120.0;
+const PROPERTY_VALUE_WIDTH: f32 = 160.0;
+/// Least height of the list of project properties before it scrolls.
+const PROPERTY_LIST_HEIGHT: f32 = 200.0;
+
+/// Widths of the name and value fields of a project property in a row `width` wide that
+/// also holds a button `button` wide, `gap` between them: the name gets two fifths, the
+/// value the rest, neither less than its least width. Set explicitly because egui
+/// keeps a grid column as narrow as it was in the first frame.
+pub(super) fn property_widths(width: f32, button: f32, gap: f32) -> (f32, f32) {
+    let rest = width - button - 2.0 * gap;
+    let name = (rest * 0.4).max(PROPERTY_NAME_WIDTH);
+    (name, (rest - name).max(PROPERTY_VALUE_WIDTH))
+}
+
+/// Renames the project property `old` to `new` unless `new` is empty or taken; true
+/// when renamed.
+pub(super) fn rename_property(props: &mut std::collections::BTreeMap<String, String>, old: &str, new: String) -> bool {
+    if new.is_empty() || props.contains_key(&new) {
+        return false;
+    }
+    match props.remove(old) {
+        Some(v) => {
+            props.insert(new, v);
+            true
+        }
+        None => false,
+    }
+}
+
 impl App {
     pub(super) fn closing_window(&mut self, ui: &mut egui::Ui) {
         let ctx = ui.ctx().clone();
@@ -245,26 +276,27 @@ impl App {
         let (window, esc) = self.dialogs.window(ctx, tr("Project properties"), "project_properties", None);
         let mut open = !esc;
         let prj_tb_names = openecraft_core::forms::names(&self.session.prj);
-        window.open(&mut open).resizable(false).show(ctx, |ui| {
+        window.open(&mut open).default_width(520.0).min_width(360.0).show(ctx, |ui| {
             let info = &mut self.session.prj.info;
+            let line = |ui: &mut egui::Ui, text: &mut String| ui.add(egui::TextEdit::singleline(text).desired_width(f32::INFINITY));
             egui::Grid::new("prj").num_columns(2).show(ui, |ui| {
                 ui.label(tr("Project name"));
-                ui.text_edit_singleline(&mut info.name);
+                line(ui, &mut info.name);
                 ui.end_row();
                 ui.label(tr("Description"));
-                ui.text_edit_multiline(&mut info.description);
+                ui.add(egui::TextEdit::multiline(&mut info.description).desired_width(f32::INFINITY));
                 ui.end_row();
                 ui.label(tr("Company"));
-                ui.text_edit_singleline(&mut info.company);
+                line(ui, &mut info.company);
                 ui.end_row();
                 ui.label(tr("Created by"));
-                ui.text_edit_singleline(&mut info.creator);
+                line(ui, &mut info.creator);
                 ui.end_row();
                 ui.label(tr("Date"));
-                ui.text_edit_singleline(&mut info.date);
+                line(ui, &mut info.date);
                 ui.end_row();
                 ui.label(tr("Revision"));
-                ui.text_edit_singleline(&mut info.revision);
+                line(ui, &mut info.revision);
                 ui.end_row();
                 ui.label(tr("Title block"));
                 let forms = &mut self.session.prj.forms;
@@ -283,25 +315,40 @@ impl App {
             let props = &mut self.session.prj.info.properties;
             let mut remove = None;
             let mut rename = None;
-            egui::Grid::new("prjprops").num_columns(3).show(ui, |ui| {
+            // The list fills the height the user gives the dialog (at least a few rows)
+            // and scrolls; the slack below keeps the window from growing with it.
+            let height = (ui.available_height() - 2.0 * ui.spacing().interact_size.y).max(PROPERTY_LIST_HEIGHT);
+            egui::ScrollArea::vertical().id_salt("prjprops").max_height(height).auto_shrink([false, true]).show(ui, |ui| {
+                let gap = ui.spacing().item_spacing.x;
+                // A floating scroll bar is drawn over the rows: keep the remove buttons clear of it.
+                let scroll = &ui.spacing().scroll;
+                let bar = if scroll.floating { scroll.bar_width + scroll.bar_inner_margin } else { 0.0 };
+                let (name_w, value_w) = property_widths(ui.available_width() - bar, ui.spacing().interact_size.y, gap);
                 for (k, v) in props.iter_mut() {
-                    let mut key = k.clone();
-                    if ui.add(egui::TextEdit::singleline(&mut key).desired_width(120.0)).changed() {
-                        rename = Some((k.clone(), key));
-                    }
-                    ui.add(egui::TextEdit::singleline(v).desired_width(200.0));
-                    if icons::button(ui, Icon::Delete, tr("Remove")).clicked() {
-                        remove = Some(k.clone());
-                    }
-                    ui.end_row();
+                    ui.horizontal(|ui| {
+                        // The name is applied when the field loses focus: renaming
+                        // re-sorts the rows, so a rename per key stroke would move the
+                        // text cursor to another property.
+                        let id = ui.make_persistent_id(("prjprop", k.as_str()));
+                        let mut name = ui.data_mut(|d| d.get_temp::<String>(id)).unwrap_or_else(|| k.clone());
+                        let r = ui.add(egui::TextEdit::singleline(&mut name).id(id.with("edit")).desired_width(name_w));
+                        if r.lost_focus() && !ui.input(|i| i.key_pressed(egui::Key::Escape)) {
+                            rename = Some((k.clone(), name.clone()));
+                        }
+                        if r.has_focus() {
+                            ui.data_mut(|d| d.insert_temp(id, name));
+                        } else {
+                            ui.data_mut(|d| d.remove::<String>(id));
+                        }
+                        ui.add(egui::TextEdit::singleline(v).desired_width(value_w));
+                        if icons::button(ui, Icon::Delete, tr("Remove")).clicked() {
+                            remove = Some(k.clone());
+                        }
+                    });
                 }
             });
             if let Some((old, new)) = rename {
-                if !new.is_empty() && !props.contains_key(&new) {
-                    if let Some(v) = props.remove(&old) {
-                        props.insert(new, v);
-                    }
-                }
+                rename_property(props, &old, new);
             }
             if let Some(k) = remove {
                 props.remove(&k);
@@ -538,3 +585,6 @@ fn page_structure_ui(ui: &mut egui::Ui, pg: &Page, pi: usize, page_aspects: &[As
     ui.data_mut(|d| d.insert_temp(key, (dt, move_devices)));
     apply
 }
+
+#[cfg(test)]
+mod tests;

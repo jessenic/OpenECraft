@@ -214,6 +214,8 @@ Mounting plate	Montážní deska
 Mounting rail	Montážní lišta
 Name	Název
 Name of the block	Název bloku
+Name of the plot, e.g. the cadastral parcel	Název pozemku, např. katastrální parcela
+Name of the point, e.g. a survey point	Název bodu, např. geodetický bod
 Name of the scheme	Název schématu
 Net	Síť
 New name	Nový název
@@ -336,6 +338,8 @@ Relay	Relé
 Released pages cannot be moved	Uvolněné stránky nelze přesouvat
 Remove	Odebrat
 Remove from favorites	Odebrat z oblíbených
+Remove the boundary	Odstranit hranici
+Remove the reference point	Odstranit referenční bod
 Report	Výkaz
 Report blocks	Bloky výkazů
 Report: {}	Výkaz: {}

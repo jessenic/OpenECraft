@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Електрощитова
 A device tag must not be empty	Позначення пристрою не може бути порожнім
 A pipe run turns at right angles	Траса трубопроводу повертає під прямим кутом
+A plot boundary has at least three corners	Межа ділянки має щонайменше три кути
 A port cannot be connected to itself	Порт не можна з’єднати із самим собою
 A room needs at least four walls	Приміщенню потрібні щонайменше чотири стіни
 A section number consists of letters and digits and does not start with 0	Номер розділу складається з літер і цифр і не починається з 0
@@ -748,6 +749,7 @@ Last edited by	Останнє редагування
 Last inspection	Остання перевірка
 Last revision	Остання ревізія
 Latching	З фіксацією
+Latitude is within ±90° and longitude within ±180°	Широта лежить у межах ±90°, а довгота — у межах ±180°
 Lead time (days)	Термін поставки (днів)
 Leakage current	Струм витоку
 Leakage line	Дренажна лінія
@@ -1344,6 +1346,7 @@ Roller switch NO	Роликовий вимикач, замикальний
 Roof	Дах
 Roof top	Покрівля
 Room floor	Підлога приміщення
+Room {} stands outside the plot boundary	Приміщення {} розташоване за межею ділянки
 Rotation	Поворот
 Round punch	Круглий пуансон
 Routing list (3D)	Перелік прокладання (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Слід вказат
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Ряд шаф у своєму приміщенні: Г-подібний план, внутрішня стіна, двері та вікно, ряд шаф на своєму місці, рейка з розеткою на стіні, настінний аварійний світильник і кабельний лоток під стелею.
 The configuration is not a JSON object	Конфігурація не є об’єктом JSON
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Конвеєр після першого випуску: випущена та заблокована ревізія, позначені відтоді зміни, коментарі перевірки з червоними позначками, запит на зміну, ревізія B у процесі погодження та базова версія для порівняння.
+The coordinates of the reference point must be numbers	Координати опорної точки мають бути числами
+The coordinates of the reference point {} are not valid	Координати опорної точки {} недійсні
+The corners of the plot boundary must be numbers	Кути межі ділянки мають бути числами
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Демонстраційний проєкт: входи та виходи ПЛК, компонування шафи з рейками, кабель-каналами та пристроями на дверях, джгут дверей і кабель двигуна.
 The embedded document {} is damaged	Вбудований документ {} пошкоджено
 The file is empty	Файл порожній
@@ -1586,6 +1592,9 @@ The next free id is already in use	Наступний вільний ідент�
 The option needs a name	Опції потрібна назва
 The page needs a number	Сторінці потрібен номер
 The pages were changed after the submission; submit the revision again	Сторінки змінено після подання; подайте ревізію повторно
+The plot boundary crosses itself	Межа ділянки перетинає сама себе
+The plot boundary encloses no area	Межа ділянки не охоплює площі
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Межа ділянки не є багатокутником: вона перетинає сама себе або має менше трьох кутів
 The project has no panel layout	Проєкт не має компонування шафи
 The property needs a name	Властивості потрібна назва
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Насосна станція у двох з'єднаних підлогових шафах: система збірних шин, рейки та кабель-канали, пристрої на дверях і ручки, вентилятор із фільтром, світильник, шина PE, кабельні вводи, кабельний прохід, розрахунок клімату, заповнення кабель-каналів і 3D-трасування.
@@ -1922,6 +1931,7 @@ yellow	жовтий
 {} report references converted to report names	Посилань на звіти, перетворених на назви звітів: {}
 {} s	{} с
 {} single part assignments converted to part lists	Окремих призначень виробів, перетворених на списки виробів: {}
+{} stands outside the plot boundary	{} розташовано за межею ділянки
 {} symbols, {} wires, {} texts / graphics	Символів: {}, проводів: {}, текстів / графіки: {}
 {} texts are not translated into {}	{} текстів не перекладено мовою {}
 {} unused device data records removed	Вилучено невикористаних записів даних пристроїв: {}
@@ -2006,6 +2016,8 @@ yellow	жовтий
 {}: port {} is not a {} port	{}: порт {} не є портом {}
 {}: ports with different media ({})	{}: порти з різними середовищами ({})
 {}: replace {} after {} years (T10d)	{}: замінити {} через {} років (T10d)
+{}: roof {} reaches over the plot boundary	{}: дах {} виступає за межу ділянки
+{}: room {} stands outside the plot boundary	{}: приміщення {} розташоване за межею ділянки
 {}: routing path {} is full ({} % of its usable cross-section)	{}: трасу прокладання {} заповнено ({} % її корисного перерізу)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: струм подвійного замикання {} A на {} не відключає протягом {} с (потрібно {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: однолінійний символ '{}' не відповідає схемі ('{}')

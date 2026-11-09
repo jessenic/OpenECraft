@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Číslovaný oddíl, který obsahuje stránky jako složka; názvy stránek začínají jeho číslem (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil mapuje neutrální pole na názvy sloupců konkrétního systému (např. MATNR pro číslo ERP v SAP). Bez mapování se rozpoznají běžné anglické a německé názvy.
 A project definition based on this one, with its own defaults and scheme	Definice projektu založená na této, s vlastními výchozími hodnotami a schématem
+A reference point at the origin of the plant	Referenční bod v počátku zařízení
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Blok výkazů vytváří stránky výkazu, např. jedno schéma svorkovnice na každou svorkovnici, a aktualizuje je.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Stránka schématu 3.1, 3.2, … za aktuální stránkou, která při přečíslování zůstane podstránkou
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Stránka schématu pro každý plánovaný přístroj s makrem stránky, který ještě není ve schématu (vybraný segment, jinak všechny)
@@ -162,6 +163,7 @@ Assign to harness	Přiřadit ke svazku
 Assign wires: select them in the schematic › Assign to cable.	Přiřazení vodičů: vyberte je ve schématu › Přiřadit ke kabelu.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Asynchronní motory na síti zvyšují nejvyšší zkratový proud (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	Při nejvyšší okolní teplotě; topení udržuje rosný bod. 0 = nezohledňuje se
+At the origin	V počátku
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	V místě napájení: Ik3 max {} kA, Ik1 min {} kA
 At the top level	Na nejvyšší úrovni
 Author	Autor
@@ -205,6 +207,7 @@ Bottom edges	Dolní hrany
 Bottom left	Vlevo dole
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Spodní hrana skříně (bez soklu) nad podlahou; výšky se kontrolují, když je známa nebo skříň stojí na soklu
 Bottom right	Vpravo dole
+Boundary	Hranice
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Vypínací schopnost vůči zkratovému proudu u každého ochranného přístroje sítě, odpojení při nejnižším poruchovém proudu na konci jeho obvodu, zkratová odolnost kabelů a selektivita s předřazeným přístrojem.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Most: čtyři vodiče; spojení přichází z jedné strany a jde ke třem ostatním, nejprve k protilehlé
 Building {} added with a level at ground level	Budova {} přidána s podlažím v úrovni terénu
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Klikněte na rastr 4 mm
 Click on the wall: the part goes there at its mounting height	Klepněte na stěnu: díl se tam umístí ve své montážní výšce
 Click start and end point	Klikněte na počáteční a koncový bod
 Click the corners of a machine or building, double-click to finish	Klikněte na rohy stroje nebo budovy, poklikáním dokončete
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Klikněte na rohy hranice pozemku · klik na první, dvojklik nebo Enter: uzavřít · Backspace: zpět · Esc: ukončit
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Klikněte na konce vnitřních stěn; každé kliknutí začne další, konce u stěny se k ní přichytí. Esc, Enter nebo dvojklik ukončí řetěz, další Esc nástroj.
 Click to add a node of the route network	Kliknutím přidáte uzel sítě tras
 Click to add to the selected text.	Kliknutím přidáte k vybranému textu.
@@ -308,7 +312,10 @@ Click to show, right click for more	Klepnutím zobrazit, pravým tlačítkem dal
 Click two corners	Klikněte na dva rohy
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Klikněte na dva rohy rámečku struktury a poté nastavte jeho identifikátory ve vlastnostech · Esc nebo pravé tlačítko ukončí
 Click two nodes to connect them	Klikněte na dva uzly, které chcete propojit
+Click two points to measure from one to the other · Esc: stop	Klikněte na dva body pro měření od jednoho k druhému · Esc: ukončit
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Klepněte, kde se stýkají čtyři vodiče: most vede spojení z jedné strany ke třem ostatním, nejprve k protilehlé · {} jej otočí · Esc nebo pravé tlačítko ukončí
+Click where it is in the site plan	Klikněte na jeho místo v situačním plánu
+Click where the reference point is	Klikněte tam, kde leží referenční bod
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Klepněte, kde se stýkají tři vodiče: T-kus určuje přístroj, od něhož vodiče vycházejí, a pořadí jejich cílů · {} jej otočí, kde se vodiče ještě nestýkají · Esc nebo pravé tlačítko ukončí
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Klepněte, kde se kříží dva vodiče: křížení je spojí a vede každý konec své čáry nejprve rovně, pak napříč · {} jej otočí · Esc nebo pravé tlačítko ukončí
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Klepněte, kde se stýkají dva vodiče v pravém úhlu, nebo kde připojovací body leží naproti sobě přes roh: při zapnutém automatickém spojování se k němu nakreslí vodiče · {} jej otočí · Esc nebo pravé tlačítko ukončí
@@ -370,6 +377,7 @@ Consecutive addresses from the start byte, in schematic order	Po sobě jdoucí a
 Contact image below coils	Zrcadlo kontaktů pod cívkami
 Content	Obsah
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Obsah neaktivní volby je skrytý: nekreslí se, nevyhodnocuje, nevykazuje ani neexportuje.
+Coordinate reference system	Souřadnicový referenční systém
 Copies	Kopie
 Copies function texts between both representations where one is empty	Zkopíruje texty funkcí mezi oběma zobrazeními tam, kde je jedno prázdné
 Copies in rows and columns	Kopie v řádcích a sloupcích
@@ -498,6 +506,7 @@ Digits	Číslice
 Dimension	Kóta
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Směrovaný T-kus: kde se stýkají tři vodiče, určuje přístroj, od něhož vycházejí dva vodiče spojení, a pořadí jejich cílů
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Směrované křížení: spojuje dva vodiče, které se tam kříží; každý konec jeho čáry je zapojen nejprve rovně a pak napříč
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Směr severu sítě, proti směru hodinových ručiček při pohledu shora od zadní strany zařízení (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Směr, kterým moduly míří, proti směru hodinových ručiček při pohledu shora (0: dopředu)
 Discard changes	Zahodit změny
 Discard draft	Zahodit koncept
@@ -548,6 +557,8 @@ Draw cable definition	Nakreslit definici kabelu
 Draw connections	Kreslit spojení
 Draw connections between facing connection points when symbols are placed or moved	Kreslit spojení mezi protilehlými přípojnými body při umísťování nebo přesouvání symbolů
 Draw inner walls	Kreslit vnitřní stěny
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	Nakreslete hranici pozemku v situačním plánu: klikněte na rohy, na první nebo stiskněte Enter pro uzavření; všechny budovy musí zůstat uvnitř
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	Nakreslete hranici pozemku v situačním plánu; všechny budovy musí zůstat uvnitř
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Nakreslete stránku sami: grafika pro každou stránku a kresba řádku opakovaná pro každý řádek; texty přebírají sloupce jako zástupné symboly
 Draw the three wires of the T-junction to it: one in its direction and two across	Nakreslete k T-kusu jeho tři vodiče: jeden v jeho směru a dva napříč
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Nakreslete k rohu jeho dva vodiče, nebo zapněte automatické spojování a umístěte ho naproti volným připojovacím bodům
@@ -572,6 +583,7 @@ Duplicate	Duplikovat
 Each example builds on the one before and shows more of the features.	Každý příklad navazuje na předchozí a ukazuje více funkcí.
 Each point-to-point connection can belong to a harness	Každé spojení bod–bod může patřit ke kabelovému svazku
 Earthing system	Soustava uzemnění
+Easting, northing	Východní, severní souřadnice
 Eaves	Okap
 Edge length of the routing grid: smaller is finer and slower	Délka hrany rastru vedení: menší je jemnější a pomalejší
 Edit	Úpravy
@@ -730,6 +742,7 @@ Graphic rectangle	Grafický obdélník
 Graphical form	Grafický formulář
 Greatest distance of the roof hooks along a rail	Největší vzdálenost střešních háků podél lišty
 Grid	Rastr
+Grid north	Sever sítě
 Grid size	Velikost mřížky
 Grid {} mm	Rastr {} mm
 Group as assembly	Seskupit jako sestavu
@@ -745,6 +758,7 @@ Heat map	Tepelná mapa
 Heating	Topení
 Heating circuit manifolds and control boxes	Rozdělovače topných okruhů a regulační boxy
 Height (mm)	Výška (mm)
+Height above sea level	Nadmořská výška
 Height above the floor	Výška nad podlahou
 Height above the mounting plate	Výška nad montážní deskou
 Height above the plate	Výška nad deskou
@@ -870,6 +884,7 @@ Label field	Pole popisku
 Labeling scheme	Schéma popisování
 Landscape	Na šířku
 Larger texts and buttons for a touch screen at the workbench	Větší texty a tlačítka pro dotykovou obrazovku u pracovního stolu
+Latitude, longitude	Zeměpisná šířka, délka
 Layer	Vrstva
 Layer {}	Vrstva {}
 Layer: {}	Vrstva: {}
@@ -895,6 +910,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Úroveň tohoto druhu hlášení
 Level on top	Podlaží nahoře
 Level {} added to building {}; new rooms go onto it	Podlaží {} přidáno do budovy {}; nové místnosti půjdou na něj
+Level {} of building {}	Podlaží {} budovy {}
 Levels	Podlaží
 Library	Knihovna
 Limits	Mezní hodnoty
@@ -966,6 +982,8 @@ Max. pressure	Max. tlak
 Max. width	Max. šířka
 Maximum fill of a carrier	Maximální zaplnění nosné konstrukce
 Mean: typical operation	Střední: typický provoz
+Measure	Měřit
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Měření v situačním plánu: klikněte na dva body pro vzdálenost, posun na východ a sever a směr od severu
 Measured	Naměřeno
 Measures against common cause failure (at least 65 points)	Opatření proti poruchám se společnou příčinou (alespoň 65 bodů)
 Merge a symbol library file	Sloučit soubor knihovny symbolů
@@ -1199,6 +1217,7 @@ Options	Volby
 Ordinary cable	Běžný kabel
 Orientation	Orientace
 Origin	Původ
+Origin of the plant	Počátek zařízení
 Other values ({})	Další hodnoty ({})
 Otherwise from the plant layout, or next to the other line-ups	Jinak z dispozice zařízení nebo vedle ostatních řad skříní
 Out since {} (pages locked)	Vyčleněno od {} (stránky zamčeny)
@@ -1211,6 +1230,7 @@ Output failed: {}	Vydání se nezdařilo: {}
 Output to another project	Vydání do jiného projektu
 Output to project…	Vydat do projektu…
 Outputs	Výstupy
+Outside the plot boundary: {}	Mimo hranici pozemku: {}
 Overhang	Přesah
 Own colour	Vlastní barva
 Own drawn form	Vlastní kreslený formulář
@@ -1282,7 +1302,10 @@ Place in schematic	Umístit ve schématu
 Place in the building	Umístění v budově
 Place in the plant	Umístění v zařízení
 Place in the room	Místo v místnosti
+Place in the site plan	Umístit v situačním plánu
 Place text	Umístit text
+Place the georeferenced point everything is measured from	Umístit georeferencovaný bod, od kterého se vše měří
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Umístěte georeferencovaný bod zařízení do situačního plánu; jeho souřadnice se zadávají v panelu Budovy, každý bod se pak měří od něj
 Placed	Umístěno
 Placed by hand	Umístěno ručně
 Placed here: {}	Zde umístěno: {}
@@ -1300,7 +1323,12 @@ Plant layout	Dispozice zařízení
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	Dispozice zařízení, síť tras, plánování polních kabelů, ochranné pospojování a kabelové příslušenství
 Plant segments with planned devices before the schematic	Segmenty zařízení s plánovanými přístroji před schématem zapojení
 Plate outline, holes per diameter, cutouts	Obrys desky, otvory podle průměru, výřezy
+Plot	Pozemek
+Plot boundary	Hranice pozemku
+Plot boundary drawn: {} m²	Hranice pozemku nakreslena: {} m²
+Plot boundary drawn: {} m²; outside it: {}	Hranice pozemku nakreslena: {} m²; mimo ni: {}
 Plot frames	Rámečky výkresů
+Plot, {}	Pozemek, {}
 Plug in card	Zasunout kartu
 Plugin commands	Příkazy pluginů
 Plugins	Pluginy
@@ -1390,6 +1418,8 @@ Record	Zaznamenat
 Rectangular	Obdélníkový
 Redline: to be changed · Greenline: changed as built	Redline: ke změně · Greenline: změněno podle skutečného provedení
 Redo	Znovu
+Reference point	Referenční bod
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referenční bod umístěn v x {} m, z {} m; zadejte jeho souřadnice v panelu Budovy
 Refresh	Obnovit
 Refresh example catalog parts (GEN.*)	Aktualizovat artikly ukázkového katalogu (GEN.*)
 Reject	Zamítnout
@@ -1806,6 +1836,7 @@ The page name gets the section number	Název stránky dostane číslo oddílu
 The page type, plot frame, title block, structure, description and the whole content are saved.	Uloží se typ stránky, rámeček výkresu, rohové razítko, struktura, popis a celý obsah.
 The pages it generated stay	Stránky, které vytvořil, zůstanou
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	Databázi artiklů sdílejí všechny projekty. Artikly se zkopírují do projektu, když jsou přiřazeny k přístroji.
+The point's coordinates in the coordinate reference system	Souřadnice bodu v souřadnicovém referenčním systému
 The project changed since the search.	Projekt se od hledání změnil.
 The project check	Kontrola projektu
 The project database needs the desktop version: the browser cannot search folders.	Databáze projektů vyžaduje desktopovou verzi: prohlížeč nemůže prohledávat složky.
@@ -1816,6 +1847,7 @@ The properties of the selection in a window beside the page	Vlastnosti výběru 
 The rail or mounting base; its accessories are the hooks, clamps and ballast	Lišta nebo montážní podstavec; jeho příslušenstvím jsou háky, svorky a zátěž
 The recalculation keeps frozen routes as long as they are still possible	Přepočet zachová zmrazené trasy, dokud jsou možné
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Pás karet s kartou Soubor nahrazuje nabídky; Ctrl+Shift+P najde libovolný příkaz.
+The rooms of the level side by side; click the level again for all of the plant	Místnosti podlaží vedle sebe; dalším kliknutím na podlaží celé zařízení
 The second fault is checked at the line-to-earth voltage	Druhá porucha se kontroluje při napětí fáze proti zemi
 The selected devices side by side on the selected rail, from its left end	Vybrané přístroje vedle sebe na vybrané liště, od jejího levého konce
 The side of {} is open	Strana {} je otevřená
@@ -1919,6 +1951,7 @@ Visible	Viditelná
 Voltage (line to line)	Napětí (sdružené)
 Voltage drop	Úbytek napětí
 W A S D / arrows, Q / E	W A S D / šipky, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, zapisuje se do pozemku exportů IFC
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Stěna {}, {} m: přetažením ji přesunete, dvojklik ji zobrazí k osazení
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Stěna {}, {} m: stěna zobrazená v pohledu na stěnu (zvýrazněná); přetažením ji přesunete
 Wall-mounted part	Díl na stěnu
@@ -1931,9 +1964,11 @@ What is new	Co je nového
 What should be checked or changed?	Co se má zkontrolovat nebo změnit?
 Wheel / right or middle drag	Kolečko / tažení pravým nebo prostředním tlačítkem
 Wheel: zoom · drag: move · click on a room: its floor plan	Kolečko: zoom · tažení: posun · klik na místnost: její půdorys
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Kolečko: zoom · tažení: posun · klik na místnost: její půdorys · tažení rohu hranice pozemku
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Kolečko: zoom · pravé tlačítko: zrušit · grafika se přichytává na 0,5 mm, přípojné body na rastr 4 mm
 When it differs from the page	Pokud se liší od stránky
 Where	Poloha
+Where the point is in the plant; y: its height above the ground level of the plant	Kde bod leží v zařízení; y: jeho výška nad úrovní terénu zařízení
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Odkud pochází struktura přístroje: aspekty shodné se strukturou kolem symbolu jsou zděděné a mění se, když se přesune do rámečku struktury nebo z něj; ostatní aspekty patří přístroji a zůstávají.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Kde vodič začíná a končí: přípojný bod z dat artiklu, bod vygenerovaný ze šablony funkce, nebo střed přístroje, pokud žádný přípojný bod neodpovídá
 Whole building	Celá budova
@@ -1972,6 +2007,7 @@ With everything below it	Se vším, co je pod ním
 With the current pages; the approvals so far become void	S aktuálními stránkami; dosavadní schválení pozbudou platnosti
 With values only	Pouze s hodnotami
 Withdraw	Stáhnout zpět
+Without a reference point the plant is measured from its origin, north towards the rear.	Bez referenčního bodu se zařízení měří od počátku, sever směrem dozadu.
 Without approvers a new revision is released directly.	Bez schvalovatelů se nová revize uvolní přímo.
 Without bus system	Bez sběrnicového systému
 Without power loss data: {}	Bez údaje o ztrátovém výkonu: {}
@@ -2033,6 +2069,7 @@ inherited from structure box {}	zděděno z rámečku struktury {}
 inherited from the page	zděděno ze stránky
 inherited: {}	zděděno: {}
 kW	kW
+known	známá
 low side at the rear	nízká strana vzadu
 male	kolík
 manual	ručně
@@ -2077,6 +2114,7 @@ value set…	sada hodnot…
 vertical	svisle
 with bus cables	se sběrnicovými kabely
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} m východně, {} m severně od referenčního bodu
 {}  (door)	{}  (dveře)
 {}  (free)	{}  (volná)
 {}  (used)	{}  (použito)
@@ -2132,6 +2170,7 @@ x y	x y
 {} copies placed	Umístěno kopií: {}
 {} corner points	Rohové body: {}
 {} corners	{} rohů
+{} corners, {} m², {} m round	{} rohů, {} m², obvod {} m
 {} details	Podrobnosti: {}
 {} device descriptions imported	Importováno popisů zařízení: {}
 {} devices	Přístroje: {}
@@ -2165,6 +2204,7 @@ x y	x y
 {} items, {} %	Prvky: {}, {} %
 {} links created, {} function texts copied	Vytvořeno propojení: {}, zkopírováno textů funkcí: {}
 {} m of {} m wired	Zapojeno {} m z {} m
+{} m: {} m east, {} m north, {}° from north	{} m: {} m na východ, {} m na sever, {}° od severu
 {} macro boxes updated	Aktualizováno {} rámečků maker
 {} markers	Štítky: {}
 {} mm	{} mm

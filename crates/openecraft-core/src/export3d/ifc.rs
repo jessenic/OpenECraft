@@ -66,6 +66,15 @@ impl Ifc {
     }
 }
 
+/// An angle in degrees as an IFC compound plane angle: degrees, minutes, seconds and
+/// millionths of a second, all with its sign.
+fn compound_angle(v: f64) -> String {
+    let micro = (v.abs() * 3600.0 * 1e6).round() as i64;
+    let sign = if v < 0.0 { -1 } else { 1 };
+    let (d, m, sec, mic) = (micro / 3_600_000_000, micro / 60_000_000 % 60, micro / 1_000_000 % 60, micro % 1_000_000);
+    format!("({},{},{},{})", sign * d, sign * m, sign * sec, sign * mic)
+}
+
 /// The scene as IFC4 (STEP physical file).
 pub fn ifc(prj: &Project, file_name: &str) -> String {
     let name = if prj.info.name.is_empty() { "Panel layout" } else { &prj.info.name };
@@ -80,7 +89,14 @@ pub fn ifc(prj: &Project, file_name: &str) -> String {
     let units = f.add(&format!("IFCUNITASSIGNMENT((#{length},#{angle}))"));
     let project = f.add(&format!("IFCPROJECT('{}',$,{},$,$,$,$,(#{ctx}),#{units})", f.guid(), text(name)));
     let mut placement = f.add(&format!("IFCLOCALPLACEMENT($,#{world})"));
-    let site = f.add(&format!("IFCSITE('{}',$,'Site',$,$,#{placement},$,$,.ELEMENT.,$,$,$,$,$)", f.guid()));
+    // The plot: its name, where it lies (WGS 84) and its height above sea level.
+    let plot = &prj.layout.plot;
+    let site_name = if plot.name.is_empty() { text("Site") } else { text(&plot.name) };
+    let r = plot.reference.as_ref();
+    let deg = |v: Option<f64>| v.map_or_else(|| "$".to_string(), compound_angle);
+    let (lat, lon) = (deg(r.and_then(|r| r.latitude)), deg(r.and_then(|r| r.longitude)));
+    let elevation = r.map_or_else(|| "$".to_string(), |r| format!("{:.1}", (r.height * 1000.0 - f64::from(r.y))));
+    let site = f.add(&format!("IFCSITE('{}',$,{site_name},$,$,#{placement},$,$,.ELEMENT.,{lat},{lon},{elevation},$,$)", f.guid()));
     placement = f.add(&format!("IFCLOCALPLACEMENT(#{placement},#{world})"));
     let building = f.add(&format!("IFCBUILDING('{}',$,'Building',$,$,#{placement},$,$,.ELEMENT.,$,$,$)", f.guid()));
     placement = f.add(&format!("IFCLOCALPLACEMENT(#{placement},#{world})"));

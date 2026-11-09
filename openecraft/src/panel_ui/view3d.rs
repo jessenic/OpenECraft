@@ -43,7 +43,18 @@ impl PanelUi {
         self.show_site || self.site
     }
 
+    /// The level whose rooms the 3D view shows side by side (its id): the level clicked
+    /// in the navigator while the 3D view is shown.
+    pub(super) fn level_3d(&self) -> Option<u64> {
+        (self.site && self.site_plan.level != 0).then_some(self.site_plan.level)
+    }
+
     pub(super) fn shown_3d(&self, prj: &Project, ei: usize) -> Vec<(usize, SitePose)> {
+        if let Some(level) = self.level_3d() {
+            // All rooms of the level at their places, with the cabinets standing in them.
+            let poses = panel::site_poses(prj);
+            return panel::buildings::rooms_on(&prj.layout, level).into_iter().flat_map(|r| std::iter::once(r).chain(panel::cabinets_in(&prj.layout, r))).map(|k| (k, poses[k])).collect();
+        }
         if self.whole_site() {
             return panel::site_poses(prj).into_iter().enumerate().collect();
         }
@@ -84,6 +95,9 @@ impl PanelUi {
     /// The buildings whose floor slabs, stairs and roofs the 3D view shows: all of them
     /// with all enclosures, the room's own with its building.
     pub(super) fn buildings_3d(&self, prj: &Project, ei: usize) -> Vec<usize> {
+        if let Some(level) = self.level_3d() {
+            return panel::buildings::find_level(&prj.layout, level).map(|(bi, _)| bi).into_iter().collect();
+        }
         if self.whole_site() {
             return (0..prj.layout.buildings.len()).collect();
         }
@@ -171,9 +185,10 @@ impl PanelUi {
             paint(&painter, &prims);
             prims
         };
-        for (a, b) in &scene.outlines {
+        // The front edges of the enclosures, the plot boundary and the reference point.
+        for ((a, b), stroke) in scene.outlines.iter().map(|l| (l, Stroke::new(1.5, Color32::from_rgb(110, 115, 125)))).chain(scene.plot_lines.iter().map(|l| (l, Stroke::new(2.0, crate::style::ok())))) {
             if let (Some(pa), Some(pb)) = (project_view(*a), project_view(*b)) {
-                painter.line_segment([pa.0, pb.0], Stroke::new(1.5, Color32::from_rgb(110, 115, 125)));
+                painter.line_segment([pa.0, pb.0], stroke);
             }
         }
         for label in &scene.labels {

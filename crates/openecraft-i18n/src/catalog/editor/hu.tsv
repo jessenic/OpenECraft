@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Számozott szakasz, amely mappaként tartalmazza az oldalakat; az oldalnevek a számával kezdődnek (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	A profil a semleges mezőket egy adott rendszer oszlopneveihez rendeli (pl. MATNR az ERP-számhoz SAP-ban). Hozzárendelés nélkül a szokásos angol és német nevek felismerésre kerülnek.
 A project definition based on this one, with its own defaults and scheme	Erre épülő projektdefiníció saját alapértékekkel és sémával
+A reference point at the origin of the plant	Referenciapont a létesítmény origójában
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	A kimutatásblokk létrehozza egy kimutatás oldalait, pl. lécenként egy sorkapocstervet, és frissíti őket.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Egy 3.1, 3.2, … kapcsolásirajz-oldal az aktuális oldal után, amely újraszámozáskor aloldal marad
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Oldalmakróval rendelkező, a kapcsolási rajzon még nem szereplő tervezett készülékenként egy kapcsolásirajz-oldal (a kijelölt szegmens, különben mind)
@@ -162,6 +163,7 @@ Assign to harness	Hozzárendelés kábelköteghez
 Assign wires: select them in the schematic › Assign to cable.	Vezetékek hozzárendelése: jelölje ki őket a kapcsolási rajzon › Hozzárendelés kábelhez.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	A hálózatra kapcsolt aszinkronmotorok növelik a legnagyobb zárlati áramot (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	A legmagasabb környezeti hőmérsékleten; a fűtés tartja a harmatpontot. 0 = nincs figyelembe véve
+At the origin	Az origóban
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	A betáplálási pontban: Ik3 max {} kA, Ik1 min {} kA
 At the top level	A legfelső szinten
 Author	Szerző
@@ -205,6 +207,7 @@ Bottom edges	Alsó élek
 Bottom left	Bal alsó
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	A szekrény alsó éle (lábazat nélkül) a padló felett; a magasságokat akkor ellenőrzi, ha ez ismert, vagy ha a szekrény lábazaton áll
 Bottom right	Jobb alsó
+Boundary	Határ
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Megszakítóképesség a zárlati árammal szemben a hálózat minden védőkészülékénél, lekapcsolás a legkisebb hibaáramnál az áramkör végén, a kábelek zárlati szilárdsága és szelektivitás az előtte kapcsolt készülékkel.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Híd: négy vezeték; a kapcsolat egy oldalon érkezik, és a három másikhoz megy, először a szemköztihez
 Building {} added with a level at ground level	A(z) {} épület hozzáadva egy talajszinti szinttel
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Kattintson a 4 mm-es rácsra
 Click on the wall: the part goes there at its mounting height	Kattintson a falra: az alkatrész ott a szerelési magasságába kerül
 Click start and end point	Kattintson a kezdő- és a végpontra
 Click the corners of a machine or building, double-click to finish	Kattintson egy gép vagy épület sarkaira, a befejezéshez kattintson duplán
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Kattintson a telekhatár sarkaira · az elsőre kattintás, dupla kattintás vagy Enter: lezárás · Backspace: vissza · Esc: befejezés
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Kattintson a belső falak végeire; minden kattintás a következőt kezdi, a fal közelében lévő végek a falhoz illeszkednek. Esc, Enter vagy dupla kattintás befejezi a láncot, újabb Esc az eszközt.
 Click to add a node of the route network	Kattintson a nyomvonalhálózat egy csomópontjának hozzáadásához
 Click to add to the selected text.	Kattintson a kijelölt szöveghez való hozzáadáshoz.
@@ -308,7 +312,10 @@ Click to show, right click for more	Kattintás: megjelenítés, jobb kattintás:
 Click two corners	Kattintson két sarokra
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Kattintson a struktúrakeret két sarkára, majd adja meg azonosítóit a tulajdonságokban · Esc vagy jobb kattintás a befejezéshez
 Click two nodes to connect them	Kattintson két csomópontra az összekötésükhöz
+Click two points to measure from one to the other · Esc: stop	Kattintson két pontra a mérésükhöz · Esc: befejezés
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Kattintson oda, ahol négy vezeték találkozik: a híd a kapcsolatot egy oldalról a három másikhoz vezeti, először a szemköztihez · {} elforgatja · Esc vagy jobb kattintás befejezi
+Click where it is in the site plan	Kattintson a helyére a helyszínrajzon
+Click where the reference point is	Kattintson oda, ahol a referenciapont van
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Kattintson oda, ahol három vezeték találkozik: a T-elem megadja, melyik készülékből indulnak a vezetékek, és a céljaik sorrendjét · {} elforgatja, ahol még nem találkoznak vezetékek · Esc vagy jobb kattintás befejezi
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Kattintson oda, ahol két vezeték keresztezi egymást: a kereszteződés összeköti őket, és vonalának mindkét végét először egyenesen, majd keresztben vezeti · {} elforgatja · Esc vagy jobb kattintás befejezi
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Kattintson oda, ahol két vezeték derékszögben találkozik, vagy ahol csatlakozási pontok a sarkon át szemben állnak: bekapcsolt automatikus csatlakoztatással vezetékek rajzolódnak hozzá · {} elforgatja · Esc vagy jobb kattintás befejezi
@@ -370,6 +377,7 @@ Consecutive addresses from the start byte, in schematic order	Egymást követő 
 Contact image below coils	Érintkezőtükör a tekercsek alatt
 Content	Tartalom
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Az inaktív opció tartalma rejtve van: nem kerül megrajzolásra, kiértékelésre, kimutatásba vagy exportálásra.
+Coordinate reference system	Koordináta-rendszer
 Copies	Másolatok
 Copies function texts between both representations where one is empty	Funkciószövegeket másol a két ábrázolás között, ahol az egyik üres
 Copies in rows and columns	Másolatok sorokban és oszlopokban
@@ -498,6 +506,7 @@ Digits	Számjegyek
 Dimension	Méretezés
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Irányított T-elem: ahol három vezeték találkozik, megadja, melyik készülékből indul a kapcsolat két vezetéke, és a céljaik sorrendjét
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Irányított kereszteződés: összeköti az ott keresztező két vezetéket; vonalának mindkét vége először egyenesen, majd keresztben vezetékeződik
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	A hálózati észak iránya, felülről nézve az óramutatóval ellentétesen a létesítmény hátuljától (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Az irány, amerre a modulok néznek, felülről nézve az óramutató járásával ellentétesen (0: előre)
 Discard changes	Módosítások elvetése
 Discard draft	Piszkozat elvetése
@@ -548,6 +557,8 @@ Draw cable definition	Kábeldefiníció rajzolása
 Draw connections	Összeköttetések rajzolása
 Draw connections between facing connection points when symbols are placed or moved	Összeköttetések rajzolása a szemközti csatlakozási pontok között szimbólumok elhelyezésekor vagy mozgatásakor
 Draw inner walls	Belső falak rajzolása
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	A telekhatár megrajzolása a helyszínrajzon: kattintson a sarkokra, lezáráshoz az elsőre vagy nyomja meg az Entert; minden épületnek belül kell maradnia
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	A telekhatár megrajzolása a helyszínrajzon; minden épületnek belül kell maradnia
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Rajzolja meg saját maga az oldalt: grafika minden oldalhoz és egy sorrajz, amely minden sornál ismétlődik; a szövegek az oszlopokat helyőrzőként használják
 Draw the three wires of the T-junction to it: one in its direction and two across	Rajzolja a T-elem három vezetékét hozzá: egyet az irányában és kettőt keresztben
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Rajzolja a sarok két vezetékét hozzá, vagy kapcsolja be az automatikus csatlakoztatást, és helyezze szabad csatlakozási pontokkal szembe
@@ -572,6 +583,7 @@ Duplicate	Kettőzés
 Each example builds on the one before and shows more of the features.	Minden példa az előzőre épül, és több funkciót mutat be.
 Each point-to-point connection can belong to a harness	Minden pont-pont összeköttetés tartozhat egy kábelköteghez
 Earthing system	Földelési rendszer
+Easting, northing	Keleti, északi koordináta
 Eaves	Eresz
 Edge length of the routing grid: smaller is finer and slower	A nyomvonalrács élhossza: a kisebb finomabb és lassabb
 Edit	Szerkesztés
@@ -730,6 +742,7 @@ Graphic rectangle	Grafikus téglalap
 Graphical form	Grafikus űrlap
 Greatest distance of the roof hooks along a rail	A tetőkampók legnagyobb távolsága egy sín mentén
 Grid	Rács
+Grid north	Hálózati észak
 Grid size	Rácsméret
 Grid {} mm	Rács {} mm
 Group as assembly	Csoportosítás szerelvényként
@@ -745,6 +758,7 @@ Heat map	Hőtérkép
 Heating	Fűtés
 Heating circuit manifolds and control boxes	Fűtőköri osztók és szabályozódobozok
 Height (mm)	Magasság (mm)
+Height above sea level	Tengerszint feletti magasság
 Height above the floor	Padló feletti magasság
 Height above the mounting plate	Magasság a szerelőlap fölött
 Height above the plate	Magasság a lap fölött
@@ -870,6 +884,7 @@ Label field	Feliratmező
 Labeling scheme	Feliratozási séma
 Landscape	Fekvő
 Larger texts and buttons for a touch screen at the workbench	Nagyobb szövegek és gombok a munkapad érintőképernyőjéhez
+Latitude, longitude	Szélesség, hosszúság
 Layer	Réteg
 Layer {}	{} réteg
 Layer: {}	Réteg: {}
@@ -895,6 +910,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Ennek az üzenettípusnak a szintje
 Level on top	Szint felül
 Level {} added to building {}; new rooms go onto it	A(z) {0} szint hozzáadva a(z) {1} épülethez; az új helyiségek erre kerülnek
+Level {} of building {}	{1} épület {0} szintje
 Levels	Szintek
 Library	Könyvtár
 Limits	Határértékek
@@ -966,6 +982,8 @@ Max. pressure	Max. nyomás
 Max. width	Max. szélesség
 Maximum fill of a carrier	Kábeltartó maximális telítettsége
 Mean: typical operation	Átlagos: jellemző üzem
+Measure	Mérés
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Mérés a helyszínrajzon: kattintson két pontra a távolsághoz, a keleti és északi eltéréshez és az északtól mért irányhoz
 Measured	Mért
 Measures against common cause failure (at least 65 points)	Közös okú meghibásodás elleni intézkedések (legalább 65 pont)
 Merge a symbol library file	Szimbólumkönyvtár-fájl egyesítése
@@ -1199,6 +1217,7 @@ Options	Opciók
 Ordinary cable	Normál kábel
 Orientation	Tájolás
 Origin	Eredet
+Origin of the plant	A létesítmény origója
 Other values ({})	Egyéb értékek ({})
 Otherwise from the plant layout, or next to the other line-ups	Különben a létesítmény-elrendezésből, vagy a többi szekrénysor mellett
 Out since {} (pages locked)	Kiemelve {} óta (oldalak zárolva)
@@ -1211,6 +1230,7 @@ Output failed: {}	Sikertelen kiadás: {}
 Output to another project	Kiadás másik projektbe
 Output to project…	Kiadás projektbe…
 Outputs	Kimenetek
+Outside the plot boundary: {}	A telekhatáron kívül: {}
 Overhang	Túlnyúlás
 Own colour	Saját szín
 Own drawn form	Saját rajzolt űrlap
@@ -1282,7 +1302,10 @@ Place in schematic	Elhelyezés a kapcsolási rajzon
 Place in the building	Hely az épületben
 Place in the plant	Hely a létesítményben
 Place in the room	Hely a helyiségben
+Place in the site plan	Elhelyezés a helyszínrajzon
 Place text	Szöveg elhelyezése
+Place the georeferenced point everything is measured from	A georeferált pont elhelyezése, amelytől minden mérés indul
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	A létesítmény georeferált pontjának elhelyezése a helyszínrajzon; koordinátái az Épületek panelre kerülnek, minden pontot tőle mérnek
 Placed	Elhelyezve
 Placed by hand	Kézzel elhelyezve
 Placed here: {}	Itt elhelyezve: {}
@@ -1300,7 +1323,12 @@ Plant layout	Létesítmény-elrendezés
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	Létesítmény-elrendezés, nyomvonalhálózat, terepi kábeltervezés, potenciálkiegyenlítés és kábeltartozékok
 Plant segments with planned devices before the schematic	Létesítményszegmensek tervezett készülékekkel a kapcsolási rajz előtt
 Plate outline, holes per diameter, cutouts	Lap körvonala, furatok átmérőnként, kivágások
+Plot	Telek
+Plot boundary	Telekhatár
+Plot boundary drawn: {} m²	Telekhatár megrajzolva: {} m²
+Plot boundary drawn: {} m²; outside it: {}	Telekhatár megrajzolva: {} m²; kívül: {}
 Plot frames	Rajzkeretek
+Plot, {}	Telek, {}
 Plug in card	Kártya behelyezése
 Plugin commands	Bővítményparancsok
 Plugins	Bővítmények
@@ -1390,6 +1418,8 @@ Record	Rögzítés
 Rectangular	Téglalap alakú
 Redline: to be changed · Greenline: changed as built	Redline: módosítandó · Greenline: kivitelezés szerint módosítva
 Redo	Mégis
+Reference point	Referenciapont
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referenciapont elhelyezve: x {} m, z {} m; adja meg koordinátáit az Épületek panelen
 Refresh	Frissítés
 Refresh example catalog parts (GEN.*)	Példakatalógus-alkatrészek frissítése (GEN.*)
 Reject	Elutasítás
@@ -1806,6 +1836,7 @@ The page name gets the section number	Az oldal neve megkapja a szakasz számát
 The page type, plot frame, title block, structure, description and the whole content are saved.	Az oldal típusa, rajzkerete, szövegmezője, struktúrája, leírása és teljes tartalma mentésre kerül.
 The pages it generated stay	Az általa generált oldalak megmaradnak
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	Az alkatrész-adatbázis minden projekt számára közös. Az alkatrészek akkor kerülnek be egy projektbe, amikor egy készülékhez rendelik őket.
+The point's coordinates in the coordinate reference system	A pont koordinátái a koordináta-rendszerben
 The project changed since the search.	A projekt a keresés óta megváltozott.
 The project check	A projekt ellenőrzése
 The project database needs the desktop version: the browser cannot search folders.	A projektadatbázishoz az asztali verzió szükséges: a böngésző nem tud mappákban keresni.
@@ -1816,6 +1847,7 @@ The properties of the selection in a window beside the page	A kijelölés tulajd
 The rail or mounting base; its accessories are the hooks, clamps and ballast	A sín vagy szerelőtalp; tartozékai a kampók, szorítók és ballaszt
 The recalculation keeps frozen routes as long as they are still possible	Az újraszámítás megtartja a rögzített nyomvonalakat, amíg lehetséges
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	A Fájl lappal rendelkező menüszalag felváltja a menüket; a Ctrl+Shift+P bármely parancsot megtalál.
+The rooms of the level side by side; click the level again for all of the plant	A szint helyiségei egymás mellett; kattintson ismét a szintre a teljes létesítményhez
 The second fault is checked at the line-to-earth voltage	A második hibát a fázis–föld feszültséggel ellenőrzi
 The selected devices side by side on the selected rail, from its left end	A kijelölt készülékek egymás mellett a kijelölt sínen, annak bal végétől
 The side of {} is open	{} oldala nyitott
@@ -1919,6 +1951,7 @@ Visible	Látható
 Voltage (line to line)	Feszültség (vonali)
 Voltage drop	Feszültségesés
 W A S D / arrows, Q / E	W A S D / nyilak, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, az IFC-exportok telkébe kerül
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	{}. fal, {} m: húzással mozgatható, dupla kattintással megjelenik a felszereléshez
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	{}. fal, {} m: a falnézetben látható fal (kiemelve); húzással mozgatható
 Wall-mounted part	Falra szerelhető cikk
@@ -1931,9 +1964,11 @@ What is new	Újdonságok
 What should be checked or changed?	Mit kell ellenőrizni vagy módosítani?
 Wheel / right or middle drag	Görgő / jobb vagy középső gombos húzás
 Wheel: zoom · drag: move · click on a room: its floor plan	Görgő: nagyítás · húzás: mozgatás · kattintás egy helyiségre: alaprajza
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Görgő: nagyítás · húzás: mozgatás · kattintás egy helyiségre: alaprajza · a telekhatár sarkának húzása
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Görgő: nagyítás · jobb kattintás: mégse · a grafika 0,5 mm-re, a csatlakozási pontok a 4 mm-es rácsra illeszkednek
 When it differs from the page	Ha eltér az oldaltól
 Where	Hely
+Where the point is in the plant; y: its height above the ground level of the plant	Hol van a pont a létesítményben; y: magassága a létesítmény terepszintje felett
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Honnan származik a készülék struktúrája: a szimbólum körüli struktúrával egyező aspektusok öröklődnek, és követik, ha a szimbólum struktúrakeretbe kerül vagy kikerül onnan; a többi aspektus a készülék sajátja és megmarad.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	A vezeték kezdete és vége: az alkatrészadatokból származó csatlakozási pont, a funkciósablonból generált pont, vagy a készülék közepe, ha egyik csatlakozási pont sem egyezik
 Whole building	Egész épület
@@ -1972,6 +2007,7 @@ With everything below it	Mindazzal együtt, ami alatta van
 With the current pages; the approvals so far become void	Az aktuális oldalakkal; az eddigi jóváhagyások érvényüket vesztik
 With values only	Csak értékkel rendelkezők
 Withdraw	Visszavonás
+Without a reference point the plant is measured from its origin, north towards the rear.	Referenciapont nélkül a létesítményt az origójától mérik, észak hátrafelé.
 Without approvers a new revision is released directly.	Jóváhagyók nélkül az új revízió közvetlenül kiadásra kerül.
 Without bus system	Buszrendszer nélkül
 Without power loss data: {}	Veszteségi teljesítmény adata nélkül: {}
@@ -2033,6 +2069,7 @@ inherited from structure box {}	a(z) {} struktúrakerettől öröklött
 inherited from the page	az oldaltól öröklött
 inherited: {}	öröklött: {}
 kW	kW
+known	ismert
 low side at the rear	alacsony oldal hátul
 male	tű
 manual	kézi
@@ -2077,6 +2114,7 @@ value set…	értékkészlet…
 vertical	függőleges
 with bus cables	buszkábelekkel
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} m-re keletre, {} m-re északra a referenciaponttól
 {}  (door)	{}  (ajtó)
 {}  (free)	{}  (szabad)
 {}  (used)	{}  (használatban)
@@ -2132,6 +2170,7 @@ x y	x y
 {} copies placed	{} másolat elhelyezve
 {} corner points	{} sarokpont
 {} corners	{} sarok
+{} corners, {} m², {} m round	{} sarok, {} m², kerület {} m
 {} details	{} részlet
 {} device descriptions imported	{} eszközleírás importálva
 {} devices	{} készülék
@@ -2165,6 +2204,7 @@ x y	x y
 {} items, {} %	{} elem, {} %
 {} links created, {} function texts copied	{} kapcsolat létrehozva, {} funkciószöveg átmásolva
 {} m of {} m wired	{} m / {} m bekötve
+{} m: {} m east, {} m north, {}° from north	{} m: {} m keletre, {} m északra, {}° északtól
 {} macro boxes updated	{} makródoboz frissítve
 {} markers	{} jelölő
 {} mm	{} mm

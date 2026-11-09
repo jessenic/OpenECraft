@@ -214,6 +214,8 @@ Mounting plate	Монтажная панель
 Mounting rail	Монтажная рейка
 Name	Имя
 Name of the block	Имя блока
+Name of the plot, e.g. the cadastral parcel	Название участка, напр. кадастровый участок
+Name of the point, e.g. a survey point	Название точки, напр. геодезический пункт
 Name of the scheme	Имя схемы
 Net	Цепь
 New name	Новое имя
@@ -336,6 +338,8 @@ Relay	Реле
 Released pages cannot be moved	Выпущенные листы нельзя перемещать
 Remove	Удалить
 Remove from favorites	Удалить из избранного
+Remove the boundary	Удалить границу
+Remove the reference point	Удалить опорную точку
 Report	Отчёт
 Report blocks	Блоки отчётов
 Report: {}	Отчёт: {}

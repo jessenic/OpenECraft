@@ -188,7 +188,10 @@ impl App {
 }
 
 /// The tools of the panel layout whose tooltip says what they expect.
-const LAYOUT_TOOLS: [Cmd; 14] = [
+const LAYOUT_TOOLS: [Cmd; 17] = [
+    Cmd::LayoutPlotBoundary,
+    Cmd::LayoutReferencePoint,
+    Cmd::LayoutMeasure,
     Cmd::LayoutSelect,
     Cmd::LayoutRail,
     Cmd::LayoutDuct,

@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Cameră electrică
 A device tag must not be empty	Marcajul echipamentului nu poate fi gol
 A pipe run turns at right angles	Un traseu de conducte se întoarce în unghi drept
+A plot boundary has at least three corners	O limită de teren are cel puțin trei colțuri
 A port cannot be connected to itself	Un port nu poate fi conectat la el însuși
 A room needs at least four walls	O încăpere are nevoie de cel puțin patru pereți
 A section number consists of letters and digits and does not start with 0	Un număr de secțiune constă din litere și cifre și nu începe cu 0
@@ -748,6 +749,7 @@ Last edited by	Ultima editare de
 Last inspection	Ultima inspecție
 Last revision	Ultima revizie
 Latching	Cu reținere
+Latitude is within ±90° and longitude within ±180°	Latitudinea este în ±90°, iar longitudinea în ±180°
 Lead time (days)	Timp de livrare (zile)
 Leakage current	Curent de scurgere
 Leakage line	Conductă de scurgeri
@@ -1344,6 +1346,7 @@ Roller switch NO	Comutator cu rolă ND
 Roof	Plafon
 Roof top	Acoperiș
 Room floor	Pardoseala încăperii
+Room {} stands outside the plot boundary	Încăperea {} se află în afara limitei terenului
 Rotation	Rotire
 Round punch	Poanson rotund
 Routing list (3D)	Listă de pozare (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Producătorul ansambl
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Șirul de dulapuri în camera sa: plan în formă de L, perete interior, ușă și fereastră, șirul de dulapuri la locul său, o șină cu o priză pe un perete, un corp de iluminat de siguranță montat pe perete și un jgheab de cabluri sub tavan.
 The configuration is not a JSON object	Configurația nu este un obiect JSON
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Transportorul după prima lansare: o revizie lansată și blocată, modificările marcate de atunci, comentarii de verificare cu marcaje roșii, o cerere de modificare, revizia B în fluxul de aprobare și o linie de bază pentru comparare.
+The coordinates of the reference point must be numbers	Coordonatele punctului de referință trebuie să fie numere
+The coordinates of the reference point {} are not valid	Coordonatele punctului de referință {} nu sunt valide
+The corners of the plot boundary must be numbers	Colțurile limitei terenului trebuie să fie numere
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Proiectul demonstrativ: intrări și ieșiri PLC, amplasarea în dulap cu șine, canale de cablu și aparate pe ușă, fasciculul ușii și cablul motorului.
 The embedded document {} is damaged	Documentul încorporat {} este deteriorat
 The file is empty	Fișierul este gol
@@ -1586,6 +1592,9 @@ The next free id is already in use	Următorul ID liber este deja utilizat
 The option needs a name	Opțiunea necesită un nume
 The page needs a number	Pagina necesită un număr
 The pages were changed after the submission; submit the revision again	Paginile au fost modificate după trimitere; trimiteți din nou revizia
+The plot boundary crosses itself	Limita terenului se intersectează cu ea însăși
+The plot boundary encloses no area	Limita terenului nu înconjoară nicio suprafață
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Limita terenului nu este un poligon: se intersectează sau are mai puțin de trei colțuri
 The project has no panel layout	Proiectul nu are amplasare în tablou
 The property needs a name	Proprietatea necesită un nume
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Stația de pompare montată în două dulapuri de podea alăturate: sistem de bare, șine și canale de cablu, aparate pe ușă și mânere, ventilator cu filtru, iluminat, bară PE, presetupe, o trecere de cabluri, calculul climatizării, gradul de umplere al canalelor și rutare 3D.
@@ -1922,6 +1931,7 @@ yellow	galben
 {} report references converted to report names	{} referințe de raport convertite în nume de raport
 {} s	{} s
 {} single part assignments converted to part lists	{} atribuiri de articole individuale convertite în liste de articole
+{} stands outside the plot boundary	{} se află în afara limitei terenului
 {} symbols, {} wires, {} texts / graphics	{} simboluri, {} conductoare, {} texte / grafice
 {} texts are not translated into {}	{} texte nu sunt traduse în {}
 {} unused device data records removed	{} înregistrări neutilizate de date de dispozitiv eliminate
@@ -2006,6 +2016,8 @@ yellow	galben
 {}: port {} is not a {} port	{}: portul {} nu este un port {}
 {}: ports with different media ({})	{}: porturi cu medii diferite ({})
 {}: replace {} after {} years (T10d)	{}: înlocuiți {} după {} ani (T10d)
+{}: roof {} reaches over the plot boundary	{}: acoperișul {} depășește limita terenului
+{}: room {} stands outside the plot boundary	{}: încăperea {} se află în afara limitei terenului
 {}: routing path {} is full ({} % of its usable cross-section)	{}: calea de pozare {} este plină ({} % din secțiunea utilă)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: curentul de dublu defect {} A la {} nu deconectează în {} s (necesită {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: simbolul monofilar '{}' nu corespunde schemei ('{}')

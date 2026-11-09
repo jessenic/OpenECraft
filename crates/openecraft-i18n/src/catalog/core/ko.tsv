@@ -18,6 +18,7 @@
 9 · Electrical room	9 · 전기실
 A device tag must not be empty	장치 태그는 비워 둘 수 없습니다
 A pipe run turns at right angles	배관 경로는 직각으로 꺾입니다
+A plot boundary has at least three corners	부지 경계에는 꼭짓점이 3개 이상 있어야 합니다
 A port cannot be connected to itself	포트는 자신에게 연결할 수 없습니다
 A room needs at least four walls	방에는 벽이 4개 이상 필요합니다
 A section number consists of letters and digits and does not start with 0	구역 번호는 문자와 숫자로 이루어지며 0으로 시작하지 않습니다
@@ -740,6 +741,7 @@ Last edited by	마지막 편집자
 Last inspection	최종 점검
 Last revision	마지막 개정
 Latching	래칭
+Latitude is within ±90° and longitude within ±180°	위도는 ±90°, 경도는 ±180° 이내입니다
 Lead time (days)	리드 타임(일)
 Leakage current	누설 전류
 Leakage line	누유 라인
@@ -1332,6 +1334,7 @@ Roller switch NC	롤러 스위치 b접점
 Roller switch NO	롤러 스위치 a접점
 Roof	지붕
 Room floor	방 바닥
+Room {} stands outside the plot boundary	실 {}이(가) 부지 경계 밖에 있습니다
 Rotation	회전
 Round punch	원형 펀치
 Routing list (3D)	배선 경로 목록(3D)
@@ -1562,6 +1565,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	조립품 제조업�
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	방 안의 외함 열: L자형 평면도, 내벽, 문과 창문, 제자리에 놓인 외함 열, 벽의 콘센트가 있는 레일, 벽에 설치된 비상등 및 천장 아래의 케이블 트레이.
 The configuration is not a JSON object	구성이 JSON 개체가 아닙니다
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	첫 릴리스 이후의 컨베이어: 릴리스되어 잠긴 개정, 그 이후 표시된 변경 사항, 레드라인이 있는 검토 의견, 변경 요청, 승인 워크플로 중인 개정 B 및 비교할 기준선.
+The coordinates of the reference point must be numbers	기준점의 좌표는 숫자여야 합니다
+The coordinates of the reference point {} are not valid	기준점 {}의 좌표가 유효하지 않습니다
+The corners of the plot boundary must be numbers	부지 경계의 꼭짓점은 숫자여야 합니다
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	데모 프로젝트: PLC 입력 및 출력, 레일, 덕트, 도어 장치가 있는 외함 배치도, 도어 하네스 및 모터 케이블.
 The embedded document {} is damaged	포함된 문서 {}이(가) 손상되었습니다
 The file is empty	파일이 비어 있습니다
@@ -1574,6 +1580,9 @@ The next free id is already in use	다음 사용 가능한 ID가 이미 사용 �
 The option needs a name	옵션에는 이름이 필요합니다
 The page needs a number	페이지에는 번호가 필요합니다
 The pages were changed after the submission; submit the revision again	제출 후 페이지가 변경되었습니다. 개정을 다시 제출하세요
+The plot boundary crosses itself	부지 경계가 자기 자신과 교차합니다
+The plot boundary encloses no area	부지 경계가 면적을 둘러싸지 않습니다
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	부지 경계가 다각형이 아닙니다: 자기 교차하거나 꼭짓점이 3개 미만입니다
 The project has no panel layout	프로젝트에 패널 레이아웃이 없습니다
 The property needs a name	속성에는 이름이 필요합니다
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	나란히 연결된 두 개의 자립형 외함에 설치된 펌프장: 부스바 시스템, 레일과 덕트, 도어 장치와 손잡이, 필터 팬, 조명, PE 바, 케이블 글랜드, 케이블 통로, 외함 기후 계산, 덕트 충전율 및 3D 라우팅.
@@ -1910,6 +1919,7 @@ yellow	노랑
 {} report references converted to report names	보고서 참조 {}개를 보고서 이름으로 변환했습니다
 {} s	{}초
 {} single part assignments converted to part lists	단일 부품 할당 {}개를 부품 목록으로 변환했습니다
+{} stands outside the plot boundary	{}이(가) 부지 경계 밖에 있습니다
 {} symbols, {} wires, {} texts / graphics	심볼 {}개, 전선 {}개, 텍스트 / 그래픽 {}개
 {} texts are not translated into {}	텍스트 {0}개가 {1}(으)로 번역되지 않았습니다
 {} unused device data records removed	사용하지 않는 장치 데이터 레코드 {}개를 제거했습니다
@@ -1994,6 +2004,8 @@ yellow	노랑
 {}: port {} is not a {} port	{0}: 포트 {1}은(는) {2} 포트가 아닙니다
 {}: ports with different media ({})	{}: 매체가 다른 포트({})
 {}: replace {} after {} years (T10d)	{}: {}을(를) {}년 후 교체(T10d)
+{}: roof {} reaches over the plot boundary	{}: 지붕 {}이(가) 부지 경계를 넘습니다
+{}: room {} stands outside the plot boundary	{}: 실 {}이(가) 부지 경계 밖에 있습니다
 {}: routing path {} is full ({} % of its usable cross-section)	{0}: 배선 경로 {1}이(가) 가득 참(사용 가능 단면적의 {2} %)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{0}: {2}에서 이중 고장 전류 {1} A로는 {3} s 이내에 차단되지 않습니다({4} A 필요)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: 단선 심볼 '{}'이(가) 회로도('{}')와 일치하지 않습니다

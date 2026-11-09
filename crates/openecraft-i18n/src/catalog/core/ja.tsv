@@ -18,6 +18,7 @@
 9 · Electrical room	9 · 電気室
 A device tag must not be empty	機器タグは空にできません
 A pipe run turns at right angles	配管ルートは直角に曲がります
+A plot boundary has at least three corners	敷地境界には少なくとも3つの頂点が必要です
 A port cannot be connected to itself	ポートを自分自身に接続することはできません
 A room needs at least four walls	部屋には少なくとも4つの壁が必要です
 A section number consists of letters and digits and does not start with 0	セクション番号は英字と数字からなり、0 で始まりません
@@ -740,6 +741,7 @@ Last edited by	最終編集者
 Last inspection	前回の点検
 Last revision	最終リビジョン
 Latching	保持形
+Latitude is within ±90° and longitude within ±180°	緯度は ±90°、経度は ±180° の範囲です
 Lead time (days)	リードタイム (日)
 Leakage current	漏れ電流
 Leakage line	ドレンライン
@@ -1332,6 +1334,7 @@ Roller switch NC	ローラースイッチ b接点
 Roller switch NO	ローラースイッチ a接点
 Roof	天板
 Room floor	部屋の床
+Room {} stands outside the plot boundary	部屋 {} が敷地境界の外にあります
 Rotation	回転
 Round punch	丸パンチ
 Routing list (3D)	配線リスト (3D)
@@ -1562,6 +1565,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	アセンブリの製
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	部屋に設置した列盤：L 字形の平面図、内壁、扉とウィンドウ、所定の位置の列盤、壁のコンセント付きレール、壁付けの非常灯、天井下のケーブルラック。
 The configuration is not a JSON object	構成が JSON オブジェクトではありません
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	最初のリリース後のコンベヤ：リリース済みでロックされたリビジョン、その後にマークされた変更、赤線入りのレビューコメント、変更要求、承認ワークフロー中のリビジョン B、比較用のベースライン。
+The coordinates of the reference point must be numbers	基準点の座標は数値でなければなりません
+The coordinates of the reference point {} are not valid	基準点 {} の座標が無効です
+The corners of the plot boundary must be numbers	敷地境界の頂点は数値でなければなりません
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	デモプロジェクト：PLC の入出力、レール、配線ダクト、扉機器を含む盤の配置図、扉ハーネス、モータケーブル。
 The embedded document {} is damaged	埋め込みドキュメント {} が破損しています
 The file is empty	ファイルが空です
@@ -1574,6 +1580,9 @@ The next free id is already in use	次の空き ID はすでに使用されて�
 The option needs a name	オプションには名前が必要です
 The page needs a number	ページには番号が必要です
 The pages were changed after the submission; submit the revision again	提出後にページが変更されました。リビジョンを再提出してください
+The plot boundary crosses itself	敷地境界が自己交差しています
+The plot boundary encloses no area	敷地境界が面積を囲んでいません
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	敷地境界が多角形ではありません：自己交差しているか、頂点が3つ未満です
 The project has no panel layout	プロジェクトに盤レイアウトがありません
 The property needs a name	プロパティには名前が必要です
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	2 台の列盤自立盤に組み込んだポンプ場：ブスバーシステム、レールと配線ダクト、扉機器とハンドル、フィルタファン、照明、PE バー、ケーブルグランド、ケーブル通路、盤内温度計算、ダクト占有率、3D 配線。
@@ -1910,6 +1919,7 @@ yellow	黄
 {} report references converted to report names	レポート参照 {} 件をレポート名に変換しました
 {} s	{} 秒
 {} single part assignments converted to part lists	単一の部品割り当て {} 件を部品リストに変換しました
+{} stands outside the plot boundary	{} が敷地境界の外にあります
 {} symbols, {} wires, {} texts / graphics	シンボル {} 個、電線 {} 本、テキスト / 図形 {} 個
 {} texts are not translated into {}	{} 件のテキストが {} に翻訳されていません
 {} unused device data records removed	未使用のデバイスデータレコード {} 件を削除しました
@@ -1994,6 +2004,8 @@ yellow	黄
 {}: port {} is not a {} port	{}: ポート {} は {} ポートではありません
 {}: ports with different media ({})	{}: 媒体が異なるポート ({})
 {}: replace {} after {} years (T10d)	{}: {} を {} 年後に交換してください (T10d)
+{}: roof {} reaches over the plot boundary	{}：屋根 {} が敷地境界からはみ出しています
+{}: room {} stands outside the plot boundary	{}：部屋 {} が敷地境界の外にあります
 {}: routing path {} is full ({} % of its usable cross-section)	{}: 配線経路 {} が満杯です (有効断面積の {} %)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{0}: {2} での二重地絡電流 {1} A では {3} s 以内に遮断されません ({4} A 必要)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: 単線シンボル「{}」が回路図 (「{}」) と一致しません

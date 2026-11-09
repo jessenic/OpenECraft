@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Locale elettrico
 A device tag must not be empty	La sigla del dispositivo non deve essere vuota
 A pipe run turns at right angles	Un percorso tubazioni gira ad angolo retto
+A plot boundary has at least three corners	Un confine del lotto ha almeno tre vertici
 A port cannot be connected to itself	Una porta non può essere collegata a se stessa
 A room needs at least four walls	Un locale richiede almeno quattro pareti
 A section number consists of letters and digits and does not start with 0	Un numero di sezione è composto da lettere e cifre e non inizia con 0
@@ -748,6 +749,7 @@ Last edited by	Ultima modifica di
 Last inspection	Ultima ispezione
 Last revision	Ultima revisione
 Latching	Con ritenuta
+Latitude is within ±90° and longitude within ±180°	La latitudine è entro ±90° e la longitudine entro ±180°
 Lead time (days)	Tempo di consegna (giorni)
 Leakage current	Corrente di dispersione
 Leakage line	Linea di drenaggio
@@ -1344,6 +1346,7 @@ Roller switch NO	Interruttore a rotella NA
 Roof	Tetto
 Roof top	Copertura
 Room floor	Pavimento del locale
+Room {} stands outside the plot boundary	Il locale {} si trova fuori dal confine del lotto
 Rotation	Rotazione
 Round punch	Punzone tondo
 Routing list (3D)	Lista di instradamento (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Il costruttore del qu
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Gli armadi affiancati nel loro locale: pianta a L, parete interna, porta e finestra, gli armadi al loro posto, una guida con una presa su una parete, una lampada di emergenza a parete e una passerella portacavi sotto il soffitto.
 The configuration is not a JSON object	La configurazione non è un oggetto JSON
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Il nastro trasportatore dopo il primo rilascio: una revisione rilasciata e bloccata, le modifiche marcate da allora, commenti di verifica con annotazioni in rosso, una richiesta di modifica, la revisione B nel flusso di approvazione e una baseline da confrontare.
+The coordinates of the reference point must be numbers	Le coordinate del punto di riferimento devono essere numeri
+The coordinates of the reference point {} are not valid	Le coordinate del punto di riferimento {} non sono valide
+The corners of the plot boundary must be numbers	I vertici del confine del lotto devono essere numeri
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Il progetto dimostrativo: ingressi e uscite del PLC, layout del quadro con guide, canaline e apparecchi sulla porta, cablaggio della porta e cavo motore.
 The embedded document {} is damaged	Il documento incorporato {} è danneggiato
 The file is empty	Il file è vuoto
@@ -1586,6 +1592,9 @@ The next free id is already in use	Il prossimo ID libero è già in uso
 The option needs a name	L'opzione richiede un nome
 The page needs a number	La pagina richiede un numero
 The pages were changed after the submission; submit the revision again	Le pagine sono state modificate dopo l'invio; invia di nuovo la revisione
+The plot boundary crosses itself	Il confine del lotto si interseca
+The plot boundary encloses no area	Il confine del lotto non racchiude alcuna superficie
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Il confine del lotto non è un poligono: si interseca o ha meno di tre vertici
 The project has no panel layout	Il progetto non ha un layout del quadro
 The property needs a name	La proprietà richiede un nome
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	La stazione di pompaggio montata in due armadi a pavimento affiancati: sistema di sbarre, guide e canaline, apparecchi sulla porta e maniglie, ventilatore con filtro, lampada, barra di terra, pressacavi, un passaggio cavi, calcolo della climatizzazione, riempimento delle canaline e instradamento 3D.
@@ -1922,6 +1931,7 @@ yellow	giallo
 {} report references converted to report names	{} riferimenti ai report convertiti in nomi di report
 {} s	{} s
 {} single part assignments converted to part lists	{} assegnazioni di singoli articoli convertite in elenchi di articoli
+{} stands outside the plot boundary	{} si trova fuori dal confine del lotto
 {} symbols, {} wires, {} texts / graphics	{} simboli, {} conduttori, {} testi / grafiche
 {} texts are not translated into {}	{} testi non sono tradotti in {}
 {} unused device data records removed	{} record di dati dei dispositivi inutilizzati rimossi
@@ -2006,6 +2016,8 @@ yellow	giallo
 {}: port {} is not a {} port	{}: la porta {} non è una porta {}
 {}: ports with different media ({})	{}: attacchi con fluidi diversi ({})
 {}: replace {} after {} years (T10d)	{}: sostituisci {} dopo {} anni (T10d)
+{}: roof {} reaches over the plot boundary	{}: il tetto {} sporge oltre il confine del lotto
+{}: room {} stands outside the plot boundary	{}: il locale {} si trova fuori dal confine del lotto
 {}: routing path {} is full ({} % of its usable cross-section)	{}: il percorso di instradamento {} è pieno ({} % della sua sezione utile)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: la corrente di secondo guasto {} A su {} non interrompe entro {} s (richiede {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: il simbolo unifilare '{}' non corrisponde allo schema ('{}')

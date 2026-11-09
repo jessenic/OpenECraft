@@ -23,6 +23,8 @@ mod plan;
 mod routing_ui;
 mod scene3d;
 pub(crate) mod site_plan;
+mod site_tools;
+pub use site_tools::SiteTool;
 mod view3d;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -438,6 +440,11 @@ pub struct PanelUi {
     /// plan of the buildings, or all of the plant in the 3D view.
     pub site: bool,
     site_plan: site_plan::SitePlan,
+    /// The tool of the site plan, the points it has taken, and the corner of the plot
+    /// boundary dragged with the boundary before.
+    pub site_tool: SiteTool,
+    site_points: Vec<[f32; 2]>,
+    site_drag: Option<(usize, Vec<[f32; 2]>)>,
     /// The 3D view of a room in a building shows the whole building: its rooms, floor
     /// slabs, stairs and roofs.
     pub show_building: bool,
@@ -555,6 +562,8 @@ enum NavAction {
     NewBuilding,
     /// A level on top of a building, or below its lowest one (`true`).
     NewLevel(usize, bool),
+    /// A tool of the site plan.
+    SiteTool(SiteTool),
 }
 
 /// A heading of the navigator: the site, a building (index) or a level (id).
@@ -587,6 +596,9 @@ impl Default for PanelUi {
             show_site: false,
             site: false,
             site_plan: site_plan::SitePlan::default(),
+            site_tool: SiteTool::Select,
+            site_points: Vec::new(),
+            site_drag: None,
             show_building: false,
             show_zones: false,
             open_walls: false,
@@ -954,7 +966,7 @@ impl PanelUi {
             }
         };
         // The site at the root: the buildings and the rooms outside them.
-        let site = !prj.layout.buildings.is_empty() || !panel::rooms(&prj.layout).is_empty();
+        let site = !prj.layout.buildings.is_empty() || !panel::rooms(&prj.layout).is_empty() || !prj.layout.plot.is_default();
         if site {
             headings.push((0, 0, tr("Site").to_string(), Heading::Site));
         }
@@ -2549,7 +2561,20 @@ impl PanelUi {
     fn nav_action(&mut self, prj: &mut Project, act: NavAction) {
         let level_name = |prj: &Project, id: u64| panel::buildings::level_by_id(&prj.layout, id).map(|l| l.name.clone()).unwrap_or_default();
         match act {
-            NavAction::Level(id) => self.nav_level = if self.nav_level == Some(id) { None } else { Some(id) },
+            NavAction::Level(id) if self.nav_level == Some(id) => {
+                self.nav_level = None;
+                if self.level_3d() == Some(id) {
+                    // Back to all of the plant, the building highlighted.
+                    self.site_plan.level = 0;
+                    self.cam = None;
+                }
+            }
+            NavAction::Level(id) => {
+                self.nav_level = Some(id);
+                if self.view == View::ThreeD {
+                    self.show_level(prj, id);
+                }
+            }
             NavAction::NewRoomOn(id) => {
                 self.nav_level = Some(id);
                 self.new_room(prj);
@@ -2571,6 +2596,7 @@ impl PanelUi {
             }
             NavAction::Open(r) => self.open_room(r),
             NavAction::Site(b) => self.show_site_plan(b),
+            NavAction::SiteTool(t) => self.choose_site_tool(t),
             NavAction::NewBuilding => {
                 let name = panel::buildings::free_building_name(&prj.layout);
                 match panel::buildings::add_building(prj, &name) {
@@ -2612,11 +2638,22 @@ impl PanelUi {
         }
     }
 
+    /// Shows the rooms of a level side by side at their places in the 3D view, with the
+    /// cabinets standing in them; the site plan highlights them.
+    fn show_level(&mut self, prj: &Project, id: u64) {
+        let Some((bi, _)) = panel::buildings::find_level(&prj.layout, id) else { return };
+        self.show_site_plan(Some(bi));
+        self.site_plan.level = id;
+    }
+
     /// Shows the site: its site plan, or all of the plant when the 3D view is shown;
     /// building `b` highlighted.
     fn show_site_plan(&mut self, b: Option<usize>) {
         self.site = true;
         self.site_plan = site_plan::SitePlan { building: b, ..Default::default() };
+        self.site_tool = SiteTool::Select;
+        self.site_points.clear();
+        self.site_drag = None;
         self.selection.clear();
         self.cam = None;
         if self.view != View::ThreeD {
@@ -2630,9 +2667,20 @@ impl PanelUi {
     fn site_canvas(&mut self, ui: &mut egui::Ui, prj: &mut Project, an: &Analysis) {
         if self.view == View::ThreeD {
             if let Some(ei) = self.enclosure_index(prj) {
+                let level = self.level_3d().and_then(|l| panel::buildings::find_level(&prj.layout, l));
+                let what = match level {
+                    Some((bi, li)) => {
+                        let b = &prj.layout.buildings[bi];
+                        tr_fmt!("Level {} of building {}", b.levels[li].name, b.name)
+                    }
+                    None => tr("Site").to_string(),
+                };
                 ui.horizontal(|ui| {
+                    if level.is_some() {
+                        ui.weak(tr("The rooms of the level side by side; click the level again for all of the plant"));
+                    }
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                        ui.weak(format!("{}  ·  3D", tr("Site")));
+                        ui.weak(format!("{what}  ·  3D"));
                     });
                 });
                 ui.separator();
@@ -2642,7 +2690,13 @@ impl PanelUi {
         }
         self.view = View::Plan;
         ui.horizontal(|ui| {
-            ui.weak(tr("Wheel: zoom · drag: move · click on a room: its floor plan"));
+            let hint = match self.site_tool {
+                SiteTool::Select => tr("Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary"),
+                SiteTool::Boundary => tr("Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop"),
+                SiteTool::Reference => tr("Click where the reference point is"),
+                SiteTool::Measure => tr("Click two points to measure from one to the other · Esc: stop"),
+            };
+            ui.weak(hint);
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 let what = match self.site_plan.building.and_then(|b| prj.layout.buildings.get(b)) {
                     Some(b) => tr_fmt!("Site plan, building {}", b.name),
@@ -2653,6 +2707,10 @@ impl PanelUi {
         });
         ui.separator();
         let (rect, resp) = ui.allocate_exact_size(ui.available_size(), Sense::click_and_drag());
+        // The part of the plant in view stays while the plan is edited, until it is fitted.
+        if self.site_plan.extent.is_none() || self.fit_pending {
+            self.site_plan.extent = Some(site_plan::extent(prj));
+        }
         if resp.hovered() {
             let (wheel, zoom_delta, pointer) = ui.input(|i| (wheel_delta(i), i.zoom_delta(), i.pointer.hover_pos()));
             let factor = zoom_delta * (wheel * 0.0025).exp();
@@ -2665,7 +2723,8 @@ impl PanelUi {
                 self.site_plan.zoom = zoom;
             }
         }
-        if resp.dragged() {
+        let dragging_corner = self.site_tools(ui, rect, &resp, prj);
+        if resp.dragged() && !dragging_corner {
             self.site_plan.pan += resp.drag_delta();
         }
         if self.fit_pending {
@@ -2673,7 +2732,8 @@ impl PanelUi {
             self.site_plan.pan = Vec2::ZERO;
             self.fit_pending = false;
         }
-        let hovered = site_plan::paint(ui, rect, prj, &self.site_plan, resp.hover_pos());
+        let hovered = site_plan::paint(ui, rect, prj, &self.site_plan, resp.hover_pos()).filter(|_| self.site_tool == SiteTool::Select && !dragging_corner);
+        self.paint_site_tools(ui, rect, prj, resp.hover_pos());
         if let Some(ri) = hovered {
             ui.ctx().set_cursor_icon(egui::CursorIcon::PointingHand);
             if resp.clicked() {
@@ -2696,6 +2756,14 @@ impl PanelUi {
                     r.context_menu(|ui| {
                         if icons::text_button(ui, Icon::Plus, tr("New building")).on_hover_text(tr("A building with one level at ground level, beside what stands in the plant")).clicked() {
                             act = Some(NavAction::NewBuilding);
+                            ui.close();
+                        }
+                        if icons::text_button(ui, Icon::Polygon, tr("Plot boundary")).on_hover_text(tr("Draw the boundary of the plot in the site plan; all buildings have to stay inside it")).clicked() {
+                            act = Some(NavAction::SiteTool(SiteTool::Boundary));
+                            ui.close();
+                        }
+                        if icons::text_button(ui, Icon::Pin, tr("Reference point")).on_hover_text(tr("Place the georeferenced point everything is measured from")).clicked() {
+                            act = Some(NavAction::SiteTool(SiteTool::Reference));
                             ui.close();
                         }
                     });

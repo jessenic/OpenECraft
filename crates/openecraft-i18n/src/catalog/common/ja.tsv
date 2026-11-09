@@ -212,6 +212,8 @@ Mounting plate	取付板
 Mounting rail	取付レール
 Name	名前
 Name of the block	ブロックの名前
+Name of the plot, e.g. the cadastral parcel	敷地の名前（例：地番）
+Name of the point, e.g. a survey point	点の名前（例：測量点）
 Name of the scheme	スキームの名前
 Net	ネット
 New name	新しい名前
@@ -334,6 +336,8 @@ Relay	リレー
 Released pages cannot be moved	リリース済みのページは移動できません
 Remove	削除
 Remove from favorites	お気に入りから削除
+Remove the boundary	境界を削除
+Remove the reference point	基準点を削除
 Report	レポート
 Report blocks	レポートブロック
 Report: {}	レポート: {}

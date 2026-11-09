@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Villamos helyiség
 A device tag must not be empty	Az eszközazonosító nem lehet üres
 A pipe run turns at right angles	A csővezeték-nyomvonal derékszögben fordul
+A plot boundary has at least three corners	Egy telekhatárnak legalább három sarka van
 A port cannot be connected to itself	Egy port nem köthető össze önmagával
 A room needs at least four walls	Egy helyiségnek legalább négy fal kell
 A section number consists of letters and digits and does not start with 0	A szakaszszám betűkből és számjegyekből áll, és nem kezdődik 0-val
@@ -748,6 +749,7 @@ Last edited by	Utoljára szerkesztette
 Last inspection	Utolsó felülvizsgálat
 Last revision	Utolsó revízió
 Latching	Reteszelő
+Latitude is within ±90° and longitude within ±180°	A szélesség ±90°, a hosszúság ±180° között van
 Lead time (days)	Szállítási idő (nap)
 Leakage current	Szivárgási áram
 Leakage line	Szivárgóolaj-vezeték
@@ -1344,6 +1346,7 @@ Roller switch NO	Görgős kapcsoló, záróérintkező
 Roof	Tető
 Roof top	Tető
 Room floor	Helyiség padlója
+Room {} stands outside the plot boundary	A(z) {} helyiség a telekhatáron kívül áll
 Rotation	Elforgatás
 Round punch	Kerek lyukasztó
 Routing list (3D)	Nyomvonallista (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	A berendezés gyárt�
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	A szekrénysor a helyiségében: L alakú alaprajz, belső fal, ajtó és ablak, a szekrénysor a helyén, egy sín dugaszolóaljzattal a falon, falra szerelt vészvilágító lámpa és kábeltálca a mennyezet alatt.
 The configuration is not a JSON object	A konfiguráció nem JSON-objektum
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	A szállítószalag az első kiadás után: kiadott és zárolt revízió, az azóta jelölt változások, ellenőrzési megjegyzések piros jelölésekkel, egy módosítási kérelem, a B revízió a jóváhagyási folyamatban és egy összehasonlítási alapállapot.
+The coordinates of the reference point must be numbers	A referenciapont koordinátáinak számoknak kell lenniük
+The coordinates of the reference point {} are not valid	A(z) {} referenciapont koordinátái érvénytelenek
+The corners of the plot boundary must be numbers	A telekhatár sarkainak számoknak kell lenniük
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	A bemutató projekt: PLC be- és kimenetek, a szekrény elrendezése sínekkel, kábelcsatornákkal és ajtókészülékekkel, ajtókábelköteg és motorkábel.
 The embedded document {} is damaged	A(z) {} beágyazott dokumentum sérült
 The file is empty	A fájl üres
@@ -1586,6 +1592,9 @@ The next free id is already in use	A következő szabad azonosító már foglalt
 The option needs a name	Az opcióhoz név szükséges
 The page needs a number	Az oldalhoz szám szükséges
 The pages were changed after the submission; submit the revision again	Az oldalak a beküldés után módosultak; küldje be újra a revíziót
+The plot boundary crosses itself	A telekhatár önmagát metszi
+The plot boundary encloses no area	A telekhatár nem zár körül területet
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	A telekhatár nem sokszög: önmagát metszi, vagy háromnál kevesebb sarka van
 The project has no panel layout	A projektnek nincs szekrényelrendezése
 The property needs a name	A tulajdonsághoz név szükséges
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	A szivattyútelep két sorolt álló szekrényben: gyűjtősín-rendszer, sínek és kábelcsatornák, ajtókészülékek és fogantyúk, szűrős ventilátor, lámpa, PE-sín, kábeltömszelencék, kábelátvezetés, klimatizálási számítás, csatornatöltöttség és 3D-útvonaltervezés.
@@ -1922,6 +1931,7 @@ yellow	sárga
 {} report references converted to report names	{} kimutatáshivatkozás kimutatásnévvé alakítva
 {} s	{} mp
 {} single part assignments converted to part lists	{} egyedi alkatrész-hozzárendelés alkatrészlistává alakítva
+{} stands outside the plot boundary	{} a telekhatáron kívül áll
 {} symbols, {} wires, {} texts / graphics	{} szimbólum, {} vezeték, {} szöveg / grafika
 {} texts are not translated into {}	{0} szöveg nincs lefordítva erre: {1}
 {} unused device data records removed	{} nem használt készülékadatrekord eltávolítva
@@ -2006,6 +2016,8 @@ yellow	sárga
 {}: port {} is not a {} port	{}: a(z) {} port nem {}-port
 {}: ports with different media ({})	{}: különböző közegű csatlakozások ({})
 {}: replace {} after {} years (T10d)	{}: a(z) {} cseréje {} év után (T10d)
+{}: roof {} reaches over the plot boundary	{}: a(z) {} tető túlnyúlik a telekhatáron
+{}: room {} stands outside the plot boundary	{}: a(z) {} helyiség a telekhatáron kívül áll
 {}: routing path {} is full ({} % of its usable cross-section)	{}: a(z) {} fektetési út megtelt (hasznos keresztmetszetének {} %-a)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: a(z) {} A második hibaáram itt: {} nem kapcsol le {} s-on belül ({} A szükséges)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: az egyvonalas szimbólum ('{}') nem egyezik a kapcsolási rajzzal ('{}')

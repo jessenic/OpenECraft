@@ -193,3 +193,34 @@ fn pv_strings_on_the_trackers_of_an_inverter() {
     let a = run(&mut s, "set_pv_string", json!({ "building": "+H1", "roof": "R1", "array": "PV1", "string": "S1", "remove": true })).unwrap();
     assert_eq!(a["strings"], json!([]));
 }
+
+#[test]
+fn the_plot_boundary_and_the_reference_point() {
+    let mut s = demo_session();
+    run(&mut s, "add_building", json!({ "name": "+B1", "x": 100000, "z": 0 })).unwrap();
+    run(&mut s, "add_room", json!({ "name": "+R1", "building": "+B1" })).unwrap();
+    let corners = json!([[90000, -10000], [130000, -10000], [130000, 20000], [90000, 20000]]);
+    let p = run(&mut s, "set_plot", json!({ "outline": corners, "name": "Flur 3, 112/4" })).unwrap();
+    assert_eq!((p["area"].as_f64(), p["perimeter"].as_f64(), p["name"].as_str()), (Some(1200.0), Some(140.0), Some("Flur 3, 112/4")));
+    assert!(run(&mut s, "set_plot", json!({ "outline": [[0, 0], [1000, 1000]] })).is_err(), "two corners");
+    // The demo's cabinets stand outside the plot; a room moved out of it is an error.
+    let outside = |s: &mut Session| run(s, "plot", json!({})).unwrap()["outside"].as_array().unwrap().iter().map(|v| v.as_str().unwrap().to_string()).collect::<Vec<_>>();
+    assert!(!outside(&mut s).contains(&"+R1".to_string()));
+    run(&mut s, "set_building", json!({ "building": "+B1", "x": 128000 })).unwrap();
+    assert!(outside(&mut s).contains(&"+R1".to_string()));
+    let list = run(&mut s, "list_buildings", json!({})).unwrap();
+    assert!(list["problems"].as_array().unwrap().iter().any(|p| p.as_str().unwrap().contains("+R1")), "{}", list["problems"]);
+    // The reference point: coordinates of the building, from geographic ones back.
+    let p = run(&mut s, "set_reference_point", json!({ "x": 100000, "z": 0, "easting": 32512000.5, "northing": 5812000.25, "height": 50, "crs": "EPSG:25832" })).unwrap();
+    assert_eq!(p["reference"]["crs"], "EPSG:25832");
+    let list = run(&mut s, "list_buildings", json!({})).unwrap();
+    assert_eq!(list["buildings"][0]["geo"], json!({ "easting": 32512028.5, "northing": 5812000.25, "height": 50.0 }));
+    let l = run(&mut s, "locate", json!({ "easting": 32512010.5, "northing": 5812005.25 })).unwrap();
+    assert_eq!((l["x"].as_f64(), l["z"].as_f64(), l["on_plot"].as_bool()), (Some(110000.0), Some(-5000.0), Some(true)));
+    assert!(run(&mut s, "locate", json!({ "easting": 1 })).is_err());
+    let m = run(&mut s, "measure", json!({ "points": [[0, 0], [0, -10000]] })).unwrap();
+    assert_eq!((m["distance"].as_f64(), m["north"].as_f64(), m["bearing"].as_f64()), (Some(10000.0), Some(10.0), Some(0.0)));
+    run(&mut s, "set_reference_point", json!({ "remove": true })).unwrap();
+    let p = run(&mut s, "set_plot", json!({ "remove": true })).unwrap();
+    assert_eq!(p["outline"], json!([]));
+}

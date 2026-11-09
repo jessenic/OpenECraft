@@ -224,6 +224,8 @@ Mounting plate	Montageplatte	Plaque de montage	Placa de montaje
 Mounting rail	Tragschiene	Rail de montage	Carril de montaje
 Name	Name	Nom	Nombre
 Name of the block	Name des Blocks	Nom du bloc	Nombre del bloque
+Name of the plot, e.g. the cadastral parcel	Name des Grundstücks, z. B. das Flurstück	Nom du terrain, p. ex. la parcelle cadastrale	Nombre de la parcela, p. ej. la parcela catastral
+Name of the point, e.g. a survey point	Name des Punkts, z. B. ein Vermessungspunkt	Nom du point, p. ex. un point géodésique	Nombre del punto, p. ej. un punto topográfico
 Name of the scheme	Name des Schemas	Nom du schéma	Nombre del esquema
 Net	Netz	Réseau	Red
 New name	Neuer Name	Nouveau nom	Nuevo nombre
@@ -349,6 +351,8 @@ Relay	Relais	Relais	Relé
 Released pages cannot be moved	Freigegebene Seiten können nicht verschoben werden	Les pages validées ne peuvent pas être déplacées	Las páginas liberadas no se pueden mover
 Remove	Entfernen	Retirer	Quitar
 Remove from favorites	Aus Favoriten entfernen	Retirer des favoris	Quitar de favoritos
+Remove the boundary	Grenze entfernen	Supprimer la limite	Eliminar el límite
+Remove the reference point	Bezugspunkt entfernen	Supprimer le point de référence	Eliminar el punto de referencia
 Report	Bericht	Rapport	Informe
 Report blocks	Auswertungsblöcke	Blocs de rapports	Bloques de informes
 Report: {}	Bericht: {}	Rapport : {}	Informe: {}

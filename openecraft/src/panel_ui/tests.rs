@@ -93,6 +93,36 @@ fn the_site_shows_the_site_plan_or_the_whole_plant_in_3d() {
 }
 
 #[test]
+fn a_level_clicked_in_the_3d_view_shows_its_rooms_side_by_side() {
+    let (mut prj, [l0, l1], free) = building_and_room();
+    let a = bld::add_room(&mut prj, "+ROOM2", Some(l0)).unwrap();
+    let b = bld::add_room(&mut prj, "+ROOM3", Some(l0)).unwrap();
+    let up = bld::add_room(&mut prj, "+ROOM4", Some(l1)).unwrap();
+    prj.layout.enclosures.push(panel::Enclosure { name: "+CAB1".into(), width: 600.0, height: 2000.0, depth: 400.0, ..Default::default() });
+    let cabinet = prj.layout.enclosures.len() - 1;
+    panel::set_room(&mut prj, cabinet, Some(b), None).unwrap();
+    let mut ui = PanelUi { view: View::ThreeD, enclosure: free, ..Default::default() };
+    ui.nav_action(&mut prj, NavAction::Level(l0));
+    let shown = ui.shown_3d(&prj, free);
+    assert_eq!(shown.iter().map(|s| s.0).collect::<Vec<_>>(), vec![a, b, cabinet], "the rooms of the level with the cabinets in them");
+    // At their places in the plant: next to each other.
+    let poses = panel::site_poses(&prj);
+    assert!(shown.iter().all(|&(k, pose)| pose.at == poses[k].at));
+    assert!(poses[b].at[0] >= poses[a].at[0] + prj.layout.enclosures[a].width - 0.5);
+    assert_eq!((ui.level_3d(), ui.buildings_3d(&prj, free), ui.view_frame(&prj, free), ui.nav_level), (Some(l0), vec![0], None, Some(l0)));
+    ui.nav_action(&mut prj, NavAction::Level(l1));
+    assert_eq!(ui.shown_3d(&prj, free).into_iter().map(|s| s.0).collect::<Vec<_>>(), vec![up]);
+    // Clicked again: all of the plant, the building highlighted.
+    ui.nav_action(&mut prj, NavAction::Level(l1));
+    assert_eq!((ui.level_3d(), ui.site, ui.site_plan.building, ui.nav_level), (None, true, Some(0), None));
+    assert_eq!(ui.shown_3d(&prj, free).len(), prj.layout.enclosures.len());
+    // In a 2D view a level is only chosen for new rooms.
+    let mut ui = PanelUi { view: View::Plan, ..Default::default() };
+    ui.nav_action(&mut prj, NavAction::Level(l0));
+    assert_eq!((ui.site, ui.level_3d(), ui.nav_level), (false, None, Some(l0)));
+}
+
+#[test]
 fn buildings_get_new_levels_and_the_site_new_buildings_from_their_menus() {
     let (mut prj, _, _) = building_and_room();
     let mut ui = PanelUi::default();

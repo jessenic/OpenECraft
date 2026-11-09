@@ -2,7 +2,8 @@
 //! roofs (with roof windows and PV arrays), rooms on the levels, and links (cable
 //! trenches, conduits, cable bridges) between the building entries of different
 //! buildings ([`openecraft_core::panel::buildings`], [`openecraft_core::panel::stairs`],
-//! [`openecraft_core::panel::roofs`], [`openecraft_core::panel::solar`]).
+//! [`openecraft_core::panel::roofs`], [`openecraft_core::panel::solar`]); the plot with its
+//! boundary and the georeferenced point ([`openecraft_core::panel::plot`]).
 
 use crate::builtin::common::{int_in, num_in, NO_LIMIT, NO_MAX};
 use crate::params::{optional, param, Args, Kind};
@@ -11,7 +12,7 @@ use super::{add_commands, info, Spec};
 use openecraft_core::model::Project;
 use openecraft_core::panel::buildings::{self as bld, SHAFT_SIZE};
 use openecraft_core::panel::solar::strings;
-use openecraft_core::panel::{self, roofs, solar, stairs, LinkKind, Opening, PvMounting, RoofShape, SitePlace, StairKind, Turn};
+use openecraft_core::panel::{self, plot, roofs, solar, stairs, LinkKind, Opening, PvMounting, RoofShape, SitePlace, StairKind, Turn};
 use openecraft_i18n::{tr, tr_const, tr_fmt};
 use serde_json::{json, Value};
 
@@ -399,6 +400,59 @@ pub static COMMANDS: &[Spec] = &[
         ],
         run: set_site_link,
     },
+    Spec {
+        name: "plot",
+        help: tr_const!("Shows the plot: its boundary with area and length, the reference point and what stands outside the boundary"),
+        params: &[],
+        run: plot,
+    },
+    Spec {
+        name: "set_plot",
+        help: tr_const!("Draws the boundary of the plot, which all buildings have to stay inside (the check reports rooms, cabinets and roofs outside it), or renames the plot"),
+        params: &[
+            optional("outline", Kind::Points, tr_const!("Corners of the plot boundary in the plant (x, z in mm)")),
+            optional("name", Kind::Str, tr_const!("Name of the plot, e.g. the cadastral parcel")),
+            optional("remove", Kind::Bool, tr_const!("Remove the boundary")),
+        ],
+        run: set_plot,
+    },
+    Spec {
+        name: "set_reference_point",
+        help: tr_const!("Sets the georeferenced point of the plant: where it is in the plant and its coordinates; every point of the plant is measured from it"),
+        params: &[
+            optional("x", Kind::Num, tr_const!("Where the point is in the plant, x in mm")),
+            optional("z", Kind::Num, tr_const!("Where the point is in the plant, z (towards the front) in mm")),
+            optional("y", Kind::Num, tr_const!("Its height above the ground level of the plant in mm")),
+            optional("easting", Kind::Num, tr_const!("Its easting in the coordinate reference system in m")),
+            optional("northing", Kind::Num, tr_const!("Its northing in the coordinate reference system in m")),
+            optional("height", Kind::Num, tr_const!("Its height above sea level (datum of the coordinate reference system) in m")),
+            optional("crs", Kind::Str, tr_const!("Coordinate reference system, e.g. EPSG:25832")),
+            optional("north", Kind::Num, tr_const!("Direction of grid north in degrees, counter-clockwise seen from above from -z (0: towards the rear)")),
+            optional("latitude", Kind::Num, tr_const!("Latitude (WGS 84) in degrees")),
+            optional("longitude", Kind::Num, tr_const!("Longitude (WGS 84) in degrees")),
+            optional("name", Kind::Str, tr_const!("Name of the point, e.g. a survey point")),
+            optional("remove", Kind::Bool, tr_const!("Remove the reference point")),
+        ],
+        run: set_reference_point,
+    },
+    Spec {
+        name: "locate",
+        help: tr_const!("Gives the coordinates of a point: from x and z of the plant its easting, northing and height, or from easting and northing its place in the plant; and whether it lies on the plot"),
+        params: &[
+            optional("x", Kind::Num, tr_const!("x in the plant in mm")),
+            optional("z", Kind::Num, tr_const!("z in the plant (towards the front) in mm")),
+            optional("y", Kind::Num, tr_const!("Height above the ground level of the plant in mm")),
+            optional("easting", Kind::Num, tr_const!("Easting in m")),
+            optional("northing", Kind::Num, tr_const!("Northing in m")),
+        ],
+        run: locate,
+    },
+    Spec {
+        name: "measure",
+        help: tr_const!("Measures from one point of the plant to another: distance, how far east and north, and the direction from grid north"),
+        params: &[param("points", Kind::Points, tr_const!("The two points in the plant (x, z in mm)"))],
+        run: measure,
+    },
 ];
 
 fn building_arg(prj: &Project, a: &Args, name: &str) -> Result<usize, String> {
@@ -492,6 +546,7 @@ fn building_json(prj: &Project, bi: usize) -> Value {
         "x": b.site.x,
         "z": b.site.z,
         "angle": b.site.angle,
+        "geo": prj.layout.plot.reference.as_ref().map(|r| geo_json(r, [b.site.x, 0.0, b.site.z])),
         "levels": levels,
         "shafts": shafts,
         "stairs": stairs,
@@ -522,7 +577,11 @@ fn list_buildings(prj: &mut Project, a: &Args) -> Result<Value, String> {
     };
     let links: Vec<Value> = prj.layout.site_links.iter().map(|l| link_json(prj, l)).collect();
     let problems: Vec<String> = bld::problems(prj).iter().map(|i| i.message()).collect();
-    Ok(json!({ "buildings": list.into_iter().map(|bi| building_json(prj, bi)).collect::<Vec<_>>(), "links": links, "problems": problems }))
+    let mut out = json!({ "buildings": list.into_iter().map(|bi| building_json(prj, bi)).collect::<Vec<_>>(), "links": links, "problems": problems });
+    if !prj.layout.plot.is_default() {
+        out["plot"] = plot_json(prj);
+    }
+    Ok(out)
 }
 
 fn place_of(a: &Args, old: SitePlace) -> SitePlace {
@@ -1031,6 +1090,118 @@ fn set_site_link(prj: &mut Project, a: &Args) -> Result<Value, String> {
     }
     let link = prj.layout.site_links[k].clone();
     Ok(link_json(prj, &link))
+}
+
+/// What stands, by name: a room, a cabinet or a roof ("+B1 R1").
+fn standing_name(prj: &Project, s: plot::Standing) -> String {
+    let layout = &prj.layout;
+    match s {
+        plot::Standing::Room(i) | plot::Standing::Cabinet(i) => layout.enclosures[i].name.clone(),
+        plot::Standing::Roof(bi, k) => format!("{} {}", layout.buildings[bi].name, layout.buildings[bi].roofs[k].name),
+    }
+}
+
+/// Easting, northing and height of a point of the plant, rounded to the millimetre.
+fn geo_json(r: &panel::GeoReference, q: [f32; 3]) -> Value {
+    let g = plot::to_geo(r, q);
+    let mm = |v: f64| (v * 1000.0).round() / 1000.0;
+    json!({ "easting": mm(g[0]), "northing": mm(g[1]), "height": mm(g[2]) })
+}
+
+fn plot_json(prj: &Project) -> Value {
+    let p = &prj.layout.plot;
+    let reference = p.reference.as_ref().map(|r| {
+        json!({
+            "name": r.name, "x": r.x, "z": r.z, "y": r.y, "easting": r.easting, "northing": r.northing, "height": r.height, "crs": r.crs, "north": r.north,
+            "latitude": r.latitude, "longitude": r.longitude, "plant_origin": geo_json(r, [0.0; 3]),
+        })
+    });
+    let outside: Vec<String> = plot::outside(prj).into_iter().map(|s| standing_name(prj, s)).collect();
+    json!({
+        "name": p.name,
+        "outline": p.outline,
+        "area": (plot::area(&p.outline) * 100.0).round() / 100.0,
+        "perimeter": (plot::perimeter(&p.outline) * 1000.0).round() / 1000.0,
+        "reference": reference,
+        "outside": outside,
+    })
+}
+
+fn plot(prj: &mut Project, _: &Args) -> Result<Value, String> {
+    Ok(plot_json(prj))
+}
+
+fn set_plot(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    if a.flag("remove") {
+        plot::set_outline(prj, Vec::new())?;
+    } else if a.value("outline").is_some() {
+        plot::set_outline(prj, a.points("outline"))?;
+    }
+    if let Some(n) = a.str("name") {
+        prj.layout.plot.name = n.trim().into();
+    }
+    Ok(plot_json(prj))
+}
+
+fn set_reference_point(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    if a.flag("remove") {
+        plot::set_reference(prj, None)?;
+        return Ok(plot_json(prj));
+    }
+    let mut r = prj.layout.plot.reference.clone().unwrap_or_default();
+    r.x = a.num("x").unwrap_or(r.x);
+    r.z = a.num("z").unwrap_or(r.z);
+    r.y = a.num("y").unwrap_or(r.y);
+    r.easting = a.real("easting").unwrap_or(r.easting);
+    r.northing = a.real("northing").unwrap_or(r.northing);
+    r.height = a.real("height").unwrap_or(r.height);
+    r.north = a.num("north").unwrap_or(r.north);
+    if let Some(c) = a.str("crs") {
+        r.crs = c.trim().into();
+    }
+    if let Some(n) = a.str("name") {
+        r.name = n.trim().into();
+    }
+    if a.value("latitude").is_some() {
+        r.latitude = a.real("latitude");
+    }
+    if a.value("longitude").is_some() {
+        r.longitude = a.real("longitude");
+    }
+    plot::set_reference(prj, Some(r))?;
+    Ok(plot_json(prj))
+}
+
+fn locate(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let r = plot::reference(&prj.layout);
+    let q = match (a.real("easting"), a.real("northing")) {
+        (Some(e), Some(n)) => {
+            let height = r.height + f64::from(a.num("y").unwrap_or(0.0) - r.y) / 1000.0;
+            plot::from_geo(&r, [e, n, height])
+        }
+        (None, None) => match (a.num("x"), a.num("z")) {
+            (Some(x), Some(z)) => [x, a.num("y").unwrap_or(0.0), z],
+            _ => return Err(tr("Give x and z of the plant or easting and northing").to_string()),
+        },
+        _ => return Err(tr("Give x and z of the plant or easting and northing").to_string()),
+    };
+    let d = plot::from_reference(&r, [q[0], q[2]]);
+    let outline = &prj.layout.plot.outline;
+    let on_plot = (!outline.is_empty()).then(|| plot::inside_or_on(outline, [q[0], q[2]]));
+    let round = |v: f32| (v * 10.0).round() / 10.0;
+    Ok(json!({
+        "x": round(q[0]), "z": round(q[2]), "y": round(q[1]),
+        "geo": prj.layout.plot.reference.as_ref().map(|r| geo_json(r, q)),
+        "east": (d[0] * 1000.0).round() / 1000.0, "north": (d[1] * 1000.0).round() / 1000.0,
+        "on_plot": on_plot,
+    }))
+}
+
+fn measure(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let [pa, pb] = a.points("points")[..] else { return Err(tr("Give two points").to_string()) };
+    let m = plot::measure(&prj.layout, pa, pb);
+    let r3 = |v: f64| (v * 1000.0).round() / 1000.0;
+    Ok(json!({ "distance": (m.distance * 10.0).round() / 10.0, "east": r3(m.east), "north": r3(m.north), "bearing": (m.bearing * 100.0).round() / 100.0 }))
 }
 
 #[cfg(test)]

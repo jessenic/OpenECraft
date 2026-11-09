@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Электрощитовая
 A device tag must not be empty	Обозначение устройства не может быть пустым
 A pipe run turns at right angles	Трасса трубопровода поворачивает под прямым углом
+A plot boundary has at least three corners	Граница участка имеет не менее трёх углов
 A port cannot be connected to itself	Порт нельзя соединить с самим собой
 A room needs at least four walls	Помещению нужны минимум четыре стены
 A section number consists of letters and digits and does not start with 0	Номер раздела состоит из букв и цифр и не начинается с 0
@@ -748,6 +749,7 @@ Last edited by	Последнее изменение
 Last inspection	Последняя проверка
 Last revision	Последняя ревизия
 Latching	С фиксацией
+Latitude is within ±90° and longitude within ±180°	Широта лежит в пределах ±90°, а долгота — в пределах ±180°
 Lead time (days)	Срок поставки (дни)
 Leakage current	Ток утечки
 Leakage line	Дренажная линия
@@ -1344,6 +1346,7 @@ Roller switch NO	Роликовый выключатель, замыкающий
 Roof	Крыша
 Roof top	Кровля
 Room floor	Пол помещения
+Room {} stands outside the plot boundary	Помещение {} находится за границей участка
 Rotation	Поворот
 Round punch	Круглый пуансон
 Routing list (3D)	Список прокладки (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Должен быть
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Ряд шкафов в своём помещении: Г-образный план, внутренняя стена, дверь и окно, ряд шкафов на своём месте, рейка с розеткой на стене, настенный аварийный светильник и кабельный лоток под потолком.
 The configuration is not a JSON object	Конфигурация не является объектом JSON
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Конвейер после первого выпуска: выпущенная и заблокированная ревизия, отмеченные с тех пор изменения, комментарии проверки с красными пометками, запрос на изменение, ревизия B в процессе согласования и базовая версия для сравнения.
+The coordinates of the reference point must be numbers	Координаты опорной точки должны быть числами
+The coordinates of the reference point {} are not valid	Координаты опорной точки {} недействительны
+The corners of the plot boundary must be numbers	Углы границы участка должны быть числами
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Демонстрационный проект: входы и выходы ПЛК, компоновка шкафа с рейками, кабель-каналами и устройствами на двери, жгут двери и кабель двигателя.
 The embedded document {} is damaged	Встроенный документ {} повреждён
 The file is empty	Файл пуст
@@ -1586,6 +1592,9 @@ The next free id is already in use	Следующий свободный иде�
 The option needs a name	Для опции требуется имя
 The page needs a number	Для листа требуется номер
 The pages were changed after the submission; submit the revision again	Листы были изменены после отправки; отправьте ревизию снова
+The plot boundary crosses itself	Граница участка пересекает сама себя
+The plot boundary encloses no area	Граница участка не охватывает площади
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Граница участка не является многоугольником: она пересекает сама себя или имеет менее трёх углов
 The project has no panel layout	В проекте нет компоновки шкафа
 The property needs a name	Для свойства требуется имя
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Насосная станция в двух соединённых напольных шкафах: система сборных шин, рейки и кабель-каналы, устройства на двери и ручки, вентилятор с фильтром, светильник, шина PE, кабельные вводы, кабельный проход, расчёт климата, заполнение кабель-каналов и 3D-трассировка.
@@ -1922,6 +1931,7 @@ yellow	жёлтый
 {} report references converted to report names	Ссылок на отчёты преобразовано в имена отчётов: {}
 {} s	{} s
 {} single part assignments converted to part lists	Отдельных назначений изделий преобразовано в списки изделий: {}
+{} stands outside the plot boundary	{} находится за границей участка
 {} symbols, {} wires, {} texts / graphics	Символов: {}, проводов: {}, текстов / графики: {}
 {} texts are not translated into {}	Текстов, не переведённых на {1}: {0}
 {} unused device data records removed	Удалено неиспользуемых записей данных устройств: {}
@@ -2006,6 +2016,8 @@ yellow	жёлтый
 {}: port {} is not a {} port	{}: порт {} не является портом {}
 {}: ports with different media ({})	{}: порты с разными средами ({})
 {}: replace {} after {} years (T10d)	{}: заменить {} через {} г. (T10d)
+{}: roof {} reaches over the plot boundary	{}: крыша {} выступает за границу участка
+{}: room {} stands outside the plot boundary	{}: помещение {} находится за границей участка
 {}: routing path {} is full ({} % of its usable cross-section)	{}: путь прокладки {} заполнен ({} % полезного сечения)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: ток двойного замыкания на землю {} A в {} не отключается в течение {} s (требуется {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: однолинейный символ «{}» не соответствует схеме («{}»)

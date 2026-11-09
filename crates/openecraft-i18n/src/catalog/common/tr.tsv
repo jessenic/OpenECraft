@@ -214,6 +214,8 @@ Mounting plate	Montaj plakası
 Mounting rail	Montaj rayı
 Name	Ad
 Name of the block	Bloğun adı
+Name of the plot, e.g. the cadastral parcel	Arsanın adı, ör. kadastro parseli
+Name of the point, e.g. a survey point	Noktanın adı, ör. bir ölçüm noktası
 Name of the scheme	Düzenin adı
 Net	Ağ
 New name	Yeni ad
@@ -336,6 +338,8 @@ Relay	Röle
 Released pages cannot be moved	Yayımlanmış sayfalar taşınamaz
 Remove	Kaldır
 Remove from favorites	Sık kullanılanlardan kaldır
+Remove the boundary	Sınırı kaldır
+Remove the reference point	Referans noktasını kaldır
 Report	Rapor
 Report blocks	Rapor blokları
 Report: {}	Rapor: {}

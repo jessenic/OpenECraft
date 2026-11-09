@@ -18,6 +18,7 @@
 9 · Electrical room	9 · 电气室
 A device tag must not be empty	设备标识不能为空
 A pipe run turns at right angles	管道走线只能直角转弯
+A plot boundary has at least three corners	场地边界至少有三个角点
 A port cannot be connected to itself	端口不能连接到自身
 A section number consists of letters and digits and does not start with 0	分节号由字母和数字组成，且不以 0 开头
 A section number must not be empty or contain a dot	分节号不能为空，也不能包含点
@@ -738,6 +739,7 @@ Last edited by	上次编辑者
 Last inspection	上次检验
 Last revision	最新修订
 Latching	自锁
+Latitude is within ±90° and longitude within ±180°	纬度在 ±90° 以内，经度在 ±180° 以内
 Lead time (days)	交货期（天）
 Leakage current	泄漏电流
 Leakage line	泄漏管路
@@ -1330,6 +1332,7 @@ Roller switch NC	滚轮开关，常闭
 Roller switch NO	滚轮开关，常开
 Roof	顶板
 Room floor	房间地面
+Room {} stands outside the plot boundary	房间 {} 位于场地边界之外
 Rotation	旋转
 Round punch	圆形冲头
 Routing list (3D)	布线列表 (3D)
@@ -1560,6 +1563,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	必须指明成套设
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	并柜后的控制柜在其房间中：L 形平面图、内墙、门和窗、放置到位的并柜、墙上带插座的导轨、墙装应急灯以及顶部下方的电缆桥架。
 The configuration is not a JSON object	配置不是 JSON 对象
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	第一次发布后的输送机：已发布并锁定的修订、此后标记的更改、带红线标注的审查注释、一个变更请求、处于审批流程中的修订 B 以及用于比较的基线。
+The coordinates of the reference point must be numbers	参考点的坐标必须是数字
+The coordinates of the reference point {} are not valid	参考点 {} 的坐标无效
+The corners of the plot boundary must be numbers	场地边界的角点必须是数字
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	演示项目：PLC 输入和输出、带导轨、线槽和柜门设备的机柜布置、柜门线束和电机电缆。
 The embedded document {} is damaged	嵌入的文档 {} 已损坏
 The file is empty	文件为空
@@ -1572,6 +1578,9 @@ The next free id is already in use	下一个空闲 ID 已被占用
 The option needs a name	选项需要名称
 The page needs a number	页需要编号
 The pages were changed after the submission; submit the revision again	提交后页已被更改；请重新提交该修订
+The plot boundary crosses itself	场地边界自相交
+The plot boundary encloses no area	场地边界未围成面积
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	场地边界不是多边形：它自相交或少于三个角点
 The project has no panel layout	项目没有安装板布局
 The property needs a name	属性需要名称
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	安装在两台并柜落地柜中的泵站：母线系统、导轨和线槽、柜门设备和把手、过滤风扇、照明灯、PE 排、电缆密封接头、电缆通道、柜内温控计算、线槽填充率和三维布线。
@@ -1908,6 +1917,7 @@ yellow	黄色
 {} report references converted to report names	已将 {} 个报表引用转换为报表名称
 {} s	{} s
 {} single part assignments converted to part lists	已将 {} 个单个部件分配转换为部件列表
+{} stands outside the plot boundary	{} 位于场地边界之外
 {} symbols, {} wires, {} texts / graphics	{} 个符号、{} 条导线、{} 个文本 / 图形
 {} texts are not translated into {}	{} 个文本未翻译为 {}
 {} unused device data records removed	已删除 {} 条未使用的设备数据记录
@@ -1992,6 +2002,8 @@ yellow	黄色
 {}: port {} is not a {} port	{}：端口 {} 不是 {} 端口
 {}: ports with different media ({})	{}：接口介质不同（{}）
 {}: replace {} after {} years (T10d)	{0}：{2} 年后更换 {1} (T10d)
+{}: roof {} reaches over the plot boundary	{}：屋顶 {} 超出场地边界
+{}: room {} stands outside the plot boundary	{}：房间 {} 位于场地边界之外
 {}: routing path {} is full ({} % of its usable cross-section)	{}：布线路径 {} 已满（占其可用截面积的 {} %）
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{0}：{2} 处的二次故障电流 {1} A 无法在 {3} s 内断开（需要 {4} A）
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}：单线符号 '{}' 与原理图 ('{}') 不匹配

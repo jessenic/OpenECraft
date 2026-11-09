@@ -214,6 +214,8 @@ Mounting plate	Placă de montaj
 Mounting rail	Șină de montaj
 Name	Nume
 Name of the block	Numele blocului
+Name of the plot, e.g. the cadastral parcel	Numele terenului, de ex. parcela cadastrală
+Name of the point, e.g. a survey point	Numele punctului, de ex. un punct geodezic
 Name of the scheme	Numele schemei
 Net	Rețea
 New name	Nume nou
@@ -336,6 +338,8 @@ Relay	Releu
 Released pages cannot be moved	Paginile aprobate nu pot fi mutate
 Remove	Eliminare
 Remove from favorites	Eliminare din favorite
+Remove the boundary	Eliminați limita
+Remove the reference point	Eliminați punctul de referință
 Report	Raport
 Report blocks	Blocuri de raport
 Report: {}	Raport: {}

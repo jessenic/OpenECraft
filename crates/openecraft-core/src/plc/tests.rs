@@ -18,6 +18,15 @@ fn points_of_the_demo() {
 }
 
 #[test]
+fn addresses_that_are_not_byte_and_bit_compare_as_text() {
+    assert_eq!(address_key("E1"), ("E".into(), 1, 0));
+    for (a, b) in [("A1.2.1", "A1.3.1"), ("A1_3.1", "A1_4.1"), ("1.11.1", "1.12.1"), ("Pump on", "Pump off")] {
+        assert_ne!(address_key(a), address_key(b), "{a} and {b}");
+    }
+    assert_eq!(address_key("%a1_3.1"), address_key("A1_3.1"));
+}
+
+#[test]
 fn readdressing_uses_the_card_start_byte() {
     let mut prj = demo_project();
     prj.plc_cards.insert("-A2".into(), PlcCard { start_byte: 4, ..Default::default() });

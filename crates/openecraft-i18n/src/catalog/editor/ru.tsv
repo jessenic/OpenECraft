@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Нумерованный раздел, содержащий листы как папка; имена листов начинаются с его номера (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Профиль сопоставляет нейтральные поля с именами столбцов конкретной системы (например, MATNR для номера ERP в SAP). Без сопоставления распознаются распространенные английские и немецкие имена.
 A project definition based on this one, with its own defaults and scheme	Определение проекта на основе этого, с собственными значениями по умолчанию и схемой
+A reference point at the origin of the plant	Опорная точка в начале координат установки
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Блок отчёта создаёт листы отчёта, например одну схему клемм на колодку, и обновляет их.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Лист схемы 3.1, 3.2, … после текущего листа, при перенумерации остаётся подлистом
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Лист схемы для каждого запланированного устройства с макросом листа, которого ещё нет на схеме (выбранный сегмент, иначе все)
@@ -162,6 +163,7 @@ Assign to harness	Назначить жгуту
 Assign wires: select them in the schematic › Assign to cable.	Назначение проводов: выберите их на схеме › Назначить кабелю.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Асинхронные двигатели в сети увеличивают максимальный ток короткого замыкания (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	При максимальной температуре окружающей среды; обогреватель поддерживает температуру выше точки росы. 0 = не учитывается
+At the origin	В начале координат
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	В точке питания: Ik3 max {} kA, Ik1 min {} kA
 At the top level	На верхнем уровне
 Author	Автор
@@ -205,6 +207,7 @@ Bottom edges	По нижнему краю
 Bottom left	Слева снизу
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Нижний край корпуса (без цоколя) над полом; высоты проверяются, если он известен или корпус стоит на цоколе
 Bottom right	Справа снизу
+Boundary	Граница
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Отключающая способность по отношению к току короткого замыкания на каждом защитном устройстве сети, отключение при наименьшем токе замыкания в конце его цепи, стойкость кабелей к короткому замыканию и селективность с вышестоящим устройством.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Мост: четыре провода; соединение приходит с одной стороны и идёт к трём другим, сначала к противоположной
 Building {} added with a level at ground level	Здание {} добавлено с этажом на уровне земли
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Щёлкните по сетке 4 мм
 Click on the wall: the part goes there at its mounting height	Щёлкните по стене: изделие встанет там на свою высоту монтажа
 Click start and end point	Щёлкните начальную и конечную точки
 Click the corners of a machine or building, double-click to finish	Щёлкните углы машины или здания, дважды щёлкните для завершения
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Щёлкайте по углам границы участка · по первому, двойной щелчок или Enter: замкнуть · Backspace: назад · Esc: стоп
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Щёлкайте по концам внутренних стен; каждый щелчок начинает следующую, концы у стены притягиваются к ней. Esc, Enter или двойной щелчок завершают цепочку, повторный Esc — инструмент.
 Click to add a node of the route network	Щёлкните, чтобы добавить узел сети трасс
 Click to add to the selected text.	Щёлкните, чтобы добавить к выбранному тексту.
@@ -308,7 +312,10 @@ Click to show, right click for more	Щелчок — показать, прав�
 Click two corners	Щёлкните два угла
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Щёлкните два угла рамки структуры, затем задайте её идентификаторы в свойствах · Esc или правый щелчок для завершения
 Click two nodes to connect them	Щёлкните два узла, чтобы соединить их
+Click two points to measure from one to the other · Esc: stop	Щёлкните две точки, чтобы измерить от одной до другой · Esc: стоп
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Щёлкните, где сходятся четыре провода: мост ведёт соединение с одной стороны к трём другим, сначала к противоположной · {} поворачивает его · Esc или правая кнопка завершает
+Click where it is in the site plan	Щёлкните по его месту на генплане
+Click where the reference point is	Щёлкните там, где находится опорная точка
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Щёлкните, где сходятся три провода: Т-образный узел задаёт устройство, от которого идут провода, и порядок их целей · {} поворачивает его, где провода ещё не сходятся · Esc или правая кнопка завершает
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Щёлкните, где пересекаются два провода: пересечение соединяет их и ведёт каждый конец своей линии сначала прямо, затем поперёк · {} поворачивает его · Esc или правая кнопка завершает
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Щёлкните, где два провода сходятся под прямым углом, или где точки подключения расположены напротив друг друга через угол: при включённом автосоединении к нему проводятся провода · {} поворачивает его · Esc или правая кнопка завершает
@@ -369,6 +376,7 @@ Consecutive addresses from the start byte, in schematic order	Последова
 Contact image below coils	Зеркало контактов под катушками
 Content	Содержимое
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Содержимое неактивной опции скрыто: оно не отображается, не обрабатывается, не включается в отчёты и не экспортируется.
+Coordinate reference system	Система координат
 Copies	Копии
 Copies function texts between both representations where one is empty	Копирует тексты функций между обоими представлениями, если одно из них пусто
 Copies in rows and columns	Копии в строках и столбцах
@@ -497,6 +505,7 @@ Digits	Разряды
 Dimension	Размер
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Направленный Т-образный узел: где сходятся три провода, задаёт устройство, от которого идут два провода соединения, и порядок их целей
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Направленное пересечение: соединяет два пересекающихся там провода; каждый конец его линии соединяется сначала прямо, затем поперёк
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Направление севера сетки, против часовой стрелки при виде сверху от задней стороны установки (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Направление, в которое обращены модули, против часовой стрелки при виде сверху (0: вперёд)
 Discard changes	Отменить изменения
 Discard draft	Отменить черновик
@@ -547,6 +556,8 @@ Draw cable definition	Нарисовать определение кабеля
 Draw connections	Рисовать соединения
 Draw connections between facing connection points when symbols are placed or moved	Рисовать соединения между обращёнными друг к другу точками подключения при размещении или перемещении символов
 Draw inner walls	Рисовать внутренние стены
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	Нарисовать границу участка на генплане: щёлкайте по углам, по первому или Enter, чтобы замкнуть; все здания должны оставаться внутри
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	Нарисовать границу участка на генплане; все здания должны оставаться внутри неё
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Нарисуйте лист сами: графика для каждого листа и чертёж строки, повторяемый для каждой строки; тексты принимают столбцы как заполнители
 Draw the three wires of the T-junction to it: one in its direction and two across	Проведите к Т-образному узлу его три провода: один в его направлении и два поперёк
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Проведите к углу его два провода или включите автосоединение и поставьте его напротив свободных точек подключения
@@ -571,6 +582,7 @@ Duplicate	Дублировать
 Each example builds on the one before and shows more of the features.	Каждый пример основан на предыдущем и показывает больше функций.
 Each point-to-point connection can belong to a harness	Каждое соединение «точка – точка» может входить в жгут
 Earthing system	Тип системы заземления
+Easting, northing	Восточная, северная координата
 Eaves	Карниз
 Edge length of the routing grid: smaller is finer and slower	Длина ребра сетки прокладки: чем меньше, тем точнее и медленнее
 Edit	Правка
@@ -729,6 +741,7 @@ Graphic rectangle	Графический прямоугольник
 Graphical form	Графическая форма
 Greatest distance of the roof hooks along a rail	Наибольшее расстояние кровельных крюков вдоль рейки
 Grid	Сетка
+Grid north	Север сетки
 Grid size	Шаг сетки
 Grid {} mm	Сетка {} мм
 Group as assembly	Сгруппировать как сборку
@@ -744,6 +757,7 @@ Heat map	Тепловая карта
 Heating	Обогрев
 Heating circuit manifolds and control boxes	Распределители отопления и регулирующие коробки
 Height (mm)	Высота (мм)
+Height above sea level	Высота над уровнем моря
 Height above the floor	Высота над полом
 Height above the mounting plate	Высота над монтажной панелью
 Height above the plate	Высота над панелью
@@ -869,6 +883,7 @@ Label field	Поле надписи
 Labeling scheme	Схема маркировки
 Landscape	Альбомная
 Larger texts and buttons for a touch screen at the workbench	Более крупные тексты и кнопки для сенсорного экрана на рабочем месте
+Latitude, longitude	Широта, долгота
 Layer	Слой
 Layer {}	Слой {}
 Layer: {}	Слой: {}
@@ -894,6 +909,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Уровень этого вида сообщений
 Level on top	Уровень сверху
 Level {} added to building {}; new rooms go onto it	Этаж {} добавлен в здание {}; новые помещения размещаются на нём
+Level {} of building {}	Этаж {} здания {}
 Levels	Уровни
 Library	Библиотека
 Limits	Пределы
@@ -965,6 +981,8 @@ Max. pressure	Макс. давление
 Max. width	Макс. ширина
 Maximum fill of a carrier	Максимальное заполнение кабельной конструкции
 Mean: typical operation	Средняя: типичная работа
+Measure	Измерить
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Измерение на генплане: щёлкните две точки, чтобы узнать расстояние, смещение на восток и север и направление от севера
 Measured	Измерено
 Measures against common cause failure (at least 65 points)	Меры против отказов по общей причине (не менее 65 баллов)
 Merge a symbol library file	Объединить с файлом библиотеки символов
@@ -1198,6 +1216,7 @@ Options	Параметры
 Ordinary cable	Обычный кабель
 Orientation	Ориентация
 Origin	Источник
+Origin of the plant	Начало координат установки
 Other values ({})	Другие значения ({})
 Otherwise from the plant layout, or next to the other line-ups	Иначе по плану установки или рядом с другими рядами корпусов
 Out since {} (pages locked)	Вынесен с {} (листы заблокированы)
@@ -1210,6 +1229,7 @@ Output failed: {}	Ошибка вывода: {}
 Output to another project	Вывод в другой проект
 Output to project…	Вывести в проект…
 Outputs	Выходы
+Outside the plot boundary: {}	За границей участка: {}
 Overhang	Свес
 Own colour	Собственный цвет
 Own drawn form	Собственная нарисованная форма
@@ -1281,7 +1301,10 @@ Place in schematic	Разместить на схеме
 Place in the building	Место в здании
 Place in the plant	Место на объекте
 Place in the room	Место в помещении
+Place in the site plan	Разместить на генплане
 Place text	Разместить текст
+Place the georeferenced point everything is measured from	Разместить геопривязанную точку, от которой всё измеряется
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Разместить геопривязанную точку установки на генплане; её координаты вводятся на панели Здания, каждая точка измеряется от неё
 Placed	Размещено
 Placed by hand	Размещено вручную
 Placed here: {}	Размещено здесь: {}
@@ -1299,7 +1322,12 @@ Plant layout	План установки
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	План установки, сеть трасс, планирование полевых кабелей, уравнивание потенциалов и кабельные принадлежности
 Plant segments with planned devices before the schematic	Сегменты установки с запланированными устройствами до создания схемы
 Plate outline, holes per diameter, cutouts	Контур панели, отверстия по диаметрам, вырезы
+Plot	Участок
+Plot boundary	Граница участка
+Plot boundary drawn: {} m²	Граница участка нарисована: {} м²
+Plot boundary drawn: {} m²; outside it: {}	Граница участка нарисована: {} м²; за ней: {}
 Plot frames	Рамки листов
+Plot, {}	Участок, {}
 Plug in card	Установить плату
 Plugin commands	Команды плагинов
 Plugins	Плагины
@@ -1389,6 +1417,8 @@ Record	Записать
 Rectangular	Прямоугольный
 Redline: to be changed · Greenline: changed as built	Красная правка: требуется изменить · Зелёная правка: изменено по факту монтажа
 Redo	Повторить
+Reference point	Опорная точка
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Опорная точка размещена в x {} м, z {} м; введите её координаты на панели Здания
 Refresh	Обновить
 Refresh example catalog parts (GEN.*)	Обновить изделия примера каталога (GEN.*)
 Reject	Отклонить
@@ -1805,6 +1835,7 @@ The page name gets the section number	Имя листа получает ном�
 The page type, plot frame, title block, structure, description and the whole content are saved.	Сохраняются тип листа, рамка, основная надпись, структура, описание и всё содержимое.
 The pages it generated stay	Созданные им листы остаются
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	База данных изделий общая для всех проектов. Изделия копируются в проект, когда их назначают устройству.
+The point's coordinates in the coordinate reference system	Координаты точки в системе координат
 The project changed since the search.	Проект изменился после поиска.
 The project check	Проверка проекта
 The project database needs the desktop version: the browser cannot search folders.	Для базы данных проектов требуется настольная версия: браузер не может просматривать папки.
@@ -1815,6 +1846,7 @@ The properties of the selection in a window beside the page	Свойства в�
 The rail or mounting base; its accessories are the hooks, clamps and ballast	Рейка или монтажное основание; его принадлежности — крюки, зажимы и балласт
 The recalculation keeps frozen routes as long as they are still possible	При пересчёте зафиксированные трассы сохраняются, пока это возможно
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Лента с вкладкой Файл заменяет меню; Ctrl+Shift+P находит любую команду.
+The rooms of the level side by side; click the level again for all of the plant	Помещения этажа рядом друг с другом; щёлкните этаж ещё раз, чтобы увидеть всю установку
 The second fault is checked at the line-to-earth voltage	Двойное замыкание проверяется при напряжении между фазой и землёй
 The selected devices side by side on the selected rail, from its left end	Выбранные устройства рядом друг с другом на выбранной рейке, начиная с её левого конца
 The side of {} is open	Сторона {} открыта
@@ -1918,6 +1950,7 @@ Visible	Видимый
 Voltage (line to line)	Напряжение (линейное)
 Voltage drop	Падение напряжения
 W A S D / arrows, Q / E	W A S D / стрелки, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, записывается в участок при экспорте IFC
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Стена {}, {} м: перетащите, чтобы переместить, двойной щелчок покажет её для оснащения
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Стена {}, {} м: стена, показанная в виде стены (выделена); перетащите, чтобы переместить
 Wall-mounted part	Настенное изделие
@@ -1930,9 +1963,11 @@ What is new	Что нового
 What should be checked or changed?	Что нужно проверить или изменить?
 Wheel / right or middle drag	Колесо / перетаскивание правой или средней кнопкой
 Wheel: zoom · drag: move · click on a room: its floor plan	Колесо: масштаб · перетаскивание: сдвиг · щелчок по помещению: его план
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Колесо: масштаб · перетаскивание: сдвиг · щелчок по помещению: его план · перетащите угол границы участка
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Колесо: масштаб · правый щелчок: отмена · графика привязывается к 0,5 мм, точки подключения – к сетке 4 мм
 When it differs from the page	Если отличается от листа
 Where	Положение
+Where the point is in the plant; y: its height above the ground level of the plant	Где точка находится в установке; y: её высота над уровнем земли установки
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Откуда берётся структура устройства: аспекты, равные структуре вокруг символа, наследуются и меняются при перемещении в рамку структуры или из неё; остальные аспекты принадлежат устройству и сохраняются.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Где провод начинается и заканчивается: точка подключения из данных изделия, точка, созданная из шаблона функций, или центр устройства, если ни одна точка подключения не подходит
 Whole building	Всё здание
@@ -1971,6 +2006,7 @@ With everything below it	Со всем, что находится под ним
 With the current pages; the approvals so far become void	С текущими листами; полученные утверждения аннулируются
 With values only	Только со значениями
 Withdraw	Отозвать
+Without a reference point the plant is measured from its origin, north towards the rear.	Без опорной точки установка измеряется от начала координат, север — назад.
 Without approvers a new revision is released directly.	Без утверждающих новая ревизия выпускается сразу.
 Without bus system	Без шинной системы
 Without power loss data: {}	Без данных о потерях мощности: {}
@@ -2032,6 +2068,7 @@ inherited from structure box {}	унаследовано от рамки стр�
 inherited from the page	унаследовано от листа
 inherited: {}	наследуется: {}
 kW	kW
+known	известна
 low side at the rear	низкая сторона сзади
 male	штырь
 manual	вручную
@@ -2076,6 +2113,7 @@ value set…	набор значений…
 vertical	вертикально
 with bus cables	с шинными кабелями
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} м к востоку, {} м к северу от опорной точки
 {}  (door)	{}  (дверь)
 {}  (free)	{}  (свободно)
 {}  (used)	{}  (используется)
@@ -2131,6 +2169,7 @@ x y	x y
 {} copies placed	Размещено копий: {}
 {} corner points	Угловых точек: {}
 {} corners	Углов: {}
+{} corners, {} m², {} m round	{} углов, {} м², периметр {} м
 {} details	{} – подробности
 {} device descriptions imported	Импортировано описаний устройств: {}
 {} devices	Устройства: {}
@@ -2164,6 +2203,7 @@ x y	x y
 {} items, {} %	Элементов: {}, {} %
 {} links created, {} function texts copied	Создано связей: {}, скопировано текстов функций: {}
 {} m of {} m wired	Смонтировано {} м из {} м
+{} m: {} m east, {} m north, {}° from north	{} м: {} м на восток, {} м на север, {}° от севера
 {} macro boxes updated	Обновлено рамок макросов: {}
 {} markers	Маркеров: {}
 {} mm	{} мм

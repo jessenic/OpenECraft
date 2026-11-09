@@ -229,8 +229,40 @@ keeps the 3D view when it is shown and otherwise shows the room's floor plan. A 
 the site shows the site plan of all buildings in the Layout space (the wheel zooms,
 dragging moves it, a click on a room opens its floor plan) or, in the 3D view, all of
 the plant with its buildings, floor slabs, stairs and roofs; a click on a building shows
-the site plan with it highlighted. The context menu of the site adds a building, that of
-a building a level on top or a basement, that of a level a room on it.
+the site plan with it highlighted. A level clicked while the 3D view is shown shows all
+rooms of that level side by side at their places, with the cabinets standing in them,
+the floor slabs and the stairs reaching the level (no roofs); a second click shows all
+of the plant again. The context menu of the site adds a building, draws the plot
+boundary or places the reference point, that of a building a level on top or a
+basement, that of a level a room on it.
+
+## Plot boundary and reference point
+
+The **plot** (*Layout space › Site*, the context menu of the site, the *Plot* section of
+the Buildings pane; plugin `buildings`) is the parcel of land the plant stands on.
+
+- **Plot boundary** (*Site › Plot boundary*, command `set_plot`): drawn in the site plan
+  corner by corner (a click on the first corner, a double-click or Enter closes it,
+  Backspace takes back the last corner, Esc stops); the corners snap to the corners of
+  the rooms (inside and outside their walls), of the shafts and to the reference point.
+  Its corners are dragged in the site plan afterwards. The boundary must not cross
+  itself; the site plan writes its name and area, the pane its corners, area and
+  length. **All buildings have to stay inside it**: the check *Buildings, levels and
+  shafts* reports as errors rooms whose outer walls reach outside the boundary, and
+  warns about roofs reaching over it with their overhang and cabinets outside it; the
+  site plan draws them in the colour of errors and `plot` lists them.
+- **Reference point** (*Site › Reference point*, command `set_reference_point`): a
+  georeferenced point of the plant (where it is in the plant, its easting, northing
+  and height above sea level in a coordinate reference system such as `EPSG:25832`, the
+  direction of grid north in the plant and, if known, its latitude and longitude). Every
+  point of the plant is measured from it: the site plan shows the coordinates under the
+  pointer (easting and northing, or how far east and north of the point), a north
+  arrow, and `list_buildings` the easting, northing and height of each building's
+  origin; `locate` converts between the plant and the coordinate system. IFC exports
+  write the plot's name and the latitude, longitude and height into their site.
+- **Measure** (*Site › Measure*, command `measure`): two points clicked in the site plan
+  give their distance, how far east and north the second lies and its direction from
+  grid north.
 
 ## Buildings, levels and shafts
 
@@ -351,7 +383,8 @@ circuit manifold.
 with all its levels and rooms, their floor slabs, the stairs and the roofs; *All
 enclosures* shows every building of the plant this way. Roofs and gable walls are seen
 from outside like the walls (translucent, or left out with *Hide walls in front*);
-*Hide ceiling* leaves out the ceilings and the roofs to look into the building.
+*Hide ceiling* leaves out the ceilings and the roofs to look into the building. The
+plant in 3D draws the plot boundary on the ground and the reference point as a post.
 
 ![Floor plan of the electrical_room example: L-shaped room, inner wall, door, window and the two cabinets](../images/room.png)
 

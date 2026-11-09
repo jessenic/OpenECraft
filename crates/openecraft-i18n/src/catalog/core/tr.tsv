@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Elektrik odası
 A device tag must not be empty	Cihaz etiketi boş olamaz
 A pipe run turns at right angles	Bir boru güzergâhı dik açıyla döner
+A plot boundary has at least three corners	Bir arsa sınırının en az üç köşesi vardır
 A port cannot be connected to itself	Bir port kendisine bağlanamaz
 A room needs at least four walls	Bir oda en az dört duvar gerektirir
 A section number consists of letters and digits and does not start with 0	Bölüm numarası harf ve rakamlardan oluşur ve 0 ile başlamaz
@@ -748,6 +749,7 @@ Last edited by	Son düzenleyen
 Last inspection	Son muayene
 Last revision	Son revizyon
 Latching	Kalıcı
+Latitude is within ±90° and longitude within ±180°	Enlem ±90° ve boylam ±180° içindedir
 Lead time (days)	Teslim süresi (gün)
 Leakage current	Kaçak akım
 Leakage line	Kaçak hattı
@@ -1344,6 +1346,7 @@ Roller switch NO	Makaralı şalter NA
 Roof	Üst
 Roof top	Çatı
 Room floor	Oda zemini
+Room {} stands outside the plot boundary	{} odası arsa sınırının dışında
 Rotation	Dönüş
 Round punch	Yuvarlak zımba
 Routing list (3D)	Yönlendirme listesi (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Düzen imalatçısı 
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Odasındaki yan yana panolar: L biçimli kat planı, iç duvar, kapı ve pencere, yerindeki pano dizisi, bir duvarda prizli bir ray, duvara monte acil durum aydınlatması ve tavan altında bir kablo tavası.
 The configuration is not a JSON object	Yapılandırma bir JSON nesnesi değil
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	İlk yayından sonra konveyör: yayınlanmış ve kilitlenmiş bir revizyon, o zamandan beri işaretlenen değişiklikler, kırmızı işaretlemeli inceleme yorumları, bir değişiklik talebi, onay sürecindeki B revizyonu ve karşılaştırma için bir temel durum.
+The coordinates of the reference point must be numbers	Referans noktasının koordinatları sayı olmalıdır
+The coordinates of the reference point {} are not valid	{} referans noktasının koordinatları geçerli değil
+The corners of the plot boundary must be numbers	Arsa sınırının köşeleri sayı olmalıdır
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Demo projesi: PLC giriş ve çıkışları, raylar, kablo kanalları ve kapı cihazlarıyla pano yerleşimi, kapı kablo demeti ve motor kablosu.
 The embedded document {} is damaged	Gömülü belge {} hasarlı
 The file is empty	Dosya boş
@@ -1586,6 +1592,9 @@ The next free id is already in use	Sonraki boş kimlik zaten kullanımda
 The option needs a name	Seçenek için bir ad gerekli
 The page needs a number	Sayfa için bir numara gerekli
 The pages were changed after the submission; submit the revision again	Sayfalar gönderimden sonra değiştirildi; revizyonu yeniden gönderin
+The plot boundary crosses itself	Arsa sınırı kendisiyle kesişiyor
+The plot boundary encloses no area	Arsa sınırı bir alan çevrelemiyor
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Arsa sınırı bir çokgen değil: kendisiyle kesişiyor veya üçten az köşesi var
 The project has no panel layout	Projede pano yerleşimi yok
 The property needs a name	Özellik için bir ad gerekli
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	İki yan yana zemin panosuna kurulmuş pompa istasyonu: bara sistemi, raylar ve kablo kanalları, kapı cihazları ve kollar, filtreli fan, aydınlatma, PE barası, kablo rakorları, bir kablo geçişi, iklimlendirme hesabı, kanal doluluğu ve 3D yönlendirme.
@@ -1922,6 +1931,7 @@ yellow	sarı
 {} report references converted to report names	{} rapor referansı rapor adlarına dönüştürüldü
 {} s	{} sn
 {} single part assignments converted to part lists	{} tekil parça ataması parça listelerine dönüştürüldü
+{} stands outside the plot boundary	{} arsa sınırının dışında
 {} symbols, {} wires, {} texts / graphics	{} sembol, {} tel, {} metin / grafik
 {} texts are not translated into {}	{} metin {} diline çevrilmedi
 {} unused device data records removed	Kullanılmayan {} cihaz veri kaydı kaldırıldı
@@ -2006,6 +2016,8 @@ yellow	sarı
 {}: port {} is not a {} port	{}: {} portu bir {} portu değil
 {}: ports with different media ({})	{}: farklı ortamlara sahip portlar ({})
 {}: replace {} after {} years (T10d)	{}: {} öğesini {} yıl sonra değiştirin (T10d)
+{}: roof {} reaches over the plot boundary	{}: {} çatısı arsa sınırını aşıyor
+{}: room {} stands outside the plot boundary	{}: {} odası arsa sınırının dışında
 {}: routing path {} is full ({} % of its usable cross-section)	{}: {} yönlendirme yolu dolu (kullanılabilir kesitinin %{} kadarı)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{0}: {2} noktasında {1} A ikinci arıza akımı {3} s içinde açmıyor ({4} A gerekli)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: tek hatlı sembol '{}' şemayla eşleşmiyor ('{}')

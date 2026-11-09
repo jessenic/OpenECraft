@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Sala elétrica
 A device tag must not be empty	A identificação do dispositivo não pode estar vazia
 A pipe run turns at right angles	Um percurso de tubulação vira em ângulo reto
+A plot boundary has at least three corners	Um limite de terreno tem pelo menos três vértices
 A port cannot be connected to itself	Uma porta não pode ser conectada a si mesma
 A room needs at least four walls	Uma sala precisa de pelo menos quatro paredes
 A section number consists of letters and digits and does not start with 0	Um número de seção consiste em letras e dígitos e não começa com 0
@@ -748,6 +749,7 @@ Last edited by	Última edição por
 Last inspection	Última inspeção
 Last revision	Última revisão
 Latching	Com retenção
+Latitude is within ±90° and longitude within ±180°	A latitude fica dentro de ±90° e a longitude dentro de ±180°
 Lead time (days)	Prazo de entrega (dias)
 Leakage current	Corrente de fuga
 Leakage line	Linha de dreno
@@ -1344,6 +1346,7 @@ Roller switch NO	Chave de rolete NA
 Roof	Teto
 Roof top	Cobertura
 Room floor	Piso da sala
+Room {} stands outside the plot boundary	A sala {} está fora do limite do terreno
 Rotation	Rotação
 Round punch	Punção redondo
 Routing list (3D)	Lista de roteamento (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	O fabricante do conju
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Os painéis em linha em sua sala: planta em L, parede interna, porta e janela, a linha de painéis em seu lugar, um trilho com uma tomada em uma parede, uma luminária de emergência montada na parede e uma eletrocalha sob o teto.
 The configuration is not a JSON object	A configuração não é um objeto JSON
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	O transportador após a primeira liberação: uma revisão liberada e bloqueada, alterações marcadas desde então, comentários de análise com marcações em vermelho, uma solicitação de alteração, a revisão B no fluxo de aprovação e uma linha de base para comparar.
+The coordinates of the reference point must be numbers	As coordenadas do ponto de referência devem ser números
+The coordinates of the reference point {} are not valid	As coordenadas do ponto de referência {} não são válidas
+The corners of the plot boundary must be numbers	Os vértices do limite do terreno devem ser números
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	O projeto de demonstração: entradas e saídas do CLP, layout do painel com trilhos, canaletas e dispositivos de porta, chicote da porta e cabo do motor.
 The embedded document {} is damaged	O documento incorporado {} está danificado
 The file is empty	O arquivo está vazio
@@ -1586,6 +1592,9 @@ The next free id is already in use	O próximo ID livre já está em uso
 The option needs a name	A opção precisa de um nome
 The page needs a number	A página precisa de um número
 The pages were changed after the submission; submit the revision again	As páginas foram alteradas após o envio; envie a revisão novamente
+The plot boundary crosses itself	O limite do terreno cruza-se a si mesmo
+The plot boundary encloses no area	O limite do terreno não delimita nenhuma área
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	O limite do terreno não é um polígono: cruza-se a si mesmo ou tem menos de três vértices
 The project has no panel layout	O projeto não tem layout do painel
 The property needs a name	A propriedade precisa de um nome
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	A estação de bombeamento montada em dois painéis de piso em linha: sistema de barramentos, trilhos e canaletas, dispositivos de porta e puxadores, ventilador com filtro, luminária, barra de terra, prensa-cabos, uma passagem de cabos, cálculo de climatização, ocupação das canaletas e roteamento 3D.
@@ -1922,6 +1931,7 @@ yellow	amarelo
 {} report references converted to report names	{} referências de relatório convertidas em nomes de relatório
 {} s	{} s
 {} single part assignments converted to part lists	{} atribuições de peça individuais convertidas em listas de peças
+{} stands outside the plot boundary	{} está fora do limite do terreno
 {} symbols, {} wires, {} texts / graphics	{} símbolos, {} fios, {} textos / gráficos
 {} texts are not translated into {}	{} textos não estão traduzidos para {}
 {} unused device data records removed	{} registros de dados de dispositivo não usados removidos
@@ -2006,6 +2016,8 @@ yellow	amarelo
 {}: port {} is not a {} port	{}: a porta {} não é uma porta {}
 {}: ports with different media ({})	{}: portas com meios diferentes ({})
 {}: replace {} after {} years (T10d)	{}: substituir {} após {} anos (T10d)
+{}: roof {} reaches over the plot boundary	{}: o telhado {} ultrapassa o limite do terreno
+{}: room {} stands outside the plot boundary	{}: a sala {} está fora do limite do terreno
 {}: routing path {} is full ({} % of its usable cross-section)	{}: o caminho de roteamento {} está cheio ({} % de sua seção transversal útil)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: a corrente de segunda falta {} A em {} não desliga em {} s (precisa de {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: o símbolo unifilar '{}' não corresponde ao esquema elétrico ('{}')

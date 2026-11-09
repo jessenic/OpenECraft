@@ -214,6 +214,8 @@ Mounting plate	Szerelőlap
 Mounting rail	Szerelősín
 Name	Név
 Name of the block	A blokk neve
+Name of the plot, e.g. the cadastral parcel	A telek neve, pl. a helyrajzi szám
+Name of the point, e.g. a survey point	A pont neve, pl. egy geodéziai pont
 Name of the scheme	A séma neve
 Net	Hálózat
 New name	Új név
@@ -336,6 +338,8 @@ Relay	Relé
 Released pages cannot be moved	A kiadott oldalak nem helyezhetők át
 Remove	Eltávolítás
 Remove from favorites	Eltávolítás a kedvencek közül
+Remove the boundary	Határ eltávolítása
+Remove the reference point	Referenciapont eltávolítása
 Report	Kimutatás
 Report blocks	Kimutatásblokkok
 Report: {}	Kimutatás: {}

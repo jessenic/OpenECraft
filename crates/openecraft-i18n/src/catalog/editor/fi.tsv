@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Numeroitu osio, joka sisältää sivuja kuin kansio; sivujen nimet alkavat sen numerolla (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profiili yhdistää neutraalit kentät tietyn järjestelmän sarakkeiden nimiin (esim. MATNR ERP-numerolle SAP:ssa). Ilman määritystä tunnistetaan yleiset englannin- ja saksankieliset nimet.
 A project definition based on this one, with its own defaults and scheme	Tähän perustuva projektimäärittely omine oletusarvoineen ja skeemoineen
+A reference point at the origin of the plant	Vertailupiste laitoksen origossa
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Raporttilohko luo raportin sivut, esim. yhden riviliitinkaavion rimaa kohden, ja päivittää ne.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Piirikaaviosivu 3.1, 3.2, … nykyisen sivun jälkeen, säilyy alasivuna uudelleennumeroinnissa
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Piirikaaviosivu jokaiselle sivumakrolliselle suunnitellulle laitteelle, joka ei vielä ole piirikaaviossa (valittu segmentti, muuten kaikki)
@@ -162,6 +163,7 @@ Assign to harness	Määritä johtosarjaan
 Assign wires: select them in the schematic › Assign to cable.	Määritä johdot: valitse ne piirikaaviosta › Määritä kaapeliin.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Verkkoon liitetyt epätahtimoottorit lisäävät suurinta oikosulkuvirtaa (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	Korkeimmassa ympäristön lämpötilassa; lämmitin pitää kastepisteen. 0 = ei huomioida
+At the origin	Origossa
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	Syöttöpisteessä: Ik3 max {} kA, Ik1 min {} kA
 At the top level	Ylimmällä tasolla
 Author	Tekijä
@@ -205,6 +207,7 @@ Bottom edges	Alareunat
 Bottom left	Vasen alakulma
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Kotelon alareuna (ilman sokkelia) lattiasta; korkeudet tarkistetaan, kun se tiedetään tai kotelo on sokkelin päällä
 Bottom right	Oikea alakulma
+Boundary	Raja
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Katkaisukyky oikosulkuvirtaa vastaan verkon jokaisessa suojalaitteessa, poiskytkentä pienimmällä vikavirralla piirin lopussa, kaapelien oikosulkukestoisuus ja selektiivisyys edeltävään laitteeseen.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Silta: neljä johdinta; liitos tulee yhdeltä sivulta ja jatkuu kolmelle muulle, ensin vastakkaiselle
 Building {} added with a level at ground level	Rakennus {} lisätty, kerros maan tasolla
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Napsauta 4 mm:n ruudukkoon
 Click on the wall: the part goes there at its mounting height	Napsauta seinää: osa tulee siihen asennuskorkeudelleen
 Click start and end point	Napsauta alku- ja loppupistettä
 Click the corners of a machine or building, double-click to finish	Napsauta koneen tai rakennuksen kulmia, lopeta kaksoisnapsauttamalla
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Napsauta tontin rajan kulmia · napsauta ensimmäistä, kaksoisnapsauta tai Enter: sulje · Askelpalautin: takaisin · Esc: lopeta
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Napsauta väliseinien päitä; jokainen napsautus aloittaa seuraavan, seinän lähellä olevat päät tarttuvat siihen. Esc, Enter tai kaksoisnapsautus päättää ketjun, toinen Esc työkalun.
 Click to add a node of the route network	Lisää reittiverkon solmu napsauttamalla
 Click to add to the selected text.	Napsauta lisätäksesi valittuun tekstiin.
@@ -308,7 +312,10 @@ Click to show, right click for more	Näytä napsauttamalla, lisää hiiren oikea
 Click two corners	Napsauta kahta kulmaa
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Napsauta rakennelaatikon kahta kulmaa ja aseta sen tunnukset ominaisuuksissa · Esc tai hiiren oikea painike lopettaa
 Click two nodes to connect them	Yhdistä kaksi solmua napsauttamalla niitä
+Click two points to measure from one to the other · Esc: stop	Napsauta kahta pistettä mitataksesi toisesta toiseen · Esc: lopeta
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Napsauta kohtaa, jossa neljä johdinta kohtaa: silta vie liitoksen yhdeltä sivulta kolmelle muulle, ensin vastakkaiselle · {} kääntää sen · Esc tai oikea painike lopettaa
+Click where it is in the site plan	Napsauta sen kohtaa asemapiirroksessa
+Click where the reference point is	Napsauta vertailupisteen kohtaa
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Napsauta kohtaa, jossa kolme johdinta kohtaa: T-haara määrää laitteen, josta johtimet lähtevät, ja kohteiden järjestyksen · {} kääntää sen, missä johtimet eivät vielä kohtaa · Esc tai oikea painike lopettaa
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Napsauta kohtaa, jossa kaksi johdinta risteää: risteys yhdistää ne ja vie linjansa kumpikin pään ensin suoraan, sitten poikittain · {} kääntää sen · Esc tai oikea painike lopettaa
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Napsauta kohtaa, jossa kaksi johdinta kohtaa suorassa kulmassa, tai jossa liitäntäpisteet ovat vastakkain kulman yli: automaattisen kytkennän ollessa päällä siihen piirretään johtimet · {} kääntää sen · Esc tai oikea painike lopettaa
@@ -370,6 +377,7 @@ Consecutive addresses from the start byte, in schematic order	Peräkkäiset osoi
 Contact image below coils	Kosketinkuvio kelojen alla
 Content	Sisältö
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Ei-aktiivisen vaihtoehdon sisältö on piilotettu: sitä ei piirretä, arvioida, raportoida eikä viedä.
+Coordinate reference system	Koordinaattijärjestelmä
 Copies	Kopiot
 Copies function texts between both representations where one is empty	Kopioi toimintotekstit esitystapojen välillä, kun toinen on tyhjä
 Copies in rows and columns	Kopiot riveihin ja sarakkeisiin
@@ -498,6 +506,7 @@ Digits	Numeroita
 Dimension	Mitoitus
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Suunnattu T-haara: kohdassa, jossa kolme johdinta kohtaa, se määrää laitteen, josta liitoksen kaksi johdinta lähtevät, ja kohteiden järjestyksen
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Suunnattu risteys: yhdistää siinä risteävät kaksi johdinta; linjan kumpikin pää johdotetaan ensin suoraan ja sitten poikittain
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Karttapohjoisen suunta vastapäivään ylhäältä katsottuna laitoksen takaosasta (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Suunta, johon moduulit osoittavat, vastapäivään ylhäältä katsottuna (0: eteenpäin)
 Discard changes	Hylkää muutokset
 Discard draft	Hylkää luonnos
@@ -548,6 +557,8 @@ Draw cable definition	Piirrä kaapelimääritys
 Draw connections	Piirrä yhteyksiä
 Draw connections between facing connection points when symbols are placed or moved	Piirrä yhteydet vastakkaisten liitäntäpisteiden välille, kun symboleja sijoitetaan tai siirretään
 Draw inner walls	Piirrä väliseinät
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	Piirrä tontin raja asemapiirrokseen: napsauta kulmia, ensimmäistä tai paina Enter sulkeaksesi; kaikkien rakennusten on oltava sisäpuolella
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	Piirrä tontin raja asemapiirrokseen; kaikkien rakennusten on oltava sen sisällä
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Piirrä sivu itse: grafiikka jokaiselle sivulle ja rivipiirros, joka toistetaan jokaiselle riville; tekstit käyttävät sarakkeita paikkamerkkeinä
 Draw the three wires of the T-junction to it: one in its direction and two across	Piirrä T-haaran kolme johdinta siihen: yksi sen suunnassa ja kaksi poikittain
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Piirrä kulman kaksi johdinta siihen tai kytke automaattinen kytkentä päälle ja sijoita se vapaita liitäntäpisteitä vastapäätä
@@ -572,6 +583,7 @@ Duplicate	Monista
 Each example builds on the one before and shows more of the features.	Jokainen esimerkki rakentuu edellisen päälle ja näyttää enemmän toiminnoista.
 Each point-to-point connection can belong to a harness	Jokainen pisteestä pisteeseen -yhteys voi kuulua johtosarjaan
 Earthing system	Maadoitusjärjestelmä
+Easting, northing	Itäkoordinaatti, pohjoiskoordinaatti
 Eaves	Räystäs
 Edge length of the routing grid: smaller is finer and slower	Reititysruudukon sivun pituus: pienempi on tarkempi ja hitaampi
 Edit	Muokkaa
@@ -730,6 +742,7 @@ Graphic rectangle	Grafiikkasuorakulmio
 Graphical form	Graafinen lomake
 Greatest distance of the roof hooks along a rail	Kattokoukkujen suurin väli kiskoa pitkin
 Grid	Ruudukko
+Grid north	Karttapohjoinen
 Grid size	Ruudukon koko
 Grid {} mm	Ruudukko {} mm
 Group as assembly	Ryhmitä kokoonpanoksi
@@ -745,6 +758,7 @@ Heat map	Lämpökartta
 Heating	Lämmitys
 Heating circuit manifolds and control boxes	Lattialämmityksen jakotukit ja säätörasiat
 Height (mm)	Korkeus (mm)
+Height above sea level	Korkeus merenpinnasta
 Height above the floor	Korkeus lattiasta
 Height above the mounting plate	Korkeus asennuslevyn yläpuolella
 Height above the plate	Korkeus levyn yläpuolella
@@ -870,6 +884,7 @@ Label field	Merkintäkenttä
 Labeling scheme	Merkintäskeema
 Landscape	Vaakasuunta
 Larger texts and buttons for a touch screen at the workbench	Suuremmat tekstit ja painikkeet työpenkin kosketusnäytölle
+Latitude, longitude	Leveys, pituus
 Layer	Taso
 Layer {}	Taso {}
 Layer: {}	Taso: {}
@@ -895,6 +910,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Tämän ilmoituslajin taso
 Level on top	Kerros päälle
 Level {} added to building {}; new rooms go onto it	Kerros {0} lisätty rakennukseen {1}; uudet huoneet tulevat sille
+Level {} of building {}	Rakennuksen {1} kerros {0}
 Levels	Kerrokset
 Library	Kirjasto
 Limits	Raja-arvot
@@ -966,6 +982,8 @@ Max. pressure	Enimmäispaine
 Max. width	Enimmäisleveys
 Maximum fill of a carrier	Kannattimen suurin täyttöaste
 Mean: typical operation	Keski: tyypillinen käyttö
+Measure	Mittaa
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Mittaa asemapiirroksessa: napsauta kahta pistettä saadaksesi etäisyyden, siirtymän itään ja pohjoiseen ja suunnan pohjoisesta
 Measured	Mitattu
 Measures against common cause failure (at least 65 points)	Toimenpiteet yhteisvikoja vastaan (vähintään 65 pistettä)
 Merge a symbol library file	Yhdistä symbolikirjastotiedosto
@@ -1199,6 +1217,7 @@ Options	Vaihtoehdot
 Ordinary cable	Tavallinen kaapeli
 Orientation	Suunta
 Origin	Alkuperä
+Origin of the plant	Laitoksen origo
 Other values ({})	Muut arvot ({})
 Otherwise from the plant layout, or next to the other line-ups	Muuten laitoksen sijoituskuvasta tai muiden kaappirivien viereen
 Out since {} (pages locked)	Irrotettu {} alkaen (sivut lukittu)
@@ -1211,6 +1230,7 @@ Output failed: {}	Tulostus epäonnistui: {}
 Output to another project	Tulostus toiseen projektiin
 Output to project…	Tulosta projektiin…
 Outputs	Lähdöt
+Outside the plot boundary: {}	Tontin rajan ulkopuolella: {}
 Overhang	Räystään ulkonema
 Own colour	Oma väri
 Own drawn form	Oma piirretty lomake
@@ -1282,7 +1302,10 @@ Place in schematic	Sijoita piirikaavioon
 Place in the building	Paikka rakennuksessa
 Place in the plant	Paikka laitoksessa
 Place in the room	Paikka huoneessa
+Place in the site plan	Sijoita asemapiirrokseen
 Place text	Sijoita teksti
+Place the georeferenced point everything is measured from	Sijoita georeferoitu piste, josta kaikki mitataan
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Sijoita laitoksen georeferoitu piste asemapiirrokseen; sen koordinaatit annetaan Rakennukset-paneelissa, ja jokainen piste mitataan siitä
 Placed	Sijoitettu
 Placed by hand	Sijoitettu käsin
 Placed here: {}	Sijoitettu tähän: {}
@@ -1300,7 +1323,12 @@ Plant layout	Laitoksen sijoituskuva
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	Laitoksen sijoituskuva, reittiverkko, kenttäkaapelisuunnittelu, potentiaalintasaus ja kaapelitarvikkeet
 Plant segments with planned devices before the schematic	Laitoksen segmentit suunniteltuine laitteineen ennen piirikaaviota
 Plate outline, holes per diameter, cutouts	Levyn ääriviiva, reiät halkaisijoittain, aukot
+Plot	Tontti
+Plot boundary	Tontin raja
+Plot boundary drawn: {} m²	Tontin raja piirretty: {} m²
+Plot boundary drawn: {} m²; outside it: {}	Tontin raja piirretty: {} m²; sen ulkopuolella: {}
 Plot frames	Piirustuskehykset
+Plot, {}	Tontti, {}
 Plug in card	Asenna kortti
 Plugin commands	Laajennusten komennot
 Plugins	Laajennukset
@@ -1390,6 +1418,8 @@ Record	Tallenna näppäin
 Rectangular	Suorakulmainen
 Redline: to be changed · Greenline: changed as built	Redline: muutettava · Greenline: muutettu toteutuksen mukaan
 Redo	Tee uudelleen
+Reference point	Vertailupiste
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Vertailupiste sijoitettu kohtaan x {} m, z {} m; anna sen koordinaatit Rakennukset-paneelissa
 Refresh	Päivitä
 Refresh example catalog parts (GEN.*)	Päivitä esimerkkiluettelon osat (GEN.*)
 Reject	Hylkää
@@ -1806,6 +1836,7 @@ The page name gets the section number	Sivun nimi saa osion numeron
 The page type, plot frame, title block, structure, description and the whole content are saved.	Sivutyyppi, piirustuskehys, nimiö, rakenne, kuvaus ja koko sisältö tallennetaan.
 The pages it generated stay	Sen luomat sivut jäävät
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	Osatietokanta on kaikkien projektien yhteinen. Osat kopioidaan projektiin, kun ne määritetään laitteelle.
+The point's coordinates in the coordinate reference system	Pisteen koordinaatit koordinaattijärjestelmässä
 The project changed since the search.	Projekti on muuttunut haun jälkeen.
 The project check	Projektin tarkistus
 The project database needs the desktop version: the browser cannot search folders.	Projektitietokanta vaatii työpöytäversion: selain ei voi hakea kansioista.
@@ -1816,6 +1847,7 @@ The properties of the selection in a window beside the page	Valinnan ominaisuude
 The rail or mounting base; its accessories are the hooks, clamps and ballast	Kisko tai kiinnitysjalka; sen lisävarusteita ovat koukut, puristimet ja painolasti
 The recalculation keeps frozen routes as long as they are still possible	Uudelleenlaskenta säilyttää lukitut reitit niin kauan kuin ne ovat mahdollisia
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Valintanauha Tiedosto-välilehtineen korvaa valikot; Ctrl+Shift+P löytää minkä tahansa komennon.
+The rooms of the level side by side; click the level again for all of the plant	Kerroksen tilat vierekkäin; napsauta kerrosta uudelleen koko laitokselle
 The second fault is checked at the line-to-earth voltage	Toinen vika tarkistetaan vaihe–maa-jännitteellä
 The selected devices side by side on the selected rail, from its left end	Valitut laitteet vierekkäin valitulla kiskolla sen vasemmasta päästä alkaen
 The side of {} is open	Kohteen {} puoli on avoin
@@ -1919,6 +1951,7 @@ Visible	Näkyvä
 Voltage (line to line)	Jännite (pääjännite)
 Voltage drop	Jännitteenalenema
 W A S D / arrows, Q / E	W A S D / nuolet, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, kirjoitetaan IFC-vientien tonttiin
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Seinä {}, {} m: siirrä vetämällä, kaksoisnapsautus näyttää sen varustettavaksi
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Seinä {}, {} m: seinänäkymässä näkyvä seinä (korostettu); siirrä vetämällä
 Wall-mounted part	Seinäasennettava osa
@@ -1931,9 +1964,11 @@ What is new	Uutta
 What should be checked or changed?	Mitä pitäisi tarkistaa tai muuttaa?
 Wheel / right or middle drag	Rulla / oikean tai keskipainikkeen veto
 Wheel: zoom · drag: move · click on a room: its floor plan	Rulla: zoomaa · vedä: siirrä · napsauta huonetta: sen pohjapiirros
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Rulla: zoomaus · vedä: siirrä · napsauta tilaa: sen pohjapiirros · vedä tontin rajan kulmaa
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Rulla: zoomaa · hiiren oikea painike: peruuta · grafiikka kohdistuu 0,5 mm:iin, liitäntäpisteet 4 mm:n ruudukkoon
 When it differs from the page	Kun se poikkeaa sivusta
 Where	Sijainti
+Where the point is in the plant; y: its height above the ground level of the plant	Missä piste on laitoksessa; y: sen korkeus laitoksen maanpinnan yläpuolella
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Mistä laitteen rakenne tulee: symbolia ympäröivää rakennetta vastaavat aspektit peritään ja ne muuttuvat, kun symboli siirretään rakennelaatikkoon tai siitä pois; muut aspektit ovat laitteen omia ja säilyvät.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Mistä johto alkaa ja mihin se päättyy: liitäntäpiste osan tiedoista, toimintomallista luotu liitäntäpiste tai laitteen keskikohta, jos mikään liitäntäpiste ei vastaa
 Whole building	Koko rakennus
@@ -1972,6 +2007,7 @@ With everything below it	Kaikkine alla olevineen
 With the current pages; the approvals so far become void	Nykyisillä sivuilla; tähänastiset hyväksynnät mitätöityvät
 With values only	Vain arvolliset
 Withdraw	Peru
+Without a reference point the plant is measured from its origin, north towards the rear.	Ilman vertailupistettä laitos mitataan origostaan, pohjoinen taaksepäin.
 Without approvers a new revision is released directly.	Ilman hyväksyjiä uusi revisio vapautetaan suoraan.
 Without bus system	Ilman väyläjärjestelmää
 Without power loss data: {}	Ilman häviötehotietoja: {}
@@ -2033,6 +2069,7 @@ inherited from structure box {}	peritty rakennelaatikosta {}
 inherited from the page	peritty sivulta
 inherited: {}	peritty: {}
 kW	kW
+known	tunnettu
 low side at the rear	matala puoli takana
 male	uros
 manual	manuaalinen
@@ -2077,6 +2114,7 @@ value set…	arvojoukko…
 vertical	pystysuora
 with bus cables	väyläkaapeleineen
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} m itään, {} m pohjoiseen vertailupisteestä
 {}  (door)	{}  (ovi)
 {}  (free)	{}  (vapaa)
 {}  (used)	{}  (käytetty)
@@ -2132,6 +2170,7 @@ x y	x y
 {} copies placed	{} kopiota sijoitettu
 {} corner points	{} kulmapistettä
 {} corners	{} kulmaa
+{} corners, {} m², {} m round	{} kulmaa, {} m², piiri {} m
 {} details	{} tiedot
 {} device descriptions imported	{} laitekuvausta tuotu
 {} devices	{} laitetta
@@ -2165,6 +2204,7 @@ x y	x y
 {} items, {} %	{} kohdetta, {} %
 {} links created, {} function texts copied	{} linkkiä luotu, {} toimintotekstiä kopioitu
 {} m of {} m wired	{} m / {} m johdotettu
+{} m: {} m east, {} m north, {}° from north	{} m: {} m itään, {} m pohjoiseen, {}° pohjoisesta
 {} macro boxes updated	{} makrolaatikkoa päivitettiin
 {} markers	{} merkkiä
 {} mm	{} mm

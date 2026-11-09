@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Et nummereret afsnit, der indeholder sider som en mappe; sidenavnene begynder med dets nummer (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	En profil knytter de neutrale felter til kolonnenavnene i et bestemt system (f.eks. MATNR for ERP-nummeret i SAP). Uden en tilknytning genkendes almindelige engelske og tyske navne.
 A project definition based on this one, with its own defaults and scheme	En projektdefinition baseret på denne, med egne standardværdier og eget skema
+A reference point at the origin of the plant	Et referencepunkt i anlæggets origo
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	En rapportblok genererer siderne i en rapport, f.eks. ét klemdiagram pr. klemrække, og opdaterer dem.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	En diagramside 3.1, 3.2, … efter den aktuelle side, som bevares som underside ved omnummerering
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	En diagramside pr. planlagt enhed med en sidemakro, der endnu ikke er i diagrammet (valgt segment, ellers alle)
@@ -162,6 +163,7 @@ Assign to harness	Tildel til ledningsnet
 Assign wires: select them in the schematic › Assign to cable.	Tildel ledninger: Vælg dem i diagrammet › Tildel til kabel.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Asynkronmotorer på nettet øger den største kortslutningsstrøm (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	Ved den højeste omgivelsestemperatur; varmeren holder dugpunktet. 0 = tages ikke i betragtning
+At the origin	I origo
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	Ved forsyningspunktet: Ik3 maks. {} kA, Ik1 min. {} kA
 At the top level	På øverste niveau
 Author	Forfatter
@@ -205,6 +207,7 @@ Bottom edges	Nederste kanter
 Bottom left	Nederst til venstre
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Kapslingens underkant (uden sokkel) over gulvet; højderne kontrolleres, når den er kendt, eller kapslingen står på en sokkel
 Bottom right	Nederst til højre
+Boundary	Grænse
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Brydeevne mod kortslutningsstrømmen ved hver beskyttelsesenhed i forsyningsnettet, udkobling ved den laveste fejlstrøm i slutningen af dens kreds, kablernes kortslutningsstyrke og selektivitet med den foranliggende enhed.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Bro: fire ledere; forbindelsen kommer ind på én side og går til de tre andre, den modsatte side først
 Building {} added with a level at ground level	Bygning {} tilføjet med en etage i terrænniveau
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Klik på 4 mm-gitteret
 Click on the wall: the part goes there at its mounting height	Klik på væggen: delen sidder der i sin monteringshøjde
 Click start and end point	Klik på start- og slutpunkt
 Click the corners of a machine or building, double-click to finish	Klik på hjørnerne af en maskine eller bygning, dobbeltklik for at afslutte
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Klik på grundgrænsens hjørner · klik på det første, dobbeltklik eller Enter: luk · Tilbage: fortryd · Esc: stop
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Klik på indervæggenes ender; hvert klik starter den næste, ender nær en væg fastgøres til den. Esc, Enter eller dobbeltklik afslutter kæden, Esc igen værktøjet.
 Click to add a node of the route network	Klik for at tilføje en knude i føringsnettet
 Click to add to the selected text.	Klik for at føje til den markerede tekst.
@@ -308,7 +312,10 @@ Click to show, right click for more	Klik for at vise, højreklik for mere
 Click two corners	Klik på to hjørner
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Klik på to hjørner af strukturboksen, og angiv derefter dens betegnelser i egenskaberne · Esc eller højreklik afslutter
 Click two nodes to connect them	Klik på to knuder for at forbinde dem
+Click two points to measure from one to the other · Esc: stop	Klik på to punkter for at måle fra det ene til det andet · Esc: stop
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Klik hvor fire ledere mødes: broen fører forbindelsen fra én side til de tre andre, den modsatte først · {} drejer den · Esc eller højreklik afslutter
+Click where it is in the site plan	Klik, hvor det ligger i situationsplanen
+Click where the reference point is	Klik, hvor referencepunktet ligger
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Klik hvor tre ledere mødes: T-stykket angiver den enhed, lederne udgår fra, og rækkefølgen af deres mål · {} drejer det, hvor ingen ledere mødes endnu · Esc eller højreklik afslutter
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Klik hvor to ledere krydser hinanden: krydsningen forbinder dem og fører hver ende af sin linje først ligeud, derefter på tværs · {} drejer den · Esc eller højreklik afslutter
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Klik hvor to ledere mødes i ret vinkel, eller hvor tilslutningspunkter vender mod hinanden over hjørnet: med automatisk forbindelse slået til tegnes ledere til det · {} drejer det · Esc eller højreklik afslutter
@@ -370,6 +377,7 @@ Consecutive addresses from the start byte, in schematic order	Fortløbende adres
 Contact image below coils	Kontaktspejl under spoler
 Content	Indhold
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Indhold i en inaktiv option er skjult: det tegnes, evalueres, rapporteres og eksporteres ikke.
+Coordinate reference system	Koordinatreferencesystem
 Copies	Kopier
 Copies function texts between both representations where one is empty	Kopierer funktionstekster mellem begge repræsentationer, hvor den ene er tom
 Copies in rows and columns	Kopier i rækker og kolonner
@@ -498,6 +506,7 @@ Digits	Cifre
 Dimension	Målsætning
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Rettet T-stykke: hvor tre ledere mødes, angiver det den enhed, forbindelsens to ledere udgår fra, og rækkefølgen af deres mål
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Rettet krydsning: forbinder de to ledere, der krydser hinanden der; hver ende af dens linje forbindes først ligeud og derefter på tværs
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Gitternords retning, mod uret set ovenfra fra anlæggets bagside (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Retning, modulerne vender mod, mod uret set ovenfra (0: fremad)
 Discard changes	Kassér ændringerne
 Discard draft	Kassér kladde
@@ -548,6 +557,8 @@ Draw cable definition	Tegn kabeldefinition
 Draw connections	Tegn forbindelser
 Draw connections between facing connection points when symbols are placed or moved	Tegn forbindelser mellem modstående tilslutningspunkter, når symboler placeres eller flyttes
 Draw inner walls	Tegn indervægge
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	Tegn grundgrænsen i situationsplanen: klik på hjørnerne, på det første eller tryk Enter for at lukke; alle bygninger skal ligge inden for
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	Tegn grundgrænsen i situationsplanen; alle bygninger skal ligge inden for den
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Tegn selv siden: grafik til hver side og en rækketegning, der gentages for hver række; tekster bruger kolonnerne som pladsholdere
 Draw the three wires of the T-junction to it: one in its direction and two across	Tegn T-stykkets tre ledere til det: en i dets retning og to på tværs
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Tegn hjørnets to ledere til det, eller slå automatisk forbindelse til og placer det over for frie tilslutningspunkter
@@ -572,6 +583,7 @@ Duplicate	Dupliker
 Each example builds on the one before and shows more of the features.	Hvert eksempel bygger på det forrige og viser flere af funktionerne.
 Each point-to-point connection can belong to a harness	Hver punkt-til-punkt-forbindelse kan høre til et ledningsnet
 Earthing system	Jordingssystem
+Easting, northing	Østkoordinat, nordkoordinat
 Eaves	Tagfod
 Edge length of the routing grid: smaller is finer and slower	Kantlængde for føringsgitteret: mindre er finere og langsommere
 Edit	Rediger
@@ -730,6 +742,7 @@ Graphic rectangle	Grafisk rektangel
 Graphical form	Grafisk formular
 Greatest distance of the roof hooks along a rail	Største afstand mellem tagkrogene langs en skinne
 Grid	Gitter
+Grid north	Gitternord
 Grid size	Gitterstørrelse
 Grid {} mm	Gitter {} mm
 Group as assembly	Gruppér som samling
@@ -745,6 +758,7 @@ Heat map	Varmekort
 Heating	Opvarmning
 Heating circuit manifolds and control boxes	Gulvvarmefordelere og reguleringsbokse
 Height (mm)	Højde (mm)
+Height above sea level	Højde over havet
 Height above the floor	Højde over gulvet
 Height above the mounting plate	Højde over monteringspladen
 Height above the plate	Højde over pladen
@@ -870,6 +884,7 @@ Label field	Etiketfelt
 Labeling scheme	Mærkningsskema
 Landscape	Liggende
 Larger texts and buttons for a touch screen at the workbench	Større tekster og knapper til en berøringsskærm ved arbejdsbordet
+Latitude, longitude	Bredde, længde
 Layer	Lag
 Layer {}	Lag {}
 Layer: {}	Lag: {}
@@ -895,6 +910,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Niveau for denne type meddelelse
 Level on top	Etage øverst
 Level {} added to building {}; new rooms go onto it	Etage {} tilføjet til bygning {}; nye rum kommer på den
+Level {} of building {}	Etage {} i bygning {}
 Levels	Etager
 Library	Bibliotek
 Limits	Grænser
@@ -966,6 +982,8 @@ Max. pressure	Maks. tryk
 Max. width	Maks. bredde
 Maximum fill of a carrier	Maksimal fyldning af en kabelbærer
 Mean: typical operation	Middel: typisk drift
+Measure	Mål
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Mål i situationsplanen: klik på to punkter for afstanden, hvor langt mod øst og nord og retningen fra nord
 Measured	Målt
 Measures against common cause failure (at least 65 points)	Foranstaltninger mod fejl af fælles årsag (mindst 65 point)
 Merge a symbol library file	Flet en symbolbiblioteksfil
@@ -1199,6 +1217,7 @@ Options	Indstillinger
 Ordinary cable	Almindeligt kabel
 Orientation	Retning
 Origin	Oprindelse
+Origin of the plant	Anlæggets origo
 Other values ({})	Andre værdier ({})
 Otherwise from the plant layout, or next to the other line-ups	Ellers fra anlægslayoutet eller ved siden af de andre sammenbygninger
 Out since {} (pages locked)	Udtaget siden {} (sider låst)
@@ -1211,6 +1230,7 @@ Output failed: {}	Udskrivningen mislykkedes: {}
 Output to another project	Udskriv til et andet projekt
 Output to project…	Udskriv til projekt…
 Outputs	Udgange
+Outside the plot boundary: {}	Uden for grundgrænsen: {}
 Overhang	Udhæng
 Own colour	Egen farve
 Own drawn form	Egen tegnet formular
@@ -1282,7 +1302,10 @@ Place in schematic	Placer i diagrammet
 Place in the building	Placering i bygningen
 Place in the plant	Placering i anlægget
 Place in the room	Plads i rummet
+Place in the site plan	Placér i situationsplanen
 Place text	Placer tekst
+Place the georeferenced point everything is measured from	Placér det georefererede punkt, som alt måles fra
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Placér anlæggets georefererede punkt i situationsplanen; dets koordinater indtastes i ruden Bygninger, hvert punkt måles derefter fra det
 Placed	Placeret
 Placed by hand	Placeret manuelt
 Placed here: {}	Placeret her: {}
@@ -1300,7 +1323,12 @@ Plant layout	Anlægslayout
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	Anlægslayout, føringsnet, planlægning af feltkabler, potentialudligning og kabeltilbehør
 Plant segments with planned devices before the schematic	Anlægssegmenter med planlagte enheder før diagrammet
 Plate outline, holes per diameter, cutouts	Pladekontur, huller pr. diameter, udskæringer
+Plot	Grund
+Plot boundary	Grundgrænse
+Plot boundary drawn: {} m²	Grundgrænse tegnet: {} m²
+Plot boundary drawn: {} m²; outside it: {}	Grundgrænse tegnet: {} m²; uden for: {}
 Plot frames	Plotrammer
+Plot, {}	Grund, {}
 Plug in card	Isæt kort
 Plugin commands	Plugin-kommandoer
 Plugins	Plugins
@@ -1390,6 +1418,8 @@ Record	Optag
 Rectangular	Rektangulær
 Redline: to be changed · Greenline: changed as built	Redline: skal ændres · Greenline: ændret som udført
 Redo	Annuller fortryd
+Reference point	Referencepunkt
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referencepunktet placeret ved x {} m, z {} m; indtast dets koordinater i ruden Bygninger
 Refresh	Opdater
 Refresh example catalog parts (GEN.*)	Opdater artikler fra eksempelkataloget (GEN.*)
 Reject	Afvis
@@ -1806,6 +1836,7 @@ The page name gets the section number	Sidenavnet får afsnitsnummeret
 The page type, plot frame, title block, structure, description and the whole content are saved.	Sidetype, plotramme, tegningshoved, struktur, beskrivelse og hele indholdet gemmes.
 The pages it generated stay	De sider, den har genereret, bevares
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	Artikeldatabasen deles af alle projekter. Artikler kopieres til et projekt, når de tildeles en enhed.
+The point's coordinates in the coordinate reference system	Punktets koordinater i referencesystemet
 The project changed since the search.	Projektet er ændret siden søgningen.
 The project check	Projektkontrollen
 The project database needs the desktop version: the browser cannot search folders.	Projektdatabasen kræver desktopversionen: browseren kan ikke gennemsøge mapper.
@@ -1816,6 +1847,7 @@ The properties of the selection in a window beside the page	Markeringens egenska
 The rail or mounting base; its accessories are the hooks, clamps and ballast	Skinnen eller monteringsfoden; dens tilbehør er kroge, klemmer og ballast
 The recalculation keeps frozen routes as long as they are still possible	Genberegningen bevarer fastlåste føringer, så længe de stadig er mulige
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Båndet med fanen Filer erstatter menuerne; Ctrl+Shift+P finder enhver kommando.
+The rooms of the level side by side; click the level again for all of the plant	Etagens rum side om side; klik på etagen igen for hele anlægget
 The second fault is checked at the line-to-earth voltage	Dobbeltfejlen kontrolleres ved spændingen fase–jord
 The selected devices side by side on the selected rail, from its left end	De markerede enheder side om side på den markerede skinne, fra dens venstre ende
 The side of {} is open	Siden af {} er åben
@@ -1919,6 +1951,7 @@ Visible	Synlig
 Voltage (line to line)	Spænding (mellem faser)
 Voltage drop	Spændingsfald
 W A S D / arrows, Q / E	W A S D / pile, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, skrives ind i grunden ved IFC-eksport
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Væg {}, {} m: træk for at flytte, dobbeltklik viser den, så den kan udstyres
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Væg {}, {} m: væggen, der vises i vægvisningen (fremhævet); træk for at flytte den
 Wall-mounted part	Vægmonteret artikel
@@ -1931,9 +1964,11 @@ What is new	Nyheder
 What should be checked or changed?	Hvad skal kontrolleres eller ændres?
 Wheel / right or middle drag	Hjul / træk med højre eller midterste knap
 Wheel: zoom · drag: move · click on a room: its floor plan	Hjul: zoom · træk: flyt · klik på et rum: dets plantegning
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Hjul: zoom · træk: flyt · klik på et rum: dets plantegning · træk et hjørne af grundgrænsen
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Hjul: zoom · højreklik: annuller · grafik fastgøres til 0,5 mm, tilslutningspunkter til 4 mm-gitteret
 When it differs from the page	Når den afviger fra siden
 Where	Placering
+Where the point is in the plant; y: its height above the ground level of the plant	Hvor punktet ligger i anlægget; y: dets højde over anlæggets terræn
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Hvor enhedens struktur kommer fra: aspekter, der er lig med strukturen omkring symbolet, arves og følger med, når det flyttes ind i eller ud af en strukturboks; andre aspekter er enhedens egne og bliver.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Hvor ledningen starter og slutter: et tilslutningspunkt fra artikeldataene, et genereret fra funktionsskabelonen eller enhedens midte, hvis intet tilslutningspunkt passer
 Whole building	Hele bygningen
@@ -1972,6 +2007,7 @@ With everything below it	Med alt under det
 With the current pages; the approvals so far become void	Med de aktuelle sider; de hidtidige godkendelser bortfalder
 With values only	Kun med værdier
 Withdraw	Træk tilbage
+Without a reference point the plant is measured from its origin, north towards the rear.	Uden referencepunkt måles anlægget fra sit origo, nord bagud.
 Without approvers a new revision is released directly.	Uden godkendere frigives en ny revision direkte.
 Without bus system	Uden bussystem
 Without power loss data: {}	Uden data for effekttab: {}
@@ -2033,6 +2069,7 @@ inherited from structure box {}	arvet fra strukturboksen {}
 inherited from the page	arvet fra siden
 inherited: {}	arvet: {}
 kW	kW
+known	kendt
 low side at the rear	lav side bagved
 male	han
 manual	manuel
@@ -2077,6 +2114,7 @@ value set…	værdisæt…
 vertical	lodret
 with bus cables	med buskabler
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} m øst, {} m nord for referencepunktet
 {}  (door)	{}  (dør)
 {}  (free)	{}  (ledig)
 {}  (used)	{}  (brugt)
@@ -2132,6 +2170,7 @@ x y	x y
 {} copies placed	{} kopier placeret
 {} corner points	{} hjørnepunkter
 {} corners	{} hjørner
+{} corners, {} m², {} m round	{} hjørner, {} m², omkreds {} m
 {} details	{} detaljer
 {} device descriptions imported	{} enhedsbeskrivelser importeret
 {} devices	{} enheder
@@ -2165,6 +2204,7 @@ x y	x y
 {} items, {} %	{} elementer, {} %
 {} links created, {} function texts copied	{} tilknytninger oprettet, {} funktionstekster kopieret
 {} m of {} m wired	{} m af {} m trukket
+{} m: {} m east, {} m north, {}° from north	{} m: {} m mod øst, {} m mod nord, {}° fra nord
 {} macro boxes updated	{} makrobokse opdateret
 {} markers	{} mærkater
 {} mm	{} mm

@@ -21,6 +21,7 @@
 9 · Electrical room	9 · Elektrická místnost
 A device tag must not be empty	Označení zařízení nesmí být prázdné
 A pipe run turns at right angles	Potrubní trasa se lomí v pravém úhlu
+A plot boundary has at least three corners	Hranice pozemku má alespoň tři rohy
 A port cannot be connected to itself	Port nelze připojit sám k sobě
 A room needs at least four walls	Místnost potřebuje alespoň čtyři stěny
 A section number consists of letters and digits and does not start with 0	Číslo oddílu se skládá z písmen a číslic a nezačíná číslicí 0
@@ -748,6 +749,7 @@ Last edited by	Naposledy upravil
 Last inspection	Poslední revize
 Last revision	Poslední revize
 Latching	Aretovaný
+Latitude is within ±90° and longitude within ±180°	Zeměpisná šířka je v rozsahu ±90° a délka v rozsahu ±180°
 Lead time (days)	Dodací lhůta (dny)
 Leakage current	Unikající proud
 Leakage line	Vedení prosakujícího oleje
@@ -1344,6 +1346,7 @@ Roller switch NO	Kladičkový spínač, spínací
 Roof	Střecha
 Roof top	Střecha
 Room floor	Podlaha místnosti
+Room {} stands outside the plot boundary	Místnost {} stojí mimo hranici pozemku
 Rotation	Otočení
 Round punch	Kruhový razník
 Routing list (3D)	Seznam vedení (3D)
@@ -1574,6 +1577,9 @@ The assembly manufacturer must be named (IEC 61439-1, 6.1)	Výrobce rozváděče
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Řada rozvaděčů ve své místnosti: půdorys ve tvaru L, vnitřní stěna, dveře a okno, řada na svém místě, lišta se zásuvkou na stěně, nouzové svítidlo na stěně a kabelový žlab pod stropem.
 The configuration is not a JSON object	Konfigurace není objekt JSON
 The conveyor after its first release: a released and locked revision, changes marked since, review comments with redlining, a change request, revision B in the approval workflow and a baseline to compare with.	Dopravník po prvním uvolnění: uvolněná a uzamčená revize, od té doby označené změny, komentáře z kontroly s červenými značkami, žádost o změnu, revize B ve schvalovacím procesu a základní stav k porovnání.
+The coordinates of the reference point must be numbers	Souřadnice referenčního bodu musí být čísla
+The coordinates of the reference point {} are not valid	Souřadnice referenčního bodu {} nejsou platné
+The corners of the plot boundary must be numbers	Rohy hranice pozemku musí být čísla
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Ukázkový projekt: vstupy a výstupy PLC, rozmístění skříně s lištami, kabelovými žlaby a přístroji ve dveřích, svazek dveří a kabel motoru.
 The embedded document {} is damaged	Vložený dokument {} je poškozen
 The file is empty	Soubor je prázdný
@@ -1586,6 +1592,9 @@ The next free id is already in use	Další volné ID je již použito
 The option needs a name	Volba potřebuje název
 The page needs a number	Stránka potřebuje číslo
 The pages were changed after the submission; submit the revision again	Stránky byly po předložení změněny; předložte revizi znovu
+The plot boundary crosses itself	Hranice pozemku protíná sama sebe
+The plot boundary encloses no area	Hranice pozemku neohraničuje žádnou plochu
+The plot boundary is no polygon: it crosses itself or has fewer than three corners	Hranice pozemku není mnohoúhelník: protíná sama sebe nebo má méně než tři rohy
 The project has no panel layout	Projekt nemá rozvržení rozváděče
 The property needs a name	Vlastnost potřebuje název
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Čerpací stanice vestavěná do dvou řazených stojanových skříní: přípojnicový systém, lišty a kabelové žlaby, přístroje ve dveřích a rukojeti, ventilátor s filtrem, osvětlení, přípojnice PE, kabelové vývodky, kabelová průchodka, výpočet klimatizace, zaplnění žlabů a 3D trasování.
@@ -1922,6 +1931,7 @@ yellow	žlutá
 {} report references converted to report names	{} odkazů na výkazy převedeno na názvy výkazů
 {} s	{} s
 {} single part assignments converted to part lists	{} jednotlivých přiřazení artiklů převedeno na seznamy artiklů
+{} stands outside the plot boundary	{} stojí mimo hranici pozemku
 {} symbols, {} wires, {} texts / graphics	Symboly: {}, vodiče: {}, texty / grafika: {}
 {} texts are not translated into {}	Nepřeložené texty do jazyka {1}: {0}
 {} unused device data records removed	Odebráno {} nepoužitých záznamů dat přístrojů
@@ -2006,6 +2016,8 @@ yellow	žlutá
 {}: port {} is not a {} port	{}: port {} není port typu {}
 {}: ports with different media ({})	{}: přípoje s různými médii ({})
 {}: replace {} after {} years (T10d)	{}: vyměnit {} po {} letech (T10d)
+{}: roof {} reaches over the plot boundary	{}: střecha {} přesahuje hranici pozemku
+{}: room {} stands outside the plot boundary	{}: místnost {} stojí mimo hranici pozemku
 {}: routing path {} is full ({} % of its usable cross-section)	{}: trasa vedení {} je plná ({} % jejího využitelného průřezu)
 {}: second fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: proud druhé poruchy {} A v {} neodpojí do {} s (potřeba {} A)
 {}: single-line symbol '{}' does not match the schematic ('{}')	{}: jednopólový symbol '{}' neodpovídá schématu zapojení ('{}')

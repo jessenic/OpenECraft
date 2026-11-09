@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Een genummerde sectie die pagina's bevat zoals een map; de paginanamen beginnen met het nummer ervan (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Een profiel wijst de neutrale velden toe aan de kolomnamen van een bepaald systeem (bijv. MATNR voor het ERP-nummer in SAP). Zonder toewijzing worden gangbare Engelse en Duitse namen herkend.
 A project definition based on this one, with its own defaults and scheme	Een projectdefinitie op basis van deze, met eigen standaardwaarden en schema
+A reference point at the origin of the plant	Een referentiepunt in de oorsprong van de installatie
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Een rapportblok genereert de pagina's van een rapport, bijv. één klemmenplan per klemmenstrook, en werkt ze bij.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Een schemapagina 3.1, 3.2, … na de huidige pagina, die bij het opnieuw nummeren een subpagina blijft
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Een schemapagina per gepland apparaat met een paginamacro dat nog niet in het schema staat (geselecteerd segment, anders alle)
@@ -162,6 +163,7 @@ Assign to harness	Aan kabelboom toewijzen
 Assign wires: select them in the schematic › Assign to cable.	Draden toewijzen: selecteer ze in het schema › Aan kabel toewijzen.
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	Asynchrone motoren aan het net verhogen de hoogste kortsluitstroom (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	Bij de hoogste omgevingstemperatuur; de verwarming houdt het dauwpunt aan. 0 = niet meegenomen
+At the origin	In de oorsprong
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	Op het voedingspunt: Ik3 max {} kA, Ik1 min {} kA
 At the top level	Op het hoogste niveau
 Author	Auteur
@@ -205,6 +207,7 @@ Bottom edges	Onderranden
 Bottom left	Linksonder
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	Onderkant van de behuizing (zonder sokkel) boven de vloer; de hoogten worden gecontroleerd als deze bekend is of de behuizing op een sokkel staat
 Bottom right	Rechtsonder
+Boundary	Grens
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	Uitschakelvermogen ten opzichte van de kortsluitstroom bij elk beveiligingsapparaat van het net, uitschakeling bij de laagste foutstroom aan het einde van de stroomkring, kortsluitvastheid van de kabels en selectiviteit met het voorgeschakelde apparaat.
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	Brug: vier draden; de verbinding komt aan één zijde binnen en gaat naar de drie andere, eerst de tegenoverliggende
 Building {} added with a level at ground level	Gebouw {} toegevoegd met een verdieping op maaiveldhoogte
@@ -293,6 +296,7 @@ Click on the 4 mm grid	Klik op het raster van 4 mm
 Click on the wall: the part goes there at its mounting height	Klik op de wand: het onderdeel komt daar op zijn montagehoogte
 Click start and end point	Klik op begin- en eindpunt
 Click the corners of a machine or building, double-click to finish	Klik op de hoeken van een machine of gebouw, dubbelklik om te voltooien
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	Klik op de hoeken van de perceelgrens · klik op de eerste, dubbelklik of Enter: sluiten · Backspace: terug · Esc: stoppen
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	Klik op de uiteinden van de binnenwanden; elke klik begint de volgende, uiteinden bij een wand klikken daarop vast. Esc, Enter of een dubbelklik beëindigt de reeks, nogmaals Esc het gereedschap.
 Click to add a node of the route network	Klik om een knooppunt van het tracénetwerk toe te voegen
 Click to add to the selected text.	Klik om aan de geselecteerde tekst toe te voegen.
@@ -308,7 +312,10 @@ Click to show, right click for more	Klik om te tonen, rechtsklik voor meer
 Click two corners	Klik op twee hoeken
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	Klik op twee hoeken van het structuurkader en stel daarna de aanduidingen in bij de eigenschappen · Esc of rechtsklik om te beëindigen
 Click two nodes to connect them	Klik op twee knooppunten om ze te verbinden
+Click two points to measure from one to the other · Esc: stop	Klik op twee punten om van het ene naar het andere te meten · Esc: stoppen
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	Klik waar vier draden samenkomen: de brug leidt de verbinding van één zijde naar de drie andere, eerst de tegenoverliggende · {} draait hem · Esc of rechtsklik om te beëindigen
+Click where it is in the site plan	Klik op de plek in de situatietekening
+Click where the reference point is	Klik waar het referentiepunt ligt
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	Klik waar drie draden samenkomen: het T-stuk benoemt het apparaat waar de draden beginnen en de volgorde van hun doelen · {} draait het waar nog geen draden samenkomen · Esc of rechtsklik om te beëindigen
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	Klik waar twee draden kruisen: de kruising verbindt ze en leidt elk uiteinde van zijn lijn eerst rechtdoor, dan dwars · {} draait hem · Esc of rechtsklik om te beëindigen
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	Klik waar twee draden in een rechte hoek samenkomen, of waar aansluitpunten over de hoek tegenover elkaar liggen: met Auto-connect aan worden er draden naartoe getekend · {} draait hem · Esc of rechtsklik om te beëindigen
@@ -370,6 +377,7 @@ Consecutive addresses from the start byte, in schematic order	Opeenvolgende adre
 Contact image below coils	Contactspiegel onder spoelen
 Content	Inhoud
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	Inhoud van een inactieve optie is verborgen: deze wordt niet getekend, geëvalueerd, gerapporteerd of geëxporteerd.
+Coordinate reference system	Coördinatenreferentiesysteem
 Copies	Kopieën
 Copies function texts between both representations where one is empty	Kopieert functieteksten tussen beide weergaven waar één leeg is
 Copies in rows and columns	Kopieën in rijen en kolommen
@@ -498,6 +506,7 @@ Digits	Cijfers
 Dimension	Maatvoering
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	Gericht T-stuk: waar drie draden samenkomen, benoemt het het apparaat waar de twee draden van de verbinding beginnen en de volgorde van hun doelen
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Gerichte kruising: verbindt de twee draden die er kruisen; elk uiteinde van zijn lijn wordt eerst rechtdoor en dan dwars bedraad
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Richting van het roosternoorden, van boven gezien tegen de klok in vanaf de achterkant van de installatie (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Richting waarin de modules wijzen, tegen de klok in van boven gezien (0: naar voren)
 Discard changes	Wijzigingen verwerpen
 Discard draft	Concept negeren
@@ -548,6 +557,8 @@ Draw cable definition	Kabeldefinitie tekenen
 Draw connections	Verbindingen tekenen
 Draw connections between facing connection points when symbols are placed or moved	Verbindingen tekenen tussen tegenover elkaar liggende aansluitpunten wanneer symbolen worden geplaatst of verplaatst
 Draw inner walls	Binnenwanden tekenen
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	De perceelgrens in de situatietekening tekenen: klik op de hoeken, op de eerste of druk op Enter om te sluiten; alle gebouwen moeten erbinnen blijven
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	De perceelgrens in de situatietekening tekenen; alle gebouwen moeten erbinnen blijven
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	Teken de pagina zelf: grafiek voor elke pagina en een rijtekening die voor elke rij wordt herhaald; teksten gebruiken de kolommen als tijdelijke aanduidingen
 Draw the three wires of the T-junction to it: one in its direction and two across	Teken de drie draden van het T-stuk ernaartoe: één in zijn richting en twee dwars
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	Teken de twee draden van de hoek ernaartoe, of zet Auto-connect aan en plaats hem tegenover vrije aansluitpunten
@@ -572,6 +583,7 @@ Duplicate	Dupliceren
 Each example builds on the one before and shows more of the features.	Elk voorbeeld bouwt voort op het vorige en toont meer van de functies.
 Each point-to-point connection can belong to a harness	Elke punt-tot-puntverbinding kan bij een kabelboom horen
 Earthing system	Aardingsstelsel
+Easting, northing	Oostwaarde, noordwaarde
 Eaves	Dakgoot
 Edge length of the routing grid: smaller is finer and slower	Randlengte van het routeringsraster: kleiner is fijner en langzamer
 Edit	Bewerken
@@ -730,6 +742,7 @@ Graphic rectangle	Grafische rechthoek
 Graphical form	Grafisch formulier
 Greatest distance of the roof hooks along a rail	Grootste afstand van de dakhaken langs een rail
 Grid	Raster
+Grid north	Roosternoorden
 Grid size	Rastergrootte
 Grid {} mm	Raster {} mm
 Group as assembly	Groeperen als samenstel
@@ -745,6 +758,7 @@ Heat map	Warmtekaart
 Heating	Verwarming
 Heating circuit manifolds and control boxes	Verdelers voor vloerverwarming en regelboxen
 Height (mm)	Hoogte (mm)
+Height above sea level	Hoogte boven zeeniveau
 Height above the floor	Hoogte boven de vloer
 Height above the mounting plate	Hoogte boven de montageplaat
 Height above the plate	Hoogte boven de plaat
@@ -870,6 +884,7 @@ Label field	Labelveld
 Labeling scheme	Markeringsschema
 Landscape	Liggend
 Larger texts and buttons for a touch screen at the workbench	Grotere teksten en knoppen voor een aanraakscherm aan de werkbank
+Latitude, longitude	Breedtegraad, lengtegraad
 Layer	Laag
 Layer {}	Laag {}
 Layer: {}	Laag: {}
@@ -895,6 +910,7 @@ Level of a multi-level terminal: upper levels sit on the block of the terminal b
 Level of this kind of message	Niveau van deze soort melding
 Level on top	Verdieping erbovenop
 Level {} added to building {}; new rooms go onto it	Verdieping {} toegevoegd aan gebouw {}; nieuwe ruimten komen erop
+Level {} of building {}	Verdieping {} van gebouw {}
 Levels	Verdiepingen
 Library	Bibliotheek
 Limits	Grenswaarden
@@ -966,6 +982,8 @@ Max. pressure	Max. druk
 Max. width	Max. breedte
 Maximum fill of a carrier	Maximale vulling van een kabeldrager
 Mean: typical operation	Gemiddeld: typisch bedrijf
+Measure	Meten
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	Meten in de situatietekening: klik op twee punten voor de afstand, hoe ver naar het oosten en noorden en de richting vanaf het noorden
 Measured	Gemeten
 Measures against common cause failure (at least 65 points)	Maatregelen tegen uitval door een gemeenschappelijke oorzaak (minstens 65 punten)
 Merge a symbol library file	Een symboolbibliotheekbestand samenvoegen
@@ -1199,6 +1217,7 @@ Options	Opties
 Ordinary cable	Gewone kabel
 Orientation	Oriëntatie
 Origin	Herkomst
+Origin of the plant	Oorsprong van de installatie
 Other values ({})	Overige waarden ({})
 Otherwise from the plant layout, or next to the other line-ups	Anders uit de installatielay-out, of naast de andere kastrijen
 Out since {} (pages locked)	Afgesplitst sinds {} (pagina's vergrendeld)
@@ -1211,6 +1230,7 @@ Output failed: {}	Uitvoer mislukt: {}
 Output to another project	Uitvoer naar een ander project
 Output to project…	Uitvoeren naar project…
 Outputs	Uitgangen
+Outside the plot boundary: {}	Buiten de perceelgrens: {}
 Overhang	Overstek
 Own colour	Eigen kleur
 Own drawn form	Zelf getekend formulier
@@ -1282,7 +1302,10 @@ Place in schematic	In schema plaatsen
 Place in the building	Plaats in het gebouw
 Place in the plant	Plaats in de installatie
 Place in the room	Plaats in de ruimte
+Place in the site plan	In de situatietekening plaatsen
 Place text	Tekst plaatsen
+Place the georeferenced point everything is measured from	Het gegeorefereerde punt plaatsen van waaruit alles wordt gemeten
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Het gegeorefereerde punt van de installatie in de situatietekening plaatsen; de coördinaten komen in het venster Gebouwen, elk punt wordt ervandaan gemeten
 Placed	Geplaatst
 Placed by hand	Handmatig geplaatst
 Placed here: {}	Hier geplaatst: {}
@@ -1300,7 +1323,12 @@ Plant layout	Installatielay-out
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	Installatielay-out, tracénetwerk, veldkabelplanning, potentiaalvereffening en kabeltoebehoren
 Plant segments with planned devices before the schematic	Installatiesegmenten met geplande apparaten vóór het schema
 Plate outline, holes per diameter, cutouts	Plaatcontour, boringen per diameter, uitsparingen
+Plot	Perceel
+Plot boundary	Perceelgrens
+Plot boundary drawn: {} m²	Perceelgrens getekend: {} m²
+Plot boundary drawn: {} m²; outside it: {}	Perceelgrens getekend: {} m²; erbuiten: {}
 Plot frames	Plotkaders
+Plot, {}	Perceel, {}
 Plug in card	Kaart plaatsen
 Plugin commands	Pluginopdrachten
 Plugins	Plugins
@@ -1390,6 +1418,8 @@ Record	Opnemen
 Rectangular	Rechthoekig
 Redline: to be changed · Greenline: changed as built	Redline: te wijzigen · Greenline: gewijzigd zoals gebouwd
 Redo	Opnieuw
+Reference point	Referentiepunt
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referentiepunt geplaatst op x {} m, z {} m; voer de coördinaten in het venster Gebouwen in
 Refresh	Vernieuwen
 Refresh example catalog parts (GEN.*)	Artikelen van de voorbeeldcatalogus (GEN.*) vernieuwen
 Reject	Afwijzen
@@ -1806,6 +1836,7 @@ The page name gets the section number	De paginanaam krijgt het sectienummer
 The page type, plot frame, title block, structure, description and the whole content are saved.	Het paginatype, het plotkader, het titelblok, de structuur, de beschrijving en de volledige inhoud worden opgeslagen.
 The pages it generated stay	De gegenereerde pagina's blijven behouden
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	De artikeldatabase wordt door alle projecten gedeeld. Artikelen worden naar een project gekopieerd wanneer ze aan een apparaat worden toegewezen.
+The point's coordinates in the coordinate reference system	De coördinaten van het punt in het coördinatenreferentiesysteem
 The project changed since the search.	Het project is gewijzigd sinds de zoekopdracht.
 The project check	De projectcontrole
 The project database needs the desktop version: the browser cannot search folders.	De projectdatabase vereist de desktopversie: de browser kan geen mappen doorzoeken.
@@ -1816,6 +1847,7 @@ The properties of the selection in a window beside the page	De eigenschappen van
 The rail or mounting base; its accessories are the hooks, clamps and ballast	De rail of montagevoet; zijn toebehoren zijn de haken, klemmen en ballast
 The recalculation keeps frozen routes as long as they are still possible	De herberekening behoudt bevroren routes zolang deze nog mogelijk zijn
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	Het lint met het tabblad Bestand vervangt de menu's; Ctrl+Shift+P vindt elke opdracht.
+The rooms of the level side by side; click the level again for all of the plant	De ruimtes van de verdieping naast elkaar; klik opnieuw op de verdieping voor de hele installatie
 The second fault is checked at the line-to-earth voltage	De dubbele fout wordt gecontroleerd met de spanning fase–aarde
 The selected devices side by side on the selected rail, from its left end	De geselecteerde apparaten naast elkaar op de geselecteerde rail, vanaf het linkeruiteinde
 The side of {} is open	De zijde van {} is open
@@ -1919,6 +1951,7 @@ Visible	Zichtbaar
 Voltage (line to line)	Spanning (fase-fase)
 Voltage drop	Spanningsval
 W A S D / arrows, Q / E	W A S D / pijltjes, Q / E
+WGS 84, written into the site of IFC exports	WGS 84, wordt in het terrein van IFC-exports geschreven
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	Wand {}, {} m: slepen om te verplaatsen, dubbelklik toont hem om uit te rusten
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	Wand {}, {} m: de wand die in het wandaanzicht wordt getoond (gemarkeerd); slepen om te verplaatsen
 Wall-mounted part	Wandmontage-artikel
@@ -1931,9 +1964,11 @@ What is new	Nieuw
 What should be checked or changed?	Wat moet er worden gecontroleerd of gewijzigd?
 Wheel / right or middle drag	Muiswiel / slepen met rechter- of middelste muisknop
 Wheel: zoom · drag: move · click on a room: its floor plan	Wiel: zoomen · slepen: verplaatsen · klik op een ruimte: de plattegrond
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	Wiel: zoomen · slepen: verschuiven · klik op een ruimte: de plattegrond · sleep een hoek van de perceelgrens
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Muiswiel: zoomen · rechtsklik: annuleren · grafiek springt naar 0,5 mm, aansluitpunten naar het raster van 4 mm
 When it differs from the page	Wanneer deze afwijkt van de pagina
 Where	Plaats
+Where the point is in the plant; y: its height above the ground level of the plant	Waar het punt in de installatie ligt; y: de hoogte boven het maaiveld van de installatie
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Waar de structuur van het apparaat vandaan komt: aspecten die gelijk zijn aan de structuur rond het symbool zijn geërfd en volgen wanneer het in of uit een structuurkader wordt verplaatst; andere aspecten zijn van het apparaat zelf en blijven.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Waar de draad begint en eindigt: een aansluitpunt uit de artikelgegevens, een aansluitpunt gegenereerd uit de functiesjabloon, of het midden van het apparaat als geen aansluitpunt overeenkomt
 Whole building	Heel gebouw
@@ -1972,6 +2007,7 @@ With everything below it	Met alles eronder
 With the current pages; the approvals so far become void	Met de huidige pagina's; de goedkeuringen tot nu toe vervallen
 With values only	Alleen met waarden
 Withdraw	Intrekken
+Without a reference point the plant is measured from its origin, north towards the rear.	Zonder referentiepunt wordt de installatie vanuit haar oorsprong gemeten, noorden naar achteren.
 Without approvers a new revision is released directly.	Zonder goedkeurders wordt een nieuwe revisie direct vrijgegeven.
 Without bus system	Zonder bussysteem
 Without power loss data: {}	Zonder gegevens over vermogensverlies: {}
@@ -2033,6 +2069,7 @@ inherited from structure box {}	geërfd van structuurkader {}
 inherited from the page	geërfd van de pagina
 inherited: {}	geërfd: {}
 kW	kW
+known	bekend
 low side at the rear	lage kant achter
 male	pen
 manual	handmatig
@@ -2077,6 +2114,7 @@ value set…	waardenset…
 vertical	verticaal
 with bus cables	met buskabels
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   {} m ten oosten, {} m ten noorden van het referentiepunt
 {}  (door)	{}  (deur)
 {}  (free)	{}  (vrij)
 {}  (used)	{}  (gebruikt)
@@ -2132,6 +2170,7 @@ x y	x y
 {} copies placed	{} kopieën geplaatst
 {} corner points	{} hoekpunten
 {} corners	{} hoeken
+{} corners, {} m², {} m round	{} hoeken, {} m², {} m omtrek
 {} details	{} details
 {} device descriptions imported	{} apparaatbeschrijvingen geïmporteerd
 {} devices	{} apparaten
@@ -2165,6 +2204,7 @@ x y	x y
 {} items, {} %	{} elementen, {} %
 {} links created, {} function texts copied	{} koppelingen gemaakt, {} functieteksten gekopieerd
 {} m of {} m wired	{} m van {} m bedraad
+{} m: {} m east, {} m north, {}° from north	{} m: {} m naar het oosten, {} m naar het noorden, {}° vanaf het noorden
 {} macro boxes updated	{} macrokaders bijgewerkt
 {} markers	{} markeringen
 {} mm	{} mm

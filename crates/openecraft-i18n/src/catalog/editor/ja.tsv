@@ -55,6 +55,7 @@ A new release is downloaded in the background and replaces this installation; it
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	フォルダーのようにページを含む番号付きセクション。ページ名はその番号で始まります (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	プロファイルは、ニュートラルフィールドを特定のシステムの列名に対応付けます (例: SAP の ERP 番号には MATNR)。マッピングがない場合は、一般的な英語名とドイツ語名が認識されます。
 A project definition based on this one, with its own defaults and scheme	これを基にした、独自の既定値とスキームを持つプロジェクト定義
+A reference point at the origin of the plant	設備の原点にある基準点
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	レポートブロックはレポートのページ (例: 端子台ごとに 1 つの端子図) を生成し、更新します。
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	現在のページの後に作成される回路図ページ 3.1、3.2、…。再番号付け時もサブページとして維持されます
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	ページマクロを持ち、まだ回路図にない計画済みデバイスごとの回路図ページ (選択したセグメント、選択がない場合はすべて)
@@ -161,6 +162,7 @@ Assign to harness	ハーネスに割り当て
 Assign wires: select them in the schematic › Assign to cable.	電線の割り当て: 回路図で電線を選択 › ケーブルに割り当て。
 Asynchronous motors on the mains add to the highest short-circuit current (IEC 60909-0)	系統に接続された誘導電動機が最大短絡電流を増加させます (IEC 60909-0)
 At the highest ambient temperature; the heater keeps the dew point. 0 = not considered	最高周囲温度時。ヒーターが露点を維持します。0 = 考慮しない
+At the origin	原点に
 At the supply point: Ik3 max {} kA, Ik1 min {} kA	受電点: Ik3 max {} kA、Ik1 min {} kA
 At the top level	最上位
 Author	作成者
@@ -203,6 +205,7 @@ Bottom edges	下端
 Bottom left	左下
 Bottom of the enclosure (without plinth) above the floor; heights are checked when it is known or the enclosure stands on a plinth	床面からのエンクロージャー下端の高さ (台座を除く)。この値が既知の場合、またはエンクロージャーが台座に設置されている場合に高さがチェックされます
 Bottom right	右下
+Boundary	境界
 Breaking capacity against the short-circuit current at each protective device of the mains, disconnection at the lowest fault current at the end of its circuit, short-circuit withstand of the cables and selectivity with the device upstream.	電源系統の各保護機器における短絡電流に対する遮断容量、回路末端の最小故障電流での遮断、ケーブルの短絡耐量、上位機器との選択遮断。
 Bridge: four wires; the connection comes in at one side and goes to the three others, the opposite side first	ブリッジ：4本の接続線。接続は一方の側から入り、他の3方向へ、まず反対側へ向かいます
 Building {} added with a level at ground level	地上階 1 つで建物 {} を追加しました
@@ -290,6 +293,7 @@ Click on the 4 mm grid	4 mm グリッド上をクリックします
 Click on the wall: the part goes there at its mounting height	壁をクリック: 部品はその取付高さに置かれます
 Click start and end point	始点と終点をクリックします
 Click the corners of a machine or building, double-click to finish	機械または建物の角をクリックし、ダブルクリックで終了します
+Click the corners of the plot boundary · click the first one, double-click or Enter: close · Backspace: back · Esc: stop	敷地境界の頂点をクリック · 最初の頂点、ダブルクリックまたは Enter：閉じる · Backspace：戻る · Esc：終了
 Click the ends of the inner walls; every click starts the next one, ends near a wall snap onto it. Esc, Enter or a double-click ends the chain, Esc again the tool.	内壁の端点をクリックします。クリックごとに次の内壁が始まり、壁の近くの端点は壁に吸着します。Esc、Enter またはダブルクリックで連続作図を終了し、もう一度 Esc でツールを終了します。
 Click to add a node of the route network	クリックしてルートネットワークのノードを追加します
 Click to add to the selected text.	クリックして選択したテキストに追加します。
@@ -305,7 +309,10 @@ Click to show, right click for more	クリックで表示、右クリックで�
 Click two corners	2 つのコーナーをクリックします
 Click two corners of the structure box, then set its identifiers in the properties · Esc or right click to finish	構造ボックスの 2 つの角をクリックし、プロパティで識別子を設定します · Esc または右クリックで終了
 Click two nodes to connect them	2 つのノードをクリックして接続します
+Click two points to measure from one to the other · Esc: stop	2点をクリックして一方から他方まで測定 · Esc：終了
 Click where four wires meet: the bridge leads the connection from one side to the three others, the opposite side first · {} turns it · Esc or right click to finish	4本の接続線が交わる点をクリック：ブリッジは接続を一方の側から他の3方向へ、まず反対側へ導きます · {} で回転 · Esc または右クリックで終了
+Click where it is in the site plan	配置図でその位置をクリックします
+Click where the reference point is	基準点の位置をクリックします
 Click where three wires meet: the T-junction names the device the wires start from and the order of their targets · {} turns it where no wires meet yet · Esc or right click to finish	3本の接続線が交わる点をクリック：T分岐は電線が出る機器と目標の順序を指定します · まだ接続線が交わらない場所では {} で回転 · Esc または右クリックで終了
 Click where two wires cross: the crossing connects them and leads each end of its line straight on first, then across · {} turns it · Esc or right click to finish	2本の接続線が交わる点をクリック：交差は両者を接続し、線の各端をまず直進、次に横方向へ導きます · {} で回転 · Esc または右クリックで終了
 Click where two wires meet at a right angle, or where connection points face each other across the corner: with Auto-connect on, wires are drawn to it · {} turns it · Esc or right click to finish	2本の接続線が直角に交わる点、または接続点がコーナーをはさんで向き合う点をクリック：自動接続が有効なときはここへ接続線が描かれます · {} で回転 · Esc または右クリックで終了
@@ -367,6 +374,7 @@ Consecutive addresses from the start byte, in schematic order	開始バイトか
 Contact image below coils	コイルの下に接点イメージ
 Content	内容
 Content of an inactive option is hidden: it is not drawn, evaluated, reported or exported.	無効なオプションの内容は非表示になり、描画、評価、レポート、エクスポートの対象外になります。
+Coordinate reference system	座標参照系
 Copies	コピー数
 Copies function texts between both representations where one is empty	一方が空の場合、両方の表現の間で機能テキストをコピーします
 Copies in rows and columns	行と列にコピー
@@ -492,6 +500,7 @@ Digits	桁数
 Dimension	寸法
 Directed T-junction: where three wires meet, names the device the two wires of the connection start from and the order of their targets	方向付きT分岐：3本の接続線が交わる点で、接続の2本の線がどの機器から出るか、および目標の順序を指定します
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	方向付き交差：そこで交わる2本の接続線を接続します。線の各端はまず直進、次に横方向に配線されます
+Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	座標北の方向。上から見て設備の後方 (-z) から反時計回り
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	モジュールが向く方向、上から見て反時計回り（0：前方）
 Discard changes	変更を破棄
 Discard draft	ドラフトを破棄
@@ -542,6 +551,8 @@ Draw cable definition	ケーブル定義を描画
 Draw connections	接続を描画
 Draw connections between facing connection points when symbols are placed or moved	シンボルを配置または移動したときに、向かい合う接続ポイント間に接続を描画します
 Draw inner walls	内壁を描く
+Draw the boundary of the plot in the site plan: click its corners, click the first one or press Enter to close; all buildings have to stay inside it	配置図に敷地境界を描きます：頂点をクリックし、最初の頂点をクリックするか Enter で閉じます。すべての建物は内側に収める必要があります
+Draw the boundary of the plot in the site plan; all buildings have to stay inside it	配置図に敷地境界を描きます。すべての建物はその内側に収める必要があります
 Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders	ページを自分で描画します: 全ページ共通のグラフィックと、行ごとに繰り返される行図形。テキストでは列をプレースホルダーとして使用できます
 Draw the three wires of the T-junction to it: one in its direction and two across	T分岐の3本の接続線をここまで描いてください：1本はその方向に、2本は横方向に
 Draw the two wires of the corner to it, or switch on Auto-connect and place it facing free connection points	コーナーの2本の接続線をここまで描くか、自動接続を有効にして空き接続点に向き合う位置に置いてください
@@ -566,6 +577,7 @@ Duplicate	複製
 Each example builds on the one before and shows more of the features.	各サンプルは前のものを基にしており、より多くの機能を示します。
 Each point-to-point connection can belong to a harness	各ポイントツーポイント接続は 1 つのハーネスに属することができます
 Earthing system	系統接地方式
+Easting, northing	東座標、北座標
 Eaves	軒
 Edge length of the routing grid: smaller is finer and slower	配線グリッドの辺の長さ: 小さいほど精細になり、処理は遅くなります
 Edit	編集
@@ -722,6 +734,7 @@ Graphic rectangle	図形四角形
 Graphical form	グラフィカルフォーム
 Greatest distance of the roof hooks along a rail	レールに沿った屋根フックの最大間隔
 Grid	グリッド
+Grid north	座標北
 Grid size	グリッドサイズ
 Grid {} mm	グリッド {} mm
 Group as assembly	アセンブリとしてグループ化
@@ -737,6 +750,7 @@ Heat map	ヒートマップ
 Heating	ヒーター
 Heating circuit manifolds and control boxes	暖房ヘッダーと制御ボックス
 Height (mm)	高さ (mm)
+Height above sea level	標高
 Height above the floor	床面からの高さ
 Height above the mounting plate	取付板からの高さ
 Height above the plate	板からの高さ
@@ -861,6 +875,7 @@ Label field	ラベルフィールド
 Labeling scheme	ラベリングスキーム
 Landscape	横
 Larger texts and buttons for a touch screen at the workbench	作業台のタッチスクリーン用に文字とボタンを大きく
+Latitude, longitude	緯度、経度
 Layer	レイヤー
 Layer {}	レイヤー {}
 Layer: {}	レイヤー: {}
@@ -885,6 +900,7 @@ Letters, digits, space, - _ . (up to 64 characters)	英字、数字、スペー�
 Level of a multi-level terminal: upper levels sit on the block of the terminal before	多段端子の段: 上の段は前の端子のブロックに載ります
 Level of this kind of message	この種類のメッセージのレベル
 Level {} added to building {}; new rooms go onto it	建物 {1} に階 {0} を追加しました。新しい部屋はこの階に置かれます
+Level {} of building {}	建物 {1} の階 {0}
 Library	ライブラリ
 Limits	制限値
 Limits in effect	適用中の制限値
@@ -954,6 +970,8 @@ Max. pressure	最大圧力
 Max. width	最大幅
 Maximum fill of a carrier	支持材の最大占有率
 Mean: typical operation	平均：通常運転
+Measure	測定
+Measure in the site plan: click two points for the distance, how far east and north and the direction from north	配置図で測定：2点をクリックすると距離、東西・南北の差、北からの方向が分かります
 Measured	測定値
 Measures against common cause failure (at least 65 points)	共通原因故障に対する対策 (65 ポイント以上)
 Merge a symbol library file	シンボルライブラリファイルをマージ
@@ -1185,6 +1203,7 @@ Options	オプション
 Ordinary cable	通常のケーブル
 Orientation	向き
 Origin	発生元
+Origin of the plant	設備の原点
 Other values ({})	その他の値 ({})
 Otherwise from the plant layout, or next to the other line-ups	それ以外の場合はプラントレイアウトから、または他の列盤の隣に配置
 Out since {} (pages locked)	{} から切り出し中 (ページはロック中)
@@ -1197,6 +1216,7 @@ Output failed: {}	出力に失敗しました: {}
 Output to another project	別のプロジェクトに出力
 Output to project…	プロジェクトに出力…
 Outputs	出力
+Outside the plot boundary: {}	敷地境界の外：{}
 Overhang	軒の出
 Own colour	独自の色
 Own drawn form	独自に描画したフォーム
@@ -1267,7 +1287,10 @@ Place functions of this device	このデバイスの機能を配置
 Place in schematic	回路図に配置
 Place in the plant	プラント内の位置
 Place in the room	室内の位置
+Place in the site plan	配置図に配置
 Place text	テキストを配置
+Place the georeferenced point everything is measured from	すべての測定の基準となるジオリファレンス点を配置します
+Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	設備のジオリファレンス点を配置図に配置します。座標は建物ペインで入力し、すべての点はそこから測定されます
 Placed	配置済み
 Placed by hand	手動で配置
 Placed here: {}	ここに配置: {}
@@ -1285,7 +1308,12 @@ Plant layout	プラントレイアウト
 Plant layout, route network, field cable planning, equipotential bonding and cable accessories	プラントレイアウト、ルートネットワーク、フィールドケーブル計画、等電位ボンディング、ケーブル付属品
 Plant segments with planned devices before the schematic	回路図作成前の、計画済みデバイスを含むプラントセグメント
 Plate outline, holes per diameter, cutouts	板の外形、直径ごとの穴、切り欠き
+Plot	敷地
+Plot boundary	敷地境界
+Plot boundary drawn: {} m²	敷地境界を描きました：{} m²
+Plot boundary drawn: {} m²; outside it: {}	敷地境界を描きました：{} m²。外側：{}
 Plot frames	図枠
+Plot, {}	敷地、{}
 Plug in card	カードを装着
 Plugin commands	プラグインコマンド
 Plugins	プラグイン
@@ -1372,6 +1400,8 @@ Record	記録
 Rectangular	四角形
 Redline: to be changed · Greenline: changed as built	レッドライン: 変更予定 · グリーンライン: 施工どおりに変更済み
 Redo	やり直し
+Reference point	基準点
+Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	基準点を x {} m、z {} m に配置しました。建物ペインで座標を入力してください
 Refresh	最新の情報に更新
 Refresh example catalog parts (GEN.*)	サンプルカタログの部品 (GEN.*) を更新
 Reject	却下
@@ -1786,6 +1816,7 @@ The page name gets the section number	ページ名にセクション番号が付
 The page type, plot frame, title block, structure, description and the whole content are saved.	ページタイプ、図枠、表題欄、構造、説明、すべての内容が保存されます。
 The pages it generated stay	生成されたページは残ります
 The parts database is shared by all projects. Parts are copied into a project when they are assigned to a device.	部品データベースはすべてのプロジェクトで共有されます。部品はデバイスに割り当てられたときにプロジェクトにコピーされます。
+The point's coordinates in the coordinate reference system	座標参照系での点の座標
 The project changed since the search.	検索後にプロジェクトが変更されました。
 The project check	プロジェクトのチェック
 The project database needs the desktop version: the browser cannot search folders.	プロジェクトデータベースにはデスクトップ版が必要です。ブラウザーではフォルダーを検索できません。
@@ -1796,6 +1827,7 @@ The properties of the selection in a window beside the page	ページの横の�
 The rail or mounting base; its accessories are the hooks, clamps and ballast	レールまたは架台。付属品はフック、クランプ、バラスト
 The recalculation keeps frozen routes as long as they are still possible	再計算では、可能な限り固定されたルートが維持されます
 The ribbon with the File tab replaces the menus; Ctrl+Shift+P finds any command.	ファイルタブ付きのリボンがメニューに代わります。Ctrl+Shift+P で任意のコマンドを検索できます。
+The rooms of the level side by side; click the level again for all of the plant	階の部屋を並べて表示。もう一度階をクリックすると設備全体
 The second fault is checked at the line-to-earth voltage	二重地絡は対地電圧でチェックされます
 The selected devices side by side on the selected rail, from its left end	選択したデバイスを、選択したレール上に左端から並べて配置します
 The side of {} is open	{} の側面は開放されています
@@ -1898,6 +1930,7 @@ Visible	表示
 Voltage (line to line)	電圧 (線間)
 Voltage drop	電圧降下
 W A S D / arrows, Q / E	W A S D / 矢印キー、Q / E
+WGS 84, written into the site of IFC exports	WGS 84。IFC エクスポートの敷地に書き込まれます
 Wall {}, {} m: drag to move it, a double-click shows it to equip it	壁 {}、{} m: ドラッグで移動、ダブルクリックで表示して取り付け
 Wall {}, {} m: the wall shown in the wall view (highlighted); drag to move it	壁 {}、{} m: 壁ビューに表示中の壁 (強調表示)、ドラッグで移動
 Wall-mounted part	壁取付部品
@@ -1910,9 +1943,11 @@ What is new	新機能
 What should be checked or changed?	何をチェックまたは変更しますか?
 Wheel / right or middle drag	ホイール / 右または中ボタンのドラッグ
 Wheel: zoom · drag: move · click on a room: its floor plan	ホイール：ズーム · ドラッグ：移動 · 部屋をクリック：その平面図
+Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of the plot boundary	ホイール：ズーム · ドラッグ：移動 · 部屋をクリック：平面図 · 敷地境界の頂点をドラッグ
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	ホイール: ズーム · 右クリック: キャンセル · 図形は 0.5 mm、接続ポイントは 4 mm グリッドにスナップ
 When it differs from the page	ページと異なる場合
 Where	位置
+Where the point is in the plant; y: its height above the ground level of the plant	設備内の点の位置。y：設備の地盤面からの高さ
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	デバイスの構造の由来: シンボル周囲の構造と等しいアスペクトは継承され、構造ボックスへの出し入れに追従します。その他のアスペクトはデバイス固有のもので、変わりません。
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	電線の始点と終点: 部品データの接続ポイント、機能テンプレートから生成された接続ポイント、または一致する接続ポイントがない場合はデバイスの中心
 Whole building	建物全体
@@ -1951,6 +1986,7 @@ With everything below it	下位のすべてを含む
 With the current pages; the approvals so far become void	現在のページで再提出します。これまでの承認は無効になります
 With values only	値があるもののみ
 Withdraw	取り下げ
+Without a reference point the plant is measured from its origin, north towards the rear.	基準点がない場合、設備は原点から測定され、北は後方です。
 Without approvers a new revision is released directly.	承認者がいない場合、新しいリビジョンは直接リリースされます。
 Without bus system	バスシステムなし
 Without power loss data: {}	損失電力データなし: {}
@@ -2011,6 +2047,7 @@ inherited from structure box {}	構造ボックス {} から継承
 inherited from the page	ページから継承
 inherited: {}	継承: {}
 kW	kW
+known	既知
 low side at the rear	低い側を後ろに
 male	オス
 manual	手動
@@ -2052,6 +2089,7 @@ value set…	値セット…
 vertical	垂直
 with bus cables	バスケーブル付き
 x y	x y
+{}   {} m east, {} m north of the reference point	{}   基準点から東へ {} m、北へ {} m
 {}  (door)	{}  (扉)
 {}  (free)	{}  (空き)
 {}  (used)	{}  (使用済み)
@@ -2105,6 +2143,7 @@ x y	x y
 {} copies placed	{} 個のコピーを配置しました
 {} corner points	{} 個のコーナー点
 {} corners	頂点 {} 個
+{} corners, {} m², {} m round	頂点 {} 個、{} m²、周長 {} m
 {} details	{} の詳細
 {} device descriptions imported	{} 件のデバイス記述をインポートしました
 {} devices	デバイス {}
@@ -2138,6 +2177,7 @@ x y	x y
 {} items, {} %	{} 個のアイテム、{} %
 {} links created, {} function texts copied	{} 件のリンクを作成し、{} 件の機能テキストをコピーしました
 {} m of {} m wired	{} m / {} m 配線済み
+{} m: {} m east, {} m north, {}° from north	{} m：東へ {} m、北へ {} m、北から {}°
 {} macro boxes updated	{} 個のマクロボックスを更新しました
 {} markers	{} 個のマーカー
 {} mm	{} mm
