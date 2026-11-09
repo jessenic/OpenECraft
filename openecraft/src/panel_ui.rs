@@ -374,10 +374,11 @@ fn profile_part_combo(ui: &mut egui::Ui, salt: &str, choices: &[panel::ProfileCh
 
 /// The item and the other members of its group (assembly).
 fn with_group(e: &Enclosure, id: u64) -> Vec<u64> {
-    match e.item(id).map(|i| i.group) {
+    let ids=match e.item(id).map(|i| i.group) {
         Some(g) if g != 0 => panel::group_members(e, g),
         _ => vec![id],
-    }
+    };
+    panel::mounted_items(e,&ids)
 }
 
 /// Placement along one axis: kind and distances.
@@ -1143,7 +1144,7 @@ impl PanelUi {
                     rotate(&mut prj.layout.enclosures[ei], &self.selection);
                 }
                 if icons::text_button(ui, Icon::Delete, tr("Delete")).clicked() {
-                    prj.layout.enclosures[ei].items.retain(|i| !self.selection.contains(&i.id));
+                    panel::remove_items(&mut prj.layout.enclosures[ei],&self.selection.iter().copied().collect::<Vec<_>>());
                     self.selection.clear();
                 }
             });
@@ -1230,9 +1231,9 @@ impl PanelUi {
                     });
                     if it.face != before {
                         // Keep the position in front view; door devices sit directly on the door.
-                        let shift = it.face.origin() - before.origin();
-                        it.x -= shift;
-                        it.y -= shift;
+                        let shift = e.face_offset(it.face) - e.face_offset(before);
+                        it.x -= shift.x;
+                        it.y -= shift.y;
                         it.z = if it.kind == ItemKind::Accessory { before_item.z.min(0.0) } else { 0.0 };
                         it.anchor = Anchor::default();
                         self.face = it.face;
@@ -1402,6 +1403,20 @@ impl PanelUi {
                 }
             });
             ui.horizontal(|ui| {
+                if !opening {
+                    let label=it.rotation.map(|r|format!("{}°",r.degrees())).unwrap_or_else(||tr("Infer panel rotation from part dimensions").into());
+                    egui::ComboBox::from_id_salt("panel_rotation").selected_text(label).show_ui(ui,|ui| {
+                        ui.selectable_value(&mut it.rotation,None,tr("Infer panel rotation from part dimensions"));
+                        for degrees in [0,90,180,270] {
+                            let target=panel::PanelRotation::from_degrees(degrees).unwrap();
+                            if ui.selectable_label(it.rotation==Some(target),format!("{degrees}°")).clicked() {
+                                let height=part.as_ref().and_then(|p|p.size()).map(|s|s[1]).unwrap_or(it.h);
+                                if panel::item_rotation(&it,height).is_quarter()!=target.is_quarter() {it.rotate();}
+                                it.rotation=Some(target);
+                            }
+                        }
+                    });
+                }
                 if !opening && icons::text_button(ui, Icon::Rotate, tr("Rotate")).on_hover_text("R").clicked() {
                     it.rotate();
                 }
@@ -2994,10 +3009,10 @@ impl PanelUi {
         }
         let ptr = ui.input(|i| i.pointer.hover_pos()).filter(|q| rect.contains(*q));
         // Plate coordinates of the pointer
-        let fm = self.face.origin();
+        let fm = prj.layout.enclosures[ei].face_offset(self.face);
         let mirror = self.mirror(&prj.layout.enclosures[ei]);
         let unmirror = move |q: P| p(mirror.map(|m| m - q.x).unwrap_or(q.x), q.y);
-        let plate = ptr.map(|s| unmirror(self.s2w(rect, s)) - p(fm, fm));
+        let plate = ptr.map(|s| unmirror(self.s2w(rect, s)) - fm);
         let snapped = plate.map(|q| p(panel::snap(q.x), panel::snap(q.y)));
 
         // Keyboard
@@ -3020,7 +3035,7 @@ impl PanelUi {
                 self.set_tool(Tool::Select);
             }
             if del && !self.selection.is_empty() {
-                e.items.retain(|i| !self.selection.contains(&i.id));
+                panel::remove_items(e,&self.selection.iter().copied().collect::<Vec<_>>());
                 self.selection.clear();
             }
             if r {
@@ -3185,7 +3200,7 @@ impl PanelUi {
         let problems = panel::problems_of(&self.findings(prj, an, ei));
         let mut d = EguiDraw { painter: &painter, origin, zoom: self.zoom, pal: &pal, force: None, mirror, textures: None };
         render::draw_enclosure(&mut d, e, self.face, self.door_inside, p(0.0, 0.0), 1.0, &self.selection, &problems, prj);
-        let to_screen = |q: P| origin + vec2(mirror.map(|m| m - (q.x + fm)).unwrap_or(q.x + fm), q.y + fm) * self.zoom;
+        let to_screen = |q: P| origin + vec2(mirror.map(|m| m - (q.x + fm.x)).unwrap_or(q.x + fm.x), q.y + fm.y) * self.zoom;
         if self.show_heat && self.face == Face::Plate {
             let map = panel::thermal::heat_map(prj, e);
             let (pw, ph) = e.plate_size();
@@ -3316,7 +3331,7 @@ impl PanelUi {
         }
         // Previews
         let mut g = EguiDraw { painter: &painter, origin, zoom: self.zoom, pal: &pal, force: Some(Ink::Ghost), mirror, textures: None };
-        let m = p(fm, fm);
+        let m = fm;
         match (&self.tool, snapped, plate) {
             (Tool::RoutingPath, Some(sn), _) => {
                 let mut pts: Vec<Pos2> = self.path_points.iter().map(|q| to_screen(*q)).collect();
@@ -3404,11 +3419,11 @@ impl PanelUi {
             items.sort_by_key(|i| std::cmp::Reverse(i.kind.layer()));
             items.first().map(|i| i.id)
         };
-        let (offset, zoom, fm) = (self.offset, self.zoom, face.origin());
+        let (offset, zoom, fm) = (self.offset, self.zoom, prj.layout.enclosures[ei].face_offset(face));
         let mirror = self.mirror(&prj.layout.enclosures[ei]);
         let to_plate = move |s: Pos2| {
             let x = (s.x - rect.min.x - offset.x) / zoom;
-            p(mirror.map(|m| m - x).unwrap_or(x) - fm, (s.y - rect.min.y - offset.y) / zoom - fm)
+            p(mirror.map(|m| m - x).unwrap_or(x) - fm.x, (s.y - rect.min.y - offset.y) / zoom - fm.y)
         };
         if resp.drag_started_by(PointerButton::Primary) {
             let origin = ui.input(|i| i.pointer.press_origin()).unwrap_or(rect.center());
@@ -3536,15 +3551,7 @@ fn ungroup(e: &mut Enclosure, ids: &[u64]) {
 }
 
 fn rotate(e: &mut Enclosure, sel: &BTreeSet<u64>) {
-    for i in 0..e.items.len() {
-        // Doors and windows of a room keep their size (only width and height are theirs).
-        if sel.contains(&e.items[i].id) && e.items[i].opening.is_cutout() {
-            e.items[i].rotate();
-            let mut it = e.items[i].clone();
-            panel::snap_to_rail(e, &mut it);
-            e.items[i] = it;
-        }
-    }
+    panel::rotate_items(e,&sel.iter().copied().collect::<Vec<_>>());
 }
 
 /// Mouse wheel movement in points (same handling as the schematic canvas).

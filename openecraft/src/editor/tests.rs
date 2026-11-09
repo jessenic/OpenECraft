@@ -3,6 +3,26 @@ use openecraft_core::analysis::Analysis;
 use openecraft_core::sample::demo_project;
 use egui::{Event, Modifiers, RawInput};
 
+#[test]
+fn electrical_items_remain_selectable_inside_page_graphics() {
+    use openecraft_core::{symbols::{Func, Prim}, symlib::UserSymbol};
+    let mut prj = Project::default();
+    prj.symbols.push(UserSymbol {
+        key: "user:frame".into(), func: Func::Graphic,
+        prims: vec![Prim::Line { a: p(0., 0.), b: p(300., 200.), dashed: false }],
+        ..Default::default()
+    });
+    prj.pages[0].symbols.push(SymbolInst { id: 1, sym: "user:frame".into(), ..Default::default() });
+    prj.pages[0].symbols.push(coil(2, p(100., 100.), "-K1"));
+    prj.pages[0].wires.push(Wire { id: 3, a: p(80., 100.), b: p(80., 160.), ..Default::default() });
+    prj.pages[0].junctions.push(Junction { id: 4, pos: p(80., 120.), ..Default::default() });
+    let ed = Editor { zoom: 8., ..Default::default() };
+    assert_eq!(ed.hit(&prj, 0, p(80., 145.)), Some(3), "wire inside the frame");
+    assert_eq!(ed.hit(&prj, 0, p(80., 120.)), Some(4), "junction inside the frame");
+    assert_eq!(ed.hit(&prj, 0, p(100., 100.)), Some(2), "device keeps priority");
+    assert_eq!(ed.hit(&prj, 0, p(200., 150.)), Some(1), "artwork remains selectable");
+}
+
 /// Runs one editor frame on page `page` with the given input events.
 fn frame(ed: &mut Editor, ctx: &egui::Context, prj: &mut Project, page: usize, events: Vec<Event>) -> CanvasOutput {
     let idx = Index::build(prj);

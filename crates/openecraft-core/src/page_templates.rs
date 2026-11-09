@@ -19,6 +19,7 @@ impl Default for PageTemplate {
             title_block: String::new(),
             description: String::new(),
             structure: Dt::default(),
+            values: Default::default(),
             content: Clip::default(),
         }
     }
@@ -84,6 +85,7 @@ pub fn insert(prj: &mut Project, t: &PageTemplate, at: usize) -> usize {
         page.description = t.description.clone();
     }
     t.structure.apply_to(page);
+    page.values.extend(t.values.clone());
     if !t.content.is_empty() {
         ops::paste(prj, at, &t.content, t.content.bounds().min);
     }
@@ -101,6 +103,7 @@ pub fn from_page(prj: &Project, page_i: usize, name: &str) -> PageTemplate {
         title_block: page.title_block.clone(),
         description: page.description.clone(),
         structure: Dt::of_page(page),
+        values: page.values.clone(),
         content: ops::copy(page, &all),
     }
 }

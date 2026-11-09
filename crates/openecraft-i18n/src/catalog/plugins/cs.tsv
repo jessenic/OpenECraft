@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Program stroje na zpracování přípojnic (CSV)
 CNC operations	Operace CNC
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	Programy CNC pro vrtací, frézovací a děrovací stroje, ohýbání měděných přípojnic, konfigurátor skříní, předání do výroby a zpětné hlášení z výroby
 Cable tag, e.g. -W1	Označení kabelu, např. -W1
-Cable tag, e.g. -W20	Označení kabelu, např. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Zkalibruje odhad času strojů podle skutečných časů ze zpětného hlášení výroby
 Cannot read the plugin folder {}	Nelze přečíst složku pluginů {}
 Cannot start {}: {}	Nelze spustit {}: {}

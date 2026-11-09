@@ -17,6 +17,7 @@ Address	Adres
 Angle	Hoek
 Apply	Toepassen
 Approvers	Goedkeurders
+Automatic	Automatisch
 Bold	Vet
 Bottom	Bodem
 Bottom with removable gland plate	Bodem met afneembare wartelplaat
@@ -33,6 +34,7 @@ Cable core	Kabelader
 Cable duct	Kabelgoot
 Cable overview	Kabeloverzicht
 Cable tag	Kabelaanduiding
+Cable tag, e.g. -W20	Kabelcode, bijv. -W20
 Cables	Kabels
 Cancel	Annuleren
 Cannot read {}: {}	Kan {} niet lezen: {}
@@ -64,6 +66,7 @@ Configurator	Configurator
 Connect	Verbinden
 Connected to	Verbonden met
 Connecting…	Verbinden…
+Connection point	Aansluitpunt
 Connection points	Aansluitpunten
 Connections	Verbindingen
 Connector	Connector
@@ -85,6 +88,7 @@ DWG drawing	DWG-tekening
 DXF drawing	DXF-tekening
 Dark	Donker
 Data portal	Dataportaal
+Data type	Gegevenstype
 Date	Datum
 Depth	Diepte
 Descending	Aflopend
@@ -216,6 +220,7 @@ New name	Nieuwe naam
 No	Nee
 No Vault item matches a part of the project	Geen Vault-item komt overeen met een artikel van het project
 No cable {}	Geen kabel {}
+No connection point {}	Geen aansluitpunt {}
 No device {}	Geen apparaat {}
 No enclosure {}	Geen behuizing {}
 No labeling scheme named {}	Geen markeringsschema met de naam {}
@@ -223,6 +228,7 @@ No machine {}	Geen machine {}
 No page named {}	Geen pagina met de naam {}
 No page template named {}	Geen paginasjabloon met de naam {}
 No page {}	Geen pagina {}
+No part {}	Geen artikel {}
 No part {} in the project	Geen artikel {} in het project
 No parts found	Geen artikelen gevonden
 No plot frame named {}	Geen plotkader met de naam {}
@@ -236,6 +242,7 @@ No symbol with id {}	Geen symbool met id {}
 Nominal size	Nominale diameter
 Not a language code: {}	Geen taalcode: {}
 Not a macro file: {}	Geen macrobestand: {}
+Not a symbol id: {}	Geen symbool-ID: {}
 Not a valid rule set file: {}	Geen geldig regelsetbestand: {}
 Not in the schematic	Niet in het schema
 Note	Opmerking
@@ -387,6 +394,8 @@ Successor	Opvolger
 Supplier	Leverancier
 Supply	Voorziening
 Symbol	Symbool
+Symbol key	Symboolsleutel
+Symbolic address	Symbolisch adres
 Symbols	Symbolen
 System	Systeem
 T-junction	T-stuk

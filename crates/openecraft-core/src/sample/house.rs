@@ -69,7 +69,7 @@ pub(super) fn project() -> Project {
     // All ten in series on the first MPP tracker of a 10 kW inverter.
     crate::parts::ensure_in_project(&mut prj, &db, "GEN.INV-PV-10KW");
     let mut inverter = crate::model::DeviceData::default();
-    inverter.parts.push(crate::parts::PartRef { number: "GEN.INV-PV-10KW".into(), count: 1 });
+    inverter.parts.push(crate::parts::PartRef { number: "GEN.INV-PV-10KW".into(), count: 1, total: false });
     prj.devices.insert("=PV-T1".into(), inverter);
     solar::strings::add_string(&mut prj, b3, 0, 0).expect("house");
 

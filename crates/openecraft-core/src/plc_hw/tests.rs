@@ -2,6 +2,18 @@ use super::*;
 use crate::netlist::Netlist;
 use crate::sample::demo_project;
 
+#[test]
+fn an_imported_cpu_without_network_data_does_not_gain_profinet_ports() {
+    let mut prj=Project::default();
+    prj.plc.descriptions.push(DeviceDescription {id:"SourceCPU".into(),kind:ModuleKind::Cpu,..Default::default()});
+    let mut station=Station {name:"Source".into(),device:"SourceCPU".into(),..Default::default()};
+    assert!(ports(&prj,&station).is_empty());
+    prj.plc.networks.push(BusSystem {name:"Configured".into(),kind:BusKind::EtherCat,..Default::default()});
+    station.network="Configured".into();
+    assert_eq!(ports(&prj,&station).iter().map(|p|p.name.as_str()).collect::<Vec<_>>(),["IN","OUT"]);
+    assert!(ports(&prj,&station).iter().all(|p|p.bus==BusKind::EtherCat));
+}
+
 fn addresses(prj: &Project) -> Vec<(String, String)> {
     crate::plc::points(prj, &Netlist::build(prj, true)).into_iter().map(|p| (p.card, p.address)).collect()
 }

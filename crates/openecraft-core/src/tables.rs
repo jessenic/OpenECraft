@@ -34,7 +34,7 @@ const fn col(name: &'static str, editable: bool) -> Column {
 
 const DEVICES: [Column; 5] =
     [col(tr_const!("Device tag"), true), col(tr_const!("Function text"), true), col(tr_const!("Description"), true), col(tr_const!("Part"), true), col(tr_const!("Pages"), false)];
-const CONNECTIONS: [Column; 9] = [
+const CONNECTIONS: [Column; 10] = [
     col(tr_const!("From"), false),
     col(tr_const!("To"), false),
     col(tr_const!("Potential"), false),
@@ -44,6 +44,7 @@ const CONNECTIONS: [Column; 9] = [
     col(tr_const!("Cable"), true),
     col(tr_const!("Core"), true),
     col(tr_const!("Pages"), false),
+    col(tr_const!("Wire type"), true),
 ];
 const TERMINALS: [Column; 4] = [col(tr_const!("Strip"), true), col(tr_const!("Terminal"), true), col(tr_const!("Function text"), true), col(tr_const!("Pages"), false)];
 const CABLES: [Column; 8] = [
@@ -64,13 +65,16 @@ const PLUGS: [Column; 6] = [
     col(tr_const!("Pin side"), false),
     col(tr_const!("Potential"), false),
 ];
-const PLC: [Column; 6] = [
+const PLC: [Column; 9] = [
     col(tr_const!("PLC card"), false),
     col(tr_const!("Address"), true),
     col(tr_const!("Direction"), false),
     col(tr_const!("Function text"), true),
     col(tr_const!("Connected"), false),
     col(tr_const!("Page"), false),
+    col(tr_const!("Channel"), false),
+    col(tr_const!("Data type"), false),
+    col(tr_const!("Symbolic address"), true),
 ];
 const PAGES: [Column; 4] = [col(tr_const!("Page"), true), col(tr_const!("Description"), true), col(tr_const!("Page type"), false), col(tr_const!("Released"), false)];
 const PARTS: [Column; 7] = [
@@ -225,6 +229,7 @@ pub fn rows(prj: &Project, nl: &Netlist, open: &Netlist, kind: TableKind) -> Vec
                         first(|w| &w.cable),
                         first(|w| &w.core),
                         pages_text(prj, net.wires.iter().map(|w| w.0)),
+                        first(|w| &w.wire_type),
                     ],
                     target: net.wires.iter().map(|w| w.1).min().map(|id| (page, id)),
                     locked: net.wires.iter().any(|w| prj.pages[w.0].locked),
@@ -281,10 +286,10 @@ pub fn rows(prj: &Project, nl: &Netlist, open: &Netlist, kind: TableKind) -> Vec
         }
         TableKind::Plc => {
             for p in crate::plc::points(prj, nl) {
-                let dir = if p.input { tr("Input") } else { tr("Output") };
+                let dir = if p.direction.is_none() {tr("Unknown")} else if p.input { tr("Input") } else { tr("Output") };
                 out.push(Row {
-                    key: p.id.to_string(),
-                    cells: vec![p.card.clone(), p.address.clone(), dir.to_string(), p.function_text.clone(), p.connected.clone(), prj.pages[p.page].name.clone()],
+                    key: p.channel_index.map(|i|format!("{}:{i}",p.id)).unwrap_or_else(||p.id.to_string()),
+                    cells: vec![p.card.clone(), p.address.clone(), dir.to_string(), p.function_text.clone(), p.connected.clone(), prj.pages[p.page].name.clone(),p.channel.clone(),p.data_type.clone(),p.symbolic.clone()],
                     target: Some((p.page, p.id)),
                     locked: prj.pages[p.page].locked,
                 });
@@ -399,7 +404,7 @@ fn set(prj: &mut Project, open: &Netlist, kind: TableKind, key: &str, column: us
                             d.parts.remove(0);
                         }
                         (Some(_), false) => d.parts[0].number = value.to_string(),
-                        (None, false) => d.parts.push(PartRef { number: value.to_string(), count: 1 }),
+                        (None, false) => d.parts.push(PartRef { number: value.to_string(), count: 1, total:false }),
                     }
                 }
             }
@@ -428,6 +433,7 @@ fn set(prj: &mut Project, open: &Netlist, kind: TableKind, key: &str, column: us
                     4 => &mut w.color,
                     5 => &mut w.cross_section,
                     6 => &mut w.cable,
+                    9 => &mut w.wire_type,
                     _ => &mut w.core,
                 };
                 if field != value {
@@ -464,16 +470,7 @@ fn set(prj: &mut Project, open: &Netlist, kind: TableKind, key: &str, column: us
             let id: u64 = key.parse().map_err(|_| tr_fmt!("No cable {}", key))?;
             let Some(i) = prj.cables.iter().position(|c| c.id == id) else { return Err(tr_fmt!("No cable {}", key)) };
             if column == 0 {
-                let old = prj.cables[i].tag.clone();
-                if value == old {
-                    return Ok(false);
-                }
-                if value.is_empty() || prj.cable(value).is_some() {
-                    return Err(tr_fmt!("Cable {} already exists", value));
-                }
-                prj.cables[i].tag = value.to_string();
-                crate::ops::rename_cable(prj, &old, value);
-                return Ok(true);
+                return crate::ops::rename_project_cable(prj,id,value);
             }
             let c = &mut prj.cables[i];
             return Ok(match column {
@@ -491,13 +488,20 @@ fn set(prj: &mut Project, open: &Netlist, kind: TableKind, key: &str, column: us
             });
         }
         TableKind::Plugs | TableKind::Plc => {
+            if kind==TableKind::Plc && key.contains(':') {
+                let (id,index)=key.split_once(':').unwrap();
+                let id=id.parse().map_err(|_|tr_fmt!("No connection point {}",key))?;
+                let index=index.parse().map_err(|_|tr_fmt!("No connection point {}",key))?;
+                let field=match column {1=>"address",3=>"comment",7=>"data_type",8=>"symbol",_=>return Ok(false)};
+                return crate::plc::channels::set(prj,id,index,field,&value.replace("\\n","\n"));
+            }
             let id: u64 = key.parse().map_err(|_| tr_fmt!("No connection point {}", key))?;
             let Some((pi, si)) = symbol_at(prj, id) else { return Err(tr_fmt!("No connection point {}", key)) };
             if prj.pages[pi].locked {
                 return Err(locked_error());
             }
             let s = &mut prj.pages[pi].symbols[si];
-            return Ok(if column == 1 { set_text(&mut s.label, value) } else { set_text(&mut s.function_text, &value.replace("\\n", "\n")) });
+            return Ok(if kind==TableKind::Plc && column==8 {set_text(s.values.entry("plc.symbolic".into()).or_default(),value)} else if column == 1 { set_text(&mut s.label, value) } else { set_text(&mut s.function_text, &value.replace("\\n", "\n")) });
         }
         TableKind::Pages => {
             let id: u64 = key.parse().map_err(|_| tr_fmt!("No page {}", key))?;

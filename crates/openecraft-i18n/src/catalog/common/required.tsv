@@ -18,6 +18,7 @@ Address	Adresse	Adresse	Dirección
 Angle	Winkel	Angle	Ángulo
 Apply	Übernehmen	Appliquer	Aplicar
 Approvers	Genehmiger	Approbateurs	Aprobadores
+Automatic	Automatisch	Automatique	Automático
 Bold	Fett	Gras	Negrita
 Bottom	Boden	Fond	Fondo
 Bottom with removable gland plate	Boden mit abnehmbarer Flanschplatte	Fond avec plaque passe-câbles amovible	Fondo con placa pasacables desmontable
@@ -35,6 +36,7 @@ Cable core	Kabelader	Conducteur du câble	Conductor del cable
 Cable duct	Kabelkanal	Goulotte	Canaleta
 Cable overview	Kabelübersicht	Vue d'ensemble des câbles	Resumen de cables
 Cable tag	Kabel-BMK	Repère du câble	Identificador del cable
+Cable tag, e.g. -W20	Kabelkennzeichen, z. B. -W20	Repère du câble, p. ex. -W20	Identificador del cable, p. ej. -W20
 Cables	Kabel	Câbles	Cables
 Cancel	Abbrechen	Annuler	Cancelar
 Cannot read {}: {}	{} kann nicht gelesen werden: {}	Impossible de lire {} : {}	No se puede leer {}: {}
@@ -66,6 +68,7 @@ Configurator	Konfigurator	Configurateur	Configurador
 Connect	Verbinden	Connecter	Conectar
 Connected to	Verbunden mit	Relié à	Conectado a
 Connecting…	Verbinde …	Connexion…	Conectando…
+Connection point	Anschluss	Point de raccordement	Punto de conexión
 Connection points	Anschlusspunkte	Points de connexion	Puntos de conexión
 Connections	Verbindungen	Liaisons	Conexiones
 Connector	Steckverbinder	Connecteur	Conector
@@ -76,6 +79,7 @@ Cores	Adern	Âmes	Núcleos
 Corner	Ecke	Coin	Esquina
 Cost of running closer than the segregation distance	Kosten für einen Verlauf näher als der Trennabstand	Coût d'un passage plus proche que la distance de séparation	Coste de pasar más cerca que la distancia de separación
 Count	Anzahl	Nombre	Cantidad
+Count once for the whole device or terminal strip	Einmal für das gesamte Gerät oder die Klemmenleiste zählen	Compter une seule fois pour tout l’appareil ou bornier	Contar una vez para todo el dispositivo o regleta de bornes
 Created by	Erstellt von	Créé par	Creado por
 Cross references	Querverweise	Renvois	Referencias cruzadas
 Cross-section	Querschnitt	Section	Sección
@@ -87,6 +91,7 @@ DWG drawing	DWG-Zeichnung	Dessin DWG	Dibujo DWG
 DXF drawing	DXF-Zeichnung	Dessin DXF	Dibujo DXF
 Dark	Dunkel	Sombre	Oscuro
 Data portal	Data Portal	Portail de données	Portal de datos
+Data type	Datentyp	Type de données	Tipo de datos
 Date	Datum	Date	Fecha
 Depth	Tiefe	Profondeur	Profundidad
 Descending	Absteigend	Décroissant	Descendente
@@ -115,6 +120,7 @@ Enterprise integration	Unternehmensintegration	Intégration d'entreprise	Integra
 Equipotential bonding	Potentialausgleich	Liaison équipotentielle	Conexión equipotencial
 Error	Fehler	Erreur	Error
 Errors	Fehler	Erreurs	Errores
+Exclude from bill of materials	Von der Stückliste ausschließen	Exclure de la nomenclature	Excluir de la lista de materiales
 Export as CSV…	Als CSV exportieren…	Exporter en CSV…	Exportar como CSV…
 Export as JSON…	Als JSON exportieren…	Exporter en JSON…	Exportar como JSON…
 Export failed: {}	Export fehlgeschlagen: {}	Échec de l'export : {}	Error al exportar: {}
@@ -156,11 +162,13 @@ Harness {} has no wires	Kabelbaum {} hat keine Leitungen	Le faisceau {} n'a aucu
 Harnesses	Kabelbäume	Faisceaux	Mazos
 Height	Höhe	Hauteur	Altura
 Height above floor	Höhe über Boden	Hauteur au-dessus du sol	Altura sobre el suelo
+Hide automatic wire and cable labels	Automatische Draht- und Kabelbeschriftungen ausblenden	Masquer les étiquettes automatiques des fils et câbles	Ocultar las etiquetas automáticas de hilos y cables
 History	Verlauf	Historique	Historial
 Hose no.	Schlauch-Nr.	N° flexible	N.º manguera
 Identifier	Kennung	Identifiant	Identificador
 Identifying letter	Kennbuchstabe	Lettre d'identification	Letra identificativa
 Image	Bild	Image	Imagen
+Infer panel rotation from part dimensions	Drehung aus Artikelabmessungen ableiten	Déduire la rotation des dimensions de l’article	Deducir la rotación de las dimensiones del artículo
 Input	Eingang	Entrée	Entrada
 Integration	Integration	Intégration	Integración
 Internal (bottom)	Intern (unten)	Interne (bas)	Interno (abajo)
@@ -198,6 +206,7 @@ Manufacturing	Fertigung	Fabrication	Fabricación
 Marking	Beschriftung	Marquage	Marcado
 Match case	Groß-/Kleinschreibung beachten	Respecter la casse	Distinguir mayúsculas
 Material	Material	Matériel	Material
+Material owner device tag	Betriebsmittelkennzeichen des Materialbesitzers	Repère de l’appareil propriétaire du matériel	Etiqueta del dispositivo propietario del material
 Medium	Medium	Fluide	Medio
 Metal carriers meeting at a node are connected	Metallische Kabelträger, die sich an einem Knoten treffen, sind verbunden	Les supports métalliques qui se rejoignent à un nœud sont reliés	Los soportes metálicos que se unen en un nodo están conectados
 Minimum digits of the counter (leading zeros)	Mindestanzahl Stellen des Zählers (führende Nullen)	Nombre minimal de chiffres du compteur (zéros en tête)	Número mínimo de dígitos del contador (ceros a la izquierda)
@@ -221,6 +230,7 @@ New name	Neuer Name	Nouveau nom	Nuevo nombre
 No	Nein	Non	No
 No Vault item matches a part of the project	Kein Vault-Element passt zu einem Artikel des Projekts	Aucun élément Vault ne correspond à un article du projet	Ningún elemento de Vault coincide con un artículo del proyecto
 No cable {}	Kein Kabel {}	Aucun câble {}	No hay manguera {}
+No connection point {}	Kein Anschlusspunkt {}	Pas de point de connexion {}	No hay punto de conexión {}
 No device {}	Kein Betriebsmittel {}	Aucun appareil {}	No existe el equipo {}
 No enclosure {}	Kein Gehäuse {}	Aucune armoire {}	No hay armario {}
 No harness {}	Kein Kabelbaum {}	Aucun faisceau {}	Ningún mazo {}
@@ -229,6 +239,7 @@ No machine {}	Keine Maschine {}	Pas de machine {}	No hay máquina {}
 No page named {}	Keine Seite mit dem Namen {}	Aucune page nommée {}	No hay ninguna página llamada {}
 No page template named {}	Keine Seitenvorlage namens {}	Aucun modèle de page nommé {}	Ninguna plantilla de página llamada {}
 No page {}	Keine Seite {}	Aucune page {}	No hay página {}
+No part {}	Kein Artikel {}	Pas d'article {}	No hay artículo {}
 No part {} in the project	Kein Artikel {} im Projekt	Pas d'article {} dans le projet	No hay ningún artículo {} en el proyecto
 No parts found	Keine Artikel gefunden	Aucun article trouvé	No se encontraron artículos
 No plot frame named {}	Kein Plotrahmen namens {}	Aucun cadre nommé {}	Ningún marco llamado {}
@@ -243,6 +254,7 @@ No symbol with id {}	Kein Symbol mit der ID {}	Aucun symbole avec l'ID {}	Ningú
 Nominal size	Nennweite	Diamètre nominal	Diámetro nominal
 Not a language code: {}	Kein Sprachcode: {}	Pas un code de langue : {}	No es un código de idioma: {}
 Not a macro file: {}	Keine Makrodatei: {}	Ce n'est pas un fichier de macros : {}	No es un archivo de macros: {}
+Not a symbol id: {}	Keine Symbol-ID: {}	Pas un identifiant de symbole : {}	No es un id de símbolo: {}
 Not a valid rule set file: {}	Keine gültige Regelwerksdatei: {}	Fichier de règles non valide : {}	Archivo de reglas no válido: {}
 Not in the schematic	Nicht im Schaltplan	Pas dans le schéma	No está en el esquema
 Note	Hinweis	Remarque	Nota
@@ -289,6 +301,7 @@ Pin	Stift	Broche	Pin
 Pin layout: {}	Pinbild: {}	Disposition des broches : {}	Disposición de pines: {}
 Pin side	Stiftseite	Côté broche	Lado macho
 Place	Platz	Emplacement	Posición
+Placed wire labels	Platzierte Aderbeschriftungen	Étiquettes de fils placées	Etiquetas de cables colocadas
 Placement scheme	Platzierungsschema	Schéma de placement	Esquema de colocación
 Plinth	Sockel	Socle	Zócalo
 Plot frame	Plotrahmen	Cadre	Marco
@@ -394,6 +407,8 @@ Successor	Nachfolger	Successeur	Sucesor
 Supplier	Lieferant	Fournisseur	Proveedor
 Supply	Versorgung	Approvisionnement	Suministro
 Symbol	Symbol	Symbole	Símbolo
+Symbol key	Symbolschlüssel	Clé du symbole	Clave del símbolo
+Symbolic address	Symbolische Adresse	Adresse symbolique	Dirección simbólica
 Symbols	Symbole	Symboles	Símbolos
 System	System	Système	Sistema
 T-junction	T-Stück	Pièce en T	Pieza en T
@@ -450,6 +465,7 @@ Wire	Leitung	Fil	Hilo
 Wire colours	Aderfarben	Couleurs des fils	Colores de los hilos
 Wire number	Leitungsnummer	Numéro de fil	Número de hilo
 Wire numbering	Leitungsnummerierung	Numérotation des fils	Numeración de hilos
+Wire type	Leitertyp	Type de conducteur	Tipo de conductor
 Wired	Verdrahtet	Câblé	Cableado
 Wires	Leitungen	Fils	Hilos
 Wiring	Verdrahtung	Câblage	Cableado

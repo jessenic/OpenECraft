@@ -6,6 +6,12 @@ use serde::{Deserialize, Serialize};
 #[serde(default)]
 pub struct PlotFrame {
     pub name: String,
+    /// Authored drawing in paper millimetres, replacing the generated border and
+    /// title block. Property blocks resolve against the page using this frame.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub artwork: Vec<crate::symbols::Prim>,
+    /// Draw the frame, whether generated or authored.
+    pub visible: bool,
     pub paper: Paper,
     pub landscape: bool,
     /// Width and height (as drawn) of custom paper in mm.
@@ -41,6 +47,7 @@ pub enum Paper {
 pub enum Labels {
     /// 1, 2, 3 …
     Numbers,
+    ZeroBasedNumbers,
     /// A, B, … Z, AA, AB …
     Letters,
 }

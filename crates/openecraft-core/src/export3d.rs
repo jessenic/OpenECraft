@@ -48,6 +48,7 @@ fn color(kind: ItemKind) -> [u8; 3] {
         ItemKind::Cutout => [40, 40, 44],
         ItemKind::Device => [170, 186, 210],
         ItemKind::Accessory => [95, 100, 110],
+        ItemKind::MountingPlate => [185, 189, 195],
     }
 }
 
@@ -70,6 +71,7 @@ fn kind_name(kind: ItemKind) -> &'static str {
         ItemKind::Cutout => "Cutout",
         ItemKind::Device => "Device",
         ItemKind::Accessory => "Accessory",
+        ItemKind::MountingPlate => "Mounting plate",
     }
 }
 

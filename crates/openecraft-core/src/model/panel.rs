@@ -407,9 +407,23 @@ pub struct Enclosure {
     /// Location designation, e.g. "+CAB1".
     pub name: String,
     pub part: String,
+    /// Device whose primary article is represented by this enclosure body.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub device_tag: String,
+    /// Device accounting for this body as an additional article, not its mounting parent.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub owner_device: String,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub bom_excluded: bool,
     pub width: f32,
     pub height: f32,
     pub depth: f32,
+    /// The source specifies no implicit mounting plate; explicit plate items still draw.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub no_implicit_plate: bool,
+    /// Mounting-face origin in the enclosure frame; absent uses the legacy plate datum.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mounting_origin: Option<[f32;3]>,
     /// Space kept free behind the door (door-mounted devices, handles), mm.
     pub door_clearance: f32,
     pub items: Vec<PanelItem>,
@@ -469,6 +483,8 @@ pub enum EnclosureKind {
     /// outline) and ceiling (`Roof`) carry rails, cable ducts and wall-mounted devices.
     /// It has no mounting plate, door or floor slab.
     Room,
+    /// Open mounting assembly: dimensions bound its working canvas, without a shell.
+    Assembly,
 }
 
 impl EnclosureKind {
@@ -507,11 +523,25 @@ pub struct PanelItem {
     pub kind: ItemKind,
     /// Device tag (devices only).
     pub tag: String,
+    /// One separately placed terminal of the strip; empty for the whole device.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub terminal: String,
+    /// This footprint represents its own part, including unnumbered terminal blocks.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub single_part: bool,
+    /// Material ownership, independent of the physical mounting relationship.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub owner_device: String,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub bom_excluded: bool,
     pub part: String,
     pub x: f32,
     pub y: f32,
     pub w: f32,
     pub h: f32,
+    /// Clockwise orientation in the face plane; none retains legacy size inference.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rotation: Option<PanelRotation>,
     /// Height of the item (extent away from the plate).
     pub d: f32,
     /// Base height above the plate (devices on a rail sit on the rail).
@@ -520,6 +550,18 @@ pub struct PanelItem {
     pub rail_mount: openecraft_parts::RailMount,
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub seated_on_rail: bool,
+    /// Keep this instance's mounting datum instead of refreshing it from its part.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub rail_mount_override: bool,
+    /// Mounting datum across a vertical rail (otherwise across a horizontal rail).
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub rail_vertical: bool,
+    /// Parent mounting item; coordinates remain in the enclosure's common frame.
+    #[serde(skip_serializing_if = "is_zero")]
+    pub mounted_on: u64,
+    /// An explicit free placement must not acquire an inferred legacy rail parent.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub mounting_explicit: bool,
     /// Round cutout (diameter = width).
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub round: bool,
@@ -544,6 +586,47 @@ pub struct PanelItem {
     pub swing: Swing,
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(try_from = "i32", into = "i32")]
+pub enum PanelRotation {
+    #[default]
+    Deg0,
+    Deg90,
+    Deg180,
+    Deg270,
+}
+
+impl PanelRotation {
+    pub fn degrees(self) -> i32 {
+        match self {Self::Deg0=>0,Self::Deg90=>90,Self::Deg180=>180,Self::Deg270=>270}
+    }
+
+    pub fn from_degrees(degrees:i32)->Option<Self> {
+        if degrees%90!=0 {return None}
+        Some(match degrees.rem_euclid(360) {0=>Self::Deg0,90=>Self::Deg90,180=>Self::Deg180,_=>Self::Deg270})
+    }
+
+    pub fn is_quarter(self)->bool {matches!(self,Self::Deg90|Self::Deg270)}
+
+    pub fn next(self)->Self {Self::from_degrees(self.degrees()+90).unwrap()}
+
+    /// Rotates a top-left-origin coordinate into the turned bounding rectangle.
+    pub fn map(self,[x,y]:[f32;2],[w,h]:[f32;2])->[f32;2] {
+        match self {Self::Deg0=>[x,y],Self::Deg90=>[h-y,x],Self::Deg180=>[w-x,h-y],Self::Deg270=>[y,w-x]}
+    }
+}
+
+impl From<PanelRotation> for i32 {
+    fn from(value:PanelRotation)->Self {value.degrees()}
+}
+
+impl TryFrom<i32> for PanelRotation {
+    type Error=&'static str;
+    fn try_from(value:i32)->Result<Self,Self::Error> {
+        Self::from_degrees(value).ok_or("Panel rotation must be a multiple of 90 degrees")
+    }
+}
+
 impl super::Project {
     /// Refresh saved rail datums. Only move devices actually seated on a rail
     /// at their old datum; free or manually offset placements keep their position.
@@ -555,12 +638,14 @@ impl super::Project {
                 if item.kind != ItemKind::Device {
                     continue;
                 }
-                let seated = e.items.iter().any(|rail| item.seated_on(rail));
+                let seated = e.items.iter().any(|rail| (!item.mounting_explicit || item.mounted_on==rail.id) && item.seated_on(rail));
                 let item = &mut e.items[i];
                 item.seated_on_rail = seated;
+                if item.rail_mount_override {continue;}
                 let Some(&new) = mounts.get(item.part.as_str()) else { continue };
                 if seated {
-                    item.y += item.rail_mount.center_offset - new.center_offset;
+                    if item.rail_vertical {item.x += item.rail_mount.center_offset - new.center_offset;}
+                    else {item.y += item.rail_mount.center_offset - new.center_offset;}
                     item.z += item.rail_mount.clip_on - new.clip_on;
                 }
                 item.rail_mount = new;
@@ -742,6 +827,8 @@ pub enum ItemKind {
     /// Enclosure accessory without a device tag (fan, filter, cable gland, light,
     /// handle, PE bar).
     Accessory,
+    /// Explicit mounting plate with its authored size, thickness and position.
+    MountingPlate,
 }
 
 /// How an enclosure is built: its system and the optional components.

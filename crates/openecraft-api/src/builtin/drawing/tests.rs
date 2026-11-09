@@ -1,6 +1,213 @@
 use super::*;
+
+#[test]
+fn merging_definitions_preserves_local_symbols_and_reuses_typed_revisions() {
+    use crate::builtin::testing::*;
+    let mut session=demo_session();
+    let original:openecraft_core::symlib::UserSymbol=serde_json::from_value(json!({"key":"user:reconcile","name":"Local edit","pins":[{"pos":{"x":0.1,"y":0},"label":"1"}]})).unwrap();
+    session.project_mut().unwrap().symbols.push(original.clone());
+    session.project_mut().unwrap().pages[0].symbols.push(SymbolInst {id:999999,sym:original.key.clone(),..Default::default()});
+    let pages=session.project().unwrap().pages.clone();
+    let source=json!({"key":"user:reconcile","name":"Source revision","pins":[{"pos":{"x":0.1000000001,"y":0},"label":"2"}]});
+    let second=json!({"key":"user:reconcile","name":"Another revision","pins":[{"label":"3"}]});
+    let args=json!({"definitions":{"items":[source,second]}});
+    let first=run(&mut session,"merge_symbol_definitions",args.clone()).unwrap();
+    assert_eq!(first["keys"],json!(["user:reconcile_import_1","user:reconcile_import_2"]));assert_eq!(first["added"],2);
+    assert_eq!(session.project().unwrap().symbols.iter().find(|d|d.key==original.key).unwrap(),&original);
+    assert_eq!(session.project().unwrap().pages,pages);
+    let repeated=run(&mut session,"merge_symbol_definitions",args).unwrap();
+    assert_eq!(repeated["keys"],first["keys"]);assert_eq!(repeated["added"],0);
+    let exact=serde_json::to_value(&original).unwrap();
+    let equivalent=json!({"key":"user:reconcile","name":"Local edit","pins":[{"pos":{"x":0.10000000149011612,"y":0},"label":"1"}]});
+    let same=run(&mut session,"merge_symbol_definitions",json!({"definitions":{"items":[exact,equivalent]}})).unwrap();
+    assert_eq!(same["keys"],json!(["user:reconcile","user:reconcile"]));assert_eq!(same["added"],0);
+}
+
+#[test]
+fn definition_merge_validates_the_whole_batch_before_mutating_the_project() {
+    use crate::builtin::testing::*;
+    let mut session=demo_session();let baseline=session.project().unwrap().clone();
+    for definitions in [json!({}),json!({"items":{}}),json!({"items":[{"key":"user:ok"},{"key":""}]}),
+        json!({"items":[{"key":"user:ok"},{"key":"user:broken","pins":"invalid"}]})] {
+        assert!(run(&mut session,"merge_symbol_definitions",json!({"definitions":definitions})).is_err());
+        assert_eq!(session.project().unwrap(),&baseline);
+    }
+}
+
+#[test]
+fn placed_wire_labels_are_editable_through_the_registry_and_reject_invalid_layouts_atomically() {
+    let mut s=crate::builtin::testing::new_session();
+    let added=run(&mut s,"add_wire",json!({"page":"1","points":[[40,40],[80,40]]})).unwrap();
+    let id=added["ids"][0].as_u64().unwrap();
+    let labels=json!({"items":[{"kind":"Core","along":0.25,"offset":{"x":-0.5,"y":-0.25},"angle":-90}]});
+    let changed=run(&mut s,"update_wire",json!({"page":"1","id":id,"core":"BN","hide_labels":true,"labels":labels})).unwrap();
+    assert_eq!(changed["labels"][0]["kind"],"Core");
+    let reopened=Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let wire=&reopened.pages[0].wires[0];
+    assert_eq!(wire.labels[0].text(wire),"BN");
+    let before=s.project().unwrap().to_json();
+    for invalid in [json!({"items":[{"along":1.1}]}),json!({"items":[{"size":0.1}]}),json!({"items":{}})] {
+        assert!(run(&mut s,"update_wire",json!({"page":"1","id":id,"core":"Bad","labels":invalid})).is_err());
+        assert_eq!(s.project().unwrap().to_json(),before);
+    }
+    let edited=run(&mut s,"update_wire",json!({"page":"1","id":id,"core":"BU"})).unwrap();
+    assert_eq!(edited["labels"],changed["labels"]);
+    assert_eq!(s.project().unwrap().pages[0].wires[0].labels[0].text(&s.project().unwrap().pages[0].wires[0]),"BU");
+}
+
+#[test]
+fn per_wire_junction_policy_is_created_edited_and_reset_through_the_registry() {
+    let mut s=crate::builtin::testing::new_session();
+    let wire=run(&mut s,"add_wire",json!({"page":"1","points":[[40,40],[80,40]],"junction_policy":"explicit"})).unwrap();
+    let id=wire["ids"][0].as_u64().unwrap();
+    assert_eq!(s.project().unwrap().pages[0].wires[0].explicit_junctions,Some(true));
+    assert!(!s.project().unwrap().pages[0].values.contains_key("page.explicit_wire_junctions"));
+    let changed=run(&mut s,"update_wire",json!({"page":"1","id":id,"junction_policy":"implicit"})).unwrap();
+    assert_eq!(changed["junction_policy"],"implicit");
+    assert_eq!(Project::from_json(&s.project().unwrap().to_json()).unwrap().pages[0].wires[0].explicit_junctions,Some(false));
+    let before=s.project().unwrap().to_json();
+    assert!(run(&mut s,"update_wire",json!({"page":"1","id":id,"number":"Bad edit","junction_policy":"unknown"})).is_err());
+    assert_eq!(s.project().unwrap().to_json(),before);
+    run(&mut s,"update_wire",json!({"page":"1","id":id,"junction_policy":"inherit"})).unwrap();
+    let reopened=Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    assert_eq!(reopened.pages[0].wires[0].explicit_junctions,None);
+}
+
+#[test]
+fn queried_local_routes_return_native_wire_properties_and_reject_invalid_queries() {
+    use openecraft_core::symlib::{UserPin,UserSymbol};
+    let mut s=new_session();
+    let prj=s.project_mut().unwrap();
+    prj.symbols.push(UserSymbol {key:"user:route_point".into(),pins:vec![UserPin::default()],..Default::default()});
+    for (id,x) in [(100,20.),(101,40.)] {
+        prj.pages[0].symbols.push(SymbolInst {id,sym:"user:route_point".into(),pos:p(x,20.),..Default::default()});
+    }
+    prj.pages[0].wires.push(Wire {id:102,a:p(20.,20.),b:p(40.,20.),wire_type:"MKEM".into(),color:"GNYE".into(),cross_section:"10".into(),..Default::default()});
+    let page=prj.pages[0].id;
+    let result=run(&mut s,"trace_wire_routes",json!({"routes":{"pairs":[{"from":{"symbol":100,"pin":0},"to":{"symbol":101,"pin":0}},{"from":{"symbol":100,"pin":99},"to":{"symbol":101,"pin":0}}]}})).unwrap();
+    assert_eq!(result[0]["route_traced"],true);
+    assert_eq!(result[0]["wires"],json!([{"page":page,"id":102,"wire_type":"MKEM","color":"GNYE","cross_section":"10","number":""}]));
+    assert_eq!(result[1]["route_traced"],false);
+    assert!(run(&mut s,"trace_wire_routes",json!({"routes":{"pairs":[{}]}})).is_err());
+    assert!(run(&mut s,"trace_wire_routes",json!({"routes":{}})).is_err());
+}
+
+#[test]
+fn attribute_block_defaults_are_exposed_placed_and_editable_after_reopen() {
+    use openecraft_core::symbols::{Anchor, BlockAlign, BlockRow, Prim, PropertyBlock};
+    use openecraft_core::symlib::UserSymbol;
+    let mut s = new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {
+        key: "user:block_defaults".into(), show_tag: false,
+        default_values: [("function.supplementary[2]".into(), "Library detail".into())].into_iter().collect(),
+        prims: vec![Prim::PropertyBlock(PropertyBlock {
+            rows: vec![BlockRow::Property("function.supplementary[2]".into())], pos: p(0., 0.), step: p(0., 3.), size: 2.5,
+            anchor: Anchor::Left, angle: 0., align: BlockAlign::Start, color: None,
+        })], ..Default::default()
+    });
+    let defs = run(&mut s, "list_symbols", json!({"query":"user:block_defaults"})).unwrap();
+    assert_eq!(defs[0]["default_values"]["function.supplementary[2]"], "Library detail");
+    assert_eq!(defs[0]["property_blocks"].as_array().unwrap().len(), 1);
+    let placed = run(&mut s, "place_symbol", json!({"page":"1","symbol":"user:block_defaults","x":40,"y":40})).unwrap();
+    assert!(openecraft_core::svg::page_svg(s.project().unwrap(), 0).contains("Library detail"));
+    run(&mut s, "set_properties", json!({"object":format!("function:{}", placed["id"]),"values":{"function.supplementary[2]":"Edited detail"}})).unwrap();
+    let prj = Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let svg = openecraft_core::svg::page_svg(&prj, 0);
+    assert!(svg.contains("Edited detail") && !svg.contains("Library detail"));
+    let copy = openecraft_core::symlib::from_def(&prj.symbol("user:block_defaults").unwrap(), &prj.symbols);
+    assert_eq!(copy.default_values, prj.symbols[0].default_values);
+    assert_eq!(copy.prims, prj.symbols[0].prims);
+}
+
+#[test]
+fn user_symbol_function_text_defaults_are_live_after_shared_placement_and_reopen() {
+    use openecraft_core::symbols::{Anchor, FieldKind, Prim};
+    use openecraft_core::symlib::UserSymbol;
+    let mut s = new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {
+        key: "user:function_default".into(), default_function_text: "Library default".into(), show_tag: false,
+        prims: vec![Prim::Field { kind: FieldKind::FunctionText, pos: p(0., 0.), size: 2., anchor: Anchor::Left, angle: Some(0.) }],
+        ..Default::default()
+    });
+    let defs = run(&mut s, "list_symbols", json!({"query":"user:function_default"})).unwrap();
+    assert_eq!(defs[0]["default_function_text"], "Library default");
+    let placed = run(&mut s, "place_symbol", json!({"page":"1","symbol":"user:function_default","x":40,"y":40})).unwrap();
+    let prj = s.project().unwrap();
+    assert_eq!(prj.pages[0].symbols[0].function_text, "Library default");
+    assert!(openecraft_core::svg::page_svg(prj, 0).contains("Library default"));
+    run(&mut s, "update_symbol", json!({"page":"1","id":placed["id"],"function_text":"Edited in project"})).unwrap();
+    let reopened = Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let svg = openecraft_core::svg::page_svg(&reopened, 0);
+    assert!(svg.contains("Edited in project") && !svg.contains("Library default"));
+    assert_eq!(reopened.symbols[0].default_function_text, "Library default");
+    let copied = openecraft_core::symlib::from_def(&reopened.symbol("user:function_default").unwrap(), &reopened.symbols);
+    assert_eq!(copied.default_function_text, "Library default");
+}
 use crate::builtin::testing::*;
 use openecraft_core::analysis::Analysis;
+
+#[test]
+fn wire_annotation_visibility_is_editable_through_the_shared_command() {
+    let mut s = new_session();
+    let added = run(&mut s,"add_wire",json!({"page":"1","points":[[20,20],[80,20]]})).unwrap();
+    let id = &added["ids"][0];
+    let hidden = run(&mut s,"update_wire",json!({"page":"1","id":id,"number":"101","hide_labels":true})).unwrap();
+    assert_eq!(hidden["hide_labels"],true);
+    assert_eq!(run(&mut s,"update_wire",json!({"page":"1","id":id,"color":"BU"})).unwrap()["hide_labels"],true);
+    let shown = run(&mut s,"update_wire",json!({"page":"1","id":id,"hide_labels":false})).unwrap();
+    assert_eq!(shown["hide_labels"],false);
+    assert_eq!(shown["number"],"101");
+}
+
+#[test]
+fn native_wiring_connections_expose_stable_pin_identities() {
+    let mut s = new_session();
+    let a = run(&mut s,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":40,"tag":"-K1"})).unwrap();
+    let b = run(&mut s,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":80,"tag":"-K2"})).unwrap();
+    run(&mut s,"connect",json!({"page":"1","from":"-K1:A2","to":"-K2:A1"})).unwrap();
+    let connections = run(&mut s,"list_connections",json!({})).unwrap();
+    assert!(connections.as_array().unwrap().iter().any(|c| c["from"]["symbol"] == a["id"] && c["from"]["pin"] == 1 && c["to"]["symbol"] == b["id"] && c["to"]["pin"] == 0));
+    s.project_mut().unwrap().pages[0].values.insert("page.use_drawn_wire_targets".into(),"true".into());
+    let connections = run(&mut s,"list_connections",json!({})).unwrap();
+    let connection=&connections[0];
+    assert_eq!(connection["route_traced"],true);
+    let project=s.project().unwrap();
+    let wires:Vec<_>=project.pages[0].wires.iter().map(|w|json!({"page":project.pages[0].id,"id":w.id})).collect();
+    assert_eq!(connection["wires"],json!(wires));
+}
+
+#[test]
+fn user_junction_paths_are_editable_and_invalid_changes_are_atomic() {
+    use openecraft_core::symlib::{UserSymbol,UserPin};
+    let mut s=new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {key:"user:paths".into(),func:Func::Junction,pins:vec![UserPin::default();3],..Default::default()});
+    run(&mut s,"set_symbol_junction_paths",json!({"symbol":"user:paths","paths":{"links":[[0,1],[0,2]]}})).unwrap();
+    let definitions=run(&mut s,"list_symbols",json!({"query":"user:paths"})).unwrap();
+    assert_eq!(definitions[0]["directed_junction"],true);
+    assert_eq!(definitions[0]["bridges"],json!([[0,1],[0,2]]));
+    let before=s.project().unwrap().symbols[0].clone();
+    for links in [json!([[0,3]]),json!([[1,1]]),json!([[-1,0]])] {
+        assert!(run(&mut s,"set_symbol_junction_paths",json!({"symbol":"user:paths","paths":{"links":links}})).is_err());
+        assert_eq!(s.project().unwrap().symbols[0],before);
+    }
+}
+
+#[test]
+fn user_pin_directions_are_editable_and_invalid_changes_are_atomic() {
+    use openecraft_core::symlib::{UserSymbol,UserPin};
+    let mut s=new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {key:"user:port".into(),pins:vec![UserPin::default()],..Default::default()});
+    run(&mut s,"set_pin_connection_directions",json!({"symbol":"user:port","pin":0,"directions":"up,right"})).unwrap();
+    let definitions=run(&mut s,"list_symbols",json!({"query":"user:port"})).unwrap();
+    assert_eq!(definitions[0]["pin_directions"]["0"],3);
+    let before=s.project().unwrap().symbols[0].clone();
+    for (pin,directions) in [(1,"down"),(0,"unknown"),(-1,"up")] {
+        assert!(run(&mut s,"set_pin_connection_directions",json!({"symbol":"user:port","pin":pin,"directions":directions})).is_err());
+        assert_eq!(s.project().unwrap().symbols[0],before);
+    }
+    run(&mut s,"set_pin_connection_directions",json!({"symbol":"user:port","pin":0,"directions":"all"})).unwrap();
+    assert!(s.project().unwrap().symbols[0].pin_directions.is_empty());
+}
 
 #[test]
 fn reciprocal_ground_transfers_form_one_net_after_project_reopen() {
@@ -264,6 +471,10 @@ fn definitions_need_wires_and_known_values() {
     assert!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "cross_section": "abc" })).unwrap_err().starts_with("Not a cross-section"));
     assert_eq!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "color": "gn/ye", "cross_section": "1,5 mm²" })).unwrap()["color"], "gn/ye");
     assert!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "length": -1 })).is_err());
+    let changed = run(&mut s, "update_wire", json!({ "page": "1", "id": id, "wire_type": "MKEM" })).unwrap();
+    assert_eq!(changed["wire_type"], "MKEM");
+    assert_eq!(s.project().unwrap().pages[0].wires[0].wire_type, "MKEM");
+    assert_eq!(run(&mut s, "update_wire", json!({ "page": "1", "id": id, "wire_type": "" })).unwrap()["wire_type"], "");
 }
 
 #[test]
@@ -279,6 +490,56 @@ fn parts_are_placed_as_new_devices() {
     assert!(prj.parts.iter().any(|p| p.number == "GEN.LMP-GN-24"), "copied into the project parts");
     assert_eq!(prj.devices[&tag].parts[0].number, "GEN.LMP-GN-24");
     assert!(run(&mut s, "place_part", json!({ "page": "1", "part": "NO.SUCH-PART", "x": 0, "y": 0 })).is_err());
+}
+#[test]
+fn insert_macro_installs_portable_custom_symbols() {
+    let mut session = new_session();
+    let m = json!({"name":"Portable", "clip":{
+        "symbol_defs":[{"key":"user:portable", "name":"Portable drawing"}],
+        "symbols":[{"id":1,"sym":"user:portable","pos":{"x":0,"y":0}}]
+    }});
+    let result = run(&mut session,"insert_macro",json!({"page":"1","macro":m.to_string(),"x":40,"y":40})).unwrap();
+    assert_eq!(result["symbol_definitions"],1);
+    let project = session.project().unwrap();
+    assert_eq!(project.symbols[0].key,"user:portable");
+    assert_eq!(project.pages[0].symbols[0].pos,p(40.,40.));
+}
+
+#[test]
+fn insert_macro_resolves_portable_graphics_and_assignments_through_the_registry() {
+    let mut session=new_session();
+    let m=json!({"name":"Parameterized","clip":{
+        "symbol_defs":[{"key":"user:param","default_function_text":"{LOAD}","pins":[{"label":"{PIN}"}],
+            "prims":[{"Text":{"pos":{"x":0,"y":0},"text":"{LOAD}","size":2,"anchor":"Left"}}]}],
+        "symbols":[{"id":1,"sym":"user:param","tag":"-X{UNIT}","pins":["{PIN}"],"values":{"function.part_number":"{ARTICLE}"}}],
+        "devices":{"-X{UNIT}":{"parts":[{"number":"{ARTICLE}","count":1}]}},"parts":[{"number":"{ARTICLE}"}]
+    }});
+    let request=json!({"page":"1","macro":m.to_string(),"x":40,"y":40,
+        "values":{"LOAD":"Pump","PIN":"13","UNIT":"7","ARTICLE":"A1"}});
+    run(&mut session,"insert_macro",request).unwrap();
+    let project=session.project().unwrap();let symbol=&project.pages[0].symbols[0];
+    assert_eq!(symbol.pins,["13"]);assert_eq!(symbol.values["function.part_number"],"A1");
+    let definition=project.symbols.iter().find(|d|d.key==symbol.sym).unwrap();
+    assert_eq!(definition.default_function_text,"Pump");assert_eq!(definition.pins[0].label,"13");
+    let symbols::Prim::Text {text,..}=&definition.prims[0] else {panic!()};assert_eq!(text,"Pump");
+    assert_eq!(project.devices[&symbol.tag].parts[0].number,"A1");
+    let before=project.clone();
+    assert!(run(&mut session,"insert_macro",json!({"page":"1","macro":m.to_string(),"x":40,"y":40,"values":{"LOAD":1}})).is_err());
+    assert_eq!(*session.project().unwrap(),before);
+}
+
+#[test]
+fn native_net_membership_is_available_through_plugins() {
+    let mut session = new_session();
+    let first = run(&mut session,"place_symbol",json!({"page":"1","symbol":"coil","x":40,"y":40,"tag":"-K1"})).unwrap();
+    let second = run(&mut session,"place_symbol",json!({"page":"1","symbol":"coil","x":80,"y":40,"tag":"-K2"})).unwrap();
+    run(&mut session,"connect",json!({"page":"1","from":"-K1:A1","to":"-K2:A1"})).unwrap();
+    let nets = run(&mut session,"list_nets",json!({"bridge_terminals":false})).unwrap();
+    let pins = nets["pins"].as_array().unwrap();
+    let net = |id: &Value| pins.iter().find(|p| p["symbol"]==*id && p["pin"]==0).unwrap()["net"].clone();
+    assert_eq!(net(&first["id"]),net(&second["id"]));
+    let points=nets["connection_points"].as_array().unwrap();
+    assert!(points.iter().any(|point|point["symbol"]==first["id"] && point["pin"]==0 && point["net"]==net(&first["id"])));
 }
 
 #[test]

@@ -100,11 +100,14 @@ impl Field {
     /// Keeps places, route definitions, bonds and accessories when a device or cable
     /// is renamed.
     pub fn rename(&mut self, old: &str, new: &str) {
+        self.rename_device(old,new);
+        self.rename_cable(old,new);
+    }
+
+    /// Device endpoints and places, independent of cable tags.
+    pub fn rename_device(&mut self, old:&str, new:&str) {
         for p in self.places.iter_mut().filter(|p| p.tag == old) {
             p.tag = new.into();
-        }
-        for r in self.routes.iter_mut().filter(|r| r.cable == old) {
-            r.cable = new.into();
         }
         for b in &mut self.bonds {
             for end in [&mut b.a, &mut b.b] {
@@ -114,13 +117,16 @@ impl Field {
             }
         }
         for a in &mut self.accessories {
-            if a.cable == old {
-                a.cable = new.into();
-            }
             if a.at == old {
                 a.at = new.into();
             }
         }
+    }
+
+    /// Cable routes and accessories, independent of device endpoint tags.
+    pub fn rename_cable(&mut self,old:&str,new:&str) {
+        for route in self.routes.iter_mut().filter(|route|route.cable==old) {route.cable=new.into();}
+        for accessory in self.accessories.iter_mut().filter(|accessory|accessory.cable==old) {accessory.cable=new.into();}
     }
 }
 

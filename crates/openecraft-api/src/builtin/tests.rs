@@ -4,6 +4,44 @@ use openecraft_core::sample::demo_project;
 use serde_json::Map;
 
 #[test]
+fn registered_frame_commands_round_trip_artwork_and_can_restore_generated_frames() {
+    let plugins=Plugins::new(Vec::<String>::new());let mut project=Project::default();
+    let artwork=serde_json::json!([{"Text":{"pos":{"x":10,"y":20},"text":"Company","size":3,"anchor":"Left"}}]);
+    let args=serde_json::json!({"name":"Authored","artwork":{"items":artwork}});
+    plugins.run(plugins.command("set_frame").unwrap(),&mut project,args.as_object().unwrap()).unwrap();
+    let result=plugins.run(plugins.command("list_frames").unwrap(),&mut project,&Map::new()).unwrap();
+    assert_eq!(result["frames"][0]["artwork"][0]["Text"]["text"],"Company");
+    let reopened:Project=serde_json::from_str(&serde_json::to_string(&project).unwrap()).unwrap();
+    assert_eq!(reopened.forms.frames[0].artwork,project.forms.frames[0].artwork);
+    let args=serde_json::json!({"name":"Authored","artwork":{"items":[]}});
+    plugins.run(plugins.command("set_frame").unwrap(),&mut project,args.as_object().unwrap()).unwrap();
+    assert!(project.forms.frames[0].artwork.is_empty());
+}
+
+#[test]
+fn registered_cable_rename_keeps_explicit_marker_and_shared_device_separate() {
+    use openecraft_core::model::{Cable,ConnDef,SymbolInst};
+    let p=Plugins::new(Vec::<String>::new());let mut prj=Project::default();
+    prj.cables.push(Cable {id:10,tag:"-Shared".into(),..Default::default()});
+    prj.pages[0].symbols=vec![SymbolInst {id:11,sym:"coil".into(),tag:"-Shared".into(),..Default::default()},
+                            SymbolInst {id:12,sym:"coil".into(),tag:"-Shared".into(),..Default::default()}];
+    prj.pages[0].conn_defs.push(ConnDef {id:13,cable:"-Shared".into(),core:"BN".into(),..Default::default()});
+    for (command,args) in [("set_properties",serde_json::json!({"object":"function:11","values":{"function.cable":"-Shared"}})),
+        ("table_set",serde_json::json!({"table":"cables","key":"10","column":"Cable","value":"-W20"}))] {
+        p.run(p.command(command).unwrap(),&mut prj,args.as_object().unwrap()).unwrap();
+    }
+    assert_eq!(prj.pages[0].symbols[0].tag,"-W20");assert_eq!(prj.pages[0].symbols[0].values["function.cable"],"-W20");
+    assert_eq!(prj.pages[0].symbols[1].tag,"-Shared");assert_eq!(prj.pages[0].conn_defs[0].cable,"-W20");
+    let reopened:Project=serde_json::from_str(&serde_json::to_string(&prj).unwrap()).unwrap();
+    assert_eq!(reopened.pages[0].symbols[0].values["function.cable"],"-W20");
+    prj.cables.push(Cable {id:20,tag:"-W2".into(),..Default::default()});let before=prj.clone();
+    for value in ["","-W2","without-prefix"] {
+        let args=serde_json::json!({"table":"cables","key":"10","column":"Cable","value":value});
+        assert!(p.run(p.command("table_set").unwrap(),&mut prj,args.as_object().unwrap()).is_err());assert_eq!(prj,before);
+    }
+}
+
+#[test]
 fn statistics_counts_the_demo_project() {
     let p = Plugins::new(Vec::<String>::new());
     let mut prj = demo_project();

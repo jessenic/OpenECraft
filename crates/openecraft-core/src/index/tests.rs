@@ -2,6 +2,28 @@ use super::*;
 use crate::geom::p;
 use crate::model::{Page, SymbolInst};
 
+#[test]
+fn interruption_references_and_checks_respect_the_connection_scope() {
+    let mut prj = project();
+    for page in &mut prj.pages {
+        for s in &mut page.symbols {
+            s.values.insert("function.connection_scope".into(), if s.id % 2 == 0 { "CC1" } else { "CC2" }.into());
+        }
+    }
+    let idx = Index::build(&prj);
+    for page in &prj.pages {
+        for s in &page.symbols {
+            let targets = idx.interruption_targets(&prj, &s.interruption_key(), s.id);
+            assert_eq!(targets.len(), 1);
+            let other = prj.pages[targets[0].page].symbols.iter().find(|other| other.id == targets[0].sym_id).unwrap();
+            assert_eq!(s.interruption_key(), other.interruption_key());
+        }
+    }
+    prj.pages[1].symbols.pop();
+    let an = crate::analysis::Analysis::checked(&prj);
+    assert!(an.issues.iter().any(|i| i.message() == "Interruption point 'A' has no counterpart"));
+}
+
 /// Four interruption points named `A` on two pages, and a coil on page 2.
 fn project() -> Project {
     let mut prj = Project::default();

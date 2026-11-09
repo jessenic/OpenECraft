@@ -1,6 +1,39 @@
 use super::*;
 
 #[test]
+fn explicitly_bound_markers_follow_current_cable_material_without_cached_part_selection() {
+    let mut prj=Project::default();
+    prj.devices.insert("-Shared".into(),DeviceData {parts:vec![PartRef {number:"MOTOR".into(),count:1,total:false}],..Default::default()});
+    prj.cables.push(Cable {tag:"-Shared".into(),part:"CABLE".into(),..Default::default()});
+    let mut marker=SymbolInst {tag:"Custom caption".into(),values:BTreeMap::from([
+        ("function.cable".into(),"-Shared".into()),("function.part_number".into(),"OLD CACHE".into())]),..Default::default()};
+    let device=SymbolInst {tag:"-Shared".into(),..Default::default()};
+    assert_eq!(marker.selected_part_number(&prj),Some("CABLE"));assert_eq!(marker.assigned_part_number(&prj,1),Some("CABLE"));
+    assert_eq!(marker.assigned_part_number(&prj,2),None);assert_eq!(device.selected_part_number(&prj),Some("MOTOR"));
+    prj.cables[0].part="EDITED".into();assert_eq!(marker.selected_part_number(&prj),Some("EDITED"));
+    assert_eq!(marker.values["function.part_number"],"OLD CACHE");assert_eq!(device.selected_part_number(&prj),Some("MOTOR"));
+    prj.cables[0].part.clear();assert_eq!(marker.selected_part_number(&prj),None);
+    marker.values.insert("function.cable".into(),"-Missing".into());marker.tag="-Shared".into();
+    assert_eq!(marker.selected_part_number(&prj),None);assert_eq!(marker.assigned_part_number(&prj,1),None);
+}
+
+#[test]
+fn explicit_function_articles_resolve_shared_device_and_cable_tags_without_bom_duplicates() {
+    let mut prj=Project::default();
+    prj.devices.insert("-Shared".into(),DeviceData {parts:vec![PartRef {number:"MOTOR".into(),count:1,total:false}],..Default::default()});
+    prj.cables.push(Cable {tag:"-Shared".into(),part:"CABLE".into(),..Default::default()});
+    let mut symbol=SymbolInst {tag:"-Shared".into(),..Default::default()};
+    assert_eq!(symbol.selected_part_number(&prj),Some("MOTOR"));
+    symbol.values.insert("function.part_number".into(),"CABLE".into());
+    assert_eq!(symbol.selected_part_number(&prj),Some("CABLE"));
+    symbol.values.insert("function.part_number".into(),"MOTOR".into());
+    assert_eq!(symbol.selected_part_number(&prj),Some("MOTOR"));
+    symbol.values.insert("function.part_number".into(),"MISSING".into());
+    assert_eq!(symbol.selected_part_number(&prj),None);
+    assert_eq!(prj.devices["-Shared"].parts.len(),1);
+}
+
+#[test]
 fn files_without_structure_cables_and_numbers_still_load() {
     let old = r#"{"pages":[{"id":1,"name":"1","kind":"Schematic","wires":[{"id":2,"a":{"x":0,"y":0},"b":{"x":0,"y":8},"color":"","cross_section":""}]}],"next_id":3}"#;
     let prj: Project = serde_json::from_str(old).unwrap();

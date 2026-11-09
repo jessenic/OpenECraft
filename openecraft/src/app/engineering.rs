@@ -54,7 +54,7 @@ fn clip_preview(ui: &mut egui::Ui, prj: &Project, clip: &Clip, size: egui::Vec2)
     let (resp, painter) = ui.allocate_painter(size, egui::Sense::hover());
     let pal = Palette::new(ui.visuals().dark_mode);
     painter.rect_filled(resp.rect, 4.0, pal.paper);
-    let b = clip.bounds().expand(4.0);
+    let b = clip.drawing_bounds().expand(4.0);
     if !b.is_valid() {
         return;
     }
@@ -68,7 +68,7 @@ fn clip_preview(ui: &mut egui::Ui, prj: &Project, clip: &Clip, size: egui::Vec2)
         render::draw_shape(&mut d, s, Ink::Line);
     }
     for s in &clip.symbols {
-        if let Some(def) = prj.symbol(&s.sym) {
+        if let Some(def) = clip.symbol(prj,&s.sym) {
             render::draw_symbol(&mut d, &def, s, Ink::Line);
         }
     }
@@ -82,11 +82,12 @@ impl App {
     pub(super) fn save_as_macro(&mut self, whole_page: bool) {
         let items = self.editor.items(&self.session.prj, self.session.page);
         let page = &self.session.prj.pages[self.session.page];
-        let m = if whole_page {
+        let mut m = if whole_page {
             macros::from_page(page, &page.description)
         } else {
             macros::from_selection(page, &items, "")
         };
+        m.clip.include_project_data(&self.session.prj);
         self.eng.saving = Some(m);
         self.eng.saving_variant.clear();
     }
@@ -681,7 +682,7 @@ impl App {
         let mut data = self.session.prj.plc_cards.get(&card).cloned().unwrap_or_default();
         let before = data.clone();
         let (mut readdress, mut export, mut import) = (false, false, false);
-        let mut edits: Vec<(usize, usize, Option<String>, Option<String>)> = Vec::new();
+        let mut edits: Vec<(plc::Point, String, String, String)> = Vec::new();
         let mut jump = None;
         ui.scope(|ui| {
             ui.horizontal_wrapped(|ui| {
@@ -711,28 +712,32 @@ impl App {
             }
             ui.separator();
             egui::ScrollArea::both().auto_shrink([false, false]).show(ui, |ui| {
-                egui::Grid::new("plcpoints").striped(true).num_columns(8).spacing([10.0, 4.0]).show(ui, |ui| {
-                    for h in [tr("Card"), tr("Channel"), tr("Terminal"), tr("Address"), tr("Type"), tr("Function text"), tr("Connected to"), tr("Location")] {
+                egui::Grid::new("plcpoints").striped(true).num_columns(9).spacing([10.0, 4.0]).show(ui, |ui| {
+                    for h in [tr("Card"), tr("Channel"), tr("Terminal"), tr("Address"), tr("Type"), tr("Symbolic address"), tr("Function text"), tr("Connected to"), tr("Location")] {
                         ui.label(RichText::new(h).strong());
                     }
                     ui.end_row();
                     for p in &points {
+                        ui.push_id((p.id,p.channel_index),|ui| {
                         ui.label(&p.card);
                         ui.label(&p.channel);
                         ui.label(&p.terminal);
                         let mut addr = p.address.clone();
                         ui.add_sized([60.0, 20.0], egui::TextEdit::singleline(&mut addr));
                         ui.label(p.io_kind());
+                        let mut symbolic=p.symbolic.clone();
+                        ui.add_sized([160.0,20.0],egui::TextEdit::singleline(&mut symbolic));
                         let mut text = p.function_text.clone();
                         ui.add_sized([200.0, 20.0], egui::TextEdit::singleline(&mut text));
-                        if addr != p.address || text != p.function_text {
-                            edits.push((p.page, p.sym, (addr != p.address).then_some(addr), (text != p.function_text).then_some(text)));
+                        if addr != p.address || text != p.function_text || symbolic!=p.symbolic {
+                            edits.push((p.clone(),addr,symbolic,text));
                         }
                         ui.label(&p.connected);
                         if ui.link(&p.location).clicked() {
                             jump = Some((p.page, p.id));
                         }
                         ui.end_row();
+                        });
                     }
                 });
                 if points.is_empty() {
@@ -743,13 +748,9 @@ impl App {
         if data != before {
             self.session.prj.plc_cards.insert(card.clone(), data);
         }
-        for (page, sym, addr, text) in edits {
-            let s = &mut self.session.prj.pages[page].symbols[sym];
-            if let Some(a) = addr {
-                s.label = a;
-            }
-            if let Some(t) = text {
-                s.function_text = t;
+        for (point,address,symbolic,comment) in edits {
+            if let Err(problem)=plc::edit_point(&mut self.session.prj,&point,&address,&symbolic,&comment) {
+                self.notify(ctx,problem);
             }
         }
         if readdress {

@@ -17,6 +17,7 @@ Address	Adres
 Angle	Kąt
 Apply	Zastosuj
 Approvers	Zatwierdzający
+Automatic	Automatycznie
 Bold	Pogrubienie
 Bottom	Dno
 Bottom with removable gland plate	Dno ze zdejmowaną płytą dławicową
@@ -33,6 +34,7 @@ Cable core	Żyła kabla
 Cable duct	Kanał kablowy
 Cable overview	Przegląd kabli
 Cable tag	Oznaczenie kabla
+Cable tag, e.g. -W20	Oznaczenie kabla, np. -W20
 Cables	Kable
 Cancel	Anuluj
 Cannot read {}: {}	Nie można odczytać {}: {}
@@ -64,6 +66,7 @@ Configurator	Konfigurator
 Connect	Połącz
 Connected to	Połączono z
 Connecting…	Łączenie…
+Connection point	Punkt połączenia
 Connection points	Punkty połączeń
 Connections	Połączenia
 Connector	Złącze
@@ -85,6 +88,7 @@ DWG drawing	Rysunek DWG
 DXF drawing	Rysunek DXF
 Dark	Ciemny
 Data portal	Portal danych
+Data type	Typ danych
 Date	Data
 Depth	Głębokość
 Descending	Malejąco
@@ -216,6 +220,7 @@ New name	Nowa nazwa
 No	Nie
 No Vault item matches a part of the project	Żaden element Vault nie pasuje do artykułu projektu
 No cable {}	Brak kabla {}
+No connection point {}	Brak punktu przyłączeniowego {}
 No device {}	Brak urządzenia {}
 No enclosure {}	Brak obudowy {}
 No labeling scheme named {}	Brak schematu oznaczania o nazwie {}
@@ -223,6 +228,7 @@ No machine {}	Brak maszyny {}
 No page named {}	Brak strony o nazwie {}
 No page template named {}	Brak szablonu strony o nazwie {}
 No page {}	Brak strony {}
+No part {}	Brak artykułu {}
 No part {} in the project	Brak części {} w projekcie
 No parts found	Nie znaleziono artykułów
 No plot frame named {}	Brak ramki rysunku o nazwie {}
@@ -236,6 +242,7 @@ No symbol with id {}	Brak symbolu o identyfikatorze {}
 Nominal size	Średnica nominalna
 Not a language code: {}	To nie jest kod języka: {}
 Not a macro file: {}	To nie jest plik makr: {}
+Not a symbol id: {}	To nie jest identyfikator symbolu: {}
 Not a valid rule set file: {}	To nie jest prawidłowy plik zestawu reguł: {}
 Not in the schematic	Nie na schemacie
 Note	Uwaga
@@ -387,6 +394,8 @@ Successor	Następca
 Supplier	Dostawca
 Supply	Zasilanie mediami
 Symbol	Symbol
+Symbol key	Klucz symbolu
+Symbolic address	Adres symboliczny
 Symbols	Symbole
 System	System
 T-junction	Trójnik

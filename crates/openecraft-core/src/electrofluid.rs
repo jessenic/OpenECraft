@@ -92,16 +92,7 @@ pub fn fluid_devices_of<'a>(prj: &'a Project, tag: &str) -> Vec<&'a String> {
 /// Cross references shown at the main function of `tag` on page `page_i`: the linked
 /// devices of the other discipline with their location, e.g. `-MB1 /3.4`.
 pub fn cross_refs(prj: &Project, idx: &Index, page_i: usize, tag: &str) -> Vec<(String, Option<usize>)> {
-    let others = linked(prj, tag).iter().chain(fluid_devices_of(prj, tag));
-    let mut v = Vec::new();
-    for other in others {
-        let rel = crate::structure::relative(&prj.pages[page_i], other);
-        match idx.devices.get(other).and_then(|d| d.mains.first()) {
-            Some(m) => v.push((format!("{rel} {}", m.reference_from(prj, page_i)), Some(m.page))),
-            None => v.push((format!("{rel} ?"), None)),
-        }
-    }
-    v
+    crate::references::fluid(prj, idx, page_i, tag)
 }
 
 /// Group a fluid device belongs to.

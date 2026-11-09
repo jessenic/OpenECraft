@@ -75,7 +75,6 @@ Approved by	Godkendt af
 Arms {} and {}	Arme {} og {}
 Asset number	Aktivnummer
 Author of the last revision	Forfatter til den seneste revision
-Automatic	Automatisk
 Autotransformer 1-phase	Autotransformer 1-faset
 Autotransformer 1-phase, adjustable	Autotransformer 1-faset, justerbar
 Autotransformer 3-phase	Autotransformer 3-faset
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Forbinde
 Connection definition point on page {} is not on a wire	Forbindelsesdefinitionspunktet på side {} ligger ikke på en ledning
 Connection definitions	Forbindelsesdefinitioner
 Connection list	Forbindelsesliste
-Connection point	Tilslutningspunkt
 Connection point descriptions	Beskrivelser af tilslutningspunkter
 Connection point {} is not on the {} mm grid.	Tilslutningspunkt {} ligger ikke på {} mm-gitteret.
 Connection point {} lies on another one.	Tilslutningspunkt {} ligger oven på et andet.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-styrekredse bør være b
 DC/DC converter	DC/DC-konverter
 DWG export failed: {}	DWG-eksport mislykkedes: {}
 Data sheet	Datablad
-Data type	Datatype
 Date of the last revision	Dato for den seneste revision
 Degree of protection	Kapslingsklasse
 Delete projects	Slet projekter
@@ -926,7 +923,6 @@ Neutral (N)	Nulleder (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Nulledere skal være lyseblå (IEC 60204-1, 13.2.3)
 Next inspection	Næste inspektion
 Nibbling	Nibling
-No connection point {}	Intet tilslutningspunkt {}
 No connection {}	Ingen forbindelse {}
 No devices to add to the single-line diagram	Ingen enheder at føje til enstregsdiagrammet
 No document embedded - choose a file in the page properties	Intet dokument integreret - vælg en fil i sideegenskaberne
@@ -935,7 +931,6 @@ No known column in the header row	Ingen kendt kolonne i overskriftsrækken
 No option {}	Ingen option {}
 No page or page item with id {}	Ingen side eller sideelement med id {}
 No page with id {}	Ingen side med id {}
-No part {}	Ingen artikel {}
 No plugs	Ingen stik
 No report block {}	Ingen rapportblok {}
 No segment template named {}	Ingen segmentskabelon med navnet {}
@@ -961,7 +956,6 @@ Not a packed project	Ikke et pakket projekt
 Not a project database: {}	Ikke en projektdatabase: {}
 Not a settings scheme: {}	Ikke et indstillingsskema: {}
 Not a structure template: {}	Ikke en strukturskabelon: {}
-Not a symbol id: {}	Ikke et symbol-id: {}
 Not a valid JSON file: {}	Ikke en gyldig JSON-fil: {}
 Not a valid project file: {}	Ikke en gyldig projektfil: {}
 Not a valid property library: {}	Ikke et gyldigt egenskabsbibliotek: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Afbrydere / sensorer
 Switches, pushbuttons	Afbrydere, trykknapper
 Switching frequency	Koblingshyppighed
 Switching output	Koblingsudgang
-Symbol key	Symbolnøgle
-Symbolic address	Symbolsk adresse
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	T-stykket på side {} passer ikke til sine ledere: det kræver en leder i dets retning, to på tværs og intet tilslutningspunkt der
 Table of contents	Indholdsfortegnelse
 Tabloid landscape	Tabloid liggende

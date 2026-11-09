@@ -422,6 +422,12 @@ pub struct Part {
     pub mounting_data: MountingData,
     // Logic
     pub functions: Vec<FunctionTemplate>,
+    /// Preferred project symbol key for a vendor-neutral library assignment.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub symbol: String,
+    /// Original vendor records retained alongside the normalized part data.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source_data: Option<Shared<serde_json::Value>>,
     /// Group symbol macro reference in a vendor's loose parts XML.
     #[serde(skip_serializing_if = "String::is_empty")]
     pub eplan_macro: String,
@@ -517,6 +523,8 @@ impl Default for Part {
             mounting: String::new(),
             mounting_data: MountingData::default(),
             functions: Vec::new(),
+            symbol: String::new(),
+            source_data: None,
             eplan_macro: String::new(),
             eplan_variants: Vec::new(),
             accessories: Vec::new(),
@@ -623,11 +631,20 @@ impl Part {
 pub struct PartRef {
     pub number: String,
     pub count: u32,
+    /// Literal quantity for the whole device or strip, without per-terminal expansion.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub total: bool,
 }
 
 impl Default for PartRef {
     fn default() -> Self {
-        PartRef { number: String::new(), count: 1 }
+        PartRef { number: String::new(), count: 1, total:false }
+    }
+}
+
+impl PartRef {
+    pub fn quantity(&self)->u32 {
+        if self.total {self.count} else {self.count.max(1)}
     }
 }
 

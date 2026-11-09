@@ -234,7 +234,8 @@ impl App {
             // ------------------------------------------------------------ home
             Cmd::Cut | Cmd::Copy => {
                 let items = self.editor.items(&self.session.prj, page);
-                let clip = ops::copy(&self.session.prj.pages[page], &items);
+                let mut clip = ops::copy(&self.session.prj.pages[page], &items);
+                clip.include_project_data(&self.session.prj);
                 ctx.copy_text(clip.to_text());
                 self.editor.clip = Some(clip);
                 if cmd == Cmd::Cut {

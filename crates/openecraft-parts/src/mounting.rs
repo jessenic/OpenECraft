@@ -322,6 +322,13 @@ impl Part {
         self.mounting_data.get(key).or_else(|| self.tech_value(key).map(String::from))
     }
 
+    /// Finite dimension from typed data or a technical-data line, with an optional
+    /// mm suffix and a decimal point or comma.
+    pub fn dimension_mm(&self, key: &str) -> Option<f32> {
+        let value=self.data_value(key)?.trim().to_ascii_lowercase();
+        value.trim_end_matches("mm").trim().replace(',', ".").parse::<f32>().ok().filter(|v|v.is_finite())
+    }
+
     /// Moves the lines of the technical data that have typed fields into them. Lines whose
     /// value cannot be read stay. Returns the number of lines moved.
     pub fn migrate_tech_data(&mut self) -> usize {

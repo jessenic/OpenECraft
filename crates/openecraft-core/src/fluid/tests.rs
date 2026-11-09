@@ -3,6 +3,26 @@ use crate::issue::Severity;
 use crate::geom::{p, P};
 use crate::model::{DeviceData, SymbolInst, Wire};
 
+#[test]
+fn imported_fluid_roles_override_numbers_without_changing_designations() {
+    use crate::symlib::{UserPin, UserSymbol};
+    use crate::symbols::SymbolDomain;
+    let mut prj = Project::default();
+    prj.symbols.push(UserSymbol {
+        key: "user:silencer".into(), domain: SymbolDomain::Fluid,
+        pins: vec![UserPin { pos: p(0., 0.), label: "1".into(), internal: false }],
+        fluid_ports: [(0, PortKind::Exhaust)].into_iter().collect(), ..Default::default()
+    });
+    prj.pages[0].symbols.push(SymbolInst { id: 1, sym: "user:silencer".into(), pins: vec!["1".into()], ..Default::default() });
+    let pin = PinRef { page: 0, sym: 0, pin: 0 };
+    assert_eq!(kind_of_pin(&prj, pin), Some(PortKind::Exhaust));
+    let restored = Project::from_json(&prj.to_json()).unwrap();
+    assert_eq!(kind_of_pin(&restored, pin), Some(PortKind::Exhaust));
+    assert_eq!(restored.pages[0].symbols[0].pins, ["1"]);
+    prj.symbols[0].fluid_ports.clear();
+    assert_eq!(kind_of_pin(&prj, pin), Some(PortKind::Pressure));
+}
+
 fn sym(id: u64, key: &str, pos: P, tag: &str) -> SymbolInst {
     let def = crate::symbols::builtin(key).unwrap();
     SymbolInst { id, sym: key.into(), pos, tag: tag.into(), pins: def.pins.iter().map(|x| x.label.to_string()).collect(), ..Default::default() }
@@ -212,7 +232,7 @@ fn pneumatics_in_line_up() -> Project {
     use crate::panel::{bay_right_of, new_enclosure, place_device_on, Face};
     let mut prj = pneumatics();
     crate::parts::ensure_in_project(&mut prj, &crate::parts::PartsDb::default(), "GEN.VLV-52-24DC");
-    let part = crate::parts::PartRef { number: "GEN.VLV-52-24DC".into(), count: 1 };
+    let part = crate::parts::PartRef { number: "GEN.VLV-52-24DC".into(), count: 1, total:false };
     prj.devices.insert("-QM1".into(), DeviceData { parts: vec![part], ..Default::default() });
     prj.fluid.groups.push(crate::electrofluid::DeviceGroup { tag: "-KH1".into(), members: vec!["-QM1".into()], ..Default::default() });
     prj.fluid.links.insert("-QM1".into(), vec!["-MB1".into()]);

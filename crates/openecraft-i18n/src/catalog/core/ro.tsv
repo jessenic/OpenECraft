@@ -75,7 +75,6 @@ Approved by	Aprobat de
 Arms {} and {}	Brațe {} și {}
 Asset number	Număr de inventar
 Author of the last revision	Autorul ultimei revizii
-Automatic	Automat
 Autotransformer 1-phase	Autotransformator monofazat
 Autotransformer 1-phase, adjustable	Autotransformator monofazat, reglabil
 Autotransformer 3-phase	Autotransformator trifazat
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Punctul 
 Connection definition point on page {} is not on a wire	Punctul de definire a conexiunii de pe pagina {} nu se află pe un conductor
 Connection definitions	Definiții de conexiune
 Connection list	Listă de conexiuni
-Connection point	Punct de conexiune
 Connection point descriptions	Descrieri ale punctelor de conexiune
 Connection point {} is not on the {} mm grid.	Punctul de conexiune {} nu se află pe grila de {} mm.
 Connection point {} lies on another one.	Punctul de conexiune {} se suprapune peste altul.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Circuitele de comandă în 
 DC/DC converter	Convertor c.c./c.c.
 DWG export failed: {}	Exportul DWG nu a reușit: {}
 Data sheet	Fișă tehnică
-Data type	Tip de date
 Date of the last revision	Data ultimei revizii
 Degree of protection	Grad de protecție
 Delete projects	Ștergere proiecte
@@ -926,7 +923,6 @@ Neutral (N)	Neutru (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Conductoarele neutre trebuie să fie albastru deschis (IEC 60204-1, 13.2.3)
 Next inspection	Următoarea inspecție
 Nibbling	Nibelare
-No connection point {}	Niciun punct de conectare {}
 No connection {}	Nicio conexiune {}
 No devices to add to the single-line diagram	Niciun dispozitiv de adăugat în schema monofilară
 No document embedded - choose a file in the page properties	Niciun document încorporat - alegeți un fișier în proprietățile paginii
@@ -935,7 +931,6 @@ No known column in the header row	Nicio coloană cunoscută în rândul de antet
 No option {}	Nu există opțiunea {}
 No page or page item with id {}	Nu există nicio pagină sau element de pagină cu ID-ul {}
 No page with id {}	Nu există nicio pagină cu ID-ul {}
-No part {}	Niciun articol {}
 No plugs	Niciun conector
 No report block {}	Niciun bloc de raport {}
 No segment template named {}	Niciun șablon de segment cu numele {}
@@ -961,7 +956,6 @@ Not a packed project	Nu este un proiect împachetat
 Not a project database: {}	Nu este o bază de date de proiecte: {}
 Not a settings scheme: {}	Nu este o schemă de setări: {}
 Not a structure template: {}	Nu este un șablon de structură: {}
-Not a symbol id: {}	Nu este un ID de simbol: {}
 Not a valid JSON file: {}	Nu este un fișier JSON valid: {}
 Not a valid project file: {}	Nu este un fișier de proiect valid: {}
 Not a valid property library: {}	Nu este o bibliotecă de proprietăți validă: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Comutatoare / senzori
 Switches, pushbuttons	Comutatoare, butoane
 Switching frequency	Frecvență de comutare
 Switching output	Ieșire de comutare
-Symbol key	Cheie simbol
-Symbolic address	Adresă simbolică
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Piesa T de pe pagina {} nu se potrivește firelor sale: are nevoie de un fir în direcția ei, două transversal și niciun punct de conexiune acolo
 Table of contents	Cuprins
 Tabloid landscape	Tabloid vedere

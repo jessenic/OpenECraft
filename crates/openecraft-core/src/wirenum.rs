@@ -221,6 +221,7 @@ pub fn label_wire<'a>(page: &'a Page, page_i: usize, net: &Net) -> Option<&'a Wi
         .iter()
         .filter(|(pi, _)| *pi == page_i)
         .filter_map(|(_, id)| page.wires.iter().find(|w| w.id == *id))
+        .filter(|w| !w.hide_labels)
         .max_by(|a, b| (a.b - a.a).len().total_cmp(&(b.b - b.a).len()).then(b.id.cmp(&a.id)))
 }
 

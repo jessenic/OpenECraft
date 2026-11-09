@@ -46,6 +46,7 @@ pub static COMMANDS: &[Spec] = &[
             optional("column_labels", Kind::Str, tr_const!("numbers or letters")),
             optional("row_labels", Kind::Str, tr_const!("numbers or letters")),
             optional("strips", Kind::Bool, tr_const!("Column and row strips")),
+            optional("artwork", Kind::Object, tr_const!("Frame drawing primitives in paper millimetres in an items array")),
         ],
         run: set_frame,
     },
@@ -96,6 +97,7 @@ fn frame_json(f: &PlotFrame) -> Value {
         "column_labels": snake(f.column_labels),
         "row_labels": snake(f.row_labels),
         "strips": f.strips,
+        "artwork": f.artwork,
     })
 }
 
@@ -156,6 +158,9 @@ fn set_frame(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if let Some(st) = a.value("strips").and_then(Value::as_bool) {
         f.strips = st;
     }
+    if let Some(artwork) = a.value("artwork") {
+        f.artwork = serde_json::from_value(artwork.get("items").cloned().unwrap_or(Value::Null)).map_err(|e| tr_fmt!("Invalid frame artwork: {}", e))?;
+    }
     let v = frame_json(&f);
     frame::set(prj, f);
     Ok(v)
@@ -192,6 +197,7 @@ fn list_page_templates(prj: &mut Project, _: &Args) -> Result<Value, String> {
             "title_block": t.title_block,
             "description": t.description,
             "structure": t.structure.structure(),
+            "values": t.values,
             "items": t.content.symbols.len() + t.content.wires.len() + t.content.texts.len() + t.content.shapes.len(),
         })
     });

@@ -8,6 +8,15 @@ fn find(prj: &Project, name: &str) -> PanelMacro {
 }
 
 #[test]
+fn reusable_panel_macros_clear_external_material_owners_and_keep_exclusion() {
+    let mut prj=demo_project();
+    let item=&mut prj.layout.enclosures[0].items[0];item.owner_device="-X1".into();item.bom_excluded=true;
+    let id=item.id;let saved=macro_from_items(&prj.layout.enclosures[0],&[id],"Reusable").unwrap();
+    assert!(saved.items[0].owner_device.is_empty());assert!(saved.items[0].tag.is_empty());
+    assert!(saved.items[0].bom_excluded);
+}
+
+#[test]
 fn builtin_macros_are_named_and_fit() {
     let prj = demo_project();
     let all = builtin_macros(&prj);
@@ -76,7 +85,9 @@ fn macro_from_selection_and_back() {
     let ids = [rail.id, k1.id];
     let m = macro_from_items(e, &ids, "Rail with contactor").unwrap();
     assert_eq!(m.face, Face::Plate);
-    assert!(m.items.iter().all(|i| i.tag.is_empty() && i.id == 0));
+    assert!(m.items.iter().all(|i| i.tag.is_empty()));
+    assert_eq!(m.items.iter().map(|i|i.id).collect::<Vec<_>>(),(1..=m.items.len() as u64).collect::<Vec<_>>());
+    assert!(m.items.iter().filter(|i|i.mounted_on!=0).all(|i|m.items.iter().any(|p|p.id==i.mounted_on)));
     assert_eq!(m.items.iter().map(|i| i.x).fold(f32::INFINITY, f32::min), 0.0);
     // K1 is placed already: the device of the copy becomes an accessory with its part.
     let new = insert_macro(&mut prj, 0, &m, Face::Plate, p(50.0, 650.0));
@@ -86,5 +97,6 @@ fn macro_from_selection_and_back() {
     // It sits on the rail of the copy.
     let rail = new.iter().filter_map(|id| e.item(*id)).find(|i| i.kind == ItemKind::Rail).unwrap();
     assert!((dev.center().y - rail.center().y).abs() < 0.01);
+    assert_eq!(dev.mounted_on,rail.id);
     assert_eq!(group_members(e, dev.group).len(), 2);
 }

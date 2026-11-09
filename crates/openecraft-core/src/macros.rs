@@ -168,13 +168,53 @@ fn texts_mut(clip: &mut Clip) -> Vec<&mut String> {
         v.push(&mut s.tag);
         v.push(&mut s.label);
         v.push(&mut s.function_text);
+        v.extend(s.values.values_mut());
         v.extend(s.pins.iter_mut());
+    }
+    for definition in clip.symbol_defs.iter_mut() {
+        v.extend([&mut definition.letter,&mut definition.default_label,&mut definition.default_function_text]);
+        v.extend(definition.default_values.values_mut());
+        v.extend(definition.pins.iter_mut().map(|pin|&mut pin.label));
+        for primitive in &mut definition.prims {
+            match primitive {
+                crate::symbols::Prim::Text {text,..}=>v.push(text),
+                crate::symbols::Prim::PropertyBlock(block)=>{
+                    v.extend(block.rows.iter_mut().filter_map(|row|match row {
+                        crate::symbols::BlockRow::Text(text)=>Some(text),
+                        _=>None,
+                    }));
+                }
+                _=>{}
+            }
+        }
     }
     for w in &mut clip.wires {
         v.push(&mut w.color);
         v.push(&mut w.cross_section);
+        v.push(&mut w.cable);
+        v.push(&mut w.core);
+    }
+    for cable in &mut clip.cables {
+        v.extend([&mut cable.tag,&mut cable.cable_type,&mut cable.cores,&mut cable.cross_section,
+                  &mut cable.part,&mut cable.description]);
+        v.extend(cable.values.values_mut());
+    }
+    for definition in &mut clip.conn_defs {
+        v.extend([&mut definition.cable,&mut definition.core]);
+    }
+    for definition in &mut clip.cable_defs {
+        v.push(&mut definition.cable);
     }
     v.extend(clip.texts.iter_mut().map(|t| &mut t.text));
+    for device in clip.devices.values_mut() {
+        v.push(&mut device.description);
+        v.extend(device.values.values_mut());
+        v.extend(device.parts.iter_mut().map(|p| &mut p.number));
+    }
+    for part in &mut clip.parts {
+        v.push(&mut part.number);
+        v.push(&mut part.description);
+    }
     v
 }
 
@@ -186,6 +226,9 @@ impl Macro {
         for t in texts_mut(&mut clip) {
             scan(t, &mut set);
         }
+        for tag in clip.devices.keys() {
+            scan(tag, &mut set);
+        }
         scan(&self.page_description, &mut set);
         set.into_iter().collect()
     }
@@ -196,6 +239,7 @@ impl Macro {
         for t in texts_mut(&mut clip) {
             *t = fill(t, values);
         }
+        clip.devices = clip.devices.into_iter().map(|(tag, data)| (fill(&tag, values), data)).collect();
         clip
     }
 

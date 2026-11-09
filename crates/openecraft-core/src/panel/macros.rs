@@ -120,10 +120,13 @@ pub fn macro_from_items(e: &super::Enclosure, ids: &[u64], name: &str) -> Option
     let min_x = items.iter().filter(|i| i.face == face && i.anchor.x == Align::Free).map(|i| i.x).fold(f32::INFINITY, f32::min);
     let min_y = items.iter().filter(|i| i.face == face && i.anchor.y == Align::Free).map(|i| i.y).fold(f32::INFINITY, f32::min);
     let (min_x, min_y) = (if min_x.is_finite() { min_x } else { 0.0 }, if min_y.is_finite() { min_y } else { 0.0 });
+    let local:std::collections::HashMap<_,_>=items.iter().enumerate().map(|(n,item)|(item.id,n as u64+1)).collect();
+    let has_mounts=items.iter().any(|item|item.mounted_on!=0);
     let out = items
         .into_iter()
         .map(|i| {
-            let mut it = PanelItem { id: 0, tag: String::new(), group: 0, ..i.clone() };
+            let mut it = PanelItem { id: if has_mounts {local[&i.id]} else {0}, tag: String::new(), owner_device:String::new(),group: 0, ..i.clone() };
+            if it.mounted_on!=0 {it.mounted_on=local.get(&it.mounted_on).copied().unwrap_or(0);it.mounting_explicit=true;}
             if it.face == face {
                 it.x -= if it.anchor.x == Align::Free { min_x } else { 0.0 };
                 it.y -= if it.anchor.y == Align::Free { min_y } else { 0.0 };
@@ -150,8 +153,11 @@ pub fn insert_macro(prj: &mut Project, enc: usize, m: &PanelMacro, face: Face, a
     prj.layout.enclosures[enc].groups.push(ItemGroup { id: group, name: m.title().to_string(), source: m.name.clone() });
     let mut taken: HashSet<String> = HashSet::new();
     let mut ids = Vec::new();
-    for src in &m.items {
-        let mut it = PanelItem { id: prj.new_id(), group, ..src.clone() };
+    let new_ids:Vec<_>=m.items.iter().map(|_|prj.new_id()).collect();
+    let mapping:std::collections::HashMap<_,_>=m.items.iter().zip(&new_ids).filter(|(src,_)|src.id!=0).map(|(src,id)|(src.id,*id)).collect();
+    for (src,id) in m.items.iter().zip(new_ids) {
+        let mut it = PanelItem { id, group, ..src.clone() };
+        if it.mounted_on!=0 {it.mounted_on=mapping.get(&it.mounted_on).copied().unwrap_or(0);it.mounting_explicit=true;}
         if it.face == m.face {
             it.face = face;
             if it.anchor.x == Align::Free {
@@ -167,7 +173,7 @@ pub fn insert_macro(prj: &mut Project, enc: usize, m: &PanelMacro, face: Face, a
                 Some(d) => {
                     taken.insert(d.tag.clone());
                     it.tag = d.tag;
-                    it.rail_mount = part_by_number(prj, &d.part).map(|p| p.effective_rail_mount()).unwrap_or_default();
+                    if !it.rail_mount_override {it.rail_mount = part_by_number(prj, &d.part).map(|p| p.effective_rail_mount()).unwrap_or_default();}
                 }
                 None => {
                     it.kind = ItemKind::Accessory;
@@ -177,7 +183,7 @@ pub fn insert_macro(prj: &mut Project, enc: usize, m: &PanelMacro, face: Face, a
         }
         let e = &mut prj.layout.enclosures[enc];
         apply_one_anchor(e, &mut it);
-        snap_to_rail(e, &mut it);
+        if !it.mounting_explicit {snap_to_rail(e, &mut it);}
         ids.push(it.id);
         e.items.push(it);
     }

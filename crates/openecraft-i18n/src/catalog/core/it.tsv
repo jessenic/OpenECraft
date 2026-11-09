@@ -75,7 +75,6 @@ Approved by	Approvato da
 Arms {} and {}	Bracci {} e {}
 Asset number	Numero cespite
 Author of the last revision	Autore dell'ultima revisione
-Automatic	Automatico
 Autotransformer 1-phase	Autotrasformatore monofase
 Autotransformer 1-phase, adjustable	Autotrasformatore monofase, regolabile
 Autotransformer 3-phase	Autotrasformatore trifase
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Il punto
 Connection definition point on page {} is not on a wire	Il punto di definizione collegamento a pagina {} non si trova su un conduttore
 Connection definitions	Definizioni di collegamento
 Connection list	Lista collegamenti
-Connection point	Punto di connessione
 Connection point descriptions	Descrizioni dei punti di connessione
 Connection point {} is not on the {} mm grid.	Il punto di connessione {} non è sulla griglia da {} mm.
 Connection point {} lies on another one.	Il punto di connessione {} si trova su un altro.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	I circuiti di comando in DC
 DC/DC converter	Convertitore DC/DC
 DWG export failed: {}	Esportazione DWG non riuscita: {}
 Data sheet	Scheda tecnica
-Data type	Tipo di dati
 Date of the last revision	Data dell'ultima revisione
 Degree of protection	Grado di protezione
 Delete projects	Elimina progetti
@@ -926,7 +923,6 @@ Neutral (N)	Neutro (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	I conduttori di neutro devono essere blu chiaro (IEC 60204-1, 13.2.3)
 Next inspection	Prossima ispezione
 Nibbling	Roditura
-No connection point {}	Nessun punto di connessione {}
 No connection {}	Nessun collegamento {}
 No devices to add to the single-line diagram	Nessun dispositivo da aggiungere allo schema unifilare
 No document embedded - choose a file in the page properties	Nessun documento incorporato - scegli un file nelle proprietà della pagina
@@ -935,7 +931,6 @@ No known column in the header row	Nessuna colonna nota nella riga di intestazion
 No option {}	Nessuna opzione {}
 No page or page item with id {}	Nessuna pagina o elemento di pagina con ID {}
 No page with id {}	Nessuna pagina con ID {}
-No part {}	Nessun articolo {}
 No plugs	Nessun connettore
 No report block {}	Nessun blocco di report {}
 No segment template named {}	Nessun modello di segmento denominato {}
@@ -961,7 +956,6 @@ Not a packed project	Non è un progetto compresso
 Not a project database: {}	Non è un database di progetti: {}
 Not a settings scheme: {}	Non è uno schema delle impostazioni: {}
 Not a structure template: {}	Non è un modello di struttura: {}
-Not a symbol id: {}	Non è un ID di simbolo: {}
 Not a valid JSON file: {}	Non è un file JSON valido: {}
 Not a valid project file: {}	Non è un file di progetto valido: {}
 Not a valid property library: {}	Non è una libreria di proprietà valida: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Interruttori / sensori
 Switches, pushbuttons	Interruttori, pulsanti
 Switching frequency	Frequenza di manovra
 Switching output	Uscita di commutazione
-Symbol key	Chiave del simbolo
-Symbolic address	Indirizzo simbolico
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Il pezzo a T a pagina {} non corrisponde ai suoi conduttori: serve un conduttore nella sua direzione, due trasversali e nessun punto di collegamento lì
 Table of contents	Sommario
 Tabloid landscape	Tabloid orizzontale

@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Program til skinnebearbejdningsmaskine (CSV)
 CNC operations	CNC-operationer
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	CNC-programmer til bore-, fræse- og stansemaskiner, bukning af kobberskinner, kapslingskonfigurator, overdragelse til produktionen og tilbagemelding fra produktionen
 Cable tag, e.g. -W1	Kabelmærkning, f.eks. -W1
-Cable tag, e.g. -W20	Kabelbetegnelse, f.eks. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Kalibrerer maskinernes tidsestimat ud fra de faktiske tider i tilbagemeldingen fra produktionen
 Cannot read the plugin folder {}	Kan ikke læse plugin-mappen {}
 Cannot start {}: {}	Kan ikke starte {}: {}

@@ -71,7 +71,6 @@ Approved by	批准人
 Arms {} and {}	分支{}和{}
 Asset number	资产编号
 Author of the last revision	最新修订的作者
-Automatic	自动
 Autotransformer 1-phase	单相自耦变压器
 Autotransformer 1-phase, adjustable	单相自耦变压器，可调
 Autotransformer 3-phase	三相自耦变压器
@@ -237,7 +236,6 @@ Connection definition point on page {} is not applied to its connection	页 {} �
 Connection definition point on page {} is not on a wire	页 {} 上的连接定义点不在导线上
 Connection definitions	连接定义
 Connection list	连接列表
-Connection point	连接点
 Connection point descriptions	连接点描述
 Connection point {} is not on the {} mm grid.	连接点 {} 不在 {} mm 栅格上。
 Connection point {} lies on another one.	连接点 {} 与另一个连接点重叠。
@@ -332,7 +330,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	直流控制电路应为蓝
 DC/DC converter	DC/DC 变换器
 DWG export failed: {}	DWG 导出失败：{}
 Data sheet	数据表
-Data type	数据类型
 Date of the last revision	最新修订的日期
 Degree of protection	防护等级
 Delete projects	删除项目
@@ -915,7 +912,6 @@ Neutral (N)	中性线 (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	中性导体必须为浅蓝色 (IEC 60204-1, 13.2.3)
 Next inspection	下次检验
 Nibbling	步冲
-No connection point {}	没有连接点 {}
 No connection {}	没有连接 {}
 No devices to add to the single-line diagram	没有要添加到单线图的设备
 No document embedded - choose a file in the page properties	未嵌入文档 - 请在页属性中选择文件
@@ -924,7 +920,6 @@ No known column in the header row	标题行中没有已知列
 No option {}	选项 {} 不存在
 No page or page item with id {}	不存在 ID 为 {} 的页或页元素
 No page with id {}	不存在 ID 为 {} 的页
-No part {}	没有部件 {}
 No plugs	没有插头
 No report block {}	没有报表块 {}
 No segment template named {}	没有名为 {} 的规划段模板
@@ -950,7 +945,6 @@ Not a packed project	不是打包的项目
 Not a project database: {}	不是项目数据库：{}
 Not a settings scheme: {}	不是设置方案：{}
 Not a structure template: {}	不是结构模板：{}
-Not a symbol id: {}	不是符号 ID：{}
 Not a valid JSON file: {}	不是有效的 JSON 文件：{}
 Not a valid project file: {}	不是有效的项目文件：{}
 Not a valid property library: {}	不是有效的属性库：{}
@@ -1523,8 +1517,6 @@ Switches / Sensors	开关 / 传感器
 Switches, pushbuttons	开关、按钮
 Switching frequency	开关频率
 Switching output	开关输出
-Symbol key	符号键
-Symbolic address	符号地址
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	第 {} 页上的T型节点与其连接线不匹配：需要一条沿其方向的连接线、两条横向连接线，且该处不能有连接点
 Table of contents	目录
 Tabloid landscape	Tabloid 横向

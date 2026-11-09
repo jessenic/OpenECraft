@@ -158,7 +158,7 @@ pub fn example(key: &str) -> Option<Project> {
 /// Device data with the parts of each tag; the parts are copied into the project.
 fn assign_parts(prj: &mut Project, db: &PartsDb, devices: &[(&str, &[&str])]) {
     for (tag, parts) in devices {
-        let refs = parts.iter().map(|n| PartRef { number: n.to_string(), count: 1 }).collect();
+        let refs = parts.iter().map(|n| PartRef { number: n.to_string(), count: 1, total:false }).collect();
         prj.devices.insert(tag.to_string(), DeviceData { parts: refs, ..Default::default() });
         for n in *parts {
             crate::parts::ensure_in_project(prj, db, n);

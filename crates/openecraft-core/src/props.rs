@@ -23,6 +23,21 @@ pub fn text(prj: &Project, page_i: usize, s: &SymbolInst, pp: &PlacedProp) -> St
     }
 }
 
+/// A symbol block resolves part data on its function's selected assignment.
+pub fn function_property_text(prj: &Project, id: u64, key: &str) -> String {
+    properties::display(prj, &properties::Object::Function(id), key)
+}
+
+/// Drawing and cable fields use their context; part fields retain function selection.
+pub fn symbol_property_text(prj:&Project,page_i:usize,symbol:&SymbolInst,key:&str)->String {
+    if let Some(definition)=properties::valid_key(prj,key)
+        .filter(|d|matches!(d.class,properties::ObjectClass::Project|properties::ObjectClass::Page|properties::ObjectClass::Cable)) {
+        return properties::object_at_symbol(prj,page_i,symbol,definition.class)
+            .map(|object|properties::display(prj,&object,key)).unwrap_or_default();
+    }
+    function_property_text(prj,symbol.id,key)
+}
+
 /// Reference point of placed properties and schemes: right of and below the
 /// symbol graphics, relative to the symbol position.
 pub fn reference(symbols: &Symbols, s: &SymbolInst) -> P {

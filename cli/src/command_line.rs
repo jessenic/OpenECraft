@@ -58,7 +58,8 @@ pub fn run(argv: &[String]) -> Result<String, String> {
             if SESSION_ONLY.contains(&name) {
                 return Err(tr("undo and redo work in an MCP session only: the command line opens the project anew for every command").to_string());
             }
-            let params = tools::from_cli(tool.clone(), inv.options.json.as_deref(), &inv.params)?;
+            let json = read_json_argument(inv.options.json.as_deref())?;
+            let params = tools::from_cli(tool.clone(), json.as_deref(), &inv.params)?;
             if tool.needs_project() {
                 let path = inv.options.project.as_deref().ok_or_else(|| tr("This command needs a project: --project <file>").to_string())?;
                 session.open(path)?;
@@ -76,6 +77,13 @@ pub fn run(argv: &[String]) -> Result<String, String> {
 
 fn version() -> String {
     format!("openecraft-cli {}\n", env!("CARGO_PKG_VERSION"))
+}
+
+fn read_json_argument(value: Option<&str>) -> Result<Option<String>, String> {
+    value.map(|value| match value.strip_prefix('@') {
+        Some(path) => std::fs::read_to_string(path).map_err(|e| tr_fmt!("Cannot read {}: {}", path, openecraft_i18n::io_error(&e))),
+        None => Ok(value.to_owned()),
+    }).transpose()
 }
 
 fn unknown(name: &str) -> String {

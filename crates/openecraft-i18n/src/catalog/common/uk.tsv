@@ -17,6 +17,7 @@ Address	Адреса
 Angle	Кут
 Apply	Застосувати
 Approvers	Погоджувачі
+Automatic	Автоматично
 Bold	Жирний
 Bottom	Дно
 Bottom with removable gland plate	Дно зі знімною фланцевою панеллю
@@ -33,6 +34,7 @@ Cable core	Жила кабелю
 Cable duct	Кабельний канал
 Cable overview	Огляд кабелів
 Cable tag	Позначення кабелю
+Cable tag, e.g. -W20	Позначення кабелю, напр. -W20
 Cables	Кабелі
 Cancel	Скасувати
 Cannot read {}: {}	Не вдалося прочитати {}: {}
@@ -64,6 +66,7 @@ Configurator	Конфігуратор
 Connect	Підключитися
 Connected to	Підключено до
 Connecting…	Підключення…
+Connection point	Точка підключення
 Connection points	Точки підключення
 Connections	З’єднання
 Connector	Роз’єм
@@ -85,6 +88,7 @@ DWG drawing	Креслення DWG
 DXF drawing	Креслення DXF
 Dark	Темна
 Data portal	Портал даних
+Data type	Тип даних
 Date	Дата
 Depth	Глибина
 Descending	За спаданням
@@ -216,6 +220,7 @@ New name	Нова назва
 No	Ні
 No Vault item matches a part of the project	Жоден елемент Vault не відповідає виробу проєкту
 No cable {}	Немає кабелю {}
+No connection point {}	Немає точки підключення {}
 No device {}	Немає пристрою {}
 No enclosure {}	Немає корпусу {}
 No labeling scheme named {}	Немає схеми маркування з назвою {}
@@ -223,6 +228,7 @@ No machine {}	Немає верстата {}
 No page named {}	Немає сторінки з назвою {}
 No page template named {}	Немає шаблону сторінки з назвою {}
 No page {}	Немає сторінки {}
+No part {}	Немає виробу {}
 No part {} in the project	Немає виробу {} у проєкті
 No parts found	Виробів не знайдено
 No plot frame named {}	Немає рамки аркуша з назвою {}
@@ -236,6 +242,7 @@ No symbol with id {}	Немає символу з ідентифікатором
 Nominal size	Номінальний розмір
 Not a language code: {}	Не код мови: {}
 Not a macro file: {}	Не файл макросів: {}
+Not a symbol id: {}	Не є ідентифікатором символу: {}
 Not a valid rule set file: {}	Недійсний файл набору правил: {}
 Not in the schematic	Немає на схемі
 Note	Примітка
@@ -387,6 +394,8 @@ Successor	Наступник
 Supplier	Постачальник
 Supply	Постачання
 Symbol	Символ
+Symbol key	Ключ символу
+Symbolic address	Символьна адреса
 Symbols	Символи
 System	Система
 T-junction	Т-подібний вузол

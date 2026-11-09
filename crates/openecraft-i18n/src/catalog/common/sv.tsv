@@ -17,6 +17,7 @@ Address	Adress
 Angle	Vinkel
 Apply	Verkställ
 Approvers	Godkännare
+Automatic	Automatisk
 Bold	Fet
 Bottom	Botten
 Bottom with removable gland plate	Botten med avtagbar genomföringsplåt
@@ -33,6 +34,7 @@ Cable core	Kabelledare
 Cable duct	Kabelkanal
 Cable overview	Kabelöversikt
 Cable tag	Kabelbeteckning
+Cable tag, e.g. -W20	Kabelbeteckning, t.ex. -W20
 Cables	Kablar
 Cancel	Avbryt
 Cannot read {}: {}	Det går inte att läsa {}: {}
@@ -64,6 +66,7 @@ Configurator	Konfigurator
 Connect	Anslut
 Connected to	Ansluten till
 Connecting…	Ansluter…
+Connection point	Anslutningspunkt
 Connection points	Anslutningspunkter
 Connections	Förbindelser
 Connector	Kontaktdon
@@ -85,6 +88,7 @@ DWG drawing	DWG-ritning
 DXF drawing	DXF-ritning
 Dark	Mörkt
 Data portal	Dataportal
+Data type	Datatyp
 Date	Datum
 Depth	Djup
 Descending	Fallande
@@ -216,6 +220,7 @@ New name	Nytt namn
 No	Nej
 No Vault item matches a part of the project	Inget Vault-objekt matchar någon artikel i projektet
 No cable {}	Ingen kabel {}
+No connection point {}	Ingen anslutningspunkt {}
 No device {}	Ingen apparat {}
 No enclosure {}	Ingen kapsling {}
 No labeling scheme named {}	Inget märkningsschema med namnet {}
@@ -223,6 +228,7 @@ No machine {}	Ingen maskin {}
 No page named {}	Ingen sida med namnet {}
 No page template named {}	Ingen sidmall med namnet {}
 No page {}	Ingen sida {}
+No part {}	Ingen artikel {}
 No part {} in the project	Ingen artikel {} i projektet
 No parts found	Inga artiklar hittades
 No plot frame named {}	Ingen ritningsram med namnet {}
@@ -236,6 +242,7 @@ No symbol with id {}	Ingen symbol med ID {}
 Nominal size	Nominell storlek
 Not a language code: {}	Inte en språkkod: {}
 Not a macro file: {}	Inte en makrofil: {}
+Not a symbol id: {}	Inget symbol-ID: {}
 Not a valid rule set file: {}	Inte en giltig regelverksfil: {}
 Not in the schematic	Inte i schemat
 Note	Obs!
@@ -387,6 +394,8 @@ Successor	Efterföljare
 Supplier	Leverantör
 Supply	Försörjning
 Symbol	Symbol
+Symbol key	Symbolnyckel
+Symbolic address	Symbolisk adress
 Symbols	Symboler
 System	System
 T-junction	T-stycke

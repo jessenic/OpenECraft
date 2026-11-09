@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Программа станка для обрабо
 CNC operations	Операции ЧПУ
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	Программы ЧПУ для сверлильных, фрезерных и пробивных станков, гибка медных шин, конфигуратор корпусов, передача в производство и обратная связь от производства
 Cable tag, e.g. -W1	Обозначение кабеля, например -W1
-Cable tag, e.g. -W20	Обозначение кабеля, напр. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Калибрует оценку времени станков по фактическому времени из обратной связи производства
 Cannot read the plugin folder {}	Не удаётся прочитать папку плагинов {}
 Cannot start {}: {}	Не удаётся запустить {}: {}

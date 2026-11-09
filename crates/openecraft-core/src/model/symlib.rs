@@ -1,10 +1,11 @@
 //! Data of `crate::symlib` that the project file holds (see `docs/architecture.md`).
 
 use crate::geom::P;
-use crate::symbols::{Func, Prim};
+use crate::symbols::{Func, Prim, SymbolDomain, PortKind};
 use openecraft_parts::Shared;
 use serde::{Deserialize, Serialize};
 use std::ops::{Deref, DerefMut};
+use std::collections::BTreeMap;
 
 /// Snapshots share the symbol drawings until an editor changes the library.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
@@ -38,20 +39,40 @@ pub struct UserSymbol {
     /// Fingerprint of the last imported EMA definition; used to preserve local edits.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ema_revision: Option<String>,
+    /// Stable source identifiers and vendor properties retained by importers.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source_data: Option<Shared<serde_json::Value>>,
     pub name: String,
     /// Library (group in the symbol list), e.g. the company name.
     pub library: String,
     /// Identifying letter(s) for new device tags.
     pub letter: String,
     pub func: Func,
+    pub domain: SymbolDomain,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plc_channel: Option<crate::symbols::PlcChannel>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub plc_channels: Vec<crate::symbols::PlcChannelDef>,
     pub default_label: String,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub default_function_text: String,
+    /// Initial editable instance properties for new placements.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub default_values: BTreeMap<String, String>,
     pub auto_number: bool,
     pub show_tag: bool,
     pub show_pin_labels: bool,
     pub prims: Vec<Prim>,
     pub pins: Vec<UserPin>,
+    /// Explicit fluid port functions by zero-based pin index; absent = infer from designation.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub fluid_ports: BTreeMap<usize, PortKind>,
+    /// Allowed side contacts in local coordinates: up 1, right 2, down 4, left 8.
+    /// Absent entries accept every direction; saved wire endpoints always attach.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub pin_directions: BTreeMap<usize, u8>,
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub directed_junction: bool,
     /// Pins that are connected inside the symbol (terminals).
     pub bridges: Vec<(usize, usize)>,
 }
@@ -62,6 +83,9 @@ pub struct UserPin {
     pub pos: P,
     /// Default connection point designation.
     pub label: String,
+    /// Internal bridge attachment rather than a physical device connection point.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub internal: bool,
 }
 
 impl super::Project {

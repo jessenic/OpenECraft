@@ -22,6 +22,13 @@ pub struct Clip {
     /// Definitions needed when this clip is inserted into another project.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub symbol_defs: super::symlib::SymbolList,
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub devices: BTreeMap<String, DeviceData>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub parts: Vec<Part>,
+    /// Cable definitions owned by this clip, with their catalog references.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub cables: Vec<Cable>,
     pub wires: Vec<Wire>,
     pub texts: Vec<TextItem>,
     pub shapes: Vec<Shape>,
@@ -33,6 +40,8 @@ pub struct Clip {
     pub conn_defs: Vec<ConnDef>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub cable_defs: Vec<CableDef>,
+    #[serde(skip)]
+    pub(crate) symbol_cache: crate::symlib::SymbolCache,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub junctions: Vec<Junction>,
 }

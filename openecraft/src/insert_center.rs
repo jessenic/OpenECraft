@@ -9,12 +9,87 @@ use openecraft_core::{
     symbols::SymbolRef,
 };
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
 
 /// Storage key of the favorites and recently used entries.
 pub const STORAGE_KEY: &str = "insert_center";
 
 /// At most this many recently used entries are kept.
 pub const RECENT: usize = 20;
+
+pub struct SymbolGroup {
+    pub title: String,
+    pub entries: Vec<Entry>,
+    pub initially_open: bool,
+}
+
+struct CatalogKey {
+    symbols: openecraft_core::symlib::Symbols,
+    parts: Vec<openecraft_core::parts::Part>,
+    db: PartsDb,
+    query: String,
+    lang: openecraft_i18n::Lang,
+}
+
+/// Keep sorting, translations and wildcard matching out of scrolling frames.
+#[derive(Default)]
+pub struct CatalogCache {
+    key: Option<CatalogKey>,
+    groups: Arc<Vec<SymbolGroup>>,
+}
+
+impl CatalogCache {
+    pub fn get(&mut self, prj: &Project, db: &PartsDb, center: &InsertCenter) -> Arc<Vec<SymbolGroup>> {
+        let symbols = prj.symbol_table();
+        let lang = openecraft_i18n::lang();
+        if self.key.as_ref().is_none_or(|key| !key.symbols.same_snapshot(&symbols) || key.parts != prj.parts || key.db != *db || key.query != center.query || key.lang != lang) {
+            self.groups = Arc::new(symbol_groups(prj, db, center));
+            self.key = Some(CatalogKey { symbols, parts: prj.parts.clone(), db: db.clone(), query: center.query.clone(), lang });
+        }
+        self.groups.clone()
+    }
+}
+
+fn symbol_groups(prj: &Project, db: &PartsDb, center: &InsertCenter) -> Vec<SymbolGroup> {
+    use openecraft_core::symbols::{self, Category};
+    use openecraft_i18n::tr;
+    let user = listed_user_symbols(prj, db);
+    let mut libraries: Vec<&str> = user.iter().map(|d| d.library).collect();
+    libraries.dedup();
+    let groups = libraries.iter().map(|lib| (
+        format!("{}: {lib}", Category::User.title()),
+        user.iter().map(|d| &**d).filter(|d| d.library == *lib).collect::<Vec<_>>(),
+    )).chain(Category::ALL.into_iter().map(|cat| (
+        cat.title().to_string(), symbols::library().iter().filter(|d| d.category == cat).collect(),
+    )));
+    let searching = !center.query.trim().is_empty();
+    groups.filter_map(|(title, defs)| {
+        let defs: Vec<_> = defs.into_iter().filter(|d| !searching || center.matches(&[d.name, tr(d.name), d.letter, &title])).collect();
+        let first = defs.first()?;
+        let initially_open = !matches!(first.category, Category::Nfpa | Category::Fluid | Category::Process | Category::SingleLine | Category::BlackBox | Category::Installation | Category::Gb | Category::Gost | Category::Jis) && defs.len() <= 24;
+        Some(SymbolGroup { title, initially_open, entries: defs.iter().map(|d| Entry::Symbol(d.key.to_string())).collect() })
+    }).collect()
+}
+
+/// Unplaced functions change with project edits, catalog edits or language, not scrolling.
+#[derive(Default)]
+pub struct UnplacedCache {
+    key: Option<(u64, openecraft_i18n::Lang, PartsDb)>,
+    entries: Vec<openecraft_core::unplaced::Unplaced>,
+}
+
+impl UnplacedCache {
+    pub fn get(&mut self, prj: &Project, db: &PartsDb, revision: u64) -> &[openecraft_core::unplaced::Unplaced] {
+        let lang = openecraft_i18n::lang();
+        if self.key.as_ref().is_none_or(|(rev, language, catalog)| *rev != revision || *language != lang || catalog != db) {
+            self.entries = openecraft_core::unplaced::device_functions(prj, Some(db));
+            self.entries.extend(openecraft_core::unplaced::plc_channels(prj));
+            self.entries.extend(openecraft_core::unplaced::potentials(prj));
+            self.key = Some((revision, lang, db.clone()));
+        }
+        &self.entries
+    }
+}
 
 /// What an entry inserts; its key (`symbol:coil`, `macro:Motor`, `part:3RT2016`) is
 /// stored in the favorites and the recent list.

@@ -57,6 +57,7 @@ fn fit(symbol: &UserSymbol, width: f32, height: f32) -> Option<Model2d> {
     };
     for g in &symbol.prims {
         match g {
+            Prim::Image { corners, .. } => corners.iter().copied().for_each(&mut include),
             Prim::Line { a, b, .. } => {
                 include(*a);
                 include(*b);
@@ -66,7 +67,7 @@ fn fit(symbol: &UserSymbol, width: f32, height: f32) -> Option<Model2d> {
                 include(*c - p(*r, *r));
                 include(*c + p(*r, *r));
             }
-            Prim::Text { .. } | Prim::Field { .. } => {}
+            Prim::Text { .. } | Prim::Field { .. } | Prim::PropertyBlock(_) => {}
         }
     }
     let r = bounds?;

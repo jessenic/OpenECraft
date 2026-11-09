@@ -28,6 +28,21 @@ impl Plugin for Routing {
 
 pub static COMMANDS: &[Spec] = &[
     Spec {
+        name: "list_cable_parts",
+        help: tr_const!("Lists cable parts available from the project and the built-in catalog"),
+        params: &[],
+        run: list_cable_parts,
+    },
+    Spec {
+        name: "apply_cable_part",
+        help: tr_const!("Applies a catalog part to a cable, including cores, cross-section and declared outer diameter"),
+        params: &[
+            param("cable", Kind::Str, tr_const!("Cable tag")),
+            param("part", Kind::Str, tr_const!("Part number")),
+        ],
+        run: apply_cable_part,
+    },
+    Spec {
         name: "routing_rules",
         help: tr_const!("Shows the rules of the 3D routing and changes those given: grid, clearance, free air factor, segregation, bend radii, cut lengths, reserves, how lines are laid in rooms and the depth of slots and of lines in the floor"),
         params: &[
@@ -370,6 +385,29 @@ fn set_cable_shield(prj: &mut Project, a: &Args) -> Result<Value, String> {
         "ends": c.shield_ends.key(),
         "diameter_mm": (routing3d::cable_diameter(c) * 10.0).round() / 10.0,
     }))
+}
+
+fn apply_cable_part(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let tag=a.req("cable");
+    let index=prj.cables.iter().position(|c|c.tag==tag).ok_or_else(||tr_fmt!("No cable {}",tag))?;
+    let number=a.req("part");
+    let catalog=openecraft_core::parts::catalog();
+    let part=prj.parts.iter().chain(catalog.iter()).find(|p|p.number==number).cloned().ok_or_else(||tr_fmt!("No part {}",number))?;
+    if part.group!="Cables" {return Err(tr_fmt!("Part {} is not a cable",number));}
+    if !prj.parts.iter().any(|p|p.number==number) {prj.parts.push(part.clone());}
+    openecraft_core::ops::apply_project_cable_part(prj,index,&part);
+    let cable=&prj.cables[index];
+    Ok(json!({"cable":cable.tag,"part":cable.part,"cable_type":cable.cable_type,"cores":cable.cores,
+              "cross_section":cable.cross_section,"diameter_mm":cable.diameter}))
+}
+
+fn list_cable_parts(prj: &mut Project, _a: &Args) -> Result<Value, String> {
+    let choices:Vec<Value>=openecraft_core::parts::group_choices(&prj.parts,None,"Cables").into_iter().map(|part|json!({
+        "number":part.number,"type_number":part.type_number,"description":part.description,"manufacturer":part.manufacturer,
+        "cores":part.tech_value("Cores"),"cross_section":part.tech_value("Cross-section"),
+        "diameter_mm":part.dimension_mm("Outer diameter").filter(|d|*d>0.0),
+    })).collect();
+    Ok(json!(choices))
 }
 
 #[cfg(test)]

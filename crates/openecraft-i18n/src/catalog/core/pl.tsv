@@ -75,7 +75,6 @@ Approved by	Zatwierdził
 Arms {} and {}	Ramiona {} i {}
 Asset number	Numer inwentarzowy
 Author of the last revision	Autor ostatniej rewizji
-Automatic	Automatycznie
 Autotransformer 1-phase	Autotransformator 1-fazowy
 Autotransformer 1-phase, adjustable	Autotransformator 1-fazowy, regulowany
 Autotransformer 3-phase	Autotransformator 3-fazowy
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Punkt de
 Connection definition point on page {} is not on a wire	Punkt definicji połączenia na stronie {} nie leży na przewodzie
 Connection definitions	Definicje połączeń
 Connection list	Lista połączeń
-Connection point	Punkt połączenia
 Connection point descriptions	Opisy punktów połączeń
 Connection point {} is not on the {} mm grid.	Punkt połączenia {} nie leży na siatce {} mm.
 Connection point {} lies on another one.	Punkt połączenia {} leży na innym.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Obwody sterowania DC powinn
 DC/DC converter	Przetwornica DC/DC
 DWG export failed: {}	Eksport DWG nie powiódł się: {}
 Data sheet	Karta katalogowa
-Data type	Typ danych
 Date of the last revision	Data ostatniej rewizji
 Degree of protection	Stopień ochrony
 Delete projects	Usuwanie projektów
@@ -926,7 +923,6 @@ Neutral (N)	Przewód neutralny (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Przewody neutralne muszą być jasnoniebieskie (IEC 60204-1, 13.2.3)
 Next inspection	Następna kontrola
 Nibbling	Nadkrawanie
-No connection point {}	Brak punktu przyłączeniowego {}
 No connection {}	Brak połączenia {}
 No devices to add to the single-line diagram	Brak urządzeń do dodania do schematu jednokreskowego
 No document embedded - choose a file in the page properties	Brak osadzonego dokumentu - wybierz plik we właściwościach strony
@@ -935,7 +931,6 @@ No known column in the header row	Brak znanej kolumny w wierszu nagłówka
 No option {}	Brak opcji {}
 No page or page item with id {}	Brak strony lub elementu strony o identyfikatorze {}
 No page with id {}	Brak strony o identyfikatorze {}
-No part {}	Brak artykułu {}
 No plugs	Brak złączy
 No report block {}	Brak bloku raportu {}
 No segment template named {}	Brak szablonu segmentu o nazwie {}
@@ -961,7 +956,6 @@ Not a packed project	To nie jest spakowany projekt
 Not a project database: {}	To nie jest baza danych projektów: {}
 Not a settings scheme: {}	To nie jest schemat ustawień: {}
 Not a structure template: {}	To nie jest szablon struktury: {}
-Not a symbol id: {}	To nie jest identyfikator symbolu: {}
 Not a valid JSON file: {}	To nie jest prawidłowy plik JSON: {}
 Not a valid project file: {}	To nie jest prawidłowy plik projektu: {}
 Not a valid property library: {}	To nie jest prawidłowa biblioteka właściwości: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Łączniki / czujniki
 Switches, pushbuttons	Łączniki, przyciski
 Switching frequency	Częstość łączeń
 Switching output	Wyjście łączeniowe
-Symbol key	Klucz symbolu
-Symbolic address	Adres symboliczny
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Trójnik na stronie {} nie pasuje do swoich przewodów: potrzebuje jednego przewodu w swoim kierunku, dwóch poprzecznych i braku punktu przyłączenia w tym miejscu
 Table of contents	Spis treści
 Tabloid landscape	Tabloid poziomo

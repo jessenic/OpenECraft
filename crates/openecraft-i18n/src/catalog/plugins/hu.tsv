@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Sínmegmunkáló gép programja (CSV)
 CNC operations	CNC-műveletek
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	CNC-programok fúró-, maró- és lyukasztógépekhez, rézsínhajlítás, szekrénykonfigurátor, átadás a gyártásnak és gyártási visszajelzés
 Cable tag, e.g. -W1	Kábelazonosító, pl. -W1
-Cable tag, e.g. -W20	Kábel jelölése, pl. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Kalibrálja a gépek időbecslését a gyártási visszajelzés tényleges idői alapján
 Cannot read the plugin folder {}	A(z) {} bővítménymappa nem olvasható
 Cannot start {}: {}	{} nem indítható: {}

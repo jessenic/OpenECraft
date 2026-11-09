@@ -5,6 +5,7 @@ use super::PageKind;
 use super::ops::Clip;
 use super::structure::Dt;
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
@@ -20,6 +21,9 @@ pub struct PageTemplate {
     #[serde(skip_serializing_if = "String::is_empty")]
     pub description: String,
     pub structure: Dt,
+    /// Initial editable page properties, including fields of imported frames.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub values: BTreeMap<String,String>,
     /// Items placed on the new page (positions kept).
     pub content: Clip,
 }

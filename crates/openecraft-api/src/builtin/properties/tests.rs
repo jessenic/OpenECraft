@@ -1,10 +1,76 @@
 use super::*;
+
+#[test]
+fn live_function_references_are_read_only_and_queryable_through_the_registry() {
+    let mut s = new_session();
+    run(&mut s, "place_symbol", json!({"page":"1","symbol":"coil","tag":"-K1","x":40,"y":40})).unwrap();
+    s.project_mut().unwrap().pages.push(openecraft_core::model::Page {name:"2".into(),..Default::default()});
+    let aux = run(&mut s, "place_symbol", json!({"page":"2","symbol":"no","tag":"-K1","x":80,"y":40})).unwrap();
+    let id = aux["id"].as_u64().unwrap();
+    let before = run(&mut s, "list_cross_references", json!({"id":id})).unwrap();
+    assert_eq!(before[0]["references"][0]["page"], "1");
+    run(&mut s, "set_page", json!({"page":"1","name":"37a"})).unwrap();
+    let after = run(&mut s, "list_cross_references", json!({"id":id,"page":"2"})).unwrap();
+    assert_eq!(after[0]["references"][0]["page"], "37a");
+    assert_ne!(before[0]["text"],after[0]["text"]);
+    let properties = run(&mut s,"get_properties",json!({"object":format!("function:{id}"),"all":true})).unwrap();
+    let row = properties["properties"].as_array().unwrap().iter().find(|r|r["key"]=="function.cross_references").unwrap();
+    assert_eq!(row["display"],after[0]["text"]);
+    assert!(run(&mut s,"set_properties",json!({"object":format!("function:{id}"),"values":{"function.cross_references":"old"}})).is_err());
+}
+
+#[test]
+fn live_sheet_frame_fields_are_available_through_the_shared_property_registry() {
+    let mut s=new_session();
+    run(&mut s,"set_page",json!({"page":"1","name":"16","function":"Site","location":"CC1"})).unwrap();
+    let output=run(&mut s,"get_properties",json!({"object":"page:16","all":true})).unwrap();
+    let rows=output["properties"].as_array().unwrap();
+    for (key,value) in [("page.local_name","16"),("page.section_last_number","16"),
+        ("page.function_designation","=Site"),("page.location_designation","+CC1")] {
+        assert_eq!(rows.iter().find(|r|r["key"]==key).unwrap()["display"],value,"{key}");
+    }
+    assert!(run(&mut s,"set_properties",json!({"object":"page:16","values":{"page.section_last_number":"99"}})).is_err());
+}
 use crate::builtin::testing::*;
 
 fn motor_session() -> (Session, u64) {
     let mut s = new_session();
     let m = run(&mut s, "place_symbol", json!({ "page": "1", "symbol": "motor3", "x": 100, "y": 100 })).unwrap();
     (s, m["id"].as_u64().unwrap())
+}
+
+#[test]
+fn placing_another_part_on_a_device_binds_the_new_function_to_that_part() {
+    use openecraft_core::parts::Part;
+    let mut s = new_session();
+    s.project_mut().unwrap().parts.extend([
+        Part { number: "FIRST".into(), symbol: "coil".into(), ..Default::default() },
+        Part { number: "SECOND".into(), symbol: "coil".into(), manufacturer: "Second maker".into(), ..Default::default() },
+    ]);
+    run(&mut s, "place_part", json!({"page":"1","part":"FIRST","tag":"-K1","x":40,"y":40})).unwrap();
+    let second = run(&mut s, "place_part", json!({"page":"1","part":"SECOND","tag":"-K1","x":80,"y":40})).unwrap();
+    let functions = run(&mut s, "list_function_parts", json!({})).unwrap();
+    let function = functions.as_array().unwrap().iter().find(|f| f["symbol"] == second["id"]).unwrap();
+    assert_eq!(function["part_number"], "SECOND");
+    assert_eq!(function["manufacturer"], "Second maker");
+}
+
+#[test]
+fn selected_function_parts_are_editable_and_batch_read_through_the_plugin_registry() {
+    use openecraft_core::model::{PartRef, DeviceData};
+    use openecraft_core::parts::Part;
+    let (mut s, id) = motor_session();
+    let prj = s.project_mut().unwrap();
+    prj.parts.extend([Part { number: "FIRST".into(), ..Default::default() }, Part { number: "SECOND".into(), manufacturer: "Maker".into(), ..Default::default() }]);
+    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "FIRST".into(), count: 1, total:false }, PartRef { number: "SECOND".into(), count: 1, total:false }], ..Default::default() });
+    run(&mut s, "set_properties", json!({"object":format!("function:{id}"),"values":{"function.part_index":2,"function.selection_text":"Source variant*","function.supplementary[3]":"Additional note"}})).unwrap();
+    let list = run(&mut s, "list_function_parts", json!({})).unwrap();
+    let function = list.as_array().unwrap().iter().find(|v| v["symbol"] == id).unwrap();
+    assert_eq!(function["part_number"], "SECOND");
+    assert_eq!(function["manufacturer"], "Maker");
+    assert_eq!(function["selection_text"], "Source variant*");
+    assert_eq!(function["supplementary"][2], "Additional note");
+    assert!(run(&mut s, "set_properties", json!({"object":format!("function:{id}"),"values":{"function.part_index":3}})).is_err());
 }
 
 #[test]

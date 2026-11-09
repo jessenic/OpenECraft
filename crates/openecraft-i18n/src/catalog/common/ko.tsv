@@ -17,6 +17,7 @@ Address	주소
 Angle	각도
 Apply	적용
 Approvers	승인자
+Automatic	자동
 Bold	굵게
 Bottom	바닥
 Bottom with removable gland plate	분리형 글랜드 플레이트가 있는 바닥
@@ -31,6 +32,7 @@ Cable core	케이블 심선
 Cable duct	케이블 덕트
 Cable overview	케이블 개요
 Cable tag	케이블 태그
+Cable tag, e.g. -W20	케이블 태그, 예: -W20
 Cables	케이블
 Cancel	취소
 Cannot read {}: {}	{0}을(를) 읽을 수 없음: {1}
@@ -62,6 +64,7 @@ Configurator	컨피규레이터
 Connect	연결
 Connected to	연결 대상
 Connecting…	연결 중…
+Connection point	연결 지점
 Connection points	연결 지점
 Connections	연결
 Connector	커넥터
@@ -83,6 +86,7 @@ DWG drawing	DWG 도면
 DXF drawing	DXF 도면
 Dark	어둡게
 Data portal	데이터 포털
+Data type	데이터 유형
 Date	날짜
 Depth	깊이
 Descending	내림차순
@@ -214,6 +218,7 @@ New name	새 이름
 No	아니요
 No Vault item matches a part of the project	프로젝트의 부품과 일치하는 Vault 항목이 없습니다
 No cable {}	케이블 {} 없음
+No connection point {}	연결 지점 {} 없음
 No device {}	장치 {} 없음
 No enclosure {}	외함 {} 없음
 No labeling scheme named {}	이름이 {}인 라벨링 스키마가 없습니다
@@ -221,6 +226,7 @@ No machine {}	기계 {}이(가) 없습니다
 No page named {}	이름이 {}인 페이지 없음
 No page template named {}	이름이 {}인 페이지 템플릿 없음
 No page {}	{} 페이지가 없습니다
+No part {}	부품 {} 없음
 No part {} in the project	프로젝트에 부품 {}이(가) 없습니다
 No parts found	부품을 찾을 수 없습니다
 No plot frame named {}	이름이 {}인 플롯 프레임 없음
@@ -234,6 +240,7 @@ No symbol with id {}	ID가 {}인 심볼 없음
 Nominal size	호칭경
 Not a language code: {}	언어 코드가 아님: {}
 Not a macro file: {}	매크로 파일이 아님: {}
+Not a symbol id: {}	심볼 ID가 아닙니다: {}
 Not a valid rule set file: {}	유효한 규칙 세트 파일이 아님: {}
 Not in the schematic	회로도에 없음
 Note	참고
@@ -385,6 +392,8 @@ Successor	후속 제품
 Supplier	공급업체
 Supply	공급
 Symbol	심볼
+Symbol key	심볼 키
+Symbolic address	심볼릭 주소
 Symbols	심볼
 System	시스템
 T-junction	T분기점

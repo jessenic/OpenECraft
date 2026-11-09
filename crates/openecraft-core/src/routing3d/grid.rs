@@ -467,8 +467,9 @@ impl Space {
             }
             let e = &encs[k];
             let l = [c[0] - pos[k][0], c[1] - pos[k][1], c[2] - pos[k][2]];
-            let t = e.wall();
-            if l[0] > t && l[0] < e.width - t && l[1] > t && l[1] < e.height - t && l[2] > PLATE_Z && l[2] < e.depth - t {
+            let t = if e.is_assembly() {0.} else {e.wall()};
+            let back=if e.no_implicit_plate {t} else {e.mounting_z().max(t)};
+            if l[0] > t && l[0] < e.width - t && l[1] > t && l[1] < e.height - t && l[2] > back && l[2] < e.depth - t {
                 s.block[idx] = 0;
             }
         }
@@ -618,6 +619,7 @@ impl Space {
     /// plate with the rear wall and the door, the sides open at the cable `passages` to
     /// the bayed neighbours.
     fn add_walls(&mut self, e: &Enclosure, o: V3, passages: &[panel::Passage]) {
+        if e.is_assembly() {return;}
         let (w, h, d, t) = (e.width, e.height, e.depth, e.wall());
         let far = add(o, [w, h, d]);
         let sides = [((o, [o[0] + t, far[1], far[2]]), o[0]), (([far[0] - t, o[1], o[2]], far), far[0])];
@@ -631,7 +633,8 @@ impl Space {
                 self.solids.push(Solid::Box { lo, hi, owner: 0 });
             }
         }
-        for (lo, hi) in [(o, [far[0], o[1] + t, far[2]]), ([o[0], far[1] - t, o[2]], far), (o, [far[0], far[1], o[2] + PLATE_Z]), ([o[0], o[1], far[2] - t], far)] {
+        let back=if e.no_implicit_plate {t} else {e.mounting_z().max(t)};
+        for (lo, hi) in [(o, [far[0], o[1] + t, far[2]]), ([o[0], far[1] - t, o[2]], far), (o, [far[0], far[1], o[2] + back]), ([o[0], o[1], far[2] - t], far)] {
             self.solids.push(Solid::Box { lo, hi, owner: 0 });
         }
     }

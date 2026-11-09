@@ -30,20 +30,16 @@ struct Layer<'a> {
     z: f32,
 }
 
-fn same(a: f32, b: f32) -> bool {
-    (a - b).abs() < 0.5
-}
-
 /// Direction after the quarter turn of a rotated device (the part's top points to the
 /// right, see [`super::place_mesh`]).
-fn turned(exit: Exit) -> Exit {
-    match exit {
-        Exit::Up => Exit::Right,
-        Exit::Right => Exit::Down,
-        Exit::Down => Exit::Left,
-        Exit::Left => Exit::Up,
-        Exit::Front => Exit::Front,
+fn turned(mut exit: Exit,rotation:super::PanelRotation) -> Exit {
+    for _ in 0..rotation.degrees()/90 {
+        exit=match exit {
+            Exit::Up => Exit::Right,Exit::Right => Exit::Down,Exit::Down => Exit::Left,
+            Exit::Left => Exit::Up,Exit::Front => Exit::Front,
+        };
     }
+    exit
 }
 
 /// The direction a wire leaves a connection point in, in the coordinates of its face
@@ -83,22 +79,35 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
     if it.kind != ItemKind::Device {
         return Vec::new();
     }
+    if it.single_part || !it.terminal.is_empty() {
+        let Some(part)=super::part_by_number(prj,&it.part) else {return Vec::new();};
+        let sized;
+        let part=if part.size().is_none() {
+            let (w,h)=if it.rotation.is_some_and(|rotation|rotation.is_quarter()) {(it.h,it.w)} else {(it.w,it.h)};
+            sized=Part {width:w,height:h,depth:it.d,..part.clone()};&sized
+        } else {part};
+        let size=part.size().unwrap_or([it.w,it.h,it.d.max(1e-3)]);
+        let mut out=Vec::new();
+        piece_points(&mut out,part,size,it,super::item_rotation(it,size[1]));
+        for point in &mut out {point.terminal=it.terminal.clone();}
+        return out;
+    }
     if let Some(a) = super::assembly(prj, &it.tag) {
-        let rotated = super::item_rotated(it, a.h);
+        let rotation = super::item_rotation(it, a.h);
         let mut out = Vec::new();
         for piece in a.pieces() {
-            piece_points(&mut out, piece.part, piece.size, &a.piece_item(it, piece), rotated);
+            piece_points(&mut out, piece.part, piece.size, &a.piece_item(it, piece), rotation);
         }
         // Accessories built into the main part: their terminals on its box (generated
         // ones laid out over it as if the accessory were as large).
         let main = a.piece_item(it, &a.main);
         for part in &a.inside {
             match part.size() {
-                Some(size) if !part.connection_points.is_empty() => piece_points(&mut out, part, size, &main, rotated),
+                Some(size) if !part.connection_points.is_empty() => piece_points(&mut out, part, size, &main, rotation),
                 _ => {
                     let [w, h, d] = a.main.size;
                     let sized = Part { width: w, height: h, depth: d, ..(*part).clone() };
-                    piece_points(&mut out, &sized, a.main.size, &main, rotated);
+                    piece_points(&mut out, &sized, a.main.size, &main, rotation);
                 }
             }
         }
@@ -113,7 +122,7 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
     }
     let Some(data) = prj.devices.get(&it.tag) else { return Vec::new() };
     let parts: Vec<(&Part, u32)> =
-        data.parts.iter().filter_map(|r| prj.parts.iter().find(|p| p.number == r.number).map(|p| (p, r.count.max(1)))).collect();
+        data.parts.iter().filter(|r|r.quantity()>0).filter_map(|r| prj.parts.iter().find(|p| p.number == r.number).map(|p| (p, r.quantity()))).collect();
     let Some((main, [mw, mh, md])) = parts.iter().find_map(|(p, _)| p.size().map(|s| (*p, s))) else { return Vec::new() };
     let mut layers = vec![Layer { part: main, size: [mw, mh, md], z: 0.0 }];
     let mut depth = md;
@@ -135,7 +144,7 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
             let part = super::part_by_number(prj, number).unwrap_or(main);
             let size = part.size().unwrap_or([mw, mh, md]);
             let from = out.len();
-            piece_points(&mut out, part, size, sub, super::item_rotated(sub, size[1]));
+            piece_points(&mut out, part, size, sub, super::item_rotation(sub, size[1]));
             let gap_to = |n: &PanelItem| if along_y { (sub.y - n.y - n.h).max(n.y - sub.y - sub.h) } else { (sub.x - n.x - n.w).max(n.x - sub.x - sub.w) };
             let (before, after) = (k.checked_sub(1).map(|j| &places[j].0), places.get(k + 1).map(|p| &p.0));
             for p in &mut out[from..] {
@@ -157,7 +166,8 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
         depth = super::strip_depth(&parts);
     }
     // Rotated by a quarter turn: the part's height lies along x.
-    let rotated = !same(it.h, mh) && same(it.w, mh);
+    let rotation=super::item_rotation(it,mh);
+    let rotated = rotation.is_quarter();
     let along = if rotated { it.h } else { it.w };
     let sz = if depth > 0.0 { it.d / depth } else { 0.0 };
     // Places along the device: (start, width, terminal number, layers). Terminal
@@ -190,11 +200,8 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
                 let fx = c.pos[0] + (cw - layer.size[0]) / 2.0;
                 let fy = c.pos[1] + (ch - layer.size[1]) / 2.0;
                 let z = it.z + (layer.z + c.pos[2]) * sz;
-                let (pos, exit) = if rotated {
-                    ([it.x + (ch - fy) * (it.w / ch), it.y + start + fx * (cell / cw), z], turned(c.exit))
-                } else {
-                    ([it.x + start + fx * (cell / cw), it.y + fy * (it.h / ch), z], c.exit)
-                };
+                let q=super::front_point(it,rotation,start,cell,[fx/cw,fy/ch]);
+                let (pos,exit)=([q.x,q.y,z],turned(c.exit,rotation));
                 // A device standing on the floor without connection points of its own
                 // (a motor) is connected on top, where its terminal box is.
                 let (pos, exit) = if it.face == Face::Bottom && !exact { ([pos[0], it.y + it.h / 2.0, it.z + it.d], Exit::Front) } else { (pos, exit) };
@@ -206,15 +213,13 @@ pub fn device_points(prj: &Project, it: &PanelItem) -> Vec<PlacedPoint> {
 }
 
 /// The connection points of a part placed into the box `b` of its piece of a device.
-fn piece_points(out: &mut Vec<PlacedPoint>, part: &Part, [pw, ph, pd]: [f32; 3], b: &PanelItem, rotated: bool) {
+fn piece_points(out: &mut Vec<PlacedPoint>, part: &Part, [pw, ph, pd]: [f32; 3], b: &PanelItem, rotation:super::PanelRotation) {
     let (points, exact) = part.connection_points_or_default();
     for c in points {
         let z = b.z + c.pos[2] * (b.d / pd.max(1e-3));
-        let (pos, exit) = if rotated {
-            ([b.x + (ph - c.pos[1]) * (b.w / ph), b.y + c.pos[0] * (b.h / pw), z], turned(c.exit))
-        } else {
-            ([b.x + c.pos[0] * (b.w / pw), b.y + c.pos[1] * (b.h / ph), z], c.exit)
-        };
+        let length=if rotation.is_quarter() {b.h} else {b.w};
+        let q=super::front_point(b,rotation,0.,length,[c.pos[0]/pw,c.pos[1]/ph]);
+        let (pos,exit)=([q.x,q.y,z],turned(c.exit,rotation));
         out.push(PlacedPoint { pin: c.pin, terminal: String::new(), pos, exit, exact });
     }
 }
@@ -234,7 +239,7 @@ pub fn point_of<'a>(prj: &Project, points: &'a [PlacedPoint], s: &SymbolInst, pi
         return points.iter().find(|p| p.terminal == s.label && p.pin == side).or_else(stud);
     }
     let name = match def.func {
-        Func::Plc if def.plc_channel.is_none() => s.label.as_str(),
+        Func::Plc if def.plc_channel.is_none() && def.plc_channels.is_empty() => s.label.as_str(),
         Func::Plug(_) => s.label.as_str(),
         _ => s.pins.get(pin).map(String::as_str).or_else(|| def.pins.get(pin).map(|d| d.label))?,
     };

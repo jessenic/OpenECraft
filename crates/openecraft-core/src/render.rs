@@ -10,8 +10,8 @@ use crate::panel::{self, Enclosure, Face, ItemKind, PanelItem};
 use crate::parts::{Model2d, Prim2d};
 use crate::parts::{self, FnKind};
 use crate::analysis::Analysis;
-use crate::{graphics, structure, text, wirenum};
-use crate::symbols::{Anchor, ContactKind, FieldKind, Func, Prim, SymbolDef, SymbolRef};
+use crate::{graphics, references, structure, text, wirenum};
+use crate::symbols::{Anchor, BlockRow, ContactKind, FieldKind, Func, Prim, SymbolDef, SymbolRef};
 use std::collections::{BTreeSet, HashSet};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -59,6 +59,15 @@ pub trait Draw {
     /// Draws a bitmap; back ends that cannot show it draw a frame with its name.
     fn image(&mut self, img: &ImageItem) {
         image_placeholder(self, img);
+    }
+    /// Bitmap on an affine quadrilateral, used by rotated and mirrored symbols.
+    fn image_quad(&mut self, img: &ImageItem, corners: &[P; 4]) {
+        let mut image = img.clone();
+        let mut bounds = R::from_points(corners[0], corners[2]);
+        for corner in corners { bounds.extend(*corner); }
+        image.a = bounds.min;
+        image.b = bounds.max;
+        self.image(&image);
     }
     /// Layer of the following elements (DXF layers); None = by ink.
     fn layer(&mut self, _name: Option<&str>) {}
@@ -204,10 +213,13 @@ pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, pa
         } else {
             s.tag.clone()
         };
+        let reference_lines = if references::has_field(&def, s) { references::of_symbol(prj, idx, page_i, &def, s) } else { Vec::new() };
+        let property = |key: &str| if key == references::PROPERTY { references::text(&reference_lines) }
+            else { crate::props::symbol_property_text(prj, page_i, s, key) };
         if tag != s.tag {
-            draw_symbol(d, &def, &SymbolInst { tag, ..s.clone() }, ink);
+            draw_symbol_resolved(d, &def, &SymbolInst { tag, ..s.clone() }, ink, &property, &reference_lines);
         } else {
-            draw_symbol(d, &def, s, ink);
+            draw_symbol_resolved(d, &def, s, ink, &property, &reference_lines);
         }
         draw_annotations(d, prj, idx, page_i, &def, s, ink);
         if opts.show_pins {
@@ -440,30 +452,71 @@ fn draw_cable_def(d: &mut dyn Draw, prj: &Project, page: &Page, cd: &CableDef, i
 
 /// Draws only the symbol graphics (used for canvas, ghost and library previews).
 pub fn draw_symbol(d: &mut dyn Draw, def: &SymbolDef, s: &SymbolInst, ink: Ink) {
-    match s.size {
-        // A device box drawn to its size.
-        Some(sz) => {
-            let c = [p(0.0, 0.0), p(sz.x, 0.0), sz, p(0.0, sz.y)].map(|q| s.pos + q.transform(s.rot, false));
-            for i in 0..4 {
-                d.line(c[i], c[(i + 1) % 4], SYMBOL_W, ink, true);
-            }
+    draw_symbol_resolved(d, def, s, ink, &|key| s.values.get(key).cloned().unwrap_or_default(), &[]);
+}
+
+fn draw_symbol_resolved(d: &mut dyn Draw, def: &SymbolDef, s: &SymbolInst, ink: Ink, property: &dyn Fn(&str) -> String, refs: &[references::Reference]) {
+    // A device box drawn to its size.
+    if let Some(sz) = s.size {
+        let c = [p(0.0, 0.0), p(sz.x, 0.0), sz, p(0.0, sz.y)].map(|q| s.pos + q.transform(s.rot, false));
+        for i in 0..4 {
+            d.line(c[i], c[(i + 1) % 4], SYMBOL_W, ink, true);
         }
-        None => draw_prims(d, &def.prims, s, ink),
+        return;
+    }
+    if s.pins.len() < def.pins.len() {
+        let mut preview = s.clone();
+        for pin in def.pins.iter().skip(preview.pins.len()) {
+            preview.pins.push(pin.label.into());
+        }
+        draw_prims_resolved(d, &def.prims, &preview, ink, property, refs);
+    } else {
+        draw_prims_resolved(d, &def.prims, s, ink, property, refs);
     }
 }
 
 /// Symbol graphics placed like the instance `s` (also used by the symbol editor).
 pub fn draw_prims(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink) {
+    draw_prims_resolved(d, prims, s, ink, &|key| s.values.get(key).cloned().unwrap_or_default(), &[]);
+}
+
+fn field_text(s: &SymbolInst, kind: FieldKind) -> String {
+    match kind {
+        FieldKind::Label => s.label.clone(),
+        FieldKind::FunctionText => s.function_text.clone(),
+        FieldKind::Tag => s.tag.clone(),
+        FieldKind::TagName => crate::structure::Dt::parse(&s.tag).name,
+        FieldKind::Pin(i) => s.pins.get(i).cloned().unwrap_or_default(),
+        FieldKind::Product(levels) => {
+            let dt = crate::structure::Dt::parse(&s.tag);
+            let product = if dt.product.is_empty() { dt.name } else { format!("-{}{}", dt.product, dt.name) };
+            let start = product.rmatch_indices('-').nth(levels.saturating_sub(1)).map_or(0, |(i, _)| i);
+            product[start..].to_owned()
+        }
+    }
+}
+
+fn draw_prims_resolved(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink, property: &dyn Fn(&str) -> String, refs: &[references::Reference]) {
     let tf = |q: P| s.pos + q.transform(s.rot, s.mirror);
     let text_ink = if ink == Ink::Line { Ink::Text } else { ink };
     for prim in prims {
         match prim {
+            Prim::PropertyBlock(block) => draw_property_block(d, block, s, ink, property, refs),
             Prim::Line { a, b, dashed } => d.line(tf(*a), tf(*b), SYMBOL_W, ink, *dashed),
             Prim::Poly { pts, closed, fill } => {
                 let v: Vec<P> = pts.iter().map(|q| tf(*q)).collect();
                 d.poly(&v, *closed, SYMBOL_W, ink, *fill);
             }
             Prim::Circle { c, r, fill, color } => d.circle(tf(*c), *r, SYMBOL_W, if ink == Ink::Line {color.map(Ink::Color).unwrap_or(ink)} else {ink}, *fill),
+            Prim::Image { name, data, corners } => {
+                let world = corners.map(tf);
+                let image = ImageItem {
+                    a: world[0], b: world[2],
+                    file: crate::document::Document { name: name.clone(), data: data.clone() },
+                    ..Default::default()
+                };
+                d.image_quad(&image, &world);
+            }
             Prim::Path { pts, closed, fill, width, color, dashed } => {
                 let pen = if ink==Ink::Line {color.map(Ink::Color).unwrap_or(ink)} else {ink};
                 let points: Vec<_> = pts.iter().map(|q| tf(*q)).collect();
@@ -476,37 +529,97 @@ pub fn draw_prims(d: &mut dyn Draw, prims: &[Prim], s: &SymbolInst, ink: Ink) {
             }
             Prim::Text { pos, text, size, anchor, angle, color } => {
                 let text_ink = if ink==Ink::Line {color.map(Ink::Color).unwrap_or(text_ink)} else {text_ink};
-                if let Some(angle) = angle {
-                    let mut style = TextStyle::plain(*size, *anchor, VAnchor::Middle);
-                    let direction = (if s.mirror { 180. - angle } else { *angle }) - 90. * s.rot as f32;
-                    style.angle = (direction + 180.).rem_euclid(360.) - 180.;
-                    if style.angle > 90. || style.angle <= -90. {
-                        style.angle += if style.angle > 0. { -180. } else { 180. };
-                        style.h = match anchor {
-                            Anchor::Left => Anchor::Right,
-                            Anchor::Right => Anchor::Left,
-                            Anchor::Center => Anchor::Center,
-                        };
-                    }
-                    let (sin,cos) = angle.to_radians().sin_cos();
-                    for (i,line) in text.lines().enumerate() {
-                        let offset = p(sin,cos) * (i as f32 * size * 1.25);
-                        d.styled_text(tf(*pos + offset),line,&style,text_ink);
-                    }
-                } else {
-                    d.text(tf(*pos), text, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink);
-                }
+                draw_symbol_text(d, s, *pos, text, &TextStyle::plain(*size, *anchor, VAnchor::Middle), *angle, text_ink);
             }
-            Prim::Field { kind, pos, size, anchor } => {
+            Prim::Field { kind, pos, size, anchor, angle } => {
+                let name = match kind {
+                    FieldKind::TagName => crate::structure::Dt::parse(&s.tag).name,
+                    FieldKind::Product(levels) => {
+                        let dt = crate::structure::Dt::parse(&s.tag);
+                        let product = if dt.product.is_empty() { dt.name } else { format!("-{}{}", dt.product, dt.name) };
+                        let start = product.rmatch_indices('-').nth(levels.saturating_sub(1)).map_or(0, |(i, _)| i);
+                        product[start..].to_owned()
+                    }
+                    _ => String::new(),
+                };
                 let t = match kind {
                     FieldKind::Label => &s.label,
+                    FieldKind::FunctionText => &s.function_text,
                     FieldKind::Tag => &s.tag,
+                    FieldKind::TagName | FieldKind::Product(_) => &name,
+                    FieldKind::Pin(index) => {
+                        s.pins.get(*index).map_or("", String::as_str)
+                    }
                 };
                 if !t.is_empty() {
-                    d.text(tf(*pos), t, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink);
+                    if *kind == FieldKind::FunctionText {
+                        draw_symbol_text(d, s, *pos, t, &TextStyle::plain(*size, *anchor, VAnchor::Middle), *angle, text_ink);
+                        continue;
+                    }
+                    if let Some(angle) = angle {
+                        let mut style = TextStyle::plain(*size, *anchor, VAnchor::Middle);
+                        style.angle = (if s.mirror { 180. - angle } else { *angle }) - 90. * s.rot as f32;
+                        d.styled_text(tf(*pos), t, &style, text_ink);
+                    } else {
+                        d.text(tf(*pos), t, *size, rotated_anchor(*anchor, s), VAnchor::Middle, text_ink);
+                    }
                 }
             }
         }
+    }
+}
+
+fn draw_property_block(d: &mut dyn Draw, block: &crate::symbols::PropertyBlock, s: &SymbolInst, ink: Ink, property: &dyn Fn(&str) -> String, refs: &[references::Reference]) {
+    let mut lines: Vec<(String, Option<usize>)> = Vec::new();
+    for row in &block.rows {
+        if matches!(row, BlockRow::Property(key) if key == references::PROPERTY) {
+            lines.extend(refs.iter().map(|r| (r.text.clone(), r.page)));
+            continue;
+        }
+        let value = match row {
+            BlockRow::Property(key) => property(key),
+            BlockRow::Field(kind) => field_text(s, *kind),
+            BlockRow::Text(text) => text.clone(),
+        };
+        if !value.is_empty() { lines.extend(value.split('\n').map(|line| (line.trim_end_matches('\r').to_owned(), None))); }
+    }
+    let text_ink = if ink == Ink::Line { Ink::Text } else { ink };
+    let pen = if ink == Ink::Line { block.color.map(Ink::Color).unwrap_or(text_ink) } else { ink };
+    let style = TextStyle::plain(block.size, block.anchor, VAnchor::Middle);
+    for (i, (line, target)) in lines.iter().enumerate() {
+        let pos = block.row_pos(i, lines.len());
+        draw_symbol_text(d, s, pos, line, &style, Some(block.angle), pen);
+        if let Some(page) = target {
+            let actual = symbol_text_style(s, style, block.angle);
+            let item = TextItem { pos:s.pos + pos.transform(s.rot, s.mirror), size:actual.size,
+                align:actual.h, valign:actual.v, angle:actual.angle, ..Default::default() };
+            let bounds = text::bounds(&item, line);
+            d.link(bounds.min, bounds.max, *page);
+        }
+    }
+}
+
+fn symbol_text_style(s: &SymbolInst, mut style: TextStyle, angle: f32) -> TextStyle {
+    let direction = (if s.mirror { 180. - angle } else { angle }) - 90. * s.rot as f32;
+    style.angle = (direction + 180.).rem_euclid(360.) - 180.;
+    if style.angle > 90. || style.angle <= -90. {
+        style.angle += if style.angle > 0. { -180. } else { 180. };
+        style.h = match style.h { Anchor::Left => Anchor::Right, Anchor::Right => Anchor::Left, Anchor::Center => Anchor::Center };
+    }
+    style
+}
+
+fn draw_symbol_text(d: &mut dyn Draw, s: &SymbolInst, pos: P, text: &str, plain: &TextStyle, angle: Option<f32>, ink: Ink) {
+    let tf = |q: P| s.pos + q.transform(s.rot, s.mirror);
+    if let Some(angle) = angle {
+        let style = symbol_text_style(s, *plain, angle);
+        let (sin, cos) = angle.to_radians().sin_cos();
+        for (i, line) in text.lines().enumerate() {
+            let offset = p(sin, cos) * (i as f32 * style.size * 1.25);
+            d.styled_text(tf(pos + offset), line, &style, ink);
+        }
+    } else {
+        d.text(tf(pos), text, plain.size, rotated_anchor(plain.h, s), VAnchor::Middle, ink);
     }
 }
 
@@ -558,6 +671,15 @@ fn wire_text(d: &mut dyn Draw, w: &Wire, t: f32, text: &str, below: bool, ink: I
 /// (a stroke across the wire, the core and once per page the cable tag).
 fn draw_wire_labels(d: &mut dyn Draw, prj: &Project, an: &Analysis, page_i: usize) {
     let page = &prj.pages[page_i];
+    for w in &page.wires {
+        for label in &w.labels {
+            if label.is_valid() && !label.text(w).is_empty() {
+                let mut style = TextStyle::plain(label.size, label.anchor, VAnchor::Middle);
+                style.angle = label.angle;
+                d.styled_text(label.position(w), label.text(w), &style, label.color.map_or(Ink::Text, Ink::Color));
+            }
+        }
+    }
     for net in &an.open.nets {
         let Some(w) = wirenum::label_wire(page, page_i, net) else { continue };
         let number = wirenum::number_of(prj, net);
@@ -571,7 +693,7 @@ fn draw_wire_labels(d: &mut dyn Draw, prj: &Project, an: &Analysis, page_i: usiz
             wire_text(d, w, t, &number, false, Ink::Text);
         }
     }
-    let mut cabled: Vec<&Wire> = page.wires.iter().filter(|w| !w.cable.is_empty()).collect();
+    let mut cabled: Vec<&Wire> = page.wires.iter().filter(|w| !w.cable.is_empty() && !w.hide_labels).collect();
     cabled.sort_by(|a, b| a.a.x.min(a.b.x).total_cmp(&b.a.x.min(b.b.x)).then(a.a.y.total_cmp(&b.a.y)));
     let mut tagged: Vec<&str> = Vec::new();
     for w in cabled {
@@ -583,6 +705,15 @@ fn draw_wire_labels(d: &mut dyn Draw, prj: &Project, an: &Analysis, page_i: usiz
             wire_text(d, w, t, &structure::relative(page, &w.cable), false, Ink::CrossRef);
         }
         wire_text(d, w, t, &w.core, true, Ink::CrossRef);
+    }
+}
+
+fn draw_placed_references(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, s: &SymbolInst, pp: &PlacedProp) {
+    for (i, r) in references::of_symbol(prj, idx, page_i, def, s).iter().enumerate() {
+        let shown = if pp.name && i == 0 { format!("{}: {}", tr("Cross references"), r.text) } else { r.text.clone() };
+        let q = s.pos + pp.offset + p(0., i as f32 * pp.size * 1.35);
+        d.text(q, &shown, pp.size, pp.anchor, VAnchor::Middle, Ink::CrossRef);
+        if let Some(page) = r.page { link_text(d, q, &shown, pp.size, pp.anchor, page); }
     }
 }
 
@@ -606,7 +737,7 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
     let mut refs: Vec<(String, Option<usize>)> = Vec::new();
     let dev = idx.devices.get(&s.tag);
     match def.func {
-        Func::Aux(_) => match dev.map(|d| d.mains.as_slice()) {
+        Func::Aux(_) | Func::Auxiliary => match dev.map(|d| d.mains.as_slice()) {
             Some([]) | None => refs.push(("?".into(), None)),
             Some(mains) => refs.extend(mains.iter().map(|m| (m.reference_from(prj, page_i), Some(m.page)))),
         },
@@ -620,8 +751,8 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
                 refs.extend(dev.auxs.iter().map(|a| (a.reference_from(prj, page_i), Some(a.page))));
             }
         }
-        Func::Interruption if idx.interruptions.contains_key(&s.label) => {
-            let others: Vec<Loc> = idx.interruption_targets(prj, &s.label, s.id);
+        Func::Interruption if !references::has_field(def, s) && idx.interruptions.contains_key(&s.interruption_key()) => {
+            let others: Vec<Loc> = idx.interruption_targets(prj, &s.interruption_key(), s.id);
             let q = s.pos + p(2.2, 1.6).transform(s.rot, s.mirror) + p(0.0, 2.6);
             let txt = if others.is_empty() { "?".to_string() } else { others.iter().map(|l| l.reference_from(prj, page_i)).collect::<Vec<_>>().join(" ") };
             let ink = if others.is_empty() { Ink::Error } else { Ink::CrossRef };
@@ -636,13 +767,15 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
         refs.extend(crate::electrofluid::cross_refs(prj, idx, page_i, &s.tag));
     }
 
+    if references::has_field(def, s) { refs.clear(); }
+
     // Tag block
     if def.show_tag {
         let mut lines: Vec<(String, f32, Ink, Option<usize>)> = Vec::new();
         if !s.tag.is_empty() && !hides_tag(prj, page_i, def, s) {
             lines.push((structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE, text_ink, None));
         }
-        if !s.function_text.is_empty() {
+        if !s.function_text.is_empty() && !def.has_function_text_field() {
             for l in s.function_text.lines() {
                 lines.push((l.to_string(), 2.0, text_ink, None));
             }
@@ -663,6 +796,10 @@ pub fn draw_annotations(d: &mut dyn Draw, prj: &Project, idx: &Index, page_i: us
     }
 
     for pp in &s.props {
+        if pp.key == references::PROPERTY {
+            draw_placed_references(d, prj, idx, page_i, def, s, pp);
+            continue;
+        }
         let t = crate::props::text(prj, page_i, s, pp);
         if !t.is_empty() {
             d.text(s.pos + pp.offset, &t, pp.size, pp.anchor, VAnchor::Middle, text_ink);
@@ -750,14 +887,16 @@ fn tag_block_origin(def: &SymbolDef, s: &SymbolInst, sizes: &[f32]) -> (f32, f32
 /// Approximate area of the tag block (tag and function text) of a placed symbol,
 /// used to pick and drag it.
 pub fn tag_block_bounds(prj: &Project, page_i: usize, def: &SymbolDef, s: &SymbolInst) -> Option<R> {
-    if !def.show_tag || (s.tag.is_empty() && s.function_text.is_empty()) {
+    if !def.show_tag || (s.tag.is_empty() && (s.function_text.is_empty() || def.has_function_text_field())) {
         return None;
     }
     let mut lines: Vec<(String, f32)> = Vec::new();
     if !s.tag.is_empty() && !hides_tag(prj, page_i, def, s) {
         lines.push((structure::relative(&prj.pages[page_i], &s.tag), TAG_SIZE));
     }
-    lines.extend(s.function_text.lines().map(|l| (l.to_string(), 2.0)));
+    if !def.has_function_text_field() {
+        lines.extend(s.function_text.lines().map(|l| (l.to_string(), 2.0)));
+    }
     let (x, y, anchor) = tag_block_origin(def, s, &lines.iter().map(|l| l.1).collect::<Vec<_>>());
     let w = lines.iter().map(|(t, z)| t.chars().count() as f32 * z * 0.62).fold(0.0, f32::max);
     let h: f32 = lines.iter().map(|l| l.1 * 1.35).sum();
@@ -873,8 +1012,20 @@ fn mirror_glyph(d: &mut dyn Draw, c: P, kind: ContactKind, ink: Ink) {
 }
 
 pub fn draw_frame(d: &mut dyn Draw, prj: &Project, page_i: usize) {
-    let page = &prj.pages[page_i];
     let f = crate::frame::of_page(prj, page_i);
+    draw_plot_frame(d, prj, page_i, &f);
+}
+
+/// A selected frame with the current page context (also used by the frame editor).
+pub fn draw_plot_frame(d: &mut dyn Draw, prj: &Project, page_i: usize, f: &crate::frame::PlotFrame) {
+    let page = &prj.pages[page_i];
+    if !f.visible { return; }
+    if !f.artwork.is_empty() {
+        let instance = SymbolInst::default();
+        draw_prims_resolved(d, &f.artwork, &instance, Ink::Frame,
+            &|key| crate::props::symbol_property_text(prj, page_i, &instance, key), &[]);
+        return;
+    }
     let fi = Ink::Frame;
     let b = f.border();
     let a = f.area();
@@ -1075,11 +1226,12 @@ pub fn draw_enclosure(
     prj: &Project,
 ) {
     let parts = &prj.parts[..];
-    let m = face.origin();
-    let tf = |x: f32, y: f32| origin + p((x + m) * k, (y + m) * k);
+    let m = e.face_offset(face);
+    let tf = |x: f32, y: f32| origin + p((x + m.x) * k, (y + m.y) * k);
     let (vw, vh) = e.view_size(face);
-    d.rect(origin, origin + p(vw * k, vh * k), 0.5, Ink::Line, false);
+    if !e.is_assembly() {d.rect(origin, origin + p(vw * k, vh * k), 0.5, Ink::Line, false);}
     match face {
+        Face::Plate if e.is_assembly() || e.no_implicit_plate || e.items.iter().any(|i|i.kind==ItemKind::MountingPlate) => {}
         Face::Plate if panel::is_rack(e) => {
             // No plate in a rack: its front rails with the rack units, numbered from
             // the bottom.
@@ -1291,6 +1443,10 @@ pub fn draw_enclosure(
                     d.line(p(a.x, b.y), p(b.x, a.y), 0.12, line_ink, false);
                 }
             }
+            ItemKind::MountingPlate => {
+                d.rect(a,b,0.0,Ink::Fill,true);
+                d.rect(a,b,0.25,ink,false);
+            }
             ItemKind::Accessory => {
                 // Accessories: their outline with the part number.
                 d.rect(a, b, 0.0, Ink::Fill, true);
@@ -1411,7 +1567,8 @@ fn draw_model_2d(d: &mut dyn Draw, m: &Model2d, it: &PanelItem, tf: &dyn Fn(f32,
     if m.width <= 0.0 || m.height <= 0.0 {
         return;
     }
-    let rotated = panel::item_rotated(it, m.height);
+    let rotation = panel::item_rotation(it, m.height);
+    let rotated = rotation.is_quarter();
     let n = if rotated { 1 } else { panel::tiles(it.w, m.width) };
     let cell = (if rotated { it.h } else { it.w }) / n as f32;
     for tile in 0..n {
@@ -1425,33 +1582,28 @@ fn draw_model_2d_in(d: &mut dyn Draw, m: &Model2d, it: &PanelItem, tf: &dyn Fn(f
     if m.width <= 0.0 || m.height <= 0.0 {
         return;
     }
-    let rotated = panel::item_rotated(it, m.height);
+    let rotation = panel::item_rotation(it, m.height);
+    let rotated = rotation.is_quarter();
     let (sx, sy) = if rotated { (it.w / m.height, len / m.width) } else { (len / m.width, it.h / m.height) };
     let s = (sx + sy) / 2.0;
     let map = |q: [f32; 2]| {
-        if rotated {
-            tf(it.x + (m.height - q[1]) * sx, it.y + at + q[0] * sy)
-        } else {
-            tf(it.x + at + q[0] * sx, it.y + q[1] * sy)
-        }
+        let point=panel::front_point(it,rotation,at,len,[q[0]/m.width,q[1]/m.height]);tf(point.x,point.y)
     };
-    draw_prims_2d(d, &m.prims, &map, s * k, 0.15, ink);
+    let angle=if it.rotation.is_some() {-(rotation.degrees() as f32)} else {0.};
+    draw_prims_2d_at_angle(d, &m.prims, &map, s * k, 0.15, ink,angle);
 }
 
 /// The elements of a terminal strip: each part's front view in its cell, a plain
 /// outline where a part has none.
 #[allow(clippy::too_many_arguments)]
 fn draw_strip_2d(d: &mut dyn Draw, prj: &Project, it: &PanelItem, cells: &[panel::Cell], tf: &dyn Fn(f32, f32) -> P, k: f32, ink: Ink) {
-    let rotated = prj.parts.iter().chain(parts::catalog()).find(|x| x.number == it.part).and_then(|x| x.size()).is_some_and(|s| panel::item_rotated(it, s[1]));
+    let rotation=panel::device_rotation(prj,it);
     for c in cells {
         match prj.parts.iter().chain(parts::catalog()).find(|x| x.number == c.part).and_then(|x| prj.symbol_cache.front_view(x)).as_deref() {
             Some(m) => draw_model_2d_in(d, m, it, tf, k, ink, c.at, c.len),
             None => {
-                let (a, b) = if rotated {
-                    (tf(it.x, it.y + c.at), tf(it.x + it.w, it.y + c.at + c.len))
-                } else {
-                    (tf(it.x + c.at, it.y), tf(it.x + c.at + c.len, it.y + it.h))
-                };
+                let cell=panel::front_cell(it,rotation,c.at,c.len);
+                let (a,b)=(tf(cell.min.x,cell.min.y),tf(cell.max.x,cell.max.y));
                 d.rect(a, b, 0.15, ink, false);
             }
         }
@@ -1459,6 +1611,10 @@ fn draw_strip_2d(d: &mut dyn Draw, prj: &Project, it: &PanelItem, cells: &[panel
 }
 
 pub fn draw_prims_2d(d: &mut dyn Draw, prims: &[Prim2d], map: &dyn Fn([f32; 2]) -> P, s: f32, w: f32, ink: Ink) {
+    draw_prims_2d_at_angle(d,prims,map,s,w,ink,0.);
+}
+
+fn draw_prims_2d_at_angle(d: &mut dyn Draw, prims: &[Prim2d], map: &dyn Fn([f32; 2]) -> P, s: f32, w: f32, ink: Ink,angle:f32) {
     for prim in prims {
         match prim {
             Prim2d::Line { a, b } => d.line(map(*a), map(*b), w, ink, false),
@@ -1473,7 +1629,11 @@ pub fn draw_prims_2d(d: &mut dyn Draw, prims: &[Prim2d], map: &dyn Fn([f32; 2]) 
             }
             Prim2d::Text { pos, text, size } => {
                 let ink = if ink == Ink::Line { Ink::Text } else { ink };
-                d.text(map(*pos), text, size * s, Anchor::Left, VAnchor::Middle, ink)
+                if angle==0. {d.text(map(*pos), text, size * s, Anchor::Left, VAnchor::Middle, ink);}
+                else {
+                    let mut style=TextStyle::plain(size*s,Anchor::Left,VAnchor::Middle);style.angle=angle;
+                    d.styled_text(map(*pos),text,&style,ink);
+                }
             }
         }
     }

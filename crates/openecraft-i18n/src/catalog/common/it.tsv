@@ -17,6 +17,7 @@ Address	Indirizzo
 Angle	Angolo
 Apply	Applica
 Approvers	Approvatori
+Automatic	Automatico
 Bold	Grassetto
 Bottom	Fondo
 Bottom with removable gland plate	Fondo con piastra passacavi rimovibile
@@ -33,6 +34,7 @@ Cable core	Anima del cavo
 Cable duct	Canalina
 Cable overview	Panoramica cavi
 Cable tag	Sigla cavo
+Cable tag, e.g. -W20	Sigla del cavo, ad es. -W20
 Cables	Cavi
 Cancel	Annulla
 Cannot read {}: {}	Impossibile leggere {}: {}
@@ -64,6 +66,7 @@ Configurator	Configuratore
 Connect	Connetti
 Connected to	Collegato a
 Connecting…	Connessione in corso…
+Connection point	Punto di connessione
 Connection points	Punti di connessione
 Connections	Collegamenti
 Connector	Connettore
@@ -85,6 +88,7 @@ DWG drawing	Disegno DWG
 DXF drawing	Disegno DXF
 Dark	Scuro
 Data portal	Data Portal
+Data type	Tipo di dati
 Date	Data
 Depth	Profondità
 Descending	Decrescente
@@ -216,6 +220,7 @@ New name	Nuovo nome
 No	No
 No Vault item matches a part of the project	Nessun elemento di Vault corrisponde a un articolo del progetto
 No cable {}	Nessun cavo {}
+No connection point {}	Nessun punto di connessione {}
 No device {}	Nessun dispositivo {}
 No enclosure {}	Nessun armadio {}
 No labeling scheme named {}	Nessuno schema di marcatura denominato {}
@@ -223,6 +228,7 @@ No machine {}	Nessuna macchina {}
 No page named {}	Nessuna pagina denominata {}
 No page template named {}	Nessun modello di pagina denominato {}
 No page {}	Nessuna pagina {}
+No part {}	Nessun articolo {}
 No part {} in the project	Nessun articolo {} nel progetto
 No parts found	Nessun articolo trovato
 No plot frame named {}	Nessuna cornice di stampa denominata {}
@@ -236,6 +242,7 @@ No symbol with id {}	Nessun simbolo con ID {}
 Nominal size	Diametro nominale
 Not a language code: {}	Non è un codice lingua: {}
 Not a macro file: {}	Non è un file di macro: {}
+Not a symbol id: {}	Non è un ID di simbolo: {}
 Not a valid rule set file: {}	Non è un file di set di regole valido: {}
 Not in the schematic	Non nello schema
 Note	Nota
@@ -387,6 +394,8 @@ Successor	Successore
 Supplier	Fornitore
 Supply	Approvvigionamento
 Symbol	Simbolo
+Symbol key	Chiave del simbolo
+Symbolic address	Indirizzo simbolico
 Symbols	Simboli
 System	Sistema
 T-junction	Pezzo a T

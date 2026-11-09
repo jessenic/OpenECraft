@@ -17,6 +17,7 @@ Address	Adres
 Angle	Açı
 Apply	Uygula
 Approvers	Onaylayıcılar
+Automatic	Otomatik
 Bold	Kalın
 Bottom	Taban
 Bottom with removable gland plate	Sökülebilir rakor plakalı taban
@@ -33,6 +34,7 @@ Cable core	Kablo damarı
 Cable duct	Kablo kanalı
 Cable overview	Kablo genel bakışı
 Cable tag	Kablo etiketi
+Cable tag, e.g. -W20	Kablo etiketi, ör. -W20
 Cables	Kablolar
 Cancel	İptal
 Cannot read {}: {}	{} okunamıyor: {}
@@ -64,6 +66,7 @@ Configurator	Yapılandırıcı
 Connect	Bağlan
 Connected to	Şuna bağlı
 Connecting…	Bağlanıyor…
+Connection point	Bağlantı noktası
 Connection points	Bağlantı noktaları
 Connections	Bağlantılar
 Connector	Konnektör
@@ -85,6 +88,7 @@ DWG drawing	DWG çizimi
 DXF drawing	DXF çizimi
 Dark	Koyu
 Data portal	Veri portalı
+Data type	Veri tipi
 Date	Tarih
 Depth	Derinlik
 Descending	Azalan
@@ -216,6 +220,7 @@ New name	Yeni ad
 No	Hayır
 No Vault item matches a part of the project	Hiçbir Vault öğesi projenin bir parçasıyla eşleşmiyor
 No cable {}	{} kablosu yok
+No connection point {}	{} bağlantı noktası yok
 No device {}	{} cihazı yok
 No enclosure {}	{} panosu yok
 No labeling scheme named {}	{} adlı etiketleme şeması yok
@@ -223,6 +228,7 @@ No machine {}	{} makinesi yok
 No page named {}	{} adlı sayfa yok
 No page template named {}	{} adlı sayfa şablonu yok
 No page {}	{} sayfası yok
+No part {}	{} parçası yok
 No part {} in the project	Projede {} parçası yok
 No parts found	Parça bulunamadı
 No plot frame named {}	{} adlı çizim çerçevesi yok
@@ -236,6 +242,7 @@ No symbol with id {}	{} kimlikli sembol yok
 Nominal size	Nominal çap
 Not a language code: {}	Dil kodu değil: {}
 Not a macro file: {}	Makro dosyası değil: {}
+Not a symbol id: {}	Sembol kimliği değil: {}
 Not a valid rule set file: {}	Geçerli bir kural seti dosyası değil: {}
 Not in the schematic	Şemada değil
 Note	Not
@@ -387,6 +394,8 @@ Successor	Halef
 Supplier	Tedarikçi
 Supply	Besleme
 Symbol	Sembol
+Symbol key	Sembol anahtarı
+Symbolic address	Sembolik adres
 Symbols	Semboller
 System	Sistem
 T-junction	T parçası

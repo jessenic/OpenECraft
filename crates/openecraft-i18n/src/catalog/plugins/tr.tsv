@@ -74,7 +74,6 @@ Busbar machine program (CSV)	Bara işleme makinesi programı (CSV)
 CNC operations	CNC işlemleri
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	Delme, frezeleme ve zımbalama makineleri için CNC programları, bakır bara bükme, pano yapılandırıcısı, üretime teslim ve üretim geri bildirimi
 Cable tag, e.g. -W1	Kablo etiketi, ör. -W1
-Cable tag, e.g. -W20	Kablo etiketi, ör. -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	Makinelerin süre tahminini üretim geri bildirimindeki gerçek sürelerle kalibre eder
 Cannot read the plugin folder {}	{} eklenti klasörü okunamıyor
 Cannot start {}: {}	{} başlatılamıyor: {}

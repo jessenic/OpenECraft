@@ -174,9 +174,48 @@ fn process(dir: PathBuf, run: Vec<String>, timeout: Duration) -> Transport {
     })
 }
 
+/// What the project model of this host supports; sent with every request.
+pub const PROJECT_FEATURES: &[&str] = &[
+    "directional_pin_contacts",
+    "explicit_wire_junctions",
+    "directed_junction_paths",
+    "fluid_port_roles",
+    "wire_hide_labels",
+    "scoped_connections",
+    "product_designation_fields",
+    "function_text_fields",
+    "function_part_selection",
+    "property_blocks",
+    "wire_type",
+    "physical_wire_routes",
+    "multi_channel_plc",
+    "linked_plc_channels",
+    "plc_channel_indices",
+    "explicit_panel_mounts",
+    "individual_panel_terminals",
+    "explicit_panel_geometry",
+    "literal_part_quantities",
+    "material_ownership",
+    "portable_macro_materials",
+    "portable_cables",
+    "per_wire_junctions",
+    "macro_definition_parameters",
+    "parallel_cable_cores",
+    "page_property_blocks",
+    "page_template_values",
+    "page_frame_fields",
+    "function_cable_references",
+    "cable_property_blocks",
+    "placed_wire_labels",
+    "explicit_panel_rotations",
+    "function_cross_references",
+    "plot_frame_artwork",
+];
+
 /// Sends a request; `{"error": …}` becomes an error.
 fn ask(transport: &Transport, mut request: Value) -> Result<Value, String> {
     request["api"] = API_VERSION.into();
+    request["project_features"] = json!(PROJECT_FEATURES);
     let answer = transport(&request)?;
     match answer.get("error") {
         Some(e) => Err(e.as_str().map(String::from).unwrap_or_else(|| e.to_string())),

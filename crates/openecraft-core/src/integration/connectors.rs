@@ -257,7 +257,7 @@ pub fn plm(prj: &Project, an: &Analysis) -> String {
     // Engineering BOM: location → device → parts.
     let mut locations: std::collections::BTreeMap<String, Vec<Value>> = Default::default();
     for (tag, d) in prj.devices.iter().filter(|(_, d)| !d.parts.is_empty()) {
-        let parts: Vec<Value> = d.parts.iter().map(|r| json!({ Field::PartNumber.code(): r.number, Field::Quantity.code(): r.count.max(1) })).collect();
+        let parts: Vec<Value> = d.parts.iter().map(|r| json!({ Field::PartNumber.code(): r.number, Field::Quantity.code(): r.quantity() })).collect();
         locations.entry(enclosure_of(prj, tag)).or_default().push(json!({ Field::Tag.code(): tag, Field::Description.code(): d.description, "parts": parts }));
     }
     let structure: Vec<Value> = locations.into_iter().map(|(loc, devices)| json!({ Field::Enclosure.code(): loc, "devices": devices })).collect();

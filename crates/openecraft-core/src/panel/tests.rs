@@ -2,6 +2,48 @@ use super::*;
 use crate::analysis::Analysis;
 use crate::sample::demo_project;
 
+#[test]
+fn explicit_panel_rotations_preserve_square_orientation_and_round_trip() {
+    assert_eq!(serde_json::from_str::<PanelRotation>("-90").unwrap(),PanelRotation::Deg270);
+    assert!(serde_json::from_str::<PanelRotation>("45").is_err());
+    let mut item=device(90000,100.,200.,40.,40.,0.,20.);
+    assert_eq!(item_rotation(&item,40.),PanelRotation::Deg0);
+    item.rotation=Some(PanelRotation::Deg180);
+    assert_eq!(item_rotation(&item,40.),PanelRotation::Deg180);
+    assert_eq!(front_point(&item,PanelRotation::Deg180,0.,40.,[0.25,0.75]),p(130.,210.));
+    let original=item.clone();
+    for _ in 0..4 {item.rotate();}
+    assert_eq!(item,original);
+    let mut prj=Project::default();
+    prj.layout.enclosures.push(Enclosure {items:vec![item],..Default::default()});
+    let reopened=Project::from_json(&prj.to_json()).unwrap();
+    assert_eq!(reopened.layout.enclosures[0].items[0].rotation,Some(PanelRotation::Deg180));
+}
+
+#[test]
+fn explicit_panel_orientation_maps_mesh_vertices_and_points_identically() {
+    let mesh=crate::parts::Mesh3d {vertices:vec![[0.,0.,0.],[20.,40.,10.],[3.,33.,4.]],triangles:vec![[0,1,2]],..Default::default()};
+    for face in [Face::Plate,Face::Bottom] {
+        for angle in [0,90,180,270] {
+            let rotation=PanelRotation::from_degrees(angle).unwrap();
+            let natural=if face==Face::Bottom {[20.,10.]} else {[20.,40.]};
+            let [w,h]=if rotation.is_quarter() {[natural[1],natural[0]]} else {natural};
+            let item=PanelItem {face,rotation:Some(rotation),x:100.,y:200.,w,h,d:40.,..Default::default()};
+            let tris=place_mesh(&mesh,&item);
+            for (index,vertex) in mesh.vertices.iter().enumerate() {
+                assert_eq!(tris[0][index],place_point(&mesh,&item,*vertex));
+            }
+            let expected=if face==Face::Bottom {
+                match angle {0=>[103.,204.,33.],90=>[106.,203.,33.],180=>[117.,206.,33.],_=>[104.,217.,33.]}
+            } else {
+                match angle {0=>[103.,207.,16.],90=>[133.,203.,16.],180=>[117.,233.,16.],_=>[107.,217.,16.]}
+            };
+            let actual=place_point(&mesh,&item,mesh.vertices[2]);
+            assert!(actual.iter().zip(expected).all(|(a,b)|(a-b).abs()<0.001),"{face:?} {angle}: {actual:?}");
+        }
+    }
+}
+
 fn device(id: u64, x: f32, y: f32, w: f32, h: f32, z: f32, d: f32) -> PanelItem {
     PanelItem { id, kind: ItemKind::Device, tag: format!("-D{id}"), x, y, w, h, z, d, ..Default::default() }
 }
@@ -181,6 +223,21 @@ fn layout_material_in_bom() {
     let bom = &an.report(&prj, crate::model::ReportKind::BillOfMaterials).unwrap();
     let rail = bom.rows.iter().find(|r| r[3] == RAIL_PART).unwrap();
     assert_eq!((rail[1].as_str(), rail[2].as_str()), ("1.29", "m"));
+}
+
+#[test]
+fn rail_standoffs_use_support_height_and_respect_hardware_setting() {
+    let mut prj=demo_project();
+    let plate=PanelItem {id:900,kind:ItemKind::MountingPlate,z:10.,d:2.,..Default::default()};
+    let rail=PanelItem {id:901,kind:ItemKind::Rail,part:RAIL_PART.into(),w:300.,h:35.,d:7.5,z:12.,mounted_on:900,mounting_explicit:true,..Default::default()};
+    prj.layout.enclosures[0].items=vec![plate,rail];
+    let qty=|p:&Project|layout_material(p).iter().find(|m|m.0==crate::parts::mechanics::RAIL_STANDOFF).map(|m|m.1).unwrap_or(0.);
+    assert_eq!(qty(&prj),0.);
+    prj.layout.enclosures[0].items[1].z=52.;assert!(qty(&prj)>0.);
+    prj.layout.hardware=false;assert_eq!(qty(&prj),0.);prj.layout.hardware=true;
+    prj.layout.enclosures[0].items[1].mounted_on=0;assert_eq!(qty(&prj),0.,"unknown explicit support");
+    prj.layout.enclosures[0].items[1].mounting_explicit=false;assert!(qty(&prj)>0.,"legacy datum remains valid");
+    prj.layout.hardware=false;assert!(qty(&prj)>0.,"rails without an explicit support do not depend on the hardware setting");
 }
 
 #[test]

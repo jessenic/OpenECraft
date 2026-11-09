@@ -74,7 +74,6 @@ Busbar machine program (CSV)	母线加工机程序 (CSV)
 CNC operations	CNC 工序
 CNC programs for drilling, milling and punching machines, copper bar bending, enclosure configurator, hand-off to production and production feedback	用于钻孔、铣削和冲压机的 CNC 程序、铜排折弯、机柜配置器、移交生产以及生产反馈
 Cable tag, e.g. -W1	电缆标识符，例如 -W1
-Cable tag, e.g. -W20	电缆标识，例如 -W20
 Calibrates the time estimate of the machines from the actual times of the production feedback	根据生产反馈的实际时间校准机器的时间估算
 Cannot read the plugin folder {}	无法读取插件文件夹 {}
 Cannot start {}: {}	无法启动 {}：{}

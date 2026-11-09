@@ -222,7 +222,8 @@ fn bytes_for(kind: ModuleKind, channels: u32) -> u32 {
 /// `Bus: PROFINET`, `Ports: X1 P1, X1 P2`.
 pub fn from_part(part: &Part) -> Option<DeviceDescription> {
     let count = |k: FnKind| part.functions.iter().filter(|f| f.kind == k).count() as u32;
-    let (fi, fo) = (count(FnKind::PlcInput), count(FnKind::PlcOutput));
+    let (di, dout, ai, ao) = (count(FnKind::PlcInput), count(FnKind::PlcOutput), count(FnKind::PlcAnalogInput), count(FnKind::PlcAnalogOutput));
+    let (fi,fo)=(di+ai,dout+ao);
     if !part.group.eq_ignore_ascii_case("PLC") && fi + fo == 0 && part.tech_value("PLC module").is_none() {
         return None;
     }
@@ -232,6 +233,9 @@ pub fn from_part(part: &Part) -> Option<DeviceDescription> {
         .and_then(ModuleKind::from_text)
         .or_else(|| ModuleKind::from_text(&part.subgroup))
         .unwrap_or(match (fi > 0, fo > 0) {
+            (true,false) if ai>0 && di==0=>ModuleKind::AnalogInput,
+            (false,true) if ao>0 && dout==0=>ModuleKind::AnalogOutput,
+            _ if ai+ao>0=>ModuleKind::Other,
             (true, true) => ModuleKind::DigitalMixed,
             (true, false) => ModuleKind::DigitalInput,
             (false, true) => ModuleKind::DigitalOutput,
@@ -253,8 +257,8 @@ pub fn from_part(part: &Part) -> Option<DeviceDescription> {
         kind,
         inputs,
         outputs,
-        input_bytes: num("Input bytes").unwrap_or(bytes_for(kind, inputs)),
-        output_bytes: num("Output bytes").unwrap_or(bytes_for(kind, outputs)),
+        input_bytes: num("Input bytes").unwrap_or_else(||if num("Inputs").is_none() && fi>0 {di.div_ceil(8)+ai*2} else {bytes_for(kind,inputs)}),
+        output_bytes: num("Output bytes").unwrap_or_else(||if num("Outputs").is_none() && fo>0 {dout.div_ceil(8)+ao*2} else {bytes_for(kind,outputs)}),
         slots: num("Slots").unwrap_or(if kind.head() { 32 } else { 0 }),
         ports,
         source: "part".into(),

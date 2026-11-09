@@ -391,26 +391,31 @@ fn device_list(prj: &Project, idx: &Index) -> Table {
     t
 }
 
-fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) -> Table {
-    let mut t = Table::with_widths(&[
-        (tr_const!("Pos"), 0.5),
-        (tr_const!("Qty"), 0.6),
-        (tr_const!("Unit"), 0.5),
-        (tr_const!("Part number"), 1.8),
-        (tr_const!("Type number"), 1.4),
-        (tr_const!("Manufacturer"), 1.0),
-        (tr_const!("Description"), 3.2),
-        (tr_const!("Devices"), 2.0),
-        (tr_const!("Unit price"), 0.9),
-        (tr_const!("Total"), 0.9),
-    ]);
+fn undrawn_panel_terminals(prj:&Project,tag:&str,number:&str,layout:&[crate::strips::Element])->usize {
+    let drawn:std::collections::BTreeSet<_>=layout.iter().flat_map(|e|e.designations()).collect();
+    prj.layout.enclosures.iter().flat_map(|e|&e.items)
+        .filter(|i|i.kind==panel::ItemKind::Device && i.tag==tag && i.part==number && !i.terminal.is_empty() && !drawn.contains(i.terminal.as_str()))
+        .map(|i|i.terminal.as_str()).collect::<std::collections::BTreeSet<_>>().len()
+}
+
+fn device_material(prj:&Project,idx:&Index)->BTreeMap<String,(f32,Vec<String>)> {
     let mut groups: BTreeMap<String, (f32, Vec<String>)> = BTreeMap::new();
-    for tag in idx.sorted_tags() {
+    let physical_parts:std::collections::BTreeSet<_>=prj.layout.enclosures.iter().flat_map(|e| {
+        std::iter::once((e.device_tag.as_str(),e.part.as_str())).filter(|_|!e.is_assembly() && !e.is_room() && !e.bom_excluded && !crate::parts::excluded_from_bom(prj,&e.device_tag))
+            .chain(e.items.iter().filter(|i|i.kind!=panel::ItemKind::Device && !i.bom_excluded && !crate::parts::excluded_from_bom(prj,&i.tag)).map(|i|(i.tag.as_str(),i.part.as_str())))
+    }).filter(|(tag,part)|!tag.is_empty() && !part.is_empty()).collect();
+    let mut tags=idx.sorted_tags();
+    tags.extend(prj.devices.iter().filter(|(tag,d)|!idx.devices.contains_key(*tag) && crate::parts::is_material_device(d)).map(|(tag,_)|tag));
+    tags.extend(panel::material_tags(prj));tags.sort();tags.dedup();
+    tags.sort_by(|a,b|crate::model::natural_cmp(a,b));
+    let empty=crate::index::DeviceEntry::default();
+    for tag in tags {
         let Some(data) = prj.devices.get(tag) else { continue };
+        if crate::parts::excluded_from_bom(prj,tag) {continue;}
         if data.parts.is_empty() {
             continue;
         }
-        let dev = &idx.devices[tag];
+        let dev = idx.devices.get(tag).unwrap_or(&empty);
         // Terminal strips are ordered per terminal, everything else per device.
         let terminals = dev
             .others
@@ -442,32 +447,60 @@ fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) 
                 g.1.push(tag.clone());
             }
         }
-        for r in data.parts.iter().filter(|r| !accessories.contains(&r.number.as_str())) {
+        for r in data.parts.iter().filter(|r| r.quantity()>0 && (r.total || !accessories.contains(&r.number.as_str()))) {
+            if !r.total && physical_parts.contains(&(tag.as_str(),r.number.as_str())) {continue;}
             // Terminal parts as often as the strip layout uses them (PE terminals their
             // own part), other parts once.
-            let used = layout.iter().filter(|e| matches!(e.kind, crate::strips::ElementKind::Terminal(_) | crate::strips::ElementKind::Spare(_)) && e.part == r.number).count();
+            let used = layout.iter().filter(|e| matches!(e.kind, crate::strips::ElementKind::Terminal(_) | crate::strips::ElementKind::Spare(_)) && e.part == r.number).count()
+                + undrawn_panel_terminals(prj,tag,&r.number,&layout);
             let terminal_part = !layout.is_empty() && prj.parts.iter().chain(crate::parts::catalog()).any(|p| p.number == r.number && crate::strips::is_terminal_part(p));
-            let per_device = if used > 0 || terminal_part { used } else { 1 };
+            let per_device = if r.total {1} else if used > 0 || terminal_part { used } else { 1 };
             if per_device == 0 {
                 continue;
             }
             let g = groups.entry(r.number.clone()).or_default();
-            g.0 += (per_device * r.count.max(1) as usize) as f32;
+            g.0 += (per_device * r.quantity() as usize) as f32;
             if !g.1.contains(tag) {
                 g.1.push(tag.clone());
             }
         }
     }
+    groups
+}
+
+fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) -> Table {
+    let mut t = Table::with_widths(&[
+        (tr_const!("Pos"), 0.5),
+        (tr_const!("Qty"), 0.6),
+        (tr_const!("Unit"), 0.5),
+        (tr_const!("Part number"), 1.8),
+        (tr_const!("Type number"), 1.4),
+        (tr_const!("Manufacturer"), 1.0),
+        (tr_const!("Description"), 3.2),
+        (tr_const!("Devices"), 2.0),
+        (tr_const!("Unit price"), 0.9),
+        (tr_const!("Total"), 0.9),
+    ]);
+    let mut groups=device_material(prj,idx);
     // Finished harnesses per piece.
     for h in prj.harnesses.iter().filter(|h| !h.part.is_empty()) {
         let g = groups.entry(h.part.clone()).or_default();
         g.0 += 1.0;
         g.1.push(h.tag.clone());
     }
-    // Cables by length (or piece without length).
+    let catalog = crate::parts::catalog();
+    let mut unknown_lengths = BTreeSet::new();
+    // Metered cable without a length must not become one metre of material.
     for c in prj.cables.iter().filter(|c| !c.part.is_empty()) {
         let g = groups.entry(c.part.clone()).or_default();
-        g.0 += if c.length > 0.0 { c.length } else { 1.0 };
+        let metered = prj.parts.iter().chain(catalog.iter()).find(|p| p.number == c.part).is_some_and(|p| p.quantity_unit == "m");
+        if c.length.is_finite() && c.length > 0.0 {
+            g.0 += c.length;
+        } else if metered {
+            unknown_lengths.insert(c.part.clone());
+        } else {
+            g.0 += 1.0;
+        }
         g.1.push(c.tag.clone());
     }
     // Cable carriers, bonding conductors and cable accessories in the field.
@@ -495,7 +528,6 @@ fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) 
         g.1.push("marking".into());
     }
     // Wiring and mounting material may come straight from the built-in catalog.
-    let catalog = crate::parts::catalog();
     let mut sum = 0.0;
     for (i, (part, (qty, tags))) in groups.iter().enumerate() {
         let pd = prj.parts.iter().chain(catalog.iter()).find(|p| &p.number == part).cloned().unwrap_or_else(|| Part {
@@ -504,11 +536,13 @@ fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) 
         });
         let total = pd.total_price(*qty);
         sum += total;
+        let unknown = unknown_lengths.contains(part);
+        let uncertain = |value: String, zero: bool| if !unknown { value } else if zero { "?".into() } else { format!("{value} + ?") };
         let unit_price = if pd.price_unit > 1 { format!("{:.2}/{}", pd.price, pd.price_unit) } else { format!("{:.2}", pd.price) };
         t.push(
             vec![
                 (i + 1).to_string(),
-                if qty.fract() == 0.0 { format!("{qty:.0}") } else { format!("{qty:.2}") },
+                uncertain(if qty.fract() == 0.0 { format!("{qty:.0}") } else { format!("{qty:.2}") }, *qty == 0.0),
                 pd.quantity_unit.clone(),
                 part.clone(),
                 pd.type_number,
@@ -516,7 +550,7 @@ fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) 
                 pd.description,
                 tags.join(", "),
                 format!("{unit_price} {}", pd.currency),
-                format!("{total:.2}"),
+                uncertain(format!("{total:.2}"), *qty == 0.0),
             ],
             None,
         );
@@ -526,7 +560,7 @@ fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) 
             t.push(
                 vec![
                     format!("{}.{}", i + 1, k + 1),
-                    if n.fract() == 0.0 { format!("{n:.0}") } else { format!("{n:.2}") },
+                    uncertain(if n.fract() == 0.0 { format!("{n:.0}") } else { format!("{n:.2}") }, *qty == 0.0),
                     sd.quantity_unit.clone(),
                     sub,
                     sd.type_number,
@@ -543,7 +577,7 @@ fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) 
     if !groups.is_empty() {
         let mut last = vec![String::new(); 10];
         last[6] = tr("Sum").into();
-        last[9] = format!("{sum:.2}");
+        last[9] = if unknown_lengths.is_empty() { format!("{sum:.2}") } else if sum == 0.0 { "?".into() } else { format!("{sum:.2} + ?") };
         t.push(last, None);
     }
     t
@@ -725,6 +759,7 @@ fn connection_list(prj: &Project, conns: &[Connection]) -> Table {
         ("Cross-section", 1.0),
         (tr_const!("Cable"), 1.0),
         (tr_const!("Core"), 0.6),
+        (tr_const!("Wire type"), 1.0),
     ]);
     for c in conns {
         let s = &prj.pages[c.a.page].symbols[c.a.sym];
@@ -739,6 +774,7 @@ fn connection_list(prj: &Project, conns: &[Connection]) -> Table {
                 c.cross_section.clone(),
                 c.cable.clone(),
                 c.core.clone(),
+                c.wire_type.clone(),
             ],
             Some((c.a.page, s.id)),
         );

@@ -591,7 +591,7 @@ impl Sort {
 
 /// The part without its models (search result lists).
 pub fn brief(part: &Part) -> Part {
-    Part { model_2d: None, model_3d: None, connection_points: Vec::new(), eplan_variants: Vec::new(), ..part.clone() }
+    Part { model_2d: None, model_3d: None, connection_points: Vec::new(), eplan_variants: Vec::new(), source_data: None, ..part.clone() }
 }
 
 /// The part as stored, without the server's bookkeeping (revision, time of change).

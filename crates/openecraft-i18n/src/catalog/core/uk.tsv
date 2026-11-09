@@ -75,7 +75,6 @@ Approved by	Затвердив
 Arms {} and {}	Плечі {} і {}
 Asset number	Інвентарний номер
 Author of the last revision	Автор останньої ревізії
-Automatic	Автоматично
 Autotransformer 1-phase	Автотрансформатор однофазний
 Autotransformer 1-phase, adjustable	Автотрансформатор однофазний, регульований
 Autotransformer 3-phase	Автотрансформатор трифазний
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	Точк
 Connection definition point on page {} is not on a wire	Точка визначення з’єднання на сторінці {} не лежить на проводі
 Connection definitions	Визначення з’єднань
 Connection list	Перелік з’єднань
-Connection point	Точка підключення
 Connection point descriptions	Описи точок підключення
 Connection point {} is not on the {} mm grid.	Точка підключення {} не лежить на сітці {} мм.
 Connection point {} lies on another one.	Точка підключення {} лежить на іншій.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Кола керування
 DC/DC converter	Перетворювач DC/DC
 DWG export failed: {}	Помилка експорту DWG: {}
 Data sheet	Технічний паспорт
-Data type	Тип даних
 Date of the last revision	Дата останньої ревізії
 Degree of protection	Ступінь захисту
 Delete projects	Видаляти проєкти
@@ -926,7 +923,6 @@ Neutral (N)	Нейтральний провідник (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Нейтральні провідники мають бути блакитними (IEC 60204-1, 13.2.3)
 Next inspection	Наступна перевірка
 Nibbling	Висічка
-No connection point {}	Немає точки підключення {}
 No connection {}	Немає з’єднання {}
 No devices to add to the single-line diagram	Немає пристроїв для додавання до однолінійної схеми
 No document embedded - choose a file in the page properties	Документ не вбудовано – виберіть файл у властивостях сторінки
@@ -935,7 +931,6 @@ No known column in the header row	У рядку заголовка немає в
 No option {}	Немає опції {}
 No page or page item with id {}	Немає сторінки чи елемента сторінки з ідентифікатором {}
 No page with id {}	Немає сторінки з ідентифікатором {}
-No part {}	Немає виробу {}
 No plugs	Немає роз'ємів
 No report block {}	Немає блоку звітів {}
 No segment template named {}	Немає шаблону сегмента з назвою {}
@@ -961,7 +956,6 @@ Not a packed project	Не є запакованим проєктом
 Not a project database: {}	Не є базою даних проєктів: {}
 Not a settings scheme: {}	Не є схемою параметрів: {}
 Not a structure template: {}	Не шаблон структури: {}
-Not a symbol id: {}	Не є ідентифікатором символу: {}
 Not a valid JSON file: {}	Недійсний файл JSON: {}
 Not a valid project file: {}	Недійсний файл проєкту: {}
 Not a valid property library: {}	Недійсна бібліотека властивостей: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Вимикачі / датчики
 Switches, pushbuttons	Перемикачі, кнопки
 Switching frequency	Частота комутацій
 Switching output	Комутаційний вихід
-Symbol key	Ключ символу
-Symbolic address	Символьна адреса
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Т-подібний вузол на сторінці {} не відповідає своїм проводам: потрібен один провід у його напрямку, два впоперек і жодної точки підключення там
 Table of contents	Зміст
 Tabloid landscape	Tabloid альбомна

@@ -75,7 +75,6 @@ Approved by	Onaylayan
 Arms {} and {}	Kollar {} ve {}
 Asset number	Demirbaş numarası
 Author of the last revision	Son revizyonun yazarı
-Automatic	Otomatik
 Autotransformer 1-phase	Ototransformatör 1 fazlı
 Autotransformer 1-phase, adjustable	Ototransformatör 1 fazlı, ayarlanabilir
 Autotransformer 3-phase	Ototransformatör 3 fazlı
@@ -246,7 +245,6 @@ Connection definition point on page {} is not applied to its connection	{} sayfa
 Connection definition point on page {} is not on a wire	{} sayfasındaki bağlantı tanım noktası bir tel üzerinde değil
 Connection definitions	Bağlantı tanımları
 Connection list	Bağlantı listesi
-Connection point	Bağlantı noktası
 Connection point descriptions	Bağlantı noktası açıklamaları
 Connection point {} is not on the {} mm grid.	Bağlantı noktası {}, {} mm ızgarasında değil.
 Connection point {} lies on another one.	Bağlantı noktası {} başka bir noktanın üzerinde.
@@ -341,7 +339,6 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC kumanda devreleri mavi o
 DC/DC converter	DC/DC dönüştürücü
 DWG export failed: {}	DWG dışa aktarımı başarısız oldu: {}
 Data sheet	Veri sayfası
-Data type	Veri tipi
 Date of the last revision	Son revizyonun tarihi
 Degree of protection	Koruma derecesi
 Delete projects	Projeleri sil
@@ -926,7 +923,6 @@ Neutral (N)	Nötr (N)
 Neutral conductors must be light blue (IEC 60204-1, 13.2.3)	Nötr iletkenler açık mavi olmalıdır (IEC 60204-1, 13.2.3)
 Next inspection	Sonraki muayene
 Nibbling	Nibbling
-No connection point {}	{} bağlantı noktası yok
 No connection {}	{} bağlantısı yok
 No devices to add to the single-line diagram	Tek hat şemasına eklenecek cihaz yok
 No document embedded - choose a file in the page properties	Gömülü belge yok - sayfa özelliklerinde bir dosya seçin
@@ -935,7 +931,6 @@ No known column in the header row	Başlık satırında bilinen sütun yok
 No option {}	{} seçeneği yok
 No page or page item with id {}	{} kimlikli sayfa veya sayfa öğesi yok
 No page with id {}	{} kimlikli sayfa yok
-No part {}	{} parçası yok
 No plugs	Konnektör yok
 No report block {}	{} rapor bloğu yok
 No segment template named {}	{} adlı segment şablonu yok
@@ -961,7 +956,6 @@ Not a packed project	Paketlenmiş proje değil
 Not a project database: {}	Proje veritabanı değil: {}
 Not a settings scheme: {}	Ayar şeması değil: {}
 Not a structure template: {}	Yapı şablonu değil: {}
-Not a symbol id: {}	Sembol kimliği değil: {}
 Not a valid JSON file: {}	Geçerli bir JSON dosyası değil: {}
 Not a valid project file: {}	Geçerli bir proje dosyası değil: {}
 Not a valid property library: {}	Geçerli bir özellik kütüphanesi değil: {}
@@ -1537,8 +1531,6 @@ Switches / Sensors	Anahtarlar / Sensörler
 Switches, pushbuttons	Şalterler, butonlar
 Switching frequency	Anahtarlama frekansı
 Switching output	Anahtarlama çıkışı
-Symbol key	Sembol anahtarı
-Symbolic address	Sembolik adres
 T-junction on page {} does not fit its wires: it needs one wire in its direction, two across and no connection point there	Sayfa {} üzerindeki T parçası tellerine uymuyor: yönünde bir tel, enine iki tel gerekir ve orada bağlantı noktası olmamalı
 Table of contents	İçindekiler
 Tabloid landscape	Tabloid yatay

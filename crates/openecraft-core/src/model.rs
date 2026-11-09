@@ -77,6 +77,9 @@ pub struct Project {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub sections: Vec<Section>,
     pub parts: Vec<Part>,
+    /// Source-format records retained by importers for data without a native field.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub import_sources: BTreeMap<String, openecraft_parts::Shared<serde_json::Value>>,
     /// Device level data (article assignment etc.) keyed by device tag.
     pub devices: BTreeMap<String, DeviceData>,
     /// Panel layout (enclosures, mounting plates, rails, ducts, devices).
@@ -198,6 +201,7 @@ impl Default for Project {
             pages: Vec::new(),
             sections: Vec::new(),
             parts: Vec::new(),
+            import_sources: BTreeMap::new(),
             devices: BTreeMap::new(),
             layout: Layout::default(),
             cables: Vec::new(),
@@ -758,6 +762,9 @@ pub struct SymbolInst {
     /// Function, terminal and PLC connection point property values.
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub values: properties::Values,
+    /// Shared logical channels shown by several representations of this device.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub plc_bindings: BTreeMap<usize,plc_hw::ChannelBinding>,
     /// Freely drawn device box: width and height of its outline, from `pos` towards
     /// +x / +y before the rotation (see [`crate::device_boxes`]).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -796,6 +803,39 @@ impl SymbolInst {
         }
         r
     }
+
+    /// A cable marker follows its inventory; other explicit part references never fall back.
+    pub fn selected_part_number<'a>(&self, prj: &'a Project) -> Option<&'a str> {
+        if let Some(tag)=self.values.get("function.cable").filter(|tag|!tag.is_empty()) {
+            return prj.cable(tag).filter(|cable|!cable.part.is_empty()).map(|cable|cable.part.as_str())
+        }
+        if let Some(number) = self.values.get("function.part_number") {
+            if let Some(device) = prj.devices.get(&self.tag) {
+                if let Some(part)=device.parts.iter().find(|p|p.number==*number) {return Some(part.number.as_str());}
+            }
+            return prj.cable(&self.tag).filter(|c| c.part == *number).map(|c| c.part.as_str());
+        }
+        self.assigned_part_number(prj, 1)
+    }
+
+    pub(crate) fn assigned_part_number<'a>(&self, prj: &'a Project, index: usize) -> Option<&'a str> {
+        let index = index.checked_sub(1)?;
+        if let Some(tag)=self.values.get("function.cable").filter(|tag|!tag.is_empty()) {
+            return prj.cable(tag).filter(|cable|index==0 && !cable.part.is_empty()).map(|cable|cable.part.as_str())
+        }
+        if let Some(device) = prj.devices.get(&self.tag) {
+            return device.parts.get(index).map(|part| part.number.as_str());
+        }
+        prj.cable(&self.tag).filter(|c| index == 0 && !c.part.is_empty()).map(|c| c.part.as_str())
+    }
+
+    /// Electrical identity of an interruption point; its displayed name stays unchanged.
+    pub fn interruption_key(&self) -> String {
+        match self.values.get("function.connection_scope").filter(|scope| !scope.is_empty()) {
+            Some(scope) => format!("\0{}\0{}", scope, self.label),
+            None => self.label.clone(),
+        }
+    }
 }
 
 impl Default for SymbolInst {
@@ -815,6 +855,7 @@ impl Default for SymbolInst {
             scheme: String::new(),
             function_def: String::new(),
             values: BTreeMap::new(),
+            plc_bindings: BTreeMap::new(),
             size: None,
             pin_label: None,
         }
@@ -872,6 +913,9 @@ pub struct Wire {
     /// Cross-section set manually (e.g. "1.5 mm²"); empty = automatic. Hoses and
     /// pipes (fluid nets): nominal size, e.g. "8 mm" or "DN25".
     pub cross_section: String,
+    /// Conductor construction/type, e.g. H07V-K or MKEM; empty = unspecified.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub wire_type: String,
     /// Medium of a hose / pipe; None = the project's default.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub medium: Option<fluid::Medium>,
@@ -887,11 +931,37 @@ pub struct Wire {
     /// Set manually: automatic numbering keeps it.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub number_fixed: bool,
+    /// Suppress automatic number and cable/core labels when annotations are placed separately.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub hide_labels: bool,
+    /// Explicit live labels, retained independently of automatic label visibility.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub labels: Vec<wiring::WireLabel>,
+    /// Per-wire junction policy; None inherits the page's legacy setting.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub explicit_junctions: Option<bool>,
     /// Tag of the cable this wire is a core of, and the core designation.
     #[serde(skip_serializing_if = "String::is_empty")]
     pub cable: String,
     #[serde(skip_serializing_if = "String::is_empty")]
     pub core: String,
+}
+
+impl Wire {
+    pub fn requires_explicit_junctions(&self,page:&Page)->bool {
+        self.explicit_junctions.unwrap_or_else(||page.values.get("page.explicit_wire_junctions").is_some_and(|v|v=="true"))
+    }
+
+    pub fn junction_policy(&self)->&'static str {
+        match self.explicit_junctions {None=>"inherit",Some(true)=>"explicit",Some(false)=>"implicit"}
+    }
+
+    pub fn same_properties(&self,other:&Self)->bool {
+        self.color==other.color && self.cross_section==other.cross_section && self.wire_type==other.wire_type
+            && self.medium==other.medium && self.length==other.length && self.hose==other.hose
+            && self.number_fixed==other.number_fixed && (!self.number_fixed || self.number==other.number) && self.hide_labels==other.hide_labels
+            && self.cable==other.cable && self.core==other.core && self.explicit_junctions==other.explicit_junctions
+    }
 }
 
 /// `skip_serializing_if` for numbers at their default.
@@ -1756,7 +1826,7 @@ impl Project {
             } else {
                 legacy
             };
-            dev.parts.push(PartRef { number, count: 1 });
+            dev.parts.push(PartRef { number, count: 1, total:false });
         }
         for (old, new) in remapped {
             self.parts.retain(|p| p.number != old);
@@ -1798,6 +1868,7 @@ impl Project {
             .chain(self.plc_cards.keys())
             .map(String::as_str)
             .chain(self.layout.enclosures.iter().flat_map(|e| e.items.iter()).map(|i| i.tag.as_str()))
+            .chain(self.layout.enclosures.iter().map(|e|e.device_tag.as_str()))
             .chain(parked)
             .filter(|t| !t.is_empty())
     }
@@ -1805,12 +1876,17 @@ impl Project {
     /// Next free device tag for an identifying letter within a structure, e.g.
     /// `=A1-K3` (counted per structure, as `=A1-K1` and `=A2-K1` are different devices).
     pub fn next_tag(&self, structure: &str, letter: &str) -> String {
+        self.next_tag_reserved(structure,letter,&Default::default())
+    }
+
+    pub(crate) fn next_tag_reserved(&self,structure:&str,letter:&str,reserved:&std::collections::BTreeSet<String>)->String {
         let prefix = format!("{structure}-{letter}");
         let tags = self.pages.iter().flat_map(|pg| pg.symbols.iter().map(|s| s.tag.as_str()));
         let max = tags
             .chain(self.cables.iter().map(|c| c.tag.as_str()))
             .chain(self.harnesses.iter().map(|h| h.tag.as_str()))
             .chain(self.unplaced_tags())
+            .chain(reserved.iter().map(String::as_str))
             .filter_map(|t| t.strip_prefix(&prefix)?.parse::<u32>().ok())
             .max()
             .unwrap_or(0);

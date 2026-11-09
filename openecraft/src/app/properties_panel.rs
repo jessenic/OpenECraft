@@ -7,6 +7,44 @@ use openecraft_core::device_boxes;
 use openecraft_core::model::PinLabel;
 use openecraft_core::symbols::Anchor;
 
+fn wire_labels_ui(ui: &mut egui::Ui, labels: &mut Vec<openecraft_core::model::wiring::WireLabel>) {
+    use openecraft_core::model::wiring::{WireLabel, WireLabelKind};
+    ui.collapsing(tr("Placed wire labels"), |ui| {
+        let mut remove = None;
+        for (index, label) in labels.iter_mut().enumerate() {
+            ui.push_id(index, |ui| {
+                ui.horizontal(|ui| {
+                    let title = |kind| match kind {
+                        WireLabelKind::Core => tr("Core"), WireLabelKind::Cable => tr("Cable"),
+                        WireLabelKind::Number => tr("Wire number"), WireLabelKind::Color => tr("Colour"),
+                    };
+                    egui::ComboBox::from_id_salt("kind").selected_text(title(label.kind)).show_ui(ui, |ui| {
+                        for kind in [WireLabelKind::Core, WireLabelKind::Cable, WireLabelKind::Number, WireLabelKind::Color] {
+                            ui.selectable_value(&mut label.kind, kind, title(kind));
+                        }
+                    });
+                    if ui.button(tr("Delete")).clicked() {remove = Some(index);}
+                });
+                egui::Grid::new("layout").num_columns(2).show(ui, |ui| {
+                    ui.label(tr("Position"));
+                    ui.add(egui::DragValue::new(&mut label.along).speed(0.01).range(0.0..=1.0));ui.end_row();
+                    ui.label(tr("Offset"));
+                    ui.horizontal(|ui| {
+                        ui.add(egui::DragValue::new(&mut label.offset.x).speed(0.1).prefix("X "));
+                        ui.add(egui::DragValue::new(&mut label.offset.y).speed(0.1).prefix("Y "));
+                    });ui.end_row();
+                    ui.label(tr("Size"));
+                    ui.add(egui::DragValue::new(&mut label.size).speed(0.1).range(0.5..=100.0));ui.end_row();
+                    ui.label(tr("Angle"));
+                    ui.add(egui::DragValue::new(&mut label.angle).speed(1.0));ui.end_row();
+                });
+            });
+        }
+        if let Some(index) = remove {labels.remove(index);}
+        if ui.button(tr("Add row")).clicked() {labels.push(WireLabel::default());}
+    });
+}
+
 /// The tabs of a symbol's properties.
 /// What the Belongs to device field does with the text typed when it loses the focus.
 #[derive(Debug, PartialEq, Eq)]
@@ -211,14 +249,19 @@ impl App {
                 ui.label(super::counted(wires.len(), tr("1 wire"), tr_fmt!("{} wires", wires.len())));
                 let first = self.session.prj.pages[pi].wires.iter().find(|w| w.id == wires[0]).cloned().unwrap_or_default();
                 let (mut color, mut cs) = (first.color.clone(), first.cross_section.clone());
+                let mut wire_type = first.wire_type.clone();
                 let auto = potentials::props_of_wire(&self.session.prj, &self.session.analysis.netlist, &self.session.analysis.open, first.id);
                 egui::Grid::new("wprops").num_columns(2).show(ui, |ui| {
                     potentials_ui::wire_fields(ui, &mut color, &mut cs, &auto);
+                    ui.label(tr("Wire type"));
+                    ui.text_edit_singleline(&mut wire_type);
+                    ui.end_row();
                 });
-                if color != first.color || cs != first.cross_section {
+                if color != first.color || cs != first.cross_section || wire_type != first.wire_type {
                     for w in self.session.prj.pages[pi].wires.iter_mut().filter(|w| wires.contains(&w.id)) {
                         w.color = color.clone();
                         w.cross_section = cs.clone();
+                        w.wire_type = wire_type.clone();
                     }
                 }
                 let cables: Vec<String> = self.session.prj.cables.iter().map(|c| c.tag.clone()).collect();
@@ -343,6 +386,18 @@ impl App {
                     }
                 });
                 ui.end_row();
+                ui.label(tr("Labels"));
+                ui.checkbox(&mut w.hide_labels, tr("Hide automatic wire and cable labels"));
+                ui.end_row();
+                ui.label(tr("Wire contacts"));
+                egui::ComboBox::from_id_salt("wire_junction_policy").selected_text(tr(match w.explicit_junctions {
+                    None=>"From page",Some(true)=>"Explicit junctions",Some(false)=>"Implicit junctions",
+                })).show_ui(ui,|ui| {
+                    ui.selectable_value(&mut w.explicit_junctions,None,tr("From page"));
+                    ui.selectable_value(&mut w.explicit_junctions,Some(true),tr("Explicit junctions"));
+                    ui.selectable_value(&mut w.explicit_junctions,Some(false),tr("Implicit junctions"));
+                });
+                ui.end_row();
                 ui.label(tr("Cable"));
                 let shown = if w.cable.is_empty() { "(none)".to_string() } else { here.relative(&w.cable) };
                 egui::ComboBox::from_id_salt("wcable").selected_text(shown).show_ui(ui, |ui| {
@@ -369,6 +424,9 @@ impl App {
                     ui.end_row();
                 }
                 potentials_ui::wire_fields(ui, &mut w.color, &mut w.cross_section, &auto);
+                ui.label(tr("Wire type"));
+                ui.text_edit_singleline(&mut w.wire_type);
+                ui.end_row();
                 ui.label(tr("From"));
                 ui.label(format!("{:.0} / {:.0}", w.a.x, w.a.y));
                 ui.end_row();
@@ -376,6 +434,7 @@ impl App {
                 ui.label(format!("{:.0} / {:.0}", w.b.x, w.b.y));
                 ui.end_row();
             });
+            wire_labels_ui(ui, &mut w.labels);
             if number != number_now {
                 if let Some(net) = &open_net {
                     wirenum::set(&mut self.session.prj, net, number.trim(), true);
@@ -687,7 +746,9 @@ impl App {
                         show_part = Some(r.number.clone());
                     }
                     ui.horizontal(|ui| {
-                        ui.add(egui::DragValue::new(&mut r.count).range(1..=999).prefix("× "));
+                        ui.add(egui::DragValue::new(&mut r.count).range(if r.total {0..=999} else {1..=999}).prefix("× "));
+                        ui.checkbox(&mut r.total,tr("Total quantity")).on_hover_text(tr("Count once for the whole device or terminal strip"));
+                        if !r.total {r.count=r.count.max(1);}
                         if icons::button(ui, Icon::Delete, tr("Remove part")).clicked() {
                             remove = Some(i);
                         }
@@ -772,12 +833,15 @@ impl App {
             // The text typed belongs to this device; another device starts with its own tag.
             let rename_id = ui.scope_id().with(("rename", &edited.tag));
             let mut new_tag: String = ui.data_mut(|d| d.get_temp(rename_id)).unwrap_or_else(|| edited.tag.clone());
-            let problem = super::drawing_ui::rename_problem(&self.session.prj, &edited.tag, new_tag.trim());
+            let problem = ops::symbol_rename_problem(&self.session.prj, edited.id, new_tag.trim());
+            let cable_rename=edited.values.get("function.cable")==Some(&edited.tag) && self.session.prj.cable(&edited.tag).is_some();
             ui.horizontal(|ui| {
                 ui.add(egui::TextEdit::singleline(&mut new_tag).desired_width(90.0));
                 let ok = problem.is_none() && new_tag.trim() != edited.tag;
-                if ui.add_enabled(ok, egui::Button::new(tr("Rename device"))).on_hover_text(tr("Changes the tag of all functions of this device")).clicked() {
-                    ops::rename_device(&mut self.session.prj, &edited.tag, new_tag.trim());
+                let title=if cable_rename {tr("Rename cable")} else {tr("Rename device")};
+                let hint=if cable_rename {tr("Changes the cable tag and its references")} else {tr("Changes the tag of all functions of this device")};
+                if ui.add_enabled(ok, egui::Button::new(title)).on_hover_text(hint).clicked() {
+                    if let Err(error)=ops::rename_symbol_device(&mut self.session.prj,edited.id,new_tag.trim()) {self.notify_error(ui.ctx(),error);}
                 }
             });
             if let Some(p) = problem {

@@ -6,6 +6,7 @@ use crate::conndef;
 use crate::geom::{dist_to_segment, on_segment_interior, p, P, R, GRID};
 use crate::ops;
 use crate::symlib::Symbols;
+use crate::symbols::Func;
 use crate::model::*;
 use std::cmp::Reverse;
 use std::collections::{BTreeSet, BinaryHeap, HashMap};
@@ -20,9 +21,21 @@ fn pins(symbols: &Symbols, page: &Page) -> Vec<(u64, P, P)> {
     let mut v: Vec<(u64, P, P)> = crate::netlist::junctions::free_arms(page).into_iter().map(|(id, q, d)| (id, q, d.vector())).collect();
     for s in &page.symbols {
         let Some(def) = symbols.get(&s.sym) else { continue };
+        if def.func == Func::Graphic {
+            continue;
+        }
         let c = s.bounds(&def).center();
         for i in 0..def.pins.len() {
+            if def.pins[i].internal {continue;}
             let q = def.pin_world(i, s.pos, s.rot, s.mirror);
+            if def.pin_directions.contains_key(&i) {
+                let mask=def.pin_connection_directions(i,s.rot,s.mirror);
+                if mask==0 {v.push((s.id,q,p(0.,0.)));}
+                for (bit,dir) in [(1,p(0.,-1.)),(2,p(1.,0.)),(4,p(0.,1.)),(8,p(-1.,0.))] {
+                    if mask&bit!=0 {v.push((s.id,q,dir));}
+                }
+                continue;
+            }
             let d = q - c;
             let dir = if d.x.abs() < 1e-3 && d.y.abs() < 1e-3 {
                 p(0.0, 0.0)
@@ -39,7 +52,7 @@ fn pins(symbols: &Symbols, page: &Page) -> Vec<(u64, P, P)> {
 
 /// A connection point is in use when a wire ends there or another pin touches it. The
 /// arm of a connection symbol is in use when a wire leaves it in its direction.
-fn pin_used(page: &Page, all: &[(u64, P, P)], sym: u64, q: P, dir: P) -> bool {
+fn pin_used(symbols:&Symbols,page: &Page, all: &[(u64, P, P)], sym: u64, q: P, dir: P) -> bool {
     if page.junctions.iter().any(|j| j.id == sym) {
         return page.wires.iter().any(|w| {
             let other = if w.a.same(q) { Some(w.b) } else if w.b.same(q) { Some(w.a) } else { None };
@@ -47,13 +60,19 @@ fn pin_used(page: &Page, all: &[(u64, P, P)], sym: u64, q: P, dir: P) -> bool {
             other.is_some_and(|o| parallel(o - q) && (o.x - q.x) * dir.x + (o.y - q.y) * dir.y > 0.0) || (on_segment_interior(q, w.a, w.b) && parallel(w.b - w.a))
         }) || all.iter().any(|(id, o, _)| *id != sym && o.same(q));
     }
-    page.wires.iter().any(|w| w.a.same(q) || w.b.same(q) || on_segment_interior(q, w.a, w.b))
+    let side_contact=page.symbols.iter().find(|s|s.id==sym).and_then(|s|symbols.get(&s.sym)).is_some_and(|d|!d.func.has_tag());
+    page.wires.iter().any(|w| w.a.same(q) || w.b.same(q) || (side_contact || !w.requires_explicit_junctions(page)) && on_segment_interior(q, w.a, w.b))
         || all.iter().any(|(id, o, _)| *id != sym && o.same(q))
 }
 
 /// Can a wire run from `a` to `b` without touching anything but its end points?
 fn clear(symbols: &Symbols, page: &Page, all: &[(u64, P, P)], a: P, b: P, ends: [u64; 2]) -> bool {
-    !page.wires.iter().any(|w| on_segment_interior(a, w.a, w.b) || on_segment_interior(b, w.a, w.b)) && unobstructed(symbols, page, all, a, b, &ends)
+    let blocked=page.wires.iter().any(|w| {
+        let touching=on_segment_interior(a,w.a,w.b)||on_segment_interior(b,w.a,w.b);
+        let d=w.b-w.a;let route=b-a;
+        touching && (!w.requires_explicit_junctions(page) || (d.x*route.y-d.y*route.x).abs()<0.01)
+    });
+    !blocked && unobstructed(symbols, page, all, a, b, &ends)
 }
 
 /// Is the way from `a` to `b` free of connection points, wire ends and symbols other
@@ -65,6 +84,9 @@ fn unobstructed(symbols: &Symbols, page: &Page, all: &[(u64, P, P)], a: P, b: P,
     }
     for s in page.symbols.iter().filter(|s| !ends.contains(&s.id)) {
         let Some(def) = symbols.get(&s.sym) else { continue };
+        if def.func == Func::Graphic {
+            continue;
+        }
         let r = s.bounds(&def);
         let mid = p((a.x + b.x) / 2.0, (a.y + b.y) / 2.0);
         // Axis aligned segment against the box.
@@ -87,7 +109,7 @@ pub fn autoconnect(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>, max_len:
     let mut taken: Vec<(P, P)> = Vec::new();
     let is_taken = |taken: &[(P, P)], q: P, dir: P| taken.iter().any(|(t, td)| t.same(q) && (*td == dir || td.len() == 0.0));
     for (sym, q, dir) in all.iter().filter(|(id, _, _)| sel.contains(id)) {
-        if dir.len() == 0.0 || is_taken(&taken, *q, *dir) || pin_used(page, &all, *sym, *q, *dir) {
+        if dir.len() == 0.0 || is_taken(&taken, *q, *dir) || pin_used(symbols,page, &all, *sym, *q, *dir) {
             continue;
         }
         let mut best: Option<(f32, u64, P, P)> = None;
@@ -101,7 +123,7 @@ pub fn autoconnect(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>, max_len:
             if across > 0.01 || along <= 0.01 || along > max_len || best.is_some_and(|b| b.0 <= along) {
                 continue;
             }
-            if pin_used(page, &all, *osym, *o, *odir) {
+            if pin_used(symbols,page, &all, *osym, *o, *odir) {
                 continue;
             }
             best = Some((along, *osym, *o, *odir));
@@ -302,6 +324,23 @@ fn place_points(page: &mut Page, before: &Before, bent: &HashMap<u64, (Vec<P>, V
     }
 }
 
+/// Redistributes placed labels once when a stretched wire becomes several legs.
+fn place_wire_labels(page: &mut Page, old: &Wire, course: &[P], added: &[u64]) {
+    let owns = |id| id == old.id || added.contains(&id);
+    for wire in page.wires.iter_mut().filter(|w| owns(w.id)) {wire.labels.clear();}
+    let length: f32 = course.windows(2).map(|s| s[0].dist(s[1])).sum();
+    for label in &old.labels {
+        let previous = label.attachment(old);
+        let at = if course.windows(2).any(|s| dist_to_segment(previous, s[0], s[1]) < TOUCH) {previous}
+            else {point_along(course, label.along * length)};
+        if let Some(wire) = page.wires.iter_mut().find(|w| owns(w.id) && dist_to_segment(at, w.a, w.b) < TOUCH) {
+            let mut placed = label.clone();
+            placed.along = wire.a.dist(at) / wire.a.dist(wire.b).max(TOUCH);
+            wire.labels.push(placed);
+        }
+    }
+}
+
 /// First and last place, as distances from `at` in direction `dir`, where `wires`
 /// cross the endless line through `at`.
 fn reach<'a>(wires: impl Iterator<Item = &'a Wire>, at: P, dir: P) -> Option<(f32, f32)> {
@@ -413,13 +452,14 @@ pub fn square_wires(prj: &mut Project, page_i: usize, before: &Before) {
         let mut added = Vec::new();
         for seg in path[1..].windows(2) {
             let nid = prj.new_id();
-            prj.pages[page_i].wires.push(Wire { id: nid, a: seg[0], b: seg[1], ..w.clone() });
+            prj.pages[page_i].wires.push(Wire { id: nid, a: seg[0], b: seg[1], labels:Vec::new(), ..w.clone() });
             added.push(nid);
         }
         let mut course = path;
         if !a_moved {
             course.reverse();
         }
+        place_wire_labels(&mut prj.pages[page_i], &w, &course, &added);
         split.insert(id, (course, added));
     }
     place_points(&mut prj.pages[page_i], before, &split);
@@ -457,7 +497,7 @@ fn search(symbols: &Symbols, page: &Page, area: R, a: P, b: P) -> Option<Vec<P>>
     let boxes: Vec<R> = page
         .symbols
         .iter()
-        .filter_map(|s| symbols.get(&s.sym).map(|d| s.bounds(&d)))
+        .filter_map(|s| symbols.get(&s.sym).filter(|d| d.func != Func::Graphic).map(|d| s.bounds(&d)))
         .collect();
     let blocked = |c: (i32, i32)| {
         if c == start || c == goal {
@@ -553,7 +593,7 @@ pub fn merge_collinear(symbols: &Symbols, page: &mut Page) -> usize {
                 let opposite = (far_w - m).x * (far_v - m).x + (far_w - m).y * (far_v - m).y < 0.0;
                 let alone = page.wires.iter().filter(|x| x.a.same(m) || x.b.same(m) || on_segment_interior(m, x.a, x.b)).count() == 2
                     && !all.iter().any(|(_, q, _)| q.same(m));
-                let same_props = w.color == v.color && w.cross_section == v.cross_section && w.cable == v.cable && w.core == v.core;
+                let same_props = w.same_properties(v);
                 if collinear && opposite && alone && same_props {
                     merged = Some((i, j, far_w, far_v));
                     break 'outer;
@@ -561,8 +601,16 @@ pub fn merge_collinear(symbols: &Symbols, page: &mut Page) -> usize {
             }
         }
         let Some((i, j, a, b)) = merged else { break };
+        let mut labels = Vec::new();
+        for wire in [&page.wires[i], &page.wires[j]] {
+            for mut label in wire.labels.clone() {
+                label.rebase(wire, a, b);
+                if !labels.contains(&label) {labels.push(label);}
+            }
+        }
         page.wires[i].a = a;
         page.wires[i].b = b;
+        page.wires[i].labels = labels;
         page.wires.remove(j);
         removed += 1;
     }

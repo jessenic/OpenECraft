@@ -1,10 +1,113 @@
 use super::*;
 use crate::builtin::testing::*;
 
+#[test]
+fn panel_rotation_is_queryable_editable_and_validated_atomically_through_registry() {
+    let mut s=demo();
+    run(&mut s,"add_enclosure",json!({"name":"Rotations"})).unwrap();
+    let created=run(&mut s,"place_mounting_plate",json!({"enclosure":"Rotations","width":20,"height":40})).unwrap();
+    let id=created["id"].clone();
+    let set=run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"rotation":-90})).unwrap();
+    assert_eq!(set["rotation"],270);assert_eq!(set["w"],20.);assert_eq!(set["h"],40.);
+    let before=s.project().unwrap().to_json();
+    assert!(run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"x":900,"rotation":45})).is_err());
+    assert_eq!(s.project().unwrap().to_json(),before);
+    assert!(run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"rotation":0,"infer_rotation":true})).is_err());
+    assert_eq!(s.project().unwrap().to_json(),before);
+    let rotated=run(&mut s,"arrange_panel_items",json!({"enclosure":"Rotations","ids":[id],"action":"rotate"})).unwrap();
+    assert_eq!(rotated["items"][0]["rotation"],0);
+    assert_eq!(rotated["items"][0]["w"],40.);
+    let inferred=run(&mut s,"set_panel_item",json!({"enclosure":"Rotations","id":id,"infer_rotation":true})).unwrap();
+    assert!(inferred["rotation"].is_null());
+}
+
+#[test]
+fn material_ownership_and_exclusion_are_editable_without_changing_mounts() {
+    let mut s=demo();
+    let e=run(&mut s,"add_enclosure",json!({"name":"Owned","owner_device":"-X1","bom_excluded":true})).unwrap();
+    assert_eq!(e["owner_device"],"-X1");assert_eq!(e["bom_excluded"],true);
+    let item=run(&mut s,"place_mounting_plate",json!({"enclosure":"Owned","width":100,"height":100,"thickness":2})).unwrap();
+    let changed=run(&mut s,"set_panel_item",json!({"enclosure":"Owned","id":item["id"],"owner_device":"-X1","bom_excluded":true})).unwrap();
+    assert_eq!(changed["owner_device"],"-X1");assert_eq!(changed["bom_excluded"],true);assert_eq!(changed["mounted_on"],0);
+    let e=run(&mut s,"set_enclosure",json!({"enclosure":"Owned","owner_device":"","bom_excluded":false})).unwrap();
+    assert_eq!(e["owner_device"],"");assert_eq!(e["bom_excluded"],false);
+}
+
+#[test]
+fn physical_article_changes_update_primary_assignments_and_keep_literal_spares() {
+    let mut s=demo();let prj=s.project_mut().unwrap();
+    let old=prj.devices["-M1"].parts[0].number.clone();
+    let mut replacement=prj.parts.iter().find(|p|p.number==old).unwrap().clone();replacement.number="REPLACEMENT".into();prj.parts.push(replacement.clone());
+    replacement.number="NEXT.PART".into();prj.parts.push(replacement);
+    prj.devices.get_mut("-M1").unwrap().parts.push(openecraft_core::parts::PartRef {number:old.clone(),count:2,total:true});
+    for symbol in prj.pages.iter_mut().flat_map(|p|&mut p.symbols).filter(|s|s.tag=="-M1") {symbol.values.insert("function.part_number".into(),old.clone());}
+    prj.layout.enclosures.push(Enclosure {name:"Bound".into(),part:old.clone(),device_tag:"-M1".into(),..Default::default()});
+    run(&mut s,"set_enclosure",json!({"enclosure":"Bound","part":"REPLACEMENT"})).unwrap();
+    let prj=s.project().unwrap();assert_eq!(prj.devices["-M1"].parts[0].number,"REPLACEMENT");
+    assert_eq!(prj.devices["-M1"].parts.last().unwrap().number,old);
+    assert!(prj.pages.iter().flat_map(|p|&p.symbols).filter(|s|s.tag=="-M1").all(|s|s.values["function.part_number"]=="REPLACEMENT"));
+    let prj=s.project_mut().unwrap();let id=prj.new_id();
+    prj.layout.enclosures.last_mut().unwrap().items.push(PanelItem {id,kind:panel::ItemKind::MountingPlate,tag:"-M1".into(),part:"REPLACEMENT".into(),w:100.,h:200.,d:2.,..Default::default()});
+    run(&mut s,"set_panel_item",json!({"enclosure":"Bound","id":id,"part":"NEXT.PART"})).unwrap();
+    assert_eq!(s.project().unwrap().devices["-M1"].parts[0].number,"NEXT.PART");
+    assert_eq!(s.project().unwrap().devices["-M1"].parts.last().unwrap().number,old);
+}
+
+#[test]
+fn explicit_physical_frames_and_unnumbered_parts_round_trip_through_the_api() {
+    let mut s=demo();let part=s.project().unwrap().layout.find_device("-X1").unwrap().1.part.clone();
+    let e=run(&mut s,"add_enclosure",json!({"name":"Source body","implicit_plate":false,"mounting_origin":{"x":0,"y":0,"z":0}})).unwrap();
+    assert_eq!(e["mounting_frame"][0],json!([0.,0.,0.]));
+    assert!(!e["components"].as_array().unwrap().iter().any(|c|c["role"]=="Mounting plate"));
+    let item=run(&mut s,"place_panel_device",json!({"enclosure":"Source body","tag":"-X1","part":part,"single_part":true,"width":8,"height":50,"depth":30})).unwrap();
+    assert_eq!(item["single_part"],true);assert_eq!(item["terminal"],"");
+    let points=run(&mut s,"get_panel_points",json!({"id":item["id"]})).unwrap();
+    assert_eq!(points[0]["points"].as_array().unwrap().len(),2);
+    assert!(run(&mut s,"set_enclosure",json!({"enclosure":"Source body","mounting_origin":{"x":1}})).is_err());
+    let e=run(&mut s,"set_enclosure",json!({"enclosure":"Source body","mounting_origin":{},"implicit_plate":true})).unwrap();
+    assert!(e["mounting_origin"].is_null());assert_eq!(e["implicit_plate"],true);
+}
+
+#[test]
+fn individual_terminals_are_created_queried_and_edited_through_the_registry() {
+    let mut s=demo();
+    let part=s.project().unwrap().layout.find_device("-X1").unwrap().1.part.clone();
+    run(&mut s,"add_enclosure",json!({"name":"Terminals","assembly":true})).unwrap();
+    let item=run(&mut s,"place_panel_device",json!({"enclosure":"Terminals","tag":"-X1","terminal":"1","part":part,
+        "width":8,"height":50,"depth":30,"x":120,"y":200})).unwrap();
+    assert_eq!(item["terminal"],"1");let id=item["id"].as_u64().unwrap();
+    let points=run(&mut s,"get_panel_points",json!({"enclosure":"Terminals","id":id})).unwrap();
+    assert_eq!(points.as_array().unwrap().len(),1);
+    let points=points[0]["points"].as_array().unwrap();assert!(!points.is_empty());
+    assert!(points.iter().all(|p|p["terminal"]=="1"));
+    let item=run(&mut s,"set_panel_item",json!({"enclosure":"Terminals","id":id,"terminal":"2"})).unwrap();
+    assert_eq!(item["terminal"],"2");assert_eq!(item["x"],120.);
+}
+
 fn demo() -> Session {
     let mut s = demo_session();
     s.project_mut().unwrap().info.name = "Demo".into();
     s
+}
+
+#[test]
+fn open_assemblies_expose_explicit_plates_and_move_their_mounted_items() {
+    let mut s=with_project(Project::default());
+    let e=run(&mut s,"add_enclosure",json!({"name":"Open","assembly":true,"width":800,"height":600,"depth":300})).unwrap();
+    assert_eq!(e["kind"],"assembly");assert!(e["components"].as_array().unwrap().is_empty());
+    let plate=run(&mut s,"place_mounting_plate",json!({"enclosure":"Open","width":750,"height":550,"thickness":2})).unwrap()["id"].as_u64().unwrap();
+    let child=run(&mut s,"place_mounting_plate",json!({"enclosure":"Open","width":100,"height":50,"x":20,"y":30,"z":2})).unwrap()["id"].as_u64().unwrap();
+    run(&mut s,"set_panel_item",json!({"enclosure":"Open","id":child,"mounted_on":plate})).unwrap();
+    run(&mut s,"set_panel_item",json!({"enclosure":"Open","id":plate,"x":40,"depth":5})).unwrap();
+    let project=s.project().unwrap();let item=project.layout.enclosures[0].item(child).unwrap();
+    assert_eq!((item.x,item.z,item.mounted_on),(60.,5.,plate));
+    assert!(run(&mut s,"set_panel_item",json!({"enclosure":"Open","id":plate,"mounted_on":child})).is_err());
+    run(&mut s,"set_panel_item",json!({"enclosure":"Open","id":child,"mounted_on":0})).unwrap();
+    run(&mut s,"set_panel_item",json!({"enclosure":"Open","id":plate,"x":80})).unwrap();
+    assert_eq!(s.project().unwrap().layout.enclosures[0].item(child).unwrap().x,60.);
+    let e=run(&mut s,"set_enclosure",json!({"enclosure":"Open","assembly":false})).unwrap();
+    assert_eq!(e["kind"],"cabinet");
+    assert!(!e["components"].as_array().unwrap().iter().any(|c|c["role"]=="Mounting plate"));
 }
 
 #[test]

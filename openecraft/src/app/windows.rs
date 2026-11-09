@@ -7,6 +7,37 @@ use crate::shortcuts::Shortcut;
 use openecraft_core::analysis::{Progress, Step};
 
 impl App {
+    pub(super) fn closing_window(&mut self, ui: &mut egui::Ui) {
+        let ctx = ui.ctx().clone();
+        let shutdown = self.shutdown.as_mut().expect("closing job");
+        let complete = shutdown.poll();
+        let step = shutdown.step();
+        let mut cancel = false;
+        egui::CentralPanel::default().show(ui, |_| {});
+        egui::Modal::new(egui::Id::unique("closing_app")).show(&ctx, |ui| {
+            ui.set_width(420.0);
+            ui.heading(tr("Closing OpenECraft"));
+            ui.label(RichText::new(&self.session.prj.info.name).strong());
+            if let Some(error) = &shutdown.error {
+                ui.colored_label(crate::style::error(), tr("Could not prepare the recovery data."));
+                ui.label(error);
+                cancel = ui.button(tr("Cancel")).clicked();
+            } else {
+                ui.label(tr_fmt!("Step {} of {}: {}", step + 1, crate::shutdown::STEPS.len(), tr(crate::shutdown::STEPS[step])));
+                ui.add(egui::ProgressBar::new(step as f32 / crate::shutdown::STEPS.len() as f32).animate(true));
+                ui.spinner();
+            }
+        });
+        if cancel {
+            self.shutdown = None;
+            self.updater.restart = false;
+        } else if complete {
+            self.closing = true;
+            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+        }
+        ctx.request_repaint_after(std::time::Duration::from_millis(50));
+    }
+
     pub(super) fn windows(&mut self, ctx: &egui::Context) {
         self.discard_window(ctx);
         self.delete_page_window(ctx);

@@ -303,6 +303,27 @@ impl Draw for EguiDraw<'_> {
         }
     }
 
+    fn image_quad(&mut self, img: &ImageItem, corners: &[P; 4]) {
+        let key = egui::Id::unique(("symbol-bitmap", fingerprint(&img.file)));
+        let texture = self.painter.ctx().data_mut(|data| data.get_temp::<Option<egui::TextureHandle>>(key));
+        let texture = texture.unwrap_or_else(|| {
+            let texture = decode_image(&img.file).map(|image| self.painter.ctx().load_texture(
+                format!("symbol-bitmap-{}", img.id), image, egui::TextureOptions::LINEAR));
+            self.painter.ctx().data_mut(|data| data.insert_temp(key, texture.clone()));
+            texture
+        });
+        if let Some(texture) = texture.filter(|_| self.force.is_none()) {
+            let mut mesh = Mesh::with_texture(texture.id());
+            for (corner, uv) in corners.iter().zip([pos2(0., 0.), pos2(1., 0.), pos2(1., 1.), pos2(0., 1.)]) {
+                mesh.vertices.push(egui::epaint::Vertex { pos: self.w2s(*corner), uv, color: Color32::WHITE });
+            }
+            mesh.indices.extend_from_slice(&[0, 1, 2, 0, 2, 3]);
+            self.painter.add(EShape::mesh(mesh));
+        } else {
+            render::image_placeholder(self, img);
+        }
+    }
+
     fn image(&mut self, img: &ImageItem) {
         let tex = self.textures.and_then(|t| t.get(&img.id)).and_then(|t| t.1.as_ref());
         match (tex, self.force) {
@@ -740,7 +761,8 @@ impl Editor {
     }
 
     /// Hit test: returns the id of the item under `q` (world), preferring texts and
-    /// symbols. Items on hidden or locked layers are skipped.
+    /// electrical symbols. Decorative symbols stay behind wires and their
+    /// definitions. Items on hidden or locked layers are skipped.
     pub fn hit(&self, prj: &Project, page_i: usize, q: P) -> Option<u64> {
         let page = &prj.pages[page_i];
         let tol = (8.0 / self.zoom).max(0.4);
@@ -751,6 +773,7 @@ impl Editor {
             }
         }
         let mut best: Option<(f32, u64)> = None;
+        let mut graphic: Option<(f32, u64)> = None;
         for s in page.symbols.iter().rev() {
             let Some(def) = prj.symbol(&s.sym) else { continue };
             let b = s.bounds(&def);
@@ -760,8 +783,9 @@ impl Editor {
             }
             if b.expand(tol * 0.5).contains(q) {
                 let d = b.center().dist(q) / (b.width() + b.height()).max(1.0);
-                if best.map(|(bd, _)| d < bd).unwrap_or(true) {
-                    best = Some((d, s.id));
+                let candidate = if def.func == openecraft_core::symbols::Func::Graphic { &mut graphic } else { &mut best };
+                if candidate.map(|(bd, _)| d < bd).unwrap_or(true) {
+                    *candidate = Some((d, s.id));
                 }
             }
         }
@@ -781,6 +805,9 @@ impl Editor {
         }
         if let Some(c) = page.cable_defs.iter().rev().find(|c| dist_to_segment(q, c.a, c.b) <= tol) {
             return Some(c.id);
+        }
+        if let Some((_, id)) = graphic {
+            return Some(id);
         }
         if let Some(d) = page.dimensions.iter().rev().find(|d| usable(&d.layer) && graphics::dim_hit(d, q, tol)) {
             return Some(d.id);
@@ -1047,7 +1074,7 @@ impl Editor {
         if let (Some(sn), Some(pl), true) = (snapped, resp.dnd_hover_payload::<PlacePayload>(), editable) {
             if let Some(def) = prj.symbol(pl.symbol) {
                 let mut g = EguiDraw { painter: &painter, origin, zoom: self.zoom, pal: &pal, force: Some(Ink::Ghost), mirror: None, textures: None };
-                let inst = SymbolInst { sym: def.key.into(), pos: sn, label: def.default_label.into(), ..Default::default() };
+                let inst = SymbolInst { pos: sn, ..ops::symbol_preview(prj, &def) };
                 render::draw_symbol(&mut g, &def, &inst, Ink::Ghost);
             }
         }
@@ -1145,12 +1172,10 @@ impl Editor {
             Tool::Place(key) => {
                 if let Some(def) = prj.symbol(key) {
                     let inst = SymbolInst {
-                        sym: def.key.into(),
                         pos: sn,
                         rot: self.place_rotation(prj, page, &def, sn),
                         mirror: self.place_mirror,
-                        label: def.default_label.into(),
-                        ..Default::default()
+                        ..ops::symbol_preview(prj, &def)
                     };
                     // A tinted box behind it: the symbol stays visible on a page zoomed out.
                     let b = inst.bounds(&def);
@@ -1234,7 +1259,7 @@ impl Editor {
                 if let Some(clip) = &self.insert {
                     let d = ops::paste_offset(clip, sn);
                     for s in &clip.symbols {
-                        if let Some(def) = prj.symbol(&s.sym) {
+                        if let Some(def) = clip.symbol(prj,&s.sym) {
                             let inst = SymbolInst { pos: s.pos + d, ..s.clone() };
                             render::draw_symbol(g, &def, &inst, Ink::Ghost);
                         }
@@ -1371,7 +1396,8 @@ impl Editor {
                 }
             }
             // Like a drag: facing connection points of moved symbols are connected.
-            let moved_symbols = prj.pages[page_i].symbols.iter().any(|s| self.selection.contains(&s.id)) || prj.pages[page_i].junctions.iter().any(|j| self.selection.contains(&j.id));
+            let moved_symbols = prj.pages[page_i].symbols.iter().any(|s| self.selection.contains(&s.id))
+                || prj.pages[page_i].junctions.iter().any(|j| self.selection.contains(&j.id));
             if self.autoconnect && moved_symbols {
                 let n = routing::apply_autoconnect(prj, page_i, &self.selection);
                 if n > 0 {
@@ -1924,6 +1950,9 @@ impl Editor {
 /// Draws a symbol preview into a small rectangle (symbol library).
 pub fn symbol_icon(ui: &mut egui::Ui, prj: &Project, key: &str, size: Vec2) -> egui::Response {
     let (resp, painter) = ui.allocate_painter(size, Sense::click());
+    if !ui.is_rect_visible(resp.rect) {
+        return resp;
+    }
     let Some(def) = prj.symbol(key) else { return resp };
     let pal = Palette::new(ui.visuals().dark_mode);
     let b = def.bounds;
@@ -1931,7 +1960,7 @@ pub fn symbol_icon(ui: &mut egui::Ui, prj: &Project, key: &str, size: Vec2) -> e
     let center = resp.rect.center();
     let origin = center - vec2(b.center().x, b.center().y) * zoom;
     let mut d = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: None, mirror: None, textures: None };
-    let inst = SymbolInst { sym: key.into(), label: def.default_label.into(), ..Default::default() };
+    let inst = ops::symbol_preview(prj, &def);
     render::draw_symbol(&mut d, &def, &inst, Ink::Line);
     resp
 }

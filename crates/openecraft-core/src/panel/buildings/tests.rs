@@ -241,7 +241,7 @@ fn a_cable_bridge_runs_at_the_height_of_the_higher_entry() {
 
 fn lamp(prj: &mut Project) {
     prj.parts.push(Part { number: "GEN.LAMP".into(), width: 200.0, height: 200.0, depth: 150.0, mounting_data: MountingData { wall_mount: true, ..Default::default() }, ..Default::default() });
-    prj.devices.insert("-E1".into(), DeviceData { parts: vec![PartRef { number: "GEN.LAMP".into(), count: 1 }], ..Default::default() });
+    prj.devices.insert("-E1".into(), DeviceData { parts: vec![PartRef { number: "GEN.LAMP".into(), count: 1, total:false }], ..Default::default() });
 }
 
 #[test]

@@ -127,6 +127,7 @@ pub fn item_class(prj: &Project, kinds: &HashMap<&str, BTreeSet<FnKind>>, it: &P
         ItemKind::Busbar => "busbar",
         ItemKind::Cutout => "cutout",
         ItemKind::Accessory => "accessory",
+        ItemKind::MountingPlate => "accessory",
         ItemKind::Device => kinds.get(it.tag.as_str()).map(device_class).unwrap_or("control"),
     }
     .into()

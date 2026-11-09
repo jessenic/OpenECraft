@@ -4,7 +4,7 @@
 //! rear wall, gland plate, plinth and baying kits, each with its part and its
 //! geometry for the 3D view and the export.
 
-use super::{Enclosure, Face, PLATE_MARGIN, PLATE_THICKNESS, PLATE_Z};
+use super::{Enclosure, Face, ItemKind, PLATE_THICKNESS};
 use crate::climate::Material;
 use crate::parts::mechanics::{self, SystemData};
 use crate::parts::vec3::V3;
@@ -159,6 +159,7 @@ fn frame_boxes(e: &Enclosure, f: f32) -> Vec<(V3, V3)> {
 /// door and mounting plate); floor-standing systems are a frame with door, roof and
 /// mounting plate plus side panels (or baying kits on bayed sides) and a rear wall.
 pub fn components(e: &Enclosure) -> Vec<Component> {
+    if e.is_assembly() {return Vec::new();}
     let (w, h, d) = (e.width, e.height, e.depth);
     if e.is_room() {
         // Room walls stand on the floor of the site, the ceiling covers the floor plan.
@@ -197,9 +198,10 @@ pub fn components(e: &Enclosure) -> Vec<Component> {
         // Two pairs of rails instead of a mounting plate.
         let part = mechanics::rack_rail_number(super::rack_units(e));
         v.push(Component { role: Role::RackRails, part, count: 2, boxes: super::rack::rail_boxes(e) });
-    } else {
+    } else if !e.no_implicit_plate && !e.items.iter().any(|i|i.kind==ItemKind::MountingPlate) {
         let (pw, ph) = e.plate_size();
-        let plate = ([PLATE_MARGIN, PLATE_MARGIN, PLATE_Z - PLATE_THICKNESS], [PLATE_MARGIN + pw, PLATE_MARGIN + ph, PLATE_Z]);
+        let offset=e.face_offset(Face::Plate);let z=e.mounting_z();
+        let plate = ([offset.x,offset.y,z-PLATE_THICKNESS], [offset.x+pw,offset.y+ph,z]);
         v.push(one(Role::MountingPlate, String::new(), vec![plate]));
     }
     let p = e.build.plinth;

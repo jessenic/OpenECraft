@@ -1,4 +1,21 @@
 use super::*;
+
+#[test]
+fn every_project_feature_is_documented() {
+    let docs=include_str!("../../../../docs/plugins.md");
+    for feature in PROJECT_FEATURES {
+        assert!(docs.contains(&format!("`{feature}`")),"{feature} is missing in docs/plugins.md");
+    }
+}
+
+#[test]
+fn requests_advertise_directional_contact_support_of_the_actual_host() {
+    let transport:Transport=std::sync::Arc::new(|request| {
+        assert_eq!(request["project_features"],json!(PROJECT_FEATURES));
+        Ok(json!({"result":true}))
+    });
+    assert_eq!(ask(&transport,json!({"method":"describe"})).unwrap()["result"],true);
+}
 use crate::{Args, Origin, Plugins};
 use serde_json::Map;
 use openecraft_core::analysis::Analysis;
@@ -44,7 +61,8 @@ fn external_plugins_answer_json_requests() {
     let log = Arc::new(Mutex::new(Vec::new()));
     let mut p = Plugins::default();
     p.add(&fake(log.clone()), Origin::External("fake".into())).unwrap();
-    assert_eq!(log.lock().unwrap()[0], json!({ "method": "describe", "api": API_VERSION }));
+    assert_eq!(log.lock().unwrap()[0]["method"], "describe");
+    assert_eq!(log.lock().unwrap()[0]["api"], API_VERSION);
 
     let mut prj = demo_project();
     let args = json!({ "title": "Plant 7" }).as_object().unwrap().clone();

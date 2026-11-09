@@ -1,14 +1,88 @@
 use super::*;
 
+#[test]
+fn sheet_frames_follow_numbered_sections_after_inserting_renaming_and_deleting_pages() {
+    let mut prj=Project::default();prj.pages.clear();
+    prj.sections.push(Section {id:100,number:"1".into(),..Default::default()});
+    for number in 11..=23 {
+        let mut page=Page::new(number,&format!("1.{number}"),"CC1",PageKind::Schematic);
+        page.section=100;page.function="Site".into();page.location="CC1".into();prj.pages.push(page);
+    }
+    let page=Object::Page(16);
+    for (key,value) in [("page.local_name","16"),("page.section_pages","13"),("page.section_last_number","23"),
+        ("page.previous_local_name","15"),("page.next_local_name","17"),("page.function_designation","=Site"),("page.location_designation","+CC1")] {
+        assert_eq!(get(&prj,&page,key),value,"{key}");
+        assert!(valid_key(&prj,key).unwrap().read_only);
+    }
+    let at=crate::ops::add_page(&mut prj,PageKind::Schematic,13);
+    assert_eq!(get(&prj,&page,"page.section_last_number"),"24");
+    assert_eq!(get(&prj,&page,"page.section_pages"),"14");
+    let added=Object::Page(prj.pages[at].id);
+    set(&mut prj,&added,"page.name","1.25").unwrap();
+    assert_eq!(get(&prj,&page,"page.section_last_number"),"25");
+    prj.pages.retain(|p|p.id!=17);
+    assert_eq!(get(&prj,&page,"page.next_local_name"),"18");
+    assert_eq!(get(&prj,&Object::Page(11),"page.previous_local_name"),"");
+    assert_eq!(get(&prj,&added,"page.next_local_name"),"");
+}
+
 fn project() -> Project {
     let mut prj = Project::default();
     prj.parts.push(Part { number: "GEN.MOTOR".into(), voltage: "400".into(), weight: 12.5, datasheet: "motor.pdf".into(), ..Default::default() });
-    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "GEN.MOTOR".into(), count: 2 }], ..Default::default() });
+    prj.devices.insert("-M1".into(), DeviceData { parts: vec![PartRef { number: "GEN.MOTOR".into(), count: 2, total:false }], ..Default::default() });
     prj.pages[0].symbols.push(SymbolInst { id: 10, sym: "motor3".into(), tag: "-M1".into(), ..Default::default() });
     prj.pages[0].symbols.push(SymbolInst { id: 11, sym: "term".into(), tag: "-X1".into(), label: "3".into(), ..Default::default() });
     prj.pages[0].symbols.push(SymbolInst { id: 12, sym: "plc_in".into(), tag: "-A1".into(), label: "I0.0".into(), ..Default::default() });
     prj.cables.push(Cable { tag: "-W1".into(), cores: "1 2 3 GNYE".into(), ..Default::default() });
     prj
+}
+
+#[test]
+fn function_part_selection_is_local_live_and_does_not_change_device_aggregates() {
+    let mut prj = project();
+    prj.parts.push(Part { number: "SECOND".into(), manufacturer: "Maker two".into(), ..Default::default() });
+    prj.devices.get_mut("-M1").unwrap().parts.push(PartRef { number: "SECOND".into(), count: 1, total:false });
+    let function = Object::Function(10);
+    assert_eq!(get(&prj, &function, "part.number"), "GEN.MOTOR");
+    assert_eq!(get(&prj, &function, "function.part_index"), "1");
+    set(&mut prj, &function, "function.part_index", "2").unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "SECOND");
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Maker two");
+    assert_eq!(get(&prj, &Object::Device("-M1".into()), "device.parts"), "GEN.MOTOR, SECOND");
+    assert_eq!(Object::Function(10).classes(&prj).last(), Some(&ObjectClass::Part));
+    prj.parts.iter_mut().find(|p| p.number == "SECOND").unwrap().manufacturer = "Updated maker".into();
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Updated maker");
+    set(&mut prj, &function, "function.manufacturer", "Function override").unwrap();
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Function override");
+    set(&mut prj, &function, "function.manufacturer", "").unwrap();
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "Updated maker");
+    for index in ["0", "-1", "3"] {
+        let before = prj.to_json();
+        assert!(set(&mut prj, &function, "function.part_index", index).is_err());
+        assert_eq!(prj.to_json(), before);
+    }
+    prj.devices.get_mut("-M1").unwrap().parts[1].number = "MISSING.CATALOG".into();
+    set(&mut prj, &function, "function.part_index", "2").unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "MISSING.CATALOG");
+    assert_eq!(get(&prj, &function, "function.manufacturer"), "");
+    let prj = Project::from_json(&prj.to_json()).unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "MISSING.CATALOG");
+}
+
+#[test]
+fn removing_a_selected_part_cannot_silently_bind_to_another_part() {
+    let mut prj = project();
+    let function = Object::Function(10);
+    prj.devices.get_mut("-M1").unwrap().parts.extend([PartRef { number: "SECOND".into(), count: 1, total:false }, PartRef { number: "THIRD".into(), count: 1, total:false }]);
+    set(&mut prj, &function, "function.part_index", "2").unwrap();
+    prj.devices.get_mut("-M1").unwrap().parts.remove(0);
+    assert_eq!(get(&prj, &function, "part.number"), "SECOND");
+    assert_eq!(get(&prj, &function, "function.part_index"), "1");
+    prj.devices.get_mut("-M1").unwrap().parts.remove(0);
+    assert_eq!(get(&prj, &function, "part.number"), "");
+    assert_eq!(get(&prj, &function, "function.part_index"), "0");
+    set(&mut prj, &function, "function.part_index", "").unwrap();
+    assert_eq!(get(&prj, &function, "part.number"), "THIRD");
 }
 
 #[test]

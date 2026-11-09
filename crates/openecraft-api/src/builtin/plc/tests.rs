@@ -6,6 +6,34 @@ fn demo() -> Session {
 }
 
 #[test]
+fn module_channels_are_listed_and_edited_independently() {
+    use openecraft_core::model::SymbolInst;
+    use openecraft_core::symbols::{Func,PlcChannelDef};
+    use openecraft_core::symlib::UserSymbol;
+    let mut prj=Project::default();
+    prj.symbols.push(UserSymbol {key:"user:module".into(),func:Func::Plc,
+        plc_channels:(0..8).map(|i|PlcChannelDef {key:format!("c{i}"),index:i,input:Some(true),data_type:"Bool".into(),..Default::default()}).collect(),..Default::default()});
+    prj.pages[0].symbols.push(SymbolInst {id:123,sym:"user:module".into(),tag:"-A1".into(),..Default::default()});
+    let mut session=with_project(prj);
+    let points=run(&mut session,"get_plc_points",json!({})).unwrap();
+    assert_eq!(points.as_array().unwrap().len(),8);
+    assert_eq!(points[3]["symbolic"],"");
+    run(&mut session,"set_plc_channel",json!({"symbol":123,"channel":3,"address":"I12.3","symbolic":"Ready","comment":"Drive ready"})).unwrap();
+    let points=run(&mut session,"get_plc_points",json!({})).unwrap();
+    let edited=points.as_array().unwrap().iter().find(|p|p["channel"]==3).unwrap();
+    assert_eq!(edited["address"],"I12.3");
+    assert_eq!(edited["symbolic"],"Ready");
+    let untouched=points.as_array().unwrap().iter().find(|p|p["channel"]==4).unwrap();
+    assert_eq!(untouched["address"],"");
+    assert!(run(&mut session,"set_plc_channel",json!({"symbol":123,"channel":8,"address":"I99.0"})).is_err());
+    let hardware=run(&mut session,"set_plc_card",json!({"card":"-A1","rack":2})).unwrap();
+    assert_eq!(hardware["addresses_changed"],0);
+    let points=run(&mut session,"get_plc_points",json!({})).unwrap();
+    assert_eq!(points.as_array().unwrap().iter().find(|p|p["channel"]==3).unwrap()["address"],"I12.3");
+    assert_eq!(run(&mut session,"set_plc_card",json!({"card":"-A1","start_byte":42})).unwrap()["addresses_changed"],8);
+}
+
+#[test]
 fn hardware_is_configured_and_changed() {
     let mut s = demo();
     let hw = run(&mut s, "get_plc_hardware", json!({})).unwrap();

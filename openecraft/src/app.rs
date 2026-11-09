@@ -20,7 +20,7 @@ use openecraft_core::ops;
 use openecraft_core::analysis::Analysis;
 use openecraft_core::issue::Severity;
 use openecraft_core::structure::{self, Aspect, Dt};
-use openecraft_core::symbols::{self, Category, Func};
+use openecraft_core::symbols::Func;
 use openecraft_core::{potentials, properties, sample, translation, wirenum};
 use openecraft_ui::icons::{self, Icon};
 use egui::{Key, RichText};
@@ -244,8 +244,9 @@ pub struct App {
     layout_name: Option<String>,
     /// What waits for the user to keep or drop the unsaved changes.
     discard: crate::session::Guard<Replace>,
-    /// The user agreed to close: the next close request is not cancelled.
+    /// Recovery data is ready: the next close request is not cancelled.
     closing: bool,
+    shutdown: Option<crate::shutdown::Shutdown>,
     /// Page (id) whose deletion waits for the confirmation.
     confirm_delete_page: Option<u64>,
     /// Saved workspace whose deletion waits for the confirmation.
@@ -329,6 +330,8 @@ pub struct App {
     settings: settings_ui::SettingsUi,
     search: command_search::SearchUi,
     insert_center: crate::insert_center::InsertCenter,
+    unplaced_cache: crate::insert_center::UnplacedCache,
+    insert_catalog: crate::insert_center::CatalogCache,
     /// Favorite and recently used plugin commands.
     plugin_cmds: crate::plugin_commands::PluginCommands,
     help: help_pane::HelpUi,
@@ -379,6 +382,7 @@ impl App {
         let mut vault = crate::vault::Vault::default();
         let mut macro_lib = None;
         let mut disabled_plugins: Vec<String> = Vec::new();
+        let mut plugin_folders: Vec<String> = Vec::new();
         let mut language: Option<String> = None;
         let mut shortcuts = crate::shortcuts::Shortcuts::default();
         let mut layouts: Vec<crate::workspaces::Layout> = Vec::new();
@@ -405,6 +409,7 @@ impl App {
                 projects_ui.db = db;
             }
             disabled_plugins = eframe::get_value(storage, plugins_ui::STORAGE_KEY).unwrap_or_default();
+            plugin_folders = eframe::get_value(storage, plugins_ui::FOLDERS_KEY).unwrap_or_default();
             if let Some(stored) = eframe::get_value(storage, crate::shortcuts::STORAGE_KEY) {
                 shortcuts = crate::shortcuts::Shortcuts::from_storage(&stored);
             }
@@ -453,6 +458,9 @@ impl App {
             shell.docks.iter().filter_map(|(k, json)| Some((Workspace::from_key(k)?, crate::dock::from_json(json)?))).filter(|(w, _)| *w != workspace).collect();
         let mut plugins = openecraft_api::Plugins::new(Vec::<String>::new());
         plugins.load_env();
+        for folder in &plugin_folders {
+            plugins.load_dir(std::path::Path::new(folder));
+        }
         for id in &disabled_plugins {
             plugins.set_enabled(id, false);
         }
@@ -497,6 +505,7 @@ impl App {
             layout_name: None,
             discard: Default::default(),
             closing: false,
+            shutdown: None,
             confirm_delete_page: None,
             confirm_remove_layout: None,
             pending_example: None,
@@ -548,7 +557,7 @@ impl App {
             compare_ui: Default::default(),
             requests_ui: Default::default(),
             plugins,
-            plugins_ui: Default::default(),
+            plugins_ui: plugins_ui::PluginsUi::with_folders(plugin_folders),
             autosave,
             ribbon,
             backstage: None,
@@ -556,6 +565,8 @@ impl App {
             settings: Default::default(),
             search: Default::default(),
             insert_center,
+            unplaced_cache: Default::default(),
+            insert_catalog: Default::default(),
             plugin_cmds,
             help: Default::default(),
             dialogs: Default::default(),
@@ -670,9 +681,10 @@ impl App {
             Replace::Shared(name) => self.remote.open(&name),
             Replace::Vault(file) => self.vault.download(*file, crate::vault::Use::Project),
             Replace::Close { restart } => {
-                self.closing = true;
                 self.updater.restart = restart;
-                ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+                if self.shutdown.is_none() {
+                    self.shutdown = Some(crate::shutdown::Shutdown::start(&mut self.autosave, &self.session, &self.parts_db, &self.macro_lib, ctx));
+                }
             }
         }
     }
@@ -685,6 +697,7 @@ impl App {
             self.remember_recent(path);
         }
         self.session.replace(prj, file_name);
+        self.find_ui.clear_results();
         parts::link_unassigned_plc_parts(&mut self.session.prj, &self.parts_db, None);
         self.editor.selection.clear();
         self.editor.cancel();
@@ -951,10 +964,16 @@ impl eframe::App for App {
         self.apply_scale(&ctx);
         self.panel_ui.wall_opacity = self.shell.wall_opacity;
         self.panel_ui.gpu_3d = self.shell.gpu_3d && frame.gl().is_some();
-        // Closing the window with unsaved changes asks first (the second close, after
-        // the answer, goes through).
-        if ctx.input(|i| i.viewport().close_requested()) && !self.closing && self.discard.request(self.session.dirty(), Replace::Close { restart: false }).is_none() {
+        // Ask about unsaved changes, then keep the window until recovery is ready.
+        if ctx.input(|i| i.viewport().close_requested()) && !self.closing {
             ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
+            if self.shutdown.is_none() {
+                self.request_replace(&ctx, Replace::Close { restart: false });
+            }
+        }
+        if self.shutdown.is_some() {
+            self.closing_window(ui);
+            return;
         }
         self.poll_loaded(&ctx);
         self.poll_jobs(&ctx);
@@ -1049,9 +1068,12 @@ impl eframe::App for App {
     }
 
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
-        // The project and the parts database go to the app's store (IndexedDB in the
-        // browser); until it works they are also kept here, the project packed.
-        if self.autosave.save(&self.session, &self.parts_db) {
+        // Large values go to the app's store, with eframe storage as a fallback.
+        // During closing the worker prepares them and this callback only copies them.
+        if let Some(shutdown) = &self.shutdown {
+            let Some(prepared) = &shutdown.prepared else { return };
+            prepared.apply(storage);
+        } else if self.autosave.save(&self.session, &self.parts_db) {
             storage.set_string("project_packed", String::new());
             storage.set_string("parts_db", String::new());
         } else {
@@ -1063,7 +1085,9 @@ impl eframe::App for App {
         eframe::set_value(storage, "parts_server_url", &self.parts_ui.server.url_of(PortalKind::OpenECraft));
         eframe::set_value(storage, "eplan_portal_url", &self.parts_ui.server.url_of(PortalKind::Eplan));
         eframe::set_value(storage, "parts_server_kind", &self.parts_ui.server.kind);
-        eframe::set_value(storage, "macros", &self.macro_lib);
+        if self.shutdown.is_none() {
+            eframe::set_value(storage, "macros", &self.macro_lib);
+        }
         eframe::set_value(storage, "project_database", &self.projects_ui.db);
         eframe::set_value(storage, "project_server_url", &self.remote.url);
         eframe::set_value(storage, "project_server_user", &self.remote.user);
@@ -1071,6 +1095,7 @@ impl eframe::App for App {
         eframe::set_value(storage, "vault_name", &self.vault.vault_name);
         eframe::set_value(storage, "vault_user", &self.vault.user);
         eframe::set_value(storage, plugins_ui::STORAGE_KEY, &self.plugins.disabled());
+        eframe::set_value(storage, plugins_ui::FOLDERS_KEY, &self.plugins_ui.folders());
         eframe::set_value(storage, crate::shortcuts::STORAGE_KEY, &self.editor.shortcuts.to_storage());
         eframe::set_value(storage, crate::workspaces::STORAGE_KEY, &self.layouts);
         storage.set_string(crate::dock::STORAGE_KEY, crate::dock::to_json(&self.dock));
