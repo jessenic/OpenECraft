@@ -1235,9 +1235,6 @@ fn gland_taken(prj: &Project, ends: &[End; 2]) -> Option<usize> {
     ends.iter().find_map(|e| e.enclosure.filter(|&ei| e.item.is_none() && e.point.is_some() && !prj.layout.enclosures[ei].is_room() && !entries(prj, ei).is_empty()))
 }
 
-/// Routes the `jobs` one after the other, the searches of a class on up to `workers`
-/// threads at the same time (with the same routes).
-#[allow(clippy::too_many_lines)]
 type Ahead = (Option<grid::Way>, Vec<f32>, Option<grid::GoalCosts>);
 
 fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:bool, entry:Option<Ahead>, search:impl FnOnce(Option<&grid::GoalCosts>)->Option<grid::Way>)->Option<grid::Way> {
@@ -1250,6 +1247,9 @@ fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:b
     }
 }
 
+/// Routes the `jobs` one after the other, the searches of a class on up to `workers`
+/// threads at the same time (with the same routes).
+#[allow(clippy::too_many_lines)]
 fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: Glands, progress: &dyn Fn(usize, usize), workers: usize) -> Routing {
     let rules = &prj.layout.routing;
     let pos = panel::positions(&prj.layout);
