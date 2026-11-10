@@ -659,6 +659,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Blocuri de raport și scheme de raport
 Reserves space over the mounting plate: kept free of routes, or for one class only	Rezervă spațiu deasupra plăcii de montaj: păstrat liber de trasee sau doar pentru o clasă
 Rest (mm)	Rest (mm)
+Reuse failed searches during one routing calculation	Reutilizează căutările nereușite în cadrul aceluiași calcul de traseu
 Right side bayed (no side panel)	Partea dreaptă alăturată (fără perete lateral)
 Room {} exists already	Încăperea {} există deja
 Rotation in degrees clockwise: 0, 90, 180 or 270	Rotație în grade, în sensul acelor de ceasornic: 0, 90, 180 sau 270

@@ -1,6 +1,35 @@
 use super::*;
 
 #[test]
+fn impossible_route_caching_is_explicit_and_round_trips() {
+    let mut rules=RoutingRules::default();
+    assert!(!rules.reuse_failed_searches);
+    assert!(serde_json::to_value(&rules).unwrap().get("reuse_failed_searches").is_none());
+    rules.reuse_failed_searches=true;
+    let saved=serde_json::to_string(&rules).unwrap();
+    assert!(serde_json::from_str::<RoutingRules>(&saved).unwrap().reuse_failed_searches);
+    assert!(!serde_json::from_str::<RoutingRules>("{}").unwrap().reuse_failed_searches);
+}
+
+
+#[test]
+fn an_impossible_ahead_search_is_not_repeated_after_fill_changes() {
+    let prj=Project::default();let rules=RoutingRules::default();
+    let mut space=grid::Space::build(&prj,&[],&[],&rules);
+    space.paths.push(grid::PathCells {enclosure:0,id:1,kind:PathKind::Any,classes:0,capacity:1.,used:2.,items:1,implied:false});
+    let loads=vec![0.];
+    assert!(!space.full_as(&loads,1.));
+    let req=grid::Request {kind:RouteKind::Cable,class:Class::Signal,ignore:&[],at:[[0.;3];2],leave:[[0.;3];2],out:[0.;2],area:1.,turn:25.,half:1.};
+    assert!(finish_ahead(&space,&req,1.,true,Some((None,loads.clone(),None)),|_|panic!("an impossible route must not be searched again")).is_none());
+    let mut searched=false;
+    assert!(finish_ahead(&space,&req,1.,true,None,|_|{searched=true;None}).is_none());
+    assert!(searched,"a missing ahead result still needs a search");
+    searched=false;
+    assert!(finish_ahead(&space,&req,1.,false,Some((None,loads,None)),|_|{searched=true;None}).is_none());
+    assert!(searched,"legacy spaces retry failed ahead searches when channel fill changes");
+}
+
+#[test]
 fn cable_endpoints_resolve_individually_placed_terminal_numbers() {
     let mut prj=crate::sample::demo_project();
     let terms=crate::strips::terminals(&prj,"-X1");

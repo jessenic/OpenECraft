@@ -659,6 +659,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	보고서 블록 및 보고서 스키마
 Reserves space over the mounting plate: kept free of routes, or for one class only	장착 플레이트 위에 공간을 예약합니다: 경로가 지나지 않도록 비워 두거나 한 클래스 전용
 Rest (mm)	잔량(mm)
+Reuse failed searches during one routing calculation	하나의 배선 경로 계산 내에서 실패한 검색 결과 재사용
 Right side bayed (no side panel)	오른쪽 측면 결합(측면 패널 없음)
 Room {} exists already	방 {}이(가) 이미 있습니다
 Rotation in degrees clockwise: 0, 90, 180 or 270	시계 방향 회전 각도: 0, 90, 180 또는 270

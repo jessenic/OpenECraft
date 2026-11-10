@@ -184,6 +184,7 @@ impl Default for RoutingRules {
             segregation: 100.0,
             segregation_factor: 4.0,
             wires_3d: false,
+            reuse_failed_searches: false,
             bend_wire: 4.0,
             bend_cable: 4.0,
             bend_tube: 5.0,
@@ -1237,6 +1238,18 @@ fn gland_taken(prj: &Project, ends: &[End; 2]) -> Option<usize> {
 /// Routes the `jobs` one after the other, the searches of a class on up to `workers`
 /// threads at the same time (with the same routes).
 #[allow(clippy::too_many_lines)]
+type Ahead = (Option<grid::Way>, Vec<f32>, Option<grid::GoalCosts>);
+
+fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:bool, entry:Option<Ahead>, search:impl FnOnce(Option<&grid::GoalCosts>)->Option<grid::Way>)->Option<grid::Way> {
+    match entry {
+        // Within one class, routing only fills paths and adds obstacles. An impossible
+        // route cannot become possible, even when a path's fill state changed.
+        Some((None,loads,_)) if reuse_failed || space.full_as(&loads,area)=>None,
+        Some((Some(way),loads,_)) if space.full_as(&loads,area) && space.still_apart(&way.cells,req)=>Some(way),
+        entry=>search(entry.as_ref().and_then(|e|e.2.as_ref())),
+    }
+}
+
 fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: Glands, progress: &dyn Fn(usize, usize), workers: usize) -> Routing {
     let rules = &prj.layout.routing;
     let pos = panel::positions(&prj.layout);
@@ -1344,7 +1357,6 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
     // after the other).
     // A way found ahead with the use of the routing paths of its space then and the costs
     // to its goal (to search it again without working them out).
-    type Ahead = (Option<grid::Way>, Vec<f32>, Option<grid::GoalCosts>);
     let mut ahead: HashMap<(usize, usize), Ahead> = HashMap::new();
     // The legs (job, leg) searched at the same time against the spaces as they are.
     let search_ahead = |tasks: &[(usize, usize)], spaces: &HashMap<usize, grid::Space>| -> Vec<Ahead> {
@@ -1484,11 +1496,7 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
                     // no route took its room (the same as searched now); otherwise searched
                     // again, with the costs to the goal worked out then where they still hold.
                     let entry = ahead.remove(&(n, i));
-                    let fresh = entry.as_ref().is_some_and(|e| space.full_as(&e.1, area));
-                    match entry {
-                        Some((way, ..)) if fresh && way.as_ref().is_none_or(|w| space.still_apart(&w.cells, &req)) => way,
-                        entry => space.route_with(leg.a, leg.b, &req, rules, entry.as_ref().and_then(|e| e.2.as_ref())).0,
-                    }
+                    finish_ahead(space,&req,area,rules.reuse_failed_searches,entry,|costs|space.route_with(leg.a,leg.b,&req,rules,costs).0)
                     .map(|w| (w.points, w.cells, w.free))
                 }
             };

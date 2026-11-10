@@ -659,6 +659,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Блоки звітів і схеми звітів
 Reserves space over the mounting plate: kept free of routes, or for one class only	Резервує простір над монтажною панеллю: вільний від трас або лише для одного класу
 Rest (mm)	Залишок (мм)
+Reuse failed searches during one routing calculation	Повторно використовувати невдалі пошуки в межах одного розрахунку трас
 Right side bayed (no side panel)	Права сторона приєднана (без бічної стінки)
 Room {} exists already	Приміщення {} вже існує
 Rotation in degrees clockwise: 0, 90, 180 or 270	Поворот у градусах за годинниковою стрілкою: 0, 90, 180 або 270

@@ -293,6 +293,8 @@ The `individual_panel_terminals` feature adds `PanelItem.terminal`: a nonempty d
 The `explicit_panel_geometry` feature retains `PanelItem.single_part`: the footprint represents only its own catalog part even with no terminal designation. Missing catalog dimensions can generate non-exact connection points using the instance footprint, without rewriting the catalog. Multiple physical views resolve by selected article only when unique. `Enclosure.no_implicit_plate` suppresses the default plate, while `mounting_origin: [x,y,z]` gives an explicit mounting-face datum in enclosure coordinates. Open assemblies default to the zero datum and full canvas extent; their routing spaces have no cabinet walls. The add/set enclosure commands expose `implicit_plate` and `mounting_origin` (object with x/y/z; empty resets), and device placement/edit commands expose `single_part`. Explicit plates contribute their own part to the material list.
 
 
+The `cached_impossible_routes` feature adds `layout.routing.reuse_failed_searches` (default false), also exposed by the `routing_rules` command. A project can explicitly retain impossible ahead-search results after channel fill changes instead of repeating exhaustive searches. Ordinary projects keep the existing retry behavior. Successful cached routes still require capacity and clearance checks.
+
 The `literal_part_quantities` feature adds `PartRef.total`. A true value makes `count`
 the literal quantity for the whole device/strip (including an explicit zero), instead
 of multiplying terminal articles by strip positions. The default false preserves

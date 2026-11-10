@@ -963,6 +963,7 @@ Report blocks and report schemes	Auswertungsblöcke und Auswertungsschemata	Bloc
 Reserves space over the mounting plate: kept free of routes, or for one class only	Reserviert Raum über der Montageplatte: frei von Verlegungen oder nur für eine Klasse	Réserve de l'espace au-dessus de la plaque de montage : libre de tracés ou pour une seule classe	Reserva espacio sobre la placa de montaje: libre de recorridos o solo para una clase
 Reset all zones to those of DIN 18015-3	Alle Zonen auf die der DIN 18015-3 zurücksetzen	Remettre toutes les zones à celles de la DIN 18015-3	Restablecer todas las zonas a las de la DIN 18015-3
 Rest (mm)	Rest (mm)	Reste (mm)	Resto (mm)
+Reuse failed searches during one routing calculation	Fehlgeschlagene Suchen innerhalb einer Routingberechnung wiederverwenden	Réutiliser les recherches infructueuses au cours d’un même calcul de routage	Reutilizar las búsquedas fallidas dentro de un cálculo de enrutamiento
 Right side bayed (no side panel)	Rechte Seite angereiht (keine Seitenwand)	Côté droit juxtaposé (sans paroi latérale)	Lado derecho ensamblado (sin panel lateral)
 Roof: its name	Dach: sein Name	Toit : son nom	Cubierta: su nombre
 Room (location, e.g. +ROOM1)	Raum (Ort, z. B. +ROOM1)	Salle (emplacement, p. ex. +ROOM1)	Sala (ubicación, p. ej. +ROOM1)

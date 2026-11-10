@@ -659,6 +659,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Rapor blokları ve rapor düzenleri
 Reserves space over the mounting plate: kept free of routes, or for one class only	Montaj plakasının üzerinde alan ayırır: güzergâhlardan boş tutulur veya yalnızca bir sınıf için
 Rest (mm)	Kalan (mm)
+Reuse failed searches during one routing calculation	Aynı güzergâh hesaplamasında başarısız aramaları yeniden kullan
 Right side bayed (no side panel)	Sağ taraf yan yana bağlı (yan panel yok)
 Room {} exists already	Oda {} zaten var
 Rotation in degrees clockwise: 0, 90, 180 or 270	Saat yönünde derece cinsinden döndürme: 0, 90, 180 veya 270

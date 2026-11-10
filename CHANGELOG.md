@@ -237,6 +237,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   accessory articles of its devices to add when it extends an existing device; the other
   articles and the local quantities of that device stay as they are.
 
+- **Reusing failed route searches:** with the routing rule `reuse_failed_searches` (off by
+  default), a search that found no route is not repeated when later routes only fill the
+  channels.
+
 ## [0.1.1] - 2026-11-08
 
 - **PV arrays on roofs:** rows of solar modules on every roof shape, parallel to a slope

@@ -659,6 +659,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Bloky výkazů a schémata výkazů
 Reserves space over the mounting plate: kept free of routes, or for one class only	Rezervuje prostor nad montážní deskou: bez tras, nebo jen pro jednu třídu
 Rest (mm)	Zbytek (mm)
+Reuse failed searches during one routing calculation	Znovu použít neúspěšná hledání během jednoho výpočtu tras
 Right side bayed (no side panel)	Pravá strana spojená do řady (bez boční stěny)
 Room {} exists already	Místnost {} již existuje
 Rotation in degrees clockwise: 0, 90, 180 or 270	Otočení ve stupních ve směru hodinových ručiček: 0, 90, 180 nebo 270

@@ -659,6 +659,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Rapportblokken en rapportschema's
 Reserves space over the mounting plate: kept free of routes, or for one class only	Reserveert ruimte boven de montageplaat: vrij van routes, of alleen voor één klasse
 Rest (mm)	Rest (mm)
+Reuse failed searches during one routing calculation	Mislukte zoekacties binnen één routeringsberekening hergebruiken
 Right side bayed (no side panel)	Rechterzijde gekoppeld (geen zijwand)
 Room {} exists already	Ruimte {} bestaat al
 Rotation in degrees clockwise: 0, 90, 180 or 270	Draaiing in graden met de klok mee: 0, 90, 180 of 270

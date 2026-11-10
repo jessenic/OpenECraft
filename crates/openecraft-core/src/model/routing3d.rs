@@ -66,6 +66,9 @@ pub struct RoutingRules {
     pub segregation_factor: f32,
     /// Wires are routed in 3D as well (otherwise through the cable ducts on the plate).
     pub wires_3d: bool,
+    /// Opt in to retaining impossible ahead searches when channel fill changes.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub reuse_failed_searches: bool,
     /// Smallest bend radius as a multiple of the outer diameter: wires, cables, tubes.
     pub bend_wire: f32,
     pub bend_cable: f32,

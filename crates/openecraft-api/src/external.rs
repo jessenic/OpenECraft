@@ -194,6 +194,7 @@ pub const PROJECT_FEATURES: &[&str] = &[
     "explicit_panel_mounts",
     "individual_panel_terminals",
     "explicit_panel_geometry",
+    "cached_impossible_routes",
     "literal_part_quantities",
     "material_ownership",
     "portable_macro_materials",
