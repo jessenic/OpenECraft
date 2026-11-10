@@ -197,6 +197,7 @@ pub const PROJECT_FEATURES: &[&str] = &[
     "literal_part_quantities",
     "material_ownership",
     "portable_macro_materials",
+    "explicit_macro_part_additions",
     "portable_cables",
     "per_wire_junctions",
     "macro_definition_parameters",

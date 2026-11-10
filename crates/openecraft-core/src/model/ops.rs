@@ -1,6 +1,7 @@
 //! Data of `crate::ops` that the project file holds (see `docs/architecture.md`).
 
 use super::*;
+use std::collections::BTreeSet;
 
 use serde::{Deserialize, Serialize};
 
@@ -24,6 +25,9 @@ pub struct Clip {
     pub symbol_defs: super::symlib::SymbolList,
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub devices: BTreeMap<String, DeviceData>,
+    /// Explicit literal accessory articles to add when extending an existing device.
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub device_part_additions: BTreeMap<String, BTreeSet<String>>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub parts: Vec<Part>,
     /// Cable definitions owned by this clip, with their catalog references.

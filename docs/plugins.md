@@ -336,11 +336,13 @@ preserves device property values and distinct automatic
 and literal references to the same article, including zero. When extending an
 existing device, missing reference modes and properties are filled while local
 quantities and property values remain unchanged. Articles the device does not use are
-added only when it has none yet or when a function of the clip selects them. Material owners within a clip
+added only when it has none yet or when a function of the clip selects them, unless explicitly opted in below. Material owners within a clip
 follow target page structure and collision renaming; external owners are cleared.
 Incoming device tags are reserved before allocating replacements, including
 material-only existing tags. Conductive auxiliary views follow their master tag.
 Device property placeholders resolve together with macro tags and part numbers.
+
+The `explicit_macro_part_additions` feature adds optional `Clip.device_part_additions`, a map of device tags to article-number arrays. It explicitly requests adding missing **literal** accessory references already present in the clip's matching `devices[tag].parts`. It cannot add an unassigned article or an automatic reference, replace an existing article, or overwrite a local quantity. Without this map, paste and macro insertion keep the existing-device rules above. Tags and numbers support macro parameters, target structure and collision renaming. This is insertion intent, not an instruction to change the project's ordinary copy/paste defaults.
 
 The `per_wire_junctions` feature adds optional `Wire.explicit_junctions`: omitted
 inherits `page.explicit_wire_junctions`, true requires authored junction contacts,

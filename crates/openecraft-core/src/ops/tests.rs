@@ -1,6 +1,23 @@
 use super::*;
 
 #[test]
+fn explicit_macro_accessories_do_not_replace_local_articles_or_add_automatic_parts() {
+    let mut prj=Project::default();let mut clip=Clip::new();
+    clip.symbols.push(SymbolInst {id:1,sym:"term".into(),tag:"-X1".into(),label:"1".into(),..Default::default()});
+    let part=|number:&str,count,total|PartRef {number:number.into(),count,total};
+    prj.devices.insert("-X1".into(),DeviceData {parts:vec![part("LOCAL",4,false)],..Default::default()});
+    clip.devices.insert("-X1".into(),DeviceData {parts:vec![part("INCOMING",1,false),part("ACCESSORY",2,true)],..Default::default()});
+    paste(&mut prj,0,&clip,p(20.,20.));
+    assert_eq!(prj.devices["-X1"].parts,[part("LOCAL",4,false)]);
+    clip.device_part_additions.insert("-X1".into(),BTreeSet::from(["INCOMING".into(),"ACCESSORY".into(),"UNASSIGNED".into()]));
+    paste(&mut prj,0,&clip,p(40.,20.));
+    assert_eq!(prj.devices["-X1"].parts,[part("LOCAL",4,false),part("ACCESSORY",2,true)]);
+    prj.devices.get_mut("-X1").unwrap().parts[1].count=7;
+    paste(&mut prj,0,&clip,p(60.,20.));
+    assert_eq!(prj.devices["-X1"].parts,[part("LOCAL",4,false),part("ACCESSORY",7,true)]);
+}
+
+#[test]
 fn controlled_temporary_renames_keep_cables_consistent_during_batch_operations() {
     let mut prj=cable_rename_project(false);
     let temporary="\u{1}0";
