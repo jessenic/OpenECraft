@@ -623,8 +623,9 @@ impl Glands {
         for ring in 0..=rings {
             let mut best=None;let mut cost=f32::INFINITY;
             for i in -ring..=ring {
-                for j in -ring..=ring {
-                    if i.abs().max(j.abs())!=ring {continue;}
+                // The border of the ring, in the order of the whole square.
+                let step=if i.abs()==ring {1} else {(2*ring).max(1) as usize};
+                for j in (-ring..=ring).step_by(step) {
                     let (px,py)=(x+i as f32*pitch,y+j as f32*pitch);
                     if px<bounds[0][0] || px>bounds[0][1] || py<bounds[1][0] || py>bounds[1][1] {continue;}
                     let point=add(o,[px,py,z]);if dot(sub(point,near),forward)< -0.01 {continue;}
@@ -982,8 +983,14 @@ fn outside(prj: &Project, tag: &str) -> bool {
 /// `None` if neither end is placed, or if the placed one is in a room and the other
 /// one is not outside or the room has no building entry.
 /// `pins`: the schematic connection points of the cores at `a` and `b`.
-fn ends_between(prj: &Project, pos: &[V3], a: &str, b: &str, pins: [&[PinRef]; 2], glands: &mut Glands, diameter: f32) -> Option<[End; 2]> {
-    let (ea, eb) = (cable_device_end(prj, pos, a, pins[0],diameter,glands), cable_device_end(prj, pos, b, pins[1],diameter,glands));
+/// `sheath`: a cable, whose sheath may end before the devices of an open assembly.
+#[allow(clippy::too_many_arguments)]
+fn ends_between(prj: &Project, pos: &[V3], a: &str, b: &str, pins: [&[PinRef]; 2], glands: &mut Glands, diameter: f32, sheath: bool) -> Option<[End; 2]> {
+    let (ea, eb) = if sheath {
+        (cable_device_end(prj, pos, a, pins[0],diameter,glands), cable_device_end(prj, pos, b, pins[1],diameter,glands))
+    } else {
+        (device_end(prj, pos, a, pins[0]), device_end(prj, pos, b, pins[1]))
+    };
     let in_room = |e: &End| e.enclosure.is_some_and(|k| prj.layout.enclosures[k].is_room());
     let entry = |e: &End, p: V3, other: &str| -> Option<End> {
         let k = e.enclosure?;
@@ -1101,7 +1108,7 @@ fn jobs(prj: &Project, wiring: &[RoutedWire], conns: &[Connection], open: &Netli
     for c in cables {
         let cores: Vec<&Connection> = conns.iter().filter(|x| x.cable == c.tag).collect();
         let Some((a, b)) = cable_end_tags(prj, c, &cores) else { continue };
-        let Some(ends) = ends_between(prj, &pos, &a, &b, [&pins_at(prj, &cores, &a), &pins_at(prj, &cores, &b)], &mut glands, cable_diameter(c)) else { continue };
+        let Some(ends) = ends_between(prj, &pos, &a, &b, [&pins_at(prj, &cores, &a), &pins_at(prj, &cores, &b)], &mut glands, cable_diameter(c), true) else { continue };
         let shielded = is_shielded(c);
         jobs.push(Job {
             kind: RouteKind::Cable,
@@ -1124,7 +1131,7 @@ fn jobs(prj: &Project, wiring: &[RoutedWire], conns: &[Connection], open: &Netli
     // depth at both ends for the cut length. They end at the nozzles of their devices,
     // the routes coming to them twice as far straight out of them as they are thick.
     let tag = |p: crate::netlist::PinRef| prj.pages[p.page].symbols[p.sym].tag.clone();
-    let hoses: Vec<(crate::fluid::Hose, [End; 2])> = crate::fluid::hoses(prj, open).into_iter().filter_map(|h| ends_between(prj, &pos, &tag(h.a), &tag(h.b), [&[], &[]], &mut glands, tube_diameter(&h.size)).map(|e| (h, e))).collect();
+    let hoses: Vec<(crate::fluid::Hose, [End; 2])> = crate::fluid::hoses(prj, open).into_iter().filter_map(|h| ends_between(prj, &pos, &tag(h.a), &tag(h.b), [&[], &[]], &mut glands, tube_diameter(&h.size), false).map(|e| (h, e))).collect();
     let turned = turned_fittings(prj, &pos, &hoses);
     for (h, mut ends) in hoses {
         let diameter = tube_diameter(&h.size);
@@ -1231,8 +1238,6 @@ fn jobs(prj: &Project, wiring: &[RoutedWire], conns: &[Connection], open: &Netli
     jobs
 }
 
-/// Routes the `jobs` one after the other, the searches of a class on up to `workers`
-/// threads at the same time (with the same routes).
 type Ahead = (Option<grid::Way>, Vec<f32>, Option<grid::GoalCosts>);
 
 fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:bool, entry:Option<Ahead>, search:impl FnOnce(Option<&grid::GoalCosts>)->Option<grid::Way>)->Option<grid::Way> {
@@ -1245,6 +1250,9 @@ fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:b
     }
 }
 
+/// Routes the `jobs` one after the other, the searches of a class on up to `workers`
+/// threads at the same time (with the same routes). Where every end lies in an open
+/// assembly, the failed connections get one more try first.
 fn route(prj:&Project,wiring:&mut [RoutedWire],jobs:Vec<Job>,glands:Glands,progress:&dyn Fn(usize,usize),workers:usize)->Routing {
     let open=prj.layout.frozen.is_empty() && !jobs.is_empty() && jobs.iter().all(|job|job.ends.iter().all(|end|end.enclosure.is_some_and(|ei| {
         let e=&prj.layout.enclosures[ei];e.is_assembly() && e.open_routing

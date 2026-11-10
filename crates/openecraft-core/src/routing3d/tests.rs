@@ -717,3 +717,18 @@ fn leg_end(leg: &RouteLeg, last: bool) -> V3 {
         leg.points[0]
     }
 }
+
+#[test]
+fn tubes_in_open_assemblies_keep_their_device_ends() {
+    let mut prj=crate::sample::demo_project();
+    let (ei,a,b)=prj.layout.enclosures.iter().enumerate().find_map(|(ei,e)| {
+        let mut tags=e.items.iter().filter(|it|it.kind==ItemKind::Device && it.face==Face::Plate && it.terminal.is_empty() && !it.tag.is_empty()).map(|it|it.tag.clone());
+        let a=tags.next()?;let b=tags.find(|t|*t!=a)?;Some((ei,a,b))
+    }).unwrap();
+    prj.layout.enclosures[ei].kind=panel::EnclosureKind::Assembly;prj.layout.enclosures[ei].open_routing=true;
+    let pos=panel::positions(&prj.layout);let mut glands=Glands::default();
+    let tube=ends_between(&prj,&pos,&a,&b,[&[],&[]],&mut glands,8.,false).unwrap();
+    assert_eq!(tube,[device_end(&prj,&pos,&a,&[]),device_end(&prj,&pos,&b,&[])]);
+    let cable=ends_between(&prj,&pos,&a,&b,[&[],&[]],&mut glands,8.,true).unwrap();
+    assert_ne!(cable[0].point,tube[0].point,"a cable sheath ends in front of the device");
+}
