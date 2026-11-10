@@ -233,6 +233,10 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 - Keep imported property text angles and pin designation fields editable and linked to their placed symbol.
 - Support imported secondary device functions and local junction paths without adding spurious main functions or device endpoints.
 
+- **Accessories from macros:** a macro can list in `device_part_additions` the literal
+  accessory articles of its devices to add when it extends an existing device; the other
+  articles and the local quantities of that device stay as they are.
+
 ## [0.1.1] - 2026-11-08
 
 - **PV arrays on roofs:** rows of solar modules on every roof shape, parallel to a slope

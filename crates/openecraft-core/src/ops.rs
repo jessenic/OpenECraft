@@ -559,6 +559,7 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
         symbols: page.symbols.iter().filter(|s| sel.contains(&s.id)).map(in_page_structure).collect(),
         symbol_defs: Default::default(),
         devices: BTreeMap::new(),
+        device_part_additions: BTreeMap::new(),
         parts: Vec::new(),
         cables: Vec::new(),
         wires: page.wires.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
@@ -722,12 +723,13 @@ fn paste_devices(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target
                 let incoming=entry.get_mut();
                 if incoming.description.is_empty() {incoming.description=device.description;}
                 // The articles of an existing device stay; only a missing count mode of
-                // one of them or an article a pasted function selects is added.
+                // one of them, a selected article or an explicit accessory is added.
                 let assigned=!incoming.parts.is_empty();
                 for reference in device.parts {
                     let known=incoming.parts.iter().any(|p|p.number==reference.number);
                     let selected=clip.symbols.iter().any(|s|s.tag==*tag && s.values.get("function.part_number")==Some(&reference.number));
-                    if (known || selected || !assigned) && !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
+                    let additional=reference.total && clip.device_part_additions.get(tag).is_some_and(|numbers|numbers.contains(&reference.number));
+                    if (known || selected || additional || !assigned) && !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
                 }
                 for (key,value) in device.values {incoming.values.entry(key).or_insert(value);}
             }
