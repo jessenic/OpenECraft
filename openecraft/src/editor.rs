@@ -385,6 +385,14 @@ fn skewed(painter: &Painter, shape: &TextShape, k: f32) -> Mesh {
     mesh
 }
 
+/// Faint dotted lines where auto-connect would draw wires.
+fn draw_hints(g: &EguiDraw<'_>, segs: &[(P, P)]) {
+    let color = g.pal.ghost.gamma_multiply(0.7);
+    for (a, b) in segs {
+        g.painter.extend(EShape::dotted_line(&[g.w2s(*a), g.w2s(*b)], color, 5.0, 1.0));
+    }
+}
+
 fn convex(pts: &[P]) -> bool {
     let n = pts.len();
     let mut sign = 0.0f32;
@@ -1129,6 +1137,7 @@ impl Editor {
                 let mut g = EguiDraw { painter: &painter, origin, zoom: self.zoom, pal: &pal, force: Some(Ink::Ghost), mirror: None, textures: None };
                 let inst = SymbolInst { pos: sn, ..ops::symbol_preview(prj, &def) };
                 render::draw_symbol(&mut g, &def, &inst, Ink::Ghost);
+                self.autoconnect_hints(&g, prj, &prj.pages[page_i], inst);
             }
         }
         if let (Some(sn), Some(pl), true) = (snapped, resp.dnd_hover_payload::<PartDrag>(), editable) {
@@ -1141,6 +1150,14 @@ impl Editor {
             let at = c + vec2(12.0, -12.0 - text.size().y);
             painter.rect_filled(Rect::from_min_size(at, text.size()).expand(3.0), 3.0, pal.ghost.gamma_multiply(0.18));
             painter.galley(at, text, pal.ghost);
+        }
+        if let (Drag::Move { applied, .. }, true) = (&self.drag, self.autoconnect) {
+            let pg = &prj.pages[page_i];
+            let moves_symbols = pg.symbols.iter().any(|s| self.selection.contains(&s.id)) || pg.junctions.iter().any(|j| self.selection.contains(&j.id));
+            if moves_symbols && (applied.x != 0.0 || applied.y != 0.0) {
+                let g = EguiDraw { painter: &painter, origin, zoom: self.zoom, pal: &pal, force: Some(Ink::Ghost), mirror: None, textures: None };
+                draw_hints(&g, &routing::autoconnect(&prj.symbol_table(), pg, &self.selection, routing::AUTOCONNECT_REACH));
+            }
         }
         if let (Some(sn), Some(w), true) = (snapped, world, editable) {
             let mut g = EguiDraw { painter: &painter, origin, zoom: self.zoom, pal: &pal, force: Some(Ink::Ghost), mirror: None, textures: None };
@@ -1241,6 +1258,7 @@ impl Editor {
                     let r = Rect::from_two_pos(g.w2s(b.min), g.w2s(b.max)).expand(3.0);
                     g.painter.rect_filled(r, 2.0, g.pal.ghost.gamma_multiply(0.18));
                     render::draw_symbol(g, &def, &inst, Ink::Ghost);
+                    self.autoconnect_hints(g, prj, page, inst);
                 }
             }
             Tool::Wire => {
@@ -1644,6 +1662,14 @@ impl Editor {
         match snap_lines::pins_at_origin(&def, &inst) {
             pins if pins.is_empty() => lines.snap(w, self.grid),
             pins => lines.snap_from(w, &pins, self.grid),
+        }
+    }
+
+    /// With Auto-connect on, the wires a symbol placed as `inst` would get.
+    fn autoconnect_hints(&self, g: &EguiDraw<'_>, prj: &Project, page: &Page, inst: SymbolInst) {
+        if self.autoconnect {
+            // An id no item has: the symbol is not on the page yet.
+            draw_hints(g, &routing::autoconnect_placed(&prj.symbol_table(), page, SymbolInst { id: u64::MAX, ..inst }));
         }
     }
 

@@ -142,9 +142,20 @@ pub fn autoconnect(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>, max_len:
     out
 }
 
+/// How far auto-connect reaches from a connection point.
+pub const AUTOCONNECT_REACH: f32 = 400.0;
+
+/// The wires [`autoconnect`] would draw for `inst` once placed on `page`.
+pub fn autoconnect_placed(symbols: &Symbols, page: &Page, inst: SymbolInst) -> Vec<(P, P)> {
+    let mut page = page.clone();
+    let sel = BTreeSet::from([inst.id]);
+    page.symbols.push(inst);
+    autoconnect(symbols, &page, &sel, AUTOCONNECT_REACH)
+}
+
 /// Adds the wires found by [`autoconnect`]. Returns their number.
 pub fn apply_autoconnect(prj: &mut Project, page: usize, sel: &BTreeSet<u64>) -> usize {
-    let segs = autoconnect(&prj.symbol_table(), &prj.pages[page], sel, 400.0);
+    let segs = autoconnect(&prj.symbol_table(), &prj.pages[page], sel, AUTOCONNECT_REACH);
     for (a, b) in &segs {
         let id = prj.new_id();
         prj.pages[page].wires.push(Wire { id, a: *a, b: *b, ..Default::default() });

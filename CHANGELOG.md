@@ -11,6 +11,9 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   drawn from such points and things connected to such wires. A symbol being placed or
   moved snaps from its own connection points, so they land on such lines and
   auto-connect joins them ([schematic](docs/features/schematic.md)).
+- **Auto-connect hints:** while a symbol is placed or moved with the mouse, faint
+  dotted lines show the wires auto-connect would draw
+  ([schematic](docs/features/schematic.md#routing)).
 - **Connection point designations** (#116): each designation of a selected symbol can
   be dragged on its own, put left, right, above or below its connection point or reset
   to automatic placement (Properties › *Property placement*); the placement is stored

@@ -105,6 +105,17 @@ fn autoconnect_joins_facing_pins() {
 }
 
 #[test]
+fn autoconnect_finds_the_wires_of_a_symbol_not_placed_yet() {
+    let mut prj = Project::default();
+    sym(&mut prj, "coil", p(101.5, 80.0));
+    let before = prj.pages[0].clone();
+    let inst = SymbolInst { id: u64::MAX, sym: "no".into(), pos: p(101.5, 40.0), ..Default::default() };
+    let segs = autoconnect_placed(&prj.symbol_table(), &prj.pages[0], inst);
+    assert_eq!(segs, vec![(p(101.5, 44.0), p(101.5, 76.0))], "off the grid too");
+    assert_eq!(prj.pages[0], before, "the page stays as it is");
+}
+
+#[test]
 fn autoconnect_stops_at_symbols_in_between() {
     let mut prj = Project::default();
     let top = sym(&mut prj, "no", p(40.0, 40.0));

@@ -136,7 +136,8 @@ scale, unit), PNG / JPEG images (also in the PDF and SVG export). **Layers**
 ## Routing
 
 Auto-connect draws wires between facing free connection points when
-symbols are placed or moved; the wire tool can route around symbols and other wires
+symbols are placed or moved; while a symbol is placed or moved with the mouse, faint
+dotted lines show the wires it would draw; the wire tool can route around symbols and other wires
 (A); collinear wire pieces can be joined. Also as `route` / `autoconnect` commands.
 
 ## Property placement
