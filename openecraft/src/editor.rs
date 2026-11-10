@@ -1017,7 +1017,8 @@ impl Editor {
         let editable = prj.pages[page_i].is_editable() && !self.read_only;
         let ptr = ui.input(|i| i.pointer.hover_pos()).filter(|p| rect.contains(*p));
         let world = ptr.map(|s| self.s2w(rect, s));
-        let snapped = world.map(|w| w.snap(self.grid));
+        // Connection points and wire ends off the grid are invisible grid lines.
+        let snapped = world.map(|w| openecraft_core::snap_lines::SnapLines::of_page(prj, &prj.pages[page_i], self.grid).snap(w, self.grid));
         self.hover = world;
         // New items never go onto a hidden or locked layer.
         if !layer_usable(prj, &self.active_layer) {

@@ -5,6 +5,11 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.2] - unreleased
 
+- **Invisible grid lines:** connection points and wire ends off the drawing grid, as in
+  imported drawings or on device boxes of any size, add invisible grid lines through
+  them. The pointer snaps to them where they are nearer than the grid, so wires can be
+  drawn from such points and things connected to such wires
+  ([schematic](docs/features/schematic.md)).
 - **Connection point designations** (#116): each designation of a selected symbol can
   be dragged on its own, put left, right, above or below its connection point or reset
   to automatic placement (Properties › *Property placement*); the placement is stored

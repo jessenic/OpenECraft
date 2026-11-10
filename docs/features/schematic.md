@@ -99,7 +99,11 @@ rail stays on the rail), otherwise the wire gets a jog or a route around what is
 the way, and a wire that cannot be squared without touching another connection stays
 diagonal. Connection definition points and cable definition lines stay on their
 wires unless they are moved themselves; a line that cannot stay across exactly its
-wires stays where it is. Editing aids: grid sizes 1, 2, 4, 8 and 16 mm (View); a
+wires stays where it is. Editing aids: grid sizes 1, 2, 4, 8 and 16 mm (View);
+connection points and wire ends off that grid (imported drawings, device boxes of any
+size) add invisible grid lines through them, so the pointer snaps to them where they
+are nearer than the grid, wires can start at such points and things can be connected
+to such wires; a
 coordinate field in the tool bar (`x y` absolute or `@dx dy` relative to the last
 point, Enter acts like a click of the current tool); *Home › Align* (edges or
 centres), *Distribute* (evenly, horizontally or vertically), *Move selection by…*

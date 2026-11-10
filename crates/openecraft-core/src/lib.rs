@@ -90,6 +90,7 @@ pub mod sample;
 pub mod shortcircuit;
 pub mod singleline;
 pub mod sizing;
+pub mod snap_lines;
 pub mod strips;
 pub mod structure;
 pub mod structure_boxes;
