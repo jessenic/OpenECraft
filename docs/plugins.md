@@ -232,6 +232,17 @@ automatic labels; new wires show labels by default.
 
 A complete example is in [`examples/plugins/page_notes`](../examples/plugins/page_notes).
 
+### CAD drawing coordinates
+
+The CLI/MCP `import_dxf` and `import_dwg` tools return `source_bounds` (`min` and
+`max` points in decoded drawing millimetres, Y up) and `page_origin` (the page
+position of the source top-left bound), alongside `scale`. For an imported page
+point `p`, its source coordinates are `source_bounds.min.x +
+(p.x - page_origin.x) / scale` and `source_bounds.max.y -
+(p.y - page_origin.y) / scale`. This includes the drawing's unit conversion and
+permits external importers to apply an authored viewport. Existing page placement
+and parameter defaults remain unchanged.
+
 ### EPLAN window macros
 
 The drawing plugin accepts PXF window macro XML with `import_ema` (parameter `xml`). Its result lists native symbol definitions, function types, variant IDs, multi-device macros, and unresolved references. Reimport preserves locally edited definitions. The `place_part` command accepts an optional `variant` symbol key. The CLI and MCP file tool `import_eplan_symbols` reads an EMA, an EDZ, a companion article XML, or a vendor folder with a selected part number.

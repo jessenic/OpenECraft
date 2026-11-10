@@ -98,6 +98,9 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   reset to the automatic placement; the places are saved and exported, the cross
   reference keeps its link. Command `place_interruption_texts`
   ([schematic](docs/features/schematic.md)).
+- CAD drawing imports return original geometry bounds and their page origin, so
+  external importers can recover drawing coordinates without changing page placement.
+
 - **Device boxes with device connection points:** a dashed box of any size drawn on
   the schematic is a device of its own (power supply, measuring instrument, control
   module) without a library symbol; device connection points placed on its outline
