@@ -646,6 +646,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Raporttilohkot ja raporttimallit
 Reserves space over the mounting plate: kept free of routes, or for one class only	Varaa tilaa asennuslevyn yltä: pidetään vapaana reiteistä tai vain yhdelle luokalle
 Rest (mm)	Jäännös (mm)
+Reuse failed searches during one routing calculation	Käytä epäonnistuneita hakuja uudelleen saman reitityslaskennan aikana
 Right side bayed (no side panel)	Oikea puoli rivitetty (ei sivuseinää)
 Room {} exists already	Tila {} on jo olemassa
 Rotation in degrees clockwise: 0, 90, 180 or 270	Kierto asteina myötäpäivään: 0, 90, 180 tai 270

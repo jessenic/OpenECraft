@@ -646,6 +646,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	报表块和报表方案
 Reserves space over the mounting plate: kept free of routes, or for one class only	在安装板上方预留空间：不允许布线或仅供一个类别使用
 Rest (mm)	剩余 (mm)
+Reuse failed searches during one routing calculation	在同一次布线计算中复用失败的搜索结果
 Right side bayed (no side panel)	右侧并柜（无侧板）
 Room {} exists already	房间 {} 已存在
 Rotation in degrees clockwise: 0, 90, 180 or 270	顺时针旋转角度：0、90、180 或 270

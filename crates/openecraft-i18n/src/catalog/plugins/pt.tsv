@@ -646,6 +646,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Blocos de relatório e esquemas de relatório
 Reserves space over the mounting plate: kept free of routes, or for one class only	Reserva espaço sobre a placa de montagem: mantido livre de rotas ou apenas para uma classe
 Rest (mm)	Sobra (mm)
+Reuse failed searches during one routing calculation	Reutilizar pesquisas sem sucesso durante o mesmo cálculo de encaminhamento
 Right side bayed (no side panel)	Lado direito acoplado (sem painel lateral)
 Room {} exists already	A sala {} já existe
 Rotation in degrees clockwise: 0, 90, 180 or 270	Rotação em graus no sentido horário: 0, 90, 180 ou 270

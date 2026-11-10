@@ -646,6 +646,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	レポートブロックとレポートスキーム
 Reserves space over the mounting plate: kept free of routes, or for one class only	取付板上の空間を予約します: ルートを通さない、または 1 つのクラス専用
 Rest (mm)	残り (mm)
+Reuse failed searches during one routing calculation	同じ配線経路計算内で失敗した検索結果を再利用する
 Right side bayed (no side panel)	右側を連結 (側板なし)
 Room {} exists already	部屋 {} は既に存在します
 Rotation in degrees clockwise: 0, 90, 180 or 270	時計回りの回転角度 (度): 0、90、180、270

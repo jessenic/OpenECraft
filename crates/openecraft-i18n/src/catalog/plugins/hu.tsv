@@ -646,6 +646,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Kimutatásblokkok és kimutatássémák
 Reserves space over the mounting plate: kept free of routes, or for one class only	Teret foglal a szerelőlap fölött: nyomvonalaktól mentesen tartva, vagy csak egy osztály számára
 Rest (mm)	Maradék (mm)
+Reuse failed searches during one routing calculation	Sikertelen keresések újrafelhasználása egy útvonalszámításon belül
 Right side bayed (no side panel)	Jobb oldal sorolva (nincs oldalfal)
 Room {} exists already	A(z) {} helyiség már létezik
 Rotation in degrees clockwise: 0, 90, 180 or 270	Elforgatás fokban, az óramutató járásával megegyezően: 0, 90, 180 vagy 270

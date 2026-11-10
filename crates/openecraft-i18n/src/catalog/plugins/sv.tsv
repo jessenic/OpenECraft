@@ -646,6 +646,7 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Rapportblock och rapportscheman
 Reserves space over the mounting plate: kept free of routes, or for one class only	Reserverar utrymme över monteringsplåten: hålls fritt från dragningar, eller endast för en klass
 Rest (mm)	Rest (mm)
+Reuse failed searches during one routing calculation	Återanvänd misslyckade sökningar inom samma ruttberäkning
 Right side bayed (no side panel)	Höger sida sammanbyggd (ingen sidovägg)
 Room {} exists already	Rummet {} finns redan
 Rotation in degrees clockwise: 0, 90, 180 or 270	Rotation i grader medurs: 0, 90, 180 eller 270
