@@ -768,6 +768,38 @@ fn the_designation_of_a_device_connection_point_is_dragged_into_place() {
 }
 
 #[test]
+fn placed_and_moved_symbols_snap_their_connection_points_to_lines_off_the_grid() {
+    let mut prj = Project::default();
+    // Wires off the grid at x = 120.5 and 133.5, away from where the coil goes.
+    prj.pages[0].wires.push(Wire { id: 1, a: p(120.5, 20.0), b: p(120.5, 40.0), ..Default::default() });
+    prj.pages[0].wires.push(Wire { id: 2, a: p(133.5, 20.0), b: p(133.5, 40.0), ..Default::default() });
+    prj.fix_next_id();
+    let ctx = egui::Context::default();
+    let mut ed = Editor { autoconnect: false, ..Default::default() };
+    ready(&mut ed, &ctx, &mut prj);
+    let def = prj.symbol("coil").unwrap();
+    // Turned, its connection points lie beside the insertion point.
+    let o = snap_lines::pins_at_origin(&def, &SymbolInst { rot: 1, ..Default::default() })[0];
+    assert_ne!(o.x, 0.0);
+    let pin_xs = |prj: &Project| -> Vec<f32> {
+        let sel = prj.pages[0].symbols.iter().map(|s| s.id).collect();
+        snap_lines::points_of(prj, &prj.pages[0], &sel).iter().map(|q| q.x).collect()
+    };
+    // Placed with its connection point 0.2 mm beside the wire, which is nearer than the grid.
+    ed.set_tool(Tool::Place("coil"));
+    ed.place_rot = 1;
+    click(&mut ed, &ctx, &mut prj, 0, p(120.3, 80.2) - o);
+    assert!(pin_xs(&prj).iter().any(|x| (x - 120.5).abs() < 0.01), "{:?}", pin_xs(&prj));
+    assert_eq!(prj.pages[0].symbols[0].pos.y, 80.0 - o.y, "no line across: the grid");
+    // Moved 12.8 mm right, the point lands on the other wire.
+    ed.set_tool(Tool::Select);
+    let s = prj.pages[0].symbols[0].clone();
+    let c = s.bounds(&def).center();
+    drag(&mut ed, &ctx, &mut prj, 0, c, c + p(12.8, 0.0));
+    assert!(pin_xs(&prj).iter().any(|x| (x - 133.5).abs() < 0.01), "{:?}", pin_xs(&prj));
+}
+
+#[test]
 fn cable_core_texts_of_a_selected_wire_are_dragged_into_place() {
     let mut prj = Project::default();
     prj.pages[0].wires.push(Wire { id: 7, a: p(100.0, 100.0), b: p(160.0, 100.0), ..Default::default() });

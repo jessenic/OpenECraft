@@ -21,7 +21,7 @@ use openecraft_core::symbols::{Anchor, Func, SymbolDef};
 use openecraft_core::device_boxes;
 use openecraft_core::netlist::junctions;
 use openecraft_core::structure::StructureBox;
-use openecraft_core::{cabledef, conndef, graphics, routing, structure_boxes};
+use openecraft_core::{cabledef, conndef, graphics, routing, snap_lines, structure_boxes};
 use egui::{pos2, vec2, Align2, Color32, FontId, Key, Painter, PointerButton, Pos2, Rect, Sense, Shape as EShape, Stroke, Vec2};
 use std::collections::{BTreeSet, HashMap, HashSet};
 
@@ -126,8 +126,10 @@ impl PropHandle {
 
 enum Drag {
     None,
-    /// The selection with the connection points of its device boxes (`items`) moves.
-    Move { start: P, applied: P, moving: routing::Moving, items: BTreeSet<u64> },
+    /// The selection with the connection points of its device boxes (`items`) moves;
+    /// its connection points and wire ends (`points`) snap to the invisible grid lines
+    /// of what stays (`lines`).
+    Move { start: P, applied: P, moving: routing::Moving, items: BTreeSet<u64>, points: Vec<P>, lines: snap_lines::SnapLines },
     Box { start: Pos2 },
     /// `side`: side of a dragged connection point designation (symbol orientation).
     Prop { handle: PropHandle, start: P, orig: P, side: Option<LabelSide> },
@@ -1018,7 +1020,11 @@ impl Editor {
         let ptr = ui.input(|i| i.pointer.hover_pos()).filter(|p| rect.contains(*p));
         let world = ptr.map(|s| self.s2w(rect, s));
         // Connection points and wire ends off the grid are invisible grid lines.
-        let snapped = world.map(|w| openecraft_core::snap_lines::SnapLines::of_page(prj, &prj.pages[page_i], self.grid).snap(w, self.grid));
+        let placing = match self.tool {
+            Tool::Place(key) => Some((key, true)),
+            _ => resp.dnd_hover_payload::<PlacePayload>().or_else(|| resp.dnd_release_payload::<PlacePayload>()).map(|pl| (pl.symbol, false)),
+        };
+        let snapped = world.map(|w| self.snap_pointer(prj, &prj.pages[page_i], w, placing));
         self.hover = world;
         // New items never go onto a hidden or locked layer.
         if !layer_usable(prj, &self.active_layer) {
@@ -1622,6 +1628,25 @@ impl Editor {
 
     /// Rotation of a symbol placed at `sn`: a device connection point on the outline of a
     /// device box leads away from its edge, everything else as turned by the user.
+    /// Where the pointer at `w` snaps: to the grid or an invisible grid line. A symbol
+    /// being `placing` (by the tool, or dragged in unturned) snaps from its connection
+    /// points instead, so they land on such lines; a device connection point snaps
+    /// itself, onto the outline of its box.
+    fn snap_pointer(&self, prj: &Project, page: &Page, w: P, placing: Option<(&str, bool)>) -> P {
+        let lines = snap_lines::SnapLines::of_page(prj, page, self.grid);
+        let Some((def, by_tool)) = placing.and_then(|(key, by_tool)| Some((prj.symbol(key)?, by_tool))).filter(|(d, _)| d.func != Func::Connection) else {
+            return lines.snap(w, self.grid);
+        };
+        let inst = match by_tool {
+            true => SymbolInst { rot: self.place_rotation(prj, page, &def, w.snap(self.grid)), mirror: self.place_mirror, ..Default::default() },
+            false => ops::symbol_preview(prj, &def),
+        };
+        match snap_lines::pins_at_origin(&def, &inst) {
+            pins if pins.is_empty() => lines.snap(w, self.grid),
+            pins => lines.snap_from(w, &pins, self.grid),
+        }
+    }
+
     fn place_rotation(&self, prj: &Project, page: &Page, def: &openecraft_core::symbols::SymbolDef, sn: P) -> u8 {
         match def.func {
             Func::Connection => device_boxes::direction_at(prj, page, sn).unwrap_or(self.place_rot),
@@ -1855,15 +1880,18 @@ impl Editor {
                 }
                 let items = self.items(prj, page_i);
                 let moving = routing::Moving::new(prj, page_i, &items);
-                self.drag = Drag::Move { start: ow, applied: p(0.0, 0.0), moving, items };
+                let page = &prj.pages[page_i];
+                let points = snap_lines::points_of(prj, page, &items);
+                let lines = snap_lines::SnapLines::without(prj, page, self.grid, &points);
+                self.drag = Drag::Move { start: ow, applied: p(0.0, 0.0), moving, items, points, lines };
             } else {
                 self.drag = Drag::Box { start: origin };
             }
         }
         if resp.dragged_by(PointerButton::Primary) {
             match (&mut self.drag, world) {
-                (Drag::Move { start, applied, moving, items }, Some(w)) => {
-                    let total = (w - *start).snap(self.grid);
+                (Drag::Move { start, applied, moving, items, points, lines }, Some(w)) => {
+                    let total = lines.snap_from(w - *start, points, self.grid);
                     let delta = total - *applied;
                     if delta.x != 0.0 || delta.y != 0.0 {
                         moving.step(prj, page_i, items, delta);
