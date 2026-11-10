@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Tasaa kohteet, jakaa ne tasaisesti, rivittää laitteet kiskolle tai kopioi kohteet kuvioksi
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Tasaa symbolit, tekstit ja grafiikan yhteiseen reunaan tai keskikohtaan; liitetyt johtojen päät seuraavat
 Allow renaming onto an identifier in use: both become one	Salli uudelleennimeäminen käytössä olevaksi tunnukseksi: molemmista tulee yksi
+Allow routing beyond the bounds of an open assembly	Salli reititys avoimen kokoonpanon rajojen ulkopuolella
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Sallitut luokat pilkuin erotettuina: power, control, signal, fluid (oletus kaikki)
 Allowed values separated by commas (empty: any value)	Sallitut arvot pilkuin erotettuina (tyhjä: mikä tahansa arvo)
 Also create a bus cable for every connection without cable	Luo myös väyläkaapeli jokaiselle yhteydelle, jolla ei ole kaapelia

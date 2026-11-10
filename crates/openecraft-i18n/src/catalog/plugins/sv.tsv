@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Justerar objekt, fördelar dem jämnt, radar upp apparater på en skena eller kopierar objekt i ett mönster
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Justerar symboler, texter och grafik mot en gemensam kant eller mittlinje; anslutna ledningsändar följer med
 Allow renaming onto an identifier in use: both become one	Tillåt namnbyte till en beteckning som används: båda blir en
+Allow routing beyond the bounds of an open assembly	Tillåt dragning utanför en öppen enhets gränser
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Tillåtna klasser, kommaseparerade: power, control, signal, fluid (standard alla)
 Allowed values separated by commas (empty: any value)	Tillåtna värden åtskilda med kommatecken (tomt: valfritt värde)
 Also create a bus cable for every connection without cable	Skapa även en busskabel för varje anslutning utan kabel

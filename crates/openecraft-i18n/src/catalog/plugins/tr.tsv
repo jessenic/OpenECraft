@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Öğeleri hizalar, eşit aralıklarla dağıtır, cihazları bir ray üzerinde sıralar veya öğeleri bir desen halinde kopyalar
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Sembolleri, metinleri ve grafikleri ortak bir kenara veya merkeze hizalar; bağlı tel uçları takip eder
 Allow renaming onto an identifier in use: both become one	Kullanımdaki bir tanımlayıcıya yeniden adlandırmaya izin ver: ikisi bir olur
+Allow routing beyond the bounds of an open assembly	Açık bir grubun sınırları dışında yönlendirmeye izin ver
 Allowed classes, comma separated: power, control, signal, fluid (default all)	İzin verilen sınıflar, virgülle ayrılmış: power, control, signal, fluid (varsayılan tümü)
 Allowed values separated by commas (empty: any value)	Virgülle ayrılmış izin verilen değerler (boş: herhangi bir değer)
 Also create a bus cable for every connection without cable	Kablosu olmayan her bağlantı için bir bus kablosu da oluştur

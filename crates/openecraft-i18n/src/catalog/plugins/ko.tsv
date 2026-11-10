@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	항목을 정렬하거나, 균등 간격으로 배치하거나, 레일에 장치를 정렬하거나, 패턴으로 항목을 복사합니다
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	심볼, 텍스트 및 그래픽을 공통 가장자리 또는 가운데에 맞춥니다. 연결된 전선 끝이 따라 움직입니다
 Allow renaming onto an identifier in use: both become one	사용 중인 식별자로 이름 바꾸기 허용: 둘이 하나가 됩니다
+Allow routing beyond the bounds of an open assembly	개방형 조립체의 경계 밖으로 배선 허용
 Allowed classes, comma separated: power, control, signal, fluid (default all)	쉼표로 구분된 허용 클래스: power, control, signal, fluid(기본값 모두)
 Allowed values separated by commas (empty: any value)	쉼표로 구분된 허용 값(비우면 모든 값)
 Also create a bus cable for every connection without cable	케이블이 없는 모든 연결에 버스 케이블도 만들기

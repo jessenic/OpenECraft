@@ -601,13 +601,55 @@ pub fn entries(prj: &Project, ei: usize) -> Vec<&PanelItem> {
 
 /// The cable glands the cables routed so far go through (by item id), and where they
 /// go through them.
-#[derive(Default)]
+#[derive(Clone,Default)]
 struct Glands {
     taken: HashMap<u64, usize>,
     through: HashMap<u64, Vec<V3>>,
+    open:HashMap<u64,Vec<(V3,f32)>>,
 }
 
 impl Glands {
+    fn open_slot(&mut self,e:&panel::Enclosure,o:V3,near:V3,diameter:f32,rules:&RoutingRules,forward:V3)->V3 {
+        let forward=[forward[0],forward[1],0.];
+        let gap=(2.0*rules.clearance).max(10.).max(3.0_f32.sqrt()*rules.grid.max(5.));
+        let pitch=diameter+gap;
+        let reach=rules.bend(RouteKind::Cable).max(rules.bend(RouteKind::Tube))*diameter+diameter/2.+rules.clearance+3.*rules.grid;
+        let local=sub(near,o);let x=local[0];let y=local[1];
+        let bounds=[[-reach/2.,e.width+reach/2.],[-reach/2.,e.height+reach/2.]];
+        let bounds=[[bounds[0][0].min(x),bounds[0][1].max(x)],[bounds[1][0].min(y),bounds[1][1].max(y)]];
+        let z=e.depth.max(local[2])+reach;
+        let used=self.open.entry(e.id).or_default();
+        let rings=((bounds[0][1]-bounds[0][0]).max(bounds[1][1]-bounds[1][0])/pitch).ceil() as i32+1;
+        for ring in 0..=rings {
+            let mut best=None;let mut cost=f32::INFINITY;
+            for i in -ring..=ring {
+                for j in -ring..=ring {
+                    if i.abs().max(j.abs())!=ring {continue;}
+                    let (px,py)=(x+i as f32*pitch,y+j as f32*pitch);
+                    if px<bounds[0][0] || px>bounds[0][1] || py<bounds[1][0] || py>bounds[1][1] {continue;}
+                    let point=add(o,[px,py,z]);if dot(sub(point,near),forward)< -0.01 {continue;}
+                    let distance=manhattan(point,near);
+                    if distance<cost && used.iter().all(|(p,d)|dist(*p,point)>=(diameter+d)/2.+gap) {best=Some(point);cost=distance;}
+                }
+            }
+            if let Some(point)=best {used.push((point,diameter));return point;}
+        }
+        let mut point=add(o,[x,y,z]);
+        point[2]=used.iter().map(|(p,d)|p[2]+(diameter+d)/2.+gap).fold(point[2],f32::max);
+        used.push((point,diameter));point
+    }
+
+    fn bundle_slot(&mut self,id:u64,mut point:V3,diameter:f32,rules:&RoutingRules)->V3 {
+        let used=self.open.entry(id).or_default();let gap=(2.0*rules.clearance).max(10.).max(3.0_f32.sqrt()*rules.grid.max(5.));
+        for _ in 0..=used.len() {
+            let next=used.iter().filter(|(p,d)|dist(*p,point)<(diameter+d)/2.+gap)
+                .map(|(p,d)|p[2]+(diameter+d)/2.+gap).fold(point[2],f32::max);
+            if next==point[2] {break;}
+            point[2]=next;
+        }
+        used.push((point,diameter));point
+    }
+
     /// Where a cable of `diameter` goes through the entry `g` (`at`: a point of its
     /// face by the offset from its middle): a cable gland at its middle; a cable entry
     /// flange at a place of its own along its membrane (part data `Cutout`, the places
@@ -715,6 +757,24 @@ pub fn part_id(item: u64, k: usize) -> u64 {
     item | (k as u64 + 1) << 48
 }
 
+fn cable_device_end(prj:&Project,pos:&[V3],tag:&str,pins:&[PinRef],diameter:f32,glands:&mut Glands)->End {
+    let mut end=device_end(prj,pos,tag,pins);
+    let Some((ei,id))=end.enclosure.zip(end.item) else {return end;};
+    let e=&prj.layout.enclosures[ei];
+    if !e.is_assembly() || !e.open_routing {return end;}
+    let Some(owner)=e.items.iter().find(|it|it.id==id && it.kind==ItemKind::Device && it.face==Face::Plate && !it.tag.is_empty()) else {return end;};
+    let Some(mut point)=end.point else {return end;};
+    // The sheath ends before the terminal; the core still reaches the actual pin.
+    if end.cores.is_empty() {end.cores.push(point);end.exits.push(end.leave.unwrap_or([0.,0.,1.]));}
+    let front=e.items.iter().filter(|it|it.kind==ItemKind::Device && it.face==owner.face && it.tag==owner.tag)
+        .map(|it|panel::item_box(e,it).1[2]+pos[ei][2]).fold(point[2],f32::max);
+    let rules=&prj.layout.routing;
+    point[2]=front+(rules.bend(RouteKind::Cable)*diameter).max(rules.grid)+diameter/2.+rules.clearance;
+    end.point=Some(glands.bundle_slot(e.id,point,diameter,rules));
+    // This is a free sheath junction. The actual terminal directions stay on its cores.
+    end.leave=None;end
+}
+
 /// The nozzles of the device at the end `end` of a tube (layout coordinates: their ends
 /// and the directions out of them) and which of them is for its connection point `pin`.
 fn end_nozzles(prj: &Project, pos: &[V3], end: &End, pin: PinRef) -> Option<(Vec<(V3, V3)>, usize)> {
@@ -773,9 +833,9 @@ fn pins_at(prj: &Project, cores: &[&Connection], tag: &str) -> Vec<PinRef> {
 }
 
 /// Where a cable or tube from the field enters the enclosure: a cable gland
-/// ([`Glands::pick`], through it where [`Glands::slot`] says), otherwise the middle of
-/// the bottom.
-fn entry_end(prj: &Project, pos: &[V3], ei: usize, near: V3, glands: &mut Glands, diameter: f32) -> End {
+/// ([`Glands::pick`], through it where [`Glands::slot`] says), otherwise an inferred
+/// service-plane handoff of an explicitly open assembly, or the middle of the bottom.
+fn entry_end(prj: &Project, pos: &[V3], ei: usize, near: V3, glands: &mut Glands, diameter: f32, ahead:Option<V3>) -> End {
     let e = &prj.layout.enclosures[ei];
     let at = |it: &PanelItem, off: [f32; 2], depth: f32| add(panel::face_point(e, it.face, [it.x + it.w / 2.0 + off[0], it.y + it.h / 2.0 + off[1], depth]), pos[ei]);
     let candidates: Vec<(&PanelItem, f32)> = entries(prj, ei).into_iter().map(|g| (g, manhattan(at(g, [0.0; 2], 5.0), near))).collect();
@@ -784,6 +844,11 @@ fn entry_end(prj: &Project, pos: &[V3], ei: usize, near: V3, glands: &mut Glands
             let point = glands.slot(prj, g, diameter, |off| at(g, off, 5.0), near);
             End { tag: g.part.clone(), enclosure: Some(ei), point: Some(point), item: Some(g.id), leave: Some(norm(sub(at(g, [0.0; 2], 6.0), at(g, [0.0; 2], 5.0)))), ..Default::default() }
         }
+        None if e.is_assembly() && e.open_routing => {
+            let rules=&prj.layout.routing;let run=2.*rules.bend(RouteKind::Cable).max(rules.bend(RouteKind::Tube))*diameter+rules.grid;
+            let aim=add(near,scale(ahead.unwrap_or([0.;3]),run));
+            End {tag:e.name.clone(),enclosure:Some(ei),point:Some(glands.open_slot(e,pos[ei],aim,diameter,rules,ahead.unwrap_or([0.;3]))),leave:Some([0.,0.,-1.]),..Default::default()}
+        },
         None => {
             let q = [e.width / 2.0, e.height - e.wall() - 5.0, (PLATE_Z + e.depth) / 2.0];
             End { tag: tr("Bottom").to_string(), enclosure: Some(ei), point: Some(add(q, pos[ei])), item: None, leave: Some([0.0, -1.0, 0.0]), ..Default::default() }
@@ -918,7 +983,7 @@ fn outside(prj: &Project, tag: &str) -> bool {
 /// one is not outside or the room has no building entry.
 /// `pins`: the schematic connection points of the cores at `a` and `b`.
 fn ends_between(prj: &Project, pos: &[V3], a: &str, b: &str, pins: [&[PinRef]; 2], glands: &mut Glands, diameter: f32) -> Option<[End; 2]> {
-    let (ea, eb) = (device_end(prj, pos, a, pins[0]), device_end(prj, pos, b, pins[1]));
+    let (ea, eb) = (cable_device_end(prj, pos, a, pins[0],diameter,glands), cable_device_end(prj, pos, b, pins[1],diameter,glands));
     let in_room = |e: &End| e.enclosure.is_some_and(|k| prj.layout.enclosures[k].is_room());
     let entry = |e: &End, p: V3, other: &str| -> Option<End> {
         let k = e.enclosure?;
@@ -933,8 +998,8 @@ fn ends_between(prj: &Project, pos: &[V3], a: &str, b: &str, pins: [&[PinRef]; 2
         (None, Some(p)) if entry(&eb, p, a).is_some() => entry(&eb, p, a).map(|e| [End { tag: a.into(), ..e }, eb.clone()]),
         // Both in one device group: part of its base.
         _ if ea.item.is_some() && ea.item == eb.item => None,
-        (Some(p), None) => Some([ea.clone(), End { tag: b.into(), ..entry_end(prj, pos, ea.enclosure?, p, glands, diameter) }]),
-        (None, Some(p)) => Some([End { tag: a.into(), ..entry_end(prj, pos, eb.enclosure?, p, glands, diameter) }, eb]),
+        (Some(p), None) => Some([ea.clone(), End { tag: b.into(), ..entry_end(prj, pos, ea.enclosure?, p, glands, diameter,ea.leave) }]),
+        (None, Some(p)) => Some([End { tag: a.into(), ..entry_end(prj, pos, eb.enclosure?, p, glands, diameter,eb.leave) }, eb]),
         _ => Some([ea, eb]),
     }
 }
@@ -1168,7 +1233,6 @@ fn jobs(prj: &Project, wiring: &[RoutedWire], conns: &[Connection], open: &Netli
 
 /// Routes the `jobs` one after the other, the searches of a class on up to `workers`
 /// threads at the same time (with the same routes).
-#[allow(clippy::too_many_lines)]
 type Ahead = (Option<grid::Way>, Vec<f32>, Option<grid::GoalCosts>);
 
 fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:bool, entry:Option<Ahead>, search:impl FnOnce(Option<&grid::GoalCosts>)->Option<grid::Way>)->Option<grid::Way> {
@@ -1181,7 +1245,27 @@ fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:b
     }
 }
 
-fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: Glands, progress: &dyn Fn(usize, usize), workers: usize) -> Routing {
+fn route(prj:&Project,wiring:&mut [RoutedWire],jobs:Vec<Job>,glands:Glands,progress:&dyn Fn(usize,usize),workers:usize)->Routing {
+    let open=prj.layout.frozen.is_empty() && !jobs.is_empty() && jobs.iter().all(|job|job.ends.iter().all(|end|end.enclosure.is_some_and(|ei| {
+        let e=&prj.layout.enclosures[ei];e.is_assembly() && e.open_routing
+    })));
+    if !open {return route_once(prj,wiring,jobs,glands,progress,workers);}
+    let original=wiring.to_vec();
+    let first=route_once(prj,wiring,jobs.clone(),glands.clone(),progress,workers);
+    let failed:std::collections::BTreeSet<_>=first.items.iter().filter(|item|!item.routed()).map(|item|item.key.as_str()).collect();
+    if failed.is_empty() {return first;}
+    let failures=first.items.iter().filter(|item|!item.routed()).count();
+    let kept=wiring.to_vec();let mut priority=jobs;
+    // Hard connections get their space before flexible routes during one bounded retry.
+    priority.sort_by(|a,b|a.class.cmp(&b.class).then(failed.contains(b.key.as_str()).cmp(&failed.contains(a.key.as_str()))));
+    wiring.clone_from_slice(&original);
+    let retry=route_once(prj,wiring,priority,glands,progress,workers);
+    if retry.items.iter().filter(|item|!item.routed()).count()<failures {return retry;}
+    wiring.clone_from_slice(&kept);first
+}
+
+#[allow(clippy::too_many_lines)]
+fn route_once(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: Glands, progress: &dyn Fn(usize, usize), workers: usize) -> Routing {
     let rules = &prj.layout.routing;
     let pos = panel::positions(&prj.layout);
     let lineups = panel::lineups(&prj.layout);
@@ -1204,7 +1288,22 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
     // How far beyond its surface a cable or tube keeps the ones routed after it: half the
     // thickness of the thickest.
     let reach = jobs.iter().filter(|j| j.kind != RouteKind::Wire).map(|j| j.diameter / 2.0).fold(0.0, f32::max);
-    let make_space = |lu: usize| if is_room(lu) { room::room_space(prj, lineups[lu][0], &pos, &poses, rules) } else { grid::Space::build(prj, &lineups[lu], &pos, rules) };
+    let base=jobs.iter().map(|j|2.0*j.area_radius(rules).1+j.diameter+2.0*rules.clearance).fold(2.0*rules.grid,f32::max);
+    let mut margin=[base;3];
+    for job in &jobs {
+        for end in &job.ends {
+            if let (Some(ei),Some(p))=(end.enclosure,end.point) {
+                let e=&prj.layout.enclosures[ei];
+                if e.is_assembly() && e.open_routing {
+                    let q=sub(p,pos[ei]);let size=[e.width,e.height,e.depth];
+                    for i in 0..3 {
+                        let outside=(q[i]-size[i]).max(-q[i]).max(0.);
+                        margin[i]=margin[i].max(outside+2.*job.area_radius(rules).1+job.diameter+2.*rules.clearance);
+                    }
+                }
+            }
+        }
+    }
     // The cable entries the ends of the jobs go through are taken: a route that leaves
     // its cabinet looks for another one.
     for end in jobs.iter().flat_map(|j| &j.ends) {
@@ -1212,6 +1311,14 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
             if entries(prj, ei).iter().any(|g| g.id == id) {
                 *glands.taken.entry(id).or_default() += 1;
                 glands.through.entry(id).or_default().extend(end.point);
+            }
+        }
+    }
+    for job in &jobs {
+        for end in &job.ends {
+            if let (Some(ei),Some(point))=(end.enclosure,end.point) {
+                let e=&prj.layout.enclosures[ei];
+                if e.is_assembly() && e.open_routing && (end.item.is_none() || !end.cores.is_empty()) {glands.open.entry(e.id).or_default().push((point,job.diameter));}
             }
         }
     }
@@ -1243,7 +1350,7 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
                     let mut legs = Vec::new();
                     for (i, end) in job.ends.iter().enumerate() {
                         let (Some(ei), Some(q)) = (end.enclosure, end.point) else { return Err(tr("not in the panel layout").to_string()) };
-                        let entry = entry_end(prj, &pos, ei, q, &mut glands, job.diameter);
+                        let entry = entry_end(prj, &pos, ei, q, &mut glands, job.diameter,end.leave);
                         let (Some(lineup), Some(at)) = (lineup_of(ei), entry.point) else { return Err(tr("not in the panel layout").to_string()) };
                         let (own, through) = ((q, end.leave.unwrap_or([0.0; 3])), (at, entry.leave.unwrap_or([0.0; 3])));
                         let (a, b) = if i == 0 { (own, through) } else { (through, own) };
@@ -1256,6 +1363,22 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
             }
         })
         .collect();
+    // Cross-lineup handoffs are derived while planning, so include their bounds too.
+    for (job,plan) in jobs.iter().zip(&plans) {
+        let Ok((legs,..))=plan else {continue;};
+        for leg in legs {
+            for point in [leg.a,leg.b] {
+                let outside=lineups[leg.lineup].iter().filter_map(|&ei| {
+                    let e=&prj.layout.enclosures[ei];if !e.is_assembly() || !e.open_routing {return None;}
+                    let q=sub(point,pos[ei]);let size=[e.width,e.height,e.depth];
+                    Some([0,1,2].map(|i|(q[i]-size[i]).max(-q[i]).max(0.)))
+                }).min_by(|a,b|a.iter().copied().fold(0.,f32::max).total_cmp(&b.iter().copied().fold(0.,f32::max)));
+                if let Some(outside)=outside {for i in 0..3 {margin[i]=margin[i].max(outside[i]+2.*job.area_radius(rules).1+job.diameter+2.*rules.clearance);}}
+            }
+        }
+    }
+    if !prj.layout.frozen.is_empty() {margin=[margin.into_iter().fold(0.,f32::max);3];}
+    let make_space = |lu: usize| if is_room(lu) { room::room_space(prj, lineups[lu][0], &pos, &poses, rules) } else { grid::Space::build_with_margins(prj, &lineups[lu], &pos, rules,margin) };
     // The legs of a frozen job as frozen, where the route is still the same (without the
     // ways into the nozzles, added to the route again).
     let thawed = |job: &Job, legs: &[room::LegPlan]| {
@@ -1558,7 +1681,7 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
     paths.sort_by(|a, b| a.enclosure.cmp(&b.enclosure).then(a.path.cmp(&b.path)));
     let (shields, shield_problems) = shield::analyse(prj, &items, &bundles);
     problems.extend(shield_problems);
-    for it in items.iter().filter(|i| i.kind != RouteKind::Wire && i.ends.iter().any(|e| e.enclosure.is_some() && e.item.is_none())) {
+    for it in items.iter().filter(|i| i.kind != RouteKind::Wire && i.ends.iter().any(|e| e.item.is_none() && e.enclosure.is_some_and(|ei| {let enclosure=&prj.layout.enclosures[ei];!enclosure.is_assembly() || !enclosure.open_routing}))) {
         problems.push(Problem { level: Level::Info, message: tr_fmt!("{} {} enters through the bottom: no cable gland in the enclosure", it.kind.title(), it.label), target: None });
     }
     for it in items.iter().filter(|i| i.routed() && outside.contains(&i.key)) {

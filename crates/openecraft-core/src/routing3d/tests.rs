@@ -1,6 +1,41 @@
 use super::*;
 
 #[test]
+fn open_assembly_cross_lineup_handoffs_fit_the_planned_space() {
+    let mut prj=Project::default();
+    for id in [1,2] {prj.layout.enclosures.push(panel::Enclosure {id,kind:panel::EnclosureKind::Assembly,width:112.,height:112.,depth:112.,no_implicit_plate:true,open_routing:true,..Default::default()});}
+    let pos=panel::positions(&prj.layout);let before=prj.layout.clone();
+    let end=|ei|End {tag:format!("-A{ei}"),enclosure:Some(ei),point:Some(add(pos[ei],[56.,112.,56.])),item:Some(7+ei as u64),leave:Some([0.,1.,0.]),..Default::default()};
+    let job=Job {kind:RouteKind::Cable,key:"-W1".into(),label:"-W1".into(),class:Class::Control,ends:[end(0),end(1)],
+        diameter:6.,shielded:false,wire:None,fixed:None,extra:0.,bend:0.,set_length:0.,target:None,laying:Laying::Surface};
+    let routes=route(&prj,&mut [],vec![job],Glands::default(),&|_,_|{},1);
+    assert!(routes.items[0].routed(),"{:?}",routes.problems);assert_eq!(routes.items[0].legs.len(),2);
+    assert_eq!(prj.layout,before);
+}
+
+
+#[test]
+fn inferred_handoffs_have_distinct_routing_cells() {
+    let e=panel::Enclosure {id:1,kind:panel::EnclosureKind::Assembly,width:100.,height:100.,depth:50.,open_routing:true,..Default::default()};
+    let rules=RoutingRules::default();let mut glands=Glands::default();let mut cells=std::collections::BTreeSet::new();
+    for _ in 0..12 {
+        let point=glands.open_slot(&e,[0.;3],[50.,60.,50.],8.,&rules,[0.;3]);
+        assert!(cells.insert(point.map(|v|(v/rules.grid).floor() as i32)),"inferred ends need distinct cells even before path searching");
+    }
+}
+
+
+#[test]
+fn inferred_handoffs_use_physical_clearance_without_unclassified_segregation() {
+    let e=panel::Enclosure {id:1,kind:panel::EnclosureKind::Assembly,width:600.,height:100.,depth:50.,open_routing:true,..Default::default()};
+    let rules=RoutingRules {segregation:1000.,..Default::default()};let mut glands=Glands::default();let mut points=Vec::new();
+    for _ in 0..10 {points.push(glands.open_slot(&e,[0.;3],[200.,60.,50.],8.,&rules,[0.;3]));}
+    assert!(points.iter().all(|p|p[2]==points[0][2]),"class separation is enforced by the class-aware routing space");
+    for (i,p) in points.iter().enumerate() {assert!(points[i+1..].iter().all(|q|dist(*p,*q)>=8.+2.*rules.clearance));}
+}
+
+
+#[test]
 fn impossible_route_caching_is_explicit_and_round_trips() {
     let mut rules=RoutingRules::default();
     assert!(!rules.reuse_failed_searches);
@@ -11,6 +46,89 @@ fn impossible_route_caching_is_explicit_and_round_trips() {
     assert!(!serde_json::from_str::<RoutingRules>("{}").unwrap().reuse_failed_searches);
 }
 
+
+#[test]
+fn open_assembly_device_fallback_retains_its_connection_behind_the_sheath() {
+    let mut prj=crate::sample::demo_project();
+    let (ei,tag)=prj.layout.enclosures.iter().enumerate().find_map(|(ei,e)|e.items.iter()
+        .find(|it|it.kind==ItemKind::Device && it.face==Face::Plate && it.terminal.is_empty() && !it.tag.is_empty()).map(|it|(ei,it.tag.clone()))).unwrap();
+    prj.layout.enclosures[ei].kind=panel::EnclosureKind::Assembly;prj.layout.enclosures[ei].open_routing=true;
+    let pos=panel::positions(&prj.layout);let before=prj.layout.clone();
+    let raw=device_end(&prj,&pos,&tag,&[]);let mut glands=Glands::default();
+    let end=cable_device_end(&prj,&pos,&tag,&[],8.,&mut glands);
+    assert_eq!(end.cores,vec![raw.point.unwrap()]);assert_eq!(end.exits,vec![raw.leave.unwrap()]);
+    assert!(end.point.unwrap()[2]>raw.point.unwrap()[2]);assert_eq!(prj.layout,before);
+    prj.layout.enclosures[ei].open_routing=false;
+    assert_eq!(cable_device_end(&prj,&pos,&tag,&[],8.,&mut glands),device_end(&prj,&pos,&tag,&[]));
+}
+
+
+#[test]
+fn inferred_open_assembly_entries_add_depth_when_the_service_plane_is_full() {
+    let e=panel::Enclosure {id:1,kind:panel::EnclosureKind::Assembly,width:40.,height:100.,depth:50.,open_routing:true,..Default::default()};
+    let rules=RoutingRules::default();let mut glands=Glands::default();let mut points=Vec::new();
+    for _ in 0..30 {
+        let point=glands.open_slot(&e,[0.;3],[20.,60.,50.],8.,&rules,[0.;3]);
+        assert!(points.iter().all(|p|dist(*p,point)>=8.+(2.0*rules.clearance).max(10.)));
+        points.push(point);
+    }
+    assert!(points.iter().any(|p|p[2]>points[0][2]));
+}
+
+
+#[test]
+fn open_assembly_bundle_junction_keeps_actual_pins_and_clears_intervening_terminals() {
+    let mut prj=crate::sample::demo_project();let terms=crate::strips::terminals(&prj,"-X1");
+    let pins:Vec<_>=terms.iter().take(2).map(|t|PinRef {page:t.page,sym:t.sym,pin:0}).collect();
+    let (ei,whole)=prj.layout.find_device("-X1").map(|(ei,it)|(ei,it.clone())).unwrap();
+    prj.layout.enclosures[ei].items.retain(|it|it.id!=whole.id);
+    for (k,t) in terms.iter().take(2).enumerate() {
+        let mut it=whole.clone();it.id=prj.new_id();it.terminal=t.label.clone();it.x=100.+k as f32*200.;it.w=8.;
+        prj.layout.enclosures[ei].items.push(it);
+    }
+    let mut middle=whole.clone();middle.id=prj.new_id();middle.terminal="99".into();middle.x=200.;middle.w=8.;middle.d=100.;
+    prj.layout.enclosures[ei].items.push(middle);
+    prj.layout.enclosures[ei].kind=panel::EnclosureKind::Assembly;prj.layout.enclosures[ei].open_routing=true;
+    let pos=panel::positions(&prj.layout);let before=prj.layout.clone();
+    let pins_end=device_end(&prj,&pos,"-X1",&pins);
+    let mut glands=Glands::default();
+    let bundle=cable_device_end(&prj,&pos,"-X1",&pins,8.,&mut glands);
+    let next=cable_device_end(&prj,&pos,"-X1",&pins,8.,&mut glands);
+    assert!(dist(bundle.point.unwrap(),next.point.unwrap())>=8.+(2.0*prj.layout.routing.clearance).max(10.));
+    assert_eq!(bundle.cores,pins_end.cores);assert_eq!(bundle.exits,pins_end.exits);assert_eq!(bundle.parts,pins_end.parts);assert!(bundle.leave.is_none());
+    assert!(bundle.point.unwrap()[2]>bundle.cores.iter().map(|p|p[2]).fold(100.,f32::max));
+    let single=device_end(&prj,&pos,"-X1",&pins[..1]);
+    let sheath=cable_device_end(&prj,&pos,"-X1",&pins[..1],8.,&mut glands);
+    assert_eq!(sheath.cores,vec![single.point.unwrap()]);
+    assert_eq!(sheath.exits,vec![single.leave.unwrap()]);
+    assert!(sheath.point.unwrap()[2]>single.point.unwrap()[2]);
+    assert_eq!(prj.layout,before);
+    prj.layout.enclosures[ei].open_routing=false;
+    assert_eq!(cable_device_end(&prj,&pos,"-X1",&pins,8.,&mut glands),device_end(&prj,&pos,"-X1",&pins));
+}
+
+#[test]
+fn open_assembly_handoffs_are_outside_solids_and_separate_without_moving_hardware() {
+    let mut prj=Project::default();
+    let e=panel::Enclosure {id:1,kind:panel::EnclosureKind::Assembly,width:200.,height:300.,depth:200.,no_implicit_plate:true,open_routing:true,
+        items:vec![PanelItem {id:7,kind:ItemKind::MountingPlate,x:0.,y:0.,z:0.,w:200.,h:300.,d:150.,..Default::default()}],..Default::default()};
+    prj.layout.enclosures.push(e);let before=prj.layout.clone();let pos=panel::positions(&prj.layout);
+    let mut glands=Glands::default();let near=[100.,120.,170.];
+    let a=entry_end(&prj,&pos,0,near,&mut glands,8.,Some([0.,0.,1.]));
+    let b=entry_end(&prj,&pos,0,near,&mut glands,8.,Some([0.,0.,1.]));
+    assert!(a.point.unwrap()[2]>200.);
+    assert_eq!(a.leave,Some([0.,0.,-1.]));
+    assert!(dist(a.point.unwrap(),b.point.unwrap())>=18.);
+    assert_eq!(prj.layout,before);
+    let job=Job {kind:RouteKind::Cable,key:"-W1".into(),label:"-W1".into(),class:Class::Control,
+        ends:[End {tag:"-A1".into(),enclosure:Some(0),point:Some(near),leave:Some([0.,0.,1.]),..Default::default()},a],
+        diameter:8.,shielded:false,wire:None,fixed:None,extra:0.,bend:0.,set_length:0.,target:None,laying:Laying::Surface};
+    let routed=route(&prj,&mut [],vec![job],Glands::default(),&|_,_|{},1);
+    assert!(routed.items[0].routed(),"{:?}",routed.problems);
+    prj.layout.enclosures[0].open_routing=false;
+    let legacy=entry_end(&prj,&pos,0,near,&mut glands,8.,Some([0.,0.,1.]));
+    assert_eq!(legacy.point.unwrap(),[100.,300.-prj.layout.enclosures[0].wall()-5.,(PLATE_Z+200.)/2.]);
+}
 
 #[test]
 fn an_impossible_ahead_search_is_not_repeated_after_fill_changes() {

@@ -1,6 +1,70 @@
 use super::*;
+
+#[test]
+fn open_assembly_leads_leave_a_narrow_gap_before_joining_the_grid() {
+    let mut e=single();e.kind=panel::EnclosureKind::Assembly;e.width=250.;e.height=250.;e.depth=300.;e.no_implicit_plate=true;e.open_routing=true;e.mounting_origin=Some([0.;3]);
+    e.items=vec![PanelItem {id:7,kind:ItemKind::Device,x:0.,y:50.,z:75.,w:66.,h:100.,d:65.,..Default::default()},
+        PanelItem {id:8,kind:ItemKind::Device,x:74.,y:50.,z:75.,w:126.,h:100.,d:65.,..Default::default()}];
+    let mut prj=project(e);let rules=RoutingRules::default();let pos=panel::positions(&prj.layout);
+    let a=[70.,100.,100.];let b=[170.,180.,170.];let mut request=req(&[]);
+    request.at=[a,b];request.leave=[[0.,0.,1.];2];request.turn=9.;request.half=1.;
+    let mut open=Space::build(&prj,&[0],&pos,&rules);
+    assert!(open.route_grid(a,b,&request,&rules,None).0.is_none());
+    open.keep_ways_out(a,b,&request);
+    assert!(open.way_out[open.cell_of([70.,100.,125.]).unwrap()],"the checked escape stays free before other routes run");
+    assert!(open.straight_lead_clear(a,[70.,100.,150.],&request));
+    let way=open.route(a,b,&request,&rules).expect("straight out of the physical gap before leaning onto the grid");
+    assert_eq!((way.points[0],*way.points.last().unwrap()),(a,b));
+    assert!(way.points.iter().any(|p|p[0]==a[0] && p[1]==a[1] && p[2]>140.));
+    prj.layout.enclosures[0].items.push(PanelItem {id:9,kind:ItemKind::MountingPlate,x:66.,y:50.,z:124.9,w:8.,h:100.,d:0.2,..Default::default()});
+    let blocked=Space::build(&prj,&[0],&pos,&rules);
+    assert!(!blocked.straight_lead_clear(a,[70.,100.,150.],&request),"even a sub-cell plate blocks the lead");
+    prj.layout.enclosures[0].open_routing=false;
+    assert!(!Space::build(&prj,&[0],&pos,&rules).open_leads);
+}
+
+
+#[test]
+fn open_assembly_parallel_leads_can_extend_beyond_the_other_ends_depth() {
+    let mut e=single();e.kind=panel::EnclosureKind::Assembly;e.width=200.;e.height=200.;e.depth=200.;e.no_implicit_plate=true;
+    let mut prj=project(e);let rules=RoutingRules::default();let pos=panel::positions(&prj.layout);
+    let a=[70.,70.,116.];let b=[70.,104.,135.];let forward=[0.,0.,1.];
+    let legacy=Space::build(&prj,&[0],&pos,&rules);
+    assert_eq!(legacy.lead_limit(a,forward,b,forward),Some(b[2]));
+    prj.layout.enclosures[0].open_routing=true;
+    let open=Space::build(&prj,&[0],&pos,&rules);
+    assert_eq!(open.lead_limit(a,forward,b,forward),None);
+    assert_eq!(open.lead_limit(a,forward,b,[0.,0.,-1.]),Some((a[2]+b[2])/2.));
+    let mut request=req(&[]);request.at=[a,b];request.leave=[forward;2];request.turn=9.;request.half=1.5;
+    assert!(open.route(a,b,&request,&rules).is_some());
+}
+
 use crate::panel::{new_enclosure, Enclosure, PanelItem};
 use crate::routing3d::{Reservation, RoutingPath};
+
+#[test]
+fn open_assembly_routing_expands_only_opted_in_bounds_and_keeps_solids() {
+    let mut e=single();e.kind=panel::EnclosureKind::Assembly;
+    e.width=200.;e.height=200.;e.depth=50.;e.no_implicit_plate=true;
+    e.items.push(PanelItem {id:7,kind:ItemKind::MountingPlate,x:0.,y:0.,z:0.,w:200.,h:200.,d:3.,..Default::default()});
+    let mut prj=project(e);let rules=RoutingRules::default();let pos=panel::positions(&prj.layout);
+    let closed=Space::build_with_margin(&prj,&[0],&pos,&rules,100.);
+    assert_eq!(closed.origin,[0.;3]);
+    prj.layout.enclosures[0].open_routing=true;
+    let open=Space::build_with_margin(&prj,&[0],&pos,&rules,100.);
+    assert_eq!(open.origin,[-100.;3]);
+    let aligned=Space::build_with_margin(&prj,&[0],&pos,&rules,101.);
+    assert_eq!(aligned.origin,[-125.;3]);
+    let deep=Space::build_with_margins(&prj,&[0],&pos,&rules,[50.,75.,1000.]);
+    assert_eq!(deep.origin,[-50.,-75.,-1000.]);
+    assert_eq!(deep.n[0],12);assert_eq!(deep.n[1],14);
+    assert!(open.origin[2]+open.n[2] as f32*open.cell>100.);
+    assert_eq!(open.point_clear([100.,100.,1.],&req(&[])),Some(false),"the explicit mounting plate remains solid");
+    assert_eq!(open.point_clear([100.,100.,90.],&req(&[])),Some(true));
+    prj.layout.enclosures[0].kind=panel::EnclosureKind::Cabinet;
+    let cabinet=Space::build_with_margin(&prj,&[0],&pos,&rules,100.);
+    assert_eq!(cabinet.origin,[0.;3],"a flag cannot open a cabinet wall");
+}
 
 fn project(e: Enclosure) -> Project {
     let mut prj = Project::default();

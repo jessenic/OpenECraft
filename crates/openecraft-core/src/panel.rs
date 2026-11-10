@@ -336,6 +336,7 @@ impl Default for Enclosure {
             height: 800.0,
             depth: 250.0,
             no_implicit_plate:false,
+            open_routing:false,
             mounting_origin:None,
             door_clearance: 0.0,
             items: Vec::new(),

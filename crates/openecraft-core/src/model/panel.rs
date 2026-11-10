@@ -481,6 +481,9 @@ pub struct Enclosure {
     /// The source specifies no implicit mounting plate; explicit plate items still draw.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub no_implicit_plate: bool,
+    /// Open assemblies: allow routing beyond the item bounds, keeping placed solids.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub open_routing: bool,
     /// Mounting-face origin in the enclosure frame; absent uses the legacy plate datum.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mounting_origin: Option<[f32;3]>,

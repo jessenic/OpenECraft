@@ -70,6 +70,7 @@ pub static COMMANDS: &[Spec] = &[
             optional("height", Kind::Num, tr_const!("Height in mm")),
             optional("depth", Kind::Num, tr_const!("Depth in mm")),
             optional("assembly", Kind::Bool, tr_const!("Open mounting assembly without enclosure walls")),
+            optional("open_routing",Kind::Bool,tr_const!("Allow routing beyond the bounds of an open assembly")),
             optional("implicit_plate",Kind::Bool,tr_const!("Generate a default mounting plate when no explicit plate is placed")),
             optional("mounting_origin",Kind::Object,tr_const!("Mounting-face origin as x, y and z; empty object restores the default")),
         ],
@@ -81,6 +82,7 @@ pub static COMMANDS: &[Spec] = &[
         params: &[
             param("enclosure", Kind::Str, ENCLOSURE),
             optional("assembly", Kind::Bool, tr_const!("Open mounting assembly without enclosure walls")),
+            optional("open_routing",Kind::Bool,tr_const!("Allow routing beyond the bounds of an open assembly")),
             optional("implicit_plate",Kind::Bool,tr_const!("Generate a default mounting plate when no explicit plate is placed")),
             optional("mounting_origin",Kind::Object,tr_const!("Mounting-face origin as x, y and z; empty object restores the default")),
             optional("system", Kind::Str, tr_const!("compact, baying, terminal_box, plastic, house_connection or rack19; empty for none")),
@@ -300,6 +302,7 @@ fn enclosure_json(prj: &Project, e: &Enclosure) -> Value {
         "kind":format!("{:?}",e.kind).to_lowercase(),
         "implicit_plate":!e.no_implicit_plate,
         "mounting_origin":e.mounting_origin,
+        "open_routing":e.open_routing,
         "mounting_frame":panel::face_frame(e,Face::Plate),
         "lineup": lineup_json(prj, ei),
         "system": e.build.system,
@@ -343,6 +346,7 @@ fn add_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
     resize(&mut e, a);
     if a.value("mounting_origin").is_some() {e.mounting_origin=mounting_origin(a)?;}
     if let Some(implicit)=bool_arg(a,"implicit_plate") {e.no_implicit_plate = !implicit;}
+    if let Some(open)=bool_arg(a,"open_routing") {e.open_routing=open;}
     if a.flag("assembly") {e.kind=panel::EnclosureKind::Assembly;e.part.clear();e.build=Default::default();}
     if let Some(tag)=a.str("device_tag") {e.device_tag=tag.into();}
     if let Some(tag)=a.str("owner_device") {e.owner_device=tag.into();}
@@ -393,6 +397,7 @@ fn set_enclosure(prj: &mut Project, a: &Args) -> Result<Value, String> {
         else if e.is_assembly() {e.kind=panel::EnclosureKind::Cabinet;}
     }
     if let Some(implicit)=bool_arg(a,"implicit_plate") {e.no_implicit_plate = !implicit;}
+    if let Some(open)=bool_arg(a,"open_routing") {e.open_routing=open;}
     if a.value("mounting_origin").is_some() {e.mounting_origin=origin;}
     if let Some(v) = a.num("plinth") {
         e.build.plinth = v;

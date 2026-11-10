@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	アイテムの整列、均等配置、レール上へのデバイスの整列、パターンでのアイテムのコピーを行います
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	シンボル、テキスト、グラフィックを共通の端または中央に揃えます。接続された電線の端も追従します
 Allow renaming onto an identifier in use: both become one	使用中の識別子への名前変更を許可: 両方が 1 つになります
+Allow routing beyond the bounds of an open assembly	開放アセンブリの境界を超える配線を許可
 Allowed classes, comma separated: power, control, signal, fluid (default all)	許可するクラス (カンマ区切り): power、control、signal、fluid (既定: すべて)
 Allowed values separated by commas (empty: any value)	許可される値 (カンマ区切り、空: 任意の値)
 Also create a bus cable for every connection without cable	ケーブルのない接続ごとにバスケーブルも作成する

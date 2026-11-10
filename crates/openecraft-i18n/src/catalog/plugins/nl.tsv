@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Lijnt elementen uit, verdeelt ze gelijkmatig, plaatst apparaten op een rij op een rail of kopieert elementen in een patroon
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Lijnt symbolen, teksten en grafiek uit op een gemeenschappelijke rand of middenlijn; aangesloten draadeinden volgen mee
 Allow renaming onto an identifier in use: both become one	Hernoemen naar een gebruikte aanduiding toestaan: beide worden één
+Allow routing beyond the bounds of an open assembly	Routering buiten de grenzen van een open samenstelling toestaan
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Toegestane klassen, gescheiden door komma's: power, control, signal, fluid (standaard alle)
 Allowed values separated by commas (empty: any value)	Toegestane waarden, gescheiden door komma's (leeg: elke waarde)
 Also create a bus cable for every connection without cable	Ook een buskabel maken voor elke verbinding zonder kabel

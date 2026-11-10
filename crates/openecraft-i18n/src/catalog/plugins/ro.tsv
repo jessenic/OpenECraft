@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Aliniază elemente, le distanțează uniform, aliniază dispozitive pe o șină sau copiază elemente după un model
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Aliniază simbolurile, textele și grafica la o margine sau un centru comun; capetele conectate ale conductoarelor urmează
 Allow renaming onto an identifier in use: both become one	Permite redenumirea într-un identificator folosit: ambele devin unul
+Allow routing beyond the bounds of an open assembly	Permite rutarea în afara limitelor unui ansamblu deschis
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Clase permise, separate prin virgulă: power, control, signal, fluid (implicit toate)
 Allowed values separated by commas (empty: any value)	Valori permise, separate prin virgule (gol: orice valoare)
 Also create a bus cable for every connection without cable	Creează și un cablu de magistrală pentru fiecare conexiune fără cablu

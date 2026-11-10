@@ -2,6 +2,20 @@ use super::*;
 use crate::builtin::testing::*;
 
 #[test]
+fn open_routing_is_explicit_and_round_trips_through_enclosure_commands() {
+    let mut s=demo();
+    let e=run(&mut s,"add_enclosure",json!({"name":"Open board","assembly":true})).unwrap();
+    assert_eq!(e["open_routing"],false);
+    let e=run(&mut s,"set_enclosure",json!({"enclosure":"Open board","open_routing":true})).unwrap();
+    assert_eq!(e["open_routing"],true);
+    let saved=s.project().unwrap().to_json();
+    let restored:Project=serde_json::from_str(&saved).unwrap();
+    assert!(restored.layout.enclosures.last().unwrap().open_routing);
+    let e=run(&mut s,"set_enclosure",json!({"enclosure":"Open board","open_routing":false})).unwrap();
+    assert_eq!(e["open_routing"],false);
+}
+
+#[test]
 fn panel_rotation_is_queryable_editable_and_validated_atomically_through_registry() {
     let mut s=demo();
     run(&mut s,"add_enclosure",json!({"name":"Rotations"})).unwrap();

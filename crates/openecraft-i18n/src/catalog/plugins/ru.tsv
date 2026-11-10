@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Выравнивает элементы, равномерно распределяет их, выстраивает устройства на рейке или копирует элементы массивом
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Выравнивает символы, тексты и графику по общему краю или центру; концы подключённых проводов следуют за ними
 Allow renaming onto an identifier in use: both become one	Разрешить переименование в используемый идентификатор: оба станут одним
+Allow routing beyond the bounds of an open assembly	Разрешить прокладку за пределами открытого узла
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Разрешённые классы через запятую: power, control, signal, fluid (по умолчанию все)
 Allowed values separated by commas (empty: any value)	Допустимые значения через запятую (пусто: любое значение)
 Also create a bus cable for every connection without cable	Также создать шинный кабель для каждого соединения без кабеля

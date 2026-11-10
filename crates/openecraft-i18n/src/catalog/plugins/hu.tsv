@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Elemeket igazít, egyenletesen eloszt, készülékeket sorakoztat fel egy sínen, vagy elemeket másol mintában
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Szimbólumokat, szövegeket és grafikákat igazít egy közös élhez vagy középvonalhoz; a csatlakoztatott vezetékvégek követik őket
 Allow renaming onto an identifier in use: both become one	Átnevezés engedélyezése egy használt azonosítóra: a kettő eggyé válik
+Allow routing beyond the bounds of an open assembly	Vezetés engedélyezése a nyitott szerelvény határain kívül
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Megengedett osztályok vesszővel elválasztva: power, control, signal, fluid (alapértelmezés: az összes)
 Allowed values separated by commas (empty: any value)	Megengedett értékek vesszővel elválasztva (üres: bármely érték)
 Also create a bus cable for every connection without cable	Buszkábel létrehozása minden kábel nélküli kapcsolathoz is

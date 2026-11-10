@@ -149,6 +149,12 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   default), a search that found no route is not repeated when later routes only fill the
   channels.
 
+- **Routing open assemblies:** an open assembly with `open_routing` set routes cables beyond
+  its placed items without changing its dimensions. Cables enter at separate handoff points
+  in front of it, cable sheaths end in front of the devices and terminals while the cores
+  keep their connection points, leads leave narrow gaps between devices straight, and failed
+  connections are retried once. Other enclosures route as before.
+
 ## [0.1.1] - 2026-11-08
 
 - **PV arrays on roofs:** rows of solar modules on every roof shape, parallel to a slope

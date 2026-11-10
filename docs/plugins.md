@@ -295,6 +295,8 @@ The `explicit_panel_geometry` feature retains `PanelItem.single_part`: the footp
 
 The `cached_impossible_routes` feature adds `layout.routing.reuse_failed_searches` (default false), also exposed by the `routing_rules` command. A project can explicitly retain impossible ahead-search results after channel fill changes instead of repeating exhaustive searches. Ordinary projects keep the existing retry behavior. Successful cached routes still require capacity and clearance checks.
 
+The `open_assembly_routing` feature adds `Enclosure.open_routing` (default false), also exposed by the add/set enclosure commands. On an open assembly it permits routes beyond the placed items' bounding box, with space for their bends. Physical dimensions stay unchanged and placed items, including explicit mounting plates, remain obstacles. Without authored cable entries, separate handoff points lie on a free service plane in front of the assembly, with room for their bends. They do not invent physical glands or constrain the open assembly to a shared bottom-entry row. Inferred sheath junctions lie in front of the devices and can choose their approach freely; the individual core points and their terminal exit directions stay unchanged. For fully open layouts without frozen routes, one bounded retry prioritizes failed connections and is retained only if it reduces failures. Closed enclosures and assemblies without the flag keep their existing routing bounds and entries.
+
 The `literal_part_quantities` feature adds `PartRef.total`. A true value makes `count`
 the literal quantity for the whole device/strip (including an explicit zero), instead
 of multiplying terminal articles by strip positions. The default false preserves

@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	对齐元素、均匀分布元素、在导轨上排列设备或按阵列复制元素
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	将符号、文本和图形对齐到共同的边缘或中心；连接的导线端点随之移动
 Allow renaming onto an identifier in use: both become one	允许重命名为已使用的标识符：两者合而为一
+Allow routing beyond the bounds of an open assembly	允许在开放组件边界之外布线
 Allowed classes, comma separated: power, control, signal, fluid (default all)	允许的类别，以逗号分隔：power、control、signal、fluid（默认全部）
 Allowed values separated by commas (empty: any value)	允许的值，以逗号分隔（空：任意值）
 Also create a bus cable for every connection without cable	同时为每个没有电缆的连接创建总线电缆

@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Alinha itens, distribui-os uniformemente, alinha dispositivos em um trilho ou copia itens em um padrão
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Alinha símbolos, textos e gráficos a uma borda ou centro comum; as extremidades de fios conectadas acompanham
 Allow renaming onto an identifier in use: both become one	Permitir renomear para um identificador em uso: ambos se tornam um
+Allow routing beyond the bounds of an open assembly	Permitir o roteamento além dos limites de uma montagem aberta
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Classes permitidas, separadas por vírgula: power, control, signal, fluid (padrão todas)
 Allowed values separated by commas (empty: any value)	Valores permitidos separados por vírgulas (vazio: qualquer valor)
 Also create a bus cable for every connection without cable	Criar também um cabo de barramento para cada conexão sem cabo

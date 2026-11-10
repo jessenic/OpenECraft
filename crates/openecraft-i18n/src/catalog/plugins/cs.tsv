@@ -36,6 +36,7 @@ Adds, replaces or removes a profile: a connector with the column names the other
 Aligns items, spaces them evenly, lines devices up on a rail or copies items in a pattern	Zarovná prvky, rovnoměrně je rozmístí, seřadí přístroje na liště nebo zkopíruje prvky do vzoru
 Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow	Zarovná symboly, texty a grafiku ke společné hraně nebo středu; připojené konce vodičů následují
 Allow renaming onto an identifier in use: both become one	Povolit přejmenování na používaný identifikátor: oba se stanou jedním
+Allow routing beyond the bounds of an open assembly	Povolit vedení mimo hranice otevřené sestavy
 Allowed classes, comma separated: power, control, signal, fluid (default all)	Povolené třídy oddělené čárkou: power, control, signal, fluid (výchozí všechny)
 Allowed values separated by commas (empty: any value)	Povolené hodnoty oddělené čárkami (prázdné: libovolná hodnota)
 Also create a bus cable for every connection without cable	Vytvořit také sběrnicový kabel pro každé spojení bez kabelu

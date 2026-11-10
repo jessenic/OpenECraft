@@ -204,6 +204,8 @@ pub struct Space {
     pub n: [usize; 3],
     /// The clearance the items were grown by ([`RoutingRules::clearance`]).
     clearance: f32,
+    /// Explicitly open assemblies can lead parallel-facing ends beyond each other.
+    open_leads: bool,
     block: Vec<u8>,
     owner: Vec<u64>,
     /// Inner size (mm) of the cable duct a cell lies in, 0 for none.
@@ -372,6 +374,7 @@ impl Space {
             cell,
             n,
             clearance: 0.0,
+            open_leads: false,
             block: vec![WALL; total],
             owner: vec![0; total],
             duct: vec![0.0; total],
@@ -438,14 +441,23 @@ impl Space {
 
     /// The grid of a line-up (`pos`: [`panel::positions`]).
     pub fn build(prj: &Project, lineup: &[usize], pos: &[V3], rules: &RoutingRules) -> Space {
+        Self::build_with_margin(prj,lineup,pos,rules,2.0*rules.grid)
+    }
+
+    pub(super) fn build_with_margin(prj: &Project, lineup: &[usize], pos: &[V3], rules: &RoutingRules, margin:f32) -> Space {
+        Self::build_with_margins(prj,lineup,pos,rules,[margin;3])
+    }
+
+    pub(super) fn build_with_margins(prj: &Project, lineup: &[usize], pos: &[V3], rules: &RoutingRules, margin:V3) -> Space {
         let encs = &prj.layout.enclosures;
+        let padding=|e:&Enclosure| if e.is_assembly() && e.open_routing {let grid=rules.grid.max(1.);margin.map(|m|(m.max(2.*grid)/grid).ceil()*grid)} else {[0.;3]};
         let (mut min, mut max) = ([f32::INFINITY; 3], [f32::NEG_INFINITY; 3]);
         for &k in lineup {
             let e = &encs[k];
             let far = [pos[k][0] + e.width, pos[k][1] + e.height, pos[k][2] + e.depth];
             for i in 0..3 {
-                min[i] = min[i].min(pos[k][i]);
-                max[i] = max[i].max(far[i]);
+                min[i] = min[i].min(pos[k][i]-padding(e)[i]);
+                max[i] = max[i].max(far[i]+padding(e)[i]);
             }
         }
         if lineup.is_empty() {
@@ -453,10 +465,11 @@ impl Space {
         }
         let mut s = Space::empty(min, max, rules.grid);
         s.clearance = rules.clearance.max(0.0);
+        s.open_leads=!lineup.is_empty() && lineup.iter().all(|&k|encs[k].is_assembly() && encs[k].open_routing);
         let (n, total, cell) = (s.n, s.block.len(), s.cell);
         for i in 0..n[0] {
             let x = s.origin[0] + (i as f32 + 0.5) * cell;
-            s.column[i] = lineup.iter().copied().find(|&k| x >= pos[k][0] && x < pos[k][0] + encs[k].width).unwrap_or(usize::MAX);
+            s.column[i] = lineup.iter().copied().find(|&k| x >= pos[k][0]-padding(&encs[k])[0] && x < pos[k][0] + encs[k].width+padding(&encs[k])[0]).unwrap_or(usize::MAX);
         }
         // Inside the enclosures: in front of the mounting plate, behind the door.
         for idx in 0..total {
@@ -469,7 +482,8 @@ impl Space {
             let l = [c[0] - pos[k][0], c[1] - pos[k][1], c[2] - pos[k][2]];
             let t = if e.is_assembly() {0.} else {e.wall()};
             let back=if e.no_implicit_plate {t} else {e.mounting_z().max(t)};
-            if l[0] > t && l[0] < e.width - t && l[1] > t && l[1] < e.height - t && l[2] > back && l[2] < e.depth - t {
+            let pad=padding(e);
+            if l[0] > t-pad[0] && l[0] < e.width-t+pad[0] && l[1] > t-pad[1] && l[1] < e.height-t+pad[1] && l[2] > back-pad[2] && l[2] < e.depth-t+pad[2] {
                 s.block[idx] = 0;
             }
         }
@@ -504,7 +518,7 @@ impl Space {
         for it in &e.items {
             let bx = shift(panel::item_box(e, it), 0.0);
             match it.kind {
-                ItemKind::Device | ItemKind::Rail | ItemKind::Busbar | ItemKind::Accessory => {
+                kind if matches!(kind,ItemKind::Device | ItemKind::Rail | ItemKind::Busbar | ItemKind::Accessory) || kind==ItemKind::MountingPlate && e.is_assembly() && e.open_routing => {
                     let pieces: Vec<(u64, (V3, V3))> = match parts.get(&it.id) {
                         Some(subs) => subs.iter().enumerate().map(|(n, sub)| (super::part_id(it.id, n), panel::item_box(e, sub))).collect(),
                         None => vec![(it.id, panel::item_box(e, it))],
@@ -870,9 +884,19 @@ impl Space {
         let cells = (far / self.cell).ceil() as usize;
         for (i, (q, other)) in [(a, b), (b, a)].into_iter().enumerate() {
             let limit = self.lead_limit(q, req.leave[i], other, req.leave[1 - i]);
-            if let Some((way, ..)) = self.lead(q, req.leave[i], limit, req.out[i], far, req, cells) {
-                for idx in way {
-                    self.way_out[idx] = true;
+            let lead=self.lead(q,req.leave[i],limit,req.out[i],far,req,cells);
+            let complete=lead.as_ref().is_some_and(|(_,_,full)|*full);
+            if let Some((way,..))=lead {for idx in way {self.way_out[idx]=true;}}
+            if self.open_leads && !complete {
+                let Some((axis,sign))=Self::axis_of(req.leave[i]) else {continue;};
+                for distance in [self.cell,2.*self.cell] {
+                    let shifted=add(q,scale(req.leave[i],distance));
+                    if limit.is_some_and(|v|(shifted[axis]-v)*sign>0.) || !self.straight_lead_clear(q,shifted,req) {continue;}
+                    let mut extended=*req;extended.out[i]+=distance;
+                    if let Some((way,_,true))=self.lead(shifted,req.leave[i],limit,extended.out[i],far,&extended,cells) {
+                        for idx in self.cells_along(&[q,shifted]).into_iter().chain(way) {self.way_out[idx]=true;}
+                        break;
+                    }
                 }
             }
         }
@@ -1369,6 +1393,7 @@ impl Space {
     /// limit.
     fn lead_limit(&self, q: V3, leave: V3, other: V3, other_leave: V3) -> Option<f32> {
         let (axis, sign) = Space::axis_of(leave)?;
+        if self.open_leads && Space::axis_of(other_leave)==Some((axis,sign)) {return None;}
         if (other[axis] - q[axis]) * sign <= 0.0 {
             return None;
         }
@@ -1464,6 +1489,53 @@ impl Space {
     /// [`Space::route`] with the costs to the goal of a search of the same request before
     /// (where they still hold), and the costs it used.
     pub fn route_with(&self, a: V3, b: V3, req: &Request, rules: &RoutingRules, known: Option<&GoalCosts>) -> (Option<Way>, Option<GoalCosts>) {
+        if !self.open_leads || req.leave.iter().any(|&v|Self::axis_of(v).is_none()) {return self.route_grid(a,b,req,rules,known);}
+        // Leave dense hardware on the physical axis before rounding onto the grid.
+        for cells in [[2.,2.],[2.,1.],[1.,2.],[1.,1.]] {
+            let distance=cells.map(|n|self.cell*n);
+            let shifted=[add(a,scale(req.leave[0],distance[0])),add(b,scale(req.leave[1],distance[1]))];
+            let capped=[(a,b),(b,a)].iter().enumerate().any(|(i,&(q,other))| {
+                let (axis,sign)=Self::axis_of(req.leave[i]).expect("axis checked");
+                self.lead_limit(q,req.leave[i],other,req.leave[1-i]).is_some_and(|limit|(shifted[i][axis]-limit)*sign>0.)
+            });
+            if capped || ![(a,shifted[0]),(b,shifted[1])].iter().all(|&(from,to)|self.straight_lead_clear(from,to,req)) {continue;}
+            let mut request=*req;request.out=[req.out[0]+dist(a,shifted[0]),req.out[1]+dist(b,shifted[1])];
+            if let (Some(mut way),_)=self.route_grid(shifted[0],shifted[1],&request,rules,None) {
+                way.points.insert(0,a);way.points.push(b);way.points=simplify(way.points);
+                for (from,to) in [(a,shifted[0]),(shifted[1],b)] {
+                    let cells=self.cells_along(&[from,to]);
+                    let free=cells.iter().filter(|&&i|!self.channel(i,req)).count() as f32/cells.len().max(1) as f32;
+                    way.free+=dist(from,to)*free;way.cells.extend(cells);
+                }
+                // These costs would refer to the shifted goal, not the original request.
+                return (Some(way),None);
+            }
+        }
+        self.route_grid(a,b,req,rules,known)
+    }
+
+    /// A straight lead is checked against exact solids, including plates thinner than
+    /// a grid cell, and against route reservations along its whole length.
+    fn straight_lead_clear(&self,a:V3,b:V3,req:&Request)->bool {
+        let delta=sub(b,a);let zone=self.end_zone(req);
+        let near=req.at.iter().any(|q|dist(a,*q)<=zone && dist(b,*q)<=zone);
+        let clear=self.solids.iter().all(|solid| {
+            let Solid::Box {lo,hi,owner}=solid else {return false;};
+            if *owner!=0 && req.ignore.contains(owner) {return true;}
+            let need=if *owner!=0 && near {req.half-self.clearance} else {req.half};
+            let (mut first,mut last)=(0_f32,1_f32);
+            for i in 0..3 {
+                let (low,high)=(lo[i]-need,hi[i]+need);
+                if delta[i].abs()<1e-6 {if a[i]<low || a[i]>high {return true;}}
+                else {let (u,v)=((low-a[i])/delta[i],(high-a[i])/delta[i]);first=first.max(u.min(v));last=last.min(u.max(v));}
+            }
+            first>last
+        });
+        let steps=(dist(a,b)/(self.cell/2.)).ceil().max(1.) as usize;let mut last=None;
+        clear && (0..=steps).all(|k|self.point_room(add(a,scale(delta,k as f32/steps as f32)),&mut last,req))
+    }
+
+    fn route_grid(&self, a: V3, b: V3, req: &Request, rules: &RoutingRules, known: Option<&GoalCosts>) -> (Option<Way>, Option<GoalCosts>) {
         // Ends closer than a cell that face each other (the nozzles of two fittings in
         // line): straight from one to the other.
         let facing = Space::axis_of(req.leave[0]).zip(Space::axis_of(req.leave[1])).is_some_and(|(x, y)| x.0 == y.0 && x.1 == -y.1);
