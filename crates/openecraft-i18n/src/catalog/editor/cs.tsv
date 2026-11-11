@@ -49,12 +49,15 @@ A cable of the bus type for every connection without cable	Kabel typu sběrnice 
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Výřez stejné velikosti na stejném místě v boční stěně souseda: společně tvoří kabelovou průchodku
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Soubor se stejným názvem ve složce dostane novou verzi (rezervace a vrácení se změnami), jinak se soubor přidá
 A level on top of the highest one	Podlaží nad nejvyšším
+A local file opens locally, a server project is opened on the project server again	Místní soubor se otevře místně, projekt ze serveru se znovu otevře na serveru projektů
+A local file or a project on the project server	Místní soubor nebo projekt na serveru projektů
 A new project	Nový projekt
 A new release is downloaded in the background and installed when you close OpenECraft.	Nová verze se stáhne na pozadí a nainstaluje se po zavření OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Nová verze se stáhne na pozadí a nahradí tuto instalaci; použije se od příštího spuštění.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Číslovaný oddíl, který obsahuje stránky jako složka; názvy stránek začínají jeho číslem (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil mapuje neutrální pole na názvy sloupců konkrétního systému (např. MATNR pro číslo ERP v SAP). Bez mapování se rozpoznají běžné anglické a německé názvy.
 A project definition based on this one, with its own defaults and scheme	Definice projektu založená na této, s vlastními výchozími hodnotami a schématem
+A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Místo toho se otevře soubor projektu otevřený ze správce souborů. Neuložené změny z poslední relace se nikdy nezahodí bez dotazu.
 A reference point at the origin of the plant	Referenční bod v počátku zařízení
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Blok výkazů vytváří stránky výkazu, např. jedno schéma svorkovnice na každou svorkovnici, a aktualizuje je.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Stránka schématu 3.1, 3.2, … za aktuální stránkou, která při přečíslování zůstane podstránkou
@@ -230,6 +233,7 @@ Cable definition	Definice kabelu
 Cable definition on page {}	Definice kabelu na stránce {}
 Cable definition: draw a line across the wires that are cores of a cable	Definice kabelu: nakreslete čáru přes vodiče, které jsou žílami kabelu
 Cable end reserve	Rezerva na konec kabelu
+Cable ends	Konce kabelu
 Cable markers	Štítky kabelů
 Cable passage to {}	Kabelová průchodka do {}
 Cable {}: {} cores assigned	Kabel {}: přiřazeno žil: {}
@@ -278,7 +282,9 @@ Choices	Možnosti výběru
 Choices (separated by commas)	Možnosti výběru (oddělené čárkami)
 Choose	Vybrat
 Choose a baseline, a revision or a project file to compare the project with.	Vyberte základní verzi, revizi nebo soubor projektu, se kterým se projekt porovná.
+Choose a project on every start: local files and projects of the project server	Při každém spuštění vybrat projekt: místní soubory a projekty serveru projektů
 Choose a room first: floor-standing parts go on its floor.	Nejprve zvolte místnost: artikly stojící na podlaze patří na její podlahu.
+Choose another project	Vybrat jiný projekt
 Choose file…	Vybrat soubor…
 Choose pages	Vybrat stránky
 Chooses the pages whose structure starts with this	Vybere stránky, jejichž struktura tímto začíná
@@ -371,10 +377,12 @@ Connection points 1 and 2 are connected inside	Přípojné body 1 a 2 jsou vnit�
 Connection:	Spojení:
 Connections ({})	Spojení ({})
 Connections / harness	Spojení / svazek
+Connections of four or more wires always have a dot.	Spojení čtyř a více vodičů mají vždy tečku.
 Connections whose two ends are both on selected wires	Spojení, jejichž oba konce leží na vybraných vodičích
 Connections without a defined potential	Spojení bez definovaného potenciálu
 Connectors	Konektory
 Connects free connection points of the selected symbols with facing ones	Propojí volné přípojné body vybraných symbolů s protilehlými
+Connects to the project server and shows its projects, without the project of the last session	Připojí se k serveru projektů a zobrazí jeho projekty, bez projektu z poslední relace
 Consecutive addresses from the start byte, in schematic order	Po sobě jdoucí adresy od počátečního bajtu, v pořadí ve schématu
 Contact image below coils	Zrcadlo kontaktů pod cívkami
 Content	Obsah
@@ -431,6 +439,7 @@ Dashed	Čárkovaná
 Decimals	Desetinná místa
 Default	Výchozí
 Default (part data or definition)	Výchozí (data artiklu nebo definice)
+Default ({})	Výchozí ({})
 Default label	Výchozí popisek
 Default medium	Výchozí médium
 Default rules	Výchozí pravidla
@@ -655,7 +664,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Spojovací materiál v kusovníku
 Favorite	Oblíbené
 Favorites (JSON)	Oblíbené (JSON)
-Ferrule {} ({})	Dutinka {} ({})
 Field	Pole
 Field (name, description, company, creator, date, revision) or project property	Pole (name, description, company, creator, date, revision) nebo vlastnost projektu
 Field cables	Polní kabely
@@ -742,6 +750,7 @@ Generic	Obecné
 German zones (DIN 18015-3)	Německé zóny (DIN 18015-3)
 Getting started	Začínáme
 Global variable list with direct addresses for CODESYS, TwinCAT and others	Seznam globálních proměnných s přímými adresami pro CODESYS, TwinCAT a další
+Go on working locally; Save saves to a local file	Pokračovat místně; Uložit ukládá do místního souboru
 Go to page	Přejít na stránku
 Graphic line	Grafická čára
 Graphic rectangle	Grafický obdélník
@@ -791,6 +800,8 @@ Hose number	Číslo hadice
 Hoses and pipes	Hadice a potrubí
 Hoses rated below it are errors; 0 = not checked	Hadice dimenzované na nižší tlak jsou chyby; 0 = nekontroluje se
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Jak se otevírá křídlo: závěsy na levé nebo pravé hraně (při pohledu z místnosti), dovnitř nebo ven z místnosti, nebo posuvně podél stěny
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Jak je vodič na tomto konci zakončen; výchozí je volba pro připojovací bod nebo jeho zařízení, jinak podle nastavení dutinek v rozvržení
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Jak vodiče přeskakují křížené vodiče, jak se značí spojení T a zda přesunuté prvky vedou svá spojení znovu
 IP / bus address	Adresa IP / sběrnice
 ISO 639-1 language code	Kód jazyka podle ISO 639-1
 Identifiers	Identifikátory
@@ -865,6 +876,7 @@ Insulation	Izolace
 Interruption points refer to	Body přerušení odkazují na
 Introduction	Úvod
 Invalid value	Neplatná hodnota
+Invert the direction of panning by scrolling	Obrátit směr posouvání pohledu
 Inverter or charge controller (devices with PV input data)	Střídač nebo regulátor nabíjení (zařízení s daty FV vstupu)
 Isometric	Izometrický
 Items on the layer	Objekty ve vrstvě
@@ -876,6 +888,7 @@ Join collinear wires	Sloučit souosé vodiče
 Joins	Spojuje
 Joins wire pieces in a line where nothing else connects (current page)	Sloučí úseky vodičů v přímce, kde se nic jiného nepřipojuje (aktuální stránka)
 Jumper {}	Propojka {}
+Jumps over the other:	Přeskakuje druhý:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Ponechat podstránky (3.a, 3.1) u předchozí stránky
 Keep the degree of protection	Zachovat stupeň krytí
@@ -889,6 +902,7 @@ Label (grey)	Popisek (šedý)
 Label field	Pole popisku
 Labeling scheme	Schéma popisování
 Landscape	Na šířku
+Large dot	Velká tečka
 Larger texts and buttons for a touch screen at the workbench	Větší texty a tlačítka pro dotykovou obrazovku u pracovního stolu
 Latitude, longitude	Zeměpisná šířka, délka
 Layer	Vrstva
@@ -938,6 +952,9 @@ Load template…	Načíst šablonu…
 Loading changes…	Načítání změn…
 Loading the project access…	Načítání přístupu k projektu…
 Loads	Spotřebiče
+Local file	Místní soubor
+Local file: {}	Místní soubor: {}
+Local recovery copy of server project: {}	Místní obnovovací kopie projektu ze serveru: {}
 Lock all	Uzamknout vše
 Lock all pages	Uzamknout všechny stránky
 Lock current page	Uzamknout aktuální stránku
@@ -1003,6 +1020,7 @@ Min. bend radius	Min. poloměr ohybu
 Minimize the ribbon	Minimalizovat pás karet
 Mirror	Zrcadlit
 Mirror (selection or symbol being placed)	Zrcadlit (výběr nebo umísťovaný symbol)
+Mixed	Smíšené
 Mode	Režim
 Model of a part (2D / 3D)	Model artiklu (2D / 3D)
 Module part; its size comes from the part	Díl modulu; jeho velikost pochází z dílu
@@ -1026,6 +1044,7 @@ Move to section	Přesunout do oddílu
 Move up	Posunout nahoru
 Moves to the top level as page {}	Přejde na nejvyšší úroveň jako stránka {}
 Moves to {} as page {}	Přejde do {} jako stránka {}
+Moving	Přesouvání
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Vícepólové silové symboly a vodiče pro jednopólové symboly aktuální stránky na nové stránce
 Multiple copy	Vícenásobná kopie
 Multiple copy…	Vícenásobná kopie…
@@ -1042,6 +1061,7 @@ Name and cross reference	Název a křížový odkaz
 Name on the server	Název na serveru
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Název; datový typ; logická adresa; komentář – pro programovací nástroje PLC
 Named copy of this form, for report blocks	Pojmenovaná kopie tohoto formuláře pro bloky výkazů
+Navigation	Navigace
 Navigators	Navigátory
 Neutral exchange file…	Neutrální výměnný soubor…
 Never	Nikdy
@@ -1070,6 +1090,7 @@ New potential	Nový potenciál
 New project	Nový projekt
 New project from template	Nový projekt ze šablony
 New project scheme from the selected one	Nové projektové schéma z vybraného
+New project, not saved yet	Nový projekt, zatím neuložený
 New report page	Nová stránka výkazu
 New request	Nový požadavek
 New revision	Nová revize
@@ -1108,11 +1129,13 @@ No device has its main function in the box.	Žádný přístroj nemá hlavní fu
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Zatím žádný přístroj nemá montážní data: přiřaďte přístrojům artikly s rozměry (Vlastnosti › Artikly).
 No differences to {}.	Žádné rozdíly oproti {}.
 No document embedded	Není vložen žádný dokument
+No dot: plain T	Bez tečky: prosté T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Zatím žádná skříň – vytvořte ji pomocí Nová skříň, nebo místnost pro rozváděče pomocí Nová místnost.
 No field cables: place the enclosures and field devices at nodes of the route network.	Žádné polní kabely: umístěte skříně a polní přístroje do uzlů sítě tras.
 No filter fans: an air/air heat exchanger or a cooling unit	Bez filtračních ventilátorů: výměník tepla vzduch/vzduch nebo chladicí jednotka
 No harnesses defined.	Nejsou definovány žádné kabelové svazky.
 No inverter	Žádný střídač
+No jump: plain crossing, connections have dots	Bez přeskoku: prosté křížení, spojení mají tečky
 No longer reported	Již se nehlásí
 No macros yet. Select items in a schematic and save them as a macro.	Zatím žádná makra. Vyberte prvky ve schématu a uložte je jako makro.
 No modules: plug in PLC cards of the schematic.	Žádné moduly: zasuňte karty PLC ze schématu.
@@ -1152,6 +1175,7 @@ Not found: {}	Nenalezeno: {}
 Not in the project parts – synchronize in parts management	Není mezi artikly projektu – synchronizujte ve správě artiklů
 Not on a wire	Neleží na vodiči
 Not saved, locked or changed by another user: {}	Neuloženo, uzamčeno nebo změněno jiným uživatelem: {}
+Not the shared project: changes are saved locally until it is opened on the project server again	Nejde o sdílený projekt: změny se ukládají místně, dokud nebude znovu otevřen na serveru projektů
 Nothing exchanged yet.	Zatím nebylo nic vyměněno.
 Nothing left in this list.	V tomto seznamu nic nezbývá.
 Nothing to show	Nic k zobrazení
@@ -1168,6 +1192,7 @@ Of the outer diameter, as laid fixed	Vnějšího průměru, pevně uloženo
 Of the outer diameter; pipes are bent with elbows of one and a half diameters	Vnějšího průměru; trubky se ohýbají oblouky o jeden a půl průměru
 Off	Vypnuto
 Offset from one row to the next: downwards for lists, sideways for rows side by side	Posun z jednoho řádku na další: dolů pro seznamy, do strany pro řádky vedle sebe
+On startup	Při spuštění
 One row per label	Jeden řádek na štítek
 Only devices on the current page	Pouze přístroje na aktuální stránce
 Only frames no page uses can be deleted	Odstranit lze jen rámečky, které nepoužívá žádná stránka
@@ -1175,6 +1200,7 @@ Only messages of the current page	Pouze hlášení aktuální stránky
 Only parts whose function template provides the device's main function	Jen artikly, jejichž šablona funkce poskytuje hlavní funkci přístroje
 Only rows that pass all filters are shown	Zobrazí se jen řádky, které splňují všechny filtry
 Only web and e-mail addresses (http, https, mailto) are links	Odkazy jsou pouze webové a e-mailové adresy (http, https, mailto)
+Open a specific project	Otevřít určitý projekt
 Open and save shared projects, lock pages	Otevírat a ukládat sdílené projekty, zamykat stránky
 Open archive…	Otevřít archiv…
 Open as project	Otevřít jako projekt
@@ -1183,7 +1209,9 @@ Open demo project	Otevřít ukázkový projekt
 Open door	Otevřít dveře
 Open in a new page tab	Otevřít v nové kartě stránky
 Open link	Otevřít odkaz
+Open local recovery copy	Otevřít místní obnovovací kopii
 Open project	Otevřít projekt
+Open project server	Otevřít server projektů
 Open projects and files from Autodesk Vault, put the project, exports and 3D models into the vault	Otevírat projekty a soubory z Autodesk Vault, ukládat projekt, exporty a 3D modely do trezoru Vault
 Open the project	Otevřít projekt
 Open to {}: wires cross beside the mounting plates	Otevřeno do {}: vodiče přecházejí vedle montážních desek
@@ -1360,6 +1388,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Ztrátový vý
 Pre-planning (CSV, Excel)	Předběžné plánování (CSV, Excel)
 Prefix	Předpona
 Press a key…	Stiskněte klávesu…
+Preview	Náhled
 Previous item	Předchozí prvek
 Previous page	Předchozí stránka
 Previous page tab	Předchozí karta stránky
@@ -1385,14 +1414,19 @@ Project default; pages can choose their own in the page properties	Výchozí nas
 Project file	Projektový soubor
 Project file…	Soubor projektu…
 Project information	Informace o projektu
+Project on the project server	Projekt na serveru projektů
 Project parts are the copies stored in this project; they are used for the bill of materials and the project check.	Artikly projektu jsou kopie uložené v tomto projektu; používají se pro kusovník a kontrolu projektu.
 Project properties changed in {} projects	Vlastnosti projektu změněny v {} projektech
 Project properties…	Vlastnosti projektu…
 Project server	Projektový server
 Project server: {}	Projektový server: {}
+Project server: {} / Project: {}	Server projektů: {} / Projekt: {}
+Project server: {} / Project: {} – connection lost	Server projektů: {} / Projekt: {} – spojení ztraceno
 Project texts (function texts, page descriptions, free texts, descriptions) are written in the source language; the dictionary translates them line by line. Reports and title blocks follow the output language.	Texty projektu (texty funkcí, popisy stránek, volné texty, popisy) se píší ve zdrojovém jazyce; slovník je překládá řádek po řádku. Výkazy a rohová razítka se řídí výstupním jazykem.
 Project: {}	Projekt: {}
 Projects from a first circuit to a whole plant, each showing more of the features	Projekty od prvního obvodu po celé zařízení, každý ukazuje více funkcí
+Projects on the project server {}	Projekty na serveru projektů {}
+Projects on the server	Projekty na serveru
 Properties…	Vlastnosti…
 Property database	Databáze vlastností
 Property definitions	Definice vlastností
@@ -1480,6 +1514,7 @@ Renumber 1 … n	Přečíslovat 1 … n
 Renumber contact	Přečíslovat kontakt
 Renumber pages	Přečíslovat stránky
 Renumber pages…	Přečíslovat stránky…
+Reopen last project	Znovu otevřít poslední projekt
 Repair {} findings	Opravit nálezy ({})
 Replace	Nahradit
 Replace all	Nahradit vše
@@ -1514,6 +1549,7 @@ Reset to standard	Obnovit standardní nastavení
 Restart and update	Restartovat a aktualizovat
 Resulting: {} · {} · {} · {} m	Výsledek: {} · {} · {} · {} m
 Results of the project check	Výsledky kontroly projektu
+Retry connection	Zkusit připojení znovu
 Review	Komentáře
 Review ({})	Komentáře ({})
 Revision marks	Značky revizí
@@ -1549,6 +1585,7 @@ Round	Kruhový
 Round cutouts facing each other in both side walls	Kruhové výřezy proti sobě v obou bočních stěnách
 Route definition of {}	Definice trasy kabelu {}
 Route network	Síť tras
+Route the connections of moved items anew	Vést spojení přesunutých prvků znovu
 Route wires in 3D	Vést vodiče ve 3D
 Routed in {}: {} m, {} bends	Vedeno v {}: {} m, ohyby: {}
 Routing around symbols	Vedení kolem symbolů
@@ -1584,18 +1621,25 @@ Save as project template…	Uložit jako šablonu projektu…
 Save as scheme	Uložit jako schéma
 Save as template	Uložit jako šablonu
 Save as template…	Uložit jako šablonu…
+Save asks for a file	Uložit se zeptá na soubor
 Save as…	Uložit jako…
 Save current page as template…	Uložit aktuální stránku jako šablonu…
 Save current…	Uložit aktuální…
 Save file…	Uložit soubor…
+Save locally	Uložit místně
+Save locally to {}	Uložit místně do {}
+Save locally; {} on the project server stays unchanged	Uložit místně; {} na serveru projektů zůstane beze změny
 Save page as macro…	Uložit stránku jako makro…
 Save page as template	Uložit stránku jako šablonu
 Save page as template…	Uložit stránku jako šablonu…
 Save selection as macro…	Uložit výběr jako makro…
 Save the box content as the macro in the library	Uložit obsah rámečku jako makro do knihovny
 Save to project server	Uložit na server projektů
+Save to project server: {}	Uložit na server projektů: {}
+Save to project server: {} – the connection is lost, saving tries again	Uložit na server projektů: {} – spojení je ztraceno, ukládání to zkusí znovu
 Save workspace	Uložit pracovní prostor
 Save workspace…	Uložit pracovní prostor…
+Saved to	Uloženo do
 Saved to the project server (revision {})	Uloženo na projektový server (revize {})
 Saved workspaces	Uložené pracovní prostory
 Saves the placed properties as a placement scheme of the project	Uloží umístěné vlastnosti jako schéma umístění projektu
@@ -1610,6 +1654,9 @@ Scheme name	Název schématu
 Scheme placed again at {} symbols	Schéma znovu umístěno u {} symbolů
 Scheme {}	Schéma {}
 Screws, nuts, washers and rivet nuts of the fixing points	Šrouby, matice, podložky a nýtovací matice upevňovacích bodů
+Scrolling	Posouvání
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Posouvání posouvá pohled všemi směry; přiblížení sevřením prstů nebo Ctrl + posouvání.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Posouvání nahoru a dolů přibližuje u ukazatele, do stran (vodorovné kolečko, Shift + kolečko) posouvá pohled.
 Search (* and ? as placeholders)…	Hledat (* a ? jako zástupné znaky)…
 Search below this folder	Hledat pod touto složkou
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Prohledávat server artiklů podle katalogu, skupiny produktů a technických údajů, přidávat artikly a kontrolovat aktualizace databáze
@@ -1649,6 +1696,7 @@ Selectivity and back-up protection of device pairs as tested by the manufacturer
 Semicolon	Středník
 Separator	Odlučovač
 Server URL	Adresa URL serveru
+Server address and sign-in	Adresa serveru a přihlášení
 Server type	Typ serveru
 Servers	Servery
 Service space in front	Servisní prostor vpředu
@@ -1688,6 +1736,7 @@ Show in schematic	Zobrazit ve schématu
 Show in the schematic	Zobrazit ve schématu
 Show on the pages	Zobrazit na stránkách
 Show or hide panes; drag a tab to dock it elsewhere	Zobrazit nebo skrýt panely; přetažením karty ji ukotvíte jinde
+Show project manager	Zobrazit správce projektů
 Show the enclosures bayed to this one as well	Zobrazit i skříně připojené do řady k této
 Show the messages accepted as checked	Zobrazit hlášení přijatá jako zkontrolovaná
 Show the other wires	Zobrazit ostatní vodiče
@@ -1700,6 +1749,8 @@ Shown in title blocks with {prop:Name}	Zobrazuje se v rohových razítkách pomo
 Shown instead of the measured value	Zobrazí se místo naměřené hodnoty
 Shows	Zobrazuje
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Boční stěny, zadní stěna, střecha a dno při pohledu zvenku: ventilátory, kabelové vývodky, výřezy
+Sign in in the Project server pane; the project opens afterwards	Přihlaste se v podokně Server projektů; poté se projekt otevře
+Sign in…	Přihlásit se…
 Signed in to {} as {}	Přihlášeno k {} jako {}
 Signed out of Vault	Odhlášeno z Vault
 Single-line	Jednopólové
@@ -1788,6 +1839,7 @@ Synchronize	Synchronizovat
 Synchronize function texts	Synchronizovat texty funkcí
 Synchronize project parts from database	Synchronizovat artikly projektu z databáze
 T Text	T Text
+T-connections	Spojení T
 Tab	Tabulátor
 Table import failed: {}	Import tabulky se nezdařil: {}
 Tablet mode	Režim tabletu
@@ -1808,6 +1860,7 @@ Taken into the drawing: drawn faded	Převzato do výkresu: zobrazeno vybledle
 Takes the comments as function texts (matched by address)	Převezme komentáře jako texty funkcí (přiřazené podle adresy)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Převezme označení přípojných bodů všech funkcí tohoto přístroje ze šablon funkcí jeho artiklů
 Takes the rights of the role away, whatever other grants give	Odebere práva role bez ohledu na to, co dávají jiná přidělení
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Zvolí cestu s nejmenší váhou: její délka v krocích mřížky, 1,2 za ohyb a 1,5 za křížený vodič. Vypnuto: vodiče se natáhnou a ponechají si rohy.
 Target languages	Cílové jazyky
 Temperature rise at the roof against the middle (IEC/TR 60890)	Nárůst teploty u stropu oproti středu (IEC/TR 60890)
 Template	Šablona
@@ -1837,10 +1890,12 @@ The dictionary is empty: collect the texts from the project.	Slovník je prázdn
 The door seen from the front: door devices and cutouts	Dveře zepředu: přístroje ve dveřích a výřezy
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Dveře zevnitř (závěsy vpravo): kabelové kanály a zapojení za dveřmi
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Skříň stojí levou stranou u pravé strany zvolené skříně; vodiče mezi nimi vedou kabelovými průchodkami
+The horizontal wire	Vodorovný vodič
 The items are selected and moved together	Prvky se vybírají a přesouvají společně
 The macro library has no page macros (Macros › Save page as macro…).	Knihovna maker neobsahuje žádná makra stránek (Makra › Uložit stránku jako makro…).
 The modules no string takes yet in series, on the first inverter	Moduly, které ještě žádný string nebere, v sérii, na prvním střídači
 The names of its pages follow	Názvy jeho stránek se změní s ním
+The open project is a local recovery copy. Its changes are not saved on the project server; before the shared project opens, you decide whether to save them locally or discard them.	Otevřený projekt je místní obnovovací kopie. Jeho změny nejsou uloženy na serveru projektů; než se sdílený projekt otevře, rozhodnete, zda je uložit místně, nebo zahodit.
 The page name gets the section number	Název stránky dostane číslo oddílu
 The page type, plot frame, title block, structure, description and the whole content are saved.	Uloží se typ stránky, rámeček výkresu, rohové razítko, struktura, popis a celý obsah.
 The pages it generated stay	Stránky, které vytvořil, zůstanou
@@ -1849,6 +1904,8 @@ The point's coordinates in the coordinate reference system	Souřadnice bodu v so
 The project changed since the search.	Projekt se od hledání změnil.
 The project check	Kontrola projektu
 The project database needs the desktop version: the browser cannot search folders.	Databáze projektů vyžaduje desktopovou verzi: prohlížeč nemůže prohledávat složky.
+The project server does not answer: changes are not saved on it until the connection is back	Server projektů neodpovídá: změny se na něj neukládají, dokud se spojení neobnoví
+The project server {} could not open {}.	Server projektů {} nemohl otevřít {}.
 The project's own page templates as a file	Vlastní šablony stránek projektu jako soubor
 The project's own title blocks	Vlastní rohová razítka projektu
 The project's own title blocks and report schemes	Vlastní rohová razítka a schémata výkazů projektu
@@ -1863,6 +1920,7 @@ The side of {} is open	Strana {} je otevřená
 The symbol is placed in the project	Symbol je v projektu použit
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Artikly svorek neuvádějí žádné koncové příchytky ani koncové kryty (technické údaje End bracket, End plate).
 The update failed	Aktualizace se nezdařila
+The vertical wire	Svislý vodič
 The web version is updated on its server.	Webová verze se aktualizuje na svém serveru.
 The wire tool routes around symbols and other wires	Nástroj pro vodiče vede vodiče kolem symbolů a jiných vodičů
 The wires get the free cores of the cable in order (left to right)	Vodiče dostanou postupně (zleva doprava) volné žíly kabelu
@@ -1889,10 +1947,14 @@ Top edges	Horní hrany
 Top left	Vlevo nahoře
 Top right	Vpravo nahoře
 Total selectivity	Úplná selektivita
+Touch screen	Dotyková obrazovka
 Transfer project parts to database	Převzít artikly projektu do databáze
 Translate the project texts; documentation per language	Překlad textů projektu; dokumentace pro každý jazyk
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Otočení kolem svislé osy, proti směru hodinových ručiček při pohledu shora (90 °: čela směřují doprava)
 Tutorial	Výukový kurz
+Twin ferrules where two wires share a connection point	Dvojité dutinky tam, kde dva vodiče sdílejí přípojný bod
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dva prsty na touchpadu posouvají pohled, kolečko myši přibližuje. Rozlišit je umí jen macOS; jinde posouvání přibližuje jako kolečko.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Dva prsty současně posouvají pohled a sevřením přibližují; jeden prst funguje jako levé tlačítko myši.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Zde se musí stýkat dva vodiče v pravém úhlu. Při zapnutém automatickém spojování se k němu připojí připojovací body naproti jeho ramenům.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Zadejte bod a stiskněte Enter: x y v mm nebo @dx dy relativně k poslednímu bodu; působí jako kliknutí aktuálním nástrojem
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1977,6 +2039,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Kolečko: zoom · pravé tlačítko: zrušit · grafika se přichytává na 0,5 mm, přípojné body na rastr 4 mm
 When it differs from the page	Pokud se liší od stránky
 Where	Poloha
+Where neither wire has a termination chosen for it	Tam, kde ani jeden vodič nemá zvolené zakončení
 Where the point is in the plant; y: its height above the ground level of the plant	Kde bod leží v zařízení; y: jeho výška nad úrovní terénu zařízení
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Odkud pochází struktura přístroje: aspekty shodné se strukturou kolem symbolu jsou zděděné a mění se, když se přesune do rámečku struktury nebo z něj; ostatní aspekty patří přístroji a zůstávají.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Kde vodič začíná a končí: přípojný bod z dat artiklu, bod vygenerovaný ze šablony funkce, nebo střed přístroje, pokud žádný přípojný bod neodpovídá
@@ -1992,6 +2055,8 @@ Window macro: {}	Makro okna: {}
 Window macros inserted from now on are recorded as macro boxes.	Okenní makra vložená od této chvíle se zaznamenávají jako rámečky maker.
 Window macros placed on the pages (not printed)	Okenní makra umístěná na stránkách (netisknou se)
 Wire colour	Barva vodiče
+Wire crossings	Křížení vodičů
+Wire crossings…	Křížení vodičů…
 Wire ends	Konce vodičů
 Wire ends with ferrules	Konce vodičů s dutinkami
 Wire markers	Štítky vodičů
@@ -2005,6 +2070,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Vodič {} – {}  ({} 
 Wire {} – {}  {} mm	Vodič {} – {}  {} mm
 Wires and potentials	Vodiče a potenciály
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Vodiče mezi přípoji symbolů tekutinových mechanismů a P&ID jsou hadice / potrubí: vlastní sítě, číslované číslováním vodičů, uvedené v seznamu hadic.
+Wires crossing without connection	Vodiče křížící se bez spojení
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Odtud musí vycházet vodiče ve všech čtyřech směrech. Do té doby je spojení řetězeno v pořadí ve schématu.
 Wires of the connection	Vodiče spojení
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Vodiče také použijí 3D trasy respektující překážky, místo pouze kabelových kanálů na desce
@@ -2244,6 +2310,7 @@ x y	x y
 {} pages get a new name	Nový název dostane {} stránek
 {} pages removed, {} pages generated	Odebráno stránek: {}, vytvořeno stránek: {}
 {} pages renamed	Přejmenováno {} stránek
+{} pages, users: {}	Stránky: {}, uživatelé: {}
 {} pages; their names start with {}	Stránek: {}; jejich názvy začínají {}
 {} parts added to the database	Do databáze přidáno artiklů: {}
 {} parts of the database updated – synchronize the project parts in parts management	Aktualizováno {} artiklů databáze – synchronizujte artikly projektu ve správě artiklů
@@ -2288,10 +2355,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pixelů, {}
 {} – {} ({} pages)	{} – {} (stránky: {})
 {}: click to show its floor plan	{}: kliknutím zobrazíte půdorys
+{}: crimp together with the wire to {}	{}: krimpovat společně s vodičem do {}
 {}: drag to move it, R turns it, a double-click opens it	{}: přetažením přesunete, R otočí, dvojklik otevře
 {}: drag to move it, a double-click shows the floor	{}: přetažením přesunete, dvojklik zobrazí podlahu
 {}: nothing to change	{}: není co měnit
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: odizolovat {} mm, {}
 {}: {} addresses changed	{}: změněno adres: {}
 {}: {} changes in the open project (not saved yet)	{}: {} změn v otevřeném projektu (zatím neuloženo)
 {}: {} changes saved	{}: uloženo {} změn

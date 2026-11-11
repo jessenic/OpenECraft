@@ -6,7 +6,8 @@ fn release_and_changes_after_the_hand_off() {
     let mut prj = demo_project();
     let list = programs(&prj, 0).unwrap();
     let faces: Vec<Option<Face>> = list.iter().map(|p| p.face).collect();
-    assert_eq!(faces, vec![Some(Face::Plate), Some(Face::Door)]);
+    // The bottom with the hole of the motor cable's gland.
+    assert_eq!(faces, vec![Some(Face::Plate), Some(Face::Door), Some(Face::Bottom)]);
     assert_eq!(list[0].name, "CAB1_plate.nc");
     let (job, files) = release(&mut prj, 0, "2026-10-24").unwrap();
     assert_eq!(job.id, "CAB1-1");
@@ -29,8 +30,8 @@ fn packages_and_bars() {
     let list = programs(&prj, 0).unwrap();
     assert_eq!(list.last().unwrap().name, "CAB1_bars.csv");
     let v = package(&prj, None, &list);
-    assert_eq!(v["programs"].as_array().unwrap().len(), 3);
-    assert_eq!(v["programs"][2]["face"], "bars");
+    assert_eq!(v["programs"].as_array().unwrap().len(), 4);
+    assert_eq!(v["programs"][3]["face"], "bars");
     assert!(v["programs"][0]["content"].as_str().unwrap().contains("G81"));
     assert_eq!(package_all(&prj).unwrap()["programs"], v["programs"]);
     prj.layout.manufacturing.sheet_machine = "nope".into();

@@ -77,6 +77,7 @@ impl Paths {
             }
         }
         let mut attachments:HashMap<usize,Vec<Attachment>>=HashMap::new();
+        let shown=super::shown_keys(prj,open.nets.iter().flat_map(|n|n.view_pins.iter()));
         for (page,pg) in prj.pages.iter().enumerate() {
             for s in &pg.symbols {
                 let Some(def)=symbols.get(&s.sym) else {continue;};
@@ -90,7 +91,7 @@ impl Paths {
                     let bridges=if !def.directed_junction && !def.func.has_tag() {
                         def.bridges.iter().filter(|(a,_)|*a==pin).map(|(_,b)|*b).collect()
                     } else {Vec::new()};
-                    attachments.entry(id).or_default().push(Attachment {page,point:def.pin_world(pin,s.pos,s.rot,s.mirror),symbol:s.id,pin,mask:def.pin_connection_directions(pin,s.rot,s.mirror),side_contact:def.pins[pin].internal || !def.func.has_tag(),name:name.clone(),bridges});
+                    attachments.entry(id).or_default().push(Attachment {page,point:def.pin_world(pin,s.pos,s.rot,s.mirror),symbol:s.id,pin,mask:def.pin_connection_directions(pin,s.rot,s.mirror),side_contact:def.pins[pin].internal || !def.func.has_tag(),name:name.clone().or_else(||super::shown_name(&shown,s,pin)),bridges});
                 }
             }
         }

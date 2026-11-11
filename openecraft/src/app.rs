@@ -51,6 +51,7 @@ mod start_page;
 mod status_bar;
 mod windows;
 mod xref_ui;
+mod wires_ui;
 mod compare_ui;
 mod engineering;
 mod field_ui;
@@ -93,6 +94,8 @@ use crate::dock::{LeftTab, Pane, ToolPane};
 /// Storage keys of the shell.
 const RECENT_KEY: &str = "recent_projects";
 const UI_KEY: &str = "shell";
+/// The server project of the last session (open or as a local copy).
+const SERVER_PROJECT_KEY: &str = "project_server_project";
 
 /// What the shell remembers besides the panes: ribbon state, scale, first start.
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
@@ -123,6 +126,10 @@ struct ShellState {
     gpu_3d: bool,
     /// Look for a new release when the editor starts (and install it).
     update_check: bool,
+    /// What the wheel, trackpads and touch screens do in the views.
+    nav: openecraft_ui::nav::Settings,
+    /// What the editor opens when it starts.
+    startup: crate::startup::Startup,
 }
 
 impl Default for ShellState {
@@ -142,6 +149,8 @@ impl Default for ShellState {
             frame_stats: false,
             gpu_3d: true,
             update_check: true,
+            nav: openecraft_ui::nav::Settings::default(),
+            startup: crate::startup::Startup::default(),
         }
     }
 }
@@ -167,6 +176,10 @@ enum Deferred {
     Cmd(Cmd),
     /// A device shown in the panel layout (`true`: in the 3D view).
     Focus(String, bool),
+    /// A page shown (and an item on it selected).
+    Goto(usize, u64),
+    Show(Pane),
+    Workspace(Workspace),
 }
 
 /// An action that replaces the project or ends the app: with unsaved changes it waits
@@ -308,6 +321,11 @@ pub struct App {
     shown_lang: openecraft_i18n::Lang,
     /// Project server: shared projects and locks.
     remote: crate::remote::Remote,
+    /// The open project is a local copy of this server project (restored from the last
+    /// session or closed on the server), not the shared project itself.
+    recovery: Option<crate::startup::ServerProject>,
+    /// A server project being opened at the start.
+    reconnect: Option<crate::startup::Reconnect>,
     /// Autodesk Vault: browsing, imports and check-ins.
     vault: crate::vault::Vault,
     vault_ui: vault_ui::VaultUi,
@@ -394,6 +412,7 @@ impl App {
         let mut insert_center = crate::insert_center::InsertCenter::default();
         let mut plugin_cmds = crate::plugin_commands::PluginCommands::default();
         let mut stored = false;
+        let mut recovery = None;
         if let Some(storage) = cc.storage {
             stored = storage.get_string("file_name").is_some();
             language = eframe::get_value(storage, openecraft_ui::language::STORAGE_KEY);
@@ -428,6 +447,8 @@ impl App {
             if let Some(user) = eframe::get_value::<String>(storage, "project_server_user").filter(|u| !u.is_empty()) {
                 remote.user = user;
             }
+            // The restored project is only a copy of the server project of the last session.
+            recovery = eframe::get_value::<Option<crate::startup::ServerProject>>(storage, SERVER_PROJECT_KEY).flatten().filter(|_| file_name.is_none());
             if let Some(url) = eframe::get_value(storage, "vault_url") {
                 vault.url = url;
             }
@@ -550,6 +571,8 @@ impl App {
             title: String::new(),
             shown_lang: openecraft_i18n::lang(),
             remote,
+            recovery,
+            reconnect: None,
             vault,
             vault_ui: Default::default(),
             review_ui: Default::default(),
@@ -583,6 +606,7 @@ impl App {
             dark: cc.egui_ctx.theme() == egui::Theme::Dark,
         };
         crate::style::apply(&cc.egui_ctx);
+        app.remote.attach(&cc.egui_ctx);
         if unsaved {
             app.session.mark_unsaved();
         }
@@ -604,19 +628,74 @@ impl App {
     }
 
     /// Opens the wiring assistant instead of the schematic and a project file, e.g. one
-    /// double-clicked in the file manager (desktop).
+    /// double-clicked in the file manager (desktop); without a file what Settings › On
+    /// startup says.
     pub fn start(mut self, wiring: bool, file: Option<String>) -> Self {
         if wiring {
             self.set_workspace(Workspace::Wiring);
             self.shell.tablet_once = true;
         }
-        if let Some(path) = file {
-            // The project restored from the last session may have unsaved changes.
-            if let Some(Replace::Path(path)) = self.discard.request(self.session.dirty(), Replace::Path(path)) {
-                self.io.open_path(&path, Purpose::Project);
-            }
+        match file {
+            Some(path) => self.open_at_start(crate::startup::Target::File(path)),
+            None => self.apply_startup(),
         }
         self
+    }
+
+    fn apply_startup(&mut self) {
+        use crate::startup::Action;
+        match crate::startup::plan(&self.shell.startup, self.session.file_name.as_deref(), self.recovery.as_ref()) {
+            Action::Keep => {}
+            Action::ShowStart => {
+                self.show_pane(Pane::Tool(ToolPane::Start));
+                self.remote.list();
+            }
+            Action::ShowServer => {
+                // Unsaved work of the last session stays; otherwise no project of it is open.
+                if !self.session.dirty() {
+                    self.replace_project(Project::new_default(), None);
+                }
+                self.show_pane(Pane::Tool(ToolPane::ProjectServer));
+                self.remote.list();
+            }
+            Action::Open(target) => self.open_at_start(target),
+        }
+    }
+
+    /// Opens a project at the start; the project restored from the last session may
+    /// have unsaved changes, the discard dialog asks first.
+    fn open_at_start(&mut self, target: crate::startup::Target) {
+        match target {
+            crate::startup::Target::File(path) => {
+                if let Some(Replace::Path(path)) = self.discard.request(self.session.dirty(), Replace::Path(path)) {
+                    self.io.open_path(&path, Purpose::Project);
+                }
+            }
+            crate::startup::Target::Server(project) => {
+                if !project.url.trim().is_empty() {
+                    self.remote.url = project.url.clone();
+                }
+                let name = project.name.clone();
+                self.reconnect = Some(crate::startup::Reconnect { project, state: crate::startup::ReconnectState::Connecting });
+                if let Some(Replace::Shared(name)) = self.discard.request(self.session.dirty(), Replace::Shared(name)) {
+                    self.remote.open(&name);
+                }
+            }
+        }
+    }
+
+    /// Where the open project comes from and where Save puts it.
+    fn origin(&self) -> crate::startup::Origin<'_> {
+        use crate::startup::Origin;
+        if let Some(sh) = &self.remote.shared {
+            Origin::Server { url: &self.remote.url, name: &sh.name, connected: !self.remote.lost }
+        } else if let Some(f) = &self.session.file_name {
+            Origin::File(f)
+        } else if let Some(p) = &self.recovery {
+            Origin::Recovery(p)
+        } else {
+            Origin::New
+        }
     }
 
     /// The reports of the registry (built-in and of plugins): id and title.
@@ -691,6 +770,7 @@ impl App {
 
     fn replace_project(&mut self, prj: Project, file_name: Option<String>) {
         self.remote.close();
+        self.recovery = None;
         // Another project must not be checked in as a version of the vault's file.
         self.vault.origin = None;
         if let Some(path) = &file_name {
@@ -715,6 +795,11 @@ impl App {
 
     fn goto(&mut self, page: usize, id: u64) {
         if page >= self.session.prj.pages.len() {
+            return;
+        }
+        // While the panes are drawn the tree is not in `dock`: the page would seem closed.
+        if self.in_dock {
+            self.deferred.push(Deferred::Goto(page, id));
             return;
         }
         self.session.page = page;
@@ -749,6 +834,10 @@ impl App {
     /// Shows a pane: the active tab where it is docked, otherwise a window (tools) or a
     /// tab of the area it belongs to. A floating pane comes to the front.
     pub(super) fn show_pane(&mut self, pane: Pane) {
+        if self.in_dock {
+            self.deferred.push(Deferred::Show(pane));
+            return;
+        }
         let docked = crate::dock::find(&self.dock, pane).is_some();
         if self.floating.contains(&pane) || (!docked && self.shell.placement.floats(pane)) {
             if !self.floating.contains(&pane) {
@@ -781,14 +870,25 @@ impl App {
 
     /// Switches the workspace: its own arrangement of the panes comes back.
     pub(super) fn set_workspace(&mut self, w: Workspace) {
+        // While the panes are drawn the tree of the workspace is not in `dock`.
+        if self.in_dock {
+            self.deferred.push(Deferred::Workspace(w));
+            return;
+        }
         match w {
             Workspace::Mounting => self.mounting_ui.active = true,
             Workspace::Wiring => self.mounting_ui.active = false,
             _ => {}
         }
-        if w == self.workspace {
-            return;
+        if w != self.workspace {
+            self.swap_workspace(w);
         }
+        // The workspace is chosen for its main document (the panel layout, the
+        // workbench, …), even where another tab was left in front of it.
+        self.show_pane(crate::dock::main_document(w));
+    }
+
+    fn swap_workspace(&mut self, w: Workspace) {
         let tree = self.docks.remove(&w).unwrap_or_else(|| crate::dock::default_tree_for(w));
         let old = std::mem::replace(&mut self.dock, tree);
         self.docks.insert(self.workspace, old);
@@ -964,6 +1064,7 @@ impl eframe::App for App {
         self.apply_scale(&ctx);
         self.panel_ui.wall_opacity = self.shell.wall_opacity;
         self.panel_ui.gpu_3d = self.shell.gpu_3d && frame.gl().is_some();
+        openecraft_ui::nav::set(&ctx, self.shell.nav);
         // Ask about unsaved changes, then keep the window until recovery is ready.
         if ctx.input(|i| i.viewport().close_requested()) && !self.closing {
             ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
@@ -1028,6 +1129,9 @@ impl eframe::App for App {
             match d {
                 Deferred::Cmd(cmd) => self.run(&ctx, cmd),
                 Deferred::Focus(tag, three_d) => self.focus_device(&tag, three_d),
+                Deferred::Goto(page, id) => self.goto(page, id),
+                Deferred::Show(pane) => self.show_pane(pane),
+                Deferred::Workspace(w) => self.set_workspace(w),
             }
         }
         self.open_requests(false);
@@ -1094,6 +1198,7 @@ impl eframe::App for App {
         eframe::set_value(storage, "project_database", &self.projects_ui.db);
         eframe::set_value(storage, "project_server_url", &self.remote.url);
         eframe::set_value(storage, "project_server_user", &self.remote.user);
+        eframe::set_value(storage, SERVER_PROJECT_KEY, &self.remote.project().or_else(|| self.recovery.clone()));
         eframe::set_value(storage, "vault_url", &self.vault.url);
         eframe::set_value(storage, "vault_name", &self.vault.vault_name);
         eframe::set_value(storage, "vault_user", &self.vault.user);

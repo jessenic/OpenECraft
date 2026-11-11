@@ -92,6 +92,7 @@ Auxiliary function: main contact	Вспомогательная функция: 
 Auxiliary relay coil R (JIS)	Катушка вспомогательного реле R (JIS)
 B10d	B10d
 Ball valve	Шаровой кран
+Bare conductor	Зачищенная жила
 Basis	Основание
 Battery	Батарея
 Battery capacity	Ёмкость батареи
@@ -499,8 +500,8 @@ Fan 3-phase	Вентилятор трёхфазный
 Fan 3-phase, 6 terminals	Вентилятор трёхфазный, 6 выводов
 Ferrule	Наконечник
 Ferrule from	Наконечник, начало
-Ferrule part	Изделие «наконечник»
 Ferrule to	Наконечник, конец
+Ferrule {} mm² {}	Наконечник-гильза {} мм² {}
 Field cable routing	Трассировка полевых кабелей
 Field cable {} cannot be routed from {} to {}	Полевой кабель {} невозможно проложить от {} до {}
 Field cable {}: {} is not placed in the plant layout	Полевой кабель {}: {} не размещён на плане установки
@@ -521,6 +522,8 @@ Fitting	Фитинг
 Fittings	Фитинги
 Flame retardant	Не распространяющий горение
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Плоский кабель {} имеет {} жил, разъём IDC {} имеет {} контактов
+Flat plug	Плоский штекер
+Flat receptacle	Плоское гнездо
 Flat roof	Плоская крыша
 Float switch NC	Поплавковый выключатель, размыкающий контакт
 Float switch NO	Поплавковый выключатель, замыкающий
@@ -546,6 +549,7 @@ Foot switch NC	Ножной выключатель, размыкающий ко�
 Foot switch NO	Ножной выключатель, замыкающий контакт
 Foot switch NO (NFPA)	Ножной выключатель, замыкающий контакт (NFPA)
 Force	Усилие
+Fork terminal	Вилочный наконечник
 Format (placeholders)	Формат (заполнители)
 Frame size	Типоразмер
 Free	Свободно
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Сигнальная лампа (NFPA)
 Pilot line	Линия управления
 Pin connection diagram	Схема подключения контактов штекеров
 Pin side (male)	Сторона штырей (вилка)
+Pin terminal	Штыревой наконечник
 Pipe	Труба
 Piston diameter	Диаметр поршня
 Piston rod diameter	Диаметр штока
@@ -1338,6 +1343,7 @@ Reviewer	Рецензент
 Revision overview (changes)	Обзор ревизий (изменения)
 Right side	Правая сторона
 Right side panel	Правая боковая стенка
+Ring terminal	Кольцевой наконечник
 Rivet nut	Заклёпочная гайка
 RoHS compliant	Соответствует RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Описание клеммы
 Terminal diagram	Схема клемм
 Terminal line-up	Расположение клемм
 Terminal marker	Маркировка клеммы
+Terminal parts	Артикулы наконечников
 Terminal strip data of {} without terminals	Данные клеммной колодки {} без клемм
 Terminal strip overview	Обзор клеммных колодок
 Terminal strips and PLC addresses	Клеммники и адреса ПЛК
+Termination (from)	Оконцевание (от)
+Termination (to)	Оконцевание (до)
 Text file	Текстовый файл
 The DXF file contains nothing that can be imported	Файл DXF не содержит ничего, что можно импортировать
 The PDF has no pages that can be read	В PDF нет листов, которые можно прочитать
@@ -1688,6 +1697,14 @@ Tubes	Трубки
 Tubing / piping list	Список труб / трубок
 Turned once (quarter landing)	С одним поворотом (угловая площадка)
 Turned twice (two quarter landings)	С двумя поворотами (две угловые площадки)
+Twin ferrule	Двойной наконечник-гильза
+Twin ferrule at {} is not shared with a second wire	Двойной наконечник-гильза в {} не используется вторым проводом
+Twin ferrule at {} joins wires of {} and {}	Двойной наконечник-гильза в {} соединяет провода {} и {}
+Twin ferrule at {}: {} wires end there, it takes two	Двойной наконечник-гильза в {}: там заканчиваются {} провода, он рассчитан на два
+Twin ferrule with (from)	Двойной наконечник с (от)
+Twin ferrule with (to)	Двойной наконечник с (до)
+Twin ferrule {} mm² {}	Двойной наконечник-гильза {} мм² {}
+Twin ferrules	Двойные наконечники-гильзы
 Two connection symbols on page {} lie on the same point	Два символа соединений на странице {} лежат в одной точке
 Two-way switch (installation)	Проходной выключатель (электроустановочный)
 Type numbers	Номера типов
@@ -1770,6 +1787,7 @@ Winding connection	Схема соединения обмоток
 Wire assigned to unknown cable {}	Провод назначен неизвестному кабелю {}
 Wire colour GNYE is reserved for protective conductors ({})	Цвет провода GNYE зарезервирован для защитных проводников ({})
 Wire colours and cross-sections	Цвета проводов и сечения
+Wire crossings and connections	Пересечения и соединения проводов
 Wire defaults	Параметры проводов по умолчанию
 Wire jumper	Проволочная перемычка
 Wire list (panel routing)	Список проводов (прокладка в шкафу)
@@ -1847,6 +1865,7 @@ leakage	утечка
 low	низкий
 measuring	измерение
 new	новый
+no free cable gland	нет свободного кабельного ввода
 no header	нет строки заголовка
 no list	нет списка
 no path through the route network	нет пути через сеть трасс
@@ -1878,8 +1897,6 @@ routed	проложено
 shield clamp ({} mm away)	экранный зажим ({} мм)
 silver	серебристый
 starts with	начинается с
-strip {} mm	зачистка {} мм
-strip {} mm, ferrule {} mm² {}	зачистка {} мм, наконечник {} мм² {}
 suction	всасывание
 supply	питание
 terminals {} – {}	клеммы {} – {}
@@ -1937,6 +1954,7 @@ yellow	жёлтый
 {} unused device data records removed	Удалено неиспользуемых записей данных устройств: {}
 {} wiring marks belong to wires that no longer exist	Отметки монтажа ({}) относятся к проводам, которых больше нет
 {} without device tag on page {}	{} без обозначения устройства на листе {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} невозможно проложить: каждый кабельный ввод {} занят другим кабелем. Добавьте для него кабельный ввод.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} невозможно проложить: нет пути, который держит половину толщины от всего и изгибается с радиусом {} мм. Переместите концы или освободите место.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} вводится через дно: в шкафу нет кабельного ввода
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} вводится через крышу: нет кабельного ввода на крыше, боковых или задней стенке
@@ -2003,6 +2021,7 @@ yellow	жёлтый
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: нет изделия перемычки для перемычки {} (технические данные Jumper изделия клеммы)
 {}: no part assigned	{}: изделие не назначено
 {}: no service space of {} mm in front of {} (the door is too close)	{}: нет зоны обслуживания {} мм перед {} (дверь слишком близко)
+{}: none for this cross-section	{}: нет для этого сечения
 {}: not in the single-line diagram	{}: нет на однолинейной схеме
 {}: not placed in the panel layout	{}: не размещено в компоновке шкафа
 {}: operations per year needed for the B10d of {}	{}: для B10d {} нужно число срабатываний в год

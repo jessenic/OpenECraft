@@ -92,6 +92,7 @@ Auxiliary function: main contact	Funzione ausiliaria: contatto principale
 Auxiliary relay coil R (JIS)	Bobina relè ausiliario R (JIS)
 B10d	B10d
 Ball valve	Valvola a sfera
+Bare conductor	Conduttore spelato
 Basis	Base
 Battery	Batteria
 Battery capacity	Capacità della batteria
@@ -499,8 +500,8 @@ Fan 3-phase	Ventilatore trifase
 Fan 3-phase, 6 terminals	Ventilatore trifase, 6 morsetti
 Ferrule	Puntalino
 Ferrule from	Puntalino da
-Ferrule part	Articolo puntalino
 Ferrule to	Puntalino a
+Ferrule {} mm² {}	Puntalino {} mm² {}
 Field cable routing	Instradamento cavi di campo
 Field cable {} cannot be routed from {} to {}	Il cavo di campo {} non può essere instradato da {} a {}
 Field cable {}: {} is not placed in the plant layout	Cavo di campo {}: {} non è posizionato nel layout dell'impianto
@@ -521,6 +522,8 @@ Fitting	Raccordo
 Fittings	Raccordi
 Flame retardant	Ritardante di fiamma
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Il cavo piatto {} ha {} conduttori, il connettore IDC {} ha {} pin
+Flat plug	Faston maschio
+Flat receptacle	Faston femmina
 Flat roof	Tetto piano
 Float switch NC	Interruttore a galleggiante NC
 Float switch NO	Interruttore a galleggiante NA
@@ -546,6 +549,7 @@ Foot switch NC	Interruttore a pedale NC
 Foot switch NO	Interruttore a pedale NA
 Foot switch NO (NFPA)	Interruttore a pedale NA (NFPA)
 Force	Forza
+Fork terminal	Capocorda a forcella
 Format (placeholders)	Formato (segnaposto)
 Frame size	Grandezza costruttiva
 Free	Libero
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Spia luminosa (NFPA)
 Pilot line	Linea di pilotaggio
 Pin connection diagram	Schema di collegamento pin
 Pin side (male)	Lato pin (maschio)
+Pin terminal	Capocorda a puntale
 Pipe	Tubazione
 Piston diameter	Diametro del pistone
 Piston rod diameter	Diametro dello stelo
@@ -1338,6 +1343,7 @@ Reviewer	Revisore
 Revision overview (changes)	Panoramica revisioni (modifiche)
 Right side	Lato destro
 Right side panel	Parete laterale destra
+Ring terminal	Capocorda ad occhiello
 Rivet nut	Inserto filettato
 RoHS compliant	Conforme RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Descrizione del morsetto
 Terminal diagram	Schema morsetti
 Terminal line-up	Disposizione morsetti
 Terminal marker	Marcatore morsetto
+Terminal parts	Articoli delle estremità
 Terminal strip data of {} without terminals	Dati della morsettiera di {} senza morsetti
 Terminal strip overview	Panoramica morsettiere
 Terminal strips and PLC addresses	Morsettiere e indirizzi PLC
+Termination (from)	Terminazione (da)
+Termination (to)	Terminazione (a)
 Text file	File di testo
 The DXF file contains nothing that can be imported	Il file DXF non contiene nulla che possa essere importato
 The PDF has no pages that can be read	Il PDF non ha pagine leggibili
@@ -1688,6 +1697,14 @@ Tubes	Tubi
 Tubing / piping list	Lista tubi / tubazioni
 Turned once (quarter landing)	Con una svolta (pianerottolo d'angolo)
 Turned twice (two quarter landings)	Con due svolte (due pianerottoli d'angolo)
+Twin ferrule	Puntalino doppio
+Twin ferrule at {} is not shared with a second wire	Il puntalino doppio in {} non è condiviso con un secondo conduttore
+Twin ferrule at {} joins wires of {} and {}	Il puntalino doppio in {} unisce conduttori da {} e {}
+Twin ferrule at {}: {} wires end there, it takes two	Puntalino doppio in {}: vi terminano {} conduttori, ne accoglie due
+Twin ferrule with (from)	Puntalino doppio con (da)
+Twin ferrule with (to)	Puntalino doppio con (a)
+Twin ferrule {} mm² {}	Puntalino doppio {} mm² {}
+Twin ferrules	Puntalini doppi
 Two connection symbols on page {} lie on the same point	Due simboli di collegamento a pagina {} si trovano nello stesso punto
 Two-way switch (installation)	Deviatore (installazione)
 Type numbers	Numeri di tipo
@@ -1770,6 +1787,7 @@ Winding connection	Collegamento degli avvolgimenti
 Wire assigned to unknown cable {}	Conduttore assegnato a un cavo sconosciuto {}
 Wire colour GNYE is reserved for protective conductors ({})	Il colore GNYE è riservato ai conduttori di protezione ({})
 Wire colours and cross-sections	Colori e sezioni dei conduttori
+Wire crossings and connections	Incroci e giunzioni dei fili
 Wire defaults	Valori predefiniti dei conduttori
 Wire jumper	Ponticello a filo
 Wire list (panel routing)	Lista conduttori (instradamento nel quadro)
@@ -1847,6 +1865,7 @@ leakage	drenaggio
 low	bassa
 measuring	misura
 new	nuovo
+no free cable gland	nessun pressacavo libero
 no header	nessuna intestazione
 no list	nessun elenco
 no path through the route network	nessun percorso attraverso la rete dei percorsi cavi
@@ -1878,8 +1897,6 @@ routed	instradato
 shield clamp ({} mm away)	fascetta di schermatura (a {} mm)
 silver	argento
 starts with	inizia con
-strip {} mm	spelatura {} mm
-strip {} mm, ferrule {} mm² {}	spelatura {} mm, puntalino {} mm² {}
 suction	aspirazione
 supply	alimentazione
 terminals {} – {}	morsetti {} – {}
@@ -1937,6 +1954,7 @@ yellow	giallo
 {} unused device data records removed	{} record di dati dei dispositivi inutilizzati rimossi
 {} wiring marks belong to wires that no longer exist	{} contrassegni di cablatura appartengono a conduttori che non esistono più
 {} without device tag on page {}	{} senza sigla dispositivo a pagina {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} non può essere instradato: ogni pressacavo di {} è occupato da un altro cavo. Aggiungere un pressacavo per esso.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} non può essere instradato: nessun percorso che tenga metà del suo spessore libero da tutto e curvi con il suo raggio di {} mm. Spostare le estremità o fare spazio.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} entra dal fondo: nessun pressacavo nell'armadio
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} entra dal tetto: nessun pressacavo sul tetto, sui lati o sul retro
@@ -2003,6 +2021,7 @@ yellow	giallo
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: nessun articolo ponticello per il ponticello {} (dati tecnici Jumper dell'articolo morsetto)
 {}: no part assigned	{}: nessun articolo assegnato
 {}: no service space of {} mm in front of {} (the door is too close)	{}: nessuno spazio di servizio di {} mm davanti a {} (la porta è troppo vicina)
+{}: none for this cross-section	{}: nessuno per questa sezione
 {}: not in the single-line diagram	{}: non nello schema unifilare
 {}: not placed in the panel layout	{}: non posizionato nel layout quadro
 {}: operations per year needed for the B10d of {}	{}: manovre all'anno necessarie per il B10d di {}

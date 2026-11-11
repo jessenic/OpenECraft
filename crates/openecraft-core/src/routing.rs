@@ -319,13 +319,17 @@ fn point_along(pts: &[P], mut at: f32) -> P {
 }
 
 /// Keeps the points of `before` on their wires. `bent` holds the wires that were
-/// split, with their course and the wires added; a point that left its wire takes
-/// the same share of its length, or a place near it where no other wire takes it.
+/// split or routed anew, with their course and the wires that now run it; a point
+/// that left its wire takes the same share of its length, or a place near it where no
+/// other wire takes it.
 fn place_points(page: &mut Page, before: &Before, bent: &HashMap<u64, (Vec<P>, Vec<u64>)>) {
     for h in &before.points {
-        let Some(w) = page.wires.iter().find(|w| w.id == h.wire) else { continue };
-        let (line, added) = bent.get(&h.wire).map_or((vec![w.a, w.b], &[][..]), |(l, a)| (l.clone(), &a[..]));
-        let own = |q: P| conndef::wire_at(page, q).is_some_and(|x| x.id == h.wire || added.contains(&x.id));
+        let (line, owners) = match (bent.get(&h.wire), page.wires.iter().find(|w| w.id == h.wire)) {
+            (Some((l, o)), _) => (l.clone(), o.clone()),
+            (None, Some(w)) => (vec![w.a, w.b], vec![w.id]),
+            (None, None) => continue,
+        };
+        let own = |q: P| conndef::wire_at(page, q).is_some_and(|x| owners.contains(&x.id));
         let len: f32 = line.windows(2).map(|s| s[0].dist(s[1])).sum();
         let at = |steps: f32| point_along(&line, (h.along * len + steps * GRID).clamp(0.0, len));
         let pos = if own(h.pos) { h.pos } else { [0.0, 1.0, -1.0, 2.0, -2.0].map(at).into_iter().find(|q| own(*q)).unwrap_or_else(|| at(0.0)) };
@@ -350,6 +354,121 @@ fn place_wire_labels(page: &mut Page, old: &Wire, course: &[P], added: &[u64]) {
             wire.labels.push(placed);
         }
     }
+}
+
+/// Distance along the line through `pts` to its point nearest to `q`.
+fn distance_along(pts: &[P], q: P) -> f32 {
+    let (mut best, mut at, mut walked) = (f32::MAX, 0.0, 0.0);
+    for s in pts.windows(2) {
+        let (d, len) = (s[1] - s[0], s[0].dist(s[1]));
+        let t = if len > 0.0 { (((q - s[0]).x * d.x + (q - s[0]).y * d.y) / (len * len)).clamp(0.0, 1.0) } else { 0.0 };
+        let gap = (s[0] + d * t).dist(q);
+        if gap < best {
+            (best, at) = (gap, walked + len * t);
+        }
+        walked += len;
+    }
+    at
+}
+
+/// Puts the labels of the wires `old` of a connection that ran along `was` at the
+/// same share of the length along `course`, on the wires `owners` that run it now.
+fn move_labels(page: &mut Page, old: &[Wire], was: &[P], course: &[P], owners: &[u64]) {
+    let length = |pts: &[P]| pts.windows(2).map(|s| s[0].dist(s[1])).sum::<f32>();
+    let (from, to) = (length(was).max(TOUCH), length(course));
+    let labels: Vec<(f32, crate::model::wiring::WireLabel)> = old.iter().flat_map(|w| w.labels.iter().map(move |l| (distance_along(was, l.attachment(w)) / from, l.clone()))).collect();
+    for x in page.wires.iter_mut().filter(|x| owners.contains(&x.id)) {
+        x.labels.clear();
+    }
+    for (share, mut label) in labels {
+        let at = point_along(course, share * to);
+        if let Some(x) = page.wires.iter_mut().find(|x| owners.contains(&x.id) && dist_to_segment(at, x.a, x.b) < TOUCH) {
+            label.along = x.a.dist(at) / x.a.dist(x.b).max(TOUCH);
+            x.labels.push(label);
+        }
+    }
+}
+
+/// The wires that go on from `from`, where the wire `skip` ends: past corners where
+/// one unchanged wire goes on and nothing else connects, up to a connection point, a
+/// connection symbol, a branch or a wire running through. Returns their ids and the
+/// course from `from` to where the connection ends.
+fn connection(page: &Page, all: &[(u64, P, P)], before: &Before, skip: u64, from: P) -> (Vec<u64>, Vec<P>) {
+    let unchanged = |x: &Wire| before.wires.iter().any(|o| o.id == x.id && o.a.same(x.a) && o.b.same(x.b));
+    let (mut ids, mut course, mut last) = (Vec::new(), vec![from], skip);
+    loop {
+        let at = course[course.len() - 1];
+        if all.iter().any(|(_, q, _)| q.same(at)) || page.junctions.iter().any(|j| j.pos.same(at)) {
+            break;
+        }
+        let mut touching = page.wires.iter().filter(|x| x.id != last && x.id != skip && dist_to_segment(at, x.a, x.b) < TOUCH);
+        let (Some(next), None) = (touching.next(), touching.next()) else { break };
+        let far = if next.a.same(at) {
+            next.b
+        } else if next.b.same(at) {
+            next.a
+        } else {
+            break;
+        };
+        if !unchanged(next) || ids.contains(&next.id) {
+            break;
+        }
+        ids.push(next.id);
+        course.push(far);
+        last = next.id;
+    }
+    (ids, course)
+}
+
+/// What a page needs to square or route its wires again.
+struct Ctx<'a> {
+    symbols: &'a Symbols,
+    area: R,
+    all: &'a [(u64, P, P)],
+    before: &'a Before,
+}
+
+/// Wires split or routed anew: their course with the wires that run it (connection
+/// definition points), and the wires added to each (cable definition lines).
+#[derive(Default)]
+struct Splits {
+    points: HashMap<u64, (Vec<P>, Vec<u64>)>,
+    lines: HashMap<u64, Vec<u64>>,
+}
+
+/// Routes the connection of the wire `w`, diagonal after a move, anew: from its moved
+/// end `m` past the corners after its far end `f` to where the connection ends, the
+/// way of the least weight ([`REROUTE`]). The wires past `f` are replaced. Returns
+/// false when there is no such way.
+fn reroute(prj: &mut Project, page_i: usize, cx: &Ctx, w: &Wire, (m, f): (P, P), pending: &BTreeSet<u64>, splits: &mut Splits) -> bool {
+    let page = &prj.pages[page_i];
+    let (chain, mut was) = connection(page, cx.all, cx.before, w.id, f);
+    let goal = was[was.len() - 1];
+    if goal.same(m) {
+        return false;
+    }
+    let mut old = vec![w.clone()];
+    old.extend(chain.iter().filter_map(|id| page.wires.iter().find(|x| x.id == *id)).cloned());
+    let gone = |x: &Wire| x.id == w.id || chain.contains(&x.id) || pending.contains(&x.id);
+    let Some(path) = without(&mut prj.pages[page_i], gone, |page| search(cx.symbols, page, cx.area, m, goal, REROUTE)) else { return false };
+    was.insert(0, m);
+    let page = &mut prj.pages[page_i];
+    page.wires.retain(|x| !chain.contains(&x.id));
+    if let Some(x) = page.wires.iter_mut().find(|x| x.id == w.id) {
+        (x.a, x.b) = (path[0], path[1]);
+    }
+    let mut owners = vec![w.id];
+    for seg in path[1..].windows(2) {
+        let nid = prj.new_id();
+        prj.pages[page_i].wires.push(Wire { id: nid, a: seg[0], b: seg[1], labels: Vec::new(), ..w.clone() });
+        owners.push(nid);
+    }
+    move_labels(&mut prj.pages[page_i], &old, &was, &path, &owners);
+    for o in &old {
+        splits.points.insert(o.id, (path.clone(), owners.clone()));
+    }
+    splits.lines.insert(w.id, owners[1..].to_vec());
+    true
 }
 
 /// First and last place, as distances from `at` in direction `dir`, where `wires`
@@ -402,11 +521,14 @@ fn place_lines(page: &mut Page, before: &Before, split: &HashMap<u64, Vec<u64>>)
 /// A wire keeps its direction: its far end slides along the wire at that end when
 /// this connects nothing new (an open end, a corner, or a junction on a run of wires
 /// such as a rail), otherwise the wire gets a jog or a route. One that cannot be
-/// squared without touching other connections stays as it is. Connection definition
-/// points and cable definition lines stay on their wires.
+/// squared without touching other connections stays as it is. With rerouting on
+/// ([`WireSettings::reroute`]) a wire that does not slide along a run, or meets a
+/// corner, is routed anew with the corners after it ([`reroute`]). Connection
+/// definition points and cable definition lines stay on their wires.
 pub fn square_wires(prj: &mut Project, page_i: usize, before: &Before) {
     let symbols = prj.symbol_table();
     let area = crate::frame::of_page(prj, page_i).area();
+    let rerouting = prj.wire_settings.reroute;
     let was = |id: u64| before.wires.iter().find(|o| o.id == id);
     let mut bent = Vec::new();
     for w in &prj.pages[page_i].wires {
@@ -416,7 +538,8 @@ pub fn square_wires(prj: &mut Project, page_i: usize, before: &Before) {
     }
     let mut pending: BTreeSet<u64> = bent.iter().map(|b| b.0).collect();
     let all = pins(&symbols, &prj.pages[page_i]);
-    let mut split = HashMap::new();
+    let cx = Ctx { symbols: &symbols, area, all: &all, before };
+    let mut splits = Splits::default();
     for (id, a_moved, vertical) in bent {
         pending.remove(&id);
         let page = &mut prj.pages[page_i];
@@ -443,6 +566,10 @@ pub fn square_wires(prj: &mut Project, page_i: usize, before: &Before) {
             None if open => without(page, settled, |page| leg(page, m, to) && free(page, &all, to)),
             None => !pin_at_f && without(page, settled, |page| leg(page, m, to) && on_run(page, f, to)),
         };
+        if rerouting && (corner.is_some() || !slides) && reroute(prj, page_i, &cx, &w, (m, f), &pending, &mut splits) {
+            continue;
+        }
+        let page = &mut prj.pages[page_i];
         if slides {
             for x in page.wires.iter_mut().filter(|x| x.id == id || Some(x.id) == corner) {
                 if x.a.same(f) {
@@ -454,7 +581,7 @@ pub fn square_wires(prj: &mut Project, page_i: usize, before: &Before) {
             continue;
         }
         let path = without(page, settled, |page| {
-            jog(m, f, vertical, |path| path_clear(&symbols, page, &all, path, &ends)).or_else(|| search(&symbols, page, area, m, f))
+            jog(m, f, vertical, |path| path_clear(&symbols, page, &all, path, &ends)).or_else(|| search(&symbols, page, area, m, f, SQUARE))
         });
         let Some(path) = path else { continue };
         if let Some(x) = page.wires.iter_mut().find(|x| x.id == id) {
@@ -471,22 +598,35 @@ pub fn square_wires(prj: &mut Project, page_i: usize, before: &Before) {
             course.reverse();
         }
         place_wire_labels(&mut prj.pages[page_i], &w, &course, &added);
-        split.insert(id, (course, added));
+        splits.points.insert(id, (course, std::iter::once(id).chain(added.iter().copied()).collect()));
+        splits.lines.insert(id, added);
     }
-    place_points(&mut prj.pages[page_i], before, &split);
+    place_points(&mut prj.pages[page_i], before, &splits.points);
     ops::cleanup_wires(&mut prj.pages[page_i]);
-    let added = split.into_iter().map(|(id, (_, added))| (id, added)).collect();
-    place_lines(&mut prj.pages[page_i], before, &added);
+    place_lines(&mut prj.pages[page_i], before, &splits.lines);
 }
 
 const DIRS: [(i32, i32); 4] = [(1, 0), (-1, 0), (0, 1), (0, -1)];
-const BEND: u32 = 4;
+
+/// Costs of a path on the grid: a step, a bend and crossing a wire.
+#[derive(Clone, Copy)]
+struct Costs {
+    step: u32,
+    bend: u32,
+    jump: u32,
+}
+
+/// Routes of the wire tool and wires squared after a move: as few bends as possible.
+const SQUARE: Costs = Costs { step: 1, bend: 4, jump: 0 };
+/// Connections routed anew after a move, in tenths: the length in grid steps, 1.2 per
+/// bend and 1.5 per wire crossed (a jump).
+const REROUTE: Costs = Costs { step: 10, bend: 12, jump: 15 };
 
 /// Orthogonal path on the grid from `a` to `b` inside `area` that avoids symbols,
 /// other connection points, wire ends and running along other wires (crossing them
 /// is allowed). Falls back to a single corner when there is no such path.
 pub fn route(symbols: &Symbols, page: &Page, area: R, a: P, b: P) -> Vec<P> {
-    search(symbols, page, area, a, b).unwrap_or_else(|| {
+    search(symbols, page, area, a, b, SQUARE).unwrap_or_else(|| {
         if a.x == b.x || a.y == b.y {
             vec![a, b]
         } else {
@@ -495,7 +635,7 @@ pub fn route(symbols: &Symbols, page: &Page, area: R, a: P, b: P) -> Vec<P> {
     })
 }
 
-fn search(symbols: &Symbols, page: &Page, area: R, a: P, b: P) -> Option<Vec<P>> {
+fn search(symbols: &Symbols, page: &Page, area: R, a: P, b: P, costs: Costs) -> Option<Vec<P>> {
     let cell = |q: P| ((q.x / GRID).round() as i32, (q.y / GRID).round() as i32);
     let at = |c: (i32, i32)| p(c.0 as f32 * GRID, c.1 as f32 * GRID);
     let (x0, y0) = cell(area.min);
@@ -524,7 +664,7 @@ fn search(symbols: &Symbols, page: &Page, area: R, a: P, b: P) -> Option<Vec<P>>
         let q = at(c);
         page.wires.iter().any(|w| (w.a.y == w.b.y) == horizontal && on_segment_interior(q, w.a, w.b))
     };
-    let h = |c: (i32, i32)| (c.0 - goal.0).unsigned_abs() + (c.1 - goal.1).unsigned_abs();
+    let h = |c: (i32, i32)| ((c.0 - goal.0).unsigned_abs() + (c.1 - goal.1).unsigned_abs()) * costs.step;
     // State: cell and direction of arrival (4 = start).
     type State = ((i32, i32), usize);
     let mut dist: HashMap<State, u32> = HashMap::new();
@@ -557,7 +697,8 @@ fn search(symbols: &Symbols, page: &Page, area: R, a: P, b: P) -> Option<Vec<P>>
             if on_wire(n, *dy == 0) {
                 continue;
             }
-            let ng = g + 1 + if bend { BEND } else { 0 };
+            let jump = costs.jump > 0 && on_wire(n, *dy != 0);
+            let ng = g + costs.step + if bend { costs.bend } else { 0 } + if jump { costs.jump } else { 0 };
             if dist.get(&(n, k)).is_none_or(|&d| ng < d) {
                 dist.insert((n, k), ng);
                 prev.insert((n, k), (c, dir));

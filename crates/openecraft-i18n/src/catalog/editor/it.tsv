@@ -49,12 +49,15 @@ A cable of the bus type for every connection without cable	Un cavo del tipo di b
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Un'apertura delle stesse dimensioni nello stesso punto della parete laterale del vicino: insieme formano un passaggio cavi
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Un file con lo stesso nome nella cartella riceve una nuova versione (check-out e check-in), altrimenti il file viene aggiunto
 A level on top of the highest one	Un piano sopra il più alto
+A local file opens locally, a server project is opened on the project server again	Un file locale si apre in locale, un progetto del server viene riaperto sul server dei progetti
+A local file or a project on the project server	Un file locale o un progetto sul server dei progetti
 A new project	Un nuovo progetto
 A new release is downloaded in the background and installed when you close OpenECraft.	Una nuova versione viene scaricata in background e installata alla chiusura di OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Una nuova versione viene scaricata in background e sostituisce questa installazione; viene usata dal prossimo avvio.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Una sezione numerata che contiene pagine come una cartella; i nomi delle pagine iniziano con il suo numero (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Un profilo associa i campi neutri ai nomi delle colonne di un determinato sistema (ad es. MATNR per il numero ERP in SAP). Senza mappatura vengono riconosciuti i nomi comuni in inglese e tedesco.
 A project definition based on this one, with its own defaults and scheme	Una definizione di progetto basata su questa, con propri valori predefiniti e schema
+A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Un file di progetto aperto dal gestore dei file si apre al suo posto. Le modifiche non salvate dell'ultima sessione non vengono mai scartate senza chiedere.
 A reference point at the origin of the plant	Un punto di riferimento nell'origine dell'impianto
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Un blocco di report genera le pagine di un report, ad es. uno schema morsetti per morsettiera, e le aggiorna.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Una pagina di schema 3.1, 3.2, … dopo la pagina corrente, mantenuta come sottopagina durante la rinumerazione
@@ -230,6 +233,7 @@ Cable definition	Definizione cavo
 Cable definition on page {}	Definizione cavo a pagina {}
 Cable definition: draw a line across the wires that are cores of a cable	Definizione cavo: traccia una linea attraverso i conduttori che sono anime di un cavo
 Cable end reserve	Riserva per estremità cavo
+Cable ends	Estremità del cavo
 Cable markers	Marcatori cavo
 Cable passage to {}	Passaggio cavi verso {}
 Cable {}: {} cores assigned	Cavo {}: {} anime assegnate
@@ -278,7 +282,9 @@ Choices	Scelte
 Choices (separated by commas)	Scelte (separate da virgole)
 Choose	Scegli
 Choose a baseline, a revision or a project file to compare the project with.	Scegli una baseline, una revisione o un file di progetto con cui confrontare il progetto.
+Choose a project on every start: local files and projects of the project server	Scegli un progetto a ogni avvio: file locali e progetti del server dei progetti
 Choose a room first: floor-standing parts go on its floor.	Scegli prima un locale: gli articoli a pavimento vanno sul suo pavimento.
+Choose another project	Scegli un altro progetto
 Choose file…	Scegli file…
 Choose pages	Scegli pagine
 Chooses the pages whose structure starts with this	Sceglie le pagine la cui struttura inizia con questo
@@ -371,10 +377,12 @@ Connection points 1 and 2 are connected inside	I punti di connessione 1 e 2 sono
 Connection:	Collegamento:
 Connections ({})	Collegamenti ({})
 Connections / harness	Collegamenti / cablaggio
+Connections of four or more wires always have a dot.	Le giunzioni di quattro o più fili hanno sempre un punto.
 Connections whose two ends are both on selected wires	Collegamenti con entrambe le estremità su conduttori selezionati
 Connections without a defined potential	Collegamenti senza potenziale definito
 Connectors	Connettori
 Connects free connection points of the selected symbols with facing ones	Collega i punti di connessione liberi dei simboli selezionati con quelli affacciati
+Connects to the project server and shows its projects, without the project of the last session	Si collega al server dei progetti e mostra i suoi progetti, senza il progetto dell'ultima sessione
 Consecutive addresses from the start byte, in schematic order	Indirizzi consecutivi a partire dal byte iniziale, nell'ordine dello schema
 Contact image below coils	Immagine dei contatti sotto le bobine
 Content	Contenuto
@@ -431,6 +439,7 @@ Dashed	Tratteggiato
 Decimals	Decimali
 Default	Predefinito
 Default (part data or definition)	Predefinito (dati articolo o definizione)
+Default ({})	Predefinito ({})
 Default label	Etichetta predefinita
 Default medium	Fluido predefinito
 Default rules	Regole predefinite
@@ -655,7 +664,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Materiale di fissaggio nella distinta base
 Favorite	Preferito
 Favorites (JSON)	Preferiti (JSON)
-Ferrule {} ({})	Puntalino {} ({})
 Field	Campo
 Field (name, description, company, creator, date, revision) or project property	Campo (name, description, company, creator, date, revision) o proprietà di progetto
 Field cables	Cavi di campo
@@ -742,6 +750,7 @@ Generic	Generico
 German zones (DIN 18015-3)	Zone tedesche (DIN 18015-3)
 Getting started	Primi passi
 Global variable list with direct addresses for CODESYS, TwinCAT and others	Lista di variabili globali con indirizzi diretti per CODESYS, TwinCAT e altri
+Go on working locally; Save saves to a local file	Continua a lavorare in locale; Salva salva in un file locale
 Go to page	Vai alla pagina
 Graphic line	Linea grafica
 Graphic rectangle	Rettangolo grafico
@@ -791,6 +800,8 @@ Hose number	Numero tubo flessibile
 Hoses and pipes	Tubi flessibili e tubazioni
 Hoses rated below it are errors; 0 = not checked	I tubi flessibili con pressione nominale inferiore sono errori; 0 = non verificato
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Come si apre l'anta: cerniere sul bordo sinistro o destro (visto dall'interno del locale), verso l'interno o l'esterno del locale, o scorrevole lungo la parete
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Come il filo è terminato a questa estremità; per impostazione predefinita come scelto per il punto di connessione o il suo dispositivo, altrimenti secondo l'impostazione dei puntalini del layout
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Come i fili saltano sopra i fili che incrociano, come sono contrassegnate le giunzioni a T e se gli elementi spostati ritracciano i loro collegamenti
 IP / bus address	Indirizzo IP / bus
 ISO 639-1 language code	Codice lingua ISO 639-1
 Identifiers	Identificatori
@@ -865,6 +876,7 @@ Insulation	Isolamento
 Interruption points refer to	I punti di interruzione rimandano a
 Introduction	Introduzione
 Invalid value	Valore non valido
+Invert the direction of panning by scrolling	Inverti la direzione dello spostamento con lo scorrimento
 Inverter or charge controller (devices with PV input data)	Inverter o regolatore di carica (dispositivi con dati di ingresso FV)
 Isometric	Isometrica
 Items on the layer	Elementi del livello
@@ -876,6 +888,7 @@ Join collinear wires	Unisci conduttori allineati
 Joins	Collega
 Joins wire pieces in a line where nothing else connects (current page)	Unisce i tratti di conduttore in linea dove non è collegato nient'altro (pagina corrente)
 Jumper {}	Ponticello {}
+Jumps over the other:	Salta sopra l'altro:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Mantieni le sottopagine (3.a, 3.1) con la pagina precedente
 Keep the degree of protection	Mantieni il grado di protezione
@@ -889,6 +902,7 @@ Label (grey)	Etichetta (grigia)
 Label field	Campo etichetta
 Labeling scheme	Schema di marcatura
 Landscape	Orizzontale
+Large dot	Punto grande
 Larger texts and buttons for a touch screen at the workbench	Testi e pulsanti più grandi per un touch screen al banco di lavoro
 Latitude, longitude	Latitudine, longitudine
 Layer	Livello
@@ -938,6 +952,9 @@ Load template…	Carica modello…
 Loading changes…	Caricamento delle modifiche…
 Loading the project access…	Caricamento dell'accesso al progetto…
 Loads	Utenze
+Local file	File locale
+Local file: {}	File locale: {}
+Local recovery copy of server project: {}	Copia di ripristino locale del progetto del server: {}
 Lock all	Blocca tutto
 Lock all pages	Blocca tutte le pagine
 Lock current page	Blocca pagina corrente
@@ -1003,6 +1020,7 @@ Min. bend radius	Raggio di curvatura min.
 Minimize the ribbon	Riduci la barra multifunzione
 Mirror	Specchia
 Mirror (selection or symbol being placed)	Specchia (selezione o simbolo in fase di posizionamento)
+Mixed	Misto
 Mode	Modalità
 Model of a part (2D / 3D)	Modello di un articolo (2D / 3D)
 Module part; its size comes from the part	Articolo del modulo; la sua dimensione viene dall'articolo
@@ -1026,6 +1044,7 @@ Move to section	Sposta nella sezione
 Move up	Sposta in alto
 Moves to the top level as page {}	Passa al livello superiore come pagina {}
 Moves to {} as page {}	Passa in {} come pagina {}
+Moving	Spostamento
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Simboli di potenza e conduttori multifilari per i simboli unifilari della pagina corrente, su una nuova pagina
 Multiple copy	Copia multipla
 Multiple copy…	Copia multipla…
@@ -1042,6 +1061,7 @@ Name and cross reference	Nome e riferimento incrociato
 Name on the server	Nome sul server
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Nome; Tipo di dati; Indirizzo logico; Commento – per strumenti di programmazione PLC
 Named copy of this form, for report blocks	Copia con nome di questo modulo, per i blocchi di report
+Navigation	Navigazione
 Navigators	Navigatori
 Neutral exchange file…	File di scambio neutro…
 Never	Mai
@@ -1070,6 +1090,7 @@ New potential	Nuovo potenziale
 New project	Nuovo progetto
 New project from template	Nuovo progetto da modello
 New project scheme from the selected one	Nuovo schema di progetto da quello selezionato
+New project, not saved yet	Nuovo progetto, non ancora salvato
 New report page	Nuova pagina di report
 New request	Nuova richiesta
 New revision	Nuova revisione
@@ -1108,11 +1129,13 @@ No device has its main function in the box.	Nessun dispositivo ha la sua funzion
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Nessun dispositivo ha ancora dati di montaggio: assegna ai dispositivi articoli con dimensioni (Proprietà › Articoli).
 No differences to {}.	Nessuna differenza rispetto a {}.
 No document embedded	Nessun documento incorporato
+No dot: plain T	Nessun punto: T semplice
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Ancora nessun armadio – creane uno con Nuovo armadio, o un locale per gli armadi con Nuovo locale.
 No field cables: place the enclosures and field devices at nodes of the route network.	Nessun cavo di campo: posiziona gli armadi e i dispositivi di campo sui nodi della rete dei percorsi cavi.
 No filter fans: an air/air heat exchanger or a cooling unit	Nessun ventilatore con filtro: uno scambiatore di calore aria/aria o un condizionatore
 No harnesses defined.	Nessun cablaggio definito.
 No inverter	Nessun inverter
+No jump: plain crossing, connections have dots	Nessun salto: incrocio semplice, le giunzioni hanno punti
 No longer reported	Non più segnalato
 No macros yet. Select items in a schematic and save them as a macro.	Ancora nessuna macro. Seleziona elementi in uno schema e salvali come macro.
 No modules: plug in PLC cards of the schematic.	Nessun modulo: inserisci le schede PLC dello schema.
@@ -1152,6 +1175,7 @@ Not found: {}	Non trovato: {}
 Not in the project parts – synchronize in parts management	Non presente negli articoli del progetto – sincronizza in Gestione articoli
 Not on a wire	Non su un conduttore
 Not saved, locked or changed by another user: {}	Non salvato, bloccato o modificato da un altro utente: {}
+Not the shared project: changes are saved locally until it is opened on the project server again	Non è il progetto condiviso: le modifiche vengono salvate in locale finché non viene riaperto sul server dei progetti
 Nothing exchanged yet.	Ancora nessuno scambio.
 Nothing left in this list.	Non è rimasto nulla in questo elenco.
 Nothing to show	Niente da visualizzare
@@ -1168,6 +1192,7 @@ Of the outer diameter, as laid fixed	Del diametro esterno, in posa fissa
 Of the outer diameter; pipes are bent with elbows of one and a half diameters	Del diametro esterno; le tubazioni sono curvate con curve di un diametro e mezzo
 Off	Disattivato
 Offset from one row to the next: downwards for lists, sideways for rows side by side	Spostamento da una riga alla successiva: verso il basso per gli elenchi, lateralmente per righe affiancate
+On startup	All'avvio
 One row per label	Una riga per etichetta
 Only devices on the current page	Solo i dispositivi sulla pagina corrente
 Only frames no page uses can be deleted	Possono essere eliminate solo le cornici non utilizzate da alcuna pagina
@@ -1175,6 +1200,7 @@ Only messages of the current page	Solo i messaggi della pagina corrente
 Only parts whose function template provides the device's main function	Solo articoli il cui modello di funzione fornisce la funzione principale del dispositivo
 Only rows that pass all filters are shown	Vengono mostrate solo le righe che soddisfano tutti i filtri
 Only web and e-mail addresses (http, https, mailto) are links	Solo gli indirizzi web ed e-mail (http, https, mailto) sono link
+Open a specific project	Apri un progetto specifico
 Open and save shared projects, lock pages	Apri e salva progetti condivisi, blocca pagine
 Open archive…	Apri archivio…
 Open as project	Apri come progetto
@@ -1183,7 +1209,9 @@ Open demo project	Apri progetto demo
 Open door	Apri porta
 Open in a new page tab	Apri in una nuova scheda pagina
 Open link	Apri collegamento
+Open local recovery copy	Apri la copia di ripristino locale
 Open project	Apri progetto
+Open project server	Apri il server dei progetti
 Open projects and files from Autodesk Vault, put the project, exports and 3D models into the vault	Apri progetti e file da Autodesk Vault, inserisci il progetto, le esportazioni e i modelli 3D nel vault
 Open the project	Apri il progetto
 Open to {}: wires cross beside the mounting plates	Aperto verso {}: i conduttori passano accanto alle piastre di montaggio
@@ -1360,6 +1388,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Potenza dissip
 Pre-planning (CSV, Excel)	Preprogettazione (CSV, Excel)
 Prefix	Prefisso
 Press a key…	Premi un tasto…
+Preview	Anteprima
 Previous item	Elemento precedente
 Previous page	Pagina precedente
 Previous page tab	Scheda pagina precedente
@@ -1385,14 +1414,19 @@ Project default; pages can choose their own in the page properties	Predefinito d
 Project file	File di progetto
 Project file…	File di progetto…
 Project information	Informazioni sul progetto
+Project on the project server	Progetto sul server dei progetti
 Project parts are the copies stored in this project; they are used for the bill of materials and the project check.	Gli articoli del progetto sono le copie salvate in questo progetto; vengono usati per la distinta base e la verifica del progetto.
 Project properties changed in {} projects	Proprietà di progetto modificate in {} progetti
 Project properties…	Proprietà progetto…
 Project server	Server di progetto
 Project server: {}	Server di progetto: {}
+Project server: {} / Project: {}	Server dei progetti: {} / Progetto: {}
+Project server: {} / Project: {} – connection lost	Server dei progetti: {} / Progetto: {} – connessione persa
 Project texts (function texts, page descriptions, free texts, descriptions) are written in the source language; the dictionary translates them line by line. Reports and title blocks follow the output language.	I testi del progetto (testi funzione, descrizioni delle pagine, testi liberi, descrizioni) vengono scritti nella lingua di origine; il dizionario li traduce riga per riga. Report e cartigli seguono la lingua di output.
 Project: {}	Progetto: {}
 Projects from a first circuit to a whole plant, each showing more of the features	Progetti dal primo circuito a un intero impianto, ognuno mostra più funzioni
+Projects on the project server {}	Progetti sul server dei progetti {}
+Projects on the server	Progetti sul server
 Properties…	Proprietà…
 Property database	Database delle proprietà
 Property definitions	Definizioni delle proprietà
@@ -1480,6 +1514,7 @@ Renumber 1 … n	Rinumera 1 … n
 Renumber contact	Rinumera contatto
 Renumber pages	Rinumera pagine
 Renumber pages…	Rinumera pagine…
+Reopen last project	Riapri l'ultimo progetto
 Repair {} findings	Ripara {} risultati
 Replace	Sostituisci
 Replace all	Sostituisci tutto
@@ -1514,6 +1549,7 @@ Reset to standard	Ripristina standard
 Restart and update	Riavvia e aggiorna
 Resulting: {} · {} · {} · {} m	Risultato: {} · {} · {} · {} m
 Results of the project check	Risultati della verifica del progetto
+Retry connection	Riprova la connessione
 Review	Riesame
 Review ({})	Riesame ({})
 Revision marks	Contrassegni di revisione
@@ -1549,6 +1585,7 @@ Round	Rotondo
 Round cutouts facing each other in both side walls	Aperture rotonde affacciate in entrambe le pareti laterali
 Route definition of {}	Definizione del percorso di {}
 Route network	Rete dei percorsi cavi
+Route the connections of moved items anew	Ritracciare i collegamenti degli elementi spostati
 Route wires in 3D	Instrada i conduttori in 3D
 Routed in {}: {} m, {} bends	Instradato in {}: {} m, {} curve
 Routing around symbols	Instradamento attorno ai simboli
@@ -1584,18 +1621,25 @@ Save as project template…	Salva come modello di progetto…
 Save as scheme	Salva come schema
 Save as template	Salva come modello
 Save as template…	Salva come modello…
+Save asks for a file	Salva chiede un file
 Save as…	Salva con nome…
 Save current page as template…	Salva pagina corrente come modello…
 Save current…	Salva corrente…
 Save file…	Salva file…
+Save locally	Salva in locale
+Save locally to {}	Salva in locale in {}
+Save locally; {} on the project server stays unchanged	Salva in locale; {} sul server dei progetti resta invariato
 Save page as macro…	Salva pagina come macro…
 Save page as template	Salva pagina come modello
 Save page as template…	Salva pagina come modello…
 Save selection as macro…	Salva selezione come macro…
 Save the box content as the macro in the library	Salva il contenuto del riquadro come macro nella libreria
 Save to project server	Salva sul server dei progetti
+Save to project server: {}	Salva sul server dei progetti: {}
+Save to project server: {} – the connection is lost, saving tries again	Salva sul server dei progetti: {} – la connessione è persa, il salvataggio riprova
 Save workspace	Salva area di lavoro
 Save workspace…	Salva area di lavoro…
+Saved to	Salvato in
 Saved to the project server (revision {})	Salvato sul server di progetto (revisione {})
 Saved workspaces	Aree di lavoro salvate
 Saves the placed properties as a placement scheme of the project	Salva le proprietà posizionate come schema di posizionamento del progetto
@@ -1610,6 +1654,9 @@ Scheme name	Nome dello schema
 Scheme placed again at {} symbols	Schema posizionato di nuovo su {} simboli
 Scheme {}	Schema {}
 Screws, nuts, washers and rivet nuts of the fixing points	Viti, dadi, rondelle e inserti filettati dei punti di fissaggio
+Scrolling	Scorrimento
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Lo scorrimento sposta la vista in ogni direzione; pizzicare o Ctrl + scorrimento per lo zoom.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Scorrere in alto e in basso esegue lo zoom sul puntatore, di lato (rotella orizzontale, Maiusc + rotella) sposta la vista.
 Search (* and ? as placeholders)…	Cerca (* e ? come caratteri jolly)…
 Search below this folder	Cerca sotto questa cartella
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Cerca nel server articoli per catalogo, gruppo di prodotti e dati tecnici, aggiungi articoli e verifica la presenza di aggiornamenti nel database
@@ -1649,6 +1696,7 @@ Selectivity and back-up protection of device pairs as tested by the manufacturer
 Semicolon	Punto e virgola
 Separator	Separatore
 Server URL	URL del server
+Server address and sign-in	Indirizzo del server e accesso
 Server type	Tipo di server
 Servers	Server
 Service space in front	Spazio di servizio anteriore
@@ -1688,6 +1736,7 @@ Show in schematic	Mostra nello schema
 Show in the schematic	Mostra nello schema
 Show on the pages	Mostra sulle pagine
 Show or hide panes; drag a tab to dock it elsewhere	Mostra o nascondi riquadri; trascina una scheda per agganciarla altrove
+Show project manager	Mostra il gestore dei progetti
 Show the enclosures bayed to this one as well	Mostra anche gli armadi affiancati a questo
 Show the messages accepted as checked	Mostra i messaggi accettati come verificati
 Show the other wires	Mostra gli altri conduttori
@@ -1700,6 +1749,8 @@ Shown in title blocks with {prop:Name}	Mostrato nei cartigli con {prop:Name}
 Shown instead of the measured value	Mostrato al posto del valore misurato
 Shows	Mostra
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Pareti laterali, parete posteriore, tetto e fondo visti dall'esterno: ventilatori, pressacavi, aperture
+Sign in in the Project server pane; the project opens afterwards	Accedi nel riquadro Server dei progetti; poi il progetto si apre
+Sign in…	Accedi…
 Signed in to {} as {}	Accesso a {} eseguito come {}
 Signed out of Vault	Disconnesso da Vault
 Single-line	Unifilare
@@ -1788,6 +1839,7 @@ Synchronize	Sincronizza
 Synchronize function texts	Sincronizza testi di funzione
 Synchronize project parts from database	Sincronizza articoli del progetto dal database
 T Text	T Testo
+T-connections	Giunzioni a T
 Tab	Tabulazione
 Table import failed: {}	Importazione della tabella non riuscita: {}
 Tablet mode	Modalità tablet
@@ -1808,6 +1860,7 @@ Taken into the drawing: drawn faded	Acquisito nel disegno: disegnato sbiadito
 Takes the comments as function texts (matched by address)	Usa i commenti come testi funzione (associati tramite l'indirizzo)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Prende le designazioni dei punti di connessione di tutte le funzioni di questo dispositivo dai modelli di funzione dei suoi articoli
 Takes the rights of the role away, whatever other grants give	Revoca i diritti del ruolo, indipendentemente da quanto concesso da altre assegnazioni
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Prende il percorso di peso minimo: la sua lunghezza in passi di griglia, 1,2 per curva e 1,5 per filo incrociato. Disattivato: i fili si allungano e mantengono i loro angoli.
 Target languages	Lingue di destinazione
 Temperature rise at the roof against the middle (IEC/TR 60890)	Aumento di temperatura sul tetto rispetto al centro (IEC/TR 60890)
 Template	Modello
@@ -1837,10 +1890,12 @@ The dictionary is empty: collect the texts from the project.	Il dizionario è vu
 The door seen from the front: door devices and cutouts	La porta vista dal fronte: dispositivi sulla porta e aperture
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	La porta vista dall'interno (cerniere a destra): canaline e cablatura dietro la porta
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	L'armadio è posizionato con il lato sinistro contro il lato destro di quello scelto; i conduttori passano tra di essi attraverso passaggi cavi
+The horizontal wire	Il filo orizzontale
 The items are selected and moved together	Gli elementi vengono selezionati e spostati insieme
 The macro library has no page macros (Macros › Save page as macro…).	La libreria macro non contiene macro di pagina (Macro › Salva pagina come macro…).
 The modules no string takes yet in series, on the first inverter	I moduli che nessuna stringa prende ancora, in serie, sul primo inverter
 The names of its pages follow	I nomi delle sue pagine si adeguano
+The open project is a local recovery copy. Its changes are not saved on the project server; before the shared project opens, you decide whether to save them locally or discard them.	Il progetto aperto è una copia di ripristino locale. Le sue modifiche non sono salvate sul server dei progetti; prima che il progetto condiviso si apra, decidi se salvarle in locale o scartarle.
 The page name gets the section number	Il nome della pagina riceve il numero della sezione
 The page type, plot frame, title block, structure, description and the whole content are saved.	Vengono salvati tipo di pagina, cornice di stampa, cartiglio, struttura, descrizione e l'intero contenuto.
 The pages it generated stay	Le pagine generate restano
@@ -1849,6 +1904,8 @@ The point's coordinates in the coordinate reference system	Le coordinate del pun
 The project changed since the search.	Il progetto è cambiato dopo la ricerca.
 The project check	La verifica del progetto
 The project database needs the desktop version: the browser cannot search folders.	Il database dei progetti richiede la versione desktop: il browser non può cercare nelle cartelle.
+The project server does not answer: changes are not saved on it until the connection is back	Il server dei progetti non risponde: le modifiche non vengono salvate lì finché la connessione non torna
+The project server {} could not open {}.	Il server dei progetti {} non ha potuto aprire {}.
 The project's own page templates as a file	I modelli di pagina propri del progetto come file
 The project's own title blocks	I cartigli propri del progetto
 The project's own title blocks and report schemes	I cartigli e gli schemi di report propri del progetto
@@ -1863,6 +1920,7 @@ The side of {} is open	Il lato di {} è aperto
 The symbol is placed in the project	Il simbolo è utilizzato nel progetto
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Gli articoli morsetto non indicano supporti terminali né coperchi terminali (dati tecnici End bracket, End plate).
 The update failed	L'aggiornamento non è riuscito
+The vertical wire	Il filo verticale
 The web version is updated on its server.	La versione web viene aggiornata sul suo server.
 The wire tool routes around symbols and other wires	Lo strumento conduttore instrada attorno ai simboli e agli altri conduttori
 The wires get the free cores of the cable in order (left to right)	I conduttori ricevono in ordine (da sinistra a destra) le anime libere del cavo
@@ -1889,10 +1947,14 @@ Top edges	Bordi superiori
 Top left	In alto a sinistra
 Top right	In alto a destra
 Total selectivity	Selettività totale
+Touch screen	Touch screen
 Transfer project parts to database	Trasferisci articoli del progetto nel database
 Translate the project texts; documentation per language	Traduci i testi del progetto; documentazione per lingua
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Rotazione attorno all'asse verticale, in senso antiorario visto dall'alto (90 °: i fronti sono rivolti a destra)
 Tutorial	Tutorial
+Twin ferrules where two wires share a connection point	Puntalini doppi dove due conduttori condividono un punto di connessione
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Due dita sul trackpad spostano la vista, la rotella del mouse esegue lo zoom. Solo macOS li distingue; altrove lo scorrimento esegue lo zoom come la rotella.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Due dita spostano la vista e, pizzicando, eseguono lo zoom contemporaneamente; un dito funziona come il tasto sinistro del mouse.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Qui devono incontrarsi due conduttori ad angolo retto. Con la connessione automatica attiva, i punti di collegamento rivolti ai suoi bracci vi vengono cablati.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Digita un punto e premi Enter: x y in mm o @dx dy rispetto all'ultimo punto; agisce come un clic dello strumento corrente
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1977,6 +2039,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Rotellina: zoom · clic destro: annulla · la grafica si aggancia a 0,5 mm, i punti di connessione alla griglia da 4 mm
 When it differs from the page	Se differisce dalla pagina
 Where	Posizione
+Where neither wire has a termination chosen for it	Dove nessuno dei due conduttori ha una terminazione scelta
 Where the point is in the plant; y: its height above the ground level of the plant	Dove si trova il punto nell'impianto; y: la sua altezza sopra il livello del terreno dell'impianto
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Da dove proviene la struttura del dispositivo: gli aspetti uguali alla struttura intorno al simbolo sono ereditati e seguono quando entra o esce da un riquadro di struttura; gli altri aspetti sono propri del dispositivo e restano.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Dove il conduttore inizia e finisce: un punto di connessione dai dati dell'articolo, uno generato dal modello di funzione o il centro del dispositivo se nessun punto di connessione corrisponde
@@ -1992,6 +2055,8 @@ Window macro: {}	Macro finestra: {}
 Window macros inserted from now on are recorded as macro boxes.	Le macro finestra inserite d'ora in poi vengono registrate come riquadri macro.
 Window macros placed on the pages (not printed)	Macro finestra posizionate sulle pagine (non stampate)
 Wire colour	Colore del filo
+Wire crossings	Incroci dei fili
+Wire crossings…	Incroci dei fili…
 Wire ends	Estremità dei conduttori
 Wire ends with ferrules	Estremità dei conduttori con puntalini
 Wire markers	Marcatori conduttore
@@ -2005,6 +2070,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Conduttore {} – {}  
 Wire {} – {}  {} mm	Conduttore {} – {}  {} mm
 Wires and potentials	Conduttori e potenziali
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	I conduttori tra gli attacchi dei simboli oleodinamici/pneumatici e P&ID sono tubi flessibili / tubazioni: reti proprie, numerate con la numerazione conduttori, elencate nella lista tubi flessibili.
+Wires crossing without connection	Fili che si incrociano senza collegamento
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Da qui devono partire conduttori in tutte e quattro le direzioni. Fino ad allora il collegamento è concatenato nell'ordine dello schema.
 Wires of the connection	Fili del collegamento
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Anche i conduttori seguono i percorsi 3D che tengono conto degli ostacoli, invece delle sole canaline sulla piastra
@@ -2244,6 +2310,7 @@ x y	x y
 {} pages get a new name	{} pagine ricevono un nuovo nome
 {} pages removed, {} pages generated	{} pagine rimosse, {} pagine generate
 {} pages renamed	{} pagine rinominate
+{} pages, users: {}	{} pagine, utenti: {}
 {} pages; their names start with {}	{} pagine; i loro nomi iniziano con {}
 {} parts added to the database	{} articoli aggiunti al database
 {} parts of the database updated – synchronize the project parts in parts management	{} articoli del database aggiornati – sincronizza gli articoli del progetto nella gestione articoli
@@ -2288,10 +2355,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pixel, {}
 {} – {} ({} pages)	{} – {} ({} pagine)
 {}: click to show its floor plan	{}: clic per mostrarne la pianta
+{}: crimp together with the wire to {}	{}: crimpare insieme al conduttore verso {}
 {}: drag to move it, R turns it, a double-click opens it	{}: trascina per spostare, R per ruotare, doppio clic per aprire
 {}: drag to move it, a double-click shows the floor	{}: trascina per spostare, doppio clic per mostrare il pavimento
 {}: nothing to change	{}: niente da modificare
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: spelare {} mm, {}
 {}: {} addresses changed	{}: {} indirizzi modificati
 {}: {} changes in the open project (not saved yet)	{}: {} modifiche nel progetto aperto (non ancora salvate)
 {}: {} changes saved	{}: {} modifiche salvate

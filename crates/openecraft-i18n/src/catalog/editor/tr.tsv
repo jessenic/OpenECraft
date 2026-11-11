@@ -49,12 +49,15 @@ A cable of the bus type for every connection without cable	Kablosu olmayan her b
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Komşunun yan duvarında aynı yerde aynı boyutta bir kesim: birlikte bir kablo geçişi oluştururlar
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Klasörde aynı adlı bir dosya varsa yeni bir sürüm alır (kullanıma alınıp iade edilir), aksi halde dosya eklenir
 A level on top of the highest one	En üsttekinin üzerine bir kat
+A local file opens locally, a server project is opened on the project server again	Yerel bir dosya yerel olarak açılır, sunucu projesi proje sunucusunda yeniden açılır
+A local file or a project on the project server	Yerel bir dosya veya proje sunucusundaki bir proje
 A new project	Yeni bir proje
 A new release is downloaded in the background and installed when you close OpenECraft.	Yeni bir sürüm arka planda indirilir ve OpenECraft'ı kapattığınızda yüklenir.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Yeni bir sürüm arka planda indirilir ve bu kurulumun yerini alır; bir sonraki başlatmadan itibaren kullanılır.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Sayfaları bir klasör gibi içeren numaralı bir bölüm; sayfa adları onun numarasıyla başlar (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil, nötr alanları belirli bir sistemin sütun adlarıyla eşler (ör. SAP'de ERP numarası için MATNR). Eşleme yoksa İngilizce ve Almanca yaygın adlar tanınır.
 A project definition based on this one, with its own defaults and scheme	Kendi varsayılanları ve şemasıyla bu tanıma dayanan bir proje tanımı
+A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Bunun yerine dosya yöneticisinden açılan proje dosyası açılır. Son oturumun kaydedilmemiş değişiklikleri sormadan asla atılmaz.
 A reference point at the origin of the plant	Tesisin orijininde bir referans noktası
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Rapor bloğu, bir raporun sayfalarını oluşturur (ör. şerit başına bir klemens şeması) ve bunları günceller.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Geçerli sayfadan sonra 3.1, 3.2, … şeklinde bir şema sayfası; yeniden numaralandırmada alt sayfa olarak kalır
@@ -230,6 +233,7 @@ Cable definition	Kablo tanımı
 Cable definition on page {}	{} sayfasında kablo tanımı
 Cable definition: draw a line across the wires that are cores of a cable	Kablo tanımı: bir kablonun damarları olan tellerin üzerinden bir çizgi çizin
 Cable end reserve	Kablo ucu payı
+Cable ends	Kablo uçları
 Cable markers	Kablo işaretleri
 Cable passage to {}	{} ile kablo geçişi
 Cable {}: {} cores assigned	Kablo {}: {} damar atandı
@@ -278,7 +282,9 @@ Choices	Seçenekler
 Choices (separated by commas)	Seçenekler (virgülle ayrılmış)
 Choose	Seç
 Choose a baseline, a revision or a project file to compare the project with.	Projeyi karşılaştırmak için bir referans sürüm, bir revizyon veya bir proje dosyası seçin.
+Choose a project on every start: local files and projects of the project server	Her başlangıçta bir proje seç: yerel dosyalar ve proje sunucusunun projeleri
 Choose a room first: floor-standing parts go on its floor.	Önce bir oda seçin: zemine konan parçalar onun zeminine yerleştirilir.
+Choose another project	Başka bir proje seç
 Choose file…	Dosya seç…
 Choose pages	Sayfaları seç
 Chooses the pages whose structure starts with this	Yapısı bununla başlayan sayfaları seçer
@@ -371,10 +377,12 @@ Connection points 1 and 2 are connected inside	Bağlantı noktaları 1 ve 2 içe
 Connection:	Bağlantı:
 Connections ({})	Bağlantılar ({})
 Connections / harness	Bağlantılar / kablo demeti
+Connections of four or more wires always have a dot.	Dört veya daha fazla telin bağlantılarında her zaman nokta bulunur.
 Connections whose two ends are both on selected wires	İki ucu da seçili teller üzerinde olan bağlantılar
 Connections without a defined potential	Tanımlı potansiyeli olmayan bağlantılar
 Connectors	Konnektörler
 Connects free connection points of the selected symbols with facing ones	Seçili sembollerin boş bağlantı noktalarını karşılarındakilerle bağlar
+Connects to the project server and shows its projects, without the project of the last session	Proje sunucusuna bağlanır ve projelerini gösterir, son oturumun projesi olmadan
 Consecutive addresses from the start byte, in schematic order	Başlangıç baytından itibaren şema sırasına göre ardışık adresler
 Contact image below coils	Bobinlerin altında kontak görüntüsü
 Content	İçerik
@@ -431,6 +439,7 @@ Dashed	Kesik çizgili
 Decimals	Ondalık basamak
 Default	Varsayılan
 Default (part data or definition)	Varsayılan (parça verileri veya tanım)
+Default ({})	Varsayılan ({})
 Default label	Varsayılan yazı
 Default medium	Varsayılan ortam
 Default rules	Varsayılan kurallar
@@ -655,7 +664,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Malzeme listesinde sabitleme elemanları
 Favorite	Favori
 Favorites (JSON)	Favoriler (JSON)
-Ferrule {} ({})	Kablo yüksüğü {} ({})
 Field	Alan
 Field (name, description, company, creator, date, revision) or project property	Alan (name, description, company, creator, date, revision) veya proje özelliği
 Field cables	Saha kabloları
@@ -742,6 +750,7 @@ Generic	Genel
 German zones (DIN 18015-3)	Alman bölgeleri (DIN 18015-3)
 Getting started	Başlarken
 Global variable list with direct addresses for CODESYS, TwinCAT and others	CODESYS, TwinCAT ve diğerleri için doğrudan adresli genel değişken listesi
+Go on working locally; Save saves to a local file	Yerel olarak çalışmaya devam et; Kaydet yerel bir dosyaya kaydeder
 Go to page	Sayfaya git
 Graphic line	Grafik çizgi
 Graphic rectangle	Grafik dikdörtgen
@@ -791,6 +800,8 @@ Hose number	Hortum numarası
 Hoses and pipes	Hortumlar ve borular
 Hoses rated below it are errors; 0 = not checked	Bunun altında derecelendirilmiş hortumlar hatadır; 0 = kontrol edilmez
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Kanadın açılışı: sol veya sağ kenarında menteşeli (odanın içinden bakıldığında), odaya doğru veya dışarı, ya da duvar boyunca sürgülü
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Telin bu uçta nasıl sonlandırıldığı; varsayılan olarak bağlantı noktası veya cihazı için seçildiği gibi, aksi halde yerleşimin yüksük ayarına göre
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Tellerin kesiştikleri tellerin üzerinden nasıl atladığı, T bağlantılarının nasıl işaretlendiği ve taşınan öğelerin bağlantılarının yeniden yönlendirilip yönlendirilmediği
 IP / bus address	IP / bus adresi
 ISO 639-1 language code	ISO 639-1 dil kodu
 Identifiers	Tanımlayıcılar
@@ -865,6 +876,7 @@ Insulation	Yalıtım
 Interruption points refer to	Kesme noktalarının referansı
 Introduction	Giriş
 Invalid value	Geçersiz değer
+Invert the direction of panning by scrolling	Kaydırmayla görünüm kaydırma yönünü ters çevir
 Inverter or charge controller (devices with PV input data)	İnvertör veya şarj kontrol cihazı (PV giriş verisi olan cihazlar)
 Isometric	İzometrik
 Items on the layer	Katmandaki öğeler
@@ -876,6 +888,7 @@ Join collinear wires	Doğrusal telleri birleştir
 Joins	Bağlar
 Joins wire pieces in a line where nothing else connects (current page)	Başka hiçbir şeyin bağlanmadığı yerlerde bir hat üzerindeki tel parçalarını birleştirir (geçerli sayfa)
 Jumper {}	Köprü {}
+Jumps over the other:	Diğerinin üzerinden atlar:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Alt sayfaları (3.a, 3.1) önceki sayfayla birlikte tut
 Keep the degree of protection	Koruma derecesini koru
@@ -889,6 +902,7 @@ Label (grey)	Yazı (gri)
 Label field	Yazı alanı
 Labeling scheme	Etiketleme şeması
 Landscape	Yatay
+Large dot	Büyük nokta
 Larger texts and buttons for a touch screen at the workbench	Tezgâhtaki dokunmatik ekran için daha büyük metinler ve düğmeler
 Latitude, longitude	Enlem, boylam
 Layer	Katman
@@ -938,6 +952,9 @@ Load template…	Şablon yükle…
 Loading changes…	Değişiklikler yükleniyor…
 Loading the project access…	Proje erişimi yükleniyor…
 Loads	Yükler
+Local file	Yerel dosya
+Local file: {}	Yerel dosya: {}
+Local recovery copy of server project: {}	Sunucu projesinin yerel kurtarma kopyası: {}
 Lock all	Tümünü kilitle
 Lock all pages	Tüm sayfaları kilitle
 Lock current page	Geçerli sayfayı kilitle
@@ -1003,6 +1020,7 @@ Min. bend radius	Min. bükme yarıçapı
 Minimize the ribbon	Şeridi küçült
 Mirror	Yansıt
 Mirror (selection or symbol being placed)	Yansıt (seçim veya yerleştirilen sembol)
+Mixed	Karışık
 Mode	Mod
 Model of a part (2D / 3D)	Bir parçanın modeli (2D / 3D)
 Module part; its size comes from the part	Modül parçası; boyutu parçadan gelir
@@ -1026,6 +1044,7 @@ Move to section	Bölüme taşı
 Move up	Yukarı taşı
 Moves to the top level as page {}	En üst düzeye {} sayfası olarak geçer
 Moves to {} as page {}	{} bölümüne {} sayfası olarak geçer
+Moving	Taşıma
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Geçerli sayfanın tek hatlı sembolleri için yeni bir sayfada çok hatlı güç sembolleri ve iletkenler
 Multiple copy	Çoklu kopyala
 Multiple copy…	Çoklu kopyala…
@@ -1042,6 +1061,7 @@ Name and cross reference	Ad ve çapraz referans
 Name on the server	Sunucudaki ad
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Ad; Veri tipi; Mantıksal adres; Açıklama – PLC programlama araçları için
 Named copy of this form, for report blocks	Rapor blokları için bu formun adlandırılmış kopyası
+Navigation	Gezinme
 Navigators	Gezginler
 Neutral exchange file…	Nötr değişim dosyası…
 Never	Hiçbir zaman
@@ -1070,6 +1090,7 @@ New potential	Yeni potansiyel
 New project	Yeni proje
 New project from template	Şablondan yeni proje
 New project scheme from the selected one	Seçili şemadan yeni proje şeması
+New project, not saved yet	Yeni proje, henüz kaydedilmedi
 New report page	Yeni rapor sayfası
 New request	Yeni talep
 New revision	Yeni revizyon
@@ -1108,11 +1129,13 @@ No device has its main function in the box.	Hiçbir cihazın ana fonksiyonu kutu
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Henüz hiçbir cihazın montaj verisi yok: cihazlara boyutları olan parçalar atayın (Özellikler › Parçalar).
 No differences to {}.	{} ile fark yok.
 No document embedded	Gömülü belge yok
+No dot: plain T	Nokta yok: düz T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Henüz pano yok – Yeni pano ile bir pano veya Yeni oda ile panolar için bir oda oluşturun.
 No field cables: place the enclosures and field devices at nodes of the route network.	Saha kablosu yok: panoları ve saha cihazlarını güzergâh ağının düğümlerine yerleştirin.
 No filter fans: an air/air heat exchanger or a cooling unit	Filtreli fan yok: hava/hava ısı eşanjörü veya soğutma ünitesi
 No harnesses defined.	Tanımlı kablo demeti yok.
 No inverter	İnvertör yok
+No jump: plain crossing, connections have dots	Atlama yok: düz kesişim, bağlantılarda nokta var
 No longer reported	Artık bildirilmiyor
 No macros yet. Select items in a schematic and save them as a macro.	Henüz makro yok. Bir şemada öğeleri seçin ve makro olarak kaydedin.
 No modules: plug in PLC cards of the schematic.	Modül yok: şemadaki PLC kartlarını takın.
@@ -1152,6 +1175,7 @@ Not found: {}	Bulunamadı: {}
 Not in the project parts – synchronize in parts management	Proje parçalarında yok – parça yönetiminde eşitleyin
 Not on a wire	Bir tel üzerinde değil
 Not saved, locked or changed by another user: {}	Kaydedilmedi, başka bir kullanıcı tarafından kilitlendi veya değiştirildi: {}
+Not the shared project: changes are saved locally until it is opened on the project server again	Paylaşılan proje değil: proje sunucusunda yeniden açılana kadar değişiklikler yerel olarak kaydedilir
 Nothing exchanged yet.	Henüz hiçbir şey değiş tokuş edilmedi.
 Nothing left in this list.	Bu listede bir şey kalmadı.
 Nothing to show	Gösterilecek bir şey yok
@@ -1168,6 +1192,7 @@ Of the outer diameter, as laid fixed	Dış çapın katı, sabit döşemede
 Of the outer diameter; pipes are bent with elbows of one and a half diameters	Dış çapın katı; borular bir buçuk çaplık dirseklerle bükülür
 Off	Kapalı
 Offset from one row to the next: downwards for lists, sideways for rows side by side	Bir satırdan sonrakine kaydırma: listeler için aşağı doğru, yan yana satırlar için yana doğru
+On startup	Başlangıçta
 One row per label	Etiket başına bir satır
 Only devices on the current page	Yalnızca geçerli sayfadaki cihazlar
 Only frames no page uses can be deleted	Yalnızca hiçbir sayfanın kullanmadığı çerçeveler silinebilir
@@ -1175,6 +1200,7 @@ Only messages of the current page	Yalnızca geçerli sayfanın mesajları
 Only parts whose function template provides the device's main function	Yalnızca fonksiyon şablonu cihazın ana fonksiyonunu sağlayan parçalar
 Only rows that pass all filters are shown	Yalnızca tüm filtrelerden geçen satırlar gösterilir
 Only web and e-mail addresses (http, https, mailto) are links	Yalnızca web ve e-posta adresleri (http, https, mailto) bağlantı olabilir
+Open a specific project	Belirli bir proje aç
 Open and save shared projects, lock pages	Paylaşılan projeleri aç ve kaydet, sayfaları kilitle
 Open archive…	Arşiv aç…
 Open as project	Proje olarak aç
@@ -1183,7 +1209,9 @@ Open demo project	Demo projeyi aç
 Open door	Kapıyı aç
 Open in a new page tab	Yeni bir sayfa sekmesinde aç
 Open link	Bağlantıyı aç
+Open local recovery copy	Yerel kurtarma kopyasını aç
 Open project	Proje aç
+Open project server	Proje sunucusunu aç
 Open projects and files from Autodesk Vault, put the project, exports and 3D models into the vault	Autodesk Vault'tan proje ve dosya açın, projeyi, dışa aktarımları ve 3D modelleri kasaya koyun
 Open the project	Projeyi aç
 Open to {}: wires cross beside the mounting plates	{} tarafına açık: teller montaj plakalarının yanından geçer
@@ -1360,6 +1388,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Parçaların k
 Pre-planning (CSV, Excel)	Ön planlama (CSV, Excel)
 Prefix	Önek
 Press a key…	Bir tuşa basın…
+Preview	Önizleme
 Previous item	Önceki öğe
 Previous page	Önceki sayfa
 Previous page tab	Önceki sayfa sekmesi
@@ -1385,14 +1414,19 @@ Project default; pages can choose their own in the page properties	Proje varsay�
 Project file	Proje dosyası
 Project file…	Proje dosyası…
 Project information	Proje bilgileri
+Project on the project server	Proje sunucusundaki proje
 Project parts are the copies stored in this project; they are used for the bill of materials and the project check.	Proje parçaları bu projede saklanan kopyalardır; malzeme listesi ve proje kontrolü için kullanılırlar.
 Project properties changed in {} projects	{} projede proje özellikleri değiştirildi
 Project properties…	Proje özellikleri…
 Project server	Proje sunucusu
 Project server: {}	Proje sunucusu: {}
+Project server: {} / Project: {}	Proje sunucusu: {} / Proje: {}
+Project server: {} / Project: {} – connection lost	Proje sunucusu: {} / Proje: {} – bağlantı kesildi
 Project texts (function texts, page descriptions, free texts, descriptions) are written in the source language; the dictionary translates them line by line. Reports and title blocks follow the output language.	Proje metinleri (fonksiyon metinleri, sayfa açıklamaları, serbest metinler, açıklamalar) kaynak dilde yazılır; sözlük bunları satır satır çevirir. Raporlar ve antetler çıktı dilini izler.
 Project: {}	Proje: {}
 Projects from a first circuit to a whole plant, each showing more of the features	İlk devreden tüm tesise kadar projeler; her biri özelliklerin daha fazlasını gösterir
+Projects on the project server {}	{} proje sunucusundaki projeler
+Projects on the server	Sunucudaki projeler
 Properties…	Özellikler…
 Property database	Özellik veritabanı
 Property definitions	Özellik tanımları
@@ -1480,6 +1514,7 @@ Renumber 1 … n	Yeniden numaralandır 1 … n
 Renumber contact	Kontağı yeniden numaralandır
 Renumber pages	Sayfaları yeniden numaralandır
 Renumber pages…	Sayfaları yeniden numaralandır…
+Reopen last project	Son projeyi yeniden aç
 Repair {} findings	{} bulguyu onar
 Replace	Değiştir
 Replace all	Tümünü değiştir
@@ -1514,6 +1549,7 @@ Reset to standard	Standarda sıfırla
 Restart and update	Yeniden başlat ve güncelle
 Resulting: {} · {} · {} · {} m	Sonuç: {} · {} · {} · {} m
 Results of the project check	Proje kontrolünün sonuçları
+Retry connection	Bağlantıyı yeniden dene
 Review	İnceleme
 Review ({})	İnceleme ({})
 Revision marks	Revizyon işaretleri
@@ -1549,6 +1585,7 @@ Round	Yuvarlak
 Round cutouts facing each other in both side walls	Her iki yan duvarda karşılıklı yuvarlak kesimler
 Route definition of {}	{} güzergâh tanımı
 Route network	Güzergâh ağı
+Route the connections of moved items anew	Taşınan öğelerin bağlantılarını yeniden yönlendir
 Route wires in 3D	Telleri 3D olarak yönlendir
 Routed in {}: {} m, {} bends	{} içinde yönlendirildi: {} m, {} büküm
 Routing around symbols	Sembollerin etrafından yönlendirme
@@ -1584,18 +1621,25 @@ Save as project template…	Proje şablonu olarak kaydet…
 Save as scheme	Şema olarak kaydet
 Save as template	Şablon olarak kaydet
 Save as template…	Şablon olarak kaydet…
+Save asks for a file	Kaydet bir dosya sorar
 Save as…	Farklı kaydet…
 Save current page as template…	Geçerli sayfayı şablon olarak kaydet…
 Save current…	Geçerli olanı kaydet…
 Save file…	Dosyayı kaydet…
+Save locally	Yerel olarak kaydet
+Save locally to {}	Yerel olarak {} dosyasına kaydet
+Save locally; {} on the project server stays unchanged	Yerel olarak kaydet; proje sunucusundaki {} değişmez
 Save page as macro…	Sayfayı makro olarak kaydet…
 Save page as template	Sayfayı şablon olarak kaydet
 Save page as template…	Sayfayı şablon olarak kaydet…
 Save selection as macro…	Seçimi makro olarak kaydet…
 Save the box content as the macro in the library	Kutu içeriğini kütüphanede makro olarak kaydet
 Save to project server	Proje sunucusuna kaydet
+Save to project server: {}	Proje sunucusuna kaydet: {}
+Save to project server: {} – the connection is lost, saving tries again	Proje sunucusuna kaydet: {} – bağlantı kesildi, kaydetme yeniden dener
 Save workspace	Çalışma alanını kaydet
 Save workspace…	Çalışma alanını kaydet…
+Saved to	Kaydedildiği yer
 Saved to the project server (revision {})	Proje sunucusuna kaydedildi (revizyon {})
 Saved workspaces	Kaydedilmiş çalışma alanları
 Saves the placed properties as a placement scheme of the project	Yerleştirilen özellikleri projenin bir yerleştirme şeması olarak kaydeder
@@ -1610,6 +1654,9 @@ Scheme name	Düzen adı
 Scheme placed again at {} symbols	Şema {} sembole yeniden yerleştirildi
 Scheme {}	Düzen {}
 Screws, nuts, washers and rivet nuts of the fixing points	Sabitleme noktalarının vidaları, somunları, pulları ve perçin somunları
+Scrolling	Kaydırma
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Kaydırma görünümü her yöne kaydırır; yakınlaştırmak için kıstırın veya Ctrl + kaydırma kullanın.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Yukarı ve aşağı kaydırma imleçte yakınlaştırır, yana (yatay tekerlek, Shift + tekerlek) görünümü kaydırır.
 Search (* and ? as placeholders)…	Ara (* ve ? joker karakter olarak)…
 Search below this folder	Bu klasörün altında ara
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Parça sunucusunda katalog, ürün grubu ve teknik verilere göre arayın, parça ekleyin ve veritabanında güncellemeleri kontrol edin
@@ -1649,6 +1696,7 @@ Selectivity and back-up protection of device pairs as tested by the manufacturer
 Semicolon	Noktalı virgül
 Separator	Ayırıcı
 Server URL	Sunucu URL'si
+Server address and sign-in	Sunucu adresi ve oturum açma
 Server type	Sunucu türü
 Servers	Sunucular
 Service space in front	Öndeki servis alanı
@@ -1688,6 +1736,7 @@ Show in schematic	Şemada göster
 Show in the schematic	Şemada göster
 Show on the pages	Sayfalarda göster
 Show or hide panes; drag a tab to dock it elsewhere	Panelleri göster veya gizle; başka yere yerleştirmek için bir sekmeyi sürükleyin
+Show project manager	Proje yöneticisini göster
 Show the enclosures bayed to this one as well	Buna yan yana bağlı panoları da göster
 Show the messages accepted as checked	Kontrol edildi olarak kabul edilen mesajları göster
 Show the other wires	Diğer telleri göster
@@ -1700,6 +1749,8 @@ Shown in title blocks with {prop:Name}	Antetlerde {prop:Name} ile gösterilir
 Shown instead of the measured value	Ölçülen değer yerine gösterilir
 Shows	Gösterir
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Dışarıdan görülen yan duvarlar, arka duvar, üst ve taban: fanlar, kablo rakorları, kesimler
+Sign in in the Project server pane; the project opens afterwards	Proje sunucusu bölmesinde oturum açın; proje ardından açılır
+Sign in…	Oturum aç…
 Signed in to {} as {}	{} üzerinde {} olarak oturum açıldı
 Signed out of Vault	Vault oturumu kapatıldı
 Single-line	Tek hatlı
@@ -1788,6 +1839,7 @@ Synchronize	Eşitle
 Synchronize function texts	Fonksiyon metinlerini eşitle
 Synchronize project parts from database	Proje parçalarını veritabanından eşitle
 T Text	T Metin
+T-connections	T bağlantıları
 Tab	Sekme
 Table import failed: {}	Tablo içe aktarma başarısız oldu: {}
 Tablet mode	Tablet modu
@@ -1808,6 +1860,7 @@ Taken into the drawing: drawn faded	Çizime aktarıldı: soluk çizilir
 Takes the comments as function texts (matched by address)	Açıklamaları fonksiyon metni olarak alır (adrese göre eşleştirilir)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Bu cihazın tüm fonksiyonlarının bağlantı noktası tanımlarını parçalarının fonksiyon şablonlarından alır
 Takes the rights of the role away, whatever other grants give	Diğer atamalar ne verirse versin rolün haklarını geri alır
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	En düşük ağırlıklı yolu seçer: ızgara adımı cinsinden uzunluğu, büküm başına 1,2 ve kesişilen tel başına 1,5. Kapalı: teller uzar ve köşelerini korur.
 Target languages	Hedef diller
 Temperature rise at the roof against the middle (IEC/TR 60890)	Tavandaki sıcaklık artışı, ortaya göre (IEC/TR 60890)
 Template	Şablon
@@ -1837,10 +1890,12 @@ The dictionary is empty: collect the texts from the project.	Sözlük boş: meti
 The door seen from the front: door devices and cutouts	Önden görülen kapı: kapı cihazları ve kesimler
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	İçeriden görülen kapı (menteşeler sağda): kablo kanalları ve kapının arkasındaki kablolama
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Pano sol tarafıyla seçilen panonun sağ tarafına dayanır; teller aralarında kablo geçişlerinden geçer
+The horizontal wire	Yatay tel
 The items are selected and moved together	Öğeler birlikte seçilir ve taşınır
 The macro library has no page macros (Macros › Save page as macro…).	Makro kütüphanesinde sayfa makrosu yok (Makrolar › Sayfayı makro olarak kaydet…).
 The modules no string takes yet in series, on the first inverter	Henüz hiçbir dizinin almadığı modüller, seri olarak, ilk invertörde
 The names of its pages follow	Sayfalarının adları da değişir
+The open project is a local recovery copy. Its changes are not saved on the project server; before the shared project opens, you decide whether to save them locally or discard them.	Açık proje yerel bir kurtarma kopyasıdır. Değişiklikleri proje sunucusuna kaydedilmedi; paylaşılan proje açılmadan önce bunları yerel olarak kaydetmeye veya atmaya siz karar verirsiniz.
 The page name gets the section number	Sayfa adı bölüm numarasını alır
 The page type, plot frame, title block, structure, description and the whole content are saved.	Sayfa tipi, çizim çerçevesi, antet, yapı, açıklama ve tüm içerik kaydedilir.
 The pages it generated stay	Oluşturduğu sayfalar kalır
@@ -1849,6 +1904,8 @@ The point's coordinates in the coordinate reference system	Noktanın koordinat r
 The project changed since the search.	Proje aramadan bu yana değişti.
 The project check	Proje kontrolü
 The project database needs the desktop version: the browser cannot search folders.	Proje veritabanı için masaüstü sürümü gerekir: tarayıcı klasörlerde arama yapamaz.
+The project server does not answer: changes are not saved on it until the connection is back	Proje sunucusu yanıt vermiyor: bağlantı geri gelene kadar değişiklikler orada kaydedilmez
+The project server {} could not open {}.	Proje sunucusu {} şunu açamadı: {}.
 The project's own page templates as a file	Projenin kendi sayfa şablonları dosya olarak
 The project's own title blocks	Projenin kendi antetleri
 The project's own title blocks and report schemes	Projenin kendi antetleri ve rapor düzenleri
@@ -1863,6 +1920,7 @@ The side of {} is open	{} tarafı açık
 The symbol is placed in the project	Sembol projede kullanılıyor
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Klemens parçaları klemens stoperi veya uç kapağı belirtmiyor (End bracket, End plate teknik verileri).
 The update failed	Güncelleme başarısız oldu
+The vertical wire	Dikey tel
 The web version is updated on its server.	Web sürümü kendi sunucusunda güncellenir.
 The wire tool routes around symbols and other wires	Tel aracı sembollerin ve diğer tellerin etrafından yönlendirir
 The wires get the free cores of the cable in order (left to right)	Teller kablonun boş damarlarını sırayla (soldan sağa) alır
@@ -1889,10 +1947,14 @@ Top edges	Üst kenarlar
 Top left	Sol üst
 Top right	Sağ üst
 Total selectivity	Tam seçicilik
+Touch screen	Dokunmatik ekran
 Transfer project parts to database	Proje parçalarını veritabanına aktar
 Translate the project texts; documentation per language	Proje metinlerini çevir; dil başına dokümantasyon
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Dikey eksen etrafında dönüş, yukarıdan bakıldığında saat yönünün tersine (90 °: ön yüzler sağa bakar)
 Tutorial	Eğitim
+Twin ferrules where two wires share a connection point	İki telin bir bağlantı noktasını paylaştığı yerlerde ikiz yüksükler
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dokunmatik yüzeyde iki parmak görünümü kaydırır, fare tekerleği yakınlaştırır. Bunları yalnızca macOS ayırt eder; diğer sistemlerde kaydırma tekerlek gibi yakınlaştırır.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	İki parmak aynı anda görünümü kaydırır ve kıstırarak yakınlaştırır; tek parmak sol fare düğmesi gibi çalışır.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Burada iki tel dik açıyla birleşmeli. Otomatik bağlama açıkken kollarına bakan bağlantı noktaları ona bağlanır.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Bir nokta yazın ve Enter'a basın: mm cinsinden x y veya son noktaya göre @dx dy; geçerli aracın tıklaması gibi davranır
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1977,6 +2039,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Tekerlek: yakınlaştır · sağ tık: iptal · grafikler 0,5 mm'ye, bağlantı noktaları 4 mm ızgaraya yaslanır
 When it differs from the page	Sayfadan farklı olduğunda
 Where	Konum
+Where neither wire has a termination chosen for it	Hiçbir tel için sonlandırma seçilmemişse
 Where the point is in the plant; y: its height above the ground level of the plant	Noktanın tesisteki yeri; y: tesisin zemin seviyesinin üzerindeki yüksekliği
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Cihazın yapısının kaynağı: sembolün çevresindeki yapıya eşit olan yönler devralınır ve sembol bir yapı kutusuna girdiğinde veya çıktığında değişir; diğer yönler cihazın kendisine aittir ve korunur.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Telin başladığı ve bittiği yer: parça verilerinden bir bağlantı noktası, fonksiyon şablonundan oluşturulan bir nokta veya eşleşen bağlantı noktası yoksa cihaz merkezi
@@ -1992,6 +2055,8 @@ Window macro: {}	Pencere makrosu: {}
 Window macros inserted from now on are recorded as macro boxes.	Bundan sonra eklenen pencere makroları makro kutuları olarak kaydedilir.
 Window macros placed on the pages (not printed)	Sayfalara yerleştirilen pencere makroları (yazdırılmaz)
 Wire colour	Tel rengi
+Wire crossings	Tel kesişimleri
+Wire crossings…	Tel kesişimleri…
 Wire ends	Tel uçları
 Wire ends with ferrules	Kablo yüksüklü tel uçları
 Wire markers	Tel işaretleri
@@ -2005,6 +2070,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Tel {} – {}  (burada
 Wire {} – {}  {} mm	Tel {} – {}  {} mm
 Wires and potentials	Teller ve potansiyeller
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Akışkan gücü ve P&ID sembollerinin bağlantı noktaları arasındaki teller hortum / borudur: kendi ağlarıdır, tel numaralandırmasıyla numaralandırılır ve hortum listesinde listelenir.
+Wires crossing without connection	Bağlantısız kesişen teller
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Buradan dört yöne de tel çıkmalı. O zamana kadar bağlantı şema sırasında zincirlenir.
 Wires of the connection	Bağlantının telleri
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Teller de yalnızca plakadaki kablo kanalları yerine engelleri dikkate alan 3D güzergâhları kullanır
@@ -2244,6 +2310,7 @@ x y	x y
 {} pages get a new name	{} sayfa yeni ad alıyor
 {} pages removed, {} pages generated	{} sayfa kaldırıldı, {} sayfa oluşturuldu
 {} pages renamed	{} sayfa yeniden adlandırıldı
+{} pages, users: {}	{} sayfa, kullanıcılar: {}
 {} pages; their names start with {}	{} sayfa; adları {} ile başlar
 {} parts added to the database	Veritabanına {} parça eklendi
 {} parts of the database updated – synchronize the project parts in parts management	Veritabanında {} parça güncellendi – parça yönetiminde proje parçalarını eşitleyin
@@ -2288,10 +2355,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} piksel, {}
 {} – {} ({} pages)	{} – {} ({} sayfa)
 {}: click to show its floor plan	{}: kat planını göstermek için tıklayın
+{}: crimp together with the wire to {}	{}: {} yönündeki telle birlikte sıkıştırın
 {}: drag to move it, R turns it, a double-click opens it	{}: taşımak için sürükleyin, R döndürür, çift tıklama açar
 {}: drag to move it, a double-click shows the floor	{}: taşımak için sürükleyin, çift tıklama zemini gösterir
 {}: nothing to change	{}: değiştirilecek bir şey yok
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: soyma {} mm, {}
 {}: {} addresses changed	{}: {} adres değiştirildi
 {}: {} changes in the open project (not saved yet)	{}: açık projede {} değişiklik (henüz kaydedilmedi)
 {}: {} changes saved	{}: {} değişiklik kaydedildi

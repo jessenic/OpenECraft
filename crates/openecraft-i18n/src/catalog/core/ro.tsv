@@ -92,6 +92,7 @@ Auxiliary function: main contact	Funcție auxiliară: contact principal
 Auxiliary relay coil R (JIS)	Bobină de releu auxiliar R (JIS)
 B10d	B10d
 Ball valve	Robinet cu bilă
+Bare conductor	Conductor dezizolat
 Basis	Bază
 Battery	Baterie
 Battery capacity	Capacitatea bateriei
@@ -499,8 +500,8 @@ Fan 3-phase	Ventilator trifazat
 Fan 3-phase, 6 terminals	Ventilator trifazat, 6 borne
 Ferrule	Manșon de capăt
 Ferrule from	Manșon de capăt de la
-Ferrule part	Articol manșon de capăt
 Ferrule to	Manșon de capăt la
+Ferrule {} mm² {}	Manșon {} mm² {}
 Field cable routing	Pozarea cablurilor de câmp
 Field cable {} cannot be routed from {} to {}	Cablul de câmp {} nu poate fi pozat de la {} la {}
 Field cable {}: {} is not placed in the plant layout	Cablu de câmp {}: {} nu este plasat în planul de amplasare a instalației
@@ -521,6 +522,8 @@ Fitting	Racord
 Fittings	Racorduri
 Flame retardant	Ignifug
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Cablul plat {} are {} conductori, conectorul IDC {} are {} pini
+Flat plug	Fișă plată
+Flat receptacle	Mufă plată
 Flat roof	Acoperiș terasă
 Float switch NC	Comutator cu flotor NÎ
 Float switch NO	Comutator cu plutitor ND
@@ -546,6 +549,7 @@ Foot switch NC	Comutator de picior NÎ
 Foot switch NO	Comutator de picior ND
 Foot switch NO (NFPA)	Comutator de picior ND (NFPA)
 Force	Forță
+Fork terminal	Papuc furcă
 Format (placeholders)	Format (substituenți)
 Frame size	Mărime constructivă
 Free	Liber
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Lampă de semnalizare (NFPA)
 Pilot line	Conductă de pilotare
 Pin connection diagram	Schemă de conectare a pinilor
 Pin side (male)	Partea pinilor (tată)
+Pin terminal	Papuc pin
 Pipe	Conductă
 Piston diameter	Diametrul pistonului
 Piston rod diameter	Diametrul tijei pistonului
@@ -1338,6 +1343,7 @@ Reviewer	Examinator
 Revision overview (changes)	Prezentare revizii (modificări)
 Right side	Partea dreaptă
 Right side panel	Perete lateral dreapta
+Ring terminal	Papuc inel
 Rivet nut	Piuliță nituită
 RoHS compliant	Conform RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Descriere bornă
 Terminal diagram	Schemă de borne
 Terminal line-up	Dispunere borne
 Terminal marker	Marcaj de bornă
+Terminal parts	Articole capete
 Terminal strip data of {} without terminals	Date de șir de borne pentru {} fără borne
 Terminal strip overview	Prezentare șiruri de borne
 Terminal strips and PLC addresses	Șiruri de borne și adrese PLC
+Termination (from)	Terminație (de la)
+Termination (to)	Terminație (la)
 Text file	Fișier text
 The DXF file contains nothing that can be imported	Fișierul DXF nu conține nimic ce poate fi importat
 The PDF has no pages that can be read	PDF-ul nu are pagini care pot fi citite
@@ -1688,6 +1697,14 @@ Tubes	Tuburi
 Tubing / piping list	Listă de tuburi / conducte
 Turned once (quarter landing)	Cu o întoarcere (podest de colț)
 Turned twice (two quarter landings)	Cu două întoarceri (două podeste de colț)
+Twin ferrule	Manșon dublu
+Twin ferrule at {} is not shared with a second wire	Manșonul dublu de la {} nu este împărțit cu un al doilea conductor
+Twin ferrule at {} joins wires of {} and {}	Manșonul dublu de la {} unește conductoare de {} și {}
+Twin ferrule at {}: {} wires end there, it takes two	Manșon dublu la {}: acolo se termină {} conductoare, primește două
+Twin ferrule with (from)	Manșon dublu cu (de la)
+Twin ferrule with (to)	Manșon dublu cu (spre)
+Twin ferrule {} mm² {}	Manșon dublu {} mm² {}
+Twin ferrules	Manșoane duble
 Two connection symbols on page {} lie on the same point	Două simboluri de conexiune de pe pagina {} se află în același punct
 Two-way switch (installation)	Comutator cap-scară (instalații)
 Type numbers	Numere de tip
@@ -1770,6 +1787,7 @@ Winding connection	Conexiunea înfășurării
 Wire assigned to unknown cable {}	Conductor atribuit unui cablu necunoscut {}
 Wire colour GNYE is reserved for protective conductors ({})	Culoarea de conductor GNYE este rezervată conductoarelor de protecție ({})
 Wire colours and cross-sections	Culori de conductor și secțiuni
+Wire crossings and connections	Încrucișări și joncțiuni ale firelor
 Wire defaults	Valori implicite ale conductoarelor
 Wire jumper	Punte din conductor
 Wire list (panel routing)	Listă de conductoare (pozare în tablou)
@@ -1847,6 +1865,7 @@ leakage	scurgere
 low	scăzută
 measuring	măsurare
 new	nou
+no free cable gland	niciun presetupă liberă
 no header	niciun antet
 no list	nicio listă
 no path through the route network	niciun traseu prin rețeaua de trasee
@@ -1878,8 +1897,6 @@ routed	pozat
 shield clamp ({} mm away)	clemă de ecran (la {} mm)
 silver	argintiu
 starts with	începe cu
-strip {} mm	dezizolare {} mm
-strip {} mm, ferrule {} mm² {}	dezizolare {} mm, manșon de capăt {} mm² {}
 suction	aspirație
 supply	alimentare
 terminals {} – {}	bornele {} – {}
@@ -1937,6 +1954,7 @@ yellow	galben
 {} unused device data records removed	{} înregistrări neutilizate de date de dispozitiv eliminate
 {} wiring marks belong to wires that no longer exist	{} marcaje de cablare aparțin unor conductoare care nu mai există
 {} without device tag on page {}	{} fără identificator de dispozitiv pe pagina {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} nu poate fi trasat: fiecare presetupă din {} este ocupată de alt cablu. Adăugați o presetupă pentru el.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} nu poate fi pozat: nicio cale care păstrează jumătate din grosime liberă de tot și se curbează cu raza de {} mm. Mutați capetele sau faceți loc.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} intră prin bază: nicio presetupă în carcasă
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} intră prin acoperiș: nicio presetupă pe acoperiș, laterale sau spate
@@ -2003,6 +2021,7 @@ yellow	galben
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: niciun articol de punte pentru puntea {} (date tehnice Jumper ale articolului de bornă)
 {}: no part assigned	{}: niciun articol atribuit
 {}: no service space of {} mm in front of {} (the door is too close)	{}: nu există spațiu de service de {} mm în fața {} (ușa este prea aproape)
+{}: none for this cross-section	{}: niciunul pentru această secțiune
 {}: not in the single-line diagram	{}: nu este în schema monofilară
 {}: not placed in the panel layout	{}: nu este plasat în amplasarea în tablou
 {}: operations per year needed for the B10d of {}	{}: sunt necesare manevrele pe an pentru B10d al lui {}

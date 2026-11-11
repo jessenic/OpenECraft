@@ -224,6 +224,45 @@ impl Palette {
 /// None when the file cannot be decoded).
 pub type Textures = HashMap<u64, (u64, Option<egui::TextureHandle>)>;
 
+/// How a polyline is stroked.
+#[derive(Debug, PartialEq)]
+enum Runs {
+    /// A closed outline without sharp turns.
+    Loop(Vec<Pos2>),
+    /// Open lines, split where the outline turns back.
+    Open(Vec<Vec<Pos2>>),
+}
+
+/// The runs a polyline (screen points) is stroked in. egui joins segments with a miter
+/// that grows without limit where a line turns back on itself or repeats a point, so
+/// imported drawings got spikes across the page: repeated points are dropped and the
+/// line is split where it turns by more than about 135°.
+fn stroke_runs(mut v: Vec<Pos2>, closed: bool) -> Runs {
+    v.dedup_by(|b, a| a.distance(*b) < 0.01);
+    if closed && v.len() > 2 && v[0].distance(v[v.len() - 1]) < 0.01 {
+        v.pop();
+    }
+    let sharp = |a: Pos2, b: Pos2, c: Pos2| (b - a).normalized().dot((c - b).normalized()) < -0.7;
+    let n = v.len();
+    if closed && n > 2 && !(0..n).any(|i| sharp(v[(i + n - 1) % n], v[i], v[(i + 1) % n])) {
+        return Runs::Loop(v);
+    }
+    if closed && n > 2 {
+        v.push(v[0]);
+    }
+    let mut runs = Vec::new();
+    let mut run = Vec::new();
+    for (i, &q) in v.iter().enumerate() {
+        run.push(q);
+        if i > 0 && i + 1 < v.len() && sharp(v[i - 1], q, v[i + 1]) {
+            runs.push(std::mem::replace(&mut run, vec![q]));
+        }
+    }
+    runs.push(run);
+    runs.retain(|r| r.len() > 1);
+    Runs::Open(runs)
+}
+
 /// Renders page geometry with an egui painter.
 pub struct EguiDraw<'a> {
     pub painter: &'a Painter,
@@ -276,10 +315,14 @@ impl Draw for EguiDraw<'_> {
             } else {
                 self.painter.add(EShape::convex_polygon(v, self.color(ink), st));
             }
-        } else if closed {
-            self.painter.add(EShape::closed_line(v, self.stroke(width, ink)));
         } else {
-            self.painter.add(EShape::line(v, self.stroke(width, ink)));
+            let st = self.stroke(width, ink);
+            match stroke_runs(v, closed) {
+                Runs::Loop(v) => {
+                    self.painter.add(EShape::closed_line(v, st));
+                }
+                Runs::Open(runs) => self.painter.extend(runs.into_iter().map(|run| EShape::line(run, st))),
+            }
         }
     }
 
@@ -994,34 +1037,21 @@ impl Editor {
         }
 
         // ------------------------------------------------------------ navigation
-        if resp.hovered() {
-            // Raw wheel events: CAD style zoom around the cursor, no smoothing.
-            let (wheel, zoom_delta, ptr) = ui.input(|i| {
-                let mut wheel = 0.0;
-                for e in &i.events {
-                    if let egui::Event::MouseWheel { unit, delta, modifiers, .. } = e {
-                        if modifiers.ctrl || modifiers.command {
-                            continue; // already contained in zoom_delta()
-                        }
-                        wheel += match unit {
-                            egui::MouseWheelUnit::Point => delta.y,
-                            egui::MouseWheelUnit::Line => delta.y * 40.0,
-                            egui::MouseWheelUnit::Page => delta.y * 400.0,
-                        };
-                    }
-                }
-                (wheel, i.zoom_delta(), i.pointer.hover_pos())
-            });
-            if let Some(ptr) = ptr {
-                let factor = zoom_delta * (wheel * 0.0025).exp();
-                if (factor - 1.0).abs() > 1e-4 {
-                    self.zoom_at(rect, ptr, factor);
-                }
-            }
+        // Wheel, trackpad and touch: CAD style zoom around the cursor, no smoothing.
+        let gesture = openecraft_ui::nav::read(ui, &resp);
+        self.offset += gesture.pan;
+        if let (true, Some(at)) = (gesture.zooms(), gesture.at) {
+            self.zoom_at(rect, at, gesture.zoom);
         }
         if resp.dragged_by(PointerButton::Middle) || resp.dragged_by(PointerButton::Secondary) {
             self.offset += resp.drag_delta();
         }
+        // Fingers navigating leave out the first one's selection window; a move already
+        // under way goes on.
+        if gesture.touch && matches!(self.drag, Drag::Box { .. }) {
+            self.drag = Drag::None;
+        }
+        let pointer_tools = !gesture.touch || !matches!(self.drag, Drag::None);
 
         let locked = prj.pages[page_i].locked;
         let editable = prj.pages[page_i].is_editable() && !self.read_only;
@@ -1054,7 +1084,7 @@ impl Editor {
         }
 
         // ------------------------------------------------------------ mouse
-        if self.tool == Tool::Select && resp.clicked_by(PointerButton::Primary) {
+        if self.tool == Tool::Select && pointer_tools && resp.clicked_by(PointerButton::Primary) {
             out.clicked = world;
         }
         // Right click selects what is under the cursor; the app shows the context menu.
@@ -1068,7 +1098,9 @@ impl Editor {
             }
             out.response = Some(resp.clone());
         }
-        if self.tool.is_review() {
+        if !pointer_tools {
+            // The fingers navigate.
+        } else if self.tool.is_review() {
             self.review_mouse(&resp, world, &mut out);
         } else if editable {
             self.mouse(ui, &resp, prj, page_i, rect, world, snapped, an, idx, &mut out);

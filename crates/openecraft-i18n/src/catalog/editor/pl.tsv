@@ -49,12 +49,15 @@ A cable of the bus type for every connection without cable	Kabel typu magistrali
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Wycięcie tej samej wielkości w tym samym miejscu ściany bocznej sąsiada: razem tworzą przepust kablowy
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Plik o tej samej nazwie w folderze otrzymuje nową wersję (wyewidencjonowanie i zaewidencjonowanie), w przeciwnym razie plik jest dodawany
 A level on top of the highest one	Kondygnacja nad najwyższą
+A local file opens locally, a server project is opened on the project server again	Plik lokalny otwiera się lokalnie, projekt z serwera jest ponownie otwierany na serwerze projektów
+A local file or a project on the project server	Plik lokalny lub projekt na serwerze projektów
 A new project	Nowy projekt
 A new release is downloaded in the background and installed when you close OpenECraft.	Nowa wersja jest pobierana w tle i instalowana po zamknięciu OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Nowa wersja jest pobierana w tle i zastępuje tę instalację; jest używana od następnego uruchomienia.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Numerowana sekcja zawierająca strony jak katalog; nazwy stron zaczynają się od jej numeru (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil mapuje neutralne pola na nazwy kolumn konkretnego systemu (np. MATNR dla numeru ERP w SAP). Bez mapowania rozpoznawane są typowe nazwy angielskie i niemieckie.
 A project definition based on this one, with its own defaults and scheme	Definicja projektu oparta na tej, z własnymi wartościami domyślnymi i schematem
+A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Zamiast tego otwiera się plik projektu otwarty z menedżera plików. Niezapisane zmiany z ostatniej sesji nigdy nie są odrzucane bez pytania.
 A reference point at the origin of the plant	Punkt odniesienia w początku układu instalacji
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Blok raportu generuje strony raportu, np. jeden schemat zacisków na listwę, i aktualizuje je.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Strona schematu 3.1, 3.2, … za bieżącą stroną, zachowywana jako podstrona przy przenumerowywaniu
@@ -230,6 +233,7 @@ Cable definition	Definicja kabla
 Cable definition on page {}	Definicja kabla na stronie {}
 Cable definition: draw a line across the wires that are cores of a cable	Definicja kabla: narysuj linię przez przewody, które są żyłami kabla
 Cable end reserve	Zapas na koniec kabla
+Cable ends	Końce kabla
 Cable markers	Oznaczniki kabli
 Cable passage to {}	Przepust kablowy do {}
 Cable {}: {} cores assigned	Kabel {}: przypisane żyły: {}
@@ -278,7 +282,9 @@ Choices	Wartości do wyboru
 Choices (separated by commas)	Wartości do wyboru (oddzielone przecinkami)
 Choose	Wybierz
 Choose a baseline, a revision or a project file to compare the project with.	Wybierz wersję bazową, rewizję lub plik projektu, z którym ma zostać porównany projekt.
+Choose a project on every start: local files and projects of the project server	Wybieraj projekt przy każdym uruchomieniu: pliki lokalne i projekty serwera projektów
 Choose a room first: floor-standing parts go on its floor.	Najpierw wybierz pomieszczenie: artykuły stojące na podłodze stawia się na jego podłodze.
+Choose another project	Wybierz inny projekt
 Choose file…	Wybierz plik…
 Choose pages	Wybierz strony
 Chooses the pages whose structure starts with this	Wybiera strony, których struktura zaczyna się od tego
@@ -371,10 +377,12 @@ Connection points 1 and 2 are connected inside	Punkty połączeń 1 i 2 są poł
 Connection:	Połączenie:
 Connections ({})	Połączenia ({})
 Connections / harness	Połączenia / wiązka
+Connections of four or more wires always have a dot.	Połączenia czterech lub więcej przewodów zawsze mają kropkę.
 Connections whose two ends are both on selected wires	Połączenia, których oba końce leżą na zaznaczonych przewodach
 Connections without a defined potential	Połączenia bez zdefiniowanego potencjału
 Connectors	Złącza
 Connects free connection points of the selected symbols with facing ones	Łączy wolne punkty połączeń zaznaczonych symboli ze zwróconymi do nich punktami
+Connects to the project server and shows its projects, without the project of the last session	Łączy się z serwerem projektów i pokazuje jego projekty, bez projektu z ostatniej sesji
 Consecutive addresses from the start byte, in schematic order	Kolejne adresy od bajtu początkowego, w kolejności schematu
 Contact image below coils	Obraz styków pod cewkami
 Content	Zawartość
@@ -431,6 +439,7 @@ Dashed	Kreskowana
 Decimals	Miejsca dziesiętne
 Default	Domyślne
 Default (part data or definition)	Domyślne (dane artykułu lub definicja)
+Default ({})	Domyślnie ({})
 Default label	Domyślna etykieta
 Default medium	Medium domyślne
 Default rules	Reguły domyślne
@@ -655,7 +664,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Elementy mocujące w zestawieniu materiałów
 Favorite	Ulubione
 Favorites (JSON)	Ulubione (JSON)
-Ferrule {} ({})	Tulejka kablowa {} ({})
 Field	Pole
 Field (name, description, company, creator, date, revision) or project property	Pole (name, description, company, creator, date, revision) lub właściwość projektu
 Field cables	Kable obiektowe
@@ -742,6 +750,7 @@ Generic	Ogólne
 German zones (DIN 18015-3)	Strefy niemieckie (DIN 18015-3)
 Getting started	Pierwsze kroki
 Global variable list with direct addresses for CODESYS, TwinCAT and others	Lista zmiennych globalnych z adresami bezpośrednimi dla CODESYS, TwinCAT i innych
+Go on working locally; Save saves to a local file	Pracuj dalej lokalnie; Zapisz zapisuje do pliku lokalnego
 Go to page	Przejdź do strony
 Graphic line	Linia graficzna
 Graphic rectangle	Prostokąt graficzny
@@ -791,6 +800,8 @@ Hose number	Numer węża
 Hoses and pipes	Węże i rury
 Hoses rated below it are errors; 0 = not checked	Węże o niższej klasie ciśnienia są błędami; 0 = bez sprawdzania
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Jak otwiera się skrzydło: zawiasy przy lewej lub prawej krawędzi (patrząc z wnętrza pomieszczenia), do wewnątrz lub na zewnątrz pomieszczenia, albo przesuwnie wzdłuż ściany
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Jak przewód jest zakończony na tym końcu; domyślnie jak wybrano dla punktu przyłączenia lub jego urządzenia, w przeciwnym razie według ustawienia tulejek w układzie
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Jak przewody przeskakują nad krzyżowanymi przewodami, jak oznaczane są połączenia T i czy przesunięte elementy prowadzą swoje połączenia na nowo
 IP / bus address	Adres IP / magistrali
 ISO 639-1 language code	Kod języka wg ISO 639-1
 Identifiers	Identyfikatory
@@ -865,6 +876,7 @@ Insulation	Izolacja
 Interruption points refer to	Punkty przerwania odsyłają do
 Introduction	Wprowadzenie
 Invalid value	Nieprawidłowa wartość
+Invert the direction of panning by scrolling	Odwróć kierunek przesuwania przewijaniem
 Inverter or charge controller (devices with PV input data)	Falownik lub regulator ładowania (urządzenia z danymi wejścia PV)
 Isometric	Izometryczny
 Items on the layer	Elementy na warstwie
@@ -876,6 +888,7 @@ Join collinear wires	Scal współliniowe przewody
 Joins	Łączy
 Joins wire pieces in a line where nothing else connects (current page)	Scala odcinki przewodów leżące w jednej linii, do których nic innego nie jest podłączone (bieżąca strona)
 Jumper {}	Mostek {}
+Jumps over the other:	Przeskakuje nad drugim:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Zachowaj podstrony (3.a, 3.1) przy poprzedniej stronie
 Keep the degree of protection	Zachowaj stopień ochrony
@@ -889,6 +902,7 @@ Label (grey)	Etykieta (szara)
 Label field	Pole etykiety
 Labeling scheme	Schemat oznaczania
 Landscape	Poziomo
+Large dot	Duża kropka
 Larger texts and buttons for a touch screen at the workbench	Większe teksty i przyciski dla ekranu dotykowego przy stole roboczym
 Latitude, longitude	Szerokość, długość geograficzna
 Layer	Warstwa
@@ -938,6 +952,9 @@ Load template…	Załaduj szablon…
 Loading changes…	Ładowanie zmian…
 Loading the project access…	Ładowanie dostępu do projektu…
 Loads	Odbiorniki
+Local file	Plik lokalny
+Local file: {}	Plik lokalny: {}
+Local recovery copy of server project: {}	Lokalna kopia odzyskiwania projektu z serwera: {}
 Lock all	Zablokuj wszystko
 Lock all pages	Zablokuj wszystkie strony
 Lock current page	Zablokuj bieżącą stronę
@@ -1003,6 +1020,7 @@ Min. bend radius	Min. promień gięcia
 Minimize the ribbon	Minimalizuj wstążkę
 Mirror	Odbij
 Mirror (selection or symbol being placed)	Odbicie lustrzane (zaznaczenie lub umieszczany symbol)
+Mixed	Mieszane
 Mode	Tryb
 Model of a part (2D / 3D)	Model artykułu (2D / 3D)
 Module part; its size comes from the part	Część modułu; jej rozmiar pochodzi z części
@@ -1026,6 +1044,7 @@ Move to section	Przenieś do sekcji
 Move up	Przesuń w górę
 Moves to the top level as page {}	Przechodzi na najwyższy poziom jako strona {}
 Moves to {} as page {}	Przechodzi do {} jako strona {}
+Moving	Przesuwanie
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Wielokreskowe symbole mocy i przewody dla symboli jednokreskowych bieżącej strony, na nowej stronie
 Multiple copy	Kopiuj wielokrotnie
 Multiple copy…	Kopiuj wielokrotnie…
@@ -1042,6 +1061,7 @@ Name and cross reference	Nazwa i odsyłacz
 Name on the server	Nazwa na serwerze
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Nazwa; typ danych; adres logiczny; komentarz – dla narzędzi programowania PLC
 Named copy of this form, for report blocks	Nazwana kopia tego formularza, dla bloków raportów
+Navigation	Nawigacja
 Navigators	Nawigatory
 Neutral exchange file…	Neutralny plik wymiany…
 Never	Nigdy
@@ -1070,6 +1090,7 @@ New potential	Nowy potencjał
 New project	Nowy projekt
 New project from template	Nowy projekt z szablonu
 New project scheme from the selected one	Nowy schemat projektu z wybranego
+New project, not saved yet	Nowy projekt, jeszcze niezapisany
 New report page	Nowa strona raportu
 New request	Nowy wniosek
 New revision	Nowa rewizja
@@ -1108,11 +1129,13 @@ No device has its main function in the box.	Żadne urządzenie nie ma funkcji g�
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Żadne urządzenie nie ma jeszcze danych montażowych: przypisz urządzeniom artykuły z wymiarami (Właściwości › Artykuły).
 No differences to {}.	Brak różnic w stosunku do {}.
 No document embedded	Brak osadzonego dokumentu
+No dot: plain T	Bez kropki: zwykłe T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Brak obudowy – utwórz ją poleceniem Nowa obudowa lub pomieszczenie na szafy poleceniem Nowe pomieszczenie.
 No field cables: place the enclosures and field devices at nodes of the route network.	Brak kabli obiektowych: umieść obudowy i urządzenia obiektowe w węzłach sieci tras.
 No filter fans: an air/air heat exchanger or a cooling unit	Bez wentylatorów z filtrem: wymiennik ciepła powietrze/powietrze lub chłodziarka
 No harnesses defined.	Nie zdefiniowano wiązek.
 No inverter	Brak falownika
+No jump: plain crossing, connections have dots	Bez przeskoku: zwykłe skrzyżowanie, połączenia mają kropki
 No longer reported	Już niezgłaszany
 No macros yet. Select items in a schematic and save them as a macro.	Brak makr. Zaznacz elementy na schemacie i zapisz je jako makro.
 No modules: plug in PLC cards of the schematic.	Brak modułów: wstaw karty PLC ze schematu.
@@ -1152,6 +1175,7 @@ Not found: {}	Nie znaleziono: {}
 Not in the project parts – synchronize in parts management	Brak wśród artykułów projektu – zsynchronizuj w zarządzaniu artykułami
 Not on a wire	Nie na przewodzie
 Not saved, locked or changed by another user: {}	Nie zapisano, zablokowane lub zmienione przez innego użytkownika: {}
+Not the shared project: changes are saved locally until it is opened on the project server again	To nie jest wspólny projekt: zmiany są zapisywane lokalnie, dopóki nie zostanie ponownie otwarty na serwerze projektów
 Nothing exchanged yet.	Jeszcze niczego nie wymieniono.
 Nothing left in this list.	Na tej liście nic nie pozostało.
 Nothing to show	Brak danych do wyświetlenia
@@ -1168,6 +1192,7 @@ Of the outer diameter, as laid fixed	Średnicy zewnętrznej, ułożone na stałe
 Of the outer diameter; pipes are bent with elbows of one and a half diameters	Średnicy zewnętrznej; rury są gięte kolanami o promieniu półtorej średnicy
 Off	Wył.
 Offset from one row to the next: downwards for lists, sideways for rows side by side	Przesunięcie od jednego wiersza do następnego: w dół dla list, w bok dla wierszy obok siebie
+On startup	Przy uruchomieniu
 One row per label	Jeden wiersz na etykietę
 Only devices on the current page	Tylko urządzenia na bieżącej stronie
 Only frames no page uses can be deleted	Można usuwać tylko ramki, których nie używa żadna strona
@@ -1175,6 +1200,7 @@ Only messages of the current page	Tylko komunikaty bieżącej strony
 Only parts whose function template provides the device's main function	Tylko artykuły, których szablon funkcji zapewnia funkcję główną urządzenia
 Only rows that pass all filters are shown	Wyświetlane są tylko wiersze spełniające wszystkie filtry
 Only web and e-mail addresses (http, https, mailto) are links	Tylko adresy internetowe i e-mail (http, https, mailto) są linkami
+Open a specific project	Otwórz określony projekt
 Open and save shared projects, lock pages	Otwieraj i zapisuj projekty współdzielone, blokuj strony
 Open archive…	Otwórz archiwum…
 Open as project	Otwórz jako projekt
@@ -1183,7 +1209,9 @@ Open demo project	Otwórz projekt demonstracyjny
 Open door	Otwórz drzwi
 Open in a new page tab	Otwórz w nowej karcie strony
 Open link	Otwórz łącze
+Open local recovery copy	Otwórz lokalną kopię odzyskiwania
 Open project	Otwórz projekt
+Open project server	Otwórz serwer projektów
 Open projects and files from Autodesk Vault, put the project, exports and 3D models into the vault	Otwieraj projekty i pliki z Autodesk Vault, umieszczaj projekt, eksporty i modele 3D w magazynie Vault
 Open the project	Otwórz projekt
 Open to {}: wires cross beside the mounting plates	Otwarte do {}: przewody przechodzą obok płyt montażowych
@@ -1360,6 +1388,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Straty mocy ni
 Pre-planning (CSV, Excel)	Planowanie wstępne (CSV, Excel)
 Prefix	Prefiks
 Press a key…	Naciśnij klawisz…
+Preview	Podgląd
 Previous item	Poprzedni element
 Previous page	Poprzednia strona
 Previous page tab	Poprzednia karta strony
@@ -1385,14 +1414,19 @@ Project default; pages can choose their own in the page properties	Wartość dom
 Project file	Plik projektu
 Project file…	Plik projektu…
 Project information	Informacje o projekcie
+Project on the project server	Projekt na serwerze projektów
 Project parts are the copies stored in this project; they are used for the bill of materials and the project check.	Artykuły projektu to kopie zapisane w tym projekcie; są używane w zestawieniu materiałów i kontroli projektu.
 Project properties changed in {} projects	Zmieniono właściwości projektu w projektach: {}
 Project properties…	Właściwości projektu…
 Project server	Serwer projektów
 Project server: {}	Serwer projektów: {}
+Project server: {} / Project: {}	Serwer projektów: {} / Projekt: {}
+Project server: {} / Project: {} – connection lost	Serwer projektów: {} / Projekt: {} – utracono połączenie
 Project texts (function texts, page descriptions, free texts, descriptions) are written in the source language; the dictionary translates them line by line. Reports and title blocks follow the output language.	Teksty projektu (teksty funkcji, opisy stron, teksty swobodne, opisy) są pisane w języku źródłowym; słownik tłumaczy je wiersz po wierszu. Raporty i tabliczki rysunkowe są w języku wyjściowym.
 Project: {}	Projekt: {}
 Projects from a first circuit to a whole plant, each showing more of the features	Projekty od pierwszego obwodu do całej instalacji, każdy pokazuje więcej funkcji
+Projects on the project server {}	Projekty na serwerze projektów {}
+Projects on the server	Projekty na serwerze
 Properties…	Właściwości…
 Property database	Baza danych właściwości
 Property definitions	Definicje właściwości
@@ -1480,6 +1514,7 @@ Renumber 1 … n	Przenumeruj 1 … n
 Renumber contact	Przenumeruj styk
 Renumber pages	Przenumeruj strony
 Renumber pages…	Przenumeruj strony…
+Reopen last project	Otwórz ponownie ostatni projekt
 Repair {} findings	Napraw usterki ({})
 Replace	Zastąp
 Replace all	Zamień wszystko
@@ -1514,6 +1549,7 @@ Reset to standard	Przywróć standard
 Restart and update	Uruchom ponownie i zaktualizuj
 Resulting: {} · {} · {} · {} m	Wynik: {} · {} · {} · {} m
 Results of the project check	Wyniki kontroli projektu
+Retry connection	Ponów połączenie
 Review	Komentarze
 Review ({})	Komentarze ({})
 Revision marks	Znaczniki rewizji
@@ -1549,6 +1585,7 @@ Round	Okrągły
 Round cutouts facing each other in both side walls	Okrągłe wycięcia naprzeciw siebie w obu ścianach bocznych
 Route definition of {}	Definicja trasy kabla {}
 Route network	Sieć tras
+Route the connections of moved items anew	Prowadź połączenia przesuniętych elementów na nowo
 Route wires in 3D	Prowadź przewody w 3D
 Routed in {}: {} m, {} bends	Poprowadzony w {}: {} m, zagięcia: {}
 Routing around symbols	Prowadzenie wokół symboli
@@ -1584,18 +1621,25 @@ Save as project template…	Zapisz jako szablon projektu…
 Save as scheme	Zapisz jako schemat
 Save as template	Zapisz jako szablon
 Save as template…	Zapisz jako szablon…
+Save asks for a file	Zapisz pyta o plik
 Save as…	Zapisz jako…
 Save current page as template…	Zapisz bieżącą stronę jako szablon…
 Save current…	Zapisz bieżący…
 Save file…	Zapisz plik…
+Save locally	Zapisz lokalnie
+Save locally to {}	Zapisz lokalnie w {}
+Save locally; {} on the project server stays unchanged	Zapisz lokalnie; {} na serwerze projektów pozostaje bez zmian
 Save page as macro…	Zapisz stronę jako makro…
 Save page as template	Zapisz stronę jako szablon
 Save page as template…	Zapisz stronę jako szablon…
 Save selection as macro…	Zapisz zaznaczenie jako makro…
 Save the box content as the macro in the library	Zapisz zawartość ramki jako makro w bibliotece
 Save to project server	Zapisz na serwerze projektów
+Save to project server: {}	Zapisz na serwerze projektów: {}
+Save to project server: {} – the connection is lost, saving tries again	Zapisz na serwerze projektów: {} – połączenie zostało utracone, zapis spróbuje ponownie
 Save workspace	Zapisz obszar roboczy
 Save workspace…	Zapisz obszar roboczy…
+Saved to	Zapisano w
 Saved to the project server (revision {})	Zapisano na serwerze projektów (rewizja {})
 Saved workspaces	Zapisane obszary robocze
 Saves the placed properties as a placement scheme of the project	Zapisuje umieszczone właściwości jako schemat rozmieszczenia projektu
@@ -1610,6 +1654,9 @@ Scheme name	Nazwa wzorca
 Scheme placed again at {} symbols	Umieszczono ponownie schemat przy {} symbolach
 Scheme {}	Wzorzec {}
 Screws, nuts, washers and rivet nuts of the fixing points	Śruby, nakrętki, podkładki i nitonakrętki punktów mocowania
+Scrolling	Przewijanie
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Przewijanie przesuwa widok w każdym kierunku; aby powiększyć, zsuń palce lub użyj Ctrl + przewijania.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Przewijanie w górę i w dół powiększa przy wskaźniku, w bok (poziome kółko, Shift + kółko) przesuwa.
 Search (* and ? as placeholders)…	Szukaj (* i ? jako symbole wieloznaczne)…
 Search below this folder	Szukaj poniżej tego folderu
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Przeszukaj serwer artykułów według katalogu, grupy produktów i danych technicznych, dodaj artykuły i sprawdź bazę danych pod kątem aktualizacji
@@ -1649,6 +1696,7 @@ Selectivity and back-up protection of device pairs as tested by the manufacturer
 Semicolon	Średnik
 Separator	Separator
 Server URL	Adres URL serwera
+Server address and sign-in	Adres serwera i logowanie
 Server type	Typ serwera
 Servers	Serwery
 Service space in front	Przestrzeń serwisowa z przodu
@@ -1688,6 +1736,7 @@ Show in schematic	Pokaż na schemacie
 Show in the schematic	Pokaż na schemacie
 Show on the pages	Pokaż na stronach
 Show or hide panes; drag a tab to dock it elsewhere	Pokaż lub ukryj panele; przeciągnij kartę, aby zadokować ją w innym miejscu
+Show project manager	Pokaż menedżera projektów
 Show the enclosures bayed to this one as well	Pokaż także obudowy szeregowane z tą obudową
 Show the messages accepted as checked	Pokaż komunikaty zaakceptowane jako sprawdzone
 Show the other wires	Pokaż pozostałe przewody
@@ -1700,6 +1749,8 @@ Shown in title blocks with {prop:Name}	Wyświetlane w tabliczkach rysunkowych za
 Shown instead of the measured value	Wyświetlane zamiast zmierzonej wartości
 Shows	Pokazuje
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Ściany boczne, ściana tylna, dach i dno widziane z zewnątrz: wentylatory, dławiki kablowe, wycięcia
+Sign in in the Project server pane; the project opens afterwards	Zaloguj się w panelu Serwer projektów; potem projekt się otworzy
+Sign in…	Zaloguj się…
 Signed in to {} as {}	Zalogowano do {} jako {}
 Signed out of Vault	Wylogowano z Vault
 Single-line	Jednokreskowy
@@ -1788,6 +1839,7 @@ Synchronize	Synchronizuj
 Synchronize function texts	Synchronizuj teksty funkcji
 Synchronize project parts from database	Synchronizuj artykuły projektu z bazą danych
 T Text	T Tekst
+T-connections	Połączenia T
 Tab	Tabulator
 Table import failed: {}	Import tabeli nie powiódł się: {}
 Tablet mode	Tryb tabletu
@@ -1808,6 +1860,7 @@ Taken into the drawing: drawn faded	Przejęte do rysunku: rysowane jaśniej
 Takes the comments as function texts (matched by address)	Przejmuje komentarze jako teksty funkcji (przyporządkowane według adresu)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Przejmuje oznaczenia punktów połączeń wszystkich funkcji tego urządzenia z szablonów funkcji jego artykułów
 Takes the rights of the role away, whatever other grants give	Odbiera uprawnienia roli niezależnie od tego, co dają inne przydziały
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Wybiera drogę o najmniejszej wadze: jej długość w krokach siatki, 1,2 za załamanie i 1,5 za skrzyżowany przewód. Wyłączone: przewody się rozciągają i zachowują narożniki.
 Target languages	Języki docelowe
 Temperature rise at the roof against the middle (IEC/TR 60890)	Przyrost temperatury pod dachem względem środka (IEC/TR 60890)
 Template	Szablon
@@ -1837,10 +1890,12 @@ The dictionary is empty: collect the texts from the project.	Słownik jest pusty
 The door seen from the front: door devices and cutouts	Drzwi widziane z przodu: urządzenia na drzwiach i wycięcia
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Drzwi widziane od wewnątrz (zawiasy po prawej): kanały kablowe i okablowanie za drzwiami
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Obudowa przylega lewą stroną do prawej strony wybranej obudowy; przewody przechodzą między nimi przez przepusty kablowe
+The horizontal wire	Przewód poziomy
 The items are selected and moved together	Elementy są zaznaczane i przesuwane razem
 The macro library has no page macros (Macros › Save page as macro…).	Biblioteka makr nie zawiera makr stron (Makra › Zapisz stronę jako makro…).
 The modules no string takes yet in series, on the first inverter	Moduły, których żaden łańcuch jeszcze nie bierze, szeregowo, na pierwszym falowniku
 The names of its pages follow	Nazwy jej stron zmieniają się wraz z nią
+The open project is a local recovery copy. Its changes are not saved on the project server; before the shared project opens, you decide whether to save them locally or discard them.	Otwarty projekt jest lokalną kopią odzyskiwania. Jego zmiany nie są zapisane na serwerze projektów; zanim otworzy się wspólny projekt, zdecydujesz, czy zapisać je lokalnie, czy odrzucić.
 The page name gets the section number	Nazwa strony otrzymuje numer sekcji
 The page type, plot frame, title block, structure, description and the whole content are saved.	Zapisywane są typ strony, ramka rysunku, tabliczka rysunkowa, struktura, opis i cała zawartość.
 The pages it generated stay	Wygenerowane przez niego strony pozostają
@@ -1849,6 +1904,8 @@ The point's coordinates in the coordinate reference system	Współrzędne punktu
 The project changed since the search.	Projekt zmienił się od czasu wyszukiwania.
 The project check	Kontrola projektu
 The project database needs the desktop version: the browser cannot search folders.	Baza danych projektów wymaga wersji desktopowej: przeglądarka nie może przeszukiwać folderów.
+The project server does not answer: changes are not saved on it until the connection is back	Serwer projektów nie odpowiada: zmiany nie są na nim zapisywane, dopóki połączenie nie wróci
+The project server {} could not open {}.	Serwer projektów {} nie mógł otworzyć {}.
 The project's own page templates as a file	Własne szablony stron projektu jako plik
 The project's own title blocks	Własne tabliczki rysunkowe projektu
 The project's own title blocks and report schemes	Własne tabliczki rysunkowe i wzorce raportów projektu
@@ -1863,6 +1920,7 @@ The side of {} is open	Strona {} jest otwarta
 The symbol is placed in the project	Symbol jest używany w projekcie
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Artykuły zacisków nie wskazują uchwytów końcowych ani pokryw końcowych (dane techniczne End bracket, End plate).
 The update failed	Aktualizacja nie powiodła się
+The vertical wire	Przewód pionowy
 The web version is updated on its server.	Wersja internetowa jest aktualizowana na jej serwerze.
 The wire tool routes around symbols and other wires	Narzędzie przewodu prowadzi wokół symboli i innych przewodów
 The wires get the free cores of the cable in order (left to right)	Przewody otrzymują kolejno (od lewej do prawej) wolne żyły kabla
@@ -1889,10 +1947,14 @@ Top edges	Górne krawędzie
 Top left	Lewy górny
 Top right	Prawy górny
 Total selectivity	Selektywność pełna
+Touch screen	Ekran dotykowy
 Transfer project parts to database	Przenieś artykuły projektu do bazy danych
 Translate the project texts; documentation per language	Tłumacz teksty projektu; dokumentacja w każdym języku
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Obrót wokół osi pionowej, przeciwnie do ruchu wskazówek zegara patrząc z góry (90 °: fronty skierowane w prawo)
 Tutorial	Samouczek
+Twin ferrules where two wires share a connection point	Tulejki podwójne tam, gdzie dwa przewody dzielą punkt połączenia
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dwa palce na gładziku przesuwają widok, kółko myszy powiększa. Tylko macOS je rozróżnia; w innych systemach przewijanie powiększa jak kółko.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Dwa palce jednocześnie przesuwają i powiększają (rozsuwanie palców); jeden palec działa jak lewy przycisk myszy.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Tutaj muszą spotkać się dwa przewody pod kątem prostym. Przy włączonym automatycznym łączeniu punkty przyłączenia naprzeciw jego ramion są z nim łączone.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Wpisz punkt i naciśnij Enter: x y w mm lub @dx dy względem ostatniego punktu; działa jak kliknięcie bieżącym narzędziem
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1977,6 +2039,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Kółko myszy: powiększenie · prawy przycisk: anuluj · grafika przyciąga do 0,5 mm, punkty połączeń do siatki 4 mm
 When it differs from the page	Gdy różni się od strony
 Where	Położenie
+Where neither wire has a termination chosen for it	Tam, gdzie dla żadnego z przewodów nie wybrano zakończenia
 Where the point is in the plant; y: its height above the ground level of the plant	Położenie punktu w instalacji; y: jego wysokość nad poziomem terenu instalacji
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Skąd pochodzi struktura urządzenia: aspekty równe strukturze wokół symbolu są dziedziczone i zmieniają się, gdy przesuwa się on do ramki struktury lub z niej; pozostałe aspekty należą do urządzenia i pozostają.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Gdzie przewód zaczyna się i kończy: punkt połączenia z danych artykułu, punkt wygenerowany z szablonu funkcji lub środek urządzenia, jeśli żaden punkt połączenia nie pasuje
@@ -1992,6 +2055,8 @@ Window macro: {}	Makro okna: {}
 Window macros inserted from now on are recorded as macro boxes.	Makra okien wstawiane od teraz są rejestrowane jako ramki makr.
 Window macros placed on the pages (not printed)	Makra okien umieszczone na stronach (niedrukowane)
 Wire colour	Kolor przewodu
+Wire crossings	Skrzyżowania przewodów
+Wire crossings…	Skrzyżowania przewodów…
 Wire ends	Końce przewodów
 Wire ends with ferrules	Końce przewodów z tulejkami kablowymi
 Wire markers	Oznaczniki przewodów
@@ -2005,6 +2070,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Przewód {} – {}  ({
 Wire {} – {}  {} mm	Przewód {} – {}  {} mm
 Wires and potentials	Przewody i potencjały
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Przewody między przyłączami symboli napędów płynowych i P&ID są wężami / rurami: mają własne sieci, numerowane numeracją przewodów, wyświetlane na liście węży.
+Wires crossing without connection	Przewody krzyżujące się bez połączenia
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Stąd muszą wychodzić przewody we wszystkich czterech kierunkach. Do tego czasu połączenie jest łączone w kolejności na schemacie.
 Wires of the connection	Przewody połączenia
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Przewody również korzystają z tras 3D omijających przeszkody zamiast tylko z kanałów kablowych na płycie
@@ -2244,6 +2310,7 @@ x y	x y
 {} pages get a new name	Strony, które otrzymają nową nazwę: {}
 {} pages removed, {} pages generated	Usunięte strony: {}, wygenerowane strony: {}
 {} pages renamed	Zmieniono nazwy stron: {}
+{} pages, users: {}	Stron: {}, użytkownicy: {}
 {} pages; their names start with {}	Stron: {}; ich nazwy zaczynają się od {}
 {} parts added to the database	Dodano artykuły do bazy danych: {}
 {} parts of the database updated – synchronize the project parts in parts management	Zaktualizowano artykuły bazy danych: {} – zsynchronizuj artykuły projektu w zarządzaniu artykułami
@@ -2288,10 +2355,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pikseli, {}
 {} – {} ({} pages)	{} – {} (strony: {})
 {}: click to show its floor plan	{}: kliknij, aby pokazać jego rzut
+{}: crimp together with the wire to {}	{}: zaciskać razem z przewodem do {}
 {}: drag to move it, R turns it, a double-click opens it	{}: przeciągnij, aby przesunąć, R obraca, dwuklik otwiera
 {}: drag to move it, a double-click shows the floor	{}: przeciągnij, aby przesunąć, dwuklik pokazuje podłogę
 {}: nothing to change	{}: nic do zmiany
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: odizolować {} mm, {}
 {}: {} addresses changed	{}: zmienione adresy: {}
 {}: {} changes in the open project (not saved yet)	{}: {} zmian w otwartym projekcie (jeszcze niezapisanych)
 {}: {} changes saved	{}: zapisano zmiany: {}

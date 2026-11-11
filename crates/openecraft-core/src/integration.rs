@@ -48,7 +48,7 @@ impl System {
 }
 
 impl Field {
-    pub const ALL: [Field; 50] = [
+    pub const ALL: [Field; 52] = [
         Field::PartNumber,
         Field::ErpNumber,
         Field::ItemId,
@@ -91,6 +91,8 @@ impl Field {
         Field::StripTo,
         Field::FerruleFrom,
         Field::FerruleTo,
+        Field::TwinFrom,
+        Field::TwinTo,
         Field::Cable,
         Field::Core,
         Field::Job,
@@ -145,6 +147,8 @@ impl Field {
             Field::StripTo => "strip_to_mm",
             Field::FerruleFrom => "ferrule_from",
             Field::FerruleTo => "ferrule_to",
+            Field::TwinFrom => "twin_from",
+            Field::TwinTo => "twin_to",
             Field::Cable => "cable",
             Field::Core => "core",
             Field::Job => "job",
@@ -204,6 +208,8 @@ impl Field {
             Field::StripTo => tr("Stripping to (mm)"),
             Field::FerruleFrom => tr("Ferrule from"),
             Field::FerruleTo => tr("Ferrule to"),
+            Field::TwinFrom => tr("Twin ferrule with (from)"),
+            Field::TwinTo => tr("Twin ferrule with (to)"),
             Field::Cable => tr("Cable"),
             Field::Core => tr("Core"),
             Field::Job => tr("Job"),
@@ -261,6 +267,8 @@ impl Field {
             Field::StripTo => &["stripb", "stripto", "abisolierlaengeb"],
             Field::FerruleFrom => &["ferrulea", "aderendhuelsea"],
             Field::FerruleTo => &["ferruleb", "aderendhuelseb"],
+            Field::TwinFrom => &["twina", "doublecrimpa", "zwillingaderendhuelsea"],
+            Field::TwinTo => &["twinb", "doublecrimpb", "zwillingaderendhuelseb"],
             Field::Cable => &["cabletag", "kabel"],
             Field::Core => &["coreno", "ader"],
             Field::Job => &["jobno", "order", "auftrag", "position"],

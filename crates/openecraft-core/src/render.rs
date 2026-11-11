@@ -99,6 +99,7 @@ fn link_text(d: &mut dyn Draw, pos: P, text: &str, size: f32, h: Anchor, page: u
 }
 
 mod interruption;
+pub mod jumps;
 mod pin_labels;
 mod report_graphics;
 
@@ -179,6 +180,9 @@ pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, pa
     } else {
         Default::default()
     };
+    let dots = netlist::junctions(prj, page);
+    let style = &prj.wire_settings;
+    let jumps = jumps::jumps(page, &dots, style.jump, style.jump_wire);
     for w in &page.wires {
         let ink = if opts.selected.contains(&w.id) {
             Ink::Selected
@@ -188,22 +192,28 @@ pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, pa
             Ink::Wire
         };
         let parts = colors.get(&w.id).map(|c| crate::potentials::color_parts(c)).unwrap_or_default();
-        match parts.as_slice() {
-            // Black too: the canvas shows it in its line colour when it is dark.
-            [c] if ink == Ink::Wire => d.line(w.a, w.b, WIRE_W, Ink::Color(*c), false),
-            // Two-colour wires: the second colour dashed over the first.
-            [a, b] if ink == Ink::Wire => {
-                d.line(w.a, w.b, WIRE_W, Ink::Color(*a), false);
-                d.line(w.a, w.b, WIRE_W, Ink::Color(*b), true);
+        let strokes = jumps::strokes(w, jumps.get(&w.id).map_or(&[][..], |v| v), style.jump);
+        for (a, b) in strokes.iter().flat_map(|s| s.windows(2)).map(|s| (s[0], s[1])) {
+            match parts.as_slice() {
+                // Black too: the canvas shows it in its line colour when it is dark.
+                [c] if ink == Ink::Wire => d.line(a, b, WIRE_W, Ink::Color(*c), false),
+                // Two-colour wires: the second colour dashed over the first.
+                [c1, c2] if ink == Ink::Wire => {
+                    d.line(a, b, WIRE_W, Ink::Color(*c1), false);
+                    d.line(a, b, WIRE_W, Ink::Color(*c2), true);
+                }
+                _ => d.line(a, b, WIRE_W, ink, false),
             }
-            _ => d.line(w.a, w.b, WIRE_W, ink, false),
         }
     }
     // A directed T-junction replaces the dot where it fits its wires.
     let directed: Vec<P> = page.junctions.iter().filter(|j| !j.dot && !j.is_corner() && netlist::junctions::fits(prj, page, j)).map(|j| j.pos).collect();
-    for j in netlist::junctions(prj, page) {
-        if !directed.iter().any(|q| q.same(j)) {
-            d.circle(j, 0.7, 0.0, Ink::Wire, true);
+    for j in dots {
+        if directed.iter().any(|q| q.same(j)) {
+            continue;
+        }
+        if let Some(r) = jumps::dot_radius(page, j, style.tee) {
+            d.circle(j, r, 0.0, Ink::Wire, true);
         }
     }
     for j in &page.junctions {
@@ -1058,9 +1068,14 @@ fn block_references(prj: &Project, idx: &Index, page_i: usize, def: &SymbolDef, 
                 refs.extend(dev.mains.iter().map(|m| (m.reference_from(prj, page_i), Some(m.page))));
             }
         }
+        Func::Main { .. } if !s.box_role.is_device() => {
+            if let Some(dev) = dev {
+                refs.extend(dev.mains.iter().filter(|m| m.page != page_i).map(|m| (m.reference_from(prj, page_i), Some(m.page))));
+            }
+        }
         Func::Main { mirror: false } => {
             if let Some(dev) = dev {
-                refs.extend(dev.auxs.iter().map(|a| (a.reference_from(prj, page_i), Some(a.page))));
+                refs.extend(dev.auxs.iter().chain(dev.boxes.iter().filter(|b| b.page != page_i)).map(|a| (a.reference_from(prj, page_i), Some(a.page))));
             }
         }
         _ => {}

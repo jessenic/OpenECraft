@@ -96,6 +96,7 @@ Changes the properties of a wire	Zmienia właściwości przewodu
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Zmienia system, rozmiar i komponenty obudowy (cokół, szeregowane strony, płyta dławicowa); zakotwiczone elementy podążają za zmianą
 Check {} failed: {}	Kontrola {} nie powiodła się: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Sprawdza zabudowę szafy: kolizje, odstępy (montażowe, wentylacyjne, EMC), przestrzeń serwisową, wysokości nad podłogą, klasy kolizji, temperatury i wykonalność produkcyjną
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Wybiera sposób zakończenia końców przewodów: goły, z tulejką lub zaciskaną końcówką; w punkcie przyłączenia, we wszystkich punktach przyłączenia urządzenia lub tylko dla jednego przewodu
 Chosen value	Wybrana wartość
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Odstępy, przestrzeń serwisowa, wysokości, klasy kolizji, symulacja termiczna i wykonalność produkcyjna zabudowy szafy
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Klimatyzacja obudów (IEC/TR 60890): straty mocy, temperatura wewnętrzna, wymagany wentylator lub klimatyzator i ogrzewanie; opcjonalnie zmienia ustawienia jednej z nich
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	Punkt połączenia OZNACZENIE:PIN, np. -K1
 Connection point designation or number (1, 2, …)	Oznaczenie punktu połączenia lub numer (1, 2, …)
 Connection point designations separated by commas or blanks	Oznaczenia punktów połączeń oddzielone przecinkami lub spacjami
 Connection point designations, comma separated, e.g. 13,14	Oznaczenia punktów połączeń, oddzielone przecinkami, np. 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Punkt przyłączenia, np. -K1:13, lub urządzenie, np. -K1 (wszystkie jego punkty przyłączenia)
 Connector id (required unless removing)	Identyfikator konektora (wymagany, chyba że profil jest usuwany)
 Connects two connection points with wires routed around symbols and other wires	Łączy dwa punkty połączeń przewodami prowadzonymi wokół symboli i innych przewodów
 Connects two ports of stations with a network cable; connections already on these ports are replaced	Łączy dwa porty stacji kablem sieciowym; istniejące połączenia na tych portach są zastępowane
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Wyświetla listę podprojektów wydzielonych z projektu lub projekt, z którego został wydzielony
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Wyświetla listę symboli, które można umieścić, z ich punktami połączeń względem punktu wstawienia
 Lists the terminal strips with their number of terminals and length on the rail	Wyświetla listę listew zaciskowych z liczbą zacisków i długością na szynie
+Lists the terminations chosen for wire ends and the kinds there are	Wyświetla wybrane zakończenia końców przewodów i dostępne rodzaje
 Lists the translation dictionary of the project texts (source line and translations)	Wyświetla słownik tłumaczeń tekstów projektu (wiersz źródłowy i tłumaczenia)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Wyświetla listę makr okien umieszczonych na stronach (ramki makr) z makrem, wariantem, wartościami symboli zastępczych i liczbą elementów
 Load losses of the transformer in W (0: typical)	Straty obciążeniowe transformatora w W (0: typowe)
@@ -521,6 +524,7 @@ Operations	Operacje
 Option name	Nazwa opcji
 Option name, e.g. STARTER	Nazwa opcji, np. STARTER
 Options and rules of the configurator	Opcje i reguły konfiguratora
+Other end of the wire, e.g. -X1:3: only this wire	Drugi koniec przewodu, np. -X1:3: tylko ten przewód
 Other end, e.g. -X1:3	Drugi koniec, np. -X1:3
 Outer diameter in mm, 0 = estimated	Średnica zewnętrzna w mm, 0 = szacowana
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Długości zewnętrzne prostych odcinków, mm, np. 200, 150, 300
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Bloki raportów i wzorce raportów
 Reserves space over the mounting plate: kept free of routes, or for one class only	Rezerwuje przestrzeń nad płytą montażową: wolną od tras lub tylko dla jednej klasy
 Rest (mm)	Reszta (mm)
+Reuse failed searches during one routing calculation	Ponownie używaj nieudanych wyszukiwań w ramach jednego obliczania tras
 Right side bayed (no side panel)	Prawa strona szeregowana (bez ściany bocznej)
 Room {} exists already	Pomieszczenie {} już istnieje
 Rotation in degrees clockwise: 0, 90, 180 or 270	Obrót w stopniach zgodnie z ruchem wskazówek zegara: 0, 90, 180 lub 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Obrót w stopniach, przeciwnie do ruchu wskazówek zegara (90 czyta się od dołu do góry)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Prowadź połączenia przesuniętych elementów na nowo: najkrótsza droga z najmniejszą liczbą załamań i skrzyżowań
 Route the wires in 3D as well (otherwise through the cable ducts)	Prowadź również przewody w 3D (w przeciwnym razie przez kanały kablowe)
 Routing rules, paths, reservations, frozen routes and cable shields	Reguły prowadzenia, trasy, rezerwacje, zamrożone trasy i ekrany kabli
 Row key (from table_get)	Klucz wiersza (z table_get)
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Separator: semicolon, comma lub tab
 Sets how cross references are shown (only the given settings) and shows the settings	Ustawia sposób wyświetlania odsyłaczy (tylko podane ustawienia) i wyświetla ustawienia
 Sets how the terminals of a jumper are bridged	Ustawia sposób zmostkowania zacisków mostka
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Określa zakończenie końców przewodów bez wybranego zakończenia: z tulejkami lub gołe, oraz z tulejkami podwójnymi tam, gdzie dwa przewody dzielą punkt połączenia
 Sets property values of an object; an empty value removes it	Ustawia wartości właściwości obiektu; pusta wartość ją usuwa
 Sets the aspects the pages use	Ustawia aspekty używane przez strony
 Sets the collision class of a panel item (empty: automatic)	Ustawia klasę kolizji elementu zabudowy (puste: automatycznie)
@@ -714,6 +721,7 @@ Show as \"Name: value\"	Pokaż jako \"Nazwa: wartość\"
 Show the content	Pokaż zawartość
 Shows a property as a text beside a symbol	Wyświetla właściwość jako tekst obok symbolu
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Wyświetla listwę zaciskową: zaciski w kolejności listwy z piętrem, mostkiem i celami, bloki na szynie oraz mostki
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Pokazuje, jak przewody krzyżują się i łączą na stronach oraz czy przesuwanie elementów prowadzi ich połączenia na nowo, i zmienia podane wartości
 Shows or changes the machining strategy and which machine makes which face	Wyświetla lub zmienia strategię obróbki oraz przypisanie maszyn do powierzchni
 Shows or changes the rules of copper bars; lengths in mm	Wyświetla lub zmienia reguły dla szyn miedzianych; długości w mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Wyświetla lub zmienia reguły kontroli zabudowy szafy; wartości w mm (temperatura w °C)
@@ -763,6 +771,7 @@ Symbol ids	Identyfikatory symboli
 Symbol key from list_symbols	Klucz symbolu z list_symbols
 Symbol {} has no connection point {}	Symbol {} nie ma punktu połączenia {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	Symbole, przewody, teksty, definicje kabli i połączeń na stronach schematów
+T-connections: dot, large_dot or none	Połączenia T: dot, large_dot lub none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	Trójnik: kierunek trzonu; mostek: strona, z której wchodzi połączenie (left, right, up lub down)
 Tag of the terminal strip, e.g. -X1	Oznaczenie listwy zaciskowej, np. -X1
 Take the cut lengths over as cable lengths	Przejmij długości cięcia jako długości kabli
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	Linia
 The text height must be at least 0.5 mm	Wysokość tekstu musi wynosić co najmniej 0,5 mm
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Dwa ramiona narożnika, pionowe i poziome, np. down left (domyślnie: według przewodów w tym miejscu, inaczej down right)
 The wire has no length	Połączenie nie ma długości
+The wire that jumps: vertical or horizontal	Przewód, który przeskakuje: vertical lub horizontal
 The wrap width must not be negative	Szerokość zawijania nie może być ujemna
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Symulacja termiczna płyty montażowej: temperatury powietrza, gorący punkt, źródła ciepła i temperatura przy każdym urządzeniu
 Thickest sheet or bar, mm	Najgrubsza blacha lub szyna, mm
@@ -818,7 +828,9 @@ Top edge on the face in mm	Górna krawędź na ścianie w mm
 Top edge on the mounting plate in mm	Górna krawędź na płycie montażowej w mm
 Translated line	Przetłumaczony wiersz
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Obrót wokół osi pionowej w stopniach, przeciwnie do ruchu wskazówek zegara patrząc z góry (90: fronty skierowane w prawo)
+Two wires at a connection point share a twin ferrule	Dwa przewody w punkcie połączenia dzielą tulejkę podwójną
 Unit, e.g. kW	Jednostka, np. kW
+Unknown T-connection style: {}	Nieznany styl połączenia T: {}
 Unknown accessory kind: {}	Nieznany rodzaj akcesorium: {}
 Unknown action: {}	Nieznana akcja: {}
 Unknown address scheme: {}	Nieznany schemat adresowania: {}
@@ -841,7 +853,9 @@ Unknown field: {}	Nieznane pole: {}
 Unknown group kind: {}	Nieznany rodzaj grupy: {}
 Unknown installation: {}	Nieznane ustawienie: {}
 Unknown insulation: {}	Nieznana izolacja: {}
+Unknown jump style: {}	Nieznany styl przeskoku: {}
 Unknown jumper kind: {}	Nieznany rodzaj mostka: {}
+Unknown jumping wire: {}	Nieznany przewód przeskakujący: {}
 Unknown kind: {}	Nieznany rodzaj: {}
 Unknown labels: {}	Nieznane etykiety: {}
 Unknown level: {}	Nieznany poziom: {}
@@ -873,6 +887,7 @@ Unknown state: {}	Nieznany stan: {}
 Unknown station kind: {}	Nieznany rodzaj stacji: {}
 Unknown symbol: {}	Nieznany symbol: {}
 Unknown table: {}	Nieznana tabela: {}
+Unknown termination: {}	Nieznane zakończenie: {}
 Unknown vertical anchor: {}	Nieznane zakotwiczenie pionowe: {}
 Unknown way of opening: {}	Nieznany sposób otwierania: {}
 Unknown wire colour {} (IEC 60757: {})	Nieznany kolor przewodu {} (IEC 60757: {})
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Okna: wysokość dolnej
 Wire colour (IEC 60757), e.g. BK	Kolor przewodu (IEC 60757), np. BK
 Wire colour, e.g. BU	Kolor przewodu, np. BU
 Wire colour, e.g. BU (empty = from the potential definition)	Kolor przewodu, np. BU (pusty = z definicji potencjału)
+Wire ends get ferrules	Końce przewodów otrzymują tulejki kablowe
 Wire number (kept when renumbering)	Numer przewodu (zachowywany przy przenumerowywaniu)
 Wire numbering and wiring marks	Numeracja przewodów i znaczniki okablowania
+Wires crossing without connection: none, arc, bridge or gap	Przewody krzyżujące się bez połączenia: none, arc, bridge lub gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Przewody zbyt cienkie dla ich zabezpieczenia oraz spadek napięcia na kablach (IEC 60204-1)
 Working area in x, mm	Obszar roboczy w x, mm
 Working area in y, mm	Obszar roboczy w y, mm
@@ -911,6 +928,7 @@ Y position in mm (downwards)	Położenie Y w mm (w dół)
 any, wires, cables or tubes	any, wires, cables lub tubes
 auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left lub right; odrzuca teksty umieszczone ręcznie
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip lub adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle lub auto (według ustawienia tulejek w układzie)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam lub product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi lub other
 copper or aluminium	copper lub aluminium

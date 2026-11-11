@@ -150,3 +150,31 @@ fn archives_unpacking_to_too_much_are_refused() {
     assert_eq!(unpack_with_limit(&bytes, 1 << 17).unwrap().len(), 2);
     assert!(unpack_with_limit(&bytes, (1 << 17) - 1).unwrap_err().contains("more than"));
 }
+
+/// Vendor archives that may not be checked in (Siemens EDZ files of issue #131): every
+/// part with a schematic macro is placed with a symbol of its macro, none falls back to
+/// the function templates.
+#[test]
+#[ignore = "requires OPENECRAFT_EDZ_DIR pointing to a folder of EDZ files"]
+fn vendor_archives_place_their_parts_with_the_macro_symbol() {
+    let dir = std::env::var("OPENECRAFT_EDZ_DIR").unwrap();
+    let mut checked = 0;
+    for entry in std::fs::read_dir(dir).unwrap() {
+        let path = entry.unwrap().path();
+        if !path.extension().is_some_and(|e| e.eq_ignore_ascii_case("edz")) {
+            continue;
+        }
+        for part in read(&std::fs::read(&path).unwrap()).unwrap().parts {
+            let schematic = part.eplan_variants.iter().any(|v| v["function_type"] == 1 && v["symbol"]["pins"].as_array().is_some_and(|p| !p.is_empty()));
+            if !schematic {
+                continue;
+            }
+            let mut prj = openecraft_core::model::Project::default();
+            let (key, pins) = openecraft_core::symlib::ema::part_symbol(&mut prj, &part, None).unwrap_or_else(|| panic!("{}: no symbol", part.number));
+            assert!(key.starts_with("user:ema:"), "{}: {key}", part.number);
+            assert!(!pins.is_empty(), "{}", part.number);
+            checked += 1;
+        }
+    }
+    assert!(checked > 0, "no EDZ file with a schematic macro");
+}

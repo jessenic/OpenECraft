@@ -66,6 +66,7 @@ Only parts for direct wall mounting	仅限直接墙面安装的部件
 Open datasheet	打开数据表
 Open in the browser	在浏览器中打开
 Outside the face	面外
+Pans (trackpad)	平移（触控板）
 Parts server: {}	部件服务器：{}
 Parts this part is assembled from; the bill of materials lists them under it	组成此部件的部件；物料清单将其列在此部件下
 Personal access token	个人访问令牌
@@ -112,6 +113,7 @@ Wall mounting	墙面安装
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	附件在其适配部件上的位置（在柜体布局和 3D 视图中）
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	导线在安装板布局中的连接位置：功能模板中的标识、正视图中的位置（x 从左侧算起，y 从顶部算起，z 为安装面以上高度）以及导线引出方向。没有自有连接点的部件从功能模板获取连接点。
 Wire leaves	导线引出方向
+Zooms (mouse wheel)	缩放（鼠标滚轮）
 changes with token	使用令牌进行更改
 created in your EPLAN account (ePulse)	在您的 EPLAN 帐户 (ePulse) 中创建
 down	向下

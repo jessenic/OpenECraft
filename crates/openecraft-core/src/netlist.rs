@@ -9,9 +9,10 @@ pub use paths::LocalRoutes;
 mod contacts;
 
 use crate::geom::{on_segment_interior, P};
-use crate::model::{Page, PageKind, Project};
-use crate::symbols::Func;
-use std::collections::HashMap;
+use crate::device_boxes;
+use crate::model::{Page, PageKind, Project, SymbolInst};
+use crate::symbols::{Func, SymbolDef};
+use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
 use std::sync::Arc;
 
@@ -29,6 +30,9 @@ pub struct Net {
     /// True if the name comes from a potential or interruption point.
     pub named: bool,
     pub pins: Vec<PinRef>,
+    /// Connection points shown again on pin views: electrically the points they show,
+    /// not connection points of the net of their own.
+    pub view_pins: Vec<PinRef>,
     /// (page index, wire id)
     pub wires: Vec<(usize, u64)>,
     /// Connects ports of fluid symbols (hose / pipe).
@@ -77,6 +81,66 @@ impl Uf {
 /// What one schematic page contributes to a netlist: its connection points joined by
 /// wires and by the bridges inside symbols. It depends only on the page and the symbol
 /// definitions, so [`Scans`] keeps it while both stay the same.
+/// A connection point on a pin view.
+#[derive(Clone)]
+struct ShownPin {
+    /// (device, designation)
+    key: (String, String),
+    sym: usize,
+    id: u64,
+    pin: usize,
+    node: usize,
+    /// A wire ends here.
+    wired: bool,
+}
+
+/// (device, designation) of a connection point a pin view can show.
+fn device_pin_key(def: &SymbolDef, s: &SymbolInst, pin: usize) -> Option<(String, String)> {
+    if s.tag.is_empty() || !device_boxes::names_device_pins(def.func) {
+        return None;
+    }
+    s.pins.get(pin).filter(|d| !d.is_empty()).map(|d| (s.tag.clone(), d.clone()))
+}
+
+/// A connection point on a pin view is the point it shows, on any page. Returns the
+/// (device, designation) of those with a wire at a view.
+fn join_views<'a>(uf: &mut Uf, offsets: &[(usize, &'a Arc<PageScan>, usize)]) -> HashSet<(&'a str, &'a str)> {
+    let mut wired = HashSet::new();
+    if offsets.iter().all(|(_, scan, _)| scan.shown.is_empty()) {
+        return wired;
+    }
+    let mut shown: HashMap<&(String, String), usize> = HashMap::new();
+    for (_, scan, first) in offsets {
+        for (key, n) in &scan.device_pins {
+            shown.entry(key).or_insert(first + n);
+        }
+    }
+    for (_, scan, first) in offsets {
+        for v in &scan.shown {
+            if let Some(&node) = shown.get(&v.key) {
+                uf.union(node, first + v.node);
+                if v.wired {
+                    wired.insert((v.key.0.as_str(), v.key.1.as_str()));
+                }
+            }
+        }
+    }
+    wired
+}
+
+/// What the pin views of a net show.
+fn shown_keys<'a>(prj: &Project, views: impl Iterator<Item = &'a PinRef>) -> HashSet<(String, String)> {
+    views.filter_map(|v| {
+        let s = &prj.pages[v.page].symbols[v.sym];
+        s.pins.get(v.pin).map(|d| (s.tag.clone(), d.clone()))
+    }).collect()
+}
+
+/// Name joining a connection point with the pin views showing it.
+fn shown_name(shown: &HashSet<(String, String)>, s: &SymbolInst, pin: usize) -> Option<String> {
+    s.pins.get(pin).filter(|d| shown.contains(&(s.tag.clone(), (*d).clone()))).map(|d| format!("pin:{}\0{}", s.tag, d))
+}
+
 #[derive(Clone, Default)]
 struct PageScan {
     /// Groups of connected points on the page (local nodes `0..nodes`).
@@ -92,6 +156,10 @@ struct PageScan {
     plug_pins: Vec<((String, String), usize)>,
     /// `pot:` / `int:` names -> node
     named: Vec<(String, usize)>,
+    /// Connection points on pin views.
+    shown: Vec<ShownPin>,
+    /// (device, designation) -> node of the connection points a pin view can show.
+    device_pins: Vec<((String, String), usize)>,
 }
 
 impl PageScan {
@@ -145,6 +213,7 @@ impl PageScan {
                 continue;
             }
             let mut nodes = Vec::new();
+            let view = device_boxes::is_view_point(prj, page, s);
             for i in 0..def.pins.len() {
                 let q = def.pin_world(i, s.pos, s.rot, s.mirror);
                 let n = point(&mut uf, q);
@@ -152,7 +221,13 @@ impl PageScan {
                 nodes.push(n);
                 scan.connection_points.push((s.id, i, n));
                 if def.func != Func::Junction && !def.pins[i].internal {
-                    pins.push((si, s.id, i, n, def.is_fluid()));
+                    match device_pin_key(&def, s, i) {
+                        Some(key) if view => scan.shown.push(ShownPin { key, sym: si, id: s.id, pin: i, node: n, wired: false }),
+                        key => {
+                            scan.device_pins.extend(key.map(|key| (key, n)));
+                            pins.push((si, s.id, i, n, def.is_fluid()));
+                        }
+                    }
                 }
             }
             if bridge_terminals || !def.func.is_feedthrough() {
@@ -185,8 +260,12 @@ impl PageScan {
         for (_, _, n) in &mut scan.connection_points {
             *n = node(&mut uf, *n);
         }
-        for n in scan.terminals.iter_mut().chain(&mut scan.plug_pins).map(|(_, n)| n).chain(scan.named.iter_mut().map(|(_, n)| n)) {
+        for n in scan.terminals.iter_mut().chain(&mut scan.plug_pins).chain(&mut scan.device_pins).map(|(_, n)| n).chain(scan.named.iter_mut().map(|(_, n)| n)) {
             *n = node(&mut uf, *n);
+        }
+        for v in &mut scan.shown {
+            v.wired = degree.get(&v.node).copied().unwrap_or(0) > 1;
+            v.node = node(&mut uf, v.node);
         }
         scan.nodes = local.len();
         scan
@@ -230,7 +309,7 @@ fn page_fingerprint(prj: &Project, page: &Page) -> u64 {
     }
     page.symbols.len().hash(&mut h);
     for s in &page.symbols {
-        (s.id, &s.sym, s.pos.key(), s.rot, s.mirror, &s.tag, &s.label, s.values.get("function.connection_scope")).hash(&mut h);
+        (s.id, &s.sym, s.pos.key(), s.rot, s.mirror, &s.tag, &s.label, s.values.get("function.connection_scope"), &s.pins, s.size.map(|q| q.key()), s.box_role).hash(&mut h);
     }
     for j in page.junctions.iter().filter(|j| explicit || j.connects()) {
         j.pos.key().hash(&mut h);
@@ -386,6 +465,8 @@ impl Netlist {
             }
         }
 
+        let wired_views = join_views(&mut uf, &offsets);
+
         let mut nl = Netlist::default();
         let mut root_net: HashMap<usize, usize> = HashMap::new();
         let mut net_for = |uf: &mut Uf, nets: &mut Vec<Net>, node: usize| -> usize {
@@ -407,9 +488,17 @@ impl Netlist {
                     electric[ni] = true;
                 }
                 nl.pin_net.insert((sym_id, pin), ni);
-                if unconnected {
+                let s = &prj.pages[*pi].symbols[si];
+                if unconnected && !s.pins.get(pin).is_some_and(|d| wired_views.contains(&(s.tag.as_str(), d.as_str()))) {
                     nl.unconnected.push((*pi, sym_id, pin));
                 }
+            }
+        }
+        for (pi, scan, first) in &offsets {
+            for v in &scan.shown {
+                let ni = net_for(&mut uf, &mut nl.nets, first + v.node);
+                nl.nets[ni].view_pins.push(PinRef { page: *pi, sym: v.sym, pin: v.pin });
+                nl.pin_net.insert((v.id, v.pin), ni);
             }
         }
         for (pi, scan, first) in &offsets {

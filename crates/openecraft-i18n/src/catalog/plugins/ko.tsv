@@ -96,6 +96,7 @@ Changes the properties of a wire	전선의 속성을 변경합니다
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	외함의 시스템, 크기 및 구성 요소(받침대, 결합된 측면, 글랜드 플레이트)를 변경합니다. 앵커가 있는 항목이 따라갑니다
 Check {} failed: {}	검사 {} 실패: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	패널 레이아웃을 검사합니다(충돌, 이격 거리(장착, 환기, EMC), 서비스 공간, 바닥으로부터의 높이, 충돌 클래스, 온도 및 제조 가능성)
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	전선 끝단 마감 방식 선택: 피복 제거, 페룰 또는 압착 단자; 연결점, 장치의 모든 연결점 또는 전선 하나에만
 Chosen value	선택한 값
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	패널 레이아웃의 이격 거리, 서비스 공간, 높이, 충돌 클래스, 열 시뮬레이션 및 제조 가능성
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	외함의 온도 관리(IEC/TR 60890): 전력 손실, 내부 온도, 필요한 팬 또는 냉각 장치와 히터. 선택적으로 한 외함의 설정을 변경합니다
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	연결 지점 TAG:PIN(예: -K1:A1)
 Connection point designation or number (1, 2, …)	연결 지점 명칭 또는 번호 (1, 2, …)
 Connection point designations separated by commas or blanks	쉼표나 공백으로 구분된 연결 지점 명칭
 Connection point designations, comma separated, e.g. 13,14	쉼표로 구분된 연결 지점 명칭(예: 13,14)
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	연결점(예: -K1:13) 또는 장치(예: -K1, 모든 연결점)
 Connector id (required unless removing)	커넥터 ID(제거하는 경우 외에는 필수)
 Connects two connection points with wires routed around symbols and other wires	심볼과 다른 전선을 우회하는 경로의 전선으로 두 연결 지점을 연결합니다
 Connects two ports of stations with a network cable; connections already on these ports are replaced	스테이션의 두 포트를 네트워크 케이블로 연결합니다. 이 포트에 이미 있는 연결은 교체됩니다
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	프로젝트에서 반출된 하위 프로젝트 또는 이 프로젝트를 반출한 원본 프로젝트를 나열합니다
 Lists the symbols that can be placed, with their connection points relative to the insertion point	삽입점을 기준으로 한 연결 지점과 함께 배치 가능한 심볼을 나열합니다
 Lists the terminal strips with their number of terminals and length on the rail	단자대를 단자 수 및 레일 위 길이와 함께 나열합니다
+Lists the terminations chosen for wire ends and the kinds there are	전선 끝단에 선택한 마감 방식과 사용 가능한 종류를 나열합니다
 Lists the translation dictionary of the project texts (source line and translations)	프로젝트 텍스트의 번역 사전(원본 줄 및 번역)을 나열합니다
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	페이지에 배치된 창 매크로(매크로 박스)를 매크로, 변형, 자리 표시자 값 및 항목 수와 함께 나열합니다
 Load losses of the transformer in W (0: typical)	변압기의 부하 손실(W, 0: 일반값)
@@ -521,6 +524,7 @@ Operations	작업
 Option name	옵션 이름
 Option name, e.g. STARTER	옵션 이름(예: STARTER)
 Options and rules of the configurator	컨피규레이터의 옵션 및 규칙
+Other end of the wire, e.g. -X1:3: only this wire	전선의 다른 끝(예: -X1:3): 이 전선만
 Other end, e.g. -X1:3	다른 쪽 끝(예: -X1:3)
 Outer diameter in mm, 0 = estimated	외경(mm), 0 = 추정
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	직선 구간의 외부 길이(mm, 예: 200, 150, 300)
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	보고서 블록 및 보고서 스키마
 Reserves space over the mounting plate: kept free of routes, or for one class only	장착 플레이트 위에 공간을 예약합니다: 경로가 지나지 않도록 비워 두거나 한 클래스 전용
 Rest (mm)	잔량(mm)
+Reuse failed searches during one routing calculation	하나의 배선 경로 계산 내에서 실패한 검색 결과 재사용
 Right side bayed (no side panel)	오른쪽 측면 결합(측면 패널 없음)
 Room {} exists already	방 {}이(가) 이미 있습니다
 Rotation in degrees clockwise: 0, 90, 180 or 270	시계 방향 회전 각도: 0, 90, 180 또는 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	회전 각도(도), 시계 반대 방향(90이면 아래에서 위로 읽음)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	이동한 항목의 연결을 다시 배선: 꺾임과 교차가 가장 적은 최단 경로
 Route the wires in 3D as well (otherwise through the cable ducts)	전선도 3D로 배선 경로 지정(그렇지 않으면 케이블 덕트를 통해)
 Routing rules, paths, reservations, frozen routes and cable shields	경로 설정 규칙, 경로, 예약, 고정된 경로 및 케이블 차폐
 Row key (from table_get)	행 키(table_get에서)
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	구분 기호: semicolon, comma 또는 tab
 Sets how cross references are shown (only the given settings) and shows the settings	상호 참조 표시 방식을 설정하고(지정한 설정만) 설정을 표시합니다
 Sets how the terminals of a jumper are bridged	점퍼의 단자를 연결하는 방식을 설정합니다
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	마감을 선택하지 않은 전선 끝의 처리를 설정합니다: 페룰 또는 피복만 벗김, 두 전선이 연결 지점을 공유하는 곳에는 이중 페룰
 Sets property values of an object; an empty value removes it	개체의 속성 값을 설정합니다. 값이 비어 있으면 제거됩니다
 Sets the aspects the pages use	페이지에 사용할 측면을 설정합니다
 Sets the collision class of a panel item (empty: automatic)	패널 항목의 충돌 클래스를 설정합니다(비워 두면 자동)
@@ -714,6 +721,7 @@ Show as \"Name: value\"	\"이름: 값\"으로 표시
 Show the content	내용 표시
 Shows a property as a text beside a symbol	속성을 심볼 옆에 텍스트로 표시합니다
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	단자대를 표시합니다: 단자대 순서에 따른 단자(단, 점퍼 및 대상 포함), 레일 위의 블록 및 점퍼
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	페이지에서 전선이 교차하고 연결되는 방식과 항목을 이동할 때 연결을 다시 배선할지 여부를 표시하고 지정한 값을 변경합니다
 Shows or changes the machining strategy and which machine makes which face	가공 전략과 어떤 기계가 어떤 면을 가공하는지 표시하거나 변경합니다
 Shows or changes the rules of copper bars; lengths in mm	동바 규칙을 표시하거나 변경합니다. 길이는 mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	패널 레이아웃 검사 규칙을 표시하거나 변경합니다. 값은 mm(온도는 °C)
@@ -763,6 +771,7 @@ Symbol ids	심볼 ID
 Symbol key from list_symbols	list_symbols의 심볼 키
 Symbol {} has no connection point {}	심볼 {}에 연결 지점 {}이(가) 없습니다
 Symbols, wires, texts, cable and connection definitions on schematic pages	회로도 페이지의 심볼, 전선, 텍스트, 케이블 및 연결 정의
+T-connections: dot, large_dot or none	T 연결: dot, large_dot 또는 none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	T분기점: 줄기의 방향. 브리지: 연결이 들어오는 쪽 (left, right, up 또는 down)
 Tag of the terminal strip, e.g. -X1	단자대의 태그(예: -X1)
 Take the cut lengths over as cable lengths	절단 길이를 케이블 길이로 적용
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	교�
 The text height must be at least 0.5 mm	텍스트 높이는 0.5 mm 이상이어야 합니다
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	모서리의 두 가지, 세로와 가로, 예: down left (기본: 해당 지점의 연결선에 따라, 없으면 down right)
 The wire has no length	연결의 길이가 없습니다
+The wire that jumps: vertical or horizontal	점프하는 전선: vertical 또는 horizontal
 The wrap width must not be negative	줄 바꿈 너비는 음수일 수 없습니다
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	장착 플레이트의 열 시뮬레이션: 공기 온도, 핫스팟, 열원 및 각 장치의 온도
 Thickest sheet or bar, mm	최대 판금 또는 바 두께(mm)
@@ -818,7 +828,9 @@ Top edge on the face in mm	면에서의 위쪽 가장자리(mm)
 Top edge on the mounting plate in mm	장착 플레이트 위의 위쪽 가장자리(mm)
 Translated line	번역된 줄
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	수직축 기준 회전 각도(도), 위에서 볼 때 시계 반대 방향(90: 전면이 오른쪽을 향함)
+Two wires at a connection point share a twin ferrule	연결 지점의 두 전선이 이중 페룰 하나를 공유합니다
 Unit, e.g. kW	단위(예: kW)
+Unknown T-connection style: {}	알 수 없는 T 연결 스타일: {}
 Unknown accessory kind: {}	알 수 없는 부속품 종류: {}
 Unknown action: {}	알 수 없는 작업: {}
 Unknown address scheme: {}	알 수 없는 주소 체계: {}
@@ -841,7 +853,9 @@ Unknown field: {}	알 수 없는 필드: {}
 Unknown group kind: {}	알 수 없는 그룹 종류: {}
 Unknown installation: {}	알 수 없는 설치 방식: {}
 Unknown insulation: {}	알 수 없는 절연: {}
+Unknown jump style: {}	알 수 없는 점프 스타일: {}
 Unknown jumper kind: {}	알 수 없는 점퍼 종류: {}
+Unknown jumping wire: {}	알 수 없는 점프 전선: {}
 Unknown kind: {}	알 수 없는 종류: {}
 Unknown labels: {}	알 수 없는 레이블: {}
 Unknown level: {}	알 수 없는 수준: {}
@@ -873,6 +887,7 @@ Unknown state: {}	알 수 없는 상태: {}
 Unknown station kind: {}	알 수 없는 스테이션 종류: {}
 Unknown symbol: {}	알 수 없는 심볼: {}
 Unknown table: {}	알 수 없는 표: {}
+Unknown termination: {}	알 수 없는 마감 방식: {}
 Unknown vertical anchor: {}	알 수 없는 세로 앵커: {}
 Unknown way of opening: {}	알 수 없는 열림 방식: {}
 Unknown wire colour {} (IEC 60757: {})	알 수 없는 전선 색상 {}(IEC 60757: {})
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	창: 바닥에서 아�
 Wire colour (IEC 60757), e.g. BK	전선 색상(IEC 60757, 예: BK)
 Wire colour, e.g. BU	전선 색상(예: BU)
 Wire colour, e.g. BU (empty = from the potential definition)	전선 색상(예: BU, 비우면 전위 정의에서 가져옴)
+Wire ends get ferrules	전선 끝에 페룰을 사용합니다
 Wire number (kept when renumbering)	전선 번호(번호 다시 지정 시 유지됨)
 Wire numbering and wiring marks	전선 번호 지정 및 배선 표시
+Wires crossing without connection: none, arc, bridge or gap	연결 없이 교차하는 전선: none, arc, bridge 또는 gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	보호 장치에 비해 너무 가는 전선과 케이블의 전압 강하(IEC 60204-1)
 Working area in x, mm	x 방향 작업 영역(mm)
 Working area in y, mm	y 방향 작업 영역(mm)
@@ -911,6 +928,7 @@ Y position in mm (downwards)	Y 위치(mm, 아래쪽 방향)
 any, wires, cables or tubes	any, wires, cables 또는 tubes
 auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left 또는 right. 수동으로 배치된 텍스트를 버립니다
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip 또는 adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle 또는 auto(레이아웃의 페룰 설정을 따름)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam 또는 product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi 또는 other
 copper or aluminium	copper 또는 aluminium

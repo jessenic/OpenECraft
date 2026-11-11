@@ -23,6 +23,7 @@ pub(super) fn scan(prj:&Project,page:&Page,bridge_terminals:bool)->PageScan {
         let Some(def)=prj.symbol(&s.sym) else {continue;};
         if matches!(def.func,Func::Overview|Func::Graphic) {continue;}
         let mut nodes=Vec::new();
+        let view=device_boxes::is_view_point(prj,page,s);
         for (i,pin) in def.pins.iter().enumerate() {
             let q=def.pin_world(i,s.pos,s.rot,s.mirror);
             let mask=def.pin_connection_directions(i,s.rot,s.mirror);
@@ -38,7 +39,12 @@ pub(super) fn scan(prj:&Project,page:&Page,bridge_terminals:bool)->PageScan {
             }
             contacts.push((q,mask,s.id,n));nodes.push(n);
             scan.connection_points.push((s.id,i,n));
-            if def.func!=Func::Junction && !pin.internal {pins.push((si,s.id,i,n,def.is_fluid(),!attached));}
+            if def.func!=Func::Junction && !pin.internal {
+                match device_pin_key(&def,s,i) {
+                    Some(key) if view=>scan.shown.push(ShownPin {key,sym:si,id:s.id,pin:i,node:n,wired:attached}),
+                    key=>{scan.device_pins.extend(key.map(|key|(key,n)));pins.push((si,s.id,i,n,def.is_fluid(),!attached));}
+                }
+            }
         }
         if bridge_terminals || !def.func.is_feedthrough() {
             for &(a,b) in &def.bridges {bridges.push((nodes[a],nodes[b]));}
@@ -55,6 +61,7 @@ pub(super) fn scan(prj:&Project,page:&Page,bridge_terminals:bool)->PageScan {
     }
     let wired:std::collections::HashSet<_>=wire_nodes.iter().map(|n|uf.find(*n)).collect();
     for (_,_,_,n,_,open) in &mut pins {if wired.contains(&uf.find(*n)) {*open=false;}}
+    for v in &mut scan.shown {v.wired|=wired.contains(&uf.find(v.node));}
     for (a,b) in bridges {uf.union(a,b);}
     wires.extend(page.wires.iter().zip(wire_nodes).map(|(w,n)|(w.id,n)));
     let mut local=HashMap::new();
@@ -65,6 +72,8 @@ pub(super) fn scan(prj:&Project,page:&Page,bridge_terminals:bool)->PageScan {
     for (_,n) in &mut scan.terminals {*n=node(&mut uf,*n);}
     for (_,n) in &mut scan.plug_pins {*n=node(&mut uf,*n);}
     for (_,n) in &mut scan.named {*n=node(&mut uf,*n);}
+    for (_,n) in &mut scan.device_pins {*n=node(&mut uf,*n);}
+    for v in &mut scan.shown {v.node=node(&mut uf,v.node);}
     scan.nodes=local.len();scan
 }
 

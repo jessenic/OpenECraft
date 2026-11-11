@@ -51,6 +51,8 @@ impl App {
                 self.remember_recent(&path);
                 self.session.file_name = Some(path);
                 self.session.mark_saved();
+                // Saved locally: no longer a copy of the server project.
+                self.recovery = None;
             }
             Ok(None) => {}
             Err(e) => self.notify_error(ctx, tr_fmt!("Saving failed: {}", e)),

@@ -26,6 +26,8 @@ impl App {
             ui.add_space(12.0);
             self.recent_list(ui);
             ui.add_space(12.0);
+            self.server_projects(ui);
+            ui.add_space(12.0);
             self.example_list(ui);
             ui.add_space(12.0);
             ui.label(RichText::new(tr("Getting started")).strong());
@@ -66,6 +68,43 @@ impl App {
                 crate::dock::close(&mut self.dock, Pane::Tool(ToolPane::Start));
             }
         });
+    }
+
+    /// The projects of the project server, apart from the local files: a click opens
+    /// one there (asking before unsaved changes are dropped).
+    fn server_projects(&mut self, ui: &mut egui::Ui) {
+        ui.label(RichText::new(tr_fmt!("Projects on the project server {}", self.remote.url)).strong());
+        let has_user = !self.remote.user.trim().is_empty();
+        ui.horizontal(|ui| {
+            if ui.add_enabled_ui(!self.remote.busy(), |ui| icons::text_button(ui, Icon::Rotate, tr("List projects"))).inner.clicked() {
+                self.remote.list();
+            }
+            let d = commands::def(Cmd::ProjectServer);
+            if icons::text_button(ui, d.icon, tr(d.title)).on_hover_text(tr("Server address and sign-in")).clicked() {
+                self.run(&ui.ctx().clone(), Cmd::ProjectServer);
+            }
+            if self.remote.busy() {
+                ui.spinner();
+            }
+            ui.weak(&self.remote.status);
+        });
+        if !has_user {
+            ui.colored_label(crate::style::lock(), tr("Enter a user name: other users see it on your locks."));
+        }
+        let mut open = None;
+        for p in &self.remote.projects {
+            ui.horizontal(|ui| {
+                icons::show(ui, Icon::Server, 16.0);
+                let r = ui.add_enabled(has_user, egui::Link::new(&p.name));
+                if r.on_hover_text(tr_fmt!("{} pages, users: {}", p.pages, p.users.join(", "))).clicked() {
+                    open = Some(p.name.clone());
+                }
+                ui.weak(&p.title);
+            });
+        }
+        if let Some(name) = open {
+            self.request_replace(&ui.ctx().clone(), Replace::Shared(name));
+        }
     }
 
     /// The example projects, simplest first: a click opens one (asking before unsaved

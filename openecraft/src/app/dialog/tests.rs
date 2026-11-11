@@ -32,3 +32,18 @@ fn esc_goes_to_one_dialog_only() {
     assert!(!d.begin(false, &[b]));
     assert!(d.opens(b), "b was closed by the Esc before");
 }
+
+#[test]
+fn dialogs_recover_previously_collapsed_contents() {
+    let ctx = egui::Context::default();
+    let mut dialogs = Dialogs::default();
+    let id = egui::Id::unique(("dialog", "settings")).with("collapsing");
+    egui::collapsing_header::CollapsingState::load_with_default_open(&ctx, id, false).store(&ctx);
+    ctx.run_ui(egui::RawInput::default(), |ui| {
+        dialogs.begin(false, &[]);
+        let (window, esc) = dialogs.window(ui.ctx(), openecraft_i18n::tr("Settings"), "settings", None);
+        assert!(!esc);
+        assert!(window.show(ui.ctx(), |ui| ui.label(openecraft_i18n::tr("Updates"))).unwrap().inner.is_some());
+    }).textures_delta.clear();
+    assert!(egui::collapsing_header::CollapsingState::load(&ctx, id).unwrap().is_open());
+}

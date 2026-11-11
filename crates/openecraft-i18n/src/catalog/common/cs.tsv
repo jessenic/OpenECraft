@@ -474,6 +474,7 @@ open	otevřený
 rejected	zamítnuto
 right	doprava
 spare	rezerva
+strip {} mm, {}	odizolovat {} mm, {}
 the disk is full	disk je plný
 the file exists already	soubor již existuje
 this is a folder	toto je složka
@@ -483,5 +484,6 @@ yes	ano
 {} exists already	{} již existuje
 {} parts	Artikly: {}
 {} wires	Vodiče: {}
+{}, together with the wire to {}	{}, společně s vodičem do {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} nestojí na podlaze, zvolte artikl stojící na podlaze
 ➕ Add accessory	➕ Přidat příslušenství

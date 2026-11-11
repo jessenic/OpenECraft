@@ -49,12 +49,15 @@ A cable of the bus type for every connection without cable	Кабель шинн
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Вырез того же размера в том же месте боковой стенки соседа: вместе они образуют кабельный проход
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Одноимённый файл в папке получает новую версию (извлекается и возвращается), иначе файл добавляется
 A level on top of the highest one	Этаж над самым верхним
+A local file opens locally, a server project is opened on the project server again	Локальный файл открывается локально, проект с сервера снова открывается на сервере проектов
+A local file or a project on the project server	Локальный файл или проект на сервере проектов
 A new project	Новый проект
 A new release is downloaded in the background and installed when you close OpenECraft.	Новая версия загружается в фоновом режиме и устанавливается при закрытии OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Новая версия загружается в фоновом режиме и заменяет эту установку; она используется со следующего запуска.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Нумерованный раздел, содержащий листы как папка; имена листов начинаются с его номера (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Профиль сопоставляет нейтральные поля с именами столбцов конкретной системы (например, MATNR для номера ERP в SAP). Без сопоставления распознаются распространенные английские и немецкие имена.
 A project definition based on this one, with its own defaults and scheme	Определение проекта на основе этого, с собственными значениями по умолчанию и схемой
+A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Вместо этого открывается файл проекта, открытый из файлового менеджера. Несохранённые изменения последнего сеанса никогда не отбрасываются без вопроса.
 A reference point at the origin of the plant	Опорная точка в начале координат установки
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Блок отчёта создаёт листы отчёта, например одну схему клемм на колодку, и обновляет их.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Лист схемы 3.1, 3.2, … после текущего листа, при перенумерации остаётся подлистом
@@ -230,6 +233,7 @@ Cable definition	Определение кабеля
 Cable definition on page {}	Определение кабеля на листе {}
 Cable definition: draw a line across the wires that are cores of a cable	Определение кабеля: проведите линию через провода, которые являются жилами кабеля
 Cable end reserve	Запас на конец кабеля
+Cable ends	Концы кабеля
 Cable markers	Маркировка кабелей
 Cable passage to {}	Кабельный проход к {}
 Cable {}: {} cores assigned	Кабель {}: назначено жил – {}
@@ -278,7 +282,9 @@ Choices	Варианты выбора
 Choices (separated by commas)	Варианты выбора (через запятую)
 Choose	Выбрать
 Choose a baseline, a revision or a project file to compare the project with.	Выберите базовую версию, ревизию или файл проекта для сравнения с проектом.
+Choose a project on every start: local files and projects of the project server	Выбирать проект при каждом запуске: локальные файлы и проекты сервера проектов
 Choose a room first: floor-standing parts go on its floor.	Сначала выберите помещение: напольные изделия ставятся на его пол.
+Choose another project	Выбрать другой проект
 Choose file…	Выбрать файл…
 Choose pages	Выбрать листы
 Chooses the pages whose structure starts with this	Выбирает листы, структура которых начинается с этого
@@ -370,10 +376,12 @@ Connection points 1 and 2 are connected inside	Точки подключения
 Connection:	Соединение:
 Connections ({})	Соединения ({})
 Connections / harness	Соединения / жгут
+Connections of four or more wires always have a dot.	Соединения четырёх и более проводов всегда обозначаются точкой.
 Connections whose two ends are both on selected wires	Соединения, оба конца которых лежат на выбранных проводах
 Connections without a defined potential	Соединения без определённого потенциала
 Connectors	Разъёмы
 Connects free connection points of the selected symbols with facing ones	Соединяет свободные точки подключения выбранных символов с обращёнными к ним
+Connects to the project server and shows its projects, without the project of the last session	Подключается к серверу проектов и показывает его проекты, без проекта последнего сеанса
 Consecutive addresses from the start byte, in schematic order	Последовательные адреса от начального байта, в порядке схемы
 Contact image below coils	Зеркало контактов под катушками
 Content	Содержимое
@@ -430,6 +438,7 @@ Dashed	Штриховая
 Decimals	Знаков после запятой
 Default	По умолчанию
 Default (part data or definition)	По умолчанию (данные изделия или определение)
+Default ({})	По умолчанию ({})
 Default label	Подпись по умолчанию
 Default medium	Среда по умолчанию
 Default rules	Правила по умолчанию
@@ -654,7 +663,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Крепёж в спецификации
 Favorite	Избранное
 Favorites (JSON)	Избранное (JSON)
-Ferrule {} ({})	Наконечник {} ({})
 Field	Поле
 Field (name, description, company, creator, date, revision) or project property	Поле (name, description, company, creator, date, revision) или свойство проекта
 Field cables	Полевые кабели
@@ -741,6 +749,7 @@ Generic	Универсальный
 German zones (DIN 18015-3)	Немецкие зоны (DIN 18015-3)
 Getting started	Начало работы
 Global variable list with direct addresses for CODESYS, TwinCAT and others	Список глобальных переменных с прямыми адресами для CODESYS, TwinCAT и других
+Go on working locally; Save saves to a local file	Продолжить работу локально; «Сохранить» сохраняет в локальный файл
 Go to page	Перейти к листу
 Graphic line	Графическая линия
 Graphic rectangle	Графический прямоугольник
@@ -790,6 +799,8 @@ Hose number	Номер шланга
 Hoses and pipes	Шланги и трубы
 Hoses rated below it are errors; 0 = not checked	Шланги, рассчитанные на меньшее давление, – ошибки; 0 = не проверяется
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Как открывается створка: петли у левого или правого края (вид изнутри помещения), внутрь или наружу помещения, или сдвигается вдоль стены
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Как провод оконцован на этом конце; по умолчанию как выбрано для точки подключения или её устройства, иначе по настройке наконечников компоновки
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Как провода перескакивают через пересекаемые провода, как обозначаются T-соединения и прокладываются ли соединения перемещённых элементов заново
 IP / bus address	IP-адрес / адрес на шине
 ISO 639-1 language code	Код языка по ISO 639-1
 Identifiers	Идентификаторы
@@ -864,6 +875,7 @@ Insulation	Изоляция
 Interruption points refer to	Точки разрыва ссылаются на
 Introduction	Введение
 Invalid value	Недопустимое значение
+Invert the direction of panning by scrolling	Обратить направление сдвига прокруткой
 Inverter or charge controller (devices with PV input data)	Инвертор или контроллер заряда (устройства с данными входа ФЭ)
 Isometric	Изометрия
 Items on the layer	Объекты на слое
@@ -875,6 +887,7 @@ Join collinear wires	Объединить коллинеарные провод�
 Joins	Соединяет
 Joins wire pieces in a line where nothing else connects (current page)	Объединяет отрезки проводов на одной линии, к которым больше ничего не подключено (текущий лист)
 Jumper {}	Перемычка {}
+Jumps over the other:	Перескакивает через другой:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Оставлять подлисты (3.a, 3.1) при предыдущем листе
 Keep the degree of protection	Сохранять степень защиты
@@ -888,6 +901,7 @@ Label (grey)	Надпись (серая)
 Label field	Поле надписи
 Labeling scheme	Схема маркировки
 Landscape	Альбомная
+Large dot	Крупная точка
 Larger texts and buttons for a touch screen at the workbench	Более крупные тексты и кнопки для сенсорного экрана на рабочем месте
 Latitude, longitude	Широта, долгота
 Layer	Слой
@@ -937,6 +951,9 @@ Load template…	Загрузить шаблон…
 Loading changes…	Загрузка изменений…
 Loading the project access…	Загрузка доступа к проекту…
 Loads	Нагрузки
+Local file	Локальный файл
+Local file: {}	Локальный файл: {}
+Local recovery copy of server project: {}	Локальная копия восстановления проекта сервера: {}
 Lock all	Заблокировать все
 Lock all pages	Заблокировать все листы
 Lock current page	Заблокировать текущий лист
@@ -1002,6 +1019,7 @@ Min. bend radius	Мин. радиус изгиба
 Minimize the ribbon	Свернуть ленту
 Mirror	Отразить
 Mirror (selection or symbol being placed)	Отразить (выделенное или размещаемый символ)
+Mixed	Разные
 Mode	Режим
 Model of a part (2D / 3D)	Модель изделия (2D / 3D)
 Module part; its size comes from the part	Изделие модуля; его размер берётся из изделия
@@ -1025,6 +1043,7 @@ Move to section	Переместить в раздел
 Move up	Переместить вверх
 Moves to the top level as page {}	Переходит на верхний уровень как лист {}
 Moves to {} as page {}	Переходит в {} как лист {}
+Moving	Перемещение
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Многолинейные силовые символы и проводники для однолинейных символов текущего листа на новом листе
 Multiple copy	Многократное копирование
 Multiple copy…	Многократное копирование…
@@ -1041,6 +1060,7 @@ Name and cross reference	Имя и перекрёстная ссылка
 Name on the server	Имя на сервере
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Имя; тип данных; логический адрес; комментарий – для средств программирования ПЛК
 Named copy of this form, for report blocks	Именованная копия этой формы для блоков отчётов
+Navigation	Навигация
 Navigators	Навигаторы
 Neutral exchange file…	Нейтральный файл обмена…
 Never	Никогда
@@ -1069,6 +1089,7 @@ New potential	Новый потенциал
 New project	Новый проект
 New project from template	Новый проект из шаблона
 New project scheme from the selected one	Новая схема проекта на основе выбранной
+New project, not saved yet	Новый проект, ещё не сохранён
 New report page	Новый лист отчёта
 New request	Новый запрос
 New revision	Новая ревизия
@@ -1107,11 +1128,13 @@ No device has its main function in the box.	Ни у одного устройс�
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Ни у одного устройства пока нет монтажных данных: назначьте устройствам изделия с размерами (Свойства › Изделия).
 No differences to {}.	Нет различий с {}.
 No document embedded	Документ не встроен
+No dot: plain T	Без точки: простое T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Корпусов пока нет – создайте корпус командой Новый корпус или помещение для шкафов командой Новое помещение.
 No field cables: place the enclosures and field devices at nodes of the route network.	Нет полевых кабелей: разместите корпуса и полевые устройства в узлах сети трасс.
 No filter fans: an air/air heat exchanger or a cooling unit	Без вентиляторов с фильтром: теплообменник воздух/воздух или холодильный агрегат
 No harnesses defined.	Жгуты не определены.
 No inverter	Без инвертора
+No jump: plain crossing, connections have dots	Без перескока: простое пересечение, соединения обозначены точками
 No longer reported	Больше не выдаётся
 No macros yet. Select items in a schematic and save them as a macro.	Макросов пока нет. Выберите элементы на схеме и сохраните их как макрос.
 No modules: plug in PLC cards of the schematic.	Модулей нет: установите платы ПЛК со схемы.
@@ -1151,6 +1174,7 @@ Not found: {}	Не найдено: {}
 Not in the project parts – synchronize in parts management	Нет в изделиях проекта – синхронизируйте в управлении изделиями
 Not on a wire	Не на проводе
 Not saved, locked or changed by another user: {}	Не сохранено, заблокировано или изменено другим пользователем: {}
+Not the shared project: changes are saved locally until it is opened on the project server again	Это не общий проект: изменения сохраняются локально, пока он снова не будет открыт на сервере проектов
 Nothing exchanged yet.	Обмена ещё не было.
 Nothing left in this list.	В этом списке больше ничего нет.
 Nothing to show	Нет данных для отображения
@@ -1167,6 +1191,7 @@ Of the outer diameter, as laid fixed	От наружного диаметра, �
 Of the outer diameter; pipes are bent with elbows of one and a half diameters	От наружного диаметра; трубы гнутся отводами в полтора диаметра
 Off	Откл.
 Offset from one row to the next: downwards for lists, sideways for rows side by side	Смещение от одной строки к следующей: вниз для списков, вбок для строк, расположенных рядом
+On startup	При запуске
 One row per label	Одна строка на каждый маркер
 Only devices on the current page	Только устройства на текущем листе
 Only frames no page uses can be deleted	Удалять можно только рамки, которые не используются ни одним листом
@@ -1174,6 +1199,7 @@ Only messages of the current page	Только сообщения текущег
 Only parts whose function template provides the device's main function	Только изделия, шаблон функций которых предоставляет главную функцию устройства
 Only rows that pass all filters are shown	Показываются только строки, удовлетворяющие всем фильтрам
 Only web and e-mail addresses (http, https, mailto) are links	Ссылками могут быть только веб- и почтовые адреса (http, https, mailto)
+Open a specific project	Открыть определённый проект
 Open and save shared projects, lock pages	Открытие и сохранение общих проектов, блокировка листов
 Open archive…	Открыть архив…
 Open as project	Открыть как проект
@@ -1182,7 +1208,9 @@ Open demo project	Открыть демонстрационный проект
 Open door	Открыть дверь
 Open in a new page tab	Открыть в новой вкладке листа
 Open link	Открыть ссылку
+Open local recovery copy	Открыть локальную копию восстановления
 Open project	Открыть проект
+Open project server	Открыть сервер проектов
 Open projects and files from Autodesk Vault, put the project, exports and 3D models into the vault	Открывать проекты и файлы из Autodesk Vault, помещать проект, экспорты и 3D-модели в хранилище
 Open the project	Открыть проект
 Open to {}: wires cross beside the mounting plates	Открыто к {}: провода проходят рядом с монтажными панелями
@@ -1359,6 +1387,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Потери �
 Pre-planning (CSV, Excel)	Предварительное планирование (CSV, Excel)
 Prefix	Префикс
 Press a key…	Нажмите клавишу…
+Preview	Предпросмотр
 Previous item	Предыдущий элемент
 Previous page	Предыдущий лист
 Previous page tab	Предыдущая вкладка листа
@@ -1384,14 +1413,19 @@ Project default; pages can choose their own in the page properties	Значен�
 Project file	Файл проекта
 Project file…	Файл проекта…
 Project information	Сведения о проекте
+Project on the project server	Проект на сервере проектов
 Project parts are the copies stored in this project; they are used for the bill of materials and the project check.	Изделия проекта – это копии, хранящиеся в данном проекте; они используются для спецификации и проверки проекта.
 Project properties changed in {} projects	Свойства изменены в проектах: {}
 Project properties…	Свойства проекта…
 Project server	Сервер проектов
 Project server: {}	Сервер проектов: {}
+Project server: {} / Project: {}	Сервер проектов: {} / Проект: {}
+Project server: {} / Project: {} – connection lost	Сервер проектов: {} / Проект: {} – соединение потеряно
 Project texts (function texts, page descriptions, free texts, descriptions) are written in the source language; the dictionary translates them line by line. Reports and title blocks follow the output language.	Тексты проекта (тексты функций, описания листов, свободные тексты, описания) пишутся на исходном языке; словарь переводит их построчно. Отчёты и основные надписи следуют языку вывода.
 Project: {}	Проект: {}
 Projects from a first circuit to a whole plant, each showing more of the features	Проекты от первой цепи до целой установки, каждый показывает больше функций
+Projects on the project server {}	Проекты на сервере проектов {}
+Projects on the server	Проекты на сервере
 Properties…	Свойства…
 Property database	База данных свойств
 Property definitions	Определения свойств
@@ -1479,6 +1513,7 @@ Renumber 1 … n	Перенумеровать 1 … n
 Renumber contact	Перенумеровать контакт
 Renumber pages	Перенумеровать листы
 Renumber pages…	Перенумеровать листы…
+Reopen last project	Открыть последний проект снова
 Repair {} findings	Исправить замечания ({})
 Replace	Заменить
 Replace all	Заменить все
@@ -1513,6 +1548,7 @@ Reset to standard	Сбросить к стандартным
 Restart and update	Перезапустить и обновить
 Resulting: {} · {} · {} · {} m	Итог: {} · {} · {} · {} м
 Results of the project check	Результаты проверки проекта
+Retry connection	Повторить подключение
 Review	Рецензирование
 Review ({})	Рецензирование ({})
 Revision marks	Отметки ревизий
@@ -1548,6 +1584,7 @@ Round	Круглый
 Round cutouts facing each other in both side walls	Круглые вырезы друг напротив друга в обеих боковых стенках
 Route definition of {}	Определение трассы {}
 Route network	Сеть трасс
+Route the connections of moved items anew	Прокладывать соединения перемещённых элементов заново
 Route wires in 3D	Прокладывать провода в 3D
 Routed in {}: {} m, {} bends	Проложено в {}: {} м, изгибов – {}
 Routing around symbols	Обход символов
@@ -1583,18 +1620,25 @@ Save as project template…	Сохранить как шаблон проект�
 Save as scheme	Сохранить как схему
 Save as template	Сохранить как шаблон
 Save as template…	Сохранить как шаблон…
+Save asks for a file	«Сохранить» запросит файл
 Save as…	Сохранить как…
 Save current page as template…	Сохранить текущий лист как шаблон…
 Save current…	Сохранить текущее…
 Save file…	Сохранить файл…
+Save locally	Сохранить локально
+Save locally to {}	Сохранить локально в {}
+Save locally; {} on the project server stays unchanged	Сохранить локально; {} на сервере проектов не изменится
 Save page as macro…	Сохранить лист как макрос…
 Save page as template	Сохранить лист как шаблон
 Save page as template…	Сохранить лист как шаблон…
 Save selection as macro…	Сохранить выделенное как макрос…
 Save the box content as the macro in the library	Сохранить содержимое рамки как макрос в библиотеке
 Save to project server	Сохранить на сервере проектов
+Save to project server: {}	Сохранить на сервере проектов: {}
+Save to project server: {} – the connection is lost, saving tries again	Сохранить на сервере проектов: {} – соединение потеряно, сохранение повторит попытку
 Save workspace	Сохранить рабочее пространство
 Save workspace…	Сохранить рабочее пространство…
+Saved to	Сохранено в
 Saved to the project server (revision {})	Сохранено на сервере проектов (ревизия {})
 Saved workspaces	Сохранённые рабочие пространства
 Saves the placed properties as a placement scheme of the project	Сохраняет размещённые свойства как схему размещения проекта
@@ -1609,6 +1653,9 @@ Scheme name	Имя схемы
 Scheme placed again at {} symbols	Схема заново размещена у символов: {}
 Scheme {}	Схема {}
 Screws, nuts, washers and rivet nuts of the fixing points	Винты, гайки, шайбы и заклёпочные гайки точек крепления
+Scrolling	Прокрутка
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Прокрутка сдвигает вид в любом направлении; для масштабирования сведите пальцы или используйте Ctrl + прокрутку.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Прокрутка вверх и вниз масштабирует у указателя, вбок (горизонтальное колесо, Shift + колесо) сдвигает вид.
 Search (* and ? as placeholders)…	Поиск (* и ? как подстановочные знаки)…
 Search below this folder	Искать в этой папке и ниже
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Поиск на сервере изделий по каталогу, группе продуктов и техническим данным, добавление изделий и проверка базы данных на наличие обновлений
@@ -1648,6 +1695,7 @@ Selectivity and back-up protection of device pairs as tested by the manufacturer
 Semicolon	Точка с запятой
 Separator	Сепаратор
 Server URL	URL сервера
+Server address and sign-in	Адрес сервера и вход
 Server type	Тип сервера
 Servers	Серверы
 Service space in front	Зона обслуживания спереди
@@ -1687,6 +1735,7 @@ Show in schematic	Показать на схеме
 Show in the schematic	Показать на схеме
 Show on the pages	Показывать на листах
 Show or hide panes; drag a tab to dock it elsewhere	Показать или скрыть панели; перетащите вкладку, чтобы закрепить её в другом месте
+Show project manager	Показать менеджер проектов
 Show the enclosures bayed to this one as well	Показать также шкафы, пристыкованные к этому
 Show the messages accepted as checked	Показать сообщения, принятые как проверенные
 Show the other wires	Показать остальные провода
@@ -1699,6 +1748,8 @@ Shown in title blocks with {prop:Name}	Отображается в основн�
 Shown instead of the measured value	Отображается вместо измеренного значения
 Shows	Показывает
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Боковые стенки, задняя стенка, крыша и дно снаружи: вентиляторы, кабельные вводы, вырезы
+Sign in in the Project server pane; the project opens afterwards	Войдите в панели «Сервер проектов»; затем проект откроется
+Sign in…	Войти…
 Signed in to {} as {}	Вход в {} выполнен как {}
 Signed out of Vault	Выход из Vault выполнен
 Single-line	Однолинейный
@@ -1787,6 +1838,7 @@ Synchronize	Синхронизировать
 Synchronize function texts	Синхронизировать тексты функций
 Synchronize project parts from database	Синхронизировать изделия проекта из базы данных
 T Text	T Текст
+T-connections	T-соединения
 Tab	Табуляция
 Table import failed: {}	Ошибка импорта таблицы: {}
 Tablet mode	Режим планшета
@@ -1807,6 +1859,7 @@ Taken into the drawing: drawn faded	Перенесено в чертёж: ото
 Takes the comments as function texts (matched by address)	Принимает комментарии как тексты функций (сопоставление по адресу)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Принимает обозначения точек подключения всех функций этого устройства из шаблонов функций его изделий
 Takes the rights of the role away, whatever other grants give	Отнимает права роли независимо от того, что дают другие назначения
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Выбирает путь с наименьшим весом: его длина в шагах сетки, 1,2 за изгиб и 1,5 за пересечённый провод. Выкл.: провода растягиваются и сохраняют свои углы.
 Target languages	Целевые языки
 Temperature rise at the roof against the middle (IEC/TR 60890)	Повышение температуры у крыши относительно середины (IEC/TR 60890)
 Template	Шаблон
@@ -1836,10 +1889,12 @@ The dictionary is empty: collect the texts from the project.	Словарь пу
 The door seen from the front: door devices and cutouts	Дверь спереди: устройства на двери и вырезы
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Дверь изнутри (петли справа): кабельные каналы и разводка за дверью
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Шкаф стоит левой стороной к правой стороне выбранного; провода проходят между ними через кабельные проходы
+The horizontal wire	Горизонтальный провод
 The items are selected and moved together	Элементы выделяются и перемещаются вместе
 The macro library has no page macros (Macros › Save page as macro…).	В библиотеке макросов нет макросов листов (Макросы › Сохранить лист как макрос…).
 The modules no string takes yet in series, on the first inverter	Модули, не занятые ни одной цепочкой, последовательно, на первом инверторе
 The names of its pages follow	Имена его листов меняются вместе с ним
+The open project is a local recovery copy. Its changes are not saved on the project server; before the shared project opens, you decide whether to save them locally or discard them.	Открытый проект – локальная копия восстановления. Его изменения не сохранены на сервере проектов; перед открытием общего проекта вы решаете, сохранить их локально или отбросить.
 The page name gets the section number	Имя листа получает номер раздела
 The page type, plot frame, title block, structure, description and the whole content are saved.	Сохраняются тип листа, рамка, основная надпись, структура, описание и всё содержимое.
 The pages it generated stay	Созданные им листы остаются
@@ -1848,6 +1903,8 @@ The point's coordinates in the coordinate reference system	Координаты 
 The project changed since the search.	Проект изменился после поиска.
 The project check	Проверка проекта
 The project database needs the desktop version: the browser cannot search folders.	Для базы данных проектов требуется настольная версия: браузер не может просматривать папки.
+The project server does not answer: changes are not saved on it until the connection is back	Сервер проектов не отвечает: изменения не сохраняются на нём, пока соединение не восстановится
+The project server {} could not open {}.	Сервер проектов {} не смог открыть {}.
 The project's own page templates as a file	Собственные шаблоны листов проекта в виде файла
 The project's own title blocks	Собственные основные надписи проекта
 The project's own title blocks and report schemes	Собственные основные надписи и схемы отчётов проекта
@@ -1862,6 +1919,7 @@ The side of {} is open	Сторона {} открыта
 The symbol is placed in the project	Символ используется в проекте
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	В изделиях клемм не указаны концевые держатели или концевые крышки (технические данные End bracket, End plate).
 The update failed	Не удалось выполнить обновление
+The vertical wire	Вертикальный провод
 The web version is updated on its server.	Веб-версия обновляется на своём сервере.
 The wire tool routes around symbols and other wires	Инструмент «Провод» обходит символы и другие провода
 The wires get the free cores of the cable in order (left to right)	Провода по порядку (слева направо) получают свободные жилы кабеля
@@ -1888,10 +1946,14 @@ Top edges	По верхнему краю
 Top left	Слева сверху
 Top right	Справа сверху
 Total selectivity	Полная селективность
+Touch screen	Сенсорный экран
 Transfer project parts to database	Передать изделия проекта в базу данных
 Translate the project texts; documentation per language	Перевод текстов проекта; документация на каждом языке
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Поворот вокруг вертикальной оси, против часовой стрелки при виде сверху (90 °: лицевые стороны обращены вправо)
 Tutorial	Учебник
+Twin ferrules where two wires share a connection point	Двойные наконечники там, где два провода подключены к одной точке
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Два пальца на тачпаде сдвигают вид, колесо мыши масштабирует. Различать их умеет только macOS; в других системах прокрутка масштабирует, как колесо.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Два пальца одновременно сдвигают вид и масштабируют щипком; один палец работает как левая кнопка мыши.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Здесь должны сходиться два провода под прямым углом. При включённом автосоединении точки подключения напротив его плеч соединяются с ним.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Введите точку и нажмите Enter: x y в мм или @dx dy относительно последней точки; действует как щелчок текущим инструментом
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} В, I {} А, {} кВт пик
@@ -1976,6 +2038,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Колесо: масштаб · правый щелчок: отмена · графика привязывается к 0,5 мм, точки подключения – к сетке 4 мм
 When it differs from the page	Если отличается от листа
 Where	Положение
+Where neither wire has a termination chosen for it	Если ни для одного из проводов не выбрано оконцевание
 Where the point is in the plant; y: its height above the ground level of the plant	Где точка находится в установке; y: её высота над уровнем земли установки
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Откуда берётся структура устройства: аспекты, равные структуре вокруг символа, наследуются и меняются при перемещении в рамку структуры или из неё; остальные аспекты принадлежат устройству и сохраняются.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Где провод начинается и заканчивается: точка подключения из данных изделия, точка, созданная из шаблона функций, или центр устройства, если ни одна точка подключения не подходит
@@ -1991,6 +2054,8 @@ Window macro: {}	Макрос окна: {}
 Window macros inserted from now on are recorded as macro boxes.	Оконные макросы, вставленные с этого момента, записываются как рамки макросов.
 Window macros placed on the pages (not printed)	Оконные макросы, размещённые на листах (не печатаются)
 Wire colour	Цвет провода
+Wire crossings	Пересечения проводов
+Wire crossings…	Пересечения проводов…
 Wire ends	Концы проводов
 Wire ends with ferrules	Концы проводов с наконечниками
 Wire markers	Маркировка проводов
@@ -2004,6 +2069,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Провод {} – {}
 Wire {} – {}  {} mm	Провод {} – {}  {} мм
 Wires and potentials	Провода и потенциалы
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Провода между портами символов гидропневматики и P&ID – это шланги / трубы: собственные цепи, нумеруемые нумерацией проводов, перечисленные в списке шлангов.
+Wires crossing without connection	Провода, пересекающиеся без соединения
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Отсюда должны выходить провода во всех четырёх направлениях. До тех пор соединение выстраивается в порядке схемы.
 Wires of the connection	Провода соединения
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Провода тоже прокладываются по 3D-трассам с обходом препятствий, а не только по кабельным каналам на панели
@@ -2243,6 +2309,7 @@ x y	x y
 {} pages get a new name	Листов с новым именем: {}
 {} pages removed, {} pages generated	Удалено листов: {}, создано листов: {}
 {} pages renamed	Переименовано листов: {}
+{} pages, users: {}	Страниц: {}, пользователи: {}
 {} pages; their names start with {}	Листов: {}; их имена начинаются с {}
 {} parts added to the database	Добавлено изделий в базу данных: {}
 {} parts of the database updated – synchronize the project parts in parts management	Обновлено изделий базы данных: {} – синхронизируйте изделия проекта в управлении изделиями
@@ -2287,10 +2354,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} пикселей, {}
 {} – {} ({} pages)	{} – {} (листов: {})
 {}: click to show its floor plan	{}: щёлкните, чтобы показать план
+{}: crimp together with the wire to {}	{}: обжать вместе с проводом к {}
 {}: drag to move it, R turns it, a double-click opens it	{}: перетащите, чтобы переместить, R поворачивает, двойной щелчок открывает
 {}: drag to move it, a double-click shows the floor	{}: перетащите, чтобы переместить, двойной щелчок показывает пол
 {}: nothing to change	{}: нечего изменять
 {}: pin {}	{}: контакт {}
+{}: strip {} mm, {}	{}: зачистить {} мм, {}
 {}: {} addresses changed	{}: изменено адресов: {}
 {}: {} changes in the open project (not saved yet)	{}: изменений в открытом проекте: {} (ещё не сохранены)
 {}: {} changes saved	{}: сохранено изменений: {}

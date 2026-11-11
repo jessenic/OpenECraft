@@ -474,6 +474,7 @@ open	avoin
 rejected	hylätty
 right	oikealle
 spare	vara
+strip {} mm, {}	kuori {} mm, {}
 the disk is full	levy on täynnä
 the file exists already	tiedosto on jo olemassa
 this is a folder	tämä on kansio
@@ -483,5 +484,6 @@ yes	kyllä
 {} exists already	{} on jo olemassa
 {} parts	{} osaa
 {} wires	{} johtoa
+{}, together with the wire to {}	{}, yhdessä johtimen {} kanssa
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} ei seiso lattialla, valitse lattialle sijoitettava osa
 ➕ Add accessory	➕ Lisää tarvike

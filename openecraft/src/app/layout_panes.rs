@@ -60,7 +60,8 @@ impl App {
             self.export(ctx, "mounting.csv".into(), ("CSV", "csv"), content);
         }
         if std::mem::take(&mut self.wiring_ui.export) {
-            let content = openecraft_core::wiring::csv(&self.session.prj, &self.session.analysis.wiring, self.wiring_ui.order);
+            let (prj, an) = (&self.session.prj, &self.session.analysis);
+            let content = openecraft_core::wiring::csv(prj, &an.ends, &an.wiring, self.wiring_ui.order);
             self.export(ctx, "wiring.csv".into(), ("CSV", "csv"), content);
         }
         if let Some(tag) = self.panel_ui.goto_schematic.take() {

@@ -474,6 +474,7 @@ open	öppen
 rejected	avvisad
 right	höger
 spare	reserv
+strip {} mm, {}	skala {} mm, {}
 the disk is full	disken är full
 the file exists already	filen finns redan
 this is a folder	detta är en mapp
@@ -483,5 +484,6 @@ yes	ja
 {} exists already	{} finns redan
 {} parts	{} artiklar
 {} wires	{} ledningar
+{}, together with the wire to {}	{}, tillsammans med ledaren till {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} står inte på golvet, välj en golvstående artikel
 ➕ Add accessory	➕ Lägg till tillbehör

@@ -1125,6 +1125,28 @@ fn box_gap(a: [f32; 3], b: [f32; 3], (lo, hi): ([f32; 3], [f32; 3])) -> f32 {
         .fold(f32::INFINITY, f32::min)
 }
 
+/// The locknut of a cable gland inside its enclosure (view coordinates), the hole of the
+/// gland through its wall, the box of the whole gland, its id and a name.
+type Locknut = (([f32; 3], [f32; 3]), ([f32; 3], [f32; 3]), ([f32; 3], [f32; 3]), u64, String);
+
+/// The segment `a`–`b` runs through the box (exactly, however thin the box).
+fn segment_crosses_box(a: [f32; 3], b: [f32; 3], (lo, hi): ([f32; 3], [f32; 3])) -> bool {
+    let (mut t0, mut t1) = (0.0f32, 1.0f32);
+    for k in 0..3 {
+        let d = b[k] - a[k];
+        if d.abs() < 1e-9 {
+            if a[k] < lo[k] || a[k] > hi[k] {
+                return false;
+            }
+            continue;
+        }
+        let (u, v) = ((lo[k] - a[k]) / d, (hi[k] - a[k]) / d);
+        t0 = t0.max(u.min(v));
+        t1 = t1.min(u.max(v));
+    }
+    t0 <= t1
+}
+
 fn within_box(q: [f32; 3], (lo, hi): ([f32; 3], [f32; 3])) -> bool {
     (0..3).all(|k| q[k] >= lo[k] && q[k] <= hi[k])
 }
@@ -1196,6 +1218,9 @@ fn clipping_in_3d(prj: &Project) -> Vec<String> {
         let mut boxes: std::collections::HashMap<u64, (V3, V3)> = std::collections::HashMap::new();
         // Holes with how far round them a tube may still pass (through the shell).
         let mut holes: Vec<((V3, V3), f32)> = Vec::new();
+        // The locknuts of the cable glands inside, with the hole of each through its
+        // wall and the box of the whole gland.
+        let mut nuts: Vec<Locknut> = Vec::new();
         let grown = |(lo, hi): (V3, V3), g: f32| (lo.map(|v| v - g), hi.map(|v| v + g));
         for &(k, pose) in &shown {
             let e = &prj.layout.enclosures[k];
@@ -1224,6 +1249,12 @@ fn clipping_in_3d(prj: &Project) -> Vec<String> {
                         // Cable glands and the membranes of cable entry flanges.
                         if openecraft_core::routing3d::entries(prj, k).iter().any(|g| g.id == it.id) {
                             holes.push((seen(bx), e.wall() + 8.0));
+                            // Its locknut inside: in the way of every cable but the one through it.
+                            if it.z + it.d > 0.0 {
+                                let nut = openecraft_core::panel::PanelItem { z: 0.0, d: it.z + it.d, ..it.clone() };
+                                let hole = openecraft_core::panel::PanelItem { z: -e.wall(), d: e.wall(), ..it.clone() };
+                                nuts.push((seen(panel::item_box(e, &nut)), seen(panel::item_box(e, &hole)), seen(bx), it.id, format!("{} locknut", name(it))));
+                            }
                         } else {
                             solids.push((seen(bx), it.id, name(it)));
                         }
@@ -1283,6 +1314,16 @@ fn clipping_in_3d(prj: &Project) -> Vec<String> {
                     let gap = box_gap(seg[0], seg[1], *b);
                     if gap < r - tol {
                         out.push(format!("{view}: {what} (r {r:.1}) into {name} [({:.1}, {:.1}, {:.1}) - ({:.1}, {:.1}, {:.1})] by {:.1} mm, segment ({:.1}, {:.1}, {:.1}) - ({:.1}, {:.1}, {:.1})", b.0[0], b.0[1], b.0[2], b.1[0], b.1[1], b.1[2], r - gap, seg[0][0], seg[0][1], seg[0][2], seg[1][0], seg[1][1], seg[1][2]));
+                        break;
+                    }
+                }
+                // The cable through a gland (or ending at it, or drawn up to it where the
+                // room behind is not shown) passes its locknut; every other one keeps clear.
+                for (b, hole, gland, id, name) in &nuts {
+                    let through = ends.contains(id) || way.windows(2).any(|s| segment_crosses_box(s[0], s[1], *hole)) || [way.first(), way.last()].into_iter().flatten().any(|q| within_box(*q, grown(*gland, 1.0)));
+                    let gap = box_gap(seg[0], seg[1], *b);
+                    if !through && gap < r - tol {
+                        out.push(format!("{view}: {what} (r {r:.1}) into {name} by {:.1} mm", r - gap));
                         break;
                     }
                 }
@@ -1415,7 +1456,8 @@ fn clipping_in_3d(prj: &Project) -> Vec<String> {
                         let (_, _, _, ends2) = &tubes[i2];
                         let zone = (4.0 * (r + r2) + 20.0).max(3.0 * prj.layout.routing.grid + r + r2);
                         let same_item = ends.iter().any(|id| ends2.contains(id) && boxes.get(id).is_some_and(|b| within_box(near, grown(*b, zone))));
-                        if shared || same_item {
+                        // (A tube with itself converges nowhere.)
+                        if i2 != i && (shared || same_item) {
                             continue;
                         }
                         // Pushed apart until they overlap by no more than the layout leaves
@@ -1596,4 +1638,47 @@ fn installation_zones_and_opened_walls_are_seen_through() {
     assert!(walls >= 4, "{walls}");
     let eye = [100_000.0, 100_000.0, 100_000.0];
     assert!(open.sides.iter().filter(|s| s.glass).all(|s| s.layer(eye, true) == Some(OUTER_WALLS)));
+}
+
+#[test]
+fn wire_ends_show_their_ferrules_or_the_bare_copper() {
+    let mut prj = openecraft_core::sample::demo_project();
+    let mut ui = PanelUi { show_wires: true, ..Default::default() };
+    let rgb = |c: [u8; 3]| egui::Color32::from_rgb(c[0], c[1], c[2]);
+    let (sleeve, copper) = (rgb(openecraft_core::production::SLEEVE_RGB), rgb(openecraft_core::production::COPPER_RGB));
+    for ferrules in [true, false] {
+        prj.layout.ferrules = ferrules;
+        let an = Analysis::build(&prj);
+        let shown = ui.shown_3d(&prj, 0);
+        let scene = ui.scene_3d(&egui::Context::default(), &prj, &an, 0, &shown);
+        let count = |c: egui::Color32| scene.wires.iter().filter(|w| w.line.tube && w.line.color == c).count();
+        let (with, bare) = (count(sleeve), count(copper));
+        assert!(if ferrules { with > 0 && bare == 0 } else { with == 0 && bare > 0 }, "ferrules {ferrules}: {with} sleeve, {bare} copper pieces");
+    }
+    // Ring terminals chosen at a device: their rings are flat faces among the tubes,
+    // their insulated sleeves in the colour of the cross-section.
+    prj.layout.ferrules = true;
+    let an = Analysis::build(&prj);
+    let device = an.wiring.iter().find(|w| w.cable.is_empty()).map(|w| w.from.rsplit_once(':').unwrap().0.to_string()).unwrap();
+    let before = ui.scene_3d(&egui::Context::default(), &prj, &an, 0, &ui.shown_3d(&prj, 0)).tubes.len();
+    openecraft_core::production::set_termination(&mut prj, &device, "", Some(openecraft_core::production::Termination::Ring));
+    let an = Analysis::build(&prj);
+    let shown = ui.shown_3d(&prj, 0);
+    let scene = ui.scene_3d(&egui::Context::default(), &prj, &an, 0, &shown);
+    assert!(scene.tubes.len() > before, "the rings add faces: {before} -> {}", scene.tubes.len());
+    let insulated = [[210, 40, 40], [40, 90, 200], [235, 200, 40]].map(rgb);
+    assert!(scene.wires.iter().any(|w| w.line.tube && insulated.contains(&w.line.color)), "insulated sleeves");
+}
+
+#[test]
+fn cables_leaving_the_enclosure_have_their_core_ends() {
+    // -W1 runs from the cabinet to the motor: its cores are not in the panel wiring.
+    let mut prj = openecraft_core::sample::demo_project();
+    let an = Analysis::build(&prj);
+    assert!(an.wiring.iter().all(|w| w.cable != "-W1"));
+    let ends = terminations::core_ends(&prj, &an, "-W1");
+    assert!(ends.iter().any(|(at, _, _)| at == "-X1:1"), "{ends:?}");
+    let other = ends.iter().find(|(at, _, _)| at == "-X1:1").unwrap().1.clone();
+    openecraft_core::production::set_termination(&mut prj, "-X1:1", &other, Some(openecraft_core::production::Termination::Fork));
+    assert!(!routing_ui::core_end(&prj, &an, "-W1", "-X1:1").is_empty());
 }

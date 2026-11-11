@@ -24,6 +24,7 @@ mod routing_ui;
 mod scene3d;
 pub(crate) mod site_plan;
 mod site_tools;
+mod terminations;
 pub use site_tools::SiteTool;
 mod view3d;
 
@@ -1602,6 +1603,8 @@ impl PanelUi {
                 .on_hover_text(tr("The check warns about cable ducts filled above this level"));
         });
         ui.checkbox(&mut prj.layout.ferrules, tr("Wire ends with ferrules")).on_hover_text(tr("Production wire list and bill of materials"));
+        ui.add_enabled(prj.layout.ferrules, egui::Checkbox::new(&mut prj.layout.twin_ferrules, tr("Twin ferrules where two wires share a connection point")))
+            .on_hover_text(tr("Where neither wire has a termination chosen for it"));
         ui.checkbox(&mut prj.layout.hardware, tr("Fastening hardware in the bill of materials")).on_hover_text(tr("Screws, nuts, washers and rivet nuts of the fixing points"));
         climate_section(ui, prj, ei);
         let findings = self.findings(prj, an, ei);
@@ -2097,7 +2100,7 @@ impl PanelUi {
         });
     }
 
-    fn wire_properties(&mut self, ui: &mut egui::Ui, prj: &Project, an: &Analysis, wi: usize) {
+    fn wire_properties(&mut self, ui: &mut egui::Ui, prj: &mut Project, an: &Analysis, wi: usize) {
         let w = &an.wiring[wi];
         ui.label(RichText::new(tr("Wire")).strong());
         egui::Grid::new("pwire").num_columns(2).spacing([10.0, 5.0]).show(ui, |ui| {
@@ -2154,6 +2157,8 @@ impl PanelUi {
             ))
             .weak(),
         );
+        ui.separator();
+        self.wire_ends(ui, prj, an, &w.from, &w.to, &w.cross_section);
         ui.separator();
         ui.label(RichText::new(tr("Connected devices")).strong());
         let mut select = None;
@@ -2711,20 +2716,26 @@ impl PanelUi {
         if self.site_plan.extent.is_none() || self.fit_pending {
             self.site_plan.extent = Some(site_plan::extent(prj));
         }
-        if resp.hovered() {
-            let (wheel, zoom_delta, pointer) = ui.input(|i| (wheel_delta(i), i.zoom_delta(), i.pointer.hover_pos()));
-            let factor = zoom_delta * (wheel * 0.0025).exp();
-            if let (true, Some(m)) = ((factor - 1.0).abs() > 1e-4, pointer) {
-                let old = self.site_plan.zoom;
-                let zoom = (old * factor).clamp(0.2, 200.0);
-                // The point under the pointer stays where it is.
-                let c = rect.shrink(16.0).center();
-                self.site_plan.pan = (m - c) - (m - c - self.site_plan.pan) * (zoom / old);
-                self.site_plan.zoom = zoom;
-            }
+        let gesture = openecraft_ui::nav::read(ui, &resp);
+        self.site_plan.pan += gesture.pan;
+        if let (true, Some(m)) = (gesture.zooms(), gesture.at) {
+            let old = self.site_plan.zoom;
+            let zoom = (old * gesture.zoom).clamp(0.2, 200.0);
+            // The point under the pointer stays where it is.
+            let c = rect.shrink(16.0).center();
+            self.site_plan.pan = (m - c) - (m - c - self.site_plan.pan) * (zoom / old);
+            self.site_plan.zoom = zoom;
         }
-        let dragging_corner = self.site_tools(ui, rect, &resp, prj);
-        if resp.dragged() && !dragging_corner {
+        // Fingers navigating put a dragged corner back and do not use the tools.
+        let dragging_corner = if gesture.touch {
+            if let Some((_, old)) = self.site_drag.take() {
+                prj.layout.plot.outline = old;
+            }
+            false
+        } else {
+            self.site_tools(ui, rect, &resp, prj)
+        };
+        if resp.dragged() && !dragging_corner && !gesture.touch {
             self.site_plan.pan += resp.drag_delta();
         }
         if self.fit_pending {
@@ -3061,19 +3072,22 @@ impl PanelUi {
             self.fit_pending = false;
         }
         // Zoom / pan
-        if resp.hovered() {
-            let (wheel, zoom_delta, ptr) = ui.input(|i| (wheel_delta(i), i.zoom_delta(), i.pointer.hover_pos()));
-            if let Some(ptr) = ptr {
-                let factor = zoom_delta * (wheel * 0.0025).exp();
-                if (factor - 1.0).abs() > 1e-4 {
-                    let before = self.s2w(rect, ptr);
-                    self.zoom = (self.zoom * factor).clamp(0.05, 20.0);
-                    self.offset = ptr - rect.min - vec2(before.x, before.y) * self.zoom;
-                }
-            }
+        let gesture = openecraft_ui::nav::read(ui, &resp);
+        self.offset += gesture.pan;
+        if let (true, Some(at)) = (gesture.zooms(), gesture.at) {
+            let before = self.s2w(rect, at);
+            self.zoom = (self.zoom * gesture.zoom).clamp(0.05, 20.0);
+            self.offset = at - rect.min - vec2(before.x, before.y) * self.zoom;
         }
         if resp.dragged_by(PointerButton::Middle) || resp.dragged_by(PointerButton::Secondary) {
             self.offset += resp.drag_delta();
+        }
+        // Fingers navigating end a move of the first one where it is.
+        if gesture.touch {
+            if let Some(drag) = self.drag.take() {
+                let moved: Vec<u64> = drag.originals.iter().map(|o| o.0).collect();
+                panel::capture_anchors(&mut prj.layout.enclosures[ei], &moved);
+            }
         }
         let ptr = ui.input(|i| i.pointer.hover_pos()).filter(|q| rect.contains(*q));
         // Plate coordinates of the pointer
@@ -3121,8 +3135,9 @@ impl PanelUi {
             }
         }
 
-        // Mouse
+        // Mouse (not while fingers navigate)
         match self.tool.clone() {
+            _ if gesture.touch => {}
             Tool::Select => self.select_and_move(ui, &resp, prj, ei, rect, an),
             Tool::Rail | Tool::Duct | Tool::Busbar => {
                 if let (true, Some(sn)) = (resp.clicked_by(PointerButton::Primary), snapped) {
@@ -3620,24 +3635,6 @@ fn ungroup(e: &mut Enclosure, ids: &[u64]) {
 
 fn rotate(e: &mut Enclosure, sel: &BTreeSet<u64>) {
     panel::rotate_items(e,&sel.iter().copied().collect::<Vec<_>>());
-}
-
-/// Mouse wheel movement in points (same handling as the schematic canvas).
-fn wheel_delta(i: &egui::InputState) -> f32 {
-    let mut wheel = 0.0;
-    for ev in &i.events {
-        if let egui::Event::MouseWheel { unit, delta, modifiers, .. } = ev {
-            if modifiers.ctrl || modifiers.command {
-                continue;
-            }
-            wheel += match unit {
-                egui::MouseWheelUnit::Point => delta.y,
-                egui::MouseWheelUnit::Line => delta.y * 40.0,
-                egui::MouseWheelUnit::Page => delta.y * 400.0,
-            };
-        }
-    }
-    wheel
 }
 
 /// Blue (cool) over yellow to red (hot) for 0 … 1.

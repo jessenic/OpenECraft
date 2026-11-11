@@ -819,3 +819,17 @@ fn cable_core_texts_of_a_selected_wire_are_dragged_into_place() {
         assert_eq!((w.a, w.b, &w.cable, &w.core), (before.a, before.b, &before.cable, &before.core), "the wire and its core stay");
     }
 }
+
+#[test]
+fn polylines_are_stroked_without_miter_spikes() {
+    let q = |pts: &[(f32, f32)]| pts.iter().map(|&(x, y)| pos2(x, y)).collect::<Vec<_>>();
+    // An outline without sharp turns stays one closed line.
+    let square = q(&[(0., 0.), (10., 0.), (10., 10.), (0., 10.)]);
+    assert_eq!(stroke_runs(square.clone(), true), Runs::Loop(square));
+    // A line that turns back is split there; repeated points are dropped.
+    let back = q(&[(0., 0.), (10., 0.), (10., 0.), (2., 0.5)]);
+    assert_eq!(stroke_runs(back, false), Runs::Open(vec![q(&[(0., 0.), (10., 0.)]), q(&[(10., 0.), (2., 0.5)])]));
+    // A closed outline along a line (an open polyline drawn closed) is no loop either.
+    let flat = q(&[(0., 0.), (5., 0.), (10., 0.)]);
+    assert_eq!(stroke_runs(flat, true), Runs::Open(vec![q(&[(0., 0.), (5., 0.), (10., 0.)]), q(&[(10., 0.), (0., 0.)])]));
+}

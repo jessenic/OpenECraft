@@ -92,6 +92,7 @@ Auxiliary function: main contact	Aputoiminto: pääkosketin
 Auxiliary relay coil R (JIS)	Apureleen kela R (JIS)
 B10d	B10d
 Ball valve	Palloventtiili
+Bare conductor	Kuorittu johdin
 Basis	Peruste
 Battery	Akku
 Battery capacity	Akun kapasiteetti
@@ -499,8 +500,8 @@ Fan 3-phase	Puhallin, 3-vaiheinen
 Fan 3-phase, 6 terminals	Puhallin, 3-vaiheinen, 6 liitintä
 Ferrule	Pääteholkki
 Ferrule from	Pääteholkki alkaen
-Ferrule part	Pääteholkin osa
 Ferrule to	Pääteholkki päättyen
+Ferrule {} mm² {}	Pääteholkki {} mm² {}
 Field cable routing	Kenttäkaapelien reititys
 Field cable {} cannot be routed from {} to {}	Kenttäkaapelia {} ei voi reitittää kohteesta {} kohteeseen {}
 Field cable {}: {} is not placed in the plant layout	Kenttäkaapeli {}: {} ei ole sijoitettu laitoksen sijoituskuvaan
@@ -521,6 +522,8 @@ Fitting	Putkiliitin
 Fittings	Putkiliittimet
 Flame retardant	Paloa hidastava
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Lattakaapelissa {} on {} johdinta, IDC-liittimessä {} on {} nastaa
+Flat plug	Lattaliitin, uros
+Flat receptacle	Lattaliitin, naaras
 Flat roof	Tasakatto
 Float switch NC	Uimurikytkin, avautuva
 Float switch NO	Uimurikytkin sulkeutuva
@@ -546,6 +549,7 @@ Foot switch NC	Jalkakytkin, avautuva
 Foot switch NO	Jalkakytkin, sulkeutuva
 Foot switch NO (NFPA)	Jalkakytkin, sulkeutuva (NFPA)
 Force	Voima
+Fork terminal	Haarukkakaapelikenkä
 Format (placeholders)	Muoto (paikkamerkit)
 Frame size	Runkokoko
 Free	Vapaa
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Merkkivalo (NFPA)
 Pilot line	Ohjauslinja
 Pin connection diagram	Pistoliittimen liitäntäkaavio
 Pin side (male)	Nastapuoli (uros)
+Pin terminal	Tappikaapelikenkä
 Pipe	Putkisto
 Piston diameter	Männän halkaisija
 Piston rod diameter	Männänvarren halkaisija
@@ -1338,6 +1343,7 @@ Reviewer	Tarkastaja
 Revision overview (changes)	Revisioiden yleiskatsaus (muutokset)
 Right side	Oikea puoli
 Right side panel	Oikea sivuseinä
+Ring terminal	Rengaskaapelikenkä
 Rivet nut	Niittimutteri
 RoHS compliant	RoHS-yhteensopiva
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Riviliittimen kuvaus
 Terminal diagram	Riviliitinkaavio
 Terminal line-up	Riviliitinjärjestys
 Terminal marker	Riviliitinmerkki
+Terminal parts	Päätteiden nimikkeet
 Terminal strip data of {} without terminals	Riviliitinriman {} tiedot ilman riviliittimiä
 Terminal strip overview	Riviliitinrimojen yleiskatsaus
 Terminal strips and PLC addresses	Riviliitinrimat ja PLC-osoitteet
+Termination (from)	Pääte (mistä)
+Termination (to)	Pääte (mihin)
 Text file	Tekstitiedosto
 The DXF file contains nothing that can be imported	DXF-tiedosto ei sisällä mitään tuotavaa
 The PDF has no pages that can be read	PDF-tiedostossa ei ole luettavia sivuja
@@ -1688,6 +1697,14 @@ Tubes	Putket
 Tubing / piping list	Putki- / putkistoluettelo
 Turned once (quarter landing)	Kerran kääntyvät (kulmatasanne)
 Turned twice (two quarter landings)	Kahdesti kääntyvät (kaksi kulmatasannetta)
+Twin ferrule	Kaksoispääteholkki
+Twin ferrule at {} is not shared with a second wire	Kaksoispääteholkkia kohdassa {} ei jaeta toisen johtimen kanssa
+Twin ferrule at {} joins wires of {} and {}	Kaksoispääteholkki kohdassa {} yhdistää johtimet {} ja {}
+Twin ferrule at {}: {} wires end there, it takes two	Kaksoispääteholkki kohdassa {}: siihen päättyy {} johdinta, siihen mahtuu kaksi
+Twin ferrule with (from)	Kaksoispääteholkki kanssa (mistä)
+Twin ferrule with (to)	Kaksoispääteholkki kanssa (mihin)
+Twin ferrule {} mm² {}	Kaksoispääteholkki {} mm² {}
+Twin ferrules	Kaksoispääteholkit
 Two connection symbols on page {} lie on the same point	Sivun {} kaksi liitossymbolia ovat samassa pisteessä
 Two-way switch (installation)	Vaihtokytkin (asennus)
 Type numbers	Tyyppinumerot
@@ -1770,6 +1787,7 @@ Winding connection	Käämityksen kytkentä
 Wire assigned to unknown cable {}	Johto määritetty tuntemattomaan kaapeliin {}
 Wire colour GNYE is reserved for protective conductors ({})	Johtoväri GNYE on varattu suojajohtimille ({})
 Wire colours and cross-sections	Johtovärit ja poikkipinta-alat
+Wire crossings and connections	Johdinten risteykset ja liitokset
 Wire defaults	Johtojen oletukset
 Wire jumper	Johdinsilta
 Wire list (panel routing)	Johtoluettelo (kaapin reititys)
@@ -1847,6 +1865,7 @@ leakage	vuoto
 low	matala
 measuring	mittaus
 new	uusi
+no free cable gland	ei vapaata kaapeliläpivientiä
 no header	ei otsikkoriviä
 no list	ei luetteloa
 no path through the route network	ei reittiä reittiverkon kautta
@@ -1878,8 +1897,6 @@ routed	reititetty
 shield clamp ({} mm away)	suojavaipan kiinnitin ({} mm:n päässä)
 silver	hopea
 starts with	alkaa
-strip {} mm	kuori {} mm
-strip {} mm, ferrule {} mm² {}	kuori {} mm, pääteholkki {} mm² {}
 suction	imu
 supply	syöttö
 terminals {} – {}	riviliittimet {} – {}
@@ -1937,6 +1954,7 @@ yellow	keltainen
 {} unused device data records removed	{} käyttämätöntä laitetietuetta poistettiin
 {} wiring marks belong to wires that no longer exist	{} johdotusmerkintää kuuluu johtoihin, joita ei enää ole
 {} without device tag on page {}	{} ilman laitetunnusta sivulla {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} ei voida reitittää: jokainen kaapeliläpivienti kohteessa {} on toisen kaapelin käytössä. Lisää sille kaapeliläpivienti.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} ei voi reitittää: ei reittiä, joka pitää puolet paksuudesta vapaana kaikesta ja taipuu säteellä {} mm. Siirrä päitä tai tee tilaa.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} tulee sisään pohjan kautta: kotelossa ei ole kaapeliläpivientiä
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} tulee sisään katon kautta: katossa, sivuissa tai takaseinässä ei ole kaapeliläpivientiä
@@ -2003,6 +2021,7 @@ yellow	keltainen
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: sillalle {} ei ole siltaosaa (riviliitinosan tekninen tieto Jumper)
 {}: no part assigned	{}: osaa ei ole määritetty
 {}: no service space of {} mm in front of {} (the door is too close)	{}: ei {} mm:n huoltotilaa kohteen {} edessä (ovi on liian lähellä)
+{}: none for this cross-section	{}: ei tälle poikkipinnalle
 {}: not in the single-line diagram	{}: ei yksinapaisessa kaaviossa
 {}: not placed in the panel layout	{}: ei sijoitettu kaappiasennukseen
 {}: operations per year needed for the B10d of {}	{}: tarvitaan kytkentäkerrat vuodessa kohteen {} B10d-arvoa varten

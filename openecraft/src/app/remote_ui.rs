@@ -9,6 +9,7 @@ use crate::remote::{Remote, Reply};
 use egui::{Color32, RichText};
 use openecraft_core::collab::{valid_name, Grant, ProjectRight, Right, Shared, Snapshot, Subject, Target};
 use openecraft_i18n::{tr, tr_fmt};
+use crate::startup::ReconnectState;
 
 impl App {
     /// Handles the answers of the project server.
@@ -28,7 +29,22 @@ impl App {
                     self.remote.checked_rev = rev;
                     self.remote.shared = Some(shared);
                     self.remote.window = false;
+                    self.reconnect = None;
                     self.notify(ctx, self.remote.status.clone());
+                }
+                // The project of the start: the dialog offers retry, another project, the local copy.
+                Reply::Opened(name, Err(e)) if self.reconnect.as_ref().is_some_and(|r| r.project.name == name) => {
+                    if let Some(r) = &mut self.reconnect {
+                        r.state = ReconnectState::Failed(e);
+                    }
+                }
+                Reply::Login(Ok(_)) => {
+                    // Signed in for the project of the start: open it now.
+                    if let Some(r) = self.reconnect.as_mut().filter(|r| r.state == ReconnectState::SignIn) {
+                        r.state = ReconnectState::Connecting;
+                        let name = r.project.name.clone();
+                        self.request_replace(ctx, super::Replace::Shared(name));
+                    }
                 }
                 Reply::Saved(_, Ok(snapshot)) => {
                     // Changes the server left out: locked or changed by another user.
@@ -52,8 +68,61 @@ impl App {
                 Reply::Opened(_, Err(_)) | Reply::Saved(_, Err(_)) | Reply::Snapshot(_, Err(_)) | Reply::Status(_, Err(_)) | Reply::Access(_, Err(_)) => {
                     self.notify_error(ctx, self.remote.status.clone());
                 }
-                Reply::List(_) | Reply::Login(_) | Reply::Access(_, Ok(_)) | Reply::Closed => {}
+                Reply::List(_) | Reply::Login(Err(_)) | Reply::Access(_, Ok(_)) | Reply::Closed => {}
             }
+        }
+    }
+
+    /// The server project of the start could not be opened: try again, sign in, choose
+    /// another project or go on with the local copy (never shown as the shared project).
+    pub(super) fn reconnect_window(&mut self, ctx: &egui::Context) {
+        let Some(r) = &self.reconnect else { return };
+        let ReconnectState::Failed(error) = &r.state else { return };
+        let copy = self.recovery.as_ref() == Some(&r.project) && self.remote.shared.is_none();
+        let mut answer = None;
+        egui::Modal::new(egui::Id::unique("reconnect_project")).show(ctx, |ui| {
+            ui.set_width(440.0);
+            ui.label(RichText::new(tr_fmt!("The project server {} could not open {}.", r.project.url, r.project.name)).strong());
+            ui.weak(error);
+            if copy {
+                ui.add_space(4.0);
+                ui.label(tr("The open project is a local recovery copy. Its changes are not saved on the project server; before the shared project opens, you decide whether to save them locally or discard them."));
+            }
+            ui.add_space(8.0);
+            ui.horizontal_wrapped(|ui| {
+                if icons::text_button(ui, Icon::Rotate, tr("Retry connection")).clicked() {
+                    answer = Some(0);
+                }
+                if ui.button(tr("Sign in…")).on_hover_text(tr("Sign in in the Project server pane; the project opens afterwards")).clicked() {
+                    answer = Some(1);
+                }
+                if ui.button(tr("Choose another project")).clicked() {
+                    answer = Some(2);
+                }
+                if copy && ui.button(tr("Open local recovery copy")).on_hover_text(tr("Go on working locally; Save saves to a local file")).clicked() {
+                    answer = Some(3);
+                }
+            });
+        });
+        let Some(answer) = answer else { return };
+        let Some(r) = &mut self.reconnect else { return };
+        match answer {
+            0 => {
+                // The unsaved changes were decided on before the first attempt.
+                r.state = ReconnectState::Connecting;
+                let name = r.project.name.clone();
+                self.remote.open(&name);
+            }
+            1 => {
+                r.state = ReconnectState::SignIn;
+                self.show_pane(crate::dock::Pane::Tool(crate::dock::ToolPane::ProjectServer));
+            }
+            2 => {
+                self.reconnect = None;
+                self.show_pane(crate::dock::Pane::Tool(crate::dock::ToolPane::ProjectServer));
+                self.remote.list();
+            }
+            _ => self.reconnect = None,
         }
     }
 
@@ -299,6 +368,7 @@ impl App {
         }
         ui.separator();
         if ui.button(tr("Close shared project")).on_hover_text(tr("Releases all locks; the project stays open as a local copy")).clicked() {
+            self.recovery = self.remote.project();
             self.remote.close();
         }
     }

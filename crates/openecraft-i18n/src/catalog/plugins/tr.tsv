@@ -96,6 +96,7 @@ Changes the properties of a wire	Bir telin özelliklerini değiştirir
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Bir panonun sistemini, boyutunu ve bileşenlerini (kaide, yan yana bağlı taraflar, rakor plakası) değiştirir; ankrajlı öğeler izler
 Check {} failed: {}	{} kontrolü başarısız oldu: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Pano yerleşimini kontrol eder: çakışmalar, mesafeler (montaj, havalandırma, EMC), servis alanı, zeminden yükseklikler, çakışma sınıfları, sıcaklıklar ve üretilebilirlik
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Tel uçlarının nasıl sonlandırılacağını seçer: çıplak, yüksüklü veya sıkma pabuçlu; bir bağlantı noktasında, bir cihazın tüm bağlantı noktalarında veya yalnızca bir tel için
 Chosen value	Seçilen değer
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Pano yerleşiminin mesafeleri, servis alanı, yükseklikleri, çakışma sınıfları, termik simülasyonu ve üretilebilirliği
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Panoların iklimlendirmesi (IEC/TR 60890): güç kaybı, iç sıcaklık, gereken fan veya soğutma ünitesi ve ısıtma; isteğe bağlı olarak bir panonun ayarlarını değiştirir
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	Bağlantı noktası ETİKET:PIN, ör. -K1:
 Connection point designation or number (1, 2, …)	Bağlantı noktası tanımı veya numarası (1, 2, …)
 Connection point designations separated by commas or blanks	Virgül veya boşlukla ayrılmış bağlantı noktası tanımları
 Connection point designations, comma separated, e.g. 13,14	Bağlantı noktası tanımları, virgülle ayrılmış, ör. 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Bağlantı noktası, ör. -K1:13, veya bir cihaz, ör. -K1 (tüm bağlantı noktaları)
 Connector id (required unless removing)	Bağlayıcı kimliği (kaldırma dışında gerekli)
 Connects two connection points with wires routed around symbols and other wires	İki bağlantı noktasını sembollerin ve diğer tellerin etrafından yönlendirilen tellerle bağlar
 Connects two ports of stations with a network cable; connections already on these ports are replaced	İstasyonların iki portunu bir ağ kablosuyla bağlar; bu portlardaki mevcut bağlantılar değiştirilir
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Projeden dışarı alınan alt projeleri veya alındığı projeyi listeler
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Yerleştirilebilen sembolleri, ekleme noktasına göre bağlantı noktalarıyla birlikte listeler
 Lists the terminal strips with their number of terminals and length on the rail	Klemens şeritlerini klemens sayıları ve ray üzerindeki uzunluklarıyla birlikte listeler
+Lists the terminations chosen for wire ends and the kinds there are	Tel uçları için seçilen sonlandırmaları ve mevcut türleri listeler
 Lists the translation dictionary of the project texts (source line and translations)	Proje metinlerinin çeviri sözlüğünü listeler (kaynak satır ve çeviriler)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Sayfalara yerleştirilen pencere makrolarını (makro kutuları) makro, varyant, yer tutucu değerleri ve öğe sayısıyla birlikte listeler
 Load losses of the transformer in W (0: typical)	Transformatörün W cinsinden yük kayıpları (0: tipik)
@@ -521,6 +524,7 @@ Operations	İşlemler
 Option name	Seçenek adı
 Option name, e.g. STARTER	Seçenek adı, ör. STARTER
 Options and rules of the configurator	Yapılandırıcının seçenekleri ve kuralları
+Other end of the wire, e.g. -X1:3: only this wire	Telin diğer ucu, ör. -X1:3: yalnızca bu tel
 Other end, e.g. -X1:3	Diğer uç, ör. -X1:3
 Outer diameter in mm, 0 = estimated	mm cinsinden dış çap, 0 = tahmin edilir
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Düz segmentlerin dış uzunlukları, mm, ör. 200, 150, 300
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Rapor blokları ve rapor düzenleri
 Reserves space over the mounting plate: kept free of routes, or for one class only	Montaj plakasının üzerinde alan ayırır: güzergâhlardan boş tutulur veya yalnızca bir sınıf için
 Rest (mm)	Kalan (mm)
+Reuse failed searches during one routing calculation	Aynı güzergâh hesaplamasında başarısız aramaları yeniden kullan
 Right side bayed (no side panel)	Sağ taraf yan yana bağlı (yan panel yok)
 Room {} exists already	Oda {} zaten var
 Rotation in degrees clockwise: 0, 90, 180 or 270	Saat yönünde derece cinsinden döndürme: 0, 90, 180 veya 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Derece cinsinden dönüş, saat yönünün tersine (90 aşağıdan yukarıya okunur)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Taşınan öğelerin bağlantılarını yeniden yönlendir: en az büküm ve kesişimle en kısa yol
 Route the wires in 3D as well (otherwise through the cable ducts)	Telleri de 3D olarak yönlendir (aksi halde kablo kanallarından)
 Routing rules, paths, reservations, frozen routes and cable shields	Güzergâh kuralları, yollar, rezervasyonlar, dondurulmuş güzergâhlar ve kablo ekranları
 Row key (from table_get)	Satır anahtarı (table_get çıktısından)
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Ayırıcı: semicolon, comma veya tab
 Sets how cross references are shown (only the given settings) and shows the settings	Çapraz referansların nasıl gösterileceğini ayarlar (yalnızca verilen ayarlar) ve ayarları gösterir
 Sets how the terminals of a jumper are bridged	Bir köprünün klemenslerinin nasıl köprüleneceğini ayarlar
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Sonlandırması seçilmemiş tel uçlarının nasıl sonlandırılacağını belirler: yüksüklü veya çıplak, iki telin bir bağlantı noktasını paylaştığı yerlerde ikiz yüksüklü
 Sets property values of an object; an empty value removes it	Bir nesnenin özellik değerlerini ayarlar; boş değer onu kaldırır
 Sets the aspects the pages use	Sayfaların kullandığı yönleri ayarlar
 Sets the collision class of a panel item (empty: automatic)	Bir pano öğesinin çakışma sınıfını ayarlar (boş: otomatik)
@@ -714,6 +721,7 @@ Show as \"Name: value\"	\"Ad: değer\" olarak göster
 Show the content	İçeriği göster
 Shows a property as a text beside a symbol	Bir özelliği sembolün yanında metin olarak gösterir
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Bir klemens şeridini gösterir: şerit sırasına göre klemensler kat, köprü ve hedefleriyle, ray üzerindeki bloklar ve köprüler
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Tellerin sayfalarda nasıl kesiştiğini ve birleştiğini ve taşınan öğelerin bağlantılarının yeniden yönlendirilip yönlendirilmediğini gösterir, verilen değerleri değiştirir
 Shows or changes the machining strategy and which machine makes which face	İşleme stratejisini ve hangi makinenin hangi yüzeyi ürettiğini gösterir veya değiştirir
 Shows or changes the rules of copper bars; lengths in mm	Bakır bara kurallarını gösterir veya değiştirir; uzunluklar mm cinsinden
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Pano yerleşimi kontrollerinin kurallarını gösterir veya değiştirir; değerler mm cinsinden (sıcaklık °C cinsinden)
@@ -763,6 +771,7 @@ Symbol ids	Sembol kimlikleri
 Symbol key from list_symbols	list_symbols listesinden sembol anahtarı
 Symbol {} has no connection point {}	{} sembolünün {} bağlantı noktası yok
 Symbols, wires, texts, cable and connection definitions on schematic pages	Şema sayfalarındaki semboller, teller, metinler, kablo ve bağlantı tanımları
+T-connections: dot, large_dot or none	T bağlantıları: dot, large_dot veya none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	T parçası: gövdenin yönü; köprü: bağlantının geldiği taraf (left, right, up veya down)
 Tag of the terminal strip, e.g. -X1	Klemens şeridinin etiketi, ör. -X1
 Take the cut lengths over as cable lengths	Kesim uzunluklarını kablo uzunlukları olarak devral
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	Bir k
 The text height must be at least 0.5 mm	Metin yüksekliği en az 0,5 mm olmalıdır
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Bir köşenin dikey ve yatay iki kolu, örn. down left (varsayılan: oradaki tellere göre, yoksa down right)
 The wire has no length	Bağlantının uzunluğu yok
+The wire that jumps: vertical or horizontal	Atlayan tel: vertical veya horizontal
 The wrap width must not be negative	Kaydırma genişliği negatif olamaz
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Montaj plakasının termik simülasyonu: hava sıcaklıkları, sıcak nokta, ısı kaynakları ve her cihazdaki sıcaklık
 Thickest sheet or bar, mm	En kalın sac veya bara, mm
@@ -818,7 +828,9 @@ Top edge on the face in mm	mm cinsinden yüzey üzerindeki üst kenar
 Top edge on the mounting plate in mm	mm cinsinden montaj plakası üzerindeki üst kenar
 Translated line	Çevrilmiş satır
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Derece cinsinden dikey eksen etrafında dönüş, yukarıdan bakıldığında saat yönünün tersine (90: ön yüzler sağa bakar)
+Two wires at a connection point share a twin ferrule	Bir bağlantı noktasındaki iki tel bir ikiz yüksüğü paylaşır
 Unit, e.g. kW	Birim, ör. kW
+Unknown T-connection style: {}	Bilinmeyen T bağlantı stili: {}
 Unknown accessory kind: {}	Bilinmeyen aksesuar türü: {}
 Unknown action: {}	Bilinmeyen eylem: {}
 Unknown address scheme: {}	Bilinmeyen adres şeması: {}
@@ -841,7 +853,9 @@ Unknown field: {}	Bilinmeyen alan: {}
 Unknown group kind: {}	Bilinmeyen grup türü: {}
 Unknown installation: {}	Bilinmeyen kurulum tipi: {}
 Unknown insulation: {}	Bilinmeyen yalıtım: {}
+Unknown jump style: {}	Bilinmeyen atlama stili: {}
 Unknown jumper kind: {}	Bilinmeyen köprü türü: {}
+Unknown jumping wire: {}	Bilinmeyen atlayan tel: {}
 Unknown kind: {}	Bilinmeyen tür: {}
 Unknown labels: {}	Bilinmeyen yazı türü: {}
 Unknown level: {}	Bilinmeyen seviye: {}
@@ -873,6 +887,7 @@ Unknown state: {}	Bilinmeyen durum: {}
 Unknown station kind: {}	Bilinmeyen istasyon türü: {}
 Unknown symbol: {}	Bilinmeyen sembol: {}
 Unknown table: {}	Bilinmeyen tablo: {}
+Unknown termination: {}	Bilinmeyen sonlandırma: {}
 Unknown vertical anchor: {}	Bilinmeyen dikey bağlama noktası: {}
 Unknown way of opening: {}	Bilinmeyen açılış şekli: {}
 Unknown wire colour {} (IEC 60757: {})	Bilinmeyen tel rengi {} (IEC 60757: {})
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Pencereler: alt kenarı
 Wire colour (IEC 60757), e.g. BK	Tel rengi (IEC 60757), ör. BK
 Wire colour, e.g. BU	Tel rengi, ör. BU
 Wire colour, e.g. BU (empty = from the potential definition)	Tel rengi, ör. BU (boş = potansiyel tanımından)
+Wire ends get ferrules	Tel uçlarına kablo yüksüğü takılır
 Wire number (kept when renumbering)	Tel numarası (yeniden numaralandırmada korunur)
 Wire numbering and wiring marks	Tel numaralandırma ve kablolama işaretleri
+Wires crossing without connection: none, arc, bridge or gap	Bağlantısız kesişen teller: none, arc, bridge veya gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Koruma cihazlarına göre fazla ince teller ve kabloların gerilim düşümü (IEC 60204-1)
 Working area in x, mm	x yönünde çalışma alanı, mm
 Working area in y, mm	y yönünde çalışma alanı, mm
@@ -911,6 +928,7 @@ Y position in mm (downwards)	mm cinsinden Y konumu (aşağı doğru)
 any, wires, cables or tubes	any, wires, cables veya tubes
 auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left veya right; elle yerleştirilen metinleri bırakır
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip veya adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle veya auto (yerleşimin yüksük ayarına göre)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam veya product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi veya other
 copper or aluminium	copper veya aluminium

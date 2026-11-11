@@ -92,6 +92,7 @@ Auxiliary function: main contact	Hjälpfunktion: huvudkontakt
 Auxiliary relay coil R (JIS)	Hjälpreläspole R (JIS)
 B10d	B10d
 Ball valve	Kulventil
+Bare conductor	Avskalad ledare
 Basis	Grund
 Battery	Batteri
 Battery capacity	Batterikapacitet
@@ -499,8 +500,8 @@ Fan 3-phase	Fläkt 3-fas
 Fan 3-phase, 6 terminals	Fläkt 3-fas, 6 anslutningar
 Ferrule	Ändhylsa
 Ferrule from	Ändhylsa från
-Ferrule part	Ändhylsartikel
 Ferrule to	Ändhylsa till
+Ferrule {} mm² {}	Ändhylsa {} mm² {}
 Field cable routing	Kabelvägar för fältkablar
 Field cable {} cannot be routed from {} to {}	Fältkabel {} kan inte dras från {} till {}
 Field cable {}: {} is not placed in the plant layout	Fältkabel {}: {} är inte placerad i anläggningslayouten
@@ -521,6 +522,8 @@ Fitting	Koppling
 Fittings	Kopplingar
 Flame retardant	Flamskyddad
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Flatkabeln {} har {} ledare, IDC-kontakten {} har {} stift
+Flat plug	Flatstift
+Flat receptacle	Flathylsa
 Flat roof	Platt tak
 Float switch NC	Flottörbrytare, brytande
 Float switch NO	Nivåvippa slutande
@@ -546,6 +549,7 @@ Foot switch NC	Fotbrytare, brytande
 Foot switch NO	Fotbrytare, slutande
 Foot switch NO (NFPA)	Fotbrytare, slutande (NFPA)
 Force	Kraft
+Fork terminal	Gaffelkabelsko
 Format (placeholders)	Format (platshållare)
 Frame size	Byggstorlek
 Free	Fri
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Signallampa (NFPA)
 Pilot line	Styrledning
 Pin connection diagram	Stiftanslutningsschema
 Pin side (male)	Stiftsida (hane)
+Pin terminal	Stiftkabelsko
 Pipe	Rörledning
 Piston diameter	Kolvdiameter
 Piston rod diameter	Kolvstångsdiameter
@@ -1338,6 +1343,7 @@ Reviewer	Granskare
 Revision overview (changes)	Revisionsöversikt (ändringar)
 Right side	Höger sida
 Right side panel	Höger sidovägg
+Ring terminal	Ringkabelsko
 Rivet nut	Nitmutter
 RoHS compliant	RoHS-kompatibel
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Plintbeskrivning
 Terminal diagram	Plintschema
 Terminal line-up	Plintuppställning
 Terminal marker	Plintmärkning
+Terminal parts	Artiklar för ändar
 Terminal strip data of {} without terminals	Plintradsdata för {} utan plintar
 Terminal strip overview	Plintradsöversikt
 Terminal strips and PLC addresses	Plintrader och PLC-adresser
+Termination (from)	Avslutning (från)
+Termination (to)	Avslutning (till)
 Text file	Textfil
 The DXF file contains nothing that can be imported	DXF-filen innehåller inget som kan importeras
 The PDF has no pages that can be read	PDF-filen har inga sidor som kan läsas
@@ -1688,6 +1697,14 @@ Tubes	Slangar
 Tubing / piping list	Rör- / slanglista
 Turned once (quarter landing)	Svängd en gång (kvartsvilplan)
 Turned twice (two quarter landings)	Svängd två gånger (två kvartsvilplan)
+Twin ferrule	Dubbel ändhylsa
+Twin ferrule at {} is not shared with a second wire	Dubbel ändhylsa vid {} delas inte med en andra ledare
+Twin ferrule at {} joins wires of {} and {}	Dubbel ändhylsa vid {} förenar ledare på {} och {}
+Twin ferrule at {}: {} wires end there, it takes two	Dubbel ändhylsa vid {}: {} ledare slutar där, den tar två
+Twin ferrule with (from)	Dubbel ändhylsa med (från)
+Twin ferrule with (to)	Dubbel ändhylsa med (till)
+Twin ferrule {} mm² {}	Dubbel ändhylsa {} mm² {}
+Twin ferrules	Dubbla ändhylsor
 Two connection symbols on page {} lie on the same point	Två förbindelsesymboler på sida {} ligger i samma punkt
 Two-way switch (installation)	Trappströmställare (installation)
 Type numbers	Typnummer
@@ -1770,6 +1787,7 @@ Winding connection	Lindningskoppling
 Wire assigned to unknown cable {}	Ledning tilldelad okänd kabel {}
 Wire colour GNYE is reserved for protective conductors ({})	Ledarfärgen GNYE är reserverad för skyddsledare ({})
 Wire colours and cross-sections	Ledarfärger och tvärsnitt
+Wire crossings and connections	Ledningskorsningar och -förbindelser
 Wire defaults	Standardvärden för ledningar
 Wire jumper	Trådbygel
 Wire list (panel routing)	Ledningslista (skåpdragning)
@@ -1847,6 +1865,7 @@ leakage	läckage
 low	låg
 measuring	mät
 new	ny
+no free cable gland	ingen ledig kabelförskruvning
 no header	ingen rubrikrad
 no list	ingen lista
 no path through the route network	ingen väg genom kabelvägsnätet
@@ -1878,8 +1897,6 @@ routed	dragen
 shield clamp ({} mm away)	skärmklämma ({} mm bort)
 silver	silver
 starts with	börjar med
-strip {} mm	skala av {} mm
-strip {} mm, ferrule {} mm² {}	skala av {} mm, ändhylsa {} mm² {}
 suction	sug
 supply	matning
 terminals {} – {}	plintar {} – {}
@@ -1937,6 +1954,7 @@ yellow	gul
 {} unused device data records removed	{} oanvända apparatdataposter borttagna
 {} wiring marks belong to wires that no longer exist	{} inkopplingsmarkeringar hör till ledningar som inte längre finns
 {} without device tag on page {}	{} utan apparatbeteckning på sida {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} kan inte dras: varje kabelförskruvning i {} upptas av en annan kabel. Lägg till en kabelförskruvning för den.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} kan inte dras: ingen väg som håller halva tjockleken fri från allt och böjer med radien {} mm. Flytta ändarna eller gör plats.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} går in genom botten: ingen kabelförskruvning i kapslingen
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} går in genom taket: ingen kabelförskruvning på tak, sidor eller bakstycke
@@ -2003,6 +2021,7 @@ yellow	gul
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: ingen bygelartikel för bygel {} (tekniska data Jumper för plintartikeln)
 {}: no part assigned	{}: ingen artikel tilldelad
 {}: no service space of {} mm in front of {} (the door is too close)	{}: inget serviceutrymme på {} mm framför {} (dörren är för nära)
+{}: none for this cross-section	{}: ingen för denna area
 {}: not in the single-line diagram	{}: inte i enlinjeschemat
 {}: not placed in the panel layout	{}: inte placerad i skåplayouten
 {}: operations per year needed for the B10d of {}	{}: antal manövrer per år krävs för B10d för {}

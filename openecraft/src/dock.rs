@@ -394,6 +394,12 @@ pub fn default_tree_for(workspace: Workspace) -> Tree<Pane> {
     Tree::new(egui::Id::unique(("dock", workspace.key())), root, tiles)
 }
 
+/// The document a workspace is for, shown when it is chosen: the first one of its
+/// default arrangement (the page, the panel layout, the workbench, …).
+pub fn main_document(workspace: Workspace) -> Pane {
+    panes(&default_tree_for(workspace)).into_iter().find(|p| p.is_document()).unwrap_or(Pane::Page)
+}
+
 /// Puts a workspace back to its default: the arrangement before any change, no floating
 /// panes, every pane opening where it opens by default.
 pub fn reset(workspace: Workspace, tree: &mut Tree<Pane>, side: &mut Side) {

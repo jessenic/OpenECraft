@@ -22,6 +22,20 @@ pub struct Unplaced {
 
 /// The first built-in symbol that stands for a function kind.
 pub fn symbol_for(kind: FnKind) -> Option<&'static str> {
+    symbol_with_pins(kind, 0)
+}
+
+/// The symbol of a function with `pins` connection points: a generic function says
+/// nothing about its graphics, so it is a black box with room for its connection
+/// points (not the first generic symbol of the library, an earth electrode).
+pub fn symbol_with_pins(kind: FnKind, pins: usize) -> Option<&'static str> {
+    if kind == FnKind::Generic {
+        return Some(match pins {
+            0..=2 => "box1",
+            3..=4 => "box2",
+            _ => "box4",
+        });
+    }
     crate::symbols::library().iter().map(|d| d.key).find(|k| parts::kind_of_symbol(k) == Some(kind))
 }
 
@@ -32,7 +46,10 @@ pub fn part_symbol(part: &parts::Part) -> Option<(&'static str, Vec<String>)> {
     if !part.symbol.is_empty() {
         return None;
     }
-    part.functions.iter().find_map(|f| symbol_for(f.kind).map(|s| (s, f.pin_list())))
+    part.functions.iter().find_map(|f| {
+        let pins = f.pin_list();
+        symbol_with_pins(f.kind, pins.len()).map(|s| (s, pins))
+    })
 }
 
 /// Channels of the PLC cards (with a device description) without a symbol, per card
@@ -98,8 +115,8 @@ pub fn device_functions(prj: &Project, db: Option<&PartsDb>) -> Vec<Unplaced> {
         // PLC channels).
         let own = |k: FnKind| matches!(k, FnKind::Terminal | FnKind::PlugPin | FnKind::PlcInput | FnKind::PlcOutput | FnKind::PlcAnalogInput | FnKind::PlcAnalogOutput);
         for f in parts::reserve_functions(prj, db, tag).into_iter().filter(|f| !own(f.kind)) {
-            let Some(symbol) = symbol_for(f.kind) else { continue };
             let pins = f.pin_list();
+            let Some(symbol) = symbol_with_pins(f.kind, pins.len()) else { continue };
             let title = format!("{} {}", f.kind.title(), pins.join("-")).trim().to_string();
             out.push(Unplaced { tag: tag.clone(), symbol, label: String::new(), pins, title });
         }

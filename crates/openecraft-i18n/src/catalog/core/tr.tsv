@@ -92,6 +92,7 @@ Auxiliary function: main contact	Yardımcı fonksiyon: ana kontak
 Auxiliary relay coil R (JIS)	Yardımcı röle bobini R (JIS)
 B10d	B10d
 Ball valve	Küresel vana
+Bare conductor	Çıplak iletken
 Basis	Dayanak
 Battery	Batarya
 Battery capacity	Batarya kapasitesi
@@ -499,8 +500,8 @@ Fan 3-phase	Fan 3 fazlı
 Fan 3-phase, 6 terminals	Fan 3 fazlı, 6 bağlantı ucu
 Ferrule	Kablo yüksüğü
 Ferrule from	Başlangıçta yüksük
-Ferrule part	Kablo yüksüğü parçası
 Ferrule to	Bitişte yüksük
+Ferrule {} mm² {}	Yüksük {} mm² {}
 Field cable routing	Saha kablosu güzergâhı
 Field cable {} cannot be routed from {} to {}	Saha kablosu {}, {} ile {} arasında döşenemiyor
 Field cable {}: {} is not placed in the plant layout	Saha kablosu {}: {} tesis yerleşiminde yerleştirilmemiş
@@ -521,6 +522,8 @@ Fitting	Rakor
 Fittings	Rakorlar
 Flame retardant	Alev geciktirici
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Yassı kablo {}: {} damar, IDC konnektör {}: {} pin
+Flat plug	Erkek düz soket
+Flat receptacle	Dişi düz soket
 Flat roof	Düz çatı
 Float switch NC	Şamandıra şalteri NK
 Float switch NO	Şamandıra şalteri NA
@@ -546,6 +549,7 @@ Foot switch NC	Ayak şalteri NK
 Foot switch NO	Ayak şalteri NA
 Foot switch NO (NFPA)	Ayak şalteri NA (NFPA)
 Force	Kuvvet
+Fork terminal	Çatal kablo pabucu
 Format (placeholders)	Format (yer tutucular)
 Frame size	Yapı boyutu
 Free	Serbest
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Sinyal lambası (NFPA)
 Pilot line	Pilot hattı
 Pin connection diagram	Pin bağlantı şeması
 Pin side (male)	Pin tarafı (erkek)
+Pin terminal	Pin kablo pabucu
 Pipe	Boru
 Piston diameter	Piston çapı
 Piston rod diameter	Piston kolu çapı
@@ -1338,6 +1343,7 @@ Reviewer	İncelemeci
 Revision overview (changes)	Revizyon genel bakışı (değişiklikler)
 Right side	Sağ taraf
 Right side panel	Sağ yan panel
+Ring terminal	Halka kablo pabucu
 Rivet nut	Perçin somun
 RoHS compliant	RoHS uyumlu
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Klemens açıklaması
 Terminal diagram	Klemens şeması
 Terminal line-up	Klemens dizilimi
 Terminal marker	Klemens işareti
+Terminal parts	Uç parçaları
 Terminal strip data of {} without terminals	Klemensi olmayan {} klemens şeridi verileri
 Terminal strip overview	Klemens şeridi genel bakışı
 Terminal strips and PLC addresses	Klemens şeritleri ve PLC adresleri
+Termination (from)	Sonlandırma (başlangıç)
+Termination (to)	Sonlandırma (bitiş)
 Text file	Metin dosyası
 The DXF file contains nothing that can be imported	DXF dosyası içe aktarılabilecek bir şey içermiyor
 The PDF has no pages that can be read	PDF'te okunabilir sayfa yok
@@ -1688,6 +1697,14 @@ Tubes	Tüpler
 Tubing / piping list	Tüp / boru listesi
 Turned once (quarter landing)	Bir kez dönen (köşe sahanlığı)
 Turned twice (two quarter landings)	İki kez dönen (iki köşe sahanlığı)
+Twin ferrule	İkiz yüksük
+Twin ferrule at {} is not shared with a second wire	{} noktasındaki ikiz yüksük ikinci bir telle paylaşılmıyor
+Twin ferrule at {} joins wires of {} and {}	{} noktasındaki ikiz yüksük {} ve {} kesitli telleri birleştiriyor
+Twin ferrule at {}: {} wires end there, it takes two	{} noktasındaki ikiz yüksük: orada {} tel bitiyor, iki tel alır
+Twin ferrule with (from)	İkiz yüksük ile (başlangıç)
+Twin ferrule with (to)	İkiz yüksük ile (bitiş)
+Twin ferrule {} mm² {}	İkiz yüksük {} mm² {}
+Twin ferrules	İkiz yüksükler
 Two connection symbols on page {} lie on the same point	Sayfa {} üzerinde iki bağlantı sembolü aynı noktada
 Two-way switch (installation)	Vaviyen anahtar (tesisat)
 Type numbers	Tip numaraları
@@ -1770,6 +1787,7 @@ Winding connection	Sargı bağlantısı
 Wire assigned to unknown cable {}	Tel bilinmeyen bir kabloya atanmış: {}
 Wire colour GNYE is reserved for protective conductors ({})	GNYE tel rengi koruma iletkenlerine ayrılmıştır ({})
 Wire colours and cross-sections	Tel renkleri ve kesitleri
+Wire crossings and connections	Tel kesişimleri ve bağlantıları
 Wire defaults	Tel varsayılanları
 Wire jumper	Tel köprü
 Wire list (panel routing)	Tel listesi (pano yönlendirmesi)
@@ -1847,6 +1865,7 @@ leakage	kaçak
 low	düşük
 measuring	ölçüm
 new	yeni
+no free cable gland	boş kablo rakoru yok
 no header	başlık yok
 no list	liste yok
 no path through the route network	güzergâh ağında yol yok
@@ -1878,8 +1897,6 @@ routed	yönlendirildi
 shield clamp ({} mm away)	ekran kelepçesi ({} mm uzakta)
 silver	gümüş
 starts with	ile başlar
-strip {} mm	soyma {} mm
-strip {} mm, ferrule {} mm² {}	soyma {} mm, kablo yüksüğü {} mm² {}
 suction	emme
 supply	besleme
 terminals {} – {}	klemensler {} – {}
@@ -1937,6 +1954,7 @@ yellow	sarı
 {} unused device data records removed	Kullanılmayan {} cihaz veri kaydı kaldırıldı
 {} wiring marks belong to wires that no longer exist	{} kablolama işareti artık var olmayan tellere ait
 {} without device tag on page {}	{} sayfasında cihaz etiketi olmayan {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} yönlendirilemiyor: {} içindeki her kablo rakoru başka bir kablo tarafından kullanılıyor. Bunun için bir kablo rakoru ekleyin.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} yönlendirilemiyor: her şeyden yarı kalınlığı kadar uzak kalan ve {} mm yarıçapla bükülen yol yok. Uçları taşıyın veya yer açın.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} tabandan giriyor: panoda kablo rakoru yok
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} tavandan giriyor: tavanda, yanlarda veya arkada kablo rakoru yok
@@ -2003,6 +2021,7 @@ yellow	sarı
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: {} köprüsü için köprü parçası yok (klemens parçasının Jumper teknik verisi)
 {}: no part assigned	{}: atanmış parça yok
 {}: no service space of {} mm in front of {} (the door is too close)	{0}: {2} önünde {1} mm servis alanı yok (kapı çok yakın)
+{}: none for this cross-section	{}: bu kesit için yok
 {}: not in the single-line diagram	{}: tek hat şemasında yok
 {}: not placed in the panel layout	{}: pano yerleşiminde yerleştirilmemiş
 {}: operations per year needed for the B10d of {}	{}: {} cihazının B10d değeri için yıllık çalışma sayısı gerekli

@@ -474,6 +474,7 @@ open	nyitott
 rejected	elutasítva
 right	jobbra
 spare	tartalék
+strip {} mm, {}	csupaszítás {} mm, {}
 the disk is full	a lemez megtelt
 the file exists already	a fájl már létezik
 this is a folder	ez egy mappa
@@ -483,5 +484,6 @@ yes	igen
 {} exists already	{} már létezik
 {} parts	{} alkatrész
 {} wires	{} vezeték
+{}, together with the wire to {}	{}, a(z) {} felé menő vezetékkel együtt
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} nem a padlón áll, válasszon padlón álló alkatrészt
 ➕ Add accessory	➕ Tartozék hozzáadása

@@ -49,12 +49,15 @@ A cable of the bus type for every connection without cable	Un cablu de tipul mag
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Un decupaj de aceeași dimensiune în același loc în peretele lateral al vecinului: împreună formează o trecere de cabluri
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Un fișier cu același nume din folder primește o versiune nouă (check-out și check-in), altfel fișierul este adăugat
 A level on top of the highest one	Un nivel deasupra celui mai înalt
+A local file opens locally, a server project is opened on the project server again	Un fișier local se deschide local, un proiect de pe server este redeschis pe serverul de proiecte
+A local file or a project on the project server	Un fișier local sau un proiect de pe serverul de proiecte
 A new project	Un proiect nou
 A new release is downloaded in the background and installed when you close OpenECraft.	O versiune nouă se descarcă în fundal și se instalează când închideți OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	O versiune nouă se descarcă în fundal și înlocuiește această instalare; este folosită de la următoarea pornire.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	O secțiune numerotată care conține pagini ca un director; numele paginilor încep cu numărul ei (2.3.1)
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Un profil mapează câmpurile neutre la numele de coloane ale unui anumit sistem (de ex. MATNR pentru numărul ERP în SAP). Fără mapare, sunt recunoscute numele uzuale în engleză și germană.
 A project definition based on this one, with its own defaults and scheme	O definiție de proiect bazată pe aceasta, cu propriile valori implicite și schemă
+A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	În schimb se deschide un fișier de proiect deschis din managerul de fișiere. Modificările nesalvate ale ultimei sesiuni nu sunt niciodată renunțate fără întrebare.
 A reference point at the origin of the plant	Un punct de referință în originea instalației
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Un bloc de raport generează paginile unui raport, de ex. o schemă de borne pentru fiecare șir, și le actualizează.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	O pagină de schemă 3.1, 3.2, … după pagina curentă, păstrată ca subpagină la renumerotare
@@ -230,6 +233,7 @@ Cable definition	Definire cablu
 Cable definition on page {}	Definire cablu pe pagina {}
 Cable definition: draw a line across the wires that are cores of a cable	Definire cablu: trasați o linie peste conductoarele care sunt fire ale unui cablu
 Cable end reserve	Rezervă la capăt de cablu
+Cable ends	Capetele cablului
 Cable markers	Marcaje de cablu
 Cable passage to {}	Trecere de cabluri spre {}
 Cable {}: {} cores assigned	Cablul {}: {} fire atribuite
@@ -278,7 +282,9 @@ Choices	Opțiuni de alegere
 Choices (separated by commas)	Opțiuni de alegere (separate prin virgule)
 Choose	Alegeți
 Choose a baseline, a revision or a project file to compare the project with.	Alegeți o versiune de referință, o revizie sau un fișier de proiect cu care să comparați proiectul.
+Choose a project on every start: local files and projects of the project server	Alege un proiect la fiecare pornire: fișiere locale și proiecte ale serverului de proiecte
 Choose a room first: floor-standing parts go on its floor.	Alegeți mai întâi o încăpere: articolele care stau pe pardoseală se pun pe pardoseala ei.
+Choose another project	Alege alt proiect
 Choose file…	Alegere fișier…
 Choose pages	Alegere pagini
 Chooses the pages whose structure starts with this	Alege paginile a căror structură începe cu aceasta
@@ -371,10 +377,12 @@ Connection points 1 and 2 are connected inside	Punctele de conexiune 1 și 2 sun
 Connection:	Conexiune:
 Connections ({})	Conexiuni ({})
 Connections / harness	Conexiuni / cablaj
+Connections of four or more wires always have a dot.	Joncțiunile a patru sau mai multe fire au întotdeauna un punct.
 Connections whose two ends are both on selected wires	Conexiunile ale căror ambele capete se află pe conductoarele selectate
 Connections without a defined potential	Conexiuni fără potențial definit
 Connectors	Conectori
 Connects free connection points of the selected symbols with facing ones	Conectează punctele de conexiune libere ale simbolurilor selectate cu cele aflate față în față
+Connects to the project server and shows its projects, without the project of the last session	Se conectează la serverul de proiecte și îi afișează proiectele, fără proiectul ultimei sesiuni
 Consecutive addresses from the start byte, in schematic order	Adrese consecutive de la octetul de start, în ordinea din schemă
 Contact image below coils	Imaginea contactelor sub bobine
 Content	Conținut
@@ -431,6 +439,7 @@ Dashed	Întrerupt
 Decimals	Zecimale
 Default	Implicit
 Default (part data or definition)	Implicit (date de articol sau definiție)
+Default ({})	Implicit ({})
 Default label	Etichetă implicită
 Default medium	Mediu implicit
 Default rules	Reguli implicite
@@ -655,7 +664,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Elemente de fixare în lista de materiale
 Favorite	Favorit
 Favorites (JSON)	Favorite (JSON)
-Ferrule {} ({})	Manșon de capăt {} ({})
 Field	Câmp
 Field (name, description, company, creator, date, revision) or project property	Câmp (name, description, company, creator, date, revision) sau proprietate de proiect
 Field cables	Cabluri de câmp
@@ -742,6 +750,7 @@ Generic	Generic
 German zones (DIN 18015-3)	Zone germane (DIN 18015-3)
 Getting started	Primii pași
 Global variable list with direct addresses for CODESYS, TwinCAT and others	Listă de variabile globale cu adrese directe pentru CODESYS, TwinCAT și altele
+Go on working locally; Save saves to a local file	Continuă lucrul local; Salvează salvează într-un fișier local
 Go to page	Salt la pagină
 Graphic line	Linie grafică
 Graphic rectangle	Dreptunghi grafic
@@ -791,6 +800,8 @@ Hose number	Număr furtun
 Hoses and pipes	Furtunuri și conducte
 Hoses rated below it are errors; 0 = not checked	Furtunurile dimensionate sub aceasta sunt erori; 0 = neverificat
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Cum se deschide canatul: balamale pe marginea stângă sau dreaptă (văzut din interiorul încăperii), spre interior sau spre exterior, sau glisant de-a lungul peretelui
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Cum este terminat conductorul la acest capăt; implicit cum s-a ales pentru punctul de conectare sau echipamentul său, altfel după setarea manșoanelor din amplasare
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Cum sar firele peste firele pe care le încrucișează, cum sunt marcate joncțiunile în T și dacă elementele mutate își retrasează conexiunile
 IP / bus address	Adresă IP / de magistrală
 ISO 639-1 language code	Cod de limbă ISO 639-1
 Identifiers	Identificatori
@@ -865,6 +876,7 @@ Insulation	Izolație
 Interruption points refer to	Punctele de întrerupere fac referire la
 Introduction	Introducere
 Invalid value	Valoare nevalidă
+Invert the direction of panning by scrolling	Inversează direcția deplasării prin derulare
 Inverter or charge controller (devices with PV input data)	Invertor sau regulator de încărcare (dispozitive cu date de intrare fotovoltaică)
 Isometric	Izometric
 Items on the layer	Elemente pe strat
@@ -876,6 +888,7 @@ Join collinear wires	Unire conductoare coliniare
 Joins	Leagă
 Joins wire pieces in a line where nothing else connects (current page)	Unește segmentele de conductor aflate pe o linie unde nu se conectează nimic altceva (pagina curentă)
 Jumper {}	Puntea {}
+Jumps over the other:	Sare peste celălalt:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Păstrarea subpaginilor (3.a, 3.1) cu pagina anterioară
 Keep the degree of protection	Menținerea gradului de protecție
@@ -889,6 +902,7 @@ Label (grey)	Etichetă (gri)
 Label field	Câmp de etichetă
 Labeling scheme	Schemă de marcare
 Landscape	Vedere
+Large dot	Punct mare
 Larger texts and buttons for a touch screen at the workbench	Texte și butoane mai mari pentru un ecran tactil la banca de lucru
 Latitude, longitude	Latitudine, longitudine
 Layer	Strat
@@ -938,6 +952,9 @@ Load template…	Încărcare șablon…
 Loading changes…	Se încarcă modificările…
 Loading the project access…	Se încarcă accesul la proiect…
 Loads	Consumatori
+Local file	Fișier local
+Local file: {}	Fișier local: {}
+Local recovery copy of server project: {}	Copie locală de recuperare a proiectului de pe server: {}
 Lock all	Blocare toate
 Lock all pages	Blocare toate paginile
 Lock current page	Blocare pagină curentă
@@ -1003,6 +1020,7 @@ Min. bend radius	Rază min. de curbură
 Minimize the ribbon	Minimizarea panglicii
 Mirror	Oglindire
 Mirror (selection or symbol being placed)	Oglindire (selecția sau simbolul care se plasează)
+Mixed	Mixt
 Mode	Mod
 Model of a part (2D / 3D)	Model al unui articol (2D / 3D)
 Module part; its size comes from the part	Piesa modulului; dimensiunea ei vine din piesă
@@ -1026,6 +1044,7 @@ Move to section	Mută în secțiune
 Move up	Mută în sus
 Moves to the top level as page {}	Trece la nivelul superior ca pagina {}
 Moves to {} as page {}	Trece în {} ca pagina {}
+Moving	Mutare
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Simboluri de putere multifilare și conductoare pentru simbolurile monofilare ale paginii curente, pe o pagină nouă
 Multiple copy	Copiere multiplă
 Multiple copy…	Copiere multiplă…
@@ -1042,6 +1061,7 @@ Name and cross reference	Nume și referință încrucișată
 Name on the server	Nume pe server
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Name; Data Type; Logical Address; Comment – pentru instrumentele de programare PLC
 Named copy of this form, for report blocks	Copie denumită a acestui formular, pentru blocuri de raport
+Navigation	Navigare
 Navigators	Navigatoare
 Neutral exchange file…	Fișier de schimb neutru…
 Never	Niciodată
@@ -1070,6 +1090,7 @@ New potential	Potențial nou
 New project	Proiect nou
 New project from template	Proiect nou din șablon
 New project scheme from the selected one	Schemă de proiect nouă din cea selectată
+New project, not saved yet	Proiect nou, încă nesalvat
 New report page	Pagină de raport nouă
 New request	Cerere nouă
 New revision	Revizie nouă
@@ -1108,11 +1129,13 @@ No device has its main function in the box.	Niciun dispozitiv nu are funcția pr
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Niciun dispozitiv nu are încă date de montaj: atribuiți dispozitivelor articole cu dimensiuni (Proprietăți › Articole).
 No differences to {}.	Nicio diferență față de {}.
 No document embedded	Niciun document încorporat
+No dot: plain T	Fără punct: T simplu
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Încă nicio carcasă – creați una cu Carcasă nouă sau o încăpere pentru dulapuri cu Încăpere nouă.
 No field cables: place the enclosures and field devices at nodes of the route network.	Niciun cablu de câmp: plasați carcasele și dispozitivele de câmp la nodurile rețelei de trasee.
 No filter fans: an air/air heat exchanger or a cooling unit	Fără ventilatoare cu filtru: un schimbător de căldură aer/aer sau un agregat de răcire
 No harnesses defined.	Nu sunt definite cablaje.
 No inverter	Fără invertor
+No jump: plain crossing, connections have dots	Fără salt: încrucișare simplă, joncțiunile au puncte
 No longer reported	Nu mai este raportat
 No macros yet. Select items in a schematic and save them as a macro.	Încă nu există macro-uri. Selectați elemente într-o schemă și salvați-le ca macro.
 No modules: plug in PLC cards of the schematic.	Nu există module: inserați carduri PLC din schemă.
@@ -1152,6 +1175,7 @@ Not found: {}	Negăsit: {}
 Not in the project parts – synchronize in parts management	Nu se află în articolele proiectului – sincronizați în gestionarea articolelor
 Not on a wire	Nu se află pe un conductor
 Not saved, locked or changed by another user: {}	Nesalvat, blocat sau modificat de alt utilizator: {}
+Not the shared project: changes are saved locally until it is opened on the project server again	Nu este proiectul partajat: modificările sunt salvate local până când este redeschis pe serverul de proiecte
 Nothing exchanged yet.	Încă nu s-a schimbat nimic.
 Nothing left in this list.	Nu a mai rămas nimic în această listă.
 Nothing to show	Nimic de afișat
@@ -1168,6 +1192,7 @@ Of the outer diameter, as laid fixed	Din diametrul exterior, pozat fix
 Of the outer diameter; pipes are bent with elbows of one and a half diameters	Din diametrul exterior; țevile se curbează cu coturi de un diametru și jumătate
 Off	Dezactivat
 Offset from one row to the next: downwards for lists, sideways for rows side by side	Decalajul de la un rând la următorul: în jos pentru liste, lateral pentru rânduri alăturate
+On startup	La pornire
 One row per label	Un rând per etichetă
 Only devices on the current page	Numai dispozitivele de pe pagina curentă
 Only frames no page uses can be deleted	Pot fi șterse doar chenarele pe care nu le folosește nicio pagină
@@ -1175,6 +1200,7 @@ Only messages of the current page	Numai mesajele paginii curente
 Only parts whose function template provides the device's main function	Doar articolele al căror șablon de funcție oferă funcția principală a dispozitivului
 Only rows that pass all filters are shown	Se afișează doar rândurile care trec de toate filtrele
 Only web and e-mail addresses (http, https, mailto) are links	Doar adresele web și de e-mail (http, https, mailto) sunt linkuri
+Open a specific project	Deschide un anumit proiect
 Open and save shared projects, lock pages	Deschiderea și salvarea proiectelor partajate, blocarea paginilor
 Open archive…	Deschidere arhivă…
 Open as project	Deschidere ca proiect
@@ -1183,7 +1209,9 @@ Open demo project	Deschidere proiect demonstrativ
 Open door	Deschidere ușă
 Open in a new page tab	Deschidere într-o filă de pagină nouă
 Open link	Deschide linkul
+Open local recovery copy	Deschide copia locală de recuperare
 Open project	Deschidere proiect
+Open project server	Deschide serverul de proiecte
 Open projects and files from Autodesk Vault, put the project, exports and 3D models into the vault	Deschideți proiecte și fișiere din Autodesk Vault, plasați proiectul, exporturile și modelele 3D în vault
 Open the project	Deschiderea proiectului
 Open to {}: wires cross beside the mounting plates	Deschis spre {}: conductoarele trec pe lângă plăcile de montaj
@@ -1360,6 +1388,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Putere disipat
 Pre-planning (CSV, Excel)	Preplanificare (CSV, Excel)
 Prefix	Prefix
 Press a key…	Apăsați o tastă…
+Preview	Previzualizare
 Previous item	Elementul anterior
 Previous page	Pagina anterioară
 Previous page tab	Fila de pagină anterioară
@@ -1385,14 +1414,19 @@ Project default; pages can choose their own in the page properties	Valoare impli
 Project file	Fișier de proiect
 Project file…	Fișier de proiect…
 Project information	Informații despre proiect
+Project on the project server	Proiect pe serverul de proiecte
 Project parts are the copies stored in this project; they are used for the bill of materials and the project check.	Articolele proiectului sunt copiile stocate în acest proiect; ele se folosesc pentru lista de materiale și verificarea proiectului.
 Project properties changed in {} projects	Proprietăți de proiect modificate în {} proiecte
 Project properties…	Proprietăți proiect…
 Project server	Server de proiecte
 Project server: {}	Server de proiecte: {}
+Project server: {} / Project: {}	Server de proiecte: {} / Proiect: {}
+Project server: {} / Project: {} – connection lost	Server de proiecte: {} / Proiect: {} – conexiune pierdută
 Project texts (function texts, page descriptions, free texts, descriptions) are written in the source language; the dictionary translates them line by line. Reports and title blocks follow the output language.	Textele proiectului (texte de funcție, descrieri de pagină, texte libere, descrieri) se scriu în limba sursă; dicționarul le traduce rând cu rând. Rapoartele și cartușele urmează limba de ieșire.
 Project: {}	Proiect: {}
 Projects from a first circuit to a whole plant, each showing more of the features	Proiecte de la un prim circuit la o instalație întreagă, fiecare arată mai multe funcții
+Projects on the project server {}	Proiecte pe serverul de proiecte {}
+Projects on the server	Proiecte pe server
 Properties…	Proprietăți…
 Property database	Bază de date de proprietăți
 Property definitions	Definiții de proprietăți
@@ -1480,6 +1514,7 @@ Renumber 1 … n	Renumerotare 1 … n
 Renumber contact	Renumerotare contact
 Renumber pages	Renumerotare pagini
 Renumber pages…	Renumerotare pagini…
+Reopen last project	Redeschide ultimul proiect
 Repair {} findings	Reparare {} constatări
 Replace	Înlocuire
 Replace all	Înlocuire totală
@@ -1514,6 +1549,7 @@ Reset to standard	Resetare la standard
 Restart and update	Repornește și actualizează
 Resulting: {} · {} · {} · {} m	Rezultat: {} · {} · {} · {} m
 Results of the project check	Rezultatele verificării proiectului
+Retry connection	Reîncearcă conexiunea
 Review	Comentarii
 Review ({})	Comentarii ({})
 Revision marks	Marcaje de revizie
@@ -1549,6 +1585,7 @@ Round	Rotund
 Round cutouts facing each other in both side walls	Decupaje rotunde față în față în ambii pereți laterali
 Route definition of {}	Definiția traseului pentru {}
 Route network	Rețea de trasee
+Route the connections of moved items anew	Retrasează conexiunile elementelor mutate
 Route wires in 3D	Pozare conductoare în 3D
 Routed in {}: {} m, {} bends	Pozat în {}: {} m, {} curburi
 Routing around symbols	Ocolirea simbolurilor
@@ -1584,18 +1621,25 @@ Save as project template…	Salvare ca șablon de proiect…
 Save as scheme	Salvare ca schemă
 Save as template	Salvare ca șablon
 Save as template…	Salvare ca șablon…
+Save asks for a file	Salvează cere un fișier
 Save as…	Salvare ca…
 Save current page as template…	Salvare pagină curentă ca șablon…
 Save current…	Salvare curent…
 Save file…	Salvare fișier…
+Save locally	Salvează local
+Save locally to {}	Salvează local în {}
+Save locally; {} on the project server stays unchanged	Salvează local; {} de pe serverul de proiecte rămâne neschimbat
 Save page as macro…	Salvare pagină ca macro…
 Save page as template	Salvare pagină ca șablon
 Save page as template…	Salvare pagină ca șablon…
 Save selection as macro…	Salvare selecție ca macro…
 Save the box content as the macro in the library	Salvarea conținutului casetei ca macro în bibliotecă
 Save to project server	Salvare pe serverul de proiecte
+Save to project server: {}	Salvează pe serverul de proiecte: {}
+Save to project server: {} – the connection is lost, saving tries again	Salvează pe serverul de proiecte: {} – conexiunea s-a pierdut, salvarea încearcă din nou
 Save workspace	Salvare spațiu de lucru
 Save workspace…	Salvare spațiu de lucru…
+Saved to	Salvat în
 Saved to the project server (revision {})	Salvat pe serverul de proiecte (revizia {})
 Saved workspaces	Spații de lucru salvate
 Saves the placed properties as a placement scheme of the project	Salvează proprietățile plasate ca schemă de plasare a proiectului
@@ -1610,6 +1654,9 @@ Scheme name	Nume schemă
 Scheme placed again at {} symbols	Schemă replasată la {} simboluri
 Scheme {}	Schema {}
 Screws, nuts, washers and rivet nuts of the fixing points	Șuruburi, piulițe, șaibe și piulițe nituite ale punctelor de fixare
+Scrolling	Derulare
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Derularea deplasează vederea în orice direcție; ciupiți sau Ctrl + derulare pentru mărire.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Derularea în sus și în jos mărește la indicator, lateral (rotiță orizontală, Shift + rotiță) deplasează vederea.
 Search (* and ? as placeholders)…	Căutare (* și ? ca metacaractere)…
 Search below this folder	Căutare sub acest folder
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Căutați în serverul de articole după catalog, grupă de produse și date tehnice, adăugați articole și verificați baza de date pentru actualizări
@@ -1649,6 +1696,7 @@ Selectivity and back-up protection of device pairs as tested by the manufacturer
 Semicolon	Punct și virgulă
 Separator	Separator
 Server URL	URL server
+Server address and sign-in	Adresa serverului și autentificare
 Server type	Tip de server
 Servers	Servere
 Service space in front	Spațiu de service în față
@@ -1688,6 +1736,7 @@ Show in schematic	Afișare în schemă
 Show in the schematic	Afișare în schemă
 Show on the pages	Afișare pe pagini
 Show or hide panes; drag a tab to dock it elsewhere	Afișare sau ascundere panouri; trageți o filă pentru a o andoca în altă parte
+Show project manager	Afișează managerul de proiecte
 Show the enclosures bayed to this one as well	Afișare și a carcaselor alăturate acesteia
 Show the messages accepted as checked	Afișare mesaje acceptate ca verificate
 Show the other wires	Afișare celelalte conductoare
@@ -1700,6 +1749,8 @@ Shown in title blocks with {prop:Name}	Afișat în cartușe cu {prop:Name}
 Shown instead of the measured value	Afișat în locul valorii măsurate
 Shows	Afișează
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Pereții laterali, peretele din spate, plafonul și baza văzute din exterior: ventilatoare, presetupe, decupaje
+Sign in in the Project server pane; the project opens afterwards	Autentificați-vă în panoul Server de proiecte; apoi proiectul se deschide
+Sign in…	Autentificare…
 Signed in to {} as {}	Conectat la {} ca {}
 Signed out of Vault	Deconectat de la Vault
 Single-line	Monofilar
@@ -1788,6 +1839,7 @@ Synchronize	Sincronizare
 Synchronize function texts	Sincronizare texte de funcție
 Synchronize project parts from database	Sincronizare articole proiect din baza de date
 T Text	T Text
+T-connections	Joncțiuni în T
 Tab	Tabulator
 Table import failed: {}	Importul tabelului nu a reușit: {}
 Tablet mode	Mod tabletă
@@ -1808,6 +1860,7 @@ Taken into the drawing: drawn faded	Preluat în desen: afișat estompat
 Takes the comments as function texts (matched by address)	Preia comentariile ca texte de funcție (asociate după adresă)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Preia denumirile punctelor de conexiune ale tuturor funcțiilor acestui dispozitiv din șabloanele de funcție ale articolelor sale
 Takes the rights of the role away, whatever other grants give	Retrage drepturile rolului, indiferent de ce acordă alte atribuiri
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Alege drumul cu cea mai mică pondere: lungimea în pași de grilă, 1,2 pe cot și 1,5 pe fir încrucișat. Dezactivat: firele se întind și își păstrează colțurile.
 Target languages	Limbi țintă
 Temperature rise at the roof against the middle (IEC/TR 60890)	Creșterea temperaturii la plafon față de mijloc (IEC/TR 60890)
 Template	Șablon
@@ -1837,10 +1890,12 @@ The dictionary is empty: collect the texts from the project.	Dicționarul este g
 The door seen from the front: door devices and cutouts	Ușa văzută din față: dispozitive de ușă și decupaje
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Ușa văzută din interior (balamale în dreapta): canale de cablu și cablarea din spatele ușii
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Carcasa stă cu partea stângă lipită de partea dreaptă a celei alese; conductoarele trec între ele prin treceri de cabluri
+The horizontal wire	Firul orizontal
 The items are selected and moved together	Elementele se selectează și se mută împreună
 The macro library has no page macros (Macros › Save page as macro…).	Biblioteca de macro-uri nu are macro-uri de pagină (Macro-uri › Salvare pagină ca macro…).
 The modules no string takes yet in series, on the first inverter	Modulele pe care încă nu le ia niciun șir, în serie, pe primul invertor
 The names of its pages follow	Numele paginilor ei se schimbă odată cu ea
+The open project is a local recovery copy. Its changes are not saved on the project server; before the shared project opens, you decide whether to save them locally or discard them.	Proiectul deschis este o copie locală de recuperare. Modificările sale nu sunt salvate pe serverul de proiecte; înainte ca proiectul partajat să se deschidă, decideți dacă le salvați local sau le renunțați.
 The page name gets the section number	Numele paginii primește numărul secțiunii
 The page type, plot frame, title block, structure, description and the whole content are saved.	Se salvează tipul paginii, chenarul, cartușul, structura, descrierea și întregul conținut.
 The pages it generated stay	Paginile generate de acesta rămân
@@ -1849,6 +1904,8 @@ The point's coordinates in the coordinate reference system	Coordonatele punctulu
 The project changed since the search.	Proiectul s-a modificat de la căutare.
 The project check	Verificarea proiectului
 The project database needs the desktop version: the browser cannot search folders.	Baza de date de proiecte necesită versiunea desktop: browserul nu poate căuta în foldere.
+The project server does not answer: changes are not saved on it until the connection is back	Serverul de proiecte nu răspunde: modificările nu sunt salvate pe el până nu revine conexiunea
+The project server {} could not open {}.	Serverul de proiecte {} nu a putut deschide {}.
 The project's own page templates as a file	Șabloanele de pagină proprii ale proiectului ca fișier
 The project's own title blocks	Cartușele proprii ale proiectului
 The project's own title blocks and report schemes	Cartușele și schemele de raport proprii ale proiectului
@@ -1863,6 +1920,7 @@ The side of {} is open	Partea lui {} este deschisă
 The symbol is placed in the project	Simbolul este plasat în proiect
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Articolele de bornă nu indică opritoare de capăt sau plăci de capăt (date tehnice End bracket, End plate).
 The update failed	Actualizarea a eșuat
+The vertical wire	Firul vertical
 The web version is updated on its server.	Versiunea web este actualizată pe serverul ei.
 The wire tool routes around symbols and other wires	Instrumentul de conductor ocolește simbolurile și alte conductoare
 The wires get the free cores of the cable in order (left to right)	Conductoarele primesc pe rând firele libere ale cablului (de la stânga la dreapta)
@@ -1889,10 +1947,14 @@ Top edges	Marginile de sus
 Top left	Stânga sus
 Top right	Dreapta sus
 Total selectivity	Selectivitate totală
+Touch screen	Ecran tactil
 Transfer project parts to database	Transfer articole proiect în baza de date
 Translate the project texts; documentation per language	Traducerea textelor proiectului; documentație pe limbi
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Rotire în jurul verticalei, în sens antiorar văzut de sus (90 °: fețele frontale sunt orientate spre dreapta)
 Tutorial	Tutorial
+Twin ferrules where two wires share a connection point	Manșoane duble unde două conductoare împart un punct de conexiune
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Două degete pe touchpad deplasează vederea, rotița mouse-ului mărește. Doar macOS le deosebește; în rest, derularea mărește ca rotița.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Două degete deplasează vederea și măresc prin ciupire în același timp; un deget funcționează ca butonul stâng al mouse-ului.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Aici trebuie să se întâlnească două fire în unghi drept. Cu conectarea automată activă, punctele de conexiune aflate în fața brațelor sale sunt cablate la el.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Introduceți un punct și apăsați Enter: x y în mm sau @dx dy relativ la ultimul punct; acționează ca un clic al instrumentului curent
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1977,6 +2039,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Rotiță: zoom · clic dreapta: anulare · grafica se aliniază la 0,5 mm, punctele de conexiune la grila de 4 mm
 When it differs from the page	Când diferă de pagină
 Where	Poziție
+Where neither wire has a termination chosen for it	Unde niciunul dintre conductoare nu are o terminație aleasă
 Where the point is in the plant; y: its height above the ground level of the plant	Unde se află punctul în instalație; y: înălțimea lui deasupra nivelului solului instalației
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	De unde provine structura dispozitivului: aspectele egale cu structura din jurul simbolului sunt moștenite și se schimbă când acesta este mutat într-o casetă de structură sau în afara ei; celelalte aspecte sunt ale dispozitivului și rămân.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Unde începe și se termină conductorul: un punct de conexiune din datele articolului, unul generat din șablonul de funcție sau centrul dispozitivului dacă niciun punct de conexiune nu corespunde
@@ -1992,6 +2055,8 @@ Window macro: {}	Macro de fereastră: {}
 Window macros inserted from now on are recorded as macro boxes.	Macro-urile de fereastră inserate de acum înainte sunt înregistrate ca casete macro.
 Window macros placed on the pages (not printed)	Macro-uri de fereastră plasate pe pagini (netipărite)
 Wire colour	Culoarea firului
+Wire crossings	Încrucișări ale firelor
+Wire crossings…	Încrucișări ale firelor…
 Wire ends	Capete de conductor
 Wire ends with ferrules	Capete de conductor cu manșoane de capăt
 Wire markers	Marcaje de conductor
@@ -2005,6 +2070,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Conductor {} – {}  (
 Wire {} – {}  {} mm	Conductor {} – {}  {} mm
 Wires and potentials	Conductoare și potențiale
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Conductoarele dintre porturile simbolurilor de acționări hidraulice/pneumatice și P&ID sunt furtunuri / conducte: rețele proprii, numerotate cu numerotarea conductoarelor, listate în lista de furtunuri.
+Wires crossing without connection	Fire care se încrucișează fără conexiune
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	De aici trebuie să plece fire în toate cele patru direcții. Până atunci conexiunea este înlănțuită în ordinea din schemă.
 Wires of the connection	Firele conexiunii
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Și conductoarele urmează traseele 3D care țin cont de obstacole, nu doar canalele de cablu de pe placă
@@ -2244,6 +2310,7 @@ x y	x y
 {} pages get a new name	{} pagini primesc un nume nou
 {} pages removed, {} pages generated	{} pagini eliminate, {} pagini generate
 {} pages renamed	{} pagini redenumite
+{} pages, users: {}	{} pagini, utilizatori: {}
 {} pages; their names start with {}	{} pagini; numele lor încep cu {}
 {} parts added to the database	S-au adăugat {} articole în baza de date
 {} parts of the database updated – synchronize the project parts in parts management	{} articole din baza de date actualizate – sincronizați articolele proiectului în administrarea articolelor
@@ -2288,10 +2355,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pixeli, {}
 {} – {} ({} pages)	{} – {} ({} pagini)
 {}: click to show its floor plan	{}: clic pentru a afișa planul
+{}: crimp together with the wire to {}	{}: se sertizează împreună cu conductorul spre {}
 {}: drag to move it, R turns it, a double-click opens it	{}: trageți pentru a muta, R rotește, dublu clic deschide
 {}: drag to move it, a double-click shows the floor	{}: trageți pentru a muta, dublu clic afișează pardoseala
 {}: nothing to change	{}: nimic de modificat
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: dezizolare {} mm, {}
 {}: {} addresses changed	{}: {} adrese modificate
 {}: {} changes in the open project (not saved yet)	{}: {} modificări în proiectul deschis (încă nesalvate)
 {}: {} changes saved	{}: {} modificări salvate

@@ -474,6 +474,7 @@ open	åben
 rejected	afvist
 right	højre
 spare	reserve
+strip {} mm, {}	afisoler {} mm, {}
 the disk is full	disken er fuld
 the file exists already	filen findes allerede
 this is a folder	dette er en mappe
@@ -483,5 +484,6 @@ yes	ja
 {} exists already	{} findes allerede
 {} parts	{} artikler
 {} wires	{} ledninger
+{}, together with the wire to {}	{}, sammen med lederen til {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} står ikke på gulvet, vælg en gulvstående artikel
 ➕ Add accessory	➕ Tilføj tilbehør

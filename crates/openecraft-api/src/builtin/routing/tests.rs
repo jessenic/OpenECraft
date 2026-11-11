@@ -117,3 +117,14 @@ fn laying_and_installation_zones() {
     let z = run(&mut s, "installation_zones", json!({ "reset": true })).unwrap();
     assert_eq!((z.as_array().unwrap().len(), z[1]["on"].as_bool()), (8, Some(false)));
 }
+
+#[test]
+fn failed_search_reuse_is_optional_preserved_and_can_be_disabled() {
+    let mut s=demo();assert!(!s.project().unwrap().layout.routing.reuse_failed_searches);
+    let on=run(&mut s,"routing_rules",json!({"reuse_failed_searches":true})).unwrap();
+    assert_eq!(on["reuse_failed_searches"],true);
+    run(&mut s,"routing_rules",json!({"grid":20})).unwrap();
+    assert!(s.project().unwrap().layout.routing.reuse_failed_searches);
+    run(&mut s,"routing_rules",json!({"reuse_failed_searches":false})).unwrap();
+    assert!(!s.project().unwrap().layout.routing.reuse_failed_searches);
+}

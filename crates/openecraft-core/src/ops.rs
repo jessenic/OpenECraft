@@ -276,7 +276,7 @@ pub fn new_symbol(prj: &mut Project, page: usize, ctx: &PlaceCtx, def: &SymbolDe
                 .or_else(|| ctx.last_main.get(def.letter).cloned())
                 .unwrap_or_else(|| prj.next_tag(&structure, def.letter));
             if s.pins.len() == 1 {
-                s.pins[0] = crate::device_boxes::next_designation(prj, &s.tag);
+                s.pins[0] = crate::device_boxes::designation_at(prj, page, pos, &s.tag);
             }
         }
         Func::Potential | Func::Interruption | Func::Junction | Func::Graphic => {}
@@ -559,6 +559,7 @@ pub fn copy(page: &Page, sel: &BTreeSet<u64>) -> Clip {
         symbols: page.symbols.iter().filter(|s| sel.contains(&s.id)).map(in_page_structure).collect(),
         symbol_defs: Default::default(),
         devices: BTreeMap::new(),
+        device_part_additions: BTreeMap::new(),
         parts: Vec::new(),
         cables: Vec::new(),
         wires: page.wires.iter().filter(|s| sel.contains(&s.id)).cloned().collect(),
@@ -722,12 +723,13 @@ fn paste_devices(prj:&mut Project,clip:&Clip,source:&crate::structure::Dt,target
                 let incoming=entry.get_mut();
                 if incoming.description.is_empty() {incoming.description=device.description;}
                 // The articles of an existing device stay; only a missing count mode of
-                // one of them or an article a pasted function selects is added.
+                // one of them, a selected article or an explicit accessory is added.
                 let assigned=!incoming.parts.is_empty();
                 for reference in device.parts {
                     let known=incoming.parts.iter().any(|p|p.number==reference.number);
                     let selected=clip.symbols.iter().any(|s|s.tag==*tag && s.values.get("function.part_number")==Some(&reference.number));
-                    if (known || selected || !assigned) && !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
+                    let additional=reference.total && clip.device_part_additions.get(tag).is_some_and(|numbers|numbers.contains(&reference.number));
+                    if (known || selected || additional || !assigned) && !incoming.parts.iter().any(|p|p.number==reference.number && p.total==reference.total) {incoming.parts.push(reference);}
                 }
                 for (key,value) in device.values {incoming.values.entry(key).or_insert(value);}
             }
@@ -811,6 +813,10 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         .filter(|tag|!tag.is_empty()).map(|tag|target.complete(&source.relative(tag))).collect();
     let mut rename: HashMap<String, String> = HashMap::new();
     let cable_tags=paste_cables(prj,clip,&source,&target,&existing,&mut reserved,&mut rename);
+    // Boxes continuing a device that is not copied with them stay on it, with their points.
+    let own_device = |s: &&SymbolInst| s.box_role.is_device() && prj.symbol(&s.sym).is_some_and(|d| matches!(d.func, Func::Main { .. }));
+    let copied: BTreeSet<&str> = clip.symbols.iter().filter(own_device).map(|s| s.tag.as_str()).collect();
+    let continuing: BTreeSet<String> = clip.symbols.iter().filter(|s| !s.box_role.is_device() && !copied.contains(s.tag.as_str())).map(|s| target.complete(&source.relative(&s.tag))).collect();
     let mut new_ids = BTreeSet::new();
     // Structure boxes first: the symbols take the structure of the place they land.
     for x in &clip.structure_boxes {
@@ -838,7 +844,7 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
         }
         if let Some(def) = prj.symbol(&s.sym) {
             match def.func {
-                Func::Main { .. } | Func::Aux(_) | Func::Auxiliary | Func::Connection if existing.contains(&s.tag) => {
+                Func::Main { .. } | Func::Aux(_) | Func::Auxiliary | Func::Connection if existing.contains(&s.tag) && !continuing.contains(&s.tag) => {
                     if let Some(n) = rename.get(&s.tag) {
                         s.tag = n.clone();
                     } else {
@@ -1046,6 +1052,7 @@ pub fn rename_device(prj: &mut Project, old: &str, new: &str) {
         }
     }
     crate::harness::rename_device(prj, old, new);
+    prj.layout.rename_device(old, new);
     if let Some(d) = prj.strips.remove(old) {
         prj.strips.entry(new.to_string()).or_insert(d);
     }

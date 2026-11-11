@@ -474,6 +474,7 @@ open	відкрито
 rejected	відхилено
 right	праворуч
 spare	резерв
+strip {} mm, {}	зачистити {} мм, {}
 the disk is full	диск заповнено
 the file exists already	файл уже існує
 this is a folder	це папка
@@ -483,5 +484,6 @@ yes	так
 {} exists already	{} вже існує
 {} parts	Виробів: {}
 {} wires	Проводів: {}
+{}, together with the wire to {}	{}, разом із проводом до {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} не встановлюється на підлогу, виберіть виріб, що стоїть на підлозі
 ➕ Add accessory	➕ Додати аксесуар

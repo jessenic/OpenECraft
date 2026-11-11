@@ -474,6 +474,7 @@ open	open
 rejected	afgewezen
 right	naar rechts
 spare	reserve
+strip {} mm, {}	strippen {} mm, {}
 the disk is full	de schijf is vol
 the file exists already	het bestand bestaat al
 this is a folder	dit is een map
@@ -483,5 +484,6 @@ yes	ja
 {} exists already	{} bestaat al
 {} parts	{} artikelen
 {} wires	{} draden
+{}, together with the wire to {}	{}, samen met de draad naar {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} staat niet op de vloer, kies een vloerstaand artikel
 ➕ Add accessory	➕ Toebehoren toevoegen

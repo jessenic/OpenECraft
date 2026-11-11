@@ -1,7 +1,7 @@
 //! The settings dialog: one window with a tree of the project settings (wire numbering,
-//! cross references, checks, marking, settings scheme, and the tools that keep further
-//! project settings) and the user settings (appearance, keyboard shortcuts, ribbon,
-//! servers).
+//! cross references, wire crossings, checks, marking, settings scheme, and the tools
+//! that keep further project settings) and the user settings (appearance, keyboard
+//! shortcuts, ribbon, servers).
 
 use super::*;
 use crate::commands;
@@ -15,11 +15,14 @@ pub(super) const SCALES: [f32; 7] = [0.75, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0];
 pub(super) enum Node {
     WireNumbering,
     CrossReferences,
+    Wires,
     Checks,
     Marking,
     Scheme,
     ProjectTools,
     Appearance,
+    Navigation,
+    Startup,
     Shortcuts,
     Ribbon,
     Servers,
@@ -27,18 +30,21 @@ pub(super) enum Node {
 }
 
 impl Node {
-    const PROJECT: [Node; 6] = [Node::WireNumbering, Node::CrossReferences, Node::Checks, Node::Marking, Node::Scheme, Node::ProjectTools];
-    const USER: [Node; 5] = [Node::Appearance, Node::Shortcuts, Node::Ribbon, Node::Servers, Node::Updates];
+    const PROJECT: [Node; 7] = [Node::WireNumbering, Node::CrossReferences, Node::Wires, Node::Checks, Node::Marking, Node::Scheme, Node::ProjectTools];
+    const USER: [Node; 7] = [Node::Appearance, Node::Navigation, Node::Startup, Node::Shortcuts, Node::Ribbon, Node::Servers, Node::Updates];
 
     fn title(self) -> &'static str {
         match self {
             Node::WireNumbering => tr("Wire numbering"),
             Node::CrossReferences => tr("Cross references"),
+            Node::Wires => tr("Wire crossings"),
             Node::Checks => tr("Check settings"),
             Node::Marking => tr("Marking"),
             Node::Scheme => tr("Settings scheme"),
             Node::ProjectTools => tr("Further project settings"),
             Node::Appearance => tr("Appearance"),
+            Node::Navigation => tr("Navigation"),
+            Node::Startup => tr("On startup"),
             Node::Shortcuts => tr("Keyboard shortcuts"),
             Node::Ribbon => tr("Ribbon"),
             Node::Servers => tr("Servers"),
@@ -111,11 +117,14 @@ impl App {
                 egui::ScrollArea::vertical().id_salt("settings_body").auto_shrink([false, false]).show(ui, |ui| match self.settings.node {
                     Node::WireNumbering => self.wire_numbering_body(ui),
                     Node::CrossReferences => self.xref_body(ui),
+                    Node::Wires => self.wires_body(ui),
                     Node::Checks => self.check_settings_body(ui),
                     Node::Marking => self.marking_body(ui),
                     Node::Scheme => self.scheme_settings(ui),
                     Node::ProjectTools => self.project_tool_links(ui),
                     Node::Appearance => self.appearance_settings(ui),
+                    Node::Navigation => self.navigation_settings(ui),
+                    Node::Startup => self.startup_settings(ui),
                     Node::Shortcuts => self.shortcut_settings(ui),
                     Node::Ribbon => self.ribbon_settings(ui),
                     Node::Servers => self.server_links(ui),
@@ -171,6 +180,84 @@ impl App {
         }
     }
 
+    /// What opens when the editor starts: the start page, the last project, the project
+    /// server or a chosen local file or server project.
+    fn startup_settings(&mut self, ui: &mut egui::Ui) {
+        use crate::startup::{ServerProject, Startup, Target, MODES};
+        let local = FileIo::can_save_in_place();
+        ui.weak(tr("A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking."));
+        ui.add_space(4.0);
+        let mode = self.shell.startup.mode();
+        for (m, title, tip) in MODES {
+            if ui.radio(mode == m, tr(title)).clicked() {
+                // A specific project starts as the open one.
+                let target = match (self.remote.project(), &self.session.file_name) {
+                    (Some(p), _) => Target::Server(p),
+                    (None, Some(f)) if local => Target::File(f.clone()),
+                    _ => Target::Server(ServerProject { url: self.remote.url.clone(), name: String::new() }),
+                };
+                self.shell.startup.set_mode(m, target);
+            }
+            ui.indent(("startup_tip", title), |ui| ui.weak(tr(tip)));
+        }
+        let Startup::Project(target) = &mut self.shell.startup else { return };
+        ui.separator();
+        ui.horizontal(|ui| {
+            let file = matches!(target, Target::File(_));
+            if local && ui.radio(file, tr("Local file")).clicked() && !file {
+                *target = Target::File(self.session.file_name.clone().unwrap_or_default());
+            }
+            if ui.radio(!file, tr("Project on the project server")).clicked() && file {
+                *target = Target::Server(ServerProject { url: self.remote.url.clone(), name: String::new() });
+            }
+        });
+        let mut list = false;
+        egui::Grid::new("startup_target").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| match target {
+            Target::File(path) => {
+                ui.label(tr("File"));
+                ui.horizontal(|ui| {
+                    ui.add(egui::TextEdit::singleline(path).desired_width(360.0));
+                    let r = ui.add_enabled(!self.recent.is_empty(), egui::Button::new(tr("Recent projects")));
+                    egui::Popup::menu(&r).show(|ui| {
+                        for p in &self.recent {
+                            if ui.button(p.as_str()).clicked() {
+                                *path = p.clone();
+                            }
+                        }
+                    });
+                });
+                ui.end_row();
+            }
+            Target::Server(p) => {
+                ui.label(tr("Server"));
+                ui.add(egui::TextEdit::singleline(&mut p.url).desired_width(360.0));
+                ui.end_row();
+                ui.label(tr("Project"));
+                ui.horizontal(|ui| {
+                    ui.add(egui::TextEdit::singleline(&mut p.name).desired_width(200.0).hint_text(tr("Name on the server")));
+                    let r = ui.add_enabled(!self.remote.projects.is_empty(), egui::Button::new(tr("Projects on the server")));
+                    egui::Popup::menu(&r).show(|ui| {
+                        for s in &self.remote.projects {
+                            if ui.button(s.name.as_str()).clicked() {
+                                p.name = s.name.clone();
+                            }
+                        }
+                    });
+                    list = icons::button(ui, Icon::Rotate, tr("List projects")).clicked();
+                });
+                ui.end_row();
+            }
+        });
+        if list {
+            if let Startup::Project(Target::Server(p)) = &self.shell.startup {
+                if self.remote.shared.is_none() {
+                    self.remote.url = p.url.clone();
+                }
+            }
+            self.remote.list();
+        }
+    }
+
     fn appearance_settings(&mut self, ui: &mut egui::Ui) {
         let ctx = ui.ctx().clone();
         egui::Grid::new("appearance").num_columns(2).spacing([16.0, 8.0]).show(ui, |ui| {
@@ -223,6 +310,32 @@ impl App {
                     }
                 }
             });
+            ui.end_row();
+        });
+    }
+
+    /// What the wheel, a trackpad and a touch screen do in the 2D and 3D views.
+    fn navigation_settings(&mut self, ui: &mut egui::Ui) {
+        use openecraft_ui::nav::Scroll;
+        let nav = &mut self.shell.nav;
+        egui::Grid::new("navigation").num_columns(2).spacing([16.0, 8.0]).show(ui, |ui| {
+            ui.label(tr("Scrolling"));
+            ui.vertical(|ui| {
+                for s in Scroll::ALL {
+                    ui.radio_value(&mut nav.scroll, s, tr(s.title()));
+                }
+                ui.weak(match nav.scroll {
+                    Scroll::Auto => tr("Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel."),
+                    Scroll::Zoom => tr("Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans."),
+                    Scroll::Pan => tr("Scrolling pans in every direction; pinch or Ctrl + scroll to zoom."),
+                });
+            });
+            ui.end_row();
+            ui.label(tr("Direction"));
+            ui.checkbox(&mut nav.invert, tr("Invert the direction of panning by scrolling"));
+            ui.end_row();
+            ui.label(tr("Touch screen"));
+            ui.weak(tr("Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button."));
             ui.end_row();
         });
     }

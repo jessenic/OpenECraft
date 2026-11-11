@@ -474,6 +474,7 @@ open	aberto
 rejected	rejeitado
 right	para a direita
 spare	reserva
+strip {} mm, {}	desencapar {} mm, {}
 the disk is full	o disco está cheio
 the file exists already	o arquivo já existe
 this is a folder	isto é uma pasta
@@ -483,5 +484,6 @@ yes	sim
 {} exists already	{} já existe
 {} parts	{} peças
 {} wires	{} fios
+{}, together with the wire to {}	{}, junto com o fio para {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} não fica no piso, escolha uma peça apoiada no piso
 ➕ Add accessory	➕ Adicionar acessório

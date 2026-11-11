@@ -67,6 +67,7 @@ Only parts for direct wall mounting	직접 벽 설치 부품만
 Open datasheet	데이터시트 열기
 Open in the browser	브라우저에서 열기
 Outside the face	면 바깥
+Pans (trackpad)	이동(트랙패드)
 Parts server: {}	부품 서버: {}
 Parts this part is assembled from; the bill of materials lists them under it	이 부품을 구성하는 부품. 부품 목록에는 이 부품 아래에 나열됩니다
 Personal access token	개인 액세스 토큰
@@ -113,6 +114,7 @@ Wall mounting	벽 설치
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	호환 부품에서 액세서리가 위치하는 곳(패널 레이아웃과 3D 보기)
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	패널 레이아웃에서 전선이 연결되는 곳: 기능 템플릿과 같은 명칭, 정면도에서의 위치(x는 왼쪽부터, y는 위쪽부터, z는 장착면 위) 및 전선이 나가는 방향. 고유 연결 지점이 없는 부품은 기능 템플릿에서 연결 지점을 받습니다.
 Wire leaves	전선 인출 방향
+Zooms (mouse wheel)	확대/축소(마우스 휠)
 changes with token	토큰으로 변경
 created in your EPLAN account (ePulse)	EPLAN 계정(ePulse)에서 생성
 down	아래

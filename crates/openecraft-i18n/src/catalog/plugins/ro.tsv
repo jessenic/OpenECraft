@@ -96,6 +96,7 @@ Changes the properties of a wire	Modifică proprietățile unui conductor
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Modifică sistemul, dimensiunea și componentele unei carcase (soclu, părți alăturate, placă pentru presetupe); elementele ancorate urmează
 Check {} failed: {}	Verificarea {} a eșuat: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Verifică amplasarea în tablou: coliziuni, distanțe (montaj, ventilație, CEM), spațiu de service, înălțimi deasupra podelei, clase de coliziune, temperaturi și fabricabilitate
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Alege cum se termină capetele conductoarelor: dezizolate, cu manșon sau papuc sertizat; la un punct de conectare, la toate punctele de conectare ale unui echipament sau doar pentru un conductor
 Chosen value	Valoare aleasă
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Distanțe, spațiu de service, înălțimi, clase de coliziune, simulare termică și fabricabilitatea amplasării în tablou
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Climatizarea carcaselor (IEC/TR 60890): putere disipată, temperatură interioară, ventilator sau unitate de răcire și încălzire necesare; opțional modifică setările uneia dintre ele
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	Punct de conexiune IDENTIFICATOR:PIN, de e
 Connection point designation or number (1, 2, …)	Denumirea punctului de conexiune sau număr (1, 2, …)
 Connection point designations separated by commas or blanks	Denumiri ale punctelor de conexiune separate prin virgule sau spații
 Connection point designations, comma separated, e.g. 13,14	Denumiri ale punctelor de conexiune, separate prin virgulă, de ex. 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Punct de conectare, de ex. -K1:13, sau un echipament, de ex. -K1 (toate punctele sale de conectare)
 Connector id (required unless removing)	ID conector (obligatoriu, cu excepția eliminării)
 Connects two connection points with wires routed around symbols and other wires	Conectează două puncte de conexiune cu conductoare care ocolesc simbolurile și alte conductoare
 Connects two ports of stations with a network cable; connections already on these ports are replaced	Conectează două porturi ale unor stații cu un cablu de rețea; conexiunile existente pe aceste porturi sunt înlocuite
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Listează subproiectele extrase din proiect sau proiectul din care a fost extras
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Listează simbolurile care pot fi plasate, cu punctele lor de conexiune relativ la punctul de inserare
 Lists the terminal strips with their number of terminals and length on the rail	Listează șirurile de borne cu numărul de borne și lungimea pe șină
+Lists the terminations chosen for wire ends and the kinds there are	Listează terminațiile alese pentru capetele conductoarelor și tipurile existente
 Lists the translation dictionary of the project texts (source line and translations)	Listează dicționarul de traduceri al textelor proiectului (rândul sursă și traducerile)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Listează macro-urile de fereastră plasate pe pagini (casete macro) cu macro-ul, varianta, valorile substituenților și numărul de elemente
 Load losses of the transformer in W (0: typical)	Pierderile în sarcină ale transformatorului în W (0: tipice)
@@ -521,6 +524,7 @@ Operations	Operații
 Option name	Nume opțiune
 Option name, e.g. STARTER	Nume opțiune, de ex. STARTER
 Options and rules of the configurator	Opțiunile și regulile configuratorului
+Other end of the wire, e.g. -X1:3: only this wire	Celălalt capăt al conductorului, de ex. -X1:3: doar acest conductor
 Other end, e.g. -X1:3	Celălalt capăt, de ex. -X1:3
 Outer diameter in mm, 0 = estimated	Diametru exterior în mm, 0 = estimat
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Lungimile exterioare ale segmentelor drepte, mm, de ex. 200, 150, 300
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Blocuri de raport și scheme de raport
 Reserves space over the mounting plate: kept free of routes, or for one class only	Rezervă spațiu deasupra plăcii de montaj: păstrat liber de trasee sau doar pentru o clasă
 Rest (mm)	Rest (mm)
+Reuse failed searches during one routing calculation	Reutilizează căutările nereușite în cadrul aceluiași calcul de traseu
 Right side bayed (no side panel)	Partea dreaptă alăturată (fără perete lateral)
 Room {} exists already	Încăperea {} există deja
 Rotation in degrees clockwise: 0, 90, 180 or 270	Rotație în grade, în sensul acelor de ceasornic: 0, 90, 180 sau 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Rotire în grade, în sens antiorar (90 se citește de jos în sus)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Retrasează conexiunile elementelor mutate: cel mai scurt drum cu cele mai puține coturi și încrucișări
 Route the wires in 3D as well (otherwise through the cable ducts)	Pozează și conductoarele în 3D (altfel prin canalele de cablu)
 Routing rules, paths, reservations, frozen routes and cable shields	Reguli de pozare, trasee, rezervări, trasee înghețate și ecrane de cablu
 Row key (from table_get)	Cheie de rând (din table_get)
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Separator: semicolon, comma sau tab
 Sets how cross references are shown (only the given settings) and shows the settings	Setează modul de afișare a referințelor încrucișate (numai setările indicate) și afișează setările
 Sets how the terminals of a jumper are bridged	Setează modul în care sunt puntate bornele unei punți
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Stabilește cum se termină capetele de conductor fără terminație aleasă: cu manșoane de capăt sau dezizolate, și cu manșoane duble unde două conductoare împart un punct de conexiune
 Sets property values of an object; an empty value removes it	Setează valorile proprietăților unui obiect; o valoare goală o elimină
 Sets the aspects the pages use	Setează aspectele pe care le folosesc paginile
 Sets the collision class of a panel item (empty: automatic)	Setează clasa de coliziune a unui element de tablou (gol: automat)
@@ -714,6 +721,7 @@ Show as \"Name: value\"	Afișare ca \"Nume: valoare\"
 Show the content	Afișare conținut
 Shows a property as a text beside a symbol	Afișează o proprietate ca text lângă un simbol
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Afișează un șir de borne: bornele în ordinea din șir, cu nivel, punte și destinații, blocurile de pe șină și punțile
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Arată cum se încrucișează și se unesc firele pe pagini și dacă mutarea elementelor le retrasează conexiunile și modifică valorile date
 Shows or changes the machining strategy and which machine makes which face	Afișează sau modifică strategia de prelucrare și ce mașină prelucrează fiecare față
 Shows or changes the rules of copper bars; lengths in mm	Afișează sau modifică regulile pentru barele de cupru; lungimi în mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Afișează sau modifică regulile verificărilor de amplasare; valori în mm (temperatură în °C)
@@ -763,6 +771,7 @@ Symbol ids	ID-uri simbol
 Symbol key from list_symbols	Cheie de simbol din list_symbols
 Symbol {} has no connection point {}	Simbolul {} nu are punctul de conexiune {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	Simboluri, conductoare, texte, definiții de cablu și de conexiune pe paginile de schemă
+T-connections: dot, large_dot or none	Joncțiuni în T: dot, large_dot sau none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	Piesă T: direcția tijei; punte: latura de pe care vine conexiunea (left, right, up sau down)
 Tag of the terminal strip, e.g. -X1	Identificatorul șirului de borne, de ex. -X1
 Take the cut lengths over as cable lengths	Preluare lungimi de tăiere ca lungimi de cablu
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	Linia
 The text height must be at least 0.5 mm	Înălțimea textului trebuie să fie de cel puțin 0,5 mm
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Cele două brațe ale unui colț, vertical și orizontal, de ex. down left (implicit: după firele de acolo, altfel down right)
 The wire has no length	Conexiunea nu are lungime
+The wire that jumps: vertical or horizontal	Firul care sare: vertical sau horizontal
 The wrap width must not be negative	Lățimea de încadrare nu trebuie să fie negativă
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Simulare termică a plăcii de montaj: temperaturile aerului, punct fierbinte, surse de căldură și temperatura la fiecare dispozitiv
 Thickest sheet or bar, mm	Cea mai groasă tablă sau bară, mm
@@ -818,7 +828,9 @@ Top edge on the face in mm	Marginea de sus pe față în mm
 Top edge on the mounting plate in mm	Marginea de sus pe placa de montaj în mm
 Translated line	Rând tradus
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Rotire în jurul verticalei în grade, în sens antiorar văzut de sus (90: fețele frontale sunt orientate spre dreapta)
+Two wires at a connection point share a twin ferrule	Două conductoare la un punct de conexiune împart un manșon dublu
 Unit, e.g. kW	Unitate, de ex. kW
+Unknown T-connection style: {}	Stil de joncțiune în T necunoscut: {}
 Unknown accessory kind: {}	Tip de accesoriu necunoscut: {}
 Unknown action: {}	Acțiune necunoscută: {}
 Unknown address scheme: {}	Schemă de adresare necunoscută: {}
@@ -841,7 +853,9 @@ Unknown field: {}	Câmp necunoscut: {}
 Unknown group kind: {}	Tip de grup necunoscut: {}
 Unknown installation: {}	Instalare necunoscută: {}
 Unknown insulation: {}	Izolație necunoscută: {}
+Unknown jump style: {}	Stil de salt necunoscut: {}
 Unknown jumper kind: {}	Tip de punte necunoscut: {}
+Unknown jumping wire: {}	Fir care sare necunoscut: {}
 Unknown kind: {}	Tip necunoscut: {}
 Unknown labels: {}	Etichete necunoscute: {}
 Unknown level: {}	Nivel necunoscut: {}
@@ -873,6 +887,7 @@ Unknown state: {}	Stare necunoscută: {}
 Unknown station kind: {}	Tip de stație necunoscut: {}
 Unknown symbol: {}	Simbol necunoscut: {}
 Unknown table: {}	Tabel necunoscut: {}
+Unknown termination: {}	Terminație necunoscută: {}
 Unknown vertical anchor: {}	Ancoră verticală necunoscută: {}
 Unknown way of opening: {}	Mod de deschidere necunoscut: {}
 Unknown wire colour {} (IEC 60757: {})	Culoare de conductor necunoscută {} (IEC 60757: {})
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Ferestre: înălțimea 
 Wire colour (IEC 60757), e.g. BK	Culoare conductor (IEC 60757), de ex. BK
 Wire colour, e.g. BU	Culoare conductor, de ex. BU
 Wire colour, e.g. BU (empty = from the potential definition)	Culoare conductor, de ex. BU (gol = din definiția potențialului)
+Wire ends get ferrules	Capetele de conductor primesc manșoane de capăt
 Wire number (kept when renumbering)	Număr de conductor (se păstrează la renumerotare)
 Wire numbering and wiring marks	Numerotarea conductoarelor și marcaje de cablare
+Wires crossing without connection: none, arc, bridge or gap	Fire care se încrucișează fără conexiune: none, arc, bridge sau gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Conductoare prea subțiri pentru dispozitivul lor de protecție și căderea de tensiune a cablurilor (IEC 60204-1)
 Working area in x, mm	Zonă de lucru pe x, mm
 Working area in y, mm	Zonă de lucru pe y, mm
@@ -911,6 +928,7 @@ Y position in mm (downwards)	Poziția Y în mm (în jos)
 any, wires, cables or tubes	any, wires, cables sau tubes
 auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left sau right; renunță la textele plasate manual
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip sau adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle sau auto (după setarea manșoanelor din amplasare)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam sau product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi sau other
 copper or aluminium	copper sau aluminium

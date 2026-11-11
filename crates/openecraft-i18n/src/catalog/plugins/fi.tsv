@@ -96,6 +96,7 @@ Changes the properties of a wire	Muuttaa johdon ominaisuuksia
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Muuttaa kotelon järjestelmää, kokoa ja komponentteja (sokkeli, rivitetyt sivut, läpivientilevy); ankkuroidut kohteet seuraavat
 Check {} failed: {}	Tarkistus {} epäonnistui: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Tarkistaa kaappiasennuksen: törmäykset, etäisyydet (asennus, tuuletus, EMC), huoltotilan, korkeudet lattiasta, törmäysluokat, lämpötilat ja valmistettavuuden
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Valitsee, miten johdinten päät päätetään: kuorittuna, pääteholkilla tai puristetulla kaapelikengällä; liitäntäpisteessä, laitteen kaikissa liitäntäpisteissä tai vain yhdelle johtimelle
 Chosen value	Valittu arvo
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Kaappiasennuksen etäisyydet, huoltotila, korkeudet, törmäysluokat, lämpösimulaatio ja valmistettavuus
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Kotelojen ilmastointi (IEC/TR 60890): häviöteho, sisälämpötila, tarvittava tuuletin tai jäähdytyslaite ja lämmitys; muuttaa valinnaisesti yhden kotelon asetuksia
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	Liitäntäpiste TUNNUS:NASTA, esim. -K1:A1
 Connection point designation or number (1, 2, …)	Liitäntäpisteen merkintä tai numero (1, 2, …)
 Connection point designations separated by commas or blanks	Liitäntäpisteiden merkinnät pilkuilla tai välilyönneillä erotettuina
 Connection point designations, comma separated, e.g. 13,14	Liitäntäpisteiden merkinnät pilkuin erotettuina, esim. 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Liitäntäpiste, esim. -K1:13, tai laite, esim. -K1 (kaikki sen liitäntäpisteet)
 Connector id (required unless removing)	Konnektorin ID (pakollinen, paitsi poistettaessa)
 Connects two connection points with wires routed around symbols and other wires	Yhdistää kaksi liitäntäpistettä johdoilla, jotka reititetään symbolien ja muiden johtojen ympäri
 Connects two ports of stations with a network cable; connections already on these ports are replaced	Yhdistää asemien kaksi porttia verkkokaapelilla; näiden porttien olemassa olevat yhteydet korvataan
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Luettelee projektista irrotetut aliprojektit tai projektin, josta se on irrotettu
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Luettelee sijoitettavat symbolit liitäntäpisteineen suhteessa lisäyspisteeseen
 Lists the terminal strips with their number of terminals and length on the rail	Luettelee riviliitinrimat sekä niiden riviliittimien määrän ja pituuden kiskolla
+Lists the terminations chosen for wire ends and the kinds there are	Luettelee johdinten päille valitut päätteet ja käytettävissä olevat tyypit
 Lists the translation dictionary of the project texts (source line and translations)	Luettelee projektin tekstien käännössanakirjan (lähderivi ja käännökset)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Luettelee sivuille sijoitetut ikkunamakrot (makrolaatikot) makron, variantin, paikkamerkkien arvojen ja kohteiden määrän kanssa
 Load losses of the transformer in W (0: typical)	Muuntajan kuormitushäviöt W (0: tyypillinen)
@@ -521,6 +524,7 @@ Operations	Työvaiheet
 Option name	Vaihtoehdon nimi
 Option name, e.g. STARTER	Vaihtoehdon nimi, esim. STARTER
 Options and rules of the configurator	Konfiguraattorin vaihtoehdot ja säännöt
+Other end of the wire, e.g. -X1:3: only this wire	Johtimen toinen pää, esim. -X1:3: vain tämä johdin
 Other end, e.g. -X1:3	Toinen pää, esim. -X1:3
 Outer diameter in mm, 0 = estimated	Ulkohalkaisija millimetreinä, 0 = arvioitu
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Suorien osuuksien ulkomitat, mm, esim. 200, 150, 300
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Raporttilohkot ja raporttimallit
 Reserves space over the mounting plate: kept free of routes, or for one class only	Varaa tilaa asennuslevyn yltä: pidetään vapaana reiteistä tai vain yhdelle luokalle
 Rest (mm)	Jäännös (mm)
+Reuse failed searches during one routing calculation	Käytä epäonnistuneita hakuja uudelleen saman reitityslaskennan aikana
 Right side bayed (no side panel)	Oikea puoli rivitetty (ei sivuseinää)
 Room {} exists already	Tila {} on jo olemassa
 Rotation in degrees clockwise: 0, 90, 180 or 270	Kierto asteina myötäpäivään: 0, 90, 180 tai 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Kierto asteina vastapäivään (90 luetaan alhaalta ylöspäin)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Reititä siirrettyjen kohteiden yhteydet uudelleen: lyhin reitti vähimmillä mutkilla ja risteyksillä
 Route the wires in 3D as well (otherwise through the cable ducts)	Reititä myös johdot 3D:nä (muuten johtokourujen kautta)
 Routing rules, paths, reservations, frozen routes and cable shields	Reitityssäännöt, reitit, varaukset, jäädytetyt reititykset ja kaapelien suojavaipat
 Row key (from table_get)	Rivin avain (table_get-komennosta)
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Erotin: semicolon, comma tai tab
 Sets how cross references are shown (only the given settings) and shows the settings	Määrittää, miten ristiviittaukset näytetään (vain annetut asetukset), ja näyttää asetukset
 Sets how the terminals of a jumper are bridged	Määrittää, miten sillan riviliittimet silloitetaan
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Määrittää, miten johtojen päät ilman valittua päätettä päätetään: pääteholkeilla tai kuorittuina, ja kaksoispääteholkeilla, kun kaksi johdinta jakaa liitäntäpisteen
 Sets property values of an object; an empty value removes it	Asettaa objektin ominaisuusarvot; tyhjä arvo poistaa sen
 Sets the aspects the pages use	Asettaa sivujen käyttämät aspektit
 Sets the collision class of a panel item (empty: automatic)	Asettaa asennusosan törmäysluokan (tyhjä: automaattinen)
@@ -714,6 +721,7 @@ Show as \"Name: value\"	Näytä muodossa \"Nimi: arvo\"
 Show the content	Näytä sisältö
 Shows a property as a text beside a symbol	Näyttää ominaisuuden tekstinä symbolin vieressä
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Näyttää riviliitinriman: riviliittimet riman järjestyksessä kerroksineen, siltoineen ja kohteineen, lohkot kiskolla ja sillat
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Näyttää, miten johtimet risteävät ja liittyvät sivuilla ja reititetäänkö siirrettyjen kohteiden yhteydet uudelleen, ja muuttaa annetut arvot
 Shows or changes the machining strategy and which machine makes which face	Näyttää tai muuttaa työstöstrategian ja sen, mikä kone valmistaa minkin pinnan
 Shows or changes the rules of copper bars; lengths in mm	Näyttää tai muuttaa kuparikiskojen säännöt; pituudet mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Näyttää tai muuttaa kaappiasennuksen tarkistusten säännöt; arvot mm (lämpötila °C)
@@ -763,6 +771,7 @@ Symbol ids	Symbolien ID:t
 Symbol key from list_symbols	Symbolin avain list_symbols-luettelosta
 Symbol {} has no connection point {}	Symbolilla {} ei ole liitäntäpistettä {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	Symbolit, johdot, tekstit, kaapeli- ja yhteysmäärittelyt piirikaaviosivuilla
+T-connections: dot, large_dot or none	T-liitokset: dot, large_dot tai none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	T-haara: rungon suunta; silta: sivu, jolta liitos tulee (left, right, up tai down)
 Tag of the terminal strip, e.g. -X1	Riviliitinriman tunnus, esim. -X1
 Take the cut lengths over as cable lengths	Ota katkaisupituudet käyttöön kaapelien pituuksina
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	Riste
 The text height must be at least 0.5 mm	Tekstin korkeuden on oltava vähintään 0,5 mm
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Kulman kaksi haaraa, pysty ja vaaka, esim. down left (oletus: paikan johtimien mukaan, muuten down right)
 The wire has no length	Yhteydellä ei ole pituutta
+The wire that jumps: vertical or horizontal	Hyppäävä johdin: vertical tai horizontal
 The wrap width must not be negative	Rivityksen leveys ei saa olla negatiivinen
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Asennuslevyn lämpösimulaatio: ilman lämpötilat, kuuma kohta, lämmönlähteet ja lämpötila jokaisen laitteen kohdalla
 Thickest sheet or bar, mm	Paksuin levy tai kisko, mm
@@ -818,7 +828,9 @@ Top edge on the face in mm	Yläreuna pinnalla millimetreinä
 Top edge on the mounting plate in mm	Yläreuna asennuslevyllä millimetreinä
 Translated line	Käännetty rivi
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Kierto pystyakselin ympäri asteina, ylhäältä katsottuna vastapäivään (90: etupuolet osoittavat oikealle)
+Two wires at a connection point share a twin ferrule	Liitäntäpisteen kaksi johdinta jakavat kaksoispääteholkin
 Unit, e.g. kW	Yksikkö, esim. kW
+Unknown T-connection style: {}	Tuntematon T-liitoksen tyyli: {}
 Unknown accessory kind: {}	Tuntematon tarvikkeen laji: {}
 Unknown action: {}	Tuntematon toiminto: {}
 Unknown address scheme: {}	Tuntematon osoitemalli: {}
@@ -841,7 +853,9 @@ Unknown field: {}	Tuntematon kenttä: {}
 Unknown group kind: {}	Tuntematon ryhmän laji: {}
 Unknown installation: {}	Tuntematon sijoitus: {}
 Unknown insulation: {}	Tuntematon eristys: {}
+Unknown jump style: {}	Tuntematon hyppytyyli: {}
 Unknown jumper kind: {}	Tuntematon siltalaji: {}
+Unknown jumping wire: {}	Tuntematon hyppäävä johdin: {}
 Unknown kind: {}	Tuntematon laji: {}
 Unknown labels: {}	Tuntemattomat merkinnät: {}
 Unknown level: {}	Tuntematon taso: {}
@@ -873,6 +887,7 @@ Unknown state: {}	Tuntematon tila: {}
 Unknown station kind: {}	Tuntematon asematyyppi: {}
 Unknown symbol: {}	Tuntematon symboli: {}
 Unknown table: {}	Tuntematon taulukko: {}
+Unknown termination: {}	Tuntematon pääte: {}
 Unknown vertical anchor: {}	Tuntematon pystyankkuri: {}
 Unknown way of opening: {}	Tuntematon avautumistapa: {}
 Unknown wire colour {} (IEC 60757: {})	Tuntematon johtoväri {} (IEC 60757: {})
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Ikkunat: alareunan kork
 Wire colour (IEC 60757), e.g. BK	Johtoväri (IEC 60757), esim. BK
 Wire colour, e.g. BU	Johtoväri, esim. BU
 Wire colour, e.g. BU (empty = from the potential definition)	Johtoväri, esim. BU (tyhjä = potentiaalin määrityksestä)
+Wire ends get ferrules	Johtojen päihin tulee pääteholkit
 Wire number (kept when renumbering)	Johtonumero (säilyy uudelleennumeroinnissa)
 Wire numbering and wiring marks	Johtojen numerointi ja johdotusmerkinnät
+Wires crossing without connection: none, arc, bridge or gap	Ilman liitosta risteävät johtimet: none, arc, bridge tai gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Suojalaitteelleen liian ohuet johdot ja kaapelien jännitteenalenema (IEC 60204-1)
 Working area in x, mm	Työalue x-suunnassa, mm
 Working area in y, mm	Työalue y-suunnassa, mm
@@ -911,6 +928,7 @@ Y position in mm (downwards)	Y-sijainti millimetreinä (alaspäin)
 any, wires, cables or tubes	any, wires, cables tai tubes
 auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left tai right; hylkää käsin sijoitetut tekstit
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip tai adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle tai auto (asettelun pääteholkkiasetuksen mukaan)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam tai product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi tai other
 copper or aluminium	copper tai aluminium

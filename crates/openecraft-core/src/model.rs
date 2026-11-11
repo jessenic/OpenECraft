@@ -95,6 +95,9 @@ pub struct Project {
     /// Wires are drawn in their colour (schematic, PDF, SVG).
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub wire_colors: bool,
+    /// How wires cross and connect (jumps, T-connections) and follow a move.
+    #[serde(skip_serializing_if = "WireSettings::is_default")]
+    pub wire_settings: WireSettings,
     /// Terminal strip data (order, jumpers, spare terminals) keyed by strip tag.
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub strips: BTreeMap<String, StripData>,
@@ -209,6 +212,7 @@ impl Default for Project {
             potentials: Vec::new(),
             wire_defaults: Default::default(),
             wire_colors: false,
+            wire_settings: Default::default(),
             strips: BTreeMap::new(),
             plugs: BTreeMap::new(),
             plc_cards: BTreeMap::new(),
@@ -792,6 +796,28 @@ pub struct SymbolInst {
     /// such as device connection points); None: beside the connection point.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pin_label: Option<PinLabel>,
+    /// What a device box does for the device of its tag (see [`crate::device_boxes`]).
+    #[serde(skip_serializing_if = "DeviceBoxRole::is_device")]
+    pub box_role: DeviceBoxRole,
+}
+
+/// What a device box does for the device of its tag.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DeviceBoxRole {
+    /// The box is the device.
+    #[default]
+    Device,
+    /// More connection points of a device placed elsewhere.
+    Extension,
+    /// Connection points a device placed elsewhere already has, shown again.
+    View,
+}
+
+impl DeviceBoxRole {
+    pub fn is_device(&self) -> bool {
+        *self == DeviceBoxRole::Device
+    }
 }
 
 /// Position of a connection point designation relative to the symbol position and
@@ -881,6 +907,7 @@ impl Default for SymbolInst {
             plc_bindings: BTreeMap::new(),
             size: None,
             pin_label: None,
+            box_role: DeviceBoxRole::Device,
         }
     }
 }
@@ -1340,6 +1367,82 @@ impl CrossRefs {
         *self == CrossRefs::default()
     }
 }
+
+/// How a wire passes over another one it does not connect to.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum JumpStyle {
+    /// Plain crossing: only the dots tell connections.
+    #[default]
+    None,
+    /// A semicircle over the other wire.
+    Arc,
+    /// A square bridge over the other wire.
+    Bridge,
+    /// The wire is broken off on both sides of the other wire.
+    Gap,
+}
+
+/// Which wire of a crossing jumps over the other.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum JumpWire {
+    #[default]
+    Vertical,
+    Horizontal,
+}
+
+/// Mark of a T-connection of wires (three wires meeting; four or more always get a
+/// dot, so that they differ from a crossing).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum TeeStyle {
+    #[default]
+    Dot,
+    LargeDot,
+    /// A plain T without a mark.
+    None,
+}
+
+/// How wires cross and connect on the pages, and whether moving rearranges them.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Default)]
+#[serde(default)]
+pub struct WireSettings {
+    #[serde(skip_serializing_if = "is_zero")]
+    pub jump: JumpStyle,
+    #[serde(skip_serializing_if = "is_zero")]
+    pub jump_wire: JumpWire,
+    #[serde(skip_serializing_if = "is_zero")]
+    pub tee: TeeStyle,
+    /// A moved item's connections are routed anew (shortest way with the fewest bends
+    /// and crossings) instead of stretching the wires.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub reroute: bool,
+}
+
+impl WireSettings {
+    pub fn is_default(&self) -> bool {
+        *self == WireSettings::default()
+    }
+}
+
+/// Keys of the wire settings (command line, MCP).
+macro_rules! keyed {
+    ($t:ident { $($v:ident => $k:literal),* $(,)? }) => {
+        impl $t {
+            pub const ALL: &'static [$t] = &[$($t::$v),*];
+
+            pub fn key(self) -> &'static str {
+                match self { $($t::$v => $k),* }
+            }
+
+            pub fn from_key(key: &str) -> Option<$t> {
+                $t::ALL.iter().copied().find(|v| v.key() == key.trim().to_ascii_lowercase())
+            }
+        }
+    };
+}
+
+keyed!(JumpStyle { None => "none", Arc => "arc", Bridge => "bridge", Gap => "gap" });
+keyed!(JumpWire { Vertical => "vertical", Horizontal => "horizontal" });
+keyed!(TeeStyle { Dot => "dot", LargeDot => "large_dot", None => "none" });
 
 /// Settings of the automatic wire numbering.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

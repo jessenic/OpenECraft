@@ -56,6 +56,8 @@ pub struct Remote {
     pub new_name: String,
     pub status: String,
     pub window: bool,
+    /// The open shared project's server stopped answering (the last status failed).
+    pub lost: bool,
     pending: usize,
     /// A status request is under way.
     polling: bool,
@@ -87,6 +89,7 @@ impl Default for Remote {
             new_name: String::new(),
             status: String::new(),
             window: false,
+            lost: false,
             pending: 0,
             polling: false,
             fetching: false,
@@ -121,6 +124,16 @@ impl Remote {
                 ctx.request_repaint();
             }
         });
+    }
+
+    /// Answers wake up the window from the start on.
+    pub fn attach(&mut self, ctx: &egui::Context) {
+        self.ctx = Some(ctx.clone());
+    }
+
+    /// The open shared project with the address of its server.
+    pub fn project(&self) -> Option<crate::startup::ServerProject> {
+        self.shared.as_ref().map(|sh| crate::startup::ServerProject { url: self.url.clone(), name: sh.name.clone() })
     }
 
     fn session_id(&self) -> String {
@@ -210,6 +223,7 @@ impl Remote {
     /// Ends the session (releases its locks); the project stays open locally.
     pub fn close(&mut self) {
         let Some(sh) = self.shared.take() else { return };
+        self.lost = false;
         let req = self.endpoint().close(&sh.name, &sh.session);
         self.send(req, tr_fmt!("Closed {} on the project server", sh.name), |_| Reply::Closed);
     }
@@ -263,6 +277,11 @@ impl Remote {
                 | Reply::Locked(_, _, Err(e)) => tr_fmt!("Project server: {}", e),
                 _ => std::mem::take(&mut self.status),
             };
+            match &reply {
+                Reply::Status(_, Err(_)) => self.lost = true,
+                Reply::Status(_, Ok(_)) | Reply::Saved(_, Ok(_)) | Reply::Snapshot(_, Ok(_)) | Reply::Locked(_, _, Ok(_)) | Reply::Opened(_, Ok(_)) => self.lost = false,
+                _ => {}
+            }
             if let Reply::List(Ok(list)) = &reply {
                 self.projects = list.clone();
             }

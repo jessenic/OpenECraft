@@ -28,7 +28,8 @@ impl App {
                         let enabled = self.cmd_enabled(c);
                         let title = self.save_title(c);
                         let r = ui.add_enabled_ui(enabled, |ui| backstage_entry(ui, d.icon, &title, false)).inner;
-                        let r = if d.tip.is_empty() { r } else { r.on_hover_text(tr(d.tip)) };
+                        let tip = self.cmd_tip(c);
+                        let r = if tip.is_empty() { r } else { r.on_hover_text(tip) };
                         if r.clicked() {
                             self.run(&ctx, c);
                         }
@@ -62,6 +63,19 @@ impl App {
         });
     }
 
+    /// Tooltip of a command; the one of Save says where the project goes.
+    pub(super) fn cmd_tip(&self, c: Cmd) -> String {
+        if c != Cmd::Save {
+            return tr(commands::def(c).tip).to_string();
+        }
+        let check_in = self.vault.origin.is_some() && self.vault.signed_in && self.remote.shared.is_none() && self.session.file_name.is_none();
+        if check_in {
+            self.save_title(c)
+        } else {
+            self.origin().save_tip()
+        }
+    }
+
     /// Title of the save command: where the project goes (file, project server, Vault, download).
     fn save_title(&self, c: Cmd) -> String {
         if c != Cmd::Save {
@@ -86,8 +100,9 @@ impl App {
         ui.add_enabled_ui(enabled, |ui| {
             ui.horizontal(|ui| {
                 let r = icons::text_button(ui, d.icon, &self.save_title(c));
-                if !d.tip.is_empty() {
-                    ui.weak(tr(d.tip));
+                let tip = self.cmd_tip(c);
+                if !tip.is_empty() {
+                    ui.weak(tip);
                 }
                 if r.clicked() {
                     self.run(&ui.ctx().clone(), c);
@@ -186,6 +201,7 @@ impl App {
         let prj = &self.session.prj;
         let errors = self.session.analysis.issues.iter().filter(|i| i.severity == Severity::Error && !i.accepted).count();
         let warnings = self.session.analysis.issues.iter().filter(|i| i.severity == Severity::Warning && !i.accepted).count();
+        let source = self.origin().label();
         egui::Grid::new("backstage_info").num_columns(2).spacing([16.0, 4.0]).show(ui, |ui| {
             for (k, v) in [
                 (tr("Project name"), prj.info.name.clone()),
@@ -197,6 +213,7 @@ impl App {
                 (tr("Devices"), self.session.index.devices.len().to_string()),
                 (tr("Messages"), super::errors_warnings(errors, warnings)),
                 (tr("File"), self.session.file_name.clone().unwrap_or_else(|| tr("unsaved").to_string())),
+                (tr("Saved to"), source.clone()),
             ] {
                 ui.label(RichText::new(k).strong());
                 ui.label(v);

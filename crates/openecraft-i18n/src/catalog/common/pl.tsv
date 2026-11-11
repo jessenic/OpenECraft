@@ -474,6 +474,7 @@ open	otwarty
 rejected	odrzucona
 right	w prawo
 spare	rezerwa
+strip {} mm, {}	odizolować {} mm, {}
 the disk is full	dysk jest pełny
 the file exists already	plik już istnieje
 this is a folder	to jest folder
@@ -483,5 +484,6 @@ yes	tak
 {} exists already	{} już istnieje
 {} parts	Artykuły: {}
 {} wires	Przewody: {}
+{}, together with the wire to {}	{}, razem z przewodem do {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} nie stoi na podłodze, wybierz artykuł stojący na podłodze
 ➕ Add accessory	➕ Dodaj akcesorium

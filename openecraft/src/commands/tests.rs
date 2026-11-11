@@ -106,3 +106,16 @@ fn only_commands_that_ask_for_input_end_with_an_ellipsis() {
         assert!(def(c).title.ends_with('…'), "{c:?} opens a dialog");
     }
 }
+
+#[test]
+fn the_layout_view_commands_bring_the_view_to_the_front() {
+    for cmd in [Cmd::Layout3d, Cmd::LayoutFloorPlan, Cmd::LayoutFront, Cmd::LayoutDoor, Cmd::LayoutSelect, Cmd::LayoutFit] {
+        assert!(acts_in_layout_view(cmd), "{cmd:?}");
+    }
+    for cmd in [Cmd::Save, Cmd::LayoutView, Cmd::LayoutReports, Cmd::LayoutNcData, Cmd::WorkspaceSchematic] {
+        assert!(!acts_in_layout_view(cmd), "{cmd:?}");
+    }
+    for d in ALL.iter().filter(|d| acts_in_layout_view(d.cmd)) {
+        assert!(d.pane.is_none() && d.kind != Kind::Menu, "{:?} is a plain command", d.cmd);
+    }
+}

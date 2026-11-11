@@ -515,9 +515,9 @@ fn bom(prj: &Project, idx: &Index, wiring: &[RoutedWire], conns: &[Connection]) 
         g.0 += qty;
         g.1.extend(used);
     }
-    // Ferrules of the routed panel wiring.
-    for (part, n) in crate::production::ferrule_material(prj, wiring) {
-        let g = groups.entry(part.to_string()).or_default();
+    // Ferrules and terminals of the routed panel wiring.
+    for (part, n) in crate::production::terminal_material(prj, &crate::production::Ends::new(prj, conns), wiring) {
+        let g = groups.entry(part).or_default();
         g.0 += n as f32;
         g.1.push("wiring".into());
     }
@@ -939,7 +939,8 @@ fn revision_overview(prj: &Project) -> Table {
 
 /// Wire list for production (wire processing machines): one row per connection
 /// with wire number, ends, colour, cross-section, the routed length if the devices
-/// are placed in the panel layout, end treatment (stripping length, ferrule) and
+/// are placed in the panel layout, end treatment of both ends (stripping length,
+/// ferrule or terminal, see [`crate::production::end_at`]) and
 /// cable core. Panel wires come first, sorted by cross-section, colour and length
 /// (machine batches).
 pub fn production_wire_list(prj: &Project, an: &Analysis) -> Table {
@@ -951,8 +952,9 @@ pub fn production_wire_list(prj: &Project, an: &Analysis) -> Table {
         ("Cross-section", 0.9),
         (tr_const!("Length (mm)"), 0.9),
         (tr_const!("Strip (mm)"), 0.7),
-        (tr_const!("Ferrule"), 1.6),
-        (tr_const!("Ferrule part"), 1.0),
+        (tr_const!("Termination (from)"), 1.4),
+        (tr_const!("Termination (to)"), 1.4),
+        (tr_const!("Terminal parts"), 1.2),
         (tr_const!("Cable"), 0.8),
         (tr_const!("Core"), 0.6),
         (tr_const!("Potential"), 1.0),
@@ -960,13 +962,23 @@ pub fn production_wire_list(prj: &Project, an: &Analysis) -> Table {
     // (routed length, cells, jump target)
     type Row = (Option<f32>, Vec<String>, Option<(usize, u64)>);
     let mut rows: Vec<Row> = Vec::new();
+    let wire_ends = &an.ends;
     for c in &an.connections {
         let (from, to) = (pin_designation(prj, c.a), pin_designation(prj, c.b));
         let length = an.wiring.iter().find(|w| (w.from == from && w.to == to) || (w.from == to && w.to == from)).map(|w| w.length);
-        let end = crate::production::end_treatment(&c.cross_section, prj.layout.ferrules);
         // Cable cores are processed with their cable, not as single wires.
-        let end = if c.cable.is_empty() { end } else { None };
-        let ferrule = end.and_then(|e| e.ferrule);
+        let ends = [(&from, &to), (&to, &from)].map(|(at, other)| wire_ends.end(prj, at, other, &c.cross_section).filter(|_| c.cable.is_empty()));
+        let both = |f: &dyn Fn(&crate::production::EndTreatment) -> String| {
+            let [a, b] = ends.map(|e| e.map(|e| f(&e)).unwrap_or_default());
+            if a == b { a } else { format!("{a} / {b}") }
+        };
+        let [from_end, to_end] = [(&from, &to), (&to, &from)].map(|(at, other)| {
+            let Some(e) = ends[usize::from(at == &to)] else { return String::new() };
+            match wire_ends.twin(prj, at, other) {
+                Some(t) => tr_fmt!("{}, together with the wire to {}", e.describe(), t.with),
+                None => e.describe(),
+            }
+        });
         let target = Some((c.a.page, prj.pages[c.a.page].symbols[c.a.sym].id));
         rows.push((
             length,
@@ -977,9 +989,10 @@ pub fn production_wire_list(prj: &Project, an: &Analysis) -> Table {
                 c.color.clone(),
                 c.cross_section.clone(),
                 length.map(|l| format!("{l:.0}")).unwrap_or_default(),
-                end.map(|e| format!("{:.0}", e.strip)).unwrap_or_default(),
-                ferrule.map(|f| format!("{} mm² {}, {:.0} mm", f.cross_section, f.color, f.length)).unwrap_or_default(),
-                ferrule.map(|f| f.part.to_string()).unwrap_or_default(),
+                both(&|e| format!("{:.0}", e.strip)),
+                from_end,
+                to_end,
+                both(&|e| if e.shared { "–".into() } else { e.part() }),
                 c.cable.clone(),
                 c.core.clone(),
                 c.net.clone(),
@@ -1014,15 +1027,18 @@ fn harness_data(prj: &Project, an: &Analysis) -> Table {
         (tr_const!("Length (mm)"), 0.8),
         (tr_const!("End treatment"), 1.6),
     ]);
+    let ends = &an.ends;
     for h in &prj.harnesses {
         let ws = crate::harness::wires(prj, an, &h.tag);
         for w in &ws {
-            let end = crate::production::end_treatment(&w.cross_section, prj.layout.ferrules)
-                .map(|e| match e.ferrule {
-                    Some(f) => tr_fmt!("strip {} mm, ferrule {} mm² {}", format!("{:.0}", e.strip), f.cross_section, f.color),
-                    None => tr_fmt!("strip {} mm", format!("{:.0}", e.strip)),
+            let fmt_end = |e: &(String, String)| if e.1.is_empty() { e.0.clone() } else { format!("{}:{}", e.0, e.1) };
+            let end = [(&w.from, &w.to), (&w.to, &w.from)]
+                .map(|(at, other)| {
+                    ends.end(prj, &fmt_end(at), &fmt_end(other), &w.cross_section)
+                        .map(|e| tr_fmt!("strip {} mm, {}", format!("{:.0}", e.strip), e.describe()))
+                        .unwrap_or_default()
                 })
-                .unwrap_or_default();
+                .join(" / ");
             let length = if w.length > 0.0 { format!("{:.0}{}", w.length, if w.routed { "" } else { " *" }) } else { "?".into() };
             let fmt = |e: &(String, String)| if e.1.is_empty() { e.0.clone() } else { format!("{}:{}", e.0, e.1) };
             t.push(vec![h.tag.clone(), w.number.clone(), fmt(&w.from), fmt(&w.to), w.color.clone(), w.cross_section.clone(), length, end], w.target);

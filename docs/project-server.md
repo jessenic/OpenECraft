@@ -75,7 +75,16 @@ As a container: `docker run -d -p 127.0.0.1:8091:8091 -e OPENECRAFT_PROJECT_TOKE
 - In the editor: *Tools › Project server…* – enter the server URL, your user name and the
   token, list the projects and open one, or upload the current project. While a shared
   project is open, *Save* (`Ctrl+S`) saves to the server; the window and the page list's
-  context menu lock and release pages.
+  context menu lock and release pages. The status bar shows *Project server: … /
+  Project: …* (*connection lost* while the server does not answer its status); a
+  project restored from the last session or closed on the server shows as *Local
+  recovery copy of server project: …* and is saved to a local file.
+- *File › Settings › On startup* decides what the editor opens when it starts: the
+  start page with local files and server projects, the last project (a server project
+  is opened on the server again), the project list of the server or a chosen file or
+  server project. If the server cannot open the project, a dialog offers to retry, to
+  sign in, to choose another project or to go on with the local copy; unsaved changes
+  of the copy are saved or discarded first, never overwritten silently.
 - REST API (`/api/v1`): `GET /info` (name, version and the number of projects the
   caller may see; answered without token too), `GET|POST /projects` (`POST` needs the
   `project`), `GET|PUT|DELETE /projects/{name}`,

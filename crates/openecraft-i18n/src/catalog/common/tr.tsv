@@ -474,6 +474,7 @@ open	açık
 rejected	reddedildi
 right	sağa
 spare	yedek
+strip {} mm, {}	soyma {} mm, {}
 the disk is full	disk dolu
 the file exists already	dosya zaten var
 this is a folder	bu bir klasör
@@ -483,5 +484,6 @@ yes	evet
 {} exists already	{} zaten var
 {} parts	{} parça
 {} wires	{} tel
+{}, together with the wire to {}	{}, {} yönündeki telle birlikte
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} zemine konmaz, zemine konan bir parça seçin
 ➕ Add accessory	➕ Aksesuar ekle

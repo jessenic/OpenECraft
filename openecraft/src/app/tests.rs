@@ -24,6 +24,17 @@ fn the_unsaved_state_is_stored_with_the_shell() {
 }
 
 #[test]
+fn the_startup_setting_is_stored_with_the_shell() {
+    use crate::startup::{ServerProject, Startup, Target};
+    let startup = Startup::Project(Target::Server(ServerProject { url: "http://srv:8091".into(), name: "plant".into() }));
+    let shell = ShellState { startup: startup.clone(), ..Default::default() };
+    let stored: ShellState = serde_json::from_str(&serde_json::to_string(&shell).unwrap()).unwrap();
+    assert_eq!(stored.startup, startup);
+    let old: ShellState = serde_json::from_str("{}").unwrap();
+    assert_eq!(old.startup, Startup::ReopenLast, "stores written before reopen the last project");
+}
+
+#[test]
 fn counts_of_one_use_their_own_sentence() {
     openecraft_i18n::with_lang(openecraft_i18n::Lang::En, || {
         assert_eq!(errors_warnings(1, 1), "1 error, 1 warning");

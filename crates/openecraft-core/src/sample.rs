@@ -450,6 +450,10 @@ fn add_panel_layout(prj: &mut Project, db: &PartsDb) {
     for (tag, x, y) in DOOR_DEVICES {
         panel::place_device_on(prj, 0, tag, p(x, y), panel::Face::Door);
     }
+    // The motor cable -W1 leaves through a cable gland of its own in the bottom, below
+    // the terminal strip.
+    crate::parts::ensure_in_project(prj, db, "GEN.GLAND-M25");
+    panel::place_accessory(prj, 0, "GEN.GLAND-M25", panel::Face::Bottom, p(80.0, 100.0));
     // Door ducts: one along the hinge side, one above and one below the row of
     // command devices; the door wires run through them to the hinge.
     crate::parts::ensure_in_project(prj, db, panel::DOOR_DUCT_PART);

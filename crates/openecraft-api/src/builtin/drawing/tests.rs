@@ -1,6 +1,24 @@
 use super::*;
 
 #[test]
+fn macro_accessory_intent_resolves_parameters_and_preserves_existing_material() {
+    let mut s=new_session();
+    s.project_mut().unwrap().devices.insert("-X7".into(),openecraft_core::model::DeviceData {parts:vec![openecraft_core::model::PartRef {number:"LOCAL".into(),count:3,total:false}],..Default::default()});
+    let m=json!({"name":"Accessories","clip":{
+        "symbols":[{"id":1,"sym":"term","tag":"-X{UNIT}","label":"1"}],
+        "devices":{"-X{UNIT}":{"parts":[{"number":"INCOMING","count":1},{"number":"EXTRA-{SIZE}","count":2,"total":true}]}},
+        "device_part_additions":{"-X{UNIT}":["EXTRA-{SIZE}"]}
+    }});
+    let request=json!({"page":"1","macro":m.to_string(),"x":40,"y":40,"values":{"UNIT":"7","SIZE":"B"}});
+    run(&mut s,"insert_macro",request.clone()).unwrap();run(&mut s,"insert_macro",request).unwrap();
+    let parts=&s.project().unwrap().devices["-X7"].parts;
+    assert_eq!(parts.len(),2);assert_eq!(parts[0].number,"LOCAL");assert_eq!(parts[0].count,3);
+    assert_eq!(parts[1].number,"EXTRA-B");assert_eq!(parts[1].count,2);assert!(parts[1].total);
+    let parsed:openecraft_core::macros::Macro=serde_json::from_value(m).unwrap();
+    assert_eq!(parsed.placeholders(),["SIZE","UNIT"]);
+}
+
+#[test]
 fn merging_definitions_preserves_local_symbols_and_reuses_typed_revisions() {
     use crate::builtin::testing::*;
     let mut session=demo_session();
@@ -691,4 +709,18 @@ fn cable_core_texts_are_placed_and_reset() {
     let w = run(&mut s, "update_wire", json!({ "page": "1", "id": id, "core_offset": [] })).unwrap();
     assert_eq!((w["core_offset"].clone(), w["cable_offset"].clone()), (Value::Null, json!([0.0, -3.0])));
     assert_eq!(run(&mut s, "get_page", json!({ "page": "1" })).unwrap()["wires"][0]["cable_offset"], json!([0.0, -3.0]));
+}
+
+#[test]
+fn wire_settings_are_shown_and_changed() {
+    let mut s = new_session();
+    let shown = run(&mut s, "wire_settings", json!({})).unwrap();
+    assert_eq!(shown, json!({ "jump": "none", "jump_wire": "vertical", "tee": "dot", "reroute": false }));
+    let changed = run(&mut s, "wire_settings", json!({ "jump": "Arc", "jump_wire": "horizontal", "tee": "large_dot", "reroute": true })).unwrap();
+    assert_eq!(changed, json!({ "jump": "arc", "jump_wire": "horizontal", "tee": "large_dot", "reroute": true }));
+    let w = &s.project().unwrap().wire_settings;
+    assert_eq!((w.jump, w.jump_wire, w.tee, w.reroute), (JumpStyle::Arc, JumpWire::Horizontal, TeeStyle::LargeDot, true));
+    assert!(run(&mut s, "wire_settings", json!({ "jump": "loop" })).is_err());
+    assert!(run(&mut s, "wire_settings", json!({ "tee": "ring" })).is_err());
+    assert_eq!(s.project().unwrap().wire_settings.jump, JumpStyle::Arc);
 }

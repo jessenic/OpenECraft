@@ -37,6 +37,9 @@ pub struct Analysis {
     pub changes: Vec<crate::revision::PageChanges>,
     /// Point-to-point connections.
     pub connections: Vec<Connection>,
+    /// The wires at each connection point, for the termination of their ends (twin
+    /// ferrules).
+    pub ends: crate::production::Ends,
     /// Fill levels of the cable ducts the wiring runs through.
     pub duct_fill: Vec<panel::DuctFill>,
     /// 3D routing of wires, cables and tubes.
@@ -177,6 +180,7 @@ impl Analysis {
             wiring,
             open_wires,
             changes,
+            ends: crate::production::Ends::new(prj, &conns),
             connections: conns,
             duct_fill: fill,
             routing,

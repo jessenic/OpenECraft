@@ -472,6 +472,7 @@ open	开放
 rejected	已拒绝
 right	向右
 spare	备用
+strip {} mm, {}	剥线 {} mm，{}
 the disk is full	磁盘已满
 the file exists already	文件已存在
 this is a folder	这是一个文件夹
@@ -481,5 +482,6 @@ yes	是
 {} exists already	{} 已存在
 {} parts	{} 个部件
 {} wires	{} 条导线
+{}, together with the wire to {}	{}，与通往 {} 的导线共用
 {}: {} does not stand on the floor, choose a floor-standing part	{}：{} 不是落地式，请选择落地式部件
 ➕ Add accessory	➕ 添加附件

@@ -378,10 +378,11 @@ impl App {
     fn cmd_response(&mut self, ui: &mut egui::Ui, cmd: Cmd, resp: egui::Response) {
         let def = commands::def(cmd);
         let keys = self.editor.shortcuts.cmd_text(cmd);
+        let tip = self.cmd_tip(cmd);
         let resp = resp.on_hover_ui(|ui| {
             ui.label(RichText::new(tr(def.title)).strong());
-            if !def.tip.is_empty() {
-                ui.label(tr(def.tip));
+            if !tip.is_empty() {
+                ui.label(tip.clone());
             }
             if !keys.is_empty() {
                 ui.weak(keys.clone());

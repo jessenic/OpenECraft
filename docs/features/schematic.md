@@ -36,6 +36,20 @@ new device with their own points. Commands: `add_device_box`, `update_device_box
 `add_device_connections` (several at a distance, designations given or numbered on),
 `update_device_connection`, `list_device_boxes`.
 
+A box can also continue a device placed elsewhere: give it the device's tag and choose
+its *Role* in the properties (`role` of `add_device_box` and `update_device_box`). An
+*Extension* adds connection points to the device, for a device too large for one box or
+a library symbol that lacks some connections. Its points are new connections, and a
+designation the device already has is reported as used twice. A *Pin view* shows some
+connection points the device already has, for example only the supply of a PLC card on
+the power page; tick them in the properties (`show_device_pins`) or place points with
+their designations. A point on a view is the connection point it shows: wires drawn
+there belong to that point's potential on every page, reports list the connection once,
+from the device's own point, and the check reports a view of a point the device does
+not have. Neither role is a second main function. The box shows a cross reference to
+the device, and the device's main function to its boxes; copied without the device,
+these boxes stay on it. A box with a role but no device placed is reported.
+
 ## Structure identifiers (IEC 81346)
 
 Pages carry a function (`=A1`) and a location
@@ -58,7 +72,8 @@ deleting the box, renames the device (all its functions) in its inherited aspect
 the same undo step and keeps its own; a tag that exists already is refused and reported
 instead of merging two devices. The symbol properties show where each aspect comes
 from. Boxes are copied, pasted and saved in macros with their devices; the check
-*Structure identifiers* reports boxes that overlap without one lying inside the other.
+*Structure identifiers* reports boxes that overlap without one lying inside the other, and
+devices inside a box whose tag has another value for an aspect the box sets.
 Commands `add_structure_box`, `update_structure_box`, `list_structure_boxes`.
 
 ## Live cross references
@@ -99,7 +114,12 @@ rail stays on the rail), otherwise the wire gets a jog or a route around what is
 the way, and a wire that cannot be squared without touching another connection stays
 diagonal. Connection definition points and cable definition lines stay on their
 wires unless they are moved themselves; a line that cannot stay across exactly its
-wires stays where it is. Editing aids: grid sizes 1, 2, 4, 8 and 16 mm (View);
+wires stays where it is. With *Route the connections of moved items anew*
+(*Connections › Wire crossings…*, off by default) such a wire is routed again
+together with the corners after it, up to the next connection point, junction or
+branch, on the way of the least weight: its length in grid steps, 1.2 per bend and
+1.5 per wire crossed; a connection without such a way is squared as before.
+Editing aids: grid sizes 1, 2, 4, 8 and 16 mm (View);
 connection points and wire ends off that grid (imported drawings, device boxes of any
 size) add invisible grid lines through them, so the pointer snaps to them where they
 are nearer than the grid, wires can start at such points and things can be connected
@@ -132,6 +152,18 @@ Lines, rectangles, circles, ellipses, arcs, polylines and
 polygons (width, colour, dashed, filled), dimensions (aligned / horizontal / vertical,
 scale, unit), PNG / JPEG images (also in the PDF and SVG export). **Layers**
 (navigator › Layers): visible, locked, printed, colour; DXF / DWG export per layer.
+
+## Wire crossings and T-connections
+
+Wires that cross without a connection are drawn as a plain crossing, or the vertical
+(or horizontal) wire jumps over the other with an **arc**, a square **bridge** or a
+**gap**; close jumps on a wire become one. T-connections show a **dot**, a **large
+dot** or **no dot** (a plain T); a connection of four or more wires always keeps its
+dot, so that it never looks like a crossing. *Connections › Wire crossings…* sets
+both with a preview; the setting is saved with the project and in settings schemes
+and applies to the canvas and the PDF, SVG and DXF export alike. Command line / MCP:
+`wire_settings` (`jump`: none, arc, bridge, gap; `jump_wire`: vertical, horizontal;
+`tee`: dot, large_dot, none; `reroute`).
 
 ## Routing
 

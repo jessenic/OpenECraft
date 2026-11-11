@@ -67,6 +67,7 @@ Only parts for direct wall mounting	Лише вироби для прямого 
 Open datasheet	Відкрити технічний паспорт
 Open in the browser	Відкрити в браузері
 Outside the face	Поза гранню
+Pans (trackpad)	Зсуває (тачпад)
 Parts server: {}	Сервер виробів: {}
 Parts this part is assembled from; the bill of materials lists them under it	Вироби, з яких складається цей виріб; специфікація перелічує їх під ним
 Personal access token	Персональний маркер доступу
@@ -113,6 +114,7 @@ Wall mounting	Настінний монтаж
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Де приладдя розташоване на відповідному виробі, у компонуванні шафи та в 3D-вигляді
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Де виконуються підключення проводів у компонуванні шафи: позначення як у шаблоні функцій, положення у фронтальному вигляді (x зліва, y згори, z над монтажною поверхнею) і напрямок виходу проводу. Вироби без власних точок підключення отримують їх із шаблону функцій.
 Wire leaves	Вихід проводу
+Zooms (mouse wheel)	Масштабує (коліщатко миші)
 changes with token	зміни з токеном
 created in your EPLAN account (ePulse)	створено у вашому обліковому записі EPLAN (ePulse)
 down	донизу

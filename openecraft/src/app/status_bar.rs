@@ -113,26 +113,12 @@ impl App {
                     }
                 }
                 ui.separator();
-                // Servers: project server, parts server.
-                if let Some(sh) = &self.remote.shared {
-                    let r = ui.label(RichText::new(tr_fmt!("{} (project server, revision {})", sh.name, sh.revision)).small());
-                    if r.on_hover_text(tr("Project server")).clicked() {
-                        self.show_pane(Pane::Tool(ToolPane::ProjectServer));
-                    }
+                // Where the project is and where Save puts it, in words (not only a colour):
+                // a local file, the project server or a local copy of a server project.
+                if self.source_segment(ui) {
+                    self.show_pane(Pane::Tool(ToolPane::ProjectServer));
                 }
-                // A shared project is saved on the project server (shown before), not in a file.
-                let file = match self.session.file_name.as_deref() {
-                    Some(f) => io::short_name(f).to_string(),
-                    None if self.remote.shared.is_some() => String::new(),
-                    // A project without a file and without changes (the demo, a new
-                    // one) has nothing to save yet.
-                    None if !self.session.dirty() => String::new(),
-                    None => tr("unsaved").to_string(),
-                };
-                if width > 700.0 && !(file.is_empty() && !self.session.dirty()) {
-                    ui.weak(format!("{}{}", file, if self.session.dirty() { " *" } else { "" }));
-                    ui.separator();
-                }
+                ui.separator();
                 let lang = openecraft_i18n::lang();
                 let r = ui.add(egui::Button::new(lang.native_name()).frame(false)).on_hover_text(tr("Language"));
                 egui::Popup::menu(&r).show(|ui| self.cmd_menu(ui, Cmd::Language));
@@ -184,6 +170,34 @@ impl App {
                 });
             });
         });
+    }
+}
+
+impl App {
+    /// The source of the open project; true when clicked on a server project.
+    fn source_segment(&self, ui: &mut egui::Ui) -> bool {
+        use crate::startup::Origin;
+        let origin = self.origin();
+        let c = crate::style::colors(self.dark);
+        let (color, tip) = match origin {
+            Origin::Server { connected: false, .. } => (c.error, tr("The project server does not answer: changes are not saved on it until the connection is back").to_string()),
+            Origin::Server { name, .. } => (ui.visuals().text_color(), tr_fmt!("{} (project server, revision {})", name, self.remote.shared.as_ref().map_or(0, |s| s.revision))),
+            Origin::Recovery(_) => (c.warning, tr("Not the shared project: changes are saved locally until it is opened on the project server again").to_string()),
+            Origin::File(path) => (ui.visuals().text_color(), path.to_string()),
+            Origin::New => (ui.visuals().weak_text_color(), tr("Save asks for a file").to_string()),
+        };
+        let icon = match origin {
+            Origin::Server { connected: false, .. } => Some(Icon::Error),
+            Origin::Server { .. } => Some(Icon::Server),
+            Origin::Recovery(_) => Some(Icon::Warning),
+            _ => None,
+        };
+        let text = format!("{}{}", origin.label(), if self.session.dirty() { " *" } else { "" });
+        let r = ui.add(egui::Button::new(RichText::new(text).color(color)).frame(false)).on_hover_text(tip);
+        if let Some(icon) = icon {
+            icons::show(ui, icon, 14.0);
+        }
+        r.clicked() && origin.is_server()
     }
 }
 

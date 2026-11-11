@@ -181,6 +181,9 @@ The page property `page.explicit_wire_junctions` makes endpoint-to-interior cros
 nonconductive unless a junction connects them, and device ports connect only to
 authored wire endpoints. Internal rail attachments and junction ports retain side
 contacts. Junction dots and open-end checks use the same rules.
+`device_box_roles` adds `SymbolInst.box_role` to device boxes: `extension` adds connection points to
+the device of the box's tag, `view` shows connection points it already has and connects them across
+pages by device and designation; the default `device` is left out of the file.
 An interruption instance can store `function.connection_scope` in its `values`.
 Points connect and cross-reference only others with the same scope and label;
 an empty scope retains the existing project-wide behavior. The label stays the
@@ -231,6 +234,17 @@ available. The wire properties panel and `update_wire` command can restore the
 automatic labels; new wires show labels by default.
 
 A complete example is in [`examples/plugins/page_notes`](../examples/plugins/page_notes).
+
+### CAD drawing coordinates
+
+The CLI/MCP `import_dxf` and `import_dwg` tools return `source_bounds` (`min` and
+`max` points in decoded drawing millimetres, Y up) and `page_origin` (the page
+position of the source top-left bound), alongside `scale`. For an imported page
+point `p`, its source coordinates are `source_bounds.min.x +
+(p.x - page_origin.x) / scale` and `source_bounds.max.y -
+(p.y - page_origin.y) / scale`. This includes the drawing's unit conversion and
+permits external importers to apply an authored viewport. Existing page placement
+and parameter defaults remain unchanged.
 
 ### EPLAN window macros
 
@@ -293,6 +307,8 @@ The `individual_panel_terminals` feature adds `PanelItem.terminal`: a nonempty d
 The `explicit_panel_geometry` feature retains `PanelItem.single_part`: the footprint represents only its own catalog part even with no terminal designation. Missing catalog dimensions can generate non-exact connection points using the instance footprint, without rewriting the catalog. Multiple physical views resolve by selected article only when unique. `Enclosure.no_implicit_plate` suppresses the default plate, while `mounting_origin: [x,y,z]` gives an explicit mounting-face datum in enclosure coordinates. Open assemblies default to the zero datum and full canvas extent; their routing spaces have no cabinet walls. The add/set enclosure commands expose `implicit_plate` and `mounting_origin` (object with x/y/z; empty resets), and device placement/edit commands expose `single_part`. Explicit plates contribute their own part to the material list.
 
 
+The `cached_impossible_routes` feature adds `layout.routing.reuse_failed_searches` (default false), also exposed by the `routing_rules` command. A project can explicitly retain impossible ahead-search results after channel fill changes instead of repeating exhaustive searches. Ordinary projects keep the existing retry behavior. Successful cached routes still require capacity and clearance checks.
+
 The `literal_part_quantities` feature adds `PartRef.total`. A true value makes `count`
 the literal quantity for the whole device/strip (including an explicit zero), instead
 of multiplying terminal articles by strip positions. The default false preserves
@@ -336,11 +352,13 @@ preserves device property values and distinct automatic
 and literal references to the same article, including zero. When extending an
 existing device, missing reference modes and properties are filled while local
 quantities and property values remain unchanged. Articles the device does not use are
-added only when it has none yet or when a function of the clip selects them. Material owners within a clip
+added only when it has none yet or when a function of the clip selects them, unless explicitly opted in below. Material owners within a clip
 follow target page structure and collision renaming; external owners are cleared.
 Incoming device tags are reserved before allocating replacements, including
 material-only existing tags. Conductive auxiliary views follow their master tag.
 Device property placeholders resolve together with macro tags and part numbers.
+
+The `explicit_macro_part_additions` feature adds optional `Clip.device_part_additions`, a map of device tags to article-number arrays. It explicitly requests adding missing **literal** accessory references already present in the clip's matching `devices[tag].parts`. It cannot add an unassigned article or an automatic reference, replace an existing article, or overwrite a local quantity. Without this map, paste and macro insertion keep the existing-device rules above. Tags and numbers support macro parameters, target structure and collision renaming. This is insertion intent, not an instruction to change the project's ordinary copy/paste defaults.
 
 The `per_wire_junctions` feature adds optional `Wire.explicit_junctions`: omitted
 inherits `page.explicit_wire_junctions`, true requires authored junction contacts,

@@ -6,6 +6,7 @@
 //! - [`portal`] – data portal browser (faceted search, files, favorites, update check)
 //! - [`io`] – file dialogs on desktop, file picker and downloads in the browser
 //! - [`language`] – language menu (UI texts are translated with `openecraft-i18n`)
+//! - [`nav`] – zoom and pan of the views by mouse wheel, trackpad and touch screen
 
 pub mod client;
 pub mod faces;
@@ -13,5 +14,6 @@ pub mod fonts;
 pub mod icons;
 pub mod io;
 pub mod language;
+pub mod nav;
 pub mod part_editor;
 pub mod portal;

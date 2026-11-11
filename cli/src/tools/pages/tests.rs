@@ -57,6 +57,9 @@ fn dwg_drawings_are_imported_as_pages() {
     assert_eq!(r["description"], "Plant");
     let from_dxf = run(&mut s, "import_dxf", json!({ "path": dxf.to_str().unwrap() })).unwrap();
     assert_eq!((&r["lines"], &r["texts"]), (&from_dxf["lines"], &from_dxf["texts"]));
+    assert_eq!(r["source_bounds"], from_dxf["source_bounds"]);
+    assert_eq!(r["page_origin"], from_dxf["page_origin"]);
+    assert!(r["source_bounds"]["min"]["x"].is_number());
     assert_eq!(s.project().unwrap().pages.len(), pages + 2);
     std::fs::write(&dwg, b"AC1018 damaged").unwrap();
     assert!(run(&mut s, "import_dwg", json!({ "path": dwg.to_str().unwrap() })).unwrap_err().contains("DWG"));

@@ -92,6 +92,7 @@ Auxiliary function: main contact	Hulpfunctie: hoofdcontact
 Auxiliary relay coil R (JIS)	Spoel hulprelais R (JIS)
 B10d	B10d
 Ball valve	Kogelkraan
+Bare conductor	Blanke geleider
 Basis	Grondslag
 Battery	Batterij
 Battery capacity	Batterijcapaciteit
@@ -499,8 +500,8 @@ Fan 3-phase	Ventilator 3-fasig
 Fan 3-phase, 6 terminals	Ventilator 3-fasig, 6 aansluitingen
 Ferrule	Adereindhuls
 Ferrule from	Adereindhuls van
-Ferrule part	Artikel adereindhuls
 Ferrule to	Adereindhuls naar
+Ferrule {} mm² {}	Adereindhuls {} mm² {}
 Field cable routing	Tracering van veldkabels
 Field cable {} cannot be routed from {} to {}	Veldkabel {} kan niet worden gelegd van {} naar {}
 Field cable {}: {} is not placed in the plant layout	Veldkabel {}: {} is niet geplaatst in de installatielay-out
@@ -521,6 +522,8 @@ Fitting	Fitting
 Fittings	Fittingen
 Flame retardant	Vlamvertragend
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Platte kabel {} heeft {} aders, de IDC-connector {} heeft {} pinnen
+Flat plug	Vlakstekker
+Flat receptacle	Vlakstekerhuls
 Flat roof	Plat dak
 Float switch NC	Vlotterschakelaar verbreekcontact
 Float switch NO	Vlotterschakelaar maakcontact
@@ -546,6 +549,7 @@ Foot switch NC	Voetschakelaar verbreekcontact
 Foot switch NO	Voetschakelaar maakcontact
 Foot switch NO (NFPA)	Voetschakelaar maakcontact (NFPA)
 Force	Kracht
+Fork terminal	Vorkkabelschoen
 Format (placeholders)	Indeling (tijdelijke aanduidingen)
 Frame size	Bouwgrootte
 Free	Vrij
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Signaallamp (NFPA)
 Pilot line	Stuurleiding
 Pin connection diagram	Pinaansluitschema
 Pin side (male)	Pinzijde (mannelijk)
+Pin terminal	Penkabelschoen
 Pipe	Pijpleiding
 Piston diameter	Zuigerdiameter
 Piston rod diameter	Zuigerstangdiameter
@@ -1338,6 +1343,7 @@ Reviewer	Reviewer
 Revision overview (changes)	Revisieoverzicht (wijzigingen)
 Right side	Rechterzijde
 Right side panel	Rechterzijwand
+Ring terminal	Ringkabelschoen
 Rivet nut	Blindklinkmoer
 RoHS compliant	RoHS-conform
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Klembeschrijving
 Terminal diagram	Klemmenplan
 Terminal line-up	Klemmenopstelling
 Terminal marker	Klemmarkering
+Terminal parts	Artikelen draadeinden
 Terminal strip data of {} without terminals	Klemmenstrookgegevens van {} zonder klemmen
 Terminal strip overview	Overzicht klemmenstroken
 Terminal strips and PLC addresses	Klemmenstroken en PLC-adressen
+Termination (from)	Afwerking (van)
+Termination (to)	Afwerking (naar)
 Text file	Tekstbestand
 The DXF file contains nothing that can be imported	Het DXF-bestand bevat niets wat kan worden geïmporteerd
 The PDF has no pages that can be read	De PDF heeft geen leesbare pagina's
@@ -1688,6 +1697,14 @@ Tubes	Slangen
 Tubing / piping list	Buis- / leidinglijst
 Turned once (quarter landing)	Eenmaal gedraaid (kwartbordes)
 Turned twice (two quarter landings)	Tweemaal gedraaid (twee kwartbordessen)
+Twin ferrule	Dubbele adereindhuls
+Twin ferrule at {} is not shared with a second wire	Dubbele adereindhuls op {} wordt niet gedeeld met een tweede draad
+Twin ferrule at {} joins wires of {} and {}	Dubbele adereindhuls op {} verbindt draden van {} en {}
+Twin ferrule at {}: {} wires end there, it takes two	Dubbele adereindhuls op {}: daar eindigen {} draden, hij neemt er twee
+Twin ferrule with (from)	Dubbele adereindhuls met (van)
+Twin ferrule with (to)	Dubbele adereindhuls met (naar)
+Twin ferrule {} mm² {}	Dubbele adereindhuls {} mm² {}
+Twin ferrules	Dubbele adereindhulzen
 Two connection symbols on page {} lie on the same point	Twee verbindingssymbolen op pagina {} liggen op hetzelfde punt
 Two-way switch (installation)	Wisselschakelaar (installatie)
 Type numbers	Typenummers
@@ -1770,6 +1787,7 @@ Winding connection	Wikkelingschakeling
 Wire assigned to unknown cable {}	Draad toegewezen aan onbekende kabel {}
 Wire colour GNYE is reserved for protective conductors ({})	De draadkleur GNYE is voorbehouden aan beschermingsleidingen ({})
 Wire colours and cross-sections	Draadkleuren en doorsneden
+Wire crossings and connections	Draadkruisingen en -verbindingen
 Wire defaults	Standaardwaarden voor draden
 Wire jumper	Draadbrug
 Wire list (panel routing)	Draadlijst (routering in de kast)
@@ -1847,6 +1865,7 @@ leakage	lek
 low	laag
 measuring	meet
 new	nieuw
+no free cable gland	geen vrije kabelwartel
 no header	geen koprij
 no list	geen lijst
 no path through the route network	geen weg door het tracénetwerk
@@ -1878,8 +1897,6 @@ routed	gerouteerd
 shield clamp ({} mm away)	afschermingsklem ({} mm verwijderd)
 silver	zilver
 starts with	begint met
-strip {} mm	strippen {} mm
-strip {} mm, ferrule {} mm² {}	strippen {} mm, adereindhuls {} mm² {}
 suction	zuig
 supply	voeding
 terminals {} – {}	klemmen {} – {}
@@ -1937,6 +1954,7 @@ yellow	geel
 {} unused device data records removed	{} ongebruikte apparaatgegevensrecords verwijderd
 {} wiring marks belong to wires that no longer exist	{} bedradingsmarkeringen horen bij draden die niet meer bestaan
 {} without device tag on page {}	{} zonder apparaataanduiding op pagina {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} kan niet worden gerouteerd: elke kabelwartel van {} is bezet door een andere kabel. Voeg er een kabelwartel voor toe.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} kan niet worden gerouteerd: geen weg die de halve dikte vrij houdt van alles en buigt met zijn radius van {} mm. Verplaats de uiteinden of maak ruimte.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} komt binnen via de bodem: geen kabelwartel in de behuizing
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} komt binnen via het dak: geen kabelwartel op dak, zijkanten of achterwand
@@ -2003,6 +2021,7 @@ yellow	geel
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: geen brugartikel voor brug {} (technische gegevens Jumper van het klemartikel)
 {}: no part assigned	{}: geen artikel toegewezen
 {}: no service space of {} mm in front of {} (the door is too close)	{}: geen serviceruimte van {} mm voor {} (de deur is te dichtbij)
+{}: none for this cross-section	{}: geen voor deze doorsnede
 {}: not in the single-line diagram	{}: niet in het eenlijnschema
 {}: not placed in the panel layout	{}: niet in de kastlay-out geplaatst
 {}: operations per year needed for the B10d of {}	{}: schakelcycli per jaar nodig voor de B10d van {}

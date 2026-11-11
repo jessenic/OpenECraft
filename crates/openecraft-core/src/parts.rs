@@ -82,7 +82,7 @@ pub fn kind_of_symbol(key: &str) -> Option<FnKind> {
         | "fl_shutoff" | "fl_regulator" | "fl_receiver" | "fl_dryer" | "fl_lubricator" | "fl_coupling" => FnKind::FluidComponent,
         "res" | "cap" | "diode" | "led" | "inductor" | "varistor" | "potentiometer" | "cap_pol" | "zener" | "photodiode" | "npn" | "pnp" | "nmos" | "thyristor" | "triac" | "ntc" | "ldr"
         | "optocoupler" | "bridge_rect" | "inst_switch" | "inst_switch2" | "inst_dimmer" | "inst_push" | "inst_lamp" | "inst_luminaire" | "inst_socket2" | "inst_junction" | "inst_motion"
-        | "inst_board" | "earth_electrode" => FnKind::Generic,
+        | "inst_board" | "earth_electrode" | "box1" | "box2" | "box4" => FnKind::Generic,
         _ => return symbols::iec_kind(key),
     })
 }

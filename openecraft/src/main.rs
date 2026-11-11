@@ -24,6 +24,7 @@ mod mounting_ui;
 mod panel_ui;
 mod plugin_commands;
 mod shortcuts;
+mod startup;
 mod workspaces;
 mod parts_ui;
 mod remote;

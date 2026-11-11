@@ -74,3 +74,19 @@ fn rights_decide_what_may_be_changed() {
     assert_eq!(r.rights, [ProjectRight::View, ProjectRight::ManageAccess]);
     assert_eq!(r.access, Some(access));
 }
+
+#[test]
+fn a_failed_status_marks_the_connection_lost() {
+    let mut r = opened();
+    r.url = "http://srv:8091".into();
+    let ctx = egui::Context::default();
+    r.pending = 1;
+    r.inbox.lock().unwrap().push(Reply::Status("s1".into(), Err("connection refused".into())));
+    r.poll(&ctx);
+    assert!(r.lost);
+    r.pending = 1;
+    r.inbox.lock().unwrap().push(Reply::Status("s1".into(), Ok(Status::default())));
+    r.poll(&ctx);
+    assert!(!r.lost);
+    assert_eq!(r.project(), Some(crate::startup::ServerProject { url: "http://srv:8091".into(), name: "plant".into() }));
+}

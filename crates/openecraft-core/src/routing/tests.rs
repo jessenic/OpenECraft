@@ -87,7 +87,7 @@ fn imported_plot_frame_does_not_block_connections_or_routes() {
     let top = sym(&mut prj, "no", p(40., 40.));
     sym(&mut prj, "coil", p(40., 80.));
     assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([top]), 400.), vec![(p(40., 44.), p(40., 76.))]);
-    assert!(search(&prj.symbol_table(), &prj.pages[0], area(), p(20., 160.), p(100., 160.)).is_some());
+    assert!(search(&prj.symbol_table(), &prj.pages[0], area(), p(20., 160.), p(100., 160.), SQUARE).is_some());
 }
 
 #[test]
@@ -731,4 +731,65 @@ fn autoconnect_wires_into_the_free_arms_of_connection_symbols() {
     assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![]);
     prj.pages[0].junctions[0].dir = TeeDir::Up;
     assert_eq!(autoconnect(&prj.symbol_table(), &prj.pages[0], &BTreeSet::from([tee]), 400.0), vec![(p(60.0, 80.0), p(60.0, 44.0))]);
+}
+
+/// A connection from the symbol below up to the one above in a staircase of four
+/// corners, with a label and a connection definition point on its middle wires.
+fn staircase() -> (Project, u64, u64, u64) {
+    use crate::model::wiring::WireLabel;
+    let mut prj = Project::default();
+    sym(&mut prj, "no", p(40.0, 40.0));
+    let moved = sym(&mut prj, "no", p(120.0, 120.0));
+    wire(&mut prj, p(120.0, 116.0), p(120.0, 100.0));
+    wire(&mut prj, p(120.0, 100.0), p(60.0, 100.0));
+    let labelled = wire(&mut prj, p(60.0, 100.0), p(60.0, 72.0));
+    prj.pages[0].wires.last_mut().unwrap().labels.push(WireLabel::default());
+    wire(&mut prj, p(60.0, 72.0), p(40.0, 72.0));
+    wire(&mut prj, p(40.0, 72.0), p(40.0, 44.0));
+    let cd = point(&mut prj, p(60.0, 88.0));
+    (prj, moved, labelled, cd)
+}
+
+#[test]
+fn moving_keeps_the_corners_of_a_connection_unless_rerouting_is_on() {
+    let (mut kept, moved, _, _) = staircase();
+    let nets = connections(&kept);
+    move_selection(&mut kept, 0, &BTreeSet::from([moved]), p(-80.0, 0.0));
+    assert!(square(&kept));
+    assert!(kept.pages[0].wires.len() >= 4, "the corners stay: {:?}", kept.pages[0].wires);
+    assert_eq!(connections(&kept), nets);
+
+    let (mut prj, moved, _, cd) = staircase();
+    prj.wire_settings.reroute = true;
+    move_selection(&mut prj, 0, &BTreeSet::from([moved]), p(-80.0, 0.0));
+    assert!(square(&prj));
+    let wires = &prj.pages[0].wires;
+    assert_eq!(wires.len(), 1, "straight up: {wires:?}");
+    assert_eq!(R::from_points(wires[0].a, wires[0].b), R::from_points(p(40.0, 44.0), p(40.0, 116.0)));
+    assert_eq!(connections(&prj), nets);
+    assert_eq!(wires[0].labels.len(), 1, "the label comes along");
+    assert_eq!(wire_under(&prj, cd), Some(wires[0].id), "the point stays on the connection");
+}
+
+#[test]
+fn a_rerouted_connection_takes_the_way_of_the_least_weight() {
+    let (mut prj, moved, _, _) = staircase();
+    prj.wire_settings.reroute = true;
+    // Down and to the right: the connection needs bends again.
+    move_selection(&mut prj, 0, &BTreeSet::from([moved]), p(40.0, 40.0));
+    assert!(square(&prj), "{:?}", prj.pages[0].wires);
+    assert!(prj.pages[0].wires.len() <= 3, "{:?}", prj.pages[0].wires);
+}
+
+#[test]
+fn the_weighted_search_avoids_crossing_wires() {
+    let mut prj = Project::default();
+    // Crosses the way along the top, not the one along the left.
+    wire(&mut prj, p(80.0, 20.0), p(80.0, 60.0));
+    let (a, b) = (p(40.0, 40.0), p(120.0, 120.0));
+    let path = search(&prj.symbol_table(), &prj.pages[0], area(), a, b, REROUTE).unwrap();
+    assert_eq!(path, vec![a, p(40.0, 120.0), b]);
+    prj.pages[0].wires[0] = Wire { id: 9, a: p(20.0, 80.0), b: p(60.0, 80.0), ..Default::default() };
+    let path = search(&prj.symbol_table(), &prj.pages[0], area(), a, b, REROUTE).unwrap();
+    assert_eq!(path, vec![a, p(120.0, 40.0), b]);
 }

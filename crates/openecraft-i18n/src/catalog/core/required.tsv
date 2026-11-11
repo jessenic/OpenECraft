@@ -113,6 +113,7 @@ Auxiliary function: main contact	Hilfsfunktion: Hauptkontakt	Fonction auxiliaire
 Auxiliary relay coil R (JIS)	Spule Hilfsrelais R (JIS)	Bobine de relais auxiliaire R (JIS)	Bobina de relé auxiliar R (JIS)
 B10d	B10d	B10d	B10d
 Ball valve	Kugelhahn	Vanne à boisseau sphérique	Válvula de bola
+Bare conductor	Blanker Leiter	Conducteur dénudé	Conductor desnudo
 Basis	Grundlage	Base	Base
 Battery	Batterie	Batterie	Batería
 Battery (single-line)	Batterie (einpolig)	Batterie (unifilaire)	Batería (unifilar)
@@ -540,8 +541,8 @@ Fan 3-phase	Lüfter 3-phasig	Ventilateur triphasé	Ventilador trifásico
 Fan 3-phase, 6 terminals	Lüfter 3-phasig, 6 Anschlüsse	Ventilateur triphasé, 6 bornes	Ventilador trifásico, 6 bornes
 Ferrule	Aderendhülse	Embout	Punta
 Ferrule from	Aderendhülse von	Embout début	Puntera origen
-Ferrule part	Artikel Aderendhülse	Article embout	Artículo de punta
 Ferrule to	Aderendhülse nach	Embout fin	Puntera destino
+Ferrule {} mm² {}	Aderendhülse {} mm² {}	Embout {} mm² {}	Puntera {} mm² {}
 Field cable routing	Feldkabel-Trassierung	Cheminement des câbles de terrain	Recorrido de cables de campo
 Field cable {} cannot be routed from {} to {}	Feldkabel {} kann nicht von {} nach {} verlegt werden	Le câble de terrain {} ne peut pas être acheminé de {} à {}	El cable de campo {} no se puede tender de {} a {}
 Field cable {}: {} is not placed in the plant layout	Feldkabel {}: {} ist nicht im Anlagenlayout platziert	Câble de terrain {} : {} n'est pas placé dans le plan d'installation	Cable de campo {}: {} no está colocado en el plano de la instalación
@@ -563,6 +564,8 @@ Fitting	Verschraubung	Raccord	Racor
 Fittings	Verschraubungen	Raccords	Racores
 Flame retardant	Flammwidrig	Ignifuge	Retardante de llama
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Flachbandkabel {} hat {} Adern, der Schneidklemmstecker {} hat {} Pins	Le câble plat {} a {} conducteurs, le connecteur IDC {} a {} broches	El cable plano {} tiene {} conductores, el conector IDC {} tiene {} pines
+Flat plug	Flachstecker	Languette mâle	Terminal faston macho
+Flat receptacle	Flachsteckhülse	Clip femelle	Terminal faston hembra
 Flat roof	Flachdach	Toit plat	Cubierta plana
 Float switch NC	Schwimmerschalter Öffner	Interrupteur à flotteur NF	Interruptor de flotador NC
 Float switch NO	Schwimmerschalter Schließer	Interrupteur à flotteur NO	Interruptor de flotador NA
@@ -589,6 +592,7 @@ Foot switch NC	Fußschalter Öffner	Interrupteur à pédale NF	Interruptor de pe
 Foot switch NO	Fußschalter Schließer	Interrupteur à pédale NO	Interruptor de pedal NA
 Foot switch NO (NFPA)	Fußschalter Schließer (NFPA)	Interrupteur à pied NO (NFPA)	Interruptor de pie NA (NFPA)
 Force	Kraft	Force	Fuerza
+Fork terminal	Gabelkabelschuh	Cosse à fourche	Terminal de horquilla
 Format (placeholders)	Format (Platzhalter)	Format (espaces réservés)	Formato (marcadores)
 Frame size	Baugröße	Taille de carcasse	Tamaño constructivo
 Free	Frei	Libre	Libre
@@ -1015,6 +1019,7 @@ No known column in the header row	Keine bekannte Spalte in der Kopfzeile	Aucune 
 No option {}	Keine Option {}	Aucune option {}	No hay ninguna opción {}
 No page or page item with id {}	Keine Seite und kein Seitenelement mit der ID {}	Aucune page ni élément de page avec l'ID {}	No hay ninguna página ni elemento de página con el ID {}
 No page with id {}	Keine Seite mit der ID {}	Aucune page avec l'ID {}	No hay ninguna página con el ID {}
+No pin view with this id on the page	Keine Anschlussansicht mit dieser ID auf der Seite	Aucune vue de connexions avec cet ID sur la page	Ninguna vista de conexiones con este ID en la página
 No plugs	Keine Stecker	Aucun connecteur	Sin conectores
 No report block {}	Kein Auswertungsblock {}	Aucun bloc de rapports {}	Ningún bloque de informes {}
 No segment template named {}	Keine Segmentvorlage namens {}	Aucun modèle de segment nommé {}	No hay ninguna plantilla de segmento llamada {}
@@ -1228,6 +1233,7 @@ Pilot light (NFPA)	Meldeleuchte (NFPA)	Voyant (NFPA)	Piloto luminoso (NFPA)
 Pilot line	Steuerleitung	Conduite de pilotage	Línea de pilotaje
 Pin connection diagram	Steckeranschlussplan	Plan de raccordement des broches	Esquema de conexión de pines
 Pin side (male)	Stiftseite (männlich)	Côté broches (mâle)	Lado de pines (macho)
+Pin terminal	Stiftkabelschuh	Cosse à broche	Terminal de pin
 Pipe	Rohrleitung	Tuyauterie	Tubería
 Pipe connection (in / out)	Rohranschluss (Zu- / Ablauf)	Raccordement de tuyauterie (entrée / sortie)	Conexión de tubería (entrada / salida)
 Pipe runs go on the walls, the ceiling or the floor inside the room	Rohrtrassen liegen an Wänden, Decke oder Boden im Raum	Les chemins de tuyauterie se posent sur les murs, le plafond ou le sol à l'intérieur de la pièce	Los recorridos de tubería van en las paredes, el techo o el suelo dentro de la sala
@@ -1439,6 +1445,7 @@ Reviewer	Prüfer	Réviseur	Revisor
 Revision overview (changes)	Revisionsübersicht (Änderungen)	Vue d'ensemble des révisions (modifications)	Resumen de revisiones (cambios)
 Right side	Rechte Seite	Côté droit	Lado derecho
 Right side panel	Rechte Seitenwand	Paroi latérale droite	Panel lateral derecho
+Ring terminal	Ringkabelschuh	Cosse à œillet	Terminal de ojal
 Rivet nut	Einnietmutter	Écrou à sertir	Tuerca remachable
 RoHS compliant	RoHS-konform	Conforme RoHS	Conforme a RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1674,9 +1681,12 @@ Terminal description	Klemmenbeschreibung	Description de la borne	Descripción de
 Terminal diagram	Klemmenplan	Plan de bornes	Diagrama de bornes
 Terminal line-up	Klemmenaufreihung	Alignement des bornes	Disposición de bornes
 Terminal marker	Klemmenmarkierer	Repère de borne	Marcador de borna
+Terminal parts	Artikel der Leitungsenden	Articles des extrémités	Artículos de los extremos
 Terminal strip data of {} without terminals	Klemmleistendaten von {} ohne Klemmen	Données du bornier {} sans bornes	Datos de la regleta {} sin bornes
 Terminal strip overview	Klemmenleistenübersicht	Vue d'ensemble des borniers	Vista general de regletas
 Terminal strips and PLC addresses	Klemmenleisten und SPS-Adressen	Borniers et adresses API	Regleteros y direcciones de PLC
+Termination (from)	Abschluss (von)	Terminaison (de)	Terminación (desde)
+Termination (to)	Abschluss (nach)	Terminaison (à)	Terminación (hasta)
 Text file	Textdatei	Fichier texte	Archivo de texto
 The DXF file contains nothing that can be imported	Die DXF-Datei enthält nichts, was importiert werden kann	Le fichier DXF ne contient rien d'importable	El archivo DXF no contiene nada que se pueda importar
 The PDF has no pages that can be read	Das PDF hat keine lesbaren Seiten	Le PDF n'a aucune page lisible	El PDF no tiene páginas legibles
@@ -1693,6 +1703,7 @@ The coordinates of the reference point {} are not valid	Die Koordinaten des Bezu
 The corners of the plot boundary must be numbers	Die Ecken der Grundstücksgrenze müssen Zahlen sein	Les sommets de la limite du terrain doivent être des nombres	Las esquinas del límite de la parcela deben ser números
 The demo project: PLC inputs and outputs, panel layout of the enclosure with rails, ducts and door devices, door harness and motor cable.	Das Demoprojekt: SPS-Ein- und -Ausgänge, Aufbauplan des Gehäuses mit Tragschienen, Kabelkanälen und Türgeräten, Türkabelbaum und Motorkabel.	Le projet de démonstration : entrées et sorties d'automate, implantation de l'armoire avec rails, goulottes et appareils de porte, faisceau de porte et câble moteur.	El proyecto de demostración: entradas y salidas del PLC, disposición del armario con carriles, canaletas y equipos de puerta, mazo de puerta y cable del motor.
 The device box has no device tag	Die Gerätebox hat kein Betriebsmittelkennzeichen	La boîte d'appareil n'a pas de repère d'appareil	La caja de dispositivo no tiene identificador del equipo
+The device {} has no connection point {}	Das Betriebsmittel {} hat keinen Anschlusspunkt {}	L'appareil {} n'a pas de point de connexion {}	El dispositivo {} no tiene el punto de conexión {}
 The distribution cabinet of an apartment building with an 88 kWp PV system, built from Hager univers parts: busbars with surge arrester and connection point zone, consumption and generation metering with NH1 fuse switch disconnectors on component modules, current transformers, voltage paths and meter cabinets with test terminal blocks, heat pump and inverter feeders, grid and system protection with voltage and frequency relay, buffered 24 V supply, fire brigade switch and a coupling switch with motor operator, undervoltage release and auxiliary switch built in; the cabinet comes with its plinth and lifting eyes.	Der Verteilerschrank eines Mehrfamilienhauses mit einer PV-Anlage von 88 kWp, aufgebaut aus Hager-univers-Teilen: Sammelschienen mit Überspannungsableiter und Abschlusspunkt Zählerplatz (APZ), Bezugs- und Erzeugungsmessung mit NH1-Sicherungslasttrennschaltern auf Bausteinen, Stromwandlern, Spannungspfaden und Zählerschränken mit Prüfklemmen, Abgänge für Wärmepumpen und Wechselrichter, NA-Schutz mit Spannungs- und Frequenzrelais, gepufferter 24-V-Versorgung, Feuerwehrschalter und einem Kuppelschalter mit eingebautem Motorantrieb, Unterspannungsauslöser und Hilfsschalter; der Schrank kommt mit Sockel und Kranösen.	L'armoire de distribution d'un immeuble collectif avec une installation PV de 88 kWc, construite avec des pièces Hager univers : jeux de barres avec parafoudre et zone du point de raccordement, comptage de consommation et de production avec interrupteurs-sectionneurs à fusibles NH1 sur modules de montage, transformateurs de courant, circuits de tension et armoires de comptage avec borniers d'essai, départs des pompes à chaleur et des onduleurs, protection de découplage avec relais de tension et de fréquence, alimentation 24 V secourue, interrupteur pompiers et un disjoncteur de couplage avec commande motorisée, déclencheur à minimum de tension et contact auxiliaire intégrés ; l'armoire est livrée avec son socle et ses anneaux de levage.	El cuadro de distribución de un edificio de viviendas con una instalación FV de 88 kWp, construido con piezas Hager univers: embarrados con descargador de sobretensiones y zona del punto de conexión, medida de consumo y de generación con seccionadores fusibles NH1 sobre módulos de montaje, transformadores de corriente, circuitos de tensión y armarios de contador con regletas de prueba, salidas para bombas de calor e inversores, protección de red e instalación con relé de tensión y frecuencia, alimentación de 24 V con respaldo, interruptor de bomberos y un interruptor de acoplamiento con accionamiento motorizado, bobina de mínima tensión y contacto auxiliar integrados; el armario incluye su zócalo y sus cáncamos.
 The embedded document {} is damaged	Das eingebettete Dokument {} ist beschädigt	Le document intégré {} est endommagé	El documento incrustado {} está dañado
 The file is empty	Die Datei ist leer	Le fichier est vide	El archivo está vacío
@@ -1729,6 +1740,7 @@ The symbol has no connection points.	Das Symbol hat keine Anschlusspunkte.	Le sy
 The symbol has no name.	Das Symbol hat keinen Namen.	Le symbole n'a pas de nom.	El símbolo no tiene nombre.
 The workbook has no sheet	Die Arbeitsmappe hat kein Blatt	Le classeur n'a pas de feuille	El libro no tiene ninguna hoja
 There is no device box at this point: give the device tag	An diesem Punkt ist keine Gerätebox: Betriebsmittelkennzeichen angeben	Il n'y a pas de boîte d'appareil à ce point : indiquez le repère d'appareil	En este punto no hay ninguna caja de dispositivo: indique el identificador del equipo
+There is no free place for another connection point on the outline of this box	Auf dem Umriss dieser Box ist kein Platz für einen weiteren Anschlusspunkt	Il n'y a plus de place libre pour un autre point de connexion sur le contour de cette boîte	No queda sitio libre para otro punto de conexión en el contorno de esta caja
 Thermal overload relay	Thermisches Überlastrelais	Relais thermique	Relé térmico de sobrecarga
 Thermal overload relay 1-pole	Thermisches Überlastrelais 1-polig	Relais thermique 1 pôle	Relé térmico de sobrecarga 1 polo
 Thermal overload relay 2-pole	Thermisches Überlastrelais 2-polig	Relais thermique 2 pôles	Relé térmico de sobrecarga 2 polos
@@ -1809,6 +1821,14 @@ Tubes	Schläuche	Tuyaux	Tubos
 Tubing / piping list	Rohr- / Schlauchmaterialliste	Liste des tubes / tuyauteries	Lista de tubos / tuberías
 Turned once (quarter landing)	Einmal gewinkelt (Viertelpodest)	Tournant une fois (palier d'angle)	Girada una vez (descansillo de esquina)
 Turned twice (two quarter landings)	Zweimal gewinkelt (zwei Viertelpodeste)	Tournant deux fois (deux paliers d'angle)	Girada dos veces (dos descansillos de esquina)
+Twin ferrule	Zwillingsaderendhülse	Embout double	Puntera doble
+Twin ferrule at {} is not shared with a second wire	Zwillingsaderendhülse an {} wird nicht mit einer zweiten Leitung geteilt	L'embout double en {} n'est pas partagé avec un second fil	La puntera doble en {} no se comparte con un segundo cable
+Twin ferrule at {} joins wires of {} and {}	Zwillingsaderendhülse an {} verbindet Leitungen mit {} und {}	L'embout double en {} réunit des fils de {} et {}	La puntera doble en {} une cables de {} y {}
+Twin ferrule at {}: {} wires end there, it takes two	Zwillingsaderendhülse an {}: dort enden {} Leitungen, sie nimmt zwei auf	Embout double en {} : {} fils y aboutissent, il en prend deux	Puntera doble en {}: terminan allí {} cables, admite dos
+Twin ferrule with (from)	Zwillingsaderendhülse mit (von)	Embout double avec (de)	Puntera doble con (desde)
+Twin ferrule with (to)	Zwillingsaderendhülse mit (nach)	Embout double avec (à)	Puntera doble con (hasta)
+Twin ferrule {} mm² {}	Zwillingsaderendhülse {} mm² {}	Embout double {} mm² {}	Puntera doble {} mm² {}
+Twin ferrules	Zwillingsaderendhülsen	Embouts doubles	Punteras dobles
 Two bayed Hager univers cabinets: two aluminium supplies on busbar terminals for Al, transformer metering isolated by NH strips with solid links, a power analyser for the zero export of the battery storage, feeders on NH fuse switch disconnector strips of a 185 mm busbar system with current transformers clipped in behind them and energy meters on the Tree bus (DC charging station, sub-distributions, air conditioning), heat pumps behind residual current devices of type B, PV inverters and battery storage behind two coupling switches with motor operators, undervoltage releases and auxiliary switches, cable entry flanges for the large cables.	Zwei angereihte Hager-univers-Schränke: zwei Aluminium-Zuleitungen auf Sammelschienenklemmen für Al, Wandlermessung mit Freischaltung durch NH-Leisten mit Trennmessern, ein Netzanalysator für die Nulleinspeisung des Batteriespeichers, Abgänge auf NH-Sicherungslastschaltleisten eines 185-mm-Sammelschienensystems mit dahinter eingeklipsten Stromwandlern und Energiezählern am Tree-Bus (DC-Ladestation, Unterverteilungen, Klimaanlage), Wärmepumpen hinter Fehlerstromschutzschaltern Typ B, PV-Wechselrichter und Batteriespeicher hinter zwei Kuppelschaltern mit Motorantrieben, Unterspannungsauslösern und Hilfsschaltern, Kabeleinführungen für die großen Kabel.	Deux armoires Hager univers juxtaposées : deux arrivées en aluminium sur des bornes de jeu de barres pour Al, comptage sur transformateurs sectionné par des réglettes NH à barrettes de sectionnement, un analyseur de réseau pour l'injection zéro du stockage par batteries, départs sur réglettes interrupteurs-sectionneurs à fusibles NH d'un jeu de barres de 185 mm avec transformateurs de courant clipsés derrière et compteurs d'énergie sur le bus Tree (borne de recharge DC, tableaux divisionnaires, climatisation), pompes à chaleur derrière des interrupteurs différentiels de type B, onduleurs PV et stockage par batteries derrière deux disjoncteurs de couplage avec commandes motorisées, déclencheurs à minimum de tension et contacts auxiliaires, entrées de câbles pour les gros câbles.	Dos armarios Hager univers acoplados: dos acometidas de aluminio en bornes de embarrado para Al, medida indirecta seccionada por regletas NH con cuchillas seccionadoras, un analizador de red para la inyección cero del almacenamiento en baterías, salidas en regletas seccionadoras con fusibles NH de un embarrado de 185 mm con transformadores de corriente encajados detrás y contadores de energía en el bus Tree (punto de recarga DC, cuadros secundarios, climatización), bombas de calor tras interruptores diferenciales tipo B, inversores FV y baterías tras dos interruptores de acoplamiento con accionamientos motorizados, bobinas de mínima tensión y contactos auxiliares, entradas de cables para los cables grandes.
 Two connection symbols on page {} lie on the same point	Zwei Verbindungssymbole auf Seite {} liegen auf demselben Punkt	Deux symboles de liaison en page {} se trouvent au même point	Dos símbolos de conexión en la página {} están en el mismo punto
 Two-way switch (installation)	Wechselschalter (Installation)	Va-et-vient (installation)	Conmutador (instalación)
@@ -1901,6 +1921,7 @@ Winding connection	Wicklungsschaltung	Couplage des enroulements	Conexión del de
 Wire assigned to unknown cable {}	Leitung einem unbekannten Kabel zugewiesen {}	Fil affecté à un câble inconnu {}	Hilo asignado a un cable desconocido {}
 Wire colour GNYE is reserved for protective conductors ({})	Die Aderfarbe GNYE ist Schutzleitern vorbehalten ({})	La couleur GNYE est réservée aux conducteurs de protection ({})	El color GNYE está reservado a los conductores de protección ({})
 Wire colours and cross-sections	Aderfarben und Querschnitte	Couleurs et sections des fils	Colores y secciones de los cables
+Wire crossings and connections	Leitungskreuzungen und -verbindungen	Croisements et jonctions des fils	Cruces y uniones de cables
 Wire defaults	Leitungsvorgaben	Valeurs par défaut des fils	Valores predeterminados de cables
 Wire ends open at {}	Offenes Verbindungsende bei {}	Extrémité de connexion ouverte en {}	Extremo de conexión abierto en {}
 Wire jumper	Drahtbrücke	Pont filaire	Puente de cable
@@ -1982,6 +2003,7 @@ leakage	Leck	fuite	fuga
 low	niedrig	basse	baja
 measuring	Mess	mesure	medición
 new	neu	nouvelle	nueva
+no free cable gland	keine freie Kabelverschraubung	aucun presse-étoupe libre	ningún prensaestopas libre
 no header	keine Kopfzeile	pas d'en-tête	sin encabezado
 no list	keine Liste	pas de liste	sin lista
 no path through the route network	kein Weg durch das Trassennetz	aucun chemin dans le réseau de cheminement	ningún camino por la red de recorridos
@@ -2014,8 +2036,6 @@ routed	verlegt	routé	tendido
 shield clamp ({} mm away)	Schirmklemme ({} mm entfernt)	collier de blindage (à {} mm)	abrazadera de pantalla (a {} mm)
 silver	silber	argent	plata
 starts with	beginnt mit	commence par	empieza por
-strip {} mm	abisolieren {} mm	dénuder {} mm	pelar {} mm
-strip {} mm, ferrule {} mm² {}	abisolieren {} mm, Aderendhülse {} mm² {}	dénuder {} mm, embout {} mm² {}	pelar {} mm, punta {} mm² {}
 suction	Saug	aspiration	aspiración
 supply	Versorgung	alimentation	alimentación
 terminals {} – {}	Klemmen {} – {}	bornes {} – {}	bornas {} – {}
@@ -2048,6 +2068,7 @@ yellow	gelb	jaune	amarillo
 {} is a built-in scheme	{} ist ein eingebautes Schema	{} est un schéma intégré	{} es un esquema integrado
 {} is a busbar machine and makes no sheets	{} ist eine Schienenbearbeitungsmaschine und fertigt keine Bleche	{} est une machine à barres et ne fabrique pas de tôles	{} es una máquina de pletinas y no fabrica chapas
 {} is a room and cannot stand in another room	{} ist ein Raum und kann nicht in einem anderen Raum stehen	{} est une salle et ne peut pas se trouver dans une autre salle	{} es una sala y no puede estar en otra sala
+{} is inside the structure box {} but has another structure	{} liegt im Strukturkasten {}, hat aber eine andere Struktur	{} se trouve dans le cadre de structure {} mais a une autre structure	{} está dentro del recuadro de estructura {} pero tiene otra estructura
 {} is no 19-inch part ({} mm wide)	{} ist kein 19-Zoll-Teil ({} mm breit)	{} n'est pas une pièce 19 pouces ({} mm de large)	{} no es una pieza de 19 pulgadas ({} mm de ancho)
 {} is not a busbar machine	{} ist keine Schienenbearbeitungsmaschine	{} n'est pas une machine à barres	{} no es una máquina de pletinas
 {} is not a property of {}	{} ist keine Eigenschaft von {}	{} n'est pas une propriété de {}	{} no es una propiedad de {}
@@ -2078,6 +2099,7 @@ yellow	gelb	jaune	amarillo
 {} wiring marks belong to wires that no longer exist	{} Verdrahtungsmarkierungen gehören zu Drähten, die es nicht mehr gibt	{} marques de câblage appartiennent à des fils qui n'existent plus	{} marcas de cableado pertenecen a cables que ya no existen
 {} without device tag on page {}	{} ohne Betriebsmittelkennzeichen auf Seite {}	{} sans repère d'appareil sur la page {}	{} sin designación de dispositivo en la página {}
 {} {} cannot be laid flush-mounted: the installation zones of the room do not join its ends	{} {} kann nicht unter Putz verlegt werden: die Installationszonen des Raums verbinden seine Enden nicht	{} {} ne peut pas être posé encastré : les zones d'installation de la salle ne relient pas ses extrémités	{} {} no se puede tender empotrado: las zonas de instalación de la sala no unen sus extremos
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} kann nicht verlegt werden: jede Kabelverschraubung von {} ist von einem anderen Kabel belegt. Fügen Sie eine Kabelverschraubung dafür hinzu.	{} {} ne peut pas être acheminé : chaque presse-étoupe de {} est occupé par un autre câble. Ajoutez un presse-étoupe pour lui.	{} {} no se puede tender: cada prensaestopas de {} está ocupado por otro cable. Añada un prensaestopas para él.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} kann nicht verlegt werden: kein Weg, der mit der halben Dicke von allem frei bleibt und mit dem Biegeradius von {} mm biegt. Enden verschieben oder Platz schaffen.	{} {} ne peut pas être routé : aucun chemin qui garde la moitié de son épaisseur libre de tout et se courbe avec son rayon de {} mm. Déplacez ses extrémités ou faites-lui de la place.	{} {} no se puede tender: ningún camino que mantenga la mitad de su grosor libre de todo y se curve con su radio de {} mm. Mueva sus extremos o haga sitio.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} wird durch den Boden eingeführt: keine Kabelverschraubung im Schrank	{} {} entre par le fond : aucun presse-étoupe dans l'armoire	{} {} entra por el fondo: ningún prensaestopas en el armario
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} wird durch das Dach eingeführt: keine Kabelverschraubung auf Dach, Seiten oder Rückwand	{} {} entre par le toit : aucun presse-étoupe sur le toit, les côtés ou l'arrière	{} {} entra por el techo: ningún prensaestopas en el techo, los laterales o la parte trasera
@@ -2119,6 +2141,8 @@ yellow	gelb	jaune	amarillo
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{}: Ausschnitt von {} auf {} ist {} mm vom Rand entfernt, mindestens {} mm erforderlich	{} : la découpe de {} sur {} est à {} mm du bord, au moins {} mm requis	{}: el recorte de {} en {} está a {} mm del borde, se requieren al menos {} mm
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{}: Ausschnitte von {} und {} auf {} liegen zu nah beieinander ({} mm Steg, mindestens {} mm)	{} : les découpes de {} et {} sur {} sont trop proches ({} mm d'âme, au moins {} mm)	{}: los recortes de {} y {} en {} están demasiado cerca ({} mm de alma, al menos {} mm)
 {}: designation '{}' used more than once	{}: Bezeichnung '{}' mehrfach verwendet	{} : désignation '{}' utilisée plusieurs fois	{}: designación '{}' usada más de una vez
+{}: device box extends or shows a device that is not placed	{}: Gerätebox erweitert oder zeigt ein Betriebsmittel, das nicht platziert ist	{} : la boîte d'appareil étend ou montre un appareil qui n'est pas placé	{}: la caja de dispositivo amplía o muestra un dispositivo que no está colocado
+{}: device box shows connection point '{}' that the device does not have	{}: Gerätebox zeigt Anschlusspunkt '{}', den das Betriebsmittel nicht hat	{} : la boîte d'appareil montre le point de connexion '{}' que l'appareil n'a pas	{}: la caja de dispositivo muestra el punto de conexión '{}' que el dispositivo no tiene
 {}: device tag without device name	{}: Betriebsmittelkennzeichen ohne Betriebsmittelname	{} : repère d'appareil sans nom d'appareil	{}: designación de dispositivo sin nombre de dispositivo
 {}: fault current {} A at {} does not disconnect within {} s (needs {} A)	{}: Fehlerstrom {} A an {} schaltet nicht innerhalb von {} s ab (benötigt {} A)	{} : le courant de défaut {} A à {} ne coupe pas en {} s (il faut {} A)	{}: la corriente de defecto {} A en {} no desconecta en {} s (necesita {} A)
 {}: function texts differ in the single-line diagram and the schematic	{}: Funktionstexte in Übersichtsschaltplan und Stromlaufplan unterscheiden sich	{} : les textes de fonction diffèrent entre le schéma unifilaire et le schéma développé	{}: los textos de función difieren entre el esquema unifilar y el esquema desarrollado
@@ -2149,6 +2173,7 @@ yellow	gelb	jaune	amarillo
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: kein Brückenartikel für Brücke {} (technische Daten Jumper des Klemmenartikels)	{} : aucun article de pont pour le pont {} (données techniques Jumper de l'article de borne)	{}: ningún artículo de puente para el puente {} (datos técnicos Jumper del artículo de borna)
 {}: no part assigned	{}: kein Artikel zugewiesen	{} : aucun article affecté	{}: ningún artículo asignado
 {}: no service space of {} mm in front of {} (the door is too close)	{}: kein Serviceraum von {} mm vor {} (die Tür ist zu nah)	{} : pas d'espace de service de {} mm devant {} (la porte est trop proche)	{}: no hay espacio de servicio de {} mm delante de {} (la puerta está demasiado cerca)
+{}: none for this cross-section	{}: keine für diesen Querschnitt	{} : aucun pour cette section	{}: ninguno para esta sección
 {}: not in the single-line diagram	{}: nicht im Übersichtsschaltplan	{} : absent du schéma unifilaire	{}: no está en el esquema unifilar
 {}: not placed in the panel layout	{}: nicht im Schaltschrank-Layout platziert	{} : non placé dans l'implantation de l'armoire	{}: no colocado en la distribución del armario
 {}: operations per year needed for the B10d of {}	{}: Schaltspiele pro Jahr für den B10d von {} nötig	{} : nombre de manœuvres par an nécessaire pour le B10d de {}	{}: se necesitan las maniobras por año para el B10d de {}

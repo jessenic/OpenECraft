@@ -4,10 +4,15 @@
 //! one connection point. A point belongs to the device of its tag: placed on a box it
 //! takes the box's tag, and the points of a box (its device, on its outline or inside)
 //! move, turn, copy and delete with it. Different points are different connections.
+//!
+//! A box with the tag of a device placed elsewhere can continue that device
+//! ([`DeviceBoxRole`]): an extension adds connection points to it, a pin view shows
+//! connection points it already has. A point on a view is electrically the connection
+//! point of the same designation and is not listed as a connection of its own.
 
-use openecraft_i18n::tr;
+use openecraft_i18n::{tr, tr_fmt};
 use crate::geom::{dist_to_segment, p, P, R, GRID};
-use crate::model::{Page, Project, SymbolInst};
+use crate::model::{DeviceBoxRole, Page, PageKind, Project, SymbolInst};
 use crate::ops;
 use crate::symbols::{Func, DEVICE_BOX, DEVICE_POINT};
 use std::collections::BTreeSet;
@@ -74,6 +79,56 @@ pub fn on_own_box(prj: &Project, page: &Page, s: &SymbolInst) -> bool {
         && page.symbols.iter().any(|b| is_box(b) && b.tag == s.tag && rect(prj, b).is_some_and(|r| r.expand(TOUCH).contains(s.pos)))
 }
 
+/// Outlines of the pin views on a page with the tags of their devices.
+pub fn view_outlines<'a>(prj: &Project, page: &'a Page) -> Vec<(&'a str, R)> {
+    page.symbols
+        .iter()
+        .filter(|s| is_box(s) && s.box_role == DeviceBoxRole::View && !s.tag.is_empty())
+        .filter_map(|s| rect(prj, s).map(|r| (s.tag.as_str(), r.expand(TOUCH))))
+        .collect()
+}
+
+fn on_view(views: &[(&str, R)], s: &SymbolInst) -> bool {
+    views.iter().any(|(tag, r)| *tag == s.tag && r.contains(s.pos))
+}
+
+/// Is the connection point on a pin view of its device?
+pub fn is_view_point(prj: &Project, page: &Page, s: &SymbolInst) -> bool {
+    is_point(prj, s) && on_view(&view_outlines(prj, page), s)
+}
+
+/// Does the symbol continue a device placed elsewhere: a box with a role, or a
+/// connection point on one?
+pub fn continues_device(prj: &Project, page: &Page, s: &SymbolInst) -> bool {
+    !s.box_role.is_device()
+        || (is_point(prj, s) && page.symbols.iter().any(|b| is_box(b) && !b.box_role.is_device() && b.tag == s.tag && rect(prj, b).is_some_and(|r| r.expand(TOUCH).contains(s.pos))))
+}
+
+/// Do the designations of this function name connection points of its device?
+pub fn names_device_pins(func: Func) -> bool {
+    matches!(func, Func::Main { .. } | Func::Aux(_) | Func::Auxiliary | Func::Connection)
+}
+
+/// The connection points a device has, in the order of the pages: those of its
+/// functions and device connection points, without what pin views show again.
+pub fn device_pins(prj: &Project, tag: &str) -> Vec<String> {
+    let mut pins: Vec<String> = Vec::new();
+    for page in prj.pages.iter().filter(|pg| pg.kind == PageKind::Schematic) {
+        let views = view_outlines(prj, page);
+        for s in page.symbols.iter().filter(|s| s.tag == tag && !(is_point(prj, s) && on_view(&views, s))) {
+            if !prj.symbol(&s.sym).is_some_and(|d| names_device_pins(d.func)) {
+                continue;
+            }
+            for d in s.pins.iter().filter(|d| !d.is_empty()) {
+                if !pins.contains(d) {
+                    pins.push(d.clone());
+                }
+            }
+        }
+    }
+    pins
+}
+
 /// Increments the number a designation ends with (`13` → `14`, `X9` → `X10`,
 /// `1.9` → `1.10`); None when it ends without one.
 pub fn increment(designation: &str) -> Option<String> {
@@ -90,15 +145,37 @@ pub fn increment(designation: &str) -> Option<String> {
 /// number a designation of its points ends with (`1` for the first one).
 pub fn next_designation(prj: &Project, tag: &str) -> String {
     let mut best: Option<(u64, String)> = None;
-    for s in prj.pages.iter().flat_map(|pg| pg.symbols.iter()).filter(|s| s.tag == tag && is_point(prj, s)) {
-        let Some(d) = s.pins.first() else { continue };
-        let digits = d.chars().rev().take_while(char::is_ascii_digit).count();
-        let Ok(n) = d[d.len() - digits..].parse::<u64>() else { continue };
-        if best.as_ref().is_none_or(|(b, _)| n > *b) {
-            best = Some((n, d.clone()));
+    for page in &prj.pages {
+        let views = view_outlines(prj, page);
+        for s in page.symbols.iter().filter(|s| s.tag == tag && is_point(prj, s) && !on_view(&views, s)) {
+            let Some(d) = s.pins.first() else { continue };
+            let digits = d.chars().rev().take_while(char::is_ascii_digit).count();
+            let Ok(n) = d[d.len() - digits..].parse::<u64>() else { continue };
+            if best.as_ref().is_none_or(|(b, _)| n > *b) {
+                best = Some((n, d.clone()));
+            }
         }
     }
     best.and_then(|(_, d)| increment(&d)).unwrap_or_else(|| "1".into())
+}
+
+/// Designation of a new connection point at `q`: on a pin view the first connection
+/// point of the device it does not show yet, else the next number.
+pub fn designation_at(prj: &Project, page_i: usize, q: P, tag: &str) -> String {
+    let page = &prj.pages[page_i];
+    match box_at(prj, page, q).filter(|b| b.box_role == DeviceBoxRole::View && b.tag == tag) {
+        Some(b) => {
+            let shown = shown_pins(prj, page, b.id);
+            device_pins(prj, tag).into_iter().find(|d| !shown.contains(d)).unwrap_or_default()
+        }
+        None => next_designation(prj, tag),
+    }
+}
+
+/// The designations of the connection points on a box.
+pub fn shown_pins(prj: &Project, page: &Page, box_id: u64) -> Vec<String> {
+    let points = points_of(prj, page, box_id);
+    page.symbols.iter().filter(|s| points.contains(&s.id)).filter_map(|s| s.pins.first().cloned()).collect()
 }
 
 /// The direction a connection point at `q` on the outline of a box leads away from it
@@ -135,7 +212,7 @@ pub fn add_box(prj: &mut Project, page_i: usize, a: P, b: P, tag: &str, function
     let def = prj.symbol(DEVICE_BOX).ok_or("devbox")?;
     let mut s = ops::new_symbol(prj, page_i, &ops::PlaceCtx::default(), &def, r.min, 0, false);
     if !tag.trim().is_empty() {
-        s.tag = crate::structure::Dt::of_page(&prj.pages[page_i]).complete(tag.trim());
+        s.tag = crate::structure::scope(&prj.pages[page_i], r.min).complete(tag.trim());
     }
     s.function_text = function_text.into();
     s.size = Some(p(r.width(), r.height()));
@@ -152,13 +229,13 @@ pub fn place_point(prj: &mut Project, page_i: usize, pos: P, rot: u8, tag: &str,
     let pos = pos.snap(GRID);
     let tag = match tag.trim() {
         "" => tag_at(prj, page_i, pos).ok_or_else(|| tr("There is no device box at this point: give the device tag").to_string())?,
-        t => crate::structure::Dt::of_page(&prj.pages[page_i]).complete(t),
+        t => crate::structure::scope(&prj.pages[page_i], pos).complete(t),
     };
     let def = prj.symbol(DEVICE_POINT).ok_or("devconn")?;
     let mut s = ops::new_symbol(prj, page_i, &ops::PlaceCtx::default(), &def, pos, rot % 4, false);
     s.tag = tag;
     s.pins = vec![match designation.trim() {
-        "" => next_designation(prj, &s.tag),
+        "" => designation_at(prj, page_i, pos, &s.tag),
         d => d.to_string(),
     }];
     let id = s.id;
@@ -205,6 +282,51 @@ pub fn resize(prj: &mut Project, page_i: usize, box_id: u64, to: R) -> Result<()
         b.size = Some(p(to.width(), to.height()));
     }
     ops::cleanup_wires(&mut prj.pages[page_i]);
+    Ok(())
+}
+
+/// Sets what a box does for the device of its tag.
+pub fn set_role(prj: &mut Project, page_i: usize, box_id: u64, role: DeviceBoxRole) -> Result<(), String> {
+    let Some(b) = prj.pages[page_i].symbols.iter_mut().find(|s| s.id == box_id && is_box(s)) else { return Err(tr("No device box with this id on the page").into()) };
+    if !role.is_device() && b.tag.is_empty() {
+        return Err(tr("A device box that extends or shows a device needs the tag of that device").into());
+    }
+    b.box_role = role;
+    Ok(())
+}
+
+/// A free place for a connection point on the outline, on the grid: along the top,
+/// then the bottom, right and left edge.
+fn free_place(prj: &Project, page: &Page, r: R) -> Option<P> {
+    let along = |lo: f32, hi: f32| ((lo / GRID).floor() as i32 + 1..).step_by(2).map(|n| n as f32 * GRID).take_while(move |v| *v < hi);
+    let top = along(r.min.x, r.max.x).map(|x| p(x, r.min.y));
+    let bottom = along(r.min.x, r.max.x).map(|x| p(x, r.max.y));
+    let right = along(r.min.y, r.max.y).map(|y| p(r.max.x, y));
+    let left = along(r.min.y, r.max.y).map(|y| p(r.min.x, y));
+    top.chain(bottom).chain(right).chain(left).find(|q| q.snap(GRID).same(*q) && !page.symbols.iter().any(|s| is_point(prj, s) && s.pos.same(*q)))
+}
+
+/// Makes a pin view show exactly the connection points `designations`: new ones go to
+/// free places on its outline, the others are removed (their wires stay).
+pub fn show_pins(prj: &mut Project, page_i: usize, box_id: u64, designations: &[String]) -> Result<(), String> {
+    let page = &prj.pages[page_i];
+    let Some(b) = page.symbols.iter().find(|s| s.id == box_id && is_box(s) && s.box_role == DeviceBoxRole::View) else { return Err(tr("No pin view with this id on the page").into()) };
+    let tag = b.tag.clone();
+    let r = rect(prj, b).ok_or("devbox")?;
+    let known = device_pins(prj, &tag);
+    if let Some(d) = designations.iter().find(|d| !known.contains(d)) {
+        return Err(tr_fmt!("The device {} has no connection point {}", tag, d));
+    }
+    let points = points_of(prj, page, box_id);
+    let gone: BTreeSet<u64> = page.symbols.iter().filter(|s| points.contains(&s.id) && !s.pins.first().is_some_and(|d| designations.contains(d))).map(|s| s.id).collect();
+    ops::delete(&mut prj.pages[page_i], &gone);
+    let shown = shown_pins(prj, &prj.pages[page_i], box_id);
+    for d in designations.iter().filter(|d| !shown.contains(d)) {
+        let page = &prj.pages[page_i];
+        let at = free_place(prj, page, r).ok_or_else(|| tr("There is no free place for another connection point on the outline of this box").to_string())?;
+        let rot = direction_at(prj, page, at).unwrap_or(0);
+        place_point(prj, page_i, at, rot, &tag, d)?;
+    }
     Ok(())
 }
 

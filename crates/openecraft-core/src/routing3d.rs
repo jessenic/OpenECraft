@@ -184,6 +184,7 @@ impl Default for RoutingRules {
             segregation: 100.0,
             segregation_factor: 4.0,
             wires_3d: false,
+            reuse_failed_searches: false,
             bend_wire: 4.0,
             bend_cable: 4.0,
             bend_tube: 5.0,
@@ -326,6 +327,8 @@ pub struct End {
     pub cores: Vec<V3>,
     /// The direction each of the cores leaves its connection point in.
     pub exits: Vec<V3>,
+    /// The designation of each of those connection points (`-X1:3`).
+    pub pins: Vec<String>,
     /// The end of the nozzle of the device a tube ends at (layout coordinates): the
     /// route comes to `point` straight out of it and goes on into it.
     pub nozzle: Option<V3>,
@@ -599,11 +602,13 @@ pub fn entries(prj: &Project, ei: usize) -> Vec<&PanelItem> {
 }
 
 /// The cable glands the cables routed so far go through (by item id), and where they
-/// go through them.
+/// go through them; the places the cables and tubes took in the wall penetrations they
+/// pass (by item id: how far beside and below the middle of the opening, and how thick).
 #[derive(Default)]
 struct Glands {
     taken: HashMap<u64, usize>,
     through: HashMap<u64, Vec<V3>>,
+    passed: HashMap<u64, Vec<([f32; 2], f32)>>,
 }
 
 impl Glands {
@@ -638,17 +643,72 @@ impl Glands {
         q
     }
 
-    /// The gland for a cable of `diameter` among the `candidates` (each with how far it
-    /// is from where the cable heads), taken: the nearest one whose clamping range the
-    /// diameter fits and no cable took before, otherwise the nearest that fits,
-    /// otherwise the nearest free one, otherwise the nearest.
-    fn pick<'a>(&mut self, prj: &Project, candidates: Vec<(&'a PanelItem, f32)>, diameter: f32) -> Option<&'a PanelItem> {
-        let fits = |g: &PanelItem| panel::clamping_range(prj, &g.part).is_none_or(|(min, max)| diameter >= min && diameter <= max);
-        let key = |g: &PanelItem, d: f32| (!fits(g), self.taken.contains_key(&g.id), d);
-        let best = candidates.into_iter().min_by(|a, b| key(a.0, a.1).partial_cmp(&key(b.0, b.1)).unwrap_or(std::cmp::Ordering::Equal).then(a.0.id.cmp(&b.0.id)))?;
-        *self.taken.entry(best.0.id).or_default() += 1;
-        Some(best.0)
+    /// The way through a wall penetration for a cable or tube of `diameter` that comes
+    /// from `from` in the room before it and goes on to `to` in the room behind (room
+    /// coordinates of each): at a place of its own in the opening, its thickness and a
+    /// centimetre from the ones that went through before it, the free place nearest to
+    /// the middle (in the middle row first, on the side its nearer end lies on: there
+    /// it has the least room to pass the ones beside it before the wall); in the middle
+    /// where none is free. Other ways between rooms as they are.
+    fn through_wall(&mut self, prj: &Project, link: panel::WallLink, diameter: f32, from: V3, to: V3) -> panel::WallLink {
+        if link.via != panel::Via::Wall {
+            return link;
+        }
+        // The opening is an item of one of the two rooms: places count to the right
+        // seen from inside that one.
+        let item = |ri: usize| prj.layout.enclosures.get(ri).and_then(|e| e.item(link.item));
+        let (it, side) = match (item(link.from), item(link.to)) {
+            (Some(it), _) => (it, 1.0),
+            (None, Some(it)) => (it, -1.0),
+            (None, None) => return link,
+        };
+        // Along the wall, across the way through it: the same way seen from both rooms.
+        let across = |leave: V3, by: f32| [-leave[2] * by, 0.0, leave[0] * by];
+        let (ua, ub) = (across(link.leave[0], 1.0), across(link.leave[1], -1.0));
+        let comes = if dist(from, link.a) <= dist(to, link.b) { dot(sub(from, link.a), ua) } else { dot(sub(to, link.b), ub) } * side;
+        let pitch = diameter + 10.0;
+        let most = |size: f32| ((size - diameter) / 2.0 / pitch).floor().max(0.0) as i32;
+        let (n, m) = (most(it.w), most(it.h));
+        let taken = self.passed.entry(link.item).or_default();
+        let free = |off: [f32; 2]| taken.iter().all(|(t, d)| (t[0] - off[0]).hypot(t[1] - off[1]) >= (diameter + d) / 2.0 + 9.0);
+        let off = (-m..=m)
+            .flat_map(|j| (-n..=n).map(move |k| (j, k)))
+            .filter(|&(j, k)| free([k as f32 * pitch, j as f32 * pitch]))
+            .min_by_key(|&(j, k)| (j.abs(), k.abs(), k as f32 * comes < 0.0, j, k))
+            .map_or([0.0; 2], |(j, k)| [k as f32 * pitch, j as f32 * pitch]);
+        taken.push((off, diameter));
+        let down = [0.0, off[1], 0.0];
+        panel::WallLink { a: add(add(link.a, scale(ua, off[0] * side)), down), b: add(add(link.b, scale(ub, off[0] * side)), down), ..link }
     }
+
+    /// The entry for a cable of `diameter` among the `candidates` (each with how far it
+    /// is from where the cable heads): a cable gland takes one cable, a cable entry
+    /// flange as many as have places along its membrane ([`Glands::slot`]). Of the free
+    /// ones the nearest whose clamping range the diameter fits, otherwise the nearest
+    /// free one; [`Entry::Taken`] where another cable took every one of them.
+    fn pick<'a>(&mut self, prj: &Project, candidates: Vec<(&'a PanelItem, f32)>, diameter: f32) -> Entry<'a> {
+        if candidates.is_empty() {
+            return Entry::None;
+        }
+        let free = |g: &PanelItem| part_subgroup(prj, &g.part) == Some("Cable entry") || !self.taken.contains_key(&g.id);
+        let fits = |g: &PanelItem| panel::clamping_range(prj, &g.part).is_none_or(|(min, max)| diameter >= min && diameter <= max);
+        let key = |g: &PanelItem, d: f32| (!fits(g), d);
+        let Some(best) = candidates.into_iter().filter(|(g, _)| free(g)).min_by(|a, b| key(a.0, a.1).partial_cmp(&key(b.0, b.1)).unwrap_or(std::cmp::Ordering::Equal).then(a.0.id.cmp(&b.0.id))) else {
+            return Entry::Taken;
+        };
+        *self.taken.entry(best.0.id).or_default() += 1;
+        Entry::Through(best.0)
+    }
+}
+
+/// Where a cable goes into an enclosure ([`Glands::pick`]).
+enum Entry<'a> {
+    /// Through this cable gland or entry flange.
+    Through(&'a PanelItem),
+    /// The enclosure has no cable entry.
+    None,
+    /// Another cable took every cable gland of the enclosure.
+    Taken,
 }
 
 /// Where a device is reached (layout coordinates): the middle of the connection points
@@ -665,6 +725,7 @@ fn device_end(prj: &Project, pos: &[V3], tag: &str, pins: &[PinRef]) -> End {
                 return End { tag: tag.into(), enclosure: Some(ei), point: Some(add(q, pos[ei])), item: Some(it.id), leave: Some(into), ..Default::default() };
             }
             let mut at: Vec<(V3, V3)> = Vec::new();
+            let mut designations: Vec<String> = Vec::new();
             let mut owners=std::collections::BTreeSet::new();
             for pin in pins {
                 let symbol=&prj.pages[pin.page].symbols[pin.sym];
@@ -673,7 +734,7 @@ fn device_end(prj: &Project, pos: &[V3], tag: &str, pins: &[PinRef]) -> End {
                 owners.insert(item.id);
                 let placed=panel::device_points(prj,item);
                 if let Some(p)=panel::point_of(prj,&placed,symbol,pin.pin) {
-                    if !at.iter().any(|a|a.0==p.pos) {at.push((p.pos,panel::exit_vector(p.exit)));}
+                    if !at.iter().any(|a|a.0==p.pos) {at.push((p.pos,panel::exit_vector(p.exit)));designations.push(crate::netlist::pin_designation(prj,*pin));}
                 }
             }
             let q = match at.len() {
@@ -701,8 +762,9 @@ fn device_end(prj: &Project, pos: &[V3], tag: &str, pins: &[PinRef]) -> End {
                     }
                 }
             }
-            let (cores, exits) = if at.len() > 1 { at.into_iter().map(|(q, x)| (in_layout(q), sub(in_layout(add(q, x)), in_layout(q)))).unzip() } else { Default::default() };
-            End { tag: tag.into(), enclosure: Some(ei), point: Some(in_layout(q)), item: Some(it.id), parts, cores, exits, nozzle: None, leave: Some(norm(leave)) }
+            let (cores, exits): (Vec<V3>, Vec<V3>) = if at.len() > 1 { at.into_iter().map(|(q, x)| (in_layout(q), sub(in_layout(add(q, x)), in_layout(q)))).unzip() } else { Default::default() };
+            let pins = if cores.is_empty() { Vec::new() } else { designations };
+            End { tag: tag.into(), enclosure: Some(ei), point: Some(in_layout(q)), item: Some(it.id), parts, cores, exits, pins, nozzle: None, leave: Some(norm(leave)) }
         }
         None => End { tag: tag.into(), ..Default::default() },
     }
@@ -779,11 +841,13 @@ fn entry_end(prj: &Project, pos: &[V3], ei: usize, near: V3, glands: &mut Glands
     let at = |it: &PanelItem, off: [f32; 2], depth: f32| add(panel::face_point(e, it.face, [it.x + it.w / 2.0 + off[0], it.y + it.h / 2.0 + off[1], depth]), pos[ei]);
     let candidates: Vec<(&PanelItem, f32)> = entries(prj, ei).into_iter().map(|g| (g, manhattan(at(g, [0.0; 2], 5.0), near))).collect();
     match glands.pick(prj, candidates, diameter) {
-        Some(g) => {
+        Entry::Through(g) => {
             let point = glands.slot(prj, g, diameter, |off| at(g, off, 5.0), near);
             End { tag: g.part.clone(), enclosure: Some(ei), point: Some(point), item: Some(g.id), leave: Some(norm(sub(at(g, [0.0; 2], 6.0), at(g, [0.0; 2], 5.0)))), ..Default::default() }
         }
-        None => {
+        // Through the middle of the bottom: where every gland is taken, an end that
+        // the routing reports ([`gland_taken`]).
+        Entry::None | Entry::Taken => {
             let q = [e.width / 2.0, e.height - e.wall() - 5.0, (PLATE_Z + e.depth) / 2.0];
             End { tag: tr("Bottom").to_string(), enclosure: Some(ei), point: Some(add(q, pos[ei])), item: None, leave: Some([0.0, -1.0, 0.0]), ..Default::default() }
         }
@@ -1165,6 +1229,24 @@ fn jobs(prj: &Project, wiring: &[RoutedWire], conns: &[Connection], open: &Netli
     jobs
 }
 
+/// The enclosure an end of a route comes into through no cable gland although it has
+/// some: every one of them is taken by another cable ([`Glands::pick`]).
+fn gland_taken(prj: &Project, ends: &[End; 2]) -> Option<usize> {
+    ends.iter().find_map(|e| e.enclosure.filter(|&ei| e.item.is_none() && e.point.is_some() && !prj.layout.enclosures[ei].is_room() && !entries(prj, ei).is_empty()))
+}
+
+type Ahead = (Option<grid::Way>, Vec<f32>, Option<grid::GoalCosts>);
+
+fn finish_ahead(space:&grid::Space, req:&grid::Request, area:f32, reuse_failed:bool, entry:Option<Ahead>, search:impl FnOnce(Option<&grid::GoalCosts>)->Option<grid::Way>)->Option<grid::Way> {
+    match entry {
+        // Within one class, routing only fills paths and adds obstacles. An impossible
+        // route cannot become possible, even when a path's fill state changed.
+        Some((None,loads,_)) if reuse_failed || space.full_as(&loads,area)=>None,
+        Some((Some(way),loads,_)) if space.full_as(&loads,area) && space.still_apart(&way.cells,req)=>Some(way),
+        entry=>search(entry.as_ref().and_then(|e|e.2.as_ref())),
+    }
+}
+
 /// Routes the `jobs` one after the other, the searches of a class on up to `workers`
 /// threads at the same time (with the same routes).
 #[allow(clippy::too_many_lines)]
@@ -1206,32 +1288,40 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
     let mut outside: Vec<String> = Vec::new();
     // The legs of each job: in one line-up (or room) at once, otherwise through the rooms
     // the ends are in and the wall penetrations between them (with whether it enters a
-    // cabinet through its roof and the length through the walls); or why not.
-    let plans: Vec<Result<LegsPlan, String>> = jobs
+    // cabinet through its roof and the length through the walls); or why not (and the
+    // enclosure whose cable glands are all taken, where that is why).
+    let plans: Vec<Result<LegsPlan, (String, Option<usize>)>> = jobs
         .iter()
         .map(|job| {
             let known = job.fixed.is_some();
             let lu = job.ends.iter().find_map(|e| e.enclosure).and_then(lineup_of);
             let (Some(lu), Some(a), Some(b)) = (lu, job.ends[0].point.or(known.then_some([0.0; 3])), job.ends[1].point.or(known.then_some([0.0; 3]))) else {
-                return Err(tr("not in the panel layout").to_string());
+                return Err((tr("not in the panel layout").to_string(), None));
             };
+            if let Some(ei) = gland_taken(prj, &job.ends).filter(|_| !known && job.kind != RouteKind::Wire) {
+                return Err((tr("no free cable gland").to_string(), Some(ei)));
+            }
             if job.ends.iter().filter_map(|e| e.enclosure).all(|ei| lineup_of(ei) == Some(lu)) {
                 let leave = [job.ends[0].leave.unwrap_or([0.0; 3]), job.ends[1].leave.unwrap_or([0.0; 3])];
                 return Ok((vec![room::LegPlan { lineup: lu, a, b, leave, ignore: Vec::new() }], false, 0.0));
             }
             let rooms: Vec<Option<usize>> = job.ends.iter().map(|e| e.enclosure.and_then(room_of_end)).collect();
             match (rooms[0], rooms[1]) {
-                (Some(r), Some(other)) if !known && job.kind != RouteKind::Wire => {
-                    room::plan_legs(prj, &pos, &poses, &lineup_of, [r, other], &links, &job.ends, &mut glands, job.diameter).ok_or_else(|| if r != other { tr("no wall penetration leads from room to room") } else { tr("not in the same line-up or room") }.to_string())
-                }
+                (Some(r), Some(other)) if !known && job.kind != RouteKind::Wire => room::plan_legs(prj, &pos, &poses, &lineup_of, [r, other], &links, &job.ends, &mut glands, job.diameter).map_err(|taken| match taken {
+                    Some(ei) => (tr("no free cable gland").to_string(), Some(ei)),
+                    None => (if r != other { tr("no wall penetration leads from room to room") } else { tr("not in the same line-up or room") }.to_string(), None),
+                }),
                 // Between line-ups that stand in no room: in each of them to its cable
                 // entry, the way between them is not part of the layout.
                 (None, None) if !known && job.kind != RouteKind::Wire => {
                     let mut legs = Vec::new();
                     for (i, end) in job.ends.iter().enumerate() {
-                        let (Some(ei), Some(q)) = (end.enclosure, end.point) else { return Err(tr("not in the panel layout").to_string()) };
+                        let (Some(ei), Some(q)) = (end.enclosure, end.point) else { return Err((tr("not in the panel layout").to_string(), None)) };
                         let entry = entry_end(prj, &pos, ei, q, &mut glands, job.diameter);
-                        let (Some(lineup), Some(at)) = (lineup_of(ei), entry.point) else { return Err(tr("not in the panel layout").to_string()) };
+                        if entry.item.is_none() && !entries(prj, ei).is_empty() {
+                            return Err((tr("no free cable gland").to_string(), Some(ei)));
+                        }
+                        let (Some(lineup), Some(at)) = (lineup_of(ei), entry.point) else { return Err((tr("not in the panel layout").to_string(), None)) };
                         let (own, through) = ((q, end.leave.unwrap_or([0.0; 3])), (at, entry.leave.unwrap_or([0.0; 3])));
                         let (a, b) = if i == 0 { (own, through) } else { (through, own) };
                         legs.push(room::LegPlan { lineup, a: a.0, b: b.0, leave: [a.1, b.1], ignore: entry.item.into_iter().collect() });
@@ -1239,7 +1329,7 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
                     outside.push(job.key.clone());
                     Ok((legs, false, 0.0))
                 }
-                _ => Err(tr("not in the same line-up or room").to_string()),
+                _ => Err((tr("not in the same line-up or room").to_string(), None)),
             }
         })
         .collect();
@@ -1267,7 +1357,6 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
     // after the other).
     // A way found ahead with the use of the routing paths of its space then and the costs
     // to its goal (to search it again without working them out).
-    type Ahead = (Option<grid::Way>, Vec<f32>, Option<grid::GoalCosts>);
     let mut ahead: HashMap<(usize, usize), Ahead> = HashMap::new();
     // The legs (job, leg) searched at the same time against the spaces as they are.
     let search_ahead = |tasks: &[(usize, usize)], spaces: &HashMap<usize, grid::Space>| -> Vec<Ahead> {
@@ -1356,7 +1445,10 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
                 }
                 (legs, *walls)
             }
-            Err(why) => {
+            Err((why, taken)) => {
+                if let Some(ei) = taken {
+                    problems.push(Problem { level: Level::Error, message: tr_fmt!("{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.", job.kind.title(), job.label, prj.layout.enclosures[*ei].name), target: job.target });
+                }
                 item.status = Status::Unrouted(why.clone());
                 items.push(item);
                 continue;
@@ -1404,11 +1496,7 @@ fn route(prj: &Project, wiring: &mut [RoutedWire], jobs: Vec<Job>, mut glands: G
                     // no route took its room (the same as searched now); otherwise searched
                     // again, with the costs to the goal worked out then where they still hold.
                     let entry = ahead.remove(&(n, i));
-                    let fresh = entry.as_ref().is_some_and(|e| space.full_as(&e.1, area));
-                    match entry {
-                        Some((way, ..)) if fresh && way.as_ref().is_none_or(|w| space.still_apart(&w.cells, &req)) => way,
-                        entry => space.route_with(leg.a, leg.b, &req, rules, entry.as_ref().and_then(|e| e.2.as_ref())).0,
-                    }
+                    finish_ahead(space,&req,area,rules.reuse_failed_searches,entry,|costs|space.route_with(leg.a,leg.b,&req,rules,costs).0)
                     .map(|w| (w.points, w.cells, w.free))
                 }
             };

@@ -19,13 +19,15 @@
 //! Routes keep apart from the ones routed before them by their thicknesses: none runs
 //! inside another in free air (in a duct or routing path they lie side by side, but
 //! where they come up to their ends), and none crosses the straight way out of an end
-//! of another that is still to be searched. Walls between bayed enclosures are crossed
-//! at cable passages only.
+//! of another that is still to be searched. A route keeps apart from itself too: its
+//! way never comes back across or alongside itself closer than it is thick
+//! ([`meets_itself`]). Walls between bayed enclosures are crossed at cable passages
+//! only.
 
 use super::{Class, PathKind, ReserveMode, RouteKind, RoutingRules};
 use crate::model::Project;
 use crate::panel::{self, Enclosure, ItemKind, PanelItem, PLATE_Z};
-use crate::parts::vec3::{add, dist, scale, sub, V3};
+use crate::parts::vec3::{add, dist, dot, scale, sub, V3};
 use std::cell::RefCell;
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, HashMap};
@@ -58,6 +60,9 @@ const LEAD_CELLS: usize = 4;
 pub const LEAN: f32 = 0.3;
 /// What a step across another route costs where a route may cross one, in cells.
 const CROSSING: f32 = 4.0;
+/// Chords a bend is checked with where a way is held apart from itself
+/// ([`meets_itself`]).
+const BEND_CHORDS: usize = 3;
 
 /// How far a route of bend radius `radius` runs along the direction it leaves an end
 /// in to come onto a line `aside` mm beside it: an S-bend of two arcs of the radius
@@ -283,6 +288,11 @@ pub fn release_search() {
 struct Search {
     best: Vec<f32>,
     prev: Vec<u32>,
+    /// The state each state's way last turned at (where the stretch it lies on begins;
+    /// `u32::MAX`: on the way out of the start), kept with `prev`.
+    corner: Vec<u32>,
+    /// The states expanded (a bit each), for a search that does not take them up again.
+    closed: Vec<u64>,
     stamp: Vec<u32>,
     /// Cost from the cell to the goal without turns, final where `settled`.
     to_goal: Vec<f32>,
@@ -322,6 +332,16 @@ struct Memo<'a> {
     run: u32,
 }
 
+/// The way of a search to the state it goes on from ([`Space::way_to`]): its corner
+/// points and the boxes round its stretches and bends that a way on from it may come
+/// back to.
+#[derive(Default)]
+struct OwnWay {
+    points: Vec<V3>,
+    boxes: Vec<(V3, V3)>,
+    known: bool,
+}
+
 impl Search {
     /// Starts a search over `cells` cells.
     fn start(&mut self, cells: usize) -> u32 {
@@ -329,6 +349,8 @@ impl Search {
             *self = Search {
                 best: vec![f32::INFINITY; cells * 7],
                 prev: vec![u32::MAX; cells * 7],
+                corner: vec![u32::MAX; cells * 7],
+                closed: vec![0; (cells * 7).div_ceil(64)],
                 stamp: vec![0; cells * 7],
                 to_goal: vec![f32::INFINITY; cells],
                 reached: vec![0; cells],
@@ -1505,7 +1527,128 @@ impl Space {
             },
         }
         let mut costs = known.cloned();
-        SEARCH.with_borrow_mut(|search| (self.search(search, a, b, &ends, req, rules, straight, &mut costs), costs))
+        SEARCH.with_borrow_mut(|search| {
+            // A way that came back to itself through a state taken up again (its way
+            // there changed after the search went on from it): once more, taking up none.
+            let way = match self.search(search, a, b, &ends, req, rules, straight, &mut costs, false) {
+                Some(way) if self.way_meets_itself(&way.points, req) => self.search(search, a, b, &ends, req, rules, straight, &mut costs, true).filter(|w| !self.way_meets_itself(&w.points, req)),
+                way => way,
+            };
+            (way, costs)
+        })
+    }
+
+    /// The way a search took to `state`, into `own`: from the start `a` (out of the
+    /// nozzle of its device, where the route comes out of one) along the way out of it
+    /// and round the turns before the state (`corner`).
+    fn way_to(&self, own: &mut OwnWay, corner: &[u32], state: usize, ends: &Ends, a: V3, req: &Request) {
+        let points = &mut own.points;
+        points.clear();
+        points.push(self.centre(state / 7));
+        let mut s = state;
+        while corner[s] != u32::MAX {
+            let from = corner[s] as usize;
+            let (cf, cs) = (self.coords(from / 7), self.coords(s / 7));
+            // A lane change: aside first, then on in the direction of the state.
+            let along = (s % 7) / 2;
+            if let Some(k) = (0..3).find(|&k| k != along && cf[k] != cs[k]) {
+                let mut c = cf;
+                c[k] = cs[k];
+                points.push(self.centre(self.index(c)));
+            }
+            points.push(self.centre(from / 7));
+            s = from;
+        }
+        points.push(self.centre(ends.lead_in[0]));
+        points.push(a);
+        if req.out[0] > 0.0 {
+            points.push(sub(a, scale(req.leave[0], req.out[0])));
+        }
+        points.reverse();
+        simplify_in_place(points);
+        // The boxes round its stretches but the last, and round the bends at its corners
+        // (between the corner and where the bend begins and ends).
+        let n = points.len();
+        own.boxes.clear();
+        let bounds = |p: V3, q: V3| ([0, 1, 2].map(|k| p[k].min(q[k])), [0, 1, 2].map(|k| p[k].max(q[k])));
+        for i in 0..n.saturating_sub(2) {
+            own.boxes.push(bounds(points[i], points[i + 1]));
+        }
+        for i in 1..n.saturating_sub(1) {
+            let (c, lu, lv) = (points[i], dist(points[i - 1], points[i]), dist(points[i], points[i + 1]));
+            let r = req.turn.min(lu).min(lv);
+            own.boxes.push(bounds(add(c, scale(sub(points[i - 1], c), r / lu)), add(c, scale(sub(points[i + 1], c), r / lv))));
+        }
+        own.known = true;
+    }
+
+    /// The way of a search so far (`own`, [`Space::way_to`]) going on through `new`,
+    /// and, where that brings it to its goal, along the way into the end `b`, comes
+    /// back to itself ([`meets_itself`]).
+    fn meets_own_way(&self, own: &OwnWay, new: &[V3], end: Option<(&Ends, V3)>, req: &Request) -> bool {
+        let way = &own.points;
+        let n = way.len();
+        if n < 2 || n + new.len() + end.map_or(0, |(e, _)| e.lead_out.len()) < 4 {
+            return false;
+        }
+        // Only where the way on (with the bend into it) comes near one of the stretches
+        // or bends before the last stretch: next to that one it lies anyway.
+        let apart = own_room(req);
+        let last = way[n - 1];
+        let (mut lo, mut hi) = (last, last);
+        let mut grow = |q: V3| {
+            for k in 0..3 {
+                (lo[k], hi[k]) = (lo[k].min(q[k]), hi[k].max(q[k]));
+            }
+        };
+        let back = sub(way[n - 2], last);
+        let turns = new.first().is_none_or(|q| {
+            let on = sub(*q, last);
+            (0..3).any(|k| (back[(k + 1) % 3] * on[(k + 2) % 3] - back[(k + 2) % 3] * on[(k + 1) % 3]).abs() > 1e-3)
+        });
+        if turns {
+            let l = dist(way[n - 2], last);
+            grow(add(last, scale(back, req.turn.min(l) / l)));
+        }
+        for q in new {
+            grow(*q);
+        }
+        if let Some((ends, b)) = end {
+            for &i in &ends.lead_out[1..] {
+                grow(self.centre(i));
+            }
+            grow(b);
+        }
+        if !own.boxes.iter().any(|(blo, bhi)| (0..3).all(|k| blo[k] <= hi[k] + apart && bhi[k] >= lo[k] - apart)) {
+            return false;
+        }
+        let mut points = way.clone();
+        points.extend_from_slice(new);
+        if let Some((ends, b)) = end {
+            points.extend(ends.lead_out[1..].iter().map(|&i| self.centre(i)));
+            points.push(b);
+            if req.out[1] > 0.0 {
+                points.push(sub(b, scale(req.leave[1], req.out[1])));
+            }
+        }
+        simplify_in_place(&mut points);
+        meets_itself(&points, req.turn, apart, n.saturating_sub(2)).is_some()
+    }
+
+    /// The way along `points` from end to end of a request, out of the nozzles of the
+    /// devices at its ends where it comes out of them, comes back to itself.
+    fn way_meets_itself(&self, points: &[V3], req: &Request) -> bool {
+        let mut all = Vec::with_capacity(points.len() + 2);
+        for (i, q) in [points.first(), points.last()].into_iter().enumerate() {
+            if i == 1 {
+                all.extend_from_slice(points);
+            }
+            if let Some(q) = q.filter(|_| req.out[i] > 0.0) {
+                all.push(sub(*q, scale(req.leave[i], req.out[i])));
+            }
+        }
+        simplify_in_place(&mut all);
+        meets_itself(&all, req.turn, own_room(req), 0).is_some()
     }
 
     /// The A* search of [`Space::route`] with the arrays of `search`, from the start to
@@ -1513,10 +1656,14 @@ impl Space {
     /// `straight` cells straight on (one at least), unless the way changes lanes with an
     /// S-bend (a turn back into the direction it came within fewer cells, then straight
     /// on); the way out of the start and into the goal is given by `ends`, the goal
-    /// reached heading along the way into the end. It takes the costs to the goal from
-    /// `costs` where known, otherwise works them out and keeps them there.
+    /// reached heading along the way into the end. The way keeps apart from itself as
+    /// from the other routes: no state is reached along a way that comes back to itself
+    /// there ([`meets_itself`]); `strict`: a state the search went on from is not taken
+    /// up again more cheaply (the ways through it stay as they were checked). It takes
+    /// the costs to the goal from `costs` where known, otherwise works them out and
+    /// keeps them there.
     #[allow(clippy::too_many_arguments, clippy::too_many_lines)]
-    fn search(&self, search: &mut Search, a: V3, b: V3, ends: &Ends, req: &Request, rules: &RoutingRules, straight: usize, costs: &mut Option<GoalCosts>) -> Option<Way> {
+    fn search(&self, search: &mut Search, a: V3, b: V3, ends: &Ends, req: &Request, rules: &RoutingRules, straight: usize, costs: &mut Option<GoalCosts>, strict: bool) -> Option<Way> {
         let (start, goal) = (ends.lead_in[ends.lead_in.len() - 1], ends.lead_out[0]);
         // States: cell × direction it was entered in (6: none).
         let run = search.start(self.block.len());
@@ -1543,7 +1690,10 @@ impl Space {
                 (reach, 0.0)
             }
         };
-        let Search { best, prev, stamp, to_goal, settled, runs, run_stamp, pass, pass_stamp, turn_known, turn_ok, turn_stamp, jogs, .. } = search;
+        let Search { best, prev, corner, closed, stamp, to_goal, settled, runs, run_stamp, pass, pass_stamp, turn_known, turn_ok, turn_stamp, jogs, .. } = search;
+        if strict {
+            closed.fill(0);
+        }
         let mut memo = Memo { pass, pass_stamp, runs, run_stamp, turn_known, turn_ok, turn_stamp, jogs, run };
         let mut heap = BinaryHeap::new();
         let gc = self.coords(goal);
@@ -1567,10 +1717,11 @@ impl Space {
         // The way out of the start costs its cells.
         let first = start * 7 + ends.dir;
         let g0 = ends.lead_in.windows(2).map(|w| self.step_cost(&mut memo, w[0], w[1], ends.dir, req, rules).unwrap_or(0.0)).sum::<f32>();
-        (best[first], prev[first], stamp[first]) = (g0, u32::MAX, run);
+        (best[first], prev[first], corner[first], stamp[first]) = (g0, u32::MAX, u32::MAX, run);
         heap.push(key(g0, first));
         let jump = straight.max(1);
         let mut found = None;
+        let mut own = OwnWay::default();
         while let Some(Reverse(popped)) = heap.pop() {
             let state = popped.1;
             let (idx, dir) = (state / 7, state % 7);
@@ -1583,13 +1734,26 @@ impl Space {
                 found = Some(state);
                 break;
             }
-            // A state reached more cheaply than before, from this one.
+            if strict {
+                closed[state / 64] |= 1 << (state % 64);
+            }
+            // The way to this state is worked out when a way on from it is first checked.
+            own.known = false;
+            // A state reached more cheaply than before, from this one: on through the
+            // points `$new` (the corners of the way on and where it ends), its last turn
+            // at the state `$corner`; not where the way would come back to itself.
             macro_rules! relax {
-                ($ns:expr, $ng:expr) => {{
+                ($ns:expr, $ng:expr, $corner:expr, $new:expr) => {{
                     let (ns, ng): (usize, f32) = ($ns, $ng);
-                    if stamp[ns] != run || ng < best[ns] {
-                        (best[ns], prev[ns], stamp[ns]) = (ng, state as u32, run);
-                        heap.push(key(ng, ns));
+                    if (stamp[ns] != run || ng < best[ns]) && !(strict && closed[ns / 64] >> (ns % 64) & 1 == 1) {
+                        if !own.known {
+                            self.way_to(&mut own, corner, state, ends, a, req);
+                        }
+                        let done = ns / 7 == goal && (ends.arrive == 6 || ns % 7 == ends.arrive);
+                        if !self.meets_own_way(&own, $new, done.then_some((ends, b)), req) {
+                            (best[ns], prev[ns], corner[ns], stamp[ns]) = (ng, state as u32, $corner, run);
+                            heap.push(key(ng, ns));
+                        }
                     }
                 }};
             }
@@ -1605,7 +1769,7 @@ impl Space {
                 if nd == dir {
                     // Straight on, one cell.
                     if let Some((ni, cost)) = self.step(idx, nd).and_then(|ni| self.step_cost(&mut memo, idx, ni, nd, req, rules).map(|c| (ni, c))) {
-                        relax!(ni * 7 + nd, g + cost);
+                        relax!(ni * 7 + nd, g + cost, corner[state], &[self.centre(ni)]);
                     }
                     continue;
                 }
@@ -1622,7 +1786,7 @@ impl Space {
                 // (The second half of its bend runs along that way, which is open.)
                 if idx == goal && nd == ends.arrive && dir < 6 {
                     if turn_ok || self.arc_room(self.centre(idx), unit(dir), unit(nd), req.turn, std::f32::consts::FRAC_PI_4, req) {
-                        relax!(goal * 7 + nd, g + req.turn);
+                        relax!(goal * 7 + nd, g + req.turn, state as u32, &[]);
                     }
                     continue;
                 }
@@ -1655,7 +1819,7 @@ impl Space {
                                 }
                             }
                             if c == goal {
-                                relax!(goal * 7 + sd, cost);
+                                relax!(goal * 7 + sd, cost, state as u32, &[self.centre(at), self.centre(goal)]);
                             }
                         }
                     }
@@ -1669,12 +1833,12 @@ impl Space {
                             continue;
                         }
                         if let Some((fwd, fg)) = self.run_memo(&mut memo, at, dir, jump, goal, ends.arrive, req, rules) {
-                            relax!(fwd * 7 + dir, ng + req.turn + fg);
+                            relax!(fwd * 7 + dir, ng + req.turn + fg, state as u32, &[self.centre(at), self.centre(fwd)]);
                         }
                     }
                 }
                 if at != usize::MAX && turn_ok {
-                    relax!(at * 7 + nd, ng);
+                    relax!(at * 7 + nd, ng, state as u32, &[self.centre(at)]);
                 }
             }
         }
@@ -1945,7 +2109,94 @@ fn dist_to_segment(q: V3, a: V3, b: V3) -> f32 {
     dist(q, add(a, scale(ab, t)))
 }
 
-/// Removes repeated points and points in the middle of straight stretches.
+/// The least distance between the segments `a`–`b` and `c`–`d`, and where along each
+/// of them (0 to 1) they come that near.
+fn segment_gap(a: V3, b: V3, c: V3, d: V3) -> (f32, f32, f32) {
+    let (u, v, w) = (sub(b, a), sub(d, c), sub(a, c));
+    let (uu, uv, vv, uw, vw) = (dot(u, u), dot(u, v), dot(v, v), dot(u, w), dot(v, w));
+    let den = uu * vv - uv * uv;
+    let mut s = if den <= 1e-6 * uu * vv { 0.0 } else { ((uv * vw - vv * uw) / den).clamp(0.0, 1.0) };
+    let t = if vv > 1e-9 { ((uv * s + vw) / vv).clamp(0.0, 1.0) } else { 0.0 };
+    s = if uu > 1e-9 { ((uv * t - uw) / uu).clamp(0.0, 1.0) } else { 0.0 };
+    (dist(add(a, scale(u, s)), add(c, scale(v, t))), s, t)
+}
+
+/// Where the way along `points` (its corner points), bent round its right-angled
+/// corners with `radius` (less where a stretch beside the corner is shorter), comes
+/// back to itself: a place on one of its stretches from the stretch `from` on, or on
+/// the bend into one of them, that lies nearer than `apart` to a place more than twice
+/// that far back along the way (round a corner or along a lane change the way lies
+/// that near to itself, no further along it than that); `None` where it keeps apart
+/// from itself.
+pub fn meets_itself(points: &[V3], radius: f32, apart: f32, from: usize) -> Option<V3> {
+    let n = points.len();
+    if n < 4 {
+        return None;
+    }
+    // How far along the way each corner lies.
+    let mut along = Vec::with_capacity(n);
+    along.push(0.0);
+    for s in points.windows(2) {
+        along.push(along[along.len() - 1] + dist(s[0], s[1]));
+    }
+    if along[n - 1] <= 2.0 * apart {
+        return None;
+    }
+    // The pieces: the stretches and the chords of the bends, each from how far to how
+    // far along the way it runs.
+    let mut pieces: Vec<(V3, V3, f32, f32)> = Vec::with_capacity((BEND_CHORDS + 1) * n);
+    let mut first_new = 0;
+    for i in 0..n - 1 {
+        if i == from {
+            first_new = pieces.len();
+        }
+        if i > 0 {
+            let (lu, lv) = (along[i] - along[i - 1], along[i + 1] - along[i]);
+            let (u, v) = (sub(points[i], points[i - 1]), sub(points[i + 1], points[i]));
+            let r = radius.min(lu).min(lv);
+            if r > 1e-3 && dot(u, v).abs() <= 1e-3 * lu * lv {
+                let (u, v) = (scale(u, 1.0 / lu), scale(v, 1.0 / lv));
+                let at = |k: usize| {
+                    let phi = std::f32::consts::FRAC_PI_2 * k as f32 / BEND_CHORDS as f32;
+                    add(points[i], add(scale(u, r * (phi.sin() - 1.0)), scale(v, r * (1.0 - phi.cos()))))
+                };
+                let step = 2.0 * r / BEND_CHORDS as f32;
+                for k in 0..BEND_CHORDS {
+                    pieces.push((at(k), at(k + 1), along[i] - r + step * k as f32, along[i] - r + step * (k + 1) as f32));
+                }
+            }
+        }
+        pieces.push((points[i], points[i + 1], along[i], along[i + 1]));
+    }
+    let far = 2.0 * apart;
+    for (k, p) in pieces.iter().enumerate().skip(first_new) {
+        let (plo, phi) = ([0, 1, 2].map(|i| p.0[i].min(p.1[i]) - apart), [0, 1, 2].map(|i| p.0[i].max(p.1[i]) + apart));
+        for o in &pieces[..k] {
+            // Too near along the way, or their boxes apart.
+            if p.3 - o.2 <= far || (0..3).any(|i| o.0[i].max(o.1[i]) < plo[i] || o.0[i].min(o.1[i]) > phi[i]) {
+                continue;
+            }
+            // Where the two come nearest, and from the ends of each to the other.
+            let (gap, s, t) = segment_gap(p.0, p.1, o.0, o.1);
+            let ends = [(0.0, segment_gap(p.0, p.0, o.0, o.1)), (1.0, segment_gap(p.1, p.1, o.0, o.1))];
+            let back = [(segment_gap(p.0, p.1, o.0, o.0), 0.0), (segment_gap(p.0, p.1, o.1, o.1), 1.0)];
+            let pairs = [(gap, s, t), (ends[0].1 .0, ends[0].0, ends[0].1 .2), (ends[1].1 .0, ends[1].0, ends[1].1 .2), (back[0].0 .0, back[0].0 .1, back[0].1), (back[1].0 .0, back[1].0 .1, back[1].1)];
+            for (gap, s, t) in pairs {
+                if gap < apart && (p.2 + (p.3 - p.2) * s) - (o.2 + (o.3 - o.2) * t) > far {
+                    return Some(add(p.0, scale(sub(p.1, p.0), s)));
+                }
+            }
+        }
+    }
+    None
+}
+
+/// How far a route keeps from itself, centre to centre: its thickness, as from another
+/// route of its kind.
+fn own_room(req: &Request) -> f32 {
+    2.0 * req.half + 0.5
+}
+
 /// The items of an enclosure that are solids part by part in the routing space (by
 /// id, with their parts as items): a terminal strip across the bars, each terminal a
 /// part of its own, so that a route to one of them does not pass through the others.
@@ -1953,24 +2204,33 @@ pub(super) fn item_parts(prj: &Project, e: &Enclosure) -> HashMap<u64, Vec<Panel
     e.items.iter().filter_map(|it| panel::busbars::terminals_on_bars(prj, it).map(|places| (it.id, places.into_iter().map(|(sub, ..)| sub).collect()))).collect()
 }
 
-pub fn simplify(points: Vec<V3>) -> Vec<V3> {
-    let mut v: Vec<V3> = Vec::new();
-    for q in points {
-        if v.last().is_some_and(|l| dist(*l, q) < 1e-3) {
+/// Removes repeated points and points in the middle of straight stretches.
+pub fn simplify(mut points: Vec<V3>) -> Vec<V3> {
+    simplify_in_place(&mut points);
+    points
+}
+
+/// [`simplify`] of the points where they are.
+fn simplify_in_place(v: &mut Vec<V3>) {
+    let mut n = 0;
+    for i in 0..v.len() {
+        let q = v[i];
+        if n > 0 && dist(v[n - 1], q) < 1e-3 {
             continue;
         }
-        if v.len() >= 2 {
-            let (a, b) = (v[v.len() - 2], v[v.len() - 1]);
+        if n >= 2 {
+            let (a, b) = (v[n - 2], v[n - 1]);
             let (d1, d2) = ([b[0] - a[0], b[1] - a[1], b[2] - a[2]], [q[0] - b[0], q[1] - b[1], q[2] - b[2]]);
             let cross = [d1[1] * d2[2] - d1[2] * d2[1], d1[2] * d2[0] - d1[0] * d2[2], d1[0] * d2[1] - d1[1] * d2[0]];
             let dot = d1[0] * d2[0] + d1[1] * d2[1] + d1[2] * d2[2];
             if cross.iter().all(|c| c.abs() < 1e-3) && dot > 0.0 {
-                v.pop();
+                n -= 1;
             }
         }
-        v.push(q);
+        v[n] = q;
+        n += 1;
     }
-    v
+    v.truncate(n);
 }
 
 /// Length of a polyline.

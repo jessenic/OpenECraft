@@ -88,6 +88,23 @@ fn large_drawings_are_scaled_to_the_page_and_units_are_respected() {
 }
 
 #[test]
+fn source_coordinates_survive_units_fitting_and_page_translation() {
+    let text = dxf("9 $INSUNITS\n70 5", "", "0 LINE\n10 -20\n20 30\n11 400\n21 100");
+    for fit in [false, true] {
+        let (prj, r) = import(&text, fit);
+        assert_eq!(r.source_min, p(-200.0, 300.0));
+        assert_eq!(r.source_max, p(4000.0, 1000.0));
+        let line = &prj.pages[r.page].shapes[0];
+        let recover = |q: P| p((q.x - r.page_origin.x) / r.scale + r.source_min.x,
+                              r.source_max.y - (q.y - r.page_origin.y) / r.scale);
+        for (actual, expected) in [(recover(line.a), p(-200.0, 300.0)), (recover(line.b), p(4000.0, 1000.0))] {
+            assert!((actual.x - expected.x).abs() < 0.001 && (actual.y - expected.y).abs() < 0.001);
+        }
+        assert_eq!(r.page_origin, crate::frame::PlotFrame::default().area().min);
+    }
+}
+
+#[test]
 fn exported_pages_come_back() {
     let demo = demo_project();
     let page = demo.pages.iter().position(|p| p.symbols.iter().any(|s| s.tag == "-K1")).unwrap();

@@ -45,6 +45,15 @@ fn examples_are_consistent() {
         let problems: Vec<String> =
             an.issues.iter().filter(|i| i.severity <= Severity::Warning).map(|i| format!("{:?}: {}", i.severity, i.message())).collect();
         assert!(problems.is_empty(), "{}: {problems:#?}", e.key);
+        // No wire, cable or tube routed in 3D runs through itself or back alongside
+        // itself closer than it is thick.
+        for it in an.routing.items.iter().filter(|i| i.routed()) {
+            let searched = it.wire.and_then(|wi| an.wiring.get(wi)).is_none_or(|w| crate::routing3d::wire_in_3d(&prj.layout, w));
+            for (_, points) in it.stretches().into_iter().filter(|_| searched) {
+                let at = crate::routing3d::grid::meets_itself(points, it.bend_radius, it.diameter + 0.5, 0);
+                assert_eq!(at, None, "{}: {} comes back to itself: {points:?}", e.key, it.label);
+            }
+        }
         // Every device with a function in the schematic has a part (fluid ports and
         // the solenoid coils of the valves aside).
         let idx = Index::build(&prj);
@@ -299,6 +308,11 @@ fn building_services_route_from_room_to_room() {
     for tag in ["=MD-W11", "=MD-W12", "=MD-W13"] {
         let c = an.routing.item(tag).expect(tag);
         assert!(c.routed() && c.enclosures.contains(&hr) && c.enclosures.contains(&tr), "{tag}: {:?} {:?}", c.status, c.enclosures);
+    }
+    // They pass their wall penetration side by side, a centimetre between them.
+    let passes: Vec<(crate::parts::vec3::V3, f32)> = ["=MD-W11", "=MD-W12", "=MD-W13"].iter().map(|tag| an.routing.item(tag).expect(tag)).map(|c| (*c.legs[1].points.last().expect("through the room"), c.diameter)).collect();
+    for (i, (q, d)) in passes.iter().enumerate() {
+        assert!(passes[..i].iter().all(|(o, e)| crate::parts::vec3::dist(*q, *o) >= (d + e) / 2.0 + 9.0), "{passes:?}");
     }
     let pipes: Vec<_> = an.routing.items.iter().filter(|i| i.kind == RouteKind::Tube).collect();
     assert!(pipes.iter().all(|i| i.routed()), "{pipes:#?}");

@@ -474,6 +474,7 @@ open	deschis
 rejected	respins
 right	spre dreapta
 spare	rezervă
+strip {} mm, {}	dezizolare {} mm, {}
 the disk is full	discul este plin
 the file exists already	fișierul există deja
 this is a folder	acesta este un folder
@@ -483,5 +484,6 @@ yes	da
 {} exists already	{} există deja
 {} parts	{} articole
 {} wires	{} conductoare
+{}, together with the wire to {}	{}, împreună cu conductorul spre {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} nu stă pe pardoseală, alegeți un articol care stă pe pardoseală
 ➕ Add accessory	➕ Adăugare accesoriu

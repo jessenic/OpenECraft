@@ -46,6 +46,7 @@ pub static COMMANDS: &[Spec] = &[
         name: "routing_rules",
         help: tr_const!("Shows the rules of the 3D routing and changes those given: grid, clearance, free air factor, segregation, bend radii, cut lengths, reserves, how lines are laid in rooms and the depth of slots and of lines in the floor"),
         params: &[
+            optional("reuse_failed_searches", Kind::Bool, tr_const!("Reuse failed searches during one routing calculation")),
             optional("wires_3d", Kind::Bool, tr_const!("Route the wires in 3D as well (otherwise through the cable ducts)")),
             optional("grid", Kind::Num, tr_const!("Edge length of the routing grid in mm")),
             optional("clearance", Kind::Num, tr_const!("Distance from devices, rails and busbars in mm")),
@@ -164,6 +165,7 @@ fn routing_rules(prj: &mut Project, a: &Args) -> Result<Value, String> {
     if let Some(v) = a.value("wires_3d").and_then(Value::as_bool) {
         r.wires_3d = v;
     }
+    if let Some(v)=a.value("reuse_failed_searches").and_then(Value::as_bool) {r.reuse_failed_searches=v;}
     for (name, field) in [
         ("grid", &mut r.grid),
         ("clearance", &mut r.clearance),

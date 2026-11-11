@@ -142,3 +142,60 @@ fn nailboard_of_the_demo_harness() {
     assert!(nb["scale"].as_str().unwrap().starts_with("1:"));
     assert!(run(&mut s, "harness_nailboard", json!({ "harness": "-WH7" })).is_err());
 }
+
+#[test]
+fn wire_ends_get_their_terminations() {
+    let mut s = demo();
+    let list = run(&mut s, "wiring_list", json!({})).unwrap();
+    let w = &list["wires"][0];
+    let (from, to) = (w["from"].as_str().unwrap().to_string(), w["to"].as_str().unwrap().to_string());
+    assert_eq!(w["ends"][0]["at"], from.as_str());
+    assert_eq!(w["ends"][0]["termination"], "ferrule");
+    // One wire's end gets a ring terminal, the device's other ends pin terminals.
+    let device = from.rsplit_once(':').unwrap().0.to_string();
+    let r = run(&mut s, "set_termination", json!({ "at": device, "kind": "pin" })).unwrap();
+    assert!(!r["ends"].as_array().unwrap().is_empty());
+    assert!(r["ends"].as_array().unwrap().iter().all(|e| e["termination"] == "pin"));
+    let r = run(&mut s, "set_termination", json!({ "at": from, "to": to, "kind": "ring" })).unwrap();
+    assert_eq!(r["ends"].as_array().unwrap().len(), 1);
+    assert_eq!(r["ends"][0]["termination"], "ring");
+    assert!(r["ends"][0]["part"].as_str().unwrap().starts_with("GEN."));
+    let list = run(&mut s, "wiring_list", json!({})).unwrap();
+    let w = list["wires"].as_array().unwrap().iter().find(|x| x["from"] == from.as_str() && x["to"] == to.as_str()).unwrap();
+    assert_eq!((w["ends"][0]["termination"].as_str(), w["ends"][1]["termination"].as_str()), (Some("ring"), Some("ferrule")));
+    let t = run(&mut s, "terminations", json!({})).unwrap();
+    assert_eq!(t["chosen"].as_array().unwrap().len(), 2);
+    assert_eq!(t["kinds"].as_array().unwrap().len(), Termination::ALL.len());
+    // auto goes back to the layout setting; an unknown kind is refused.
+    run(&mut s, "set_termination", json!({ "at": from, "to": to, "kind": "auto" })).unwrap();
+    assert_eq!(run(&mut s, "terminations", json!({})).unwrap()["chosen"].as_array().unwrap().len(), 1);
+    assert!(run(&mut s, "set_termination", json!({ "at": from, "kind": "glue" })).unwrap_err().contains("Unknown termination"));
+}
+
+#[test]
+fn twin_ferrules_are_set_for_both_wires() {
+    let mut s = demo();
+    let list = run(&mut s, "wiring_list", json!({})).unwrap();
+    let wires = list["wires"].as_array().unwrap().clone();
+    let ends = |w: &Value| [(w["from"].as_str().unwrap().to_string(), w["to"].as_str().unwrap().to_string()), (w["to"].as_str().unwrap().to_string(), w["from"].as_str().unwrap().to_string())];
+    let all: Vec<(String, String)> = wires.iter().flat_map(ends).collect();
+    // A connection point with two routed wires.
+    let (at, to) = all.iter().find(|(at, _)| all.iter().filter(|(a, _)| a == at).count() == 2).cloned().expect("a point with two wires");
+    let other = all.iter().find(|(a, o)| *a == at && *o != to).unwrap().1.clone();
+    run(&mut s, "set_termination", json!({ "at": at, "to": to, "kind": "twin_ferrule" })).unwrap();
+    let t = run(&mut s, "terminations", json!({})).unwrap();
+    assert_eq!(t["chosen"].as_array().unwrap().len(), 2, "both wires: {t}");
+    let list = run(&mut s, "wiring_list", json!({})).unwrap();
+    let end = |far: &str| -> Value {
+        let w = list["wires"].as_array().unwrap().iter().find(|w| ends(w).iter().any(|(a, o)| *a == at && o == far)).unwrap().clone();
+        let k = usize::from(w["from"] != at.as_str());
+        w["ends"][k].clone()
+    };
+    let (a, b) = (end(&to), end(&other));
+    assert_eq!((a["twin_with"].as_str(), b["twin_with"].as_str()), (Some(other.as_str()), Some(to.as_str())));
+    assert_eq!([&a, &b].iter().filter(|e| e["part"].is_string()).count(), 1, "the part at one of them");
+    // The defaults of the layout.
+    let r = run(&mut s, "set_ferrules", json!({ "twin_ferrules": true })).unwrap();
+    assert_eq!((r["ferrules"].as_bool(), r["twin_ferrules"].as_bool()), (Some(true), Some(true)));
+    assert_eq!(run(&mut s, "terminations", json!({})).unwrap()["twin_ferrules"], true);
+}

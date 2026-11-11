@@ -55,11 +55,13 @@ pub struct SymbolEditor {
     text: String,
     /// Pixels per millimetre.
     zoom: f32,
+    /// Where the symbol origin lies from the middle of the canvas, in pixels.
+    pan: egui::Vec2,
 }
 
 impl Default for SymbolEditor {
     fn default() -> Self {
-        SymbolEditor { open: false, sel: None, tool: SymTool::Select, start: None, hit: None, drag: None, text: "Text".into(), zoom: 12.0 }
+        SymbolEditor { open: false, sel: None, tool: SymTool::Select, start: None, hit: None, drag: None, text: "Text".into(), zoom: 12.0, pan: egui::Vec2::ZERO }
     }
 }
 
@@ -226,10 +228,10 @@ impl App {
                 self.export(ctx, "symbols.json".into(), (tr("OpenECraft symbol library"), "json"), json);
             }
             Some(Action::Place(key)) => {
-                if let Some(def) = self.session.prj.symbol(&key) {
-                    self.workspace = super::Workspace::Schematic;
-                    self.editor.set_tool(Tool::Place(def.key));
-                    self.notify(ctx, tr_fmt!("Click into the page to place {}", tr(def.name)));
+                if let Some((key, name)) = self.session.prj.symbol(&key).map(|def| (def.key, def.name)) {
+                    self.set_workspace(super::Workspace::Schematic);
+                    self.editor.set_tool(Tool::Place(key));
+                    self.notify(ctx, tr_fmt!("Click into the page to place {}", tr(name)));
                 }
             }
             Some(Action::Duplicate(si)) => {
@@ -586,25 +588,37 @@ fn symbol_preview(u: &UserSymbol) -> SymbolInst {
     inst
 }
 
+/// Wheel, trackpad, two fingers and the middle button zoom and pan the canvas.
+fn navigate(ui: &egui::Ui, se: &mut SymbolEditor, resp: &egui::Response) -> openecraft_ui::nav::Gesture {
+    let gesture = openecraft_ui::nav::read(ui, resp);
+    se.pan += gesture.pan;
+    if resp.dragged_by(PointerButton::Middle) {
+        se.pan += resp.drag_delta();
+    }
+    if let (true, Some(at)) = (gesture.zooms(), gesture.at) {
+        let before = (at - resp.rect.center() - se.pan) / se.zoom;
+        se.zoom = (se.zoom * gesture.zoom).clamp(3.0, 60.0);
+        se.pan = at - resp.rect.center() - before * se.zoom;
+    }
+    if gesture.touch {
+        se.drag = None;
+    }
+    gesture
+}
+
 fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
     let pal = Palette::new(ui.visuals().dark_mode);
     let (resp, painter) = ui.allocate_painter(vec2(400.0, 340.0), Sense::click_and_drag());
     let rect = resp.rect;
     painter.rect_filled(rect, 4.0, pal.paper);
-    let origin = rect.center();
-    if resp.hovered() {
-        let scroll = ui.input(|i| i.smooth_scroll_delta.y);
-        if scroll != 0.0 {
-            se.zoom = (se.zoom * (scroll * 0.002).exp()).clamp(3.0, 60.0);
-        }
-    }
+    let gesture = navigate(ui, se, &resp);
+    let origin = rect.center() + se.pan;
     let zoom = se.zoom;
     let to_mm = move |s: egui::Pos2| p((s.x - origin.x) / zoom, (s.y - origin.y) / zoom);
     // Grid: millimetres and the 4 mm connection grid.
     let painter = painter.with_clip_rect(rect);
-    let half = vec2(rect.width(), rect.height()) / 2.0 / se.zoom;
-    let (nx, ny) = (half.x.ceil() as i32, half.y.ceil() as i32);
-    for i in -nx..=nx {
+    let (lo, hi) = ((rect.min - origin) / se.zoom, (rect.max - origin) / se.zoom);
+    for i in lo.x.floor() as i32..=hi.x.ceil() as i32 {
         let x = origin.x + i as f32 * se.zoom;
         let major = i % GRID as i32 == 0;
         if major || se.zoom >= 8.0 {
@@ -612,7 +626,7 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
             painter.line_segment([pos2(x, rect.top()), pos2(x, rect.bottom())], Stroke::new(if i == 0 { 1.0 } else { 0.5 }, c));
         }
     }
-    for j in -ny..=ny {
+    for j in lo.y.floor() as i32..=hi.y.ceil() as i32 {
         let y = origin.y + j as f32 * se.zoom;
         let major = j % GRID as i32 == 0;
         if major || se.zoom >= 8.0 {
@@ -646,9 +660,10 @@ fn canvas(ui: &mut egui::Ui, se: &mut SymbolEditor, u: &mut UserSymbol) {
         }
     }
 
-    // Mouse
+    // Mouse (not while fingers navigate)
     let clicked = resp.clicked_by(PointerButton::Primary);
     match (se.tool, snapped) {
+        _ if gesture.touch => {}
         (SymTool::Select, _) => {
             let tol = 6.0 / se.zoom;
             if resp.drag_started_by(PointerButton::Primary) {

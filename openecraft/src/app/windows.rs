@@ -71,6 +71,7 @@ impl App {
 
     pub(super) fn windows(&mut self, ctx: &egui::Context) {
         self.discard_window(ctx);
+        self.reconnect_window(ctx);
         self.delete_page_window(ctx);
         self.remove_layout_window(ctx);
         self.export_form_window(ctx);

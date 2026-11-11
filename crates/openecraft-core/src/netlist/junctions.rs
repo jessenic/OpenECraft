@@ -247,7 +247,8 @@ pub fn trace(prj: &Project, net: &Net, tees: &[(usize, &Junction)]) -> Traced {
     }
     // Connection points: bridges inside symbols and the names of potential and
     // interruption points join them as the netlist does.
-    for pin in &net.pins {
+    let shown = super::shown_keys(prj, net.view_pins.iter());
+    for pin in net.pins.iter().chain(&net.view_pins) {
         let s = &prj.pages[pin.page].symbols[pin.sym];
         let Some(def) = prj.symbol(&s.sym) else { continue };
         let q = def.pin_world(pin.pin, s.pos, s.rot, s.mirror);
@@ -255,7 +256,7 @@ pub fn trace(prj: &Project, net: &Net, tees: &[(usize, &Junction)]) -> Traced {
         let named = match def.func {
             Func::Potential if !s.label.is_empty() => Some(format!("pot:{}", s.label)),
             Func::Interruption if !s.label.is_empty() => Some(format!("int:{}", s.interruption_key())),
-            _ => None,
+            _ => super::shown_name(&shown, s, pin.pin),
         };
         if let Some(name) = named {
             let m = node(&mut uf, Key::Named(name));

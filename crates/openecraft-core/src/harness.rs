@@ -94,11 +94,17 @@ pub fn end_of<'a>(h: &'a Harness, device: &str, pin: &str) -> Option<&'a End> {
 }
 
 /// Terminal part, seal part and stripping length of a wire end: from the end
-/// treatment of the harness, ferrules (panel layout setting) at device ends.
+/// treatment of the harness, otherwise the termination chosen for the connection point
+/// or device ([`crate::production::termination_of`]), ferrules (panel layout setting)
+/// at device ends.
 pub fn end_parts(prj: &Project, h: &Harness, device: &str, pin: &str, cross_section: &str) -> (String, String, f32) {
     let e = end_of(h, device, pin);
-    let default = crate::production::end_treatment(cross_section, prj.layout.ferrules && !crate::plugs::plug_tags(prj).iter().any(|p| p == device));
-    let terminal = e.map(|e| e.terminal.clone()).filter(|t| !t.is_empty()).or_else(|| default.and_then(|d| d.ferrule).map(|f| f.part.to_string())).unwrap_or_default();
+    let at = if pin.is_empty() { device.to_string() } else { format!("{device}:{pin}") };
+    let default = match crate::production::termination_of(prj, &at, "") {
+        Some(kind) => crate::production::treatment(cross_section, kind),
+        None => crate::production::end_treatment(cross_section, prj.layout.ferrules && !crate::plugs::plug_tags(prj).iter().any(|p| p == device)),
+    };
+    let terminal = e.map(|e| e.terminal.clone()).filter(|t| !t.is_empty()).or_else(|| default.map(|d| d.part()).filter(|p| !p.is_empty())).unwrap_or_default();
     let strip = e.map(|e| e.strip).filter(|s| *s > 0.0).or_else(|| default.map(|d| d.strip)).unwrap_or(0.0);
     (terminal, e.map(|e| e.seal.clone()).unwrap_or_default(), strip)
 }

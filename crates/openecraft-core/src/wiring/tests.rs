@@ -6,17 +6,17 @@ use crate::sample::demo_project;
 fn steps_cover_the_routed_wires_in_order() {
     let prj = demo_project();
     let an = Analysis::checked(&prj);
-    let all = steps(&prj, &an.wiring, None, Order::Device);
+    let all = steps(&prj, &an.ends, &an.wiring, None, Order::Device);
     assert_eq!(all.len(), an.wiring.len());
     assert!(all.iter().all(|s| s.status == Status::Open));
     for pair in all.windows(2) {
         let (a, b) = (&an.wiring[pair[0].wire], &an.wiring[pair[1].wire]);
         assert_ne!(natural_cmp(&a.from, &b.from), std::cmp::Ordering::Greater);
     }
-    let thick = steps(&prj, &an.wiring, Some(0), Order::CrossSection);
+    let thick = steps(&prj, &an.ends, &an.wiring, Some(0), Order::CrossSection);
     let cs: Vec<f32> = thick.iter().map(|s| cross_section_mm2(&an.wiring[s.wire].cross_section).unwrap_or(0.0)).collect();
     assert!(cs.windows(2).all(|w| w[0] >= w[1]), "{cs:?}");
-    assert!(thick.iter().all(|s| s.ends.is_some()));
+    assert!(thick.iter().all(|s| s.ends.iter().all(|e| e.is_some())));
 }
 
 #[test]
@@ -63,7 +63,7 @@ fn marks_of_removed_wires_are_stale() {
 
 #[test]
 fn next_open_skips_wired_steps_and_wraps() {
-    let step = |status| Step { wire: 0, status, note: String::new(), ends: None };
+    let step = |status| Step { wire: 0, status, note: String::new(), ends: [None; 2], twins: [None, None] };
     let v = vec![step(Status::Open), step(Status::Done), step(Status::Changed), step(Status::Done)];
     assert_eq!(next_open(&v, None), Some(0));
     assert_eq!(next_open(&v, Some(0)), Some(2));
@@ -77,7 +77,7 @@ fn csv_lists_every_wire_with_its_state() {
     let mut prj = demo_project();
     let an = Analysis::checked(&prj);
     set_mark(&mut prj, &an.wiring[0], Some(Mark::Problem), "a;b");
-    let text = csv(&prj, &an.wiring, Order::Number);
+    let text = csv(&prj, &an.ends, &an.wiring, Order::Number);
     assert_eq!(text.lines().count(), an.wiring.len() + 1);
     assert!(text.lines().any(|l| l.ends_with(";problem;a b")));
     assert!(text.starts_with("Enclosure;Wire no.;From;To"));

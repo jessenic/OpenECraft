@@ -150,12 +150,13 @@ pub fn room_space(prj: &Project, ri: usize, pos: &[V3], poses: &[SitePose], rule
 
 /// Where a route of `diameter` leaves the cabinet `ci` standing in room `ri` towards
 /// `near` (room coordinates): a cable gland on the roof, a side or the rear of the
-/// cabinet (or the bottom of one hanging on the wall, towards a place below it), otherwise of its line-up ([`Glands::pick`]), otherwise the middle of its
-/// roof (`true`). Gives the end in the cabinet (leaving it into the cabinet), where the
-/// way through the room starts (layout coordinates) and the direction it leaves there,
-/// away from the cabinet.
+/// cabinet (or the bottom of one hanging on the wall, towards a place below it),
+/// otherwise of its line-up ([`Glands::pick`]), otherwise the middle of its roof
+/// (`true`). Gives the end in the cabinet (leaving it into the cabinet), where the way
+/// through the room starts (layout coordinates) and the direction it leaves there,
+/// away from the cabinet; `Err` with the cabinet where another cable took every gland.
 #[allow(clippy::too_many_arguments)]
-pub(super) fn room_entry(prj: &Project, pos: &[V3], poses: &[SitePose], ri: usize, ci: usize, near: V3, glands: &mut Glands, diameter: f32) -> (End, V3, V3, bool) {
+pub(super) fn room_entry(prj: &Project, pos: &[V3], poses: &[SitePose], ri: usize, ci: usize, near: V3, glands: &mut Glands, diameter: f32) -> Result<(End, V3, V3, bool), usize> {
     // Through the bottom of a cabinet hanging on the wall only to a place below it.
     let below = |k: usize| near[1] > prj.layout.enclosures[ri].height - (poses[k].at[1] - poses[ri].at[1]);
     let way_out = |k: usize, face: Face| room_side(prj, k, face) && (face != Face::Bottom || below(k));
@@ -184,14 +185,19 @@ pub(super) fn room_entry(prj: &Project, pos: &[V3], poses: &[SitePose], ri: usiz
             cabinet_of.insert(g.id, k);
         }
     }
-    if let Some(g) = glands.pick(prj, candidates, diameter) {
-        let k = cabinet_of[&g.id];
-        let (end, at, leave) = through(k, g.face, [g.x + g.w / 2.0, g.y + g.h / 2.0], g.part.clone(), Some(g.id));
-        return (end, at, leave, false);
+    match glands.pick(prj, candidates, diameter) {
+        super::Entry::Through(g) => {
+            let k = cabinet_of[&g.id];
+            let (end, at, leave) = through(k, g.face, [g.x + g.w / 2.0, g.y + g.h / 2.0], g.part.clone(), Some(g.id));
+            Ok((end, at, leave, false))
+        }
+        super::Entry::Taken => Err(ci),
+        super::Entry::None => {
+            let e = &prj.layout.enclosures[ci];
+            let (end, at, leave) = through(ci, Face::Roof, [e.width / 2.0, e.depth / 2.0], tr("Roof").to_string(), None);
+            Ok((end, at, leave, true))
+        }
     }
-    let e = &prj.layout.enclosures[ci];
-    let (end, at, leave) = through(ci, Face::Roof, [e.width / 2.0, e.depth / 2.0], tr("Roof").to_string(), None);
-    (end, at, leave, true)
 }
 
 /// A stretch of a route to be routed in one line-up or room: from `a` to `b` (layout
@@ -250,55 +256,57 @@ pub(super) fn nearest_link(links: &[panel::WallLink], l: panel::WallLink, from: 
 /// in a cabinet standing there): from a device in a cabinet to its entry, through the
 /// rooms and the wall penetrations between them (`links`: [`panel::wall_links`]), from
 /// the other entry to the other device. Gives the legs, whether an entry is the middle
-/// of a roof and the length of the ways through the walls.
+/// of a roof and the length of the ways through the walls; `Err` where there is no way
+/// (with the cabinet whose cable glands are all taken, where that is why).
 #[allow(clippy::too_many_arguments)]
-pub(super) fn plan_legs(prj: &Project, pos: &[V3], poses: &[SitePose], lineup_of: &dyn Fn(usize) -> Option<usize>, rooms: [usize; 2], links: &[panel::WallLink], ends: &[End; 2], taken: &mut Glands, diameter: f32) -> Option<(Vec<LegPlan>, bool, f32)> {
-    let mut chain = if rooms[0] == rooms[1] { Vec::new() } else { room_chain(links, rooms[0], rooms[1])? };
+pub(super) fn plan_legs(prj: &Project, pos: &[V3], poses: &[SitePose], lineup_of: &dyn Fn(usize) -> Option<usize>, rooms: [usize; 2], links: &[panel::WallLink], ends: &[End; 2], taken: &mut Glands, diameter: f32) -> Result<(Vec<LegPlan>, bool, f32), Option<usize>> {
+    let mut chain = if rooms[0] == rooms[1] { Vec::new() } else { room_chain(links, rooms[0], rooms[1]).ok_or(None)? };
     // An end in room coordinates of its room.
     let in_room = |ri: usize, end: &End| -> Option<V3> {
         let (k, q) = (end.enclosure?, end.point?);
         Some(if k == ri { sub(q, pos[ri]) } else { cabinet_in_room(prj, poses, ri, k, sub(q, pos[k])) })
     };
-    let at = [in_room(rooms[0], &ends[0])?, in_room(rooms[1], &ends[1])?];
-    // Through the nearest of the wall penetrations joining two rooms.
+    let at = [in_room(rooms[0], &ends[0]).ok_or(None)?, in_room(rooms[1], &ends[1]).ok_or(None)?];
+    // Through the nearest of the wall penetrations joining two rooms, beside the routes
+    // that went through it before.
     for i in 0..chain.len() {
         let from = if i == 0 { at[0] } else { chain[i - 1].b };
         let to = chain.get(i + 1).map_or(at[1], |l| l.a);
-        chain[i] = nearest_link(links, chain[i], from, to);
+        chain[i] = taken.through_wall(prj, nearest_link(links, chain[i], from, to), diameter, from, to);
     }
     // What each end heads for in its room: the other end, or the wall penetration.
     let near = [chain.first().map_or(at[1], |l| l.a), chain.last().map_or(at[0], |l| l.b)];
     let mut roof = false;
     let zero = [0.0; 3];
-    let mut through = [(ends[0].point?, ends[0].leave.unwrap_or(zero)), (ends[1].point?, ends[1].leave.unwrap_or(zero))];
+    let mut through = [(ends[0].point.ok_or(None)?, ends[0].leave.unwrap_or(zero)), (ends[1].point.ok_or(None)?, ends[1].leave.unwrap_or(zero))];
     let mut legs: [Option<LegPlan>; 2] = [None, None];
     let mut glands: Vec<u64> = Vec::new();
     for i in 0..2 {
-        let (k, ri) = (ends[i].enclosure?, rooms[i]);
+        let (k, ri) = (ends[i].enclosure.ok_or(None)?, rooms[i]);
         if k == ri {
             continue;
         }
-        let (entry, start, out, by_roof) = room_entry(prj, pos, poses, ri, k, near[i], taken, diameter);
+        let (entry, start, out, by_roof) = room_entry(prj, pos, poses, ri, k, near[i], taken, diameter).map_err(Some)?;
         roof |= by_roof;
         glands.extend(entry.item);
-        let inside = (entry.point?, entry.leave.unwrap_or(zero));
+        let inside = (entry.point.ok_or(None)?, entry.leave.unwrap_or(zero));
         let (a, b) = if i == 0 { (through[0], inside) } else { (inside, through[1]) };
-        legs[i] = Some(LegPlan { lineup: lineup_of(entry.enclosure?)?, a: a.0, b: b.0, leave: [a.1, b.1], ignore: Vec::new() });
+        legs[i] = Some(LegPlan { lineup: entry.enclosure.and_then(lineup_of).ok_or(None)?, a: a.0, b: b.0, leave: [a.1, b.1], ignore: Vec::new() });
         through[i] = (start, out);
     }
     // Through every room of the chain, from where the route comes in to where it leaves.
     let mut v: Vec<LegPlan> = legs[0].take().into_iter().collect();
     let mut from = (rooms[0], through[0]);
     for l in &chain {
-        v.push(LegPlan { lineup: lineup_of(from.0)?, a: from.1 .0, b: add(l.a, pos[l.from]), leave: [from.1 .1, l.leave[0]], ignore: Vec::new() });
+        v.push(LegPlan { lineup: lineup_of(from.0).ok_or(None)?, a: from.1 .0, b: add(l.a, pos[l.from]), leave: [from.1 .1, l.leave[0]], ignore: Vec::new() });
         from = (l.to, (add(l.b, pos[l.to]), l.leave[1]));
     }
-    v.push(LegPlan { lineup: lineup_of(from.0)?, a: from.1 .0, b: through[1].0, leave: [from.1 .1, through[1].1], ignore: Vec::new() });
+    v.push(LegPlan { lineup: lineup_of(from.0).ok_or(None)?, a: from.1 .0, b: through[1].0, leave: [from.1 .1, through[1].1], ignore: Vec::new() });
     v.extend(legs[1].take());
     for leg in &mut v {
         leg.ignore = glands.clone();
     }
-    Some((v, roof, chain.iter().map(|l| l.length).sum()))
+    Ok((v, roof, chain.iter().map(|l| l.length).sum()))
 }
 
 #[cfg(test)]

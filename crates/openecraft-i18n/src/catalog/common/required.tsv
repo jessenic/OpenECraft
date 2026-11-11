@@ -4,6 +4,7 @@
 --json needs a JSON object	--json erwartet ein JSON-Objekt	--json attend un objet JSON	--json necesita un objeto JSON
 3D model	3D-Modell	Modèle 3D	Modelo 3D
 3D routing	3D-Verlegung	Routage 3D	Enrutado 3D
+A device box that extends or shows a device needs the tag of that device	Eine Gerätebox, die ein Betriebsmittel erweitert oder zeigt, braucht dessen Kennzeichen	Une boîte d'appareil qui étend ou montre un appareil a besoin du repère de cet appareil	Una caja de dispositivo que amplía o muestra un dispositivo necesita la etiqueta de ese dispositivo
 A page named {} already exists	Eine Seite mit dem Namen {} existiert bereits	Une page nommée {} existe déjà	Ya existe una página llamada {}
 A page needs a name	Eine Seite braucht einen Namen	Une page doit avoir un nom	Una página necesita un nombre
 A routing path needs {} points at least	Ein Verlegeweg braucht mindestens {} Punkte	Un chemin de routage nécessite au moins {} points	Una ruta de tendido necesita al menos {} puntos
@@ -490,6 +491,7 @@ open	offen	ouvert	abierto
 rejected	abgelehnt	refusé	rechazado
 right	nach rechts	vers la droite	hacia la derecha
 spare	Reserve	réserve	reserva
+strip {} mm, {}	abisolieren {} mm, {}	dénuder {} mm, {}	pelar {} mm, {}
 the disk is full	der Datenträger ist voll	le disque est plein	el disco está lleno
 the file exists already	die Datei existiert bereits	le fichier existe déjà	el archivo ya existe
 this is a folder	dies ist ein Ordner	c'est un dossier	es una carpeta
@@ -501,5 +503,6 @@ yes	ja	oui	sí
 {} is not a room	{} ist kein Raum	{} n'est pas une salle	{} no es una sala
 {} parts	{} Artikel	{} articles	{} artículos
 {} wires	{} Leitungen	{} fils	{} hilos
+{}, together with the wire to {}	{}, zusammen mit der Leitung nach {}	{}, avec le fil vers {}	{}, junto con el cable hacia {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} steht nicht auf dem Boden, einen bodenstehenden Artikel wählen	{} : {} ne se pose pas au sol, choisissez un article posé au sol	{}: {} no se apoya en el suelo, elija un artículo de pie sobre el suelo
 ➕ Add accessory	➕ Zubehör hinzufügen	➕ Ajouter un accessoire	➕ Añadir accesorio

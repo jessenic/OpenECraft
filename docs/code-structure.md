@@ -97,6 +97,7 @@ Where the code of each feature lives. [architecture.md](architecture.md) describ
 | `crates/openecraft-core/src/parts.rs` | Parts database, function templates, project parts, CSV import/export |
 | `openecraft/src/parts_ui.rs` | Parts management window, part selection dialog, parts server panel, data portal window |
 | `openecraft/src/remote.rs`, `openecraft/src/app/remote_ui.rs` | Project server client, window and shared editing (locks, merging); rules in `crates/openecraft-core/src/collab.rs` |
+| `openecraft/src/startup.rs` | Settings › On startup and the source of the open project (local file, server project, local copy of one) shown in the status bar and the tooltip of Save |
 | `openecraft/src/vault.rs`, `openecraft/src/app/vault_ui.rs` | Autodesk Vault client and window: browsing, imports, uploads and check-ins, item links; requests in `crates/openecraft-client/src/vault.rs` |
 | `openecraft/src/app.rs` | Application UI (menus, panels, dialogs); the windows in `openecraft/src/app/*_ui.rs` (cables, tables, PLC, plugs, potentials, structure, pages, …) |
 | `crates/openecraft-core/src/svg.rs` | SVG / print export |

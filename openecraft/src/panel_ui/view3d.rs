@@ -9,7 +9,7 @@ use super::gpu3d::{Camera, Frame};
 use super::nav3d::{self, Side};
 use super::routing_ui::RouteRef;
 use super::scene3d::{Scene3d, EQUIPMENT, ON_TOP};
-use super::{wheel_delta, PanelUi, DOOR_OPEN_ANGLE, OUTER_WALLS};
+use super::{PanelUi, DOOR_OPEN_ANGLE, OUTER_WALLS};
 use openecraft_core::geom::p;
 use openecraft_core::model::Project;
 use openecraft_core::panel::{self, ItemKind, SitePose};
@@ -124,23 +124,19 @@ impl PanelUi {
         let cam = self.cam.get_or_insert(fitted);
         let f = rect.height() * 1.3;
         let mut moved = false;
-        // Orbit; pan with the right or middle button or Shift; zoom at the pointer
+        // Orbit; pan with the right or middle button or Shift; zoom at the pointer. Two
+        // fingers on a touch screen pan and zoom; the first one does not orbit then.
         let shift = ui.input(|i| i.modifiers.shift);
-        if resp.dragged_by(PointerButton::Middle) || resp.dragged_by(PointerButton::Secondary) || (shift && resp.dragged_by(PointerButton::Primary)) {
+        let gesture = openecraft_ui::nav::read(ui, &resp);
+        let mouse = !gesture.touch;
+        if mouse && (resp.dragged_by(PointerButton::Middle) || resp.dragged_by(PointerButton::Secondary) || (shift && resp.dragged_by(PointerButton::Primary))) {
             nav3d::pan(cam, resp.drag_delta(), f);
             moved = true;
-        } else if resp.dragged_by(PointerButton::Primary) {
+        } else if mouse && resp.dragged_by(PointerButton::Primary) {
             nav3d::orbit(cam, resp.drag_delta());
             moved = true;
         }
-        if resp.hovered() {
-            let (wheel, zoom_delta, ptr) = ui.input(|i| (wheel_delta(i), i.zoom_delta(), i.pointer.hover_pos()));
-            let factor = zoom_delta * (wheel * 0.0025).exp();
-            if factor != 1.0 {
-                nav3d::zoom_at(cam, factor, ptr.map_or(Vec2::ZERO, |q| q - rect.center()), f);
-                moved = true;
-            }
-        }
+        moved |= nav3d::gesture(cam, &gesture, rect.center(), f);
         // Keyboard: moving through the view, Home fits it.
         let mut fit = false;
         if (self.keys_active || resp.hovered()) && !ui.ctx().egui_wants_keyboard_input() {

@@ -248,6 +248,17 @@ pub static COMMANDS: &[Spec] = &[
         run: move_items,
     },
     Spec {
+        name: "wire_settings",
+        help: tr_const!("Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given"),
+        params: &[
+            optional("jump", Kind::Str, tr_const!("Wires crossing without connection: none, arc, bridge or gap")),
+            optional("jump_wire", Kind::Str, tr_const!("The wire that jumps: vertical or horizontal")),
+            optional("tee", Kind::Str, tr_const!("T-connections: dot, large_dot or none")),
+            optional("reroute", Kind::Bool, tr_const!("Route the connections of moved items anew: shortest way with the fewest bends and crossings")),
+        ],
+        run: wire_settings,
+    },
+    Spec {
         name: "align_items",
         help: tr_const!("Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow"),
         params: &[
@@ -1061,6 +1072,23 @@ fn move_items(prj: &mut Project, a: &Args) -> Result<Value, String> {
         return Err(tr("The items would leave the page").to_string());
     }
     Ok(json!({ "moved": sel.len(), "dx": d.x, "dy": d.y }))
+}
+
+fn wire_settings(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let s = &mut prj.wire_settings;
+    if let Some(k) = a.str("jump") {
+        s.jump = JumpStyle::from_key(k).ok_or_else(|| tr_fmt!("Unknown jump style: {}", k))?;
+    }
+    if let Some(k) = a.str("jump_wire") {
+        s.jump_wire = JumpWire::from_key(k).ok_or_else(|| tr_fmt!("Unknown jumping wire: {}", k))?;
+    }
+    if let Some(k) = a.str("tee") {
+        s.tee = TeeStyle::from_key(k).ok_or_else(|| tr_fmt!("Unknown T-connection style: {}", k))?;
+    }
+    if let Some(v) = a.value("reroute").and_then(Value::as_bool) {
+        s.reroute = v;
+    }
+    Ok(json!({ "jump": s.jump.key(), "jump_wire": s.jump_wire.key(), "tee": s.tee.key(), "reroute": s.reroute }))
 }
 
 fn align_items(prj: &mut Project, a: &Args) -> Result<Value, String> {

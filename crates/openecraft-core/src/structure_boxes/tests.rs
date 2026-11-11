@@ -233,3 +233,37 @@ fn the_label_sits_in_the_chosen_corner() {
     let text = prj.to_json();
     assert_eq!(Project::from_json(&text).unwrap().pages[0].structure_boxes, prj.pages[0].structure_boxes);
 }
+#[test]
+fn a_device_inside_a_box_with_another_structure_is_reported() {
+    let mut prj = project();
+    sym(&mut prj, "no", 150.0, 150.0, "=SYS+CAB1-K1");
+    sym(&mut prj, "no", 160.0, 150.0, "=SYS+FIELD-K2");
+    sym(&mut prj, "no", 50.0, 50.0, "=SYS+CAB1-K3");
+    let found: Vec<String> = problems(&prj).iter().map(|i| i.message().to_string()).collect();
+    assert_eq!(found, ["=SYS+CAB1-K1 is inside the structure box +FIELD but has another structure"]);
+}
+
+#[test]
+fn boxes_continuing_a_device_placed_elsewhere_are_not_reported() {
+    use crate::device_boxes::{add_box, place_point, set_role};
+    use crate::model::DeviceBoxRole;
+    let mut prj = project();
+    let b = add_box(&mut prj, 0, p(120.0, 120.0), p(160.0, 144.0), "=SYS+CAB1-A1", "").unwrap();
+    place_point(&mut prj, 0, p(128.0, 120.0), 0, "", "L").unwrap();
+    assert_eq!(problems(&prj).len(), 2, "the box and its point are this device");
+    set_role(&mut prj, 0, b, DeviceBoxRole::View).unwrap();
+    assert!(problems(&prj).is_empty());
+}
+
+
+#[test]
+fn device_box_tags_typed_inside_a_box_take_its_structure() {
+    use crate::device_boxes::{add_box, place_point};
+    let mut prj = project();
+    let b = add_box(&mut prj, 0, p(120.0, 120.0), p(160.0, 144.0), "-A1", "").unwrap();
+    let point = place_point(&mut prj, 0, p(128.0, 120.0), 0, "-A1", "L").unwrap();
+    assert_eq!([tag(&prj, b), tag(&prj, point)], ["=SYS+FIELD-A1", "=SYS+FIELD-A1"]);
+    assert!(problems(&prj).is_empty());
+    let outside = add_box(&mut prj, 0, p(20.0, 20.0), p(60.0, 44.0), "-A2", "").unwrap();
+    assert_eq!(tag(&prj, outside), "=SYS+CAB1-A2");
+}

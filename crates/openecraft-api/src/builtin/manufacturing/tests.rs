@@ -40,8 +40,9 @@ fn machines_strategy_and_programs() {
     run(&p, &mut prj, "machining_strategy", json!({ "sheet_machine": "drill_mill_iso" })).unwrap();
     run(&p, &mut prj, "set_cnc_machine", json!({ "id": "my_mill", "remove": true })).unwrap();
     assert!(prj.layout.manufacturing.machines.is_empty());
+    // The plate, the door and the bottom with the hole of the motor cable's gland.
     let table = (p.report("cnc_operations").unwrap().run)(&prj, &Analysis::build(&prj)).unwrap();
-    assert_eq!(table.rows.len(), 2);
+    assert_eq!(table.rows.len(), 3);
 }
 
 #[test]
@@ -86,7 +87,8 @@ fn handoff_feedback_and_status() {
     assert!(dry["job"].is_null() && prj.layout.manufacturing.jobs.is_empty());
     let pkg = run(&p, &mut prj, "manufacturing_handoff", json!({ "enclosure": "+CAB1", "date": "2026-10-24" })).unwrap();
     assert_eq!(pkg["job"], "CAB1-1");
-    assert_eq!(pkg["programs"].as_array().unwrap().len(), 2);
+    // Plate, door and bottom (the hole of the gland).
+    assert_eq!(pkg["programs"].as_array().unwrap().len(), 3);
     let fb = run(&p, &mut prj, "production_feedback", json!({ "text": "job;program;status;time\nCAB1-1;CAB1_plate.nc;done;600\nCAB1-1;CAB1_door.nc;failed;\n" })).unwrap();
     assert_eq!(fb["imported"], 2);
     assert_eq!(fb["jobs"][0]["state"], "Problem");

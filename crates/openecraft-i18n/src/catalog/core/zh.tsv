@@ -88,6 +88,7 @@ Auxiliary function: main contact	辅助功能：主触点
 Auxiliary relay coil R (JIS)	辅助继电器线圈 R (JIS)
 B10d	B10d
 Ball valve	球阀
+Bare conductor	剥线导线
 Basis	依据
 Battery	电池
 Battery capacity	电池容量
@@ -490,8 +491,8 @@ Fan 3-phase	三相风扇
 Fan 3-phase, 6 terminals	三相风扇，6 个接线端
 Ferrule	冷压端子
 Ferrule from	起点端冷压端子
-Ferrule part	冷压端子部件
 Ferrule to	终点端冷压端子
+Ferrule {} mm² {}	管型端子 {} mm² {}
 Field cable routing	现场电缆布线
 Field cable {} cannot be routed from {} to {}	现场电缆 {} 无法从 {} 敷设到 {}
 Field cable {}: {} is not placed in the plant layout	现场电缆 {}：{} 未放置在工厂布局中
@@ -512,6 +513,8 @@ Fitting	接头
 Fittings	接头
 Flame retardant	阻燃
 Flat cable {} has {} cores, the IDC connector {} has {} pins	扁平电缆 {} 有 {} 芯，IDC 连接器 {} 有 {} 个引脚
+Flat plug	插片端子
+Flat receptacle	插簧端子
 Flat roof	平屋顶
 Float switch NC	浮球开关，常闭
 Float switch NO	浮子开关 常开触点
@@ -537,6 +540,7 @@ Foot switch NC	脚踏开关，常闭
 Foot switch NO	脚踏开关，常开
 Foot switch NO (NFPA)	脚踏开关，常开 (NFPA)
 Force	力
+Fork terminal	叉形端子
 Format (placeholders)	格式（占位符）
 Frame size	机座号
 Free	自由
@@ -1120,6 +1124,7 @@ Pilot light (NFPA)	指示灯 (NFPA)
 Pilot line	先导管路
 Pin connection diagram	插针连接图
 Pin side (male)	插针侧（公）
+Pin terminal	针形端子
 Pipe	管道
 Piston diameter	活塞直径
 Piston rod diameter	活塞杆直径
@@ -1325,6 +1330,7 @@ Reviewer	审阅者
 Revision overview (changes)	修订概览（更改）
 Right side	右侧
 Right side panel	右侧板
+Ring terminal	环形端子
 Rivet nut	拉铆螺母
 RoHS compliant	符合 RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1549,9 +1555,12 @@ Terminal description	端子描述
 Terminal diagram	端子图
 Terminal line-up	端子排列图
 Terminal marker	端子标记
+Terminal parts	端子物料
 Terminal strip data of {} without terminals	{} 的端子排数据没有端子
 Terminal strip overview	端子排概览
 Terminal strips and PLC addresses	端子排和 PLC 地址
+Termination (from)	端接（起点）
+Termination (to)	端接（终点）
 Text file	文本文件
 The DXF file contains nothing that can be imported	DXF 文件中没有可导入的内容
 The PDF has no pages that can be read	PDF 中没有可读取的页
@@ -1674,6 +1683,14 @@ Tubes	管子
 Tubing / piping list	管材 / 管道列表
 Turned once (quarter landing)	单转（转角平台）
 Turned twice (two quarter landings)	双转（两个转角平台）
+Twin ferrule	双线管型端子
+Twin ferrule at {} is not shared with a second wire	{} 处的双线管型端子没有第二根导线共用
+Twin ferrule at {} joins wires of {} and {}	{} 处的双线管型端子连接 {} 和 {} 的导线
+Twin ferrule at {}: {} wires end there, it takes two	{} 处的双线管型端子：该处有 {} 根导线，只能接两根
+Twin ferrule with (from)	共用双线管型端子（起点）
+Twin ferrule with (to)	共用双线管型端子（终点）
+Twin ferrule {} mm² {}	双线管型端子 {} mm² {}
+Twin ferrules	双线管型端子
 Two connection symbols on page {} lie on the same point	第 {} 页上有两个连接符号位于同一点
 Two-way switch (installation)	双控开关（建筑安装）
 Type numbers	型号
@@ -1756,6 +1773,7 @@ Winding connection	绕组接法
 Wire assigned to unknown cable {}	导线分配给了未知电缆 {}
 Wire colour GNYE is reserved for protective conductors ({})	导线颜色 GNYE 专用于保护导体（{}）
 Wire colours and cross-sections	导线颜色和截面积
+Wire crossings and connections	导线交叉与连接
 Wire defaults	导线默认值
 Wire jumper	导线跳线
 Wire list (panel routing)	导线列表（机柜布线）
@@ -1864,8 +1882,6 @@ routed	已布线
 shield clamp ({} mm away)	屏蔽夹（距离 {} mm）
 silver	银色
 starts with	开头为
-strip {} mm	剥线 {} mm
-strip {} mm, ferrule {} mm² {}	剥线 {} mm，冷压端子 {} mm² {}
 suction	吸入
 supply	供给
 terminals {} – {}	端子 {} – {}
@@ -1989,6 +2005,7 @@ yellow	黄色
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}：跳线 {} 没有跳线部件（端子部件的技术数据 Jumper）
 {}: no part assigned	{}：未分配部件
 {}: no service space of {} mm in front of {} (the door is too close)	{0}：{2} 前方没有 {1} mm 的维护空间（柜门太近）
+{}: none for this cross-section	{}：无此截面规格
 {}: not in the single-line diagram	{}：不在单线图中
 {}: not placed in the panel layout	{}：未在安装板布局中放置
 {}: operations per year needed for the B10d of {}	{}：计算 {} 的 B10d 需要每年操作次数

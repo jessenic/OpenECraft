@@ -96,6 +96,7 @@ Changes the properties of a wire	Ændrer egenskaberne for en ledning
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Ændrer system, størrelse og komponenter for en kapsling (sokkel, sammenbyggede sider, flangeplade); forankrede elementer følger med
 Check {} failed: {}	Kontrol {} mislykkedes: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Kontrollerer tavlelayoutet: kollisioner, afstande (montering, ventilation, EMC), serviceområde, højder over gulvet, kollisionsklasser, temperaturer og producerbarhed
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Vælger hvordan lederender afsluttes: afisoleret, med terminalrør eller krympet kabelsko; ved et tilslutningspunkt, ved alle tilslutningspunkter på en enhed eller kun for én leder
 Chosen value	Valgt værdi
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Afstande, serviceområde, højder, kollisionsklasser, termisk simulering og producerbarhed af tavlelayoutet
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Klimatisering af kapslingerne (IEC/TR 60890): effekttab, indvendig temperatur, nødvendig ventilator eller køleaggregat og opvarmning; ændrer eventuelt indstillingerne for en af dem
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	Tilslutningspunkt TAG:PIN, f.eks. -K1:A1
 Connection point designation or number (1, 2, …)	Tilslutningsbetegnelse eller nummer (1, 2, …)
 Connection point designations separated by commas or blanks	Tilslutningsbetegnelser adskilt af kommaer eller mellemrum
 Connection point designations, comma separated, e.g. 13,14	Tilslutningsbetegnelser, kommasepareret, f.eks. 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Tilslutningspunkt, f.eks. -K1:13, eller en enhed, f.eks. -K1 (alle dens tilslutningspunkter)
 Connector id (required unless removing)	Connector-id (påkrævet, undtagen ved fjernelse)
 Connects two connection points with wires routed around symbols and other wires	Forbinder to tilslutningspunkter med ledninger, der føres uden om symboler og andre ledninger
 Connects two ports of stations with a network cable; connections already on these ports are replaced	Forbinder to porte på stationer med et netværkskabel; eksisterende forbindelser på disse porte erstattes
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Viser de delprojekter, der er udtaget fra projektet, eller det projekt, det er udtaget fra
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Viser de symboler, der kan placeres, med deres tilslutningspunkter i forhold til indsættelsespunktet
 Lists the terminal strips with their number of terminals and length on the rail	Viser klemrækkerne med deres antal klemmer og længde på skinnen
+Lists the terminations chosen for wire ends and the kinds there are	Viser de valgte afslutninger af lederender og de typer, der findes
 Lists the translation dictionary of the project texts (source line and translations)	Viser oversættelsesordbogen for projektteksterne (kildelinje og oversættelser)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Viser de vinduesmakroer, der er placeret på siderne (makrobokse), med makro, variant, pladsholderværdier og antal elementer
 Load losses of the transformer in W (0: typical)	Transformerens belastningstab i W (0: typisk)
@@ -521,6 +524,7 @@ Operations	Operationer
 Option name	Indstillingsnavn
 Option name, e.g. STARTER	Indstillingsnavn, f.eks. STARTER
 Options and rules of the configurator	Konfiguratorens optioner og regler
+Other end of the wire, e.g. -X1:3: only this wire	Lederens anden ende, f.eks. -X1:3: kun denne leder
 Other end, e.g. -X1:3	Den anden ende, f.eks. -X1:3
 Outer diameter in mm, 0 = estimated	Udvendig diameter i mm, 0 = anslået
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Udvendige længder af de lige afsnit, mm, f.eks. 200, 150, 300
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Rapportblokke og rapportskemaer
 Reserves space over the mounting plate: kept free of routes, or for one class only	Reserverer plads over monteringspladen: holdt fri for føringer eller kun til én klasse
 Rest (mm)	Rest (mm)
+Reuse failed searches during one routing calculation	Genbrug mislykkede søgninger under én ruteberegning
 Right side bayed (no side panel)	Højre side sammenbygget (ingen sideplade)
 Room {} exists already	Rummet {} findes allerede
 Rotation in degrees clockwise: 0, 90, 180 or 270	Rotation i grader med uret: 0, 90, 180 eller 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Rotation i grader, mod uret (90 læses nedefra og op)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Træk forbindelserne for flyttede elementer på ny: korteste vej med færrest knæk og krydsninger
 Route the wires in 3D as well (otherwise through the cable ducts)	Før også ledningerne i 3D (ellers gennem kabelkanalerne)
 Routing rules, paths, reservations, frozen routes and cable shields	Føringsregler, føringsveje, reservationer, fastlåste føringer og kabelskærme
 Row key (from table_get)	Rækkenøgle (fra table_get)
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Separator: semicolon, comma eller tab
 Sets how cross references are shown (only the given settings) and shows the settings	Angiver, hvordan krydsreferencer vises (kun de angivne indstillinger), og viser indstillingerne
 Sets how the terminals of a jumper are bridged	Angiver, hvordan klemmerne i en bro brokobles
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Angiver hvordan ledningsender uden valgt afslutning afsluttes: med terminalrør eller afisolerede, og med dobbelte terminalrør hvor to ledere deler et tilslutningspunkt
 Sets property values of an object; an empty value removes it	Angiver egenskabsværdier for et objekt; en tom værdi fjerner den
 Sets the aspects the pages use	Angiver de aspekter, som siderne bruger
 Sets the collision class of a panel item (empty: automatic)	Angiver kollisionsklassen for et layoutelement (tom: automatisk)
@@ -714,6 +721,7 @@ Show as \"Name: value\"	Vis som \"Navn: værdi\"
 Show the content	Vis indholdet
 Shows a property as a text beside a symbol	Viser en egenskab som tekst ved siden af et symbol
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Viser en klemrække: klemmer i rækkefølge med etage, bro og mål, blokkene på skinnen og broerne
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Viser, hvordan ledninger krydser og forbindes på siderne, og om flyttede elementer får deres forbindelser trukket på ny, og ændrer de angivne værdier
 Shows or changes the machining strategy and which machine makes which face	Viser eller ændrer bearbejdningsstrategien, og hvilken maskine der fremstiller hvilken flade
 Shows or changes the rules of copper bars; lengths in mm	Viser eller ændrer reglerne for kobberskinner; længder i mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Viser eller ændrer reglerne for kontrollerne af tavlelayoutet; værdier i mm (temperatur i °C)
@@ -763,6 +771,7 @@ Symbol ids	Symbol-id'er
 Symbol key from list_symbols	Symbolnøgle fra list_symbols
 Symbol {} has no connection point {}	Symbolet {} har intet tilslutningspunkt {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	Symboler, forbindelser, tekster, kabel- og forbindelsesdefinitioner på diagramsider
+T-connections: dot, large_dot or none	T-forbindelser: dot, large_dot eller none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	T-stykke: stammens retning; bro: siden forbindelsen kommer fra (left, right, up eller down)
 Tag of the terminal strip, e.g. -X1	Klemrækkens betegnelse, f.eks. -X1
 Take the cut lengths over as cable lengths	Overtag afkortningslængderne som kabellængder
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	En kr
 The text height must be at least 0.5 mm	Teksthøjden skal være mindst 0,5 mm
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Et hjørnes to arme, lodret og vandret, f.eks. down left (standard: efter lederne der, ellers down right)
 The wire has no length	Forbindelsen har ingen længde
+The wire that jumps: vertical or horizontal	Ledningen, der springer: vertical eller horizontal
 The wrap width must not be negative	Ombrydningsbredden må ikke være negativ
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Termisk simulering af monteringspladen: lufttemperaturer, varmepunkt, varmekilder og temperaturen ved hver enhed
 Thickest sheet or bar, mm	Tykkeste plade eller skinne, mm
@@ -818,7 +828,9 @@ Top edge on the face in mm	Øverste kant på fladen i mm
 Top edge on the mounting plate in mm	Øverste kant på monteringspladen i mm
 Translated line	Oversat linje
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Drejning om lodret akse i grader, mod uret set ovenfra (90: fronterne vender mod højre)
+Two wires at a connection point share a twin ferrule	To ledere ved et tilslutningspunkt deler et dobbelt terminalrør
 Unit, e.g. kW	Enhed, f.eks. kW
+Unknown T-connection style: {}	Ukendt stil for T-forbindelse: {}
 Unknown accessory kind: {}	Ukendt type tilbehør: {}
 Unknown action: {}	Ukendt handling: {}
 Unknown address scheme: {}	Ukendt adresseskema: {}
@@ -841,7 +853,9 @@ Unknown field: {}	Ukendt felt: {}
 Unknown group kind: {}	Ukendt gruppetype: {}
 Unknown installation: {}	Ukendt opstilling: {}
 Unknown insulation: {}	Ukendt isolering: {}
+Unknown jump style: {}	Ukendt springstil: {}
 Unknown jumper kind: {}	Ukendt type bro: {}
+Unknown jumping wire: {}	Ukendt springende ledning: {}
 Unknown kind: {}	Ukendt type: {}
 Unknown labels: {}	Ukendte etiketter: {}
 Unknown level: {}	Ukendt niveau: {}
@@ -873,6 +887,7 @@ Unknown state: {}	Ukendt tilstand: {}
 Unknown station kind: {}	Ukendt stationstype: {}
 Unknown symbol: {}	Ukendt symbol: {}
 Unknown table: {}	Ukendt tabel: {}
+Unknown termination: {}	Ukendt afslutning: {}
 Unknown vertical anchor: {}	Ukendt lodret anker: {}
 Unknown way of opening: {}	Ukendt måde at åbne på: {}
 Unknown wire colour {} (IEC 60757: {})	Ukendt ledningsfarve {} (IEC 60757: {})
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Vinduer: højde af unde
 Wire colour (IEC 60757), e.g. BK	Ledningsfarve (IEC 60757), f.eks. BK
 Wire colour, e.g. BU	Ledningsfarve, f.eks. BU
 Wire colour, e.g. BU (empty = from the potential definition)	Ledningsfarve, f.eks. BU (tom = fra potentialedefinitionen)
+Wire ends get ferrules	Ledningsender får terminalrør
 Wire number (kept when renumbering)	Ledningsnummer (bevares ved omnummerering)
 Wire numbering and wiring marks	Ledningsnummerering og ledningsmarkeringer
+Wires crossing without connection: none, arc, bridge or gap	Ledninger, der krydser uden forbindelse: none, arc, bridge eller gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Ledninger, der er for tynde til deres beskyttelsesudstyr, og kablernes spændingsfald (IEC 60204-1)
 Working area in x, mm	Arbejdsområde i x, mm
 Working area in y, mm	Arbejdsområde i y, mm
@@ -911,6 +928,7 @@ Y position in mm (downwards)	Y-position i mm (nedad)
 any, wires, cables or tubes	any, wires, cables eller tubes
 auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left eller right; kasserer manuelt placerede tekster
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip eller adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle eller auto (efter layoutets indstilling for terminalrør)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam eller product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi eller other
 copper or aluminium	copper eller aluminium

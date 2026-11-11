@@ -96,6 +96,7 @@ Changes the properties of a wire	更改导线的属性
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	更改机柜的系统、尺寸和构件（底座、并柜侧、法兰板）；锚定的元素随之调整
 Check {} failed: {}	检查 {} 失败：{}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	检查安装板布局：碰撞、间距（安装、通风、EMC）、维护空间、离地高度、碰撞类别、温度和可制造性
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	选择导线端头的端接方式：剥线、管型端子或压接端子；用于一个连接点、设备的所有连接点或仅一根导线
 Chosen value	所选值
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	安装板布局的间距、维护空间、高度、碰撞类别、热仿真和可制造性
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	机柜温控 (IEC/TR 60890)：功率损耗、内部温度、所需的风扇或冷却装置以及加热；也可更改某一机柜的设置
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	连接点 TAG:PIN，例如 -K1:A1
 Connection point designation or number (1, 2, …)	连接点标识或编号 (1, 2, …)
 Connection point designations separated by commas or blanks	以逗号或空格分隔的连接点标识
 Connection point designations, comma separated, e.g. 13,14	连接点标识，以逗号分隔，例如 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	连接点，如 -K1:13，或设备，如 -K1（其所有连接点）
 Connector id (required unless removing)	接口 ID（除删除外必填）
 Connects two connection points with wires routed around symbols and other wires	用绕开符号和其他导线的导线连接两个连接点
 Connects two ports of stations with a network cable; connections already on these ports are replaced	用网线连接两个站的端口；这些端口上已有的连接将被替换
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	列出从项目中移出的子项目，或其来源项目
 Lists the symbols that can be placed, with their connection points relative to the insertion point	列出可放置的符号及其相对于插入点的连接点
 Lists the terminal strips with their number of terminals and length on the rail	列出端子排及其端子数量和在导轨上的长度
+Lists the terminations chosen for wire ends and the kinds there are	列出为导线端头选择的端接方式及可用类型
 Lists the translation dictionary of the project texts (source line and translations)	列出项目文本的翻译词典（源行和翻译）
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	列出页上放置的窗口宏（宏边框）及其宏、变体、占位符值和元素数量
 Load losses of the transformer in W (0: typical)	变压器负载损耗，单位 W（0：典型值）
@@ -521,6 +524,7 @@ Operations	工序
 Option name	选项名称
 Option name, e.g. STARTER	选项名称，例如 STARTER
 Options and rules of the configurator	配置器的选项和规则
+Other end of the wire, e.g. -X1:3: only this wire	导线的另一端，如 -X1:3：仅此导线
 Other end, e.g. -X1:3	另一端，例如 -X1:3
 Outer diameter in mm, 0 = estimated	外径 (mm)，0 = 估算
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	直线段的外部长度，mm，例如 200, 150, 300
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	报表块和报表方案
 Reserves space over the mounting plate: kept free of routes, or for one class only	在安装板上方预留空间：不允许布线或仅供一个类别使用
 Rest (mm)	剩余 (mm)
+Reuse failed searches during one routing calculation	在同一次布线计算中复用失败的搜索结果
 Right side bayed (no side panel)	右侧并柜（无侧板）
 Room {} exists already	房间 {} 已存在
 Rotation in degrees clockwise: 0, 90, 180 or 270	顺时针旋转角度：0、90、180 或 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	旋转角度（度），逆时针（90 表示从下往上读）
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	重新布线已移动项目的连接：弯折和交叉最少的最短路径
 Route the wires in 3D as well (otherwise through the cable ducts)	同时以 3D 方式布置导线（否则经由线槽）
 Routing rules, paths, reservations, frozen routes and cable shields	布线规则、路径、预留、冻结的布线和电缆屏蔽
 Row key (from table_get)	行键（来自 table_get）
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	分隔符：semicolon, comma 或 tab
 Sets how cross references are shown (only the given settings) and shows the settings	设置交叉引用的显示方式（仅设置给定的项）并显示设置
 Sets how the terminals of a jumper are bridged	设置跳线的端子桥接方式
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	设置未选择端接方式的导线端如何处理：使用冷压端子或剥线，两根导线共用一个连接点时使用双线管型端子
 Sets property values of an object; an empty value removes it	设置对象的属性值；值为空时删除该值
 Sets the aspects the pages use	设置页使用的方面
 Sets the collision class of a panel item (empty: automatic)	设置布局元件的碰撞类别（留空：自动）
@@ -714,6 +721,7 @@ Show as \"Name: value\"	以 \"名称：值\" 形式显示
 Show the content	显示内容
 Shows a property as a text beside a symbol	将属性以文本形式显示在符号旁
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	显示端子排：按端子排顺序列出端子（含层、跳线和目标）、导轨上的端子块和跳线
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	显示页面上导线如何交叉和连接，以及移动项目时是否重新布线其连接，并更改给定的值
 Shows or changes the machining strategy and which machine makes which face	显示或更改加工策略以及哪台机器加工哪个面
 Shows or changes the rules of copper bars; lengths in mm	显示或更改铜排规则；长度单位为 mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	显示或更改安装板布局检查的规则；值以 mm 为单位（温度以 °C 为单位）
@@ -763,6 +771,7 @@ Symbol ids	符号 ID
 Symbol key from list_symbols	来自 list_symbols 的符号键
 Symbol {} has no connection point {}	符号 {} 没有连接点 {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	原理图页上的符号、导线、文本、电缆定义和连接定义
+T-connections: dot, large_dot or none	T 形连接：dot、large_dot 或 none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	T型节点：主干方向；桥接：连接进入的一侧（left、right、up 或 down）
 Tag of the terminal strip, e.g. -X1	端子排的标识符，例如 -X1
 Take the cut lengths over as cable lengths	将下料长度采用为电缆长度
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	交�
 The text height must be at least 0.5 mm	文字高度必须至少为 0.5 mm
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	拐角的两个分支，垂直和水平，例如 down left（默认：按该处的连接线，否则 down right）
 The wire has no length	连接没有长度
+The wire that jumps: vertical or horizontal	跳线的导线：vertical 或 horizontal
 The wrap width must not be negative	换行宽度不能为负数
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	安装板热仿真：空气温度、热点、热源以及每个设备处的温度
 Thickest sheet or bar, mm	最厚板材或铜排，mm
@@ -818,7 +828,9 @@ Top edge on the face in mm	面上的上边缘 (mm)
 Top edge on the mounting plate in mm	安装板上的上边缘 (mm)
 Translated line	翻译后的行
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	绕垂直轴旋转的角度（度），从上方看为逆时针（90：正面朝右）
+Two wires at a connection point share a twin ferrule	同一连接点的两根导线共用一个双线管型端子
 Unit, e.g. kW	单位，例如 kW
+Unknown T-connection style: {}	未知的 T 形连接样式：{}
 Unknown accessory kind: {}	未知附件类型：{}
 Unknown action: {}	未知操作：{}
 Unknown address scheme: {}	未知地址方案：{}
@@ -841,7 +853,9 @@ Unknown field: {}	未知字段：{}
 Unknown group kind: {}	未知组类型：{}
 Unknown installation: {}	未知安装方式：{}
 Unknown insulation: {}	未知绝缘：{}
+Unknown jump style: {}	未知的跳线样式：{}
 Unknown jumper kind: {}	未知跳线类型：{}
+Unknown jumping wire: {}	未知的跳线导线：{}
 Unknown kind: {}	未知类型：{}
 Unknown labels: {}	未知标签：{}
 Unknown level: {}	未知级别：{}
@@ -873,6 +887,7 @@ Unknown state: {}	未知状态：{}
 Unknown station kind: {}	未知站类型：{}
 Unknown symbol: {}	未知符号：{}
 Unknown table: {}	未知表格：{}
+Unknown termination: {}	未知的端接方式：{}
 Unknown vertical anchor: {}	未知垂直锚点：{}
 Unknown way of opening: {}	未知的开启方式：{}
 Unknown wire colour {} (IEC 60757: {})	未知导线颜色 {}（IEC 60757：{}）
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	窗：下边缘距地�
 Wire colour (IEC 60757), e.g. BK	导线颜色 (IEC 60757)，例如 BK
 Wire colour, e.g. BU	导线颜色，例如 BU
 Wire colour, e.g. BU (empty = from the potential definition)	导线颜色，例如 BU（空 = 取自电位定义）
+Wire ends get ferrules	导线端使用冷压端子
 Wire number (kept when renumbering)	线号（重新编号时保留）
 Wire numbering and wiring marks	导线编号和接线标记
+Wires crossing without connection: none, arc, bridge or gap	无连接交叉的导线：none、arc、bridge 或 gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	对其保护设备而言过细的导线以及电缆的电压降 (IEC 60204-1)
 Working area in x, mm	x 方向加工区域，mm
 Working area in y, mm	y 方向加工区域，mm
@@ -911,6 +928,7 @@ Y position in mm (downwards)	Y 位置 (mm)（向下）
 any, wires, cables or tubes	any、wires、cables 或 tubes
 auto, above, below, left or right; drops the texts placed by hand	auto、above、below、left 或 right；放弃手动放置的文本
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto、tapped、through、rivet_nut、stud、clip 或 adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle，或 auto（按布局的管型端子设置）
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air、vacuum、hydraulic_oil、water、coolant、lubricant、gas、steam 或 product
 controller, io_device, drive, hmi or other	controller、io_device、drive、hmi 或 other
 copper or aluminium	copper 或 aluminium

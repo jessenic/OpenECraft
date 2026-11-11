@@ -68,6 +68,7 @@ Only parts for direct wall mounting	Nur Artikel für direkte Wandmontage	Seuleme
 Open datasheet	Datenblatt öffnen	Ouvrir la fiche technique	Abrir hoja de datos
 Open in the browser	Im Browser öffnen	Ouvrir dans le navigateur	Abrir en el navegador
 Outside the face	Außerhalb der Fläche	À l'extérieur de la face	Fuera de la cara
+Pans (trackpad)	Verschiebt (Trackpad)	Déplace (pavé tactile)	Desplaza (panel táctil)
 Parts server: {}	Artikelserver: {}	Serveur d'articles : {}	Servidor de artículos: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikel, aus denen dieser Artikel zusammengesetzt ist; die Stückliste führt sie darunter auf	Articles dont cet article est composé ; la nomenclature les liste en dessous	Artículos de los que se compone este artículo; la lista de materiales los muestra debajo
 Personal access token	Persönliches Zugriffstoken	Jeton d'accès personnel	Token de acceso personal
@@ -114,6 +115,7 @@ Wall mounting	Wandmontage	Montage mural	Montaje mural
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Wo das Zubehör am passenden Artikel sitzt, im Aufbauplan und in der 3D-Ansicht	Emplacement de l'accessoire sur l'article auquel il convient, dans l'implantation et la vue 3D	Dónde se sitúa el accesorio en el artículo compatible, en el esquema de montaje y en la vista 3D
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Wo im Aufbau verdrahtet wird: die Bezeichnung wie in der Funktionsschablone, die Lage in der Frontansicht (x von links, y von oben, z über der Montagefläche) und die Richtung, in der die Leitung abgeht. Artikel ohne eigene Anschlüsse erhalten sie aus der Funktionsschablone.	Où les fils sont raccordés dans l'implantation : la désignation comme dans le modèle de fonctions, la position dans la vue de face (x depuis la gauche, y depuis le haut, z au-dessus de la surface de montage) et la direction de départ du fil. Les articles sans points propres les reçoivent du modèle de fonctions.	Dónde se conectan los cables en el montaje: la designación como en la plantilla de funciones, la posición en la vista frontal (x desde la izquierda, y desde arriba, z sobre la superficie de montaje) y la dirección en la que sale el cable. Los artículos sin puntos propios los obtienen de la plantilla de funciones.
 Wire leaves	Abgang	Départ du fil	Salida del cable
+Zooms (mouse wheel)	Zoomt (Mausrad)	Zoome (molette)	Hace zoom (rueda del ratón)
 changes with token	Änderungen mit Token	modifications avec jeton	cambios con token
 created in your EPLAN account (ePulse)	in Ihrem EPLAN-Konto (ePulse) erstellt	créé dans votre compte EPLAN (ePulse)	creado en su cuenta EPLAN (ePulse)
 down	nach unten	vers le bas	hacia abajo

@@ -92,6 +92,7 @@ Auxiliary function: main contact	Segédfunkció: főérintkező
 Auxiliary relay coil R (JIS)	Segédrelé tekercse R (JIS)
 B10d	B10d
 Ball valve	Golyóscsap
+Bare conductor	Csupaszított vezető
 Basis	Alap
 Battery	Akkumulátor
 Battery capacity	Akkumulátor-kapacitás
@@ -499,8 +500,8 @@ Fan 3-phase	Ventilátor, háromfázisú
 Fan 3-phase, 6 terminals	Ventilátor, háromfázisú, 6 csatlakozós
 Ferrule	Érvéghüvely
 Ferrule from	Érvéghüvely kezdet
-Ferrule part	Érvéghüvely-alkatrész
 Ferrule to	Érvéghüvely vég
+Ferrule {} mm² {}	Érvéghüvely {} mm² {}
 Field cable routing	Terepi kábelek nyomvonaltervezése
 Field cable {} cannot be routed from {} to {}	{} terepi kábel nem vezethető el {} és {} között
 Field cable {}: {} is not placed in the plant layout	{} terepi kábel: {} nincs elhelyezve a létesítmény-elrendezésben
@@ -521,6 +522,8 @@ Fitting	Csatlakozószerelvény
 Fittings	Csatlakozószerelvények
 Flame retardant	Lángterjedésgátló
 Flat cable {} has {} cores, the IDC connector {} has {} pins	A(z) {} szalagkábelnek {} ere van, a(z) {} IDC csatlakozónak {} lába
+Flat plug	Laposdugó
+Flat receptacle	Laposhüvely
 Flat roof	Lapostető
 Float switch NC	Úszókapcsoló, nyitóérintkező
 Float switch NO	Úszókapcsoló, záróérintkező
@@ -546,6 +549,7 @@ Foot switch NC	Lábkapcsoló, nyitóérintkező
 Foot switch NO	Lábkapcsoló, záróérintkező
 Foot switch NO (NFPA)	Lábkapcsoló, záróérintkező (NFPA)
 Force	Erő
+Fork terminal	Villás saru
 Format (placeholders)	Formátum (helyőrzők)
 Frame size	Építési méret
 Free	Szabad
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Jelzőlámpa (NFPA)
 Pilot line	Vezérlővezeték
 Pin connection diagram	Csatlakozódugó-bekötési terv
 Pin side (male)	Tüske oldal (apa)
+Pin terminal	Csapos saru
 Pipe	Csővezeték
 Piston diameter	Dugattyúátmérő
 Piston rod diameter	Dugattyúrúd-átmérő
@@ -1338,6 +1343,7 @@ Reviewer	Véleményező
 Revision overview (changes)	Revízió-áttekintés (változások)
 Right side	Jobb oldal
 Right side panel	Jobb oldalfal
+Ring terminal	Gyűrűs saru
 Rivet nut	Szegecsanya
 RoHS compliant	RoHS-megfelelő
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Sorkapocsleírás
 Terminal diagram	Sorkapocsterv
 Terminal line-up	Sorkapocs-sorrend
 Terminal marker	Sorkapocsjelölő
+Terminal parts	Végződések cikkszámai
 Terminal strip data of {} without terminals	{} sorkapocsléc-adatai sorkapcsok nélkül
 Terminal strip overview	Sorkapocsléc-áttekintés
 Terminal strips and PLC addresses	Sorkapocslécek és PLC-címek
+Termination (from)	Lezárás (honnan)
+Termination (to)	Lezárás (hová)
 Text file	Szövegfájl
 The DXF file contains nothing that can be imported	A DXF-fájl nem tartalmaz importálható elemet
 The PDF has no pages that can be read	A PDF-ben nincsenek olvasható oldalak
@@ -1688,6 +1697,14 @@ Tubes	Csövek
 Tubing / piping list	Cső- / tömlőanyag-lista
 Turned once (quarter landing)	Egyszer forduló (negyedpihenő)
 Turned twice (two quarter landings)	Kétszer forduló (két negyedpihenő)
+Twin ferrule	Iker érvéghüvely
+Twin ferrule at {} is not shared with a second wire	A(z) {} iker érvéghüvelyén nem osztozik második vezeték
+Twin ferrule at {} joins wires of {} and {}	A(z) {} iker érvéghüvelye {} és {} keresztmetszetű vezetékeket köt össze
+Twin ferrule at {}: {} wires end there, it takes two	Iker érvéghüvely, {}: {} vezeték végződik ott, kettőt fogad be
+Twin ferrule with (from)	Iker érvéghüvely ezzel (honnan)
+Twin ferrule with (to)	Iker érvéghüvely ezzel (hová)
+Twin ferrule {} mm² {}	Iker érvéghüvely {} mm² {}
+Twin ferrules	Iker érvéghüvelyek
 Two connection symbols on page {} lie on the same point	A(z) {}. lapon két kapcsolati szimbólum ugyanazon a ponton fekszik
 Two-way switch (installation)	Váltókapcsoló (installációs)
 Type numbers	Típusszámok
@@ -1770,6 +1787,7 @@ Winding connection	Tekercskapcsolás
 Wire assigned to unknown cable {}	A vezeték ismeretlen kábelhez van rendelve: {}
 Wire colour GNYE is reserved for protective conductors ({})	A GNYE érszín a védővezetők számára van fenntartva ({})
 Wire colours and cross-sections	Érszínek és keresztmetszetek
+Wire crossings and connections	Vezetékkereszteződések és -csatlakozások
 Wire defaults	Vezeték-alapértékek
 Wire jumper	Huzaláthidaló
 Wire list (panel routing)	Vezetéklista (szekrényen belüli nyomvonal)
@@ -1847,6 +1865,7 @@ leakage	szivárgó
 low	alacsony
 measuring	mérő
 new	új
+no free cable gland	nincs szabad kábeltömszelence
 no header	nincs fejléc
 no list	nincs lista
 no path through the route network	nincs útvonal a nyomvonalhálózaton át
@@ -1878,8 +1897,6 @@ routed	fektetve
 shield clamp ({} mm away)	árnyékolásbilincs ({} mm-re)
 silver	ezüst
 starts with	ezzel kezdődik
-strip {} mm	csupaszolás {} mm
-strip {} mm, ferrule {} mm² {}	csupaszolás {} mm, érvéghüvely {} mm² {}
 suction	szívó
 supply	táp
 terminals {} – {}	sorkapcsok: {} – {}
@@ -1937,6 +1954,7 @@ yellow	sárga
 {} unused device data records removed	{} nem használt készülékadatrekord eltávolítva
 {} wiring marks belong to wires that no longer exist	{} huzalozási jelölés már nem létező vezetékekhez tartozik
 {} without device tag on page {}	{0} készülékazonosító nélkül a(z) {1}. oldalon
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} nem vezethető: {} minden kábeltömszelencéjét másik kábel foglalja. Adjon hozzá egy kábeltömszelencét.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} nem fektethető: nincs út, amely fél vastagságnyira marad mindentől és {} mm sugárral hajlik. Helyezze át a végeket vagy csináljon helyet.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} a fenéken keresztül lép be: nincs kábeltömszelence a szekrényben
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} a tetőn keresztül lép be: nincs kábeltömszelence a tetőn, az oldalakon vagy a hátfalon
@@ -2003,6 +2021,7 @@ yellow	sárga
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: nincs áthidaló-alkatrész a(z) {} áthidaláshoz (a sorkapocs-alkatrész Jumper műszaki adata)
 {}: no part assigned	{}: nincs hozzárendelt alkatrész
 {}: no service space of {} mm in front of {} (the door is too close)	{}: nincs {} mm szervizterület a(z) {} előtt (az ajtó túl közel van)
+{}: none for this cross-section	{}: ehhez a keresztmetszethez nincs
 {}: not in the single-line diagram	{}: nincs az egyvonalas rajzon
 {}: not placed in the panel layout	{}: nincs elhelyezve a szekrényelrendezésben
 {}: operations per year needed for the B10d of {}	{}: a(z) {} B10d-értékéhez szükséges az évenkénti kapcsolási szám

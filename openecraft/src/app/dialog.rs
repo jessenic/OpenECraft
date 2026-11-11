@@ -50,6 +50,12 @@ impl Dialogs {
     /// corner there every time. The bool is true when Esc closes the dialog in this frame.
     pub fn window(&mut self, ctx: &egui::Context, title: impl Into<egui::WidgetText>, salt: &str, at: Option<egui::Pos2>) -> (egui::Window<'static>, bool) {
         let id = egui::Id::unique(("dialog", salt));
+        // Recover dialogs collapsed by a command in older versions: these windows
+        // have no collapse button with which to reopen their contents.
+        if let Some(mut state) = egui::collapsing_header::CollapsingState::load(ctx, id.with("collapsing")) {
+            state.set_open(true);
+            state.store(ctx);
+        }
         let opens = self.opens(id);
         let esc = self.shown(id);
         let w = egui::Window::new(title).id(id).collapsible(false).constrain(true);

@@ -471,6 +471,7 @@ open	開
 rejected	却下
 right	右
 spare	予備
+strip {} mm, {}	被覆除去 {} mm、{}
 the disk is full	ディスクがいっぱいです
 the file exists already	ファイルは既に存在します
 this is a folder	これはフォルダーです
@@ -480,5 +481,6 @@ yes	はい
 {} exists already	{} は既に存在します
 {} parts	{} 個の部品
 {} wires	{} 本の電線
+{}, together with the wire to {}	{}、{} への電線と共用
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} は床置きではありません。床置き部品を選択してください
 ➕ Add accessory	➕ 付属品を追加

@@ -474,6 +474,7 @@ open	открыто
 rejected	отклонено
 right	вправо
 spare	резерв
+strip {} mm, {}	зачистить {} мм, {}
 the disk is full	диск заполнен
 the file exists already	файл уже существует
 this is a folder	это папка
@@ -483,5 +484,6 @@ yes	да
 {} exists already	{} уже существует
 {} parts	Изделий: {}
 {} wires	Проводов: {}
+{}, together with the wire to {}	{}, вместе с проводом к {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} не устанавливается на пол, выберите напольное изделие
 ➕ Add accessory	➕ Добавить принадлежность

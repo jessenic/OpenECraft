@@ -96,6 +96,7 @@ Changes the properties of a wire	Изменяет свойства провод�
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Изменяет систему, размер и компоненты корпуса (цоколь, пристыкованные стороны, фланцевая панель); привязанные элементы следуют за ним
 Check {} failed: {}	Сбой проверки {}: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Проверяет компоновку шкафа: коллизии, зазоры (монтажные, вентиляционные, ЭМС), зону обслуживания, высоты над полом, классы коллизий, температуры и технологичность
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Выбирает оконцевание проводов: зачищенный конец, наконечник-гильза или опрессованный наконечник; в точке подключения, во всех точках подключения устройства или только для одного провода
 Chosen value	Выбранное значение
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Зазоры, зона обслуживания, высоты, классы коллизий, тепловое моделирование и технологичность компоновки шкафа
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Климат корпусов (IEC/TR 60890): потери мощности, внутренняя температура, требуемый вентилятор или холодильный агрегат и обогрев; при необходимости изменяет настройки одного корпуса
@@ -113,6 +114,7 @@ Connection point TAG:PIN, e.g. -K1:A1	Точка подключения TAG:PIN,
 Connection point designation or number (1, 2, …)	Обозначение точки подключения или номер (1, 2, …)
 Connection point designations separated by commas or blanks	Обозначения точек подключения через запятую или пробел
 Connection point designations, comma separated, e.g. 13,14	Обозначения точек подключения через запятую, например 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Точка подключения, напр. -K1:13, или устройство, напр. -K1 (все его точки подключения)
 Connector id (required unless removing)	ID коннектора (обязательно, кроме удаления)
 Connects two connection points with wires routed around symbols and other wires	Соединяет две точки подключения проводами в обход символов и других проводов
 Connects two ports of stations with a network cable; connections already on these ports are replaced	Соединяет два порта станций сетевым кабелем; существующие соединения на этих портах заменяются
@@ -379,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Выводит список подпроектов, вынесенных из проекта, или проект, из которого он был вынесен
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Выводит список символов, которые можно разместить, с их точками подключения относительно точки вставки
 Lists the terminal strips with their number of terminals and length on the rail	Выводит список клеммных колодок с числом клемм и длиной на рейке
+Lists the terminations chosen for wire ends and the kinds there are	Перечисляет выбранные оконцевания концов проводов и доступные виды
 Lists the translation dictionary of the project texts (source line and translations)	Выводит словарь переводов текстов проекта (исходная строка и переводы)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Выводит список оконных макросов, размещённых на листах (рамки макросов), с макросом, вариантом, значениями заполнителей и числом элементов
 Load losses of the transformer in W (0: typical)	Потери короткого замыкания трансформатора в W (0: типовые)
@@ -521,6 +524,7 @@ Operations	Операции
 Option name	Имя параметра
 Option name, e.g. STARTER	Имя параметра, например STARTER
 Options and rules of the configurator	Параметры и правила конфигуратора
+Other end of the wire, e.g. -X1:3: only this wire	Другой конец провода, напр. -X1:3: только этот провод
 Other end, e.g. -X1:3	Другой конец, например -X1:3
 Outer diameter in mm, 0 = estimated	Наружный диаметр в мм, 0 = оценивается
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Наружные длины прямых участков, мм, например 200, 150, 300
@@ -655,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Блоки отчётов и схемы отчётов
 Reserves space over the mounting plate: kept free of routes, or for one class only	Резервирует пространство над монтажной панелью: свободное от трасс или только для одного класса
 Rest (mm)	Остаток (мм)
+Reuse failed searches during one routing calculation	Повторно использовать неудачные поиски в рамках одного расчёта трасс
 Right side bayed (no side panel)	Правая сторона пристыкована (без боковой стенки)
 Room {} exists already	Помещение {} уже существует
 Rotation in degrees clockwise: 0, 90, 180 or 270	Поворот в градусах по часовой стрелке: 0, 90, 180 или 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Поворот в градусах против часовой стрелки (при 90 текст читается снизу вверх)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Прокладывать соединения перемещённых элементов заново: кратчайший путь с наименьшим числом изгибов и пересечений
 Route the wires in 3D as well (otherwise through the cable ducts)	Прокладывать провода тоже в 3D (иначе по кабельным каналам)
 Routing rules, paths, reservations, frozen routes and cable shields	Правила прокладки, пути, резервирования, зафиксированные трассы и экраны кабелей
 Row key (from table_get)	Ключ строки (из table_get)
@@ -683,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Разделитель: semicolon, comma или tab
 Sets how cross references are shown (only the given settings) and shows the settings	Задаёт способ отображения перекрёстных ссылок (только указанные настройки) и показывает настройки
 Sets how the terminals of a jumper are bridged	Задаёт способ соединения клемм перемычки
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Задаёт оконцевание концов проводов без выбранного оконцевания: с наконечниками или без них, и с двойными наконечниками там, где два провода подключены к одной точке
 Sets property values of an object; an empty value removes it	Задаёт значения свойств объекта; пустое значение удаляет свойство
 Sets the aspects the pages use	Задаёт аспекты, используемые листами
 Sets the collision class of a panel item (empty: automatic)	Задаёт класс коллизий элемента компоновки (пусто: автоматически)
@@ -714,6 +721,7 @@ Show as \"Name: value\"	Показывать как «Имя: значение»
 Show the content	Показать содержимое
 Shows a property as a text beside a symbol	Показывает свойство в виде текста рядом с символом
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Показывает клеммную колодку: клеммы в порядке колодки с ярусом, перемычкой и целями, блоки на рейке и перемычки
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Показывает, как провода пересекаются и соединяются на страницах и прокладываются ли соединения перемещённых элементов заново, и изменяет заданные значения
 Shows or changes the machining strategy and which machine makes which face	Показывает или изменяет стратегию обработки и то, какой станок обрабатывает какую поверхность
 Shows or changes the rules of copper bars; lengths in mm	Показывает или изменяет правила для медных шин; длины в мм
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Показывает или изменяет правила проверок компоновки шкафа; значения в мм (температура в °C)
@@ -763,6 +771,7 @@ Symbol ids	Идентификаторы символов
 Symbol key from list_symbols	Ключ символа из list_symbols
 Symbol {} has no connection point {}	У символа {} нет точки подключения {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	Символы, провода, тексты, определения кабелей и соединений на листах схем
+T-connections: dot, large_dot or none	T-соединения: dot, large_dot или none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	Т-образный узел: направление ножки; мост: сторона, с которой приходит соединение (left, right, up или down)
 Tag of the terminal strip, e.g. -X1	Обозначение клеммной колодки, например -X1
 Take the cut lengths over as cable lengths	Принять длины отрезков как длины кабелей
@@ -808,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	Пр�
 The text height must be at least 0.5 mm	Высота текста должна быть не меньше 0,5 мм
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Два плеча угла, вертикальное и горизонтальное, например down left (по умолчанию: по проводам в этой точке, иначе down right)
 The wire has no length	У соединения нет длины
+The wire that jumps: vertical or horizontal	Провод, который перескакивает: vertical или horizontal
 The wrap width must not be negative	Ширина переноса не может быть отрицательной
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Тепловое моделирование монтажной панели: температуры воздуха, горячая точка, источники тепла и температура у каждого устройства
 Thickest sheet or bar, mm	Максимальная толщина листа или шины, мм
@@ -818,7 +828,9 @@ Top edge on the face in mm	Верхний край на поверхности �
 Top edge on the mounting plate in mm	Верхний край на монтажной панели в мм
 Translated line	Переведённая строка
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Поворот вокруг вертикальной оси в градусах, против часовой стрелки при виде сверху (90: лицевые стороны обращены вправо)
+Two wires at a connection point share a twin ferrule	Два провода в точке подключения получают общий двойной наконечник
 Unit, e.g. kW	Единица, например kW
+Unknown T-connection style: {}	Неизвестный стиль T-соединения: {}
 Unknown accessory kind: {}	Неизвестный вид принадлежности: {}
 Unknown action: {}	Неизвестное действие: {}
 Unknown address scheme: {}	Неизвестная схема адресации: {}
@@ -841,7 +853,9 @@ Unknown field: {}	Неизвестное поле: {}
 Unknown group kind: {}	Неизвестный вид группы: {}
 Unknown installation: {}	Неизвестный способ установки: {}
 Unknown insulation: {}	Неизвестная изоляция: {}
+Unknown jump style: {}	Неизвестный стиль перескока: {}
 Unknown jumper kind: {}	Неизвестный вид перемычки: {}
+Unknown jumping wire: {}	Неизвестный перескакивающий провод: {}
 Unknown kind: {}	Неизвестный вид: {}
 Unknown labels: {}	Неизвестные подписи: {}
 Unknown level: {}	Неизвестный уровень: {}
@@ -873,6 +887,7 @@ Unknown state: {}	Неизвестное состояние: {}
 Unknown station kind: {}	Неизвестный вид станции: {}
 Unknown symbol: {}	Неизвестный символ: {}
 Unknown table: {}	Неизвестная таблица: {}
+Unknown termination: {}	Неизвестное оконцевание: {}
 Unknown vertical anchor: {}	Неизвестная вертикальная привязка: {}
 Unknown way of opening: {}	Неизвестный способ открывания: {}
 Unknown wire colour {} (IEC 60757: {})	Неизвестный цвет провода {} (IEC 60757: {})
@@ -900,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Окна: высота 
 Wire colour (IEC 60757), e.g. BK	Цвет провода (IEC 60757), например BK
 Wire colour, e.g. BU	Цвет провода, например BU
 Wire colour, e.g. BU (empty = from the potential definition)	Цвет провода, например BU (пусто = из определения потенциала)
+Wire ends get ferrules	Концы проводов получают наконечники
 Wire number (kept when renumbering)	Номер провода (сохраняется при перенумерации)
 Wire numbering and wiring marks	Нумерация проводов и отметки проводки
+Wires crossing without connection: none, arc, bridge or gap	Провода, пересекающиеся без соединения: none, arc, bridge или gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Слишком тонкие провода для их защитного устройства и падение напряжения в кабелях (IEC 60204-1)
 Working area in x, mm	Рабочая зона по x, мм
 Working area in y, mm	Рабочая зона по y, мм
@@ -911,6 +928,7 @@ Y position in mm (downwards)	Положение по Y в мм (вниз)
 any, wires, cables or tubes	any, wires, cables или tubes
 auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left или right; отбрасывает тексты, размещённые вручную
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip или adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle или auto (по настройке наконечников компоновки)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam или product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi или other
 copper or aluminium	copper или aluminium

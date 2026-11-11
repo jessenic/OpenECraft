@@ -67,6 +67,7 @@ Only parts for direct wall mounting	Solo articoli per montaggio diretto a parete
 Open datasheet	Apri scheda tecnica
 Open in the browser	Apri nel browser
 Outside the face	Al di fuori della faccia
+Pans (trackpad)	Sposta la vista (trackpad)
 Parts server: {}	Server articoli: {}
 Parts this part is assembled from; the bill of materials lists them under it	Articoli che compongono questo articolo; la distinta base li elenca al di sotto
 Personal access token	Token di accesso personale
@@ -113,6 +114,7 @@ Wall mounting	Montaggio a parete
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Dove si trova l'accessorio sull'articolo compatibile, nel layout del quadro e nella vista 3D
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Dove vengono collegati i conduttori nel layout quadro: la designazione come nel modello di funzione, la posizione nella vista frontale (x da sinistra, y dall'alto, z sopra la superficie di montaggio) e la direzione di uscita del conduttore. Gli articoli senza punti di connessione propri li ricevono dal modello di funzione.
 Wire leaves	Uscita conduttore
+Zooms (mouse wheel)	Zoom (rotella del mouse)
 changes with token	modifiche con token
 created in your EPLAN account (ePulse)	creato nel proprio account EPLAN (ePulse)
 down	verso il basso
