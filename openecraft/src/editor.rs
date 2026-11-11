@@ -129,7 +129,7 @@ enum Drag {
     /// The selection with the connection points of its device boxes (`items`) moves;
     /// its connection points and wire ends (`points`) snap to the invisible grid lines
     /// of what stays (`lines`).
-    Move { start: P, applied: P, moving: routing::Moving, items: BTreeSet<u64>, points: Vec<P>, lines: snap_lines::SnapLines },
+    Move { start: P, applied: P, moving: Box<routing::Moving>, items: BTreeSet<u64>, points: Vec<P>, lines: snap_lines::SnapLines },
     Box { start: Pos2 },
     /// `side`: side of a dragged connection point designation (symbol orientation).
     Prop { handle: PropHandle, start: P, orig: P, side: Option<LabelSide> },
@@ -1949,7 +1949,7 @@ impl Editor {
                     self.selection.insert(id);
                 }
                 let items = self.items(prj, page_i);
-                let moving = routing::Moving::new(prj, page_i, &items);
+                let moving = Box::new(routing::Moving::new(prj, page_i, &items));
                 let page = &prj.pages[page_i];
                 let points = snap_lines::points_of(prj, page, &items);
                 let lines = snap_lines::SnapLines::without(prj, page, self.grid, &points);
