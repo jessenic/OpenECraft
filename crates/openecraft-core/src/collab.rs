@@ -571,6 +571,7 @@ fn with_data(out: &mut Project, src: &Project) {
         potentials,
         wire_defaults,
         wire_colors,
+        wire_settings,
         strips,
         plugs,
         plc_cards,
@@ -617,6 +618,7 @@ fn with_data(out: &mut Project, src: &Project) {
     out.potentials = potentials.clone();
     out.wire_defaults = wire_defaults.clone();
     out.wire_colors = *wire_colors;
+    out.wire_settings = wire_settings.clone();
     out.strips = strips.clone();
     out.plugs = plugs.clone();
     out.plc_cards = plc_cards.clone();
@@ -665,6 +667,7 @@ fn same_data(a: &Project, b: &Project) -> bool {
         potentials,
         wire_defaults,
         wire_colors,
+        wire_settings,
         strips,
         plugs,
         plc_cards,
@@ -712,6 +715,7 @@ fn same_data(a: &Project, b: &Project) -> bool {
         && *potentials == b.potentials
         && *wire_defaults == b.wire_defaults
         && *wire_colors == b.wire_colors
+        && *wire_settings == b.wire_settings
         && *strips == b.strips
         && *plugs == b.plugs
         && *plc_cards == b.plc_cards

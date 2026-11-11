@@ -8,6 +8,7 @@ A page named {} already exists	이름이 {}인 페이지가 이미 있습니다
 A page needs a name	페이지에는 이름이 필요합니다
 A routing path needs {} points at least	배선 경로에는 점이 {}개 이상 필요합니다
 A section cannot be moved into itself	구역을 자기 자신 안으로 이동할 수 없습니다
+Above	위
 Access token	액세스 토큰
 Accessories	부속품
 Accessory	부속품
@@ -18,6 +19,7 @@ Angle	각도
 Apply	적용
 Approvers	승인자
 Automatic	자동
+Below	아래
 Bold	굵게
 Bottom	바닥
 Bottom with removable gland plate	분리형 글랜드 플레이트가 있는 바닥
@@ -470,6 +472,7 @@ open	열림
 rejected	거부됨
 right	오른쪽
 spare	예비
+strip {} mm, {}	피복 제거 {} mm, {}
 the disk is full	디스크가 가득 찼습니다
 the file exists already	파일이 이미 있습니다
 this is a folder	폴더입니다
@@ -479,5 +482,6 @@ yes	예
 {} exists already	{}이(가) 이미 있습니다
 {} parts	부품 {}개
 {} wires	전선 {}개
+{}, together with the wire to {}	{}, {}(으)로 가는 전선과 함께
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {}은(는) 바닥 설치형이 아닙니다. 바닥 설치형 부품을 선택하십시오
 ➕ Add accessory	➕ 부속품 추가

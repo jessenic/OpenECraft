@@ -174,6 +174,7 @@ Automatic (from the potential definition)	Otomatik (potansiyel tanımından)
 Automatic ({})	Otomatik ({})
 Automatic accessories	Otomatik aksesuarlar
 Automatic configuration	Otomatik yapılandırma
+Automatic placement	Otomatik yerleştirme
 Automation	Otomasyon
 Aux	Yrd.
 Avoid:	Kaçın:
@@ -229,6 +230,7 @@ Cable definition	Kablo tanımı
 Cable definition on page {}	{} sayfasında kablo tanımı
 Cable definition: draw a line across the wires that are cores of a cable	Kablo tanımı: bir kablonun damarları olan tellerin üzerinden bir çizgi çizin
 Cable end reserve	Kablo ucu payı
+Cable ends	Kablo uçları
 Cable markers	Kablo işaretleri
 Cable passage to {}	{} ile kablo geçişi
 Cable {}: {} cores assigned	Kablo {}: {} damar atandı
@@ -364,11 +366,13 @@ Connected devices	Bağlı cihazlar
 Connected to:	Şuna bağlı:
 Connection definition point	Bağlantı tanım noktası
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Bağlantı tanım noktası: bir bağlantının numarasını, rengini, kesitini ve kablo damarını belirler
+Connection point designations	Bağlantı noktası tanımları
 Connection point {}	Bağlantı noktası {}
 Connection points 1 and 2 are connected inside	Bağlantı noktaları 1 ve 2 içeriden bağlı
 Connection:	Bağlantı:
 Connections ({})	Bağlantılar ({})
 Connections / harness	Bağlantılar / kablo demeti
+Connections of four or more wires always have a dot.	Dört veya daha fazla telin bağlantılarında her zaman nokta bulunur.
 Connections whose two ends are both on selected wires	İki ucu da seçili teller üzerinde olan bağlantılar
 Connections without a defined potential	Tanımlı potansiyeli olmayan bağlantılar
 Connectors	Konnektörler
@@ -389,6 +393,7 @@ Copy / cut / paste (devices get new tags)	Kopyala / kes / yapıştır (cihazlar 
 Copy as new	Yeni olarak kopyala
 Copy built-in…	Yerleşik olanı kopyala…
 Core designations separated by blanks	Boşlukla ayrılmış damar tanımları
+Core labels placed by hand	Damar etiketleri elle yerleştirildi
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Kesişen teller için 1, 2, 3 … damarları, artı GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Köşe: dik açılı iki tel; otomatik bağlama açıkken kollarına bakan bağlantı noktaları ona bağlanır
 Cover sheet, overview, graphics, report, mounting layout or a page template	Kapak sayfası, genel bakış, grafik, rapor, montaj yerleşimi veya bir sayfa şablonu
@@ -428,6 +433,7 @@ Dashed	Kesik çizgili
 Decimals	Ondalık basamak
 Default	Varsayılan
 Default (part data or definition)	Varsayılan (parça verileri veya tanım)
+Default ({})	Varsayılan ({})
 Default label	Varsayılan yazı
 Default medium	Varsayılan ortam
 Default rules	Varsayılan kurallar
@@ -547,7 +553,10 @@ Downloading OpenECraft {}	OpenECraft {} indiriliyor
 Downstream part	Alt taraftaki parça
 Draft of revision {} created	Revizyon {} taslağı oluşturuldu
 Draft of revision {} discarded	Revizyon {} taslağı atıldı
+Drag a connection point designation of the selected symbol to place it.	Yerleştirmek için seçili sembolün bir bağlantı noktası tanımını sürükleyin.
 Drag an entry into the page, or click it and then click into the page.	Bir girişi sayfaya sürükleyin veya tıklayıp ardından sayfaya tıklayın.
+Drag the core designation or the cable tag of the selected wire to place it.	Yerleştirmek için seçili telin damar tanımını veya kablo etiketini sürükleyin.
+Drag the name or the cross reference of the selected point to place it.	Yerleştirmek için seçili noktanın adını veya çapraz referansını sürükleyin.
 Drag the tag of the selected symbol to place it.	Yerleştirmek için seçili sembolün etiketini sürükleyin.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Sürükle: yörünge · sağ/orta tuşla veya Shift ile sürükle: kaydır · tekerlek: işaretçide yakınlaştır · çift tıklama: oraya bak · W A S D / oklar, Q E: hareket · tıklama: seç
 Draw	Çiz
@@ -649,7 +658,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Malzeme listesinde sabitleme elemanları
 Favorite	Favori
 Favorites (JSON)	Favoriler (JSON)
-Ferrule {} ({})	Kablo yüksüğü {} ({})
 Field	Alan
 Field (name, description, company, creator, date, revision) or project property	Alan (name, description, company, creator, date, revision) veya proje özelliği
 Field cables	Saha kabloları
@@ -785,6 +793,8 @@ Hose number	Hortum numarası
 Hoses and pipes	Hortumlar ve borular
 Hoses rated below it are errors; 0 = not checked	Bunun altında derecelendirilmiş hortumlar hatadır; 0 = kontrol edilmez
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Kanadın açılışı: sol veya sağ kenarında menteşeli (odanın içinden bakıldığında), odaya doğru veya dışarı, ya da duvar boyunca sürgülü
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Telin bu uçta nasıl sonlandırıldığı; varsayılan olarak bağlantı noktası veya cihazı için seçildiği gibi, aksi halde yerleşimin yüksük ayarına göre
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Tellerin kesiştikleri tellerin üzerinden nasıl atladığı, T bağlantılarının nasıl işaretlendiği ve taşınan öğelerin bağlantılarının yeniden yönlendirilip yönlendirilmediği
 IP / bus address	IP / bus adresi
 ISO 639-1 language code	ISO 639-1 dil kodu
 Identifiers	Tanımlayıcılar
@@ -859,6 +869,7 @@ Insulation	Yalıtım
 Interruption points refer to	Kesme noktalarının referansı
 Introduction	Giriş
 Invalid value	Geçersiz değer
+Invert the direction of panning by scrolling	Kaydırmayla görünüm kaydırma yönünü ters çevir
 Inverter or charge controller (devices with PV input data)	İnvertör veya şarj kontrol cihazı (PV giriş verisi olan cihazlar)
 Isometric	İzometrik
 Items on the layer	Katmandaki öğeler
@@ -870,6 +881,7 @@ Join collinear wires	Doğrusal telleri birleştir
 Joins	Bağlar
 Joins wire pieces in a line where nothing else connects (current page)	Başka hiçbir şeyin bağlanmadığı yerlerde bir hat üzerindeki tel parçalarını birleştirir (geçerli sayfa)
 Jumper {}	Köprü {}
+Jumps over the other:	Diğerinin üzerinden atlar:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Alt sayfaları (3.a, 3.1) önceki sayfayla birlikte tut
 Keep the degree of protection	Koruma derecesini koru
@@ -883,6 +895,7 @@ Label (grey)	Yazı (gri)
 Label field	Yazı alanı
 Labeling scheme	Etiketleme şeması
 Landscape	Yatay
+Large dot	Büyük nokta
 Larger texts and buttons for a touch screen at the workbench	Tezgâhtaki dokunmatik ekran için daha büyük metinler ve düğmeler
 Latitude, longitude	Enlem, boylam
 Layer	Katman
@@ -997,6 +1010,7 @@ Min. bend radius	Min. bükme yarıçapı
 Minimize the ribbon	Şeridi küçült
 Mirror	Yansıt
 Mirror (selection or symbol being placed)	Yansıt (seçim veya yerleştirilen sembol)
+Mixed	Karışık
 Mode	Mod
 Model of a part (2D / 3D)	Bir parçanın modeli (2D / 3D)
 Module part; its size comes from the part	Modül parçası; boyutu parçadan gelir
@@ -1020,6 +1034,7 @@ Move to section	Bölüme taşı
 Move up	Yukarı taşı
 Moves to the top level as page {}	En üst düzeye {} sayfası olarak geçer
 Moves to {} as page {}	{} bölümüne {} sayfası olarak geçer
+Moving	Taşıma
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Geçerli sayfanın tek hatlı sembolleri için yeni bir sayfada çok hatlı güç sembolleri ve iletkenler
 Multiple copy	Çoklu kopyala
 Multiple copy…	Çoklu kopyala…
@@ -1032,9 +1047,11 @@ NC data (DXF)	NC verileri (DXF)
 NC data of this face (DWG)	Bu yüzeyin NC verileri (DWG)
 NC data of this face (DXF)	Bu yüzeyin NC verileri (DXF)
 Nailboard (SVG)…	Çivili tahta (SVG)…
+Name and cross reference	Ad ve çapraz referans
 Name on the server	Sunucudaki ad
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Ad; Veri tipi; Mantıksal adres; Açıklama – PLC programlama araçları için
 Named copy of this form, for report blocks	Rapor blokları için bu formun adlandırılmış kopyası
+Navigation	Gezinme
 Navigators	Gezginler
 Neutral exchange file…	Nötr değişim dosyası…
 Never	Hiçbir zaman
@@ -1101,11 +1118,13 @@ No device has its main function in the box.	Hiçbir cihazın ana fonksiyonu kutu
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Henüz hiçbir cihazın montaj verisi yok: cihazlara boyutları olan parçalar atayın (Özellikler › Parçalar).
 No differences to {}.	{} ile fark yok.
 No document embedded	Gömülü belge yok
+No dot: plain T	Nokta yok: düz T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Henüz pano yok – Yeni pano ile bir pano veya Yeni oda ile panolar için bir oda oluşturun.
 No field cables: place the enclosures and field devices at nodes of the route network.	Saha kablosu yok: panoları ve saha cihazlarını güzergâh ağının düğümlerine yerleştirin.
 No filter fans: an air/air heat exchanger or a cooling unit	Filtreli fan yok: hava/hava ısı eşanjörü veya soğutma ünitesi
 No harnesses defined.	Tanımlı kablo demeti yok.
 No inverter	İnvertör yok
+No jump: plain crossing, connections have dots	Atlama yok: düz kesişim, bağlantılarda nokta var
 No longer reported	Artık bildirilmiyor
 No macros yet. Select items in a schematic and save them as a macro.	Henüz makro yok. Bir şemada öğeleri seçin ve makro olarak kaydedin.
 No modules: plug in PLC cards of the schematic.	Modül yok: şemadaki PLC kartlarını takın.
@@ -1308,6 +1327,7 @@ Place the georeferenced point everything is measured from	Her şeyin ölçüldü
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Tesisin coğrafi referanslı noktasını vaziyet planına yerleştirin; koordinatları Binalar paneline girilir, her nokta ondan ölçülür
 Placed	Yerleştirildi
 Placed by hand	Elle yerleştirildi
+Placed by hand; choosing a side places them anew.	Elle yerleştirildi; bir taraf seçmek onları yeniden yerleştirir.
 Placed here: {}	Buraya yerleştirildi: {}
 Placed {}× in the project	Projede {}× yerleştirildi
 Placeholders	Yer tutucular
@@ -1352,6 +1372,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Parçaların k
 Pre-planning (CSV, Excel)	Ön planlama (CSV, Excel)
 Prefix	Önek
 Press a key…	Bir tuşa basın…
+Preview	Önizleme
 Previous item	Önceki öğe
 Previous page	Önceki sayfa
 Previous page tab	Önceki sayfa sekmesi
@@ -1501,6 +1522,7 @@ Reset	Sıfırla
 Reset all to the defaults	Tümünü varsayılanlara sıfırla
 Reset pane layout	Panel düzenini sıfırla
 Reset the ribbon	Şeridi sıfırla
+Reset to automatic placement	Otomatik yerleşime dön
 Reset to standard	Standarda sıfırla
 Restart and update	Yeniden başlat ve güncelle
 Resulting: {} · {} · {} · {} m	Sonuç: {} · {} · {} · {} m
@@ -1540,6 +1562,7 @@ Round	Yuvarlak
 Round cutouts facing each other in both side walls	Her iki yan duvarda karşılıklı yuvarlak kesimler
 Route definition of {}	{} güzergâh tanımı
 Route network	Güzergâh ağı
+Route the connections of moved items anew	Taşınan öğelerin bağlantılarını yeniden yönlendir
 Route wires in 3D	Telleri 3D olarak yönlendir
 Routed in {}: {} m, {} bends	{} içinde yönlendirildi: {} m, {} büküm
 Routing around symbols	Sembollerin etrafından yönlendirme
@@ -1601,6 +1624,9 @@ Scheme name	Düzen adı
 Scheme placed again at {} symbols	Şema {} sembole yeniden yerleştirildi
 Scheme {}	Düzen {}
 Screws, nuts, washers and rivet nuts of the fixing points	Sabitleme noktalarının vidaları, somunları, pulları ve perçin somunları
+Scrolling	Kaydırma
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Kaydırma görünümü her yöne kaydırır; yakınlaştırmak için kıstırın veya Ctrl + kaydırma kullanın.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Yukarı ve aşağı kaydırma imleçte yakınlaştırır, yana (yatay tekerlek, Shift + tekerlek) görünümü kaydırır.
 Search (* and ? as placeholders)…	Ara (* ve ? joker karakter olarak)…
 Search below this folder	Bu klasörün altında ara
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Parça sunucusunda katalog, ürün grubu ve teknik verilere göre arayın, parça ekleyin ve veritabanında güncellemeleri kontrol edin
@@ -1779,6 +1805,7 @@ Synchronize	Eşitle
 Synchronize function texts	Fonksiyon metinlerini eşitle
 Synchronize project parts from database	Proje parçalarını veritabanından eşitle
 T Text	T Metin
+T-connections	T bağlantıları
 Tab	Sekme
 Table import failed: {}	Tablo içe aktarma başarısız oldu: {}
 Tablet mode	Tablet modu
@@ -1799,6 +1826,7 @@ Taken into the drawing: drawn faded	Çizime aktarıldı: soluk çizilir
 Takes the comments as function texts (matched by address)	Açıklamaları fonksiyon metni olarak alır (adrese göre eşleştirilir)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Bu cihazın tüm fonksiyonlarının bağlantı noktası tanımlarını parçalarının fonksiyon şablonlarından alır
 Takes the rights of the role away, whatever other grants give	Diğer atamalar ne verirse versin rolün haklarını geri alır
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	En düşük ağırlıklı yolu seçer: ızgara adımı cinsinden uzunluğu, büküm başına 1,2 ve kesişilen tel başına 1,5. Kapalı: teller uzar ve köşelerini korur.
 Target languages	Hedef diller
 Temperature rise at the roof against the middle (IEC/TR 60890)	Tavandaki sıcaklık artışı, ortaya göre (IEC/TR 60890)
 Template	Şablon
@@ -1828,6 +1856,7 @@ The dictionary is empty: collect the texts from the project.	Sözlük boş: meti
 The door seen from the front: door devices and cutouts	Önden görülen kapı: kapı cihazları ve kesimler
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	İçeriden görülen kapı (menteşeler sağda): kablo kanalları ve kapının arkasındaki kablolama
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Pano sol tarafıyla seçilen panonun sağ tarafına dayanır; teller aralarında kablo geçişlerinden geçer
+The horizontal wire	Yatay tel
 The items are selected and moved together	Öğeler birlikte seçilir ve taşınır
 The macro library has no page macros (Macros › Save page as macro…).	Makro kütüphanesinde sayfa makrosu yok (Makrolar › Sayfayı makro olarak kaydet…).
 The modules no string takes yet in series, on the first inverter	Henüz hiçbir dizinin almadığı modüller, seri olarak, ilk invertörde
@@ -1854,6 +1883,7 @@ The side of {} is open	{} tarafı açık
 The symbol is placed in the project	Sembol projede kullanılıyor
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Klemens parçaları klemens stoperi veya uç kapağı belirtmiyor (End bracket, End plate teknik verileri).
 The update failed	Güncelleme başarısız oldu
+The vertical wire	Dikey tel
 The web version is updated on its server.	Web sürümü kendi sunucusunda güncellenir.
 The wire tool routes around symbols and other wires	Tel aracı sembollerin ve diğer tellerin etrafından yönlendirir
 The wires get the free cores of the cable in order (left to right)	Teller kablonun boş damarlarını sırayla (soldan sağa) alır
@@ -1880,10 +1910,14 @@ Top edges	Üst kenarlar
 Top left	Sol üst
 Top right	Sağ üst
 Total selectivity	Tam seçicilik
+Touch screen	Dokunmatik ekran
 Transfer project parts to database	Proje parçalarını veritabanına aktar
 Translate the project texts; documentation per language	Proje metinlerini çevir; dil başına dokümantasyon
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Dikey eksen etrafında dönüş, yukarıdan bakıldığında saat yönünün tersine (90 °: ön yüzler sağa bakar)
 Tutorial	Eğitim
+Twin ferrules where two wires share a connection point	İki telin bir bağlantı noktasını paylaştığı yerlerde ikiz yüksükler
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dokunmatik yüzeyde iki parmak görünümü kaydırır, fare tekerleği yakınlaştırır. Bunları yalnızca macOS ayırt eder; diğer sistemlerde kaydırma tekerlek gibi yakınlaştırır.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	İki parmak aynı anda görünümü kaydırır ve kıstırarak yakınlaştırır; tek parmak sol fare düğmesi gibi çalışır.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Burada iki tel dik açıyla birleşmeli. Otomatik bağlama açıkken kollarına bakan bağlantı noktaları ona bağlanır.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Bir nokta yazın ve Enter'a basın: mm cinsinden x y veya son noktaya göre @dx dy; geçerli aracın tıklaması gibi davranır
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1968,6 +2002,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Tekerlek: yakınlaştır · sağ tık: iptal · grafikler 0,5 mm'ye, bağlantı noktaları 4 mm ızgaraya yaslanır
 When it differs from the page	Sayfadan farklı olduğunda
 Where	Konum
+Where neither wire has a termination chosen for it	Hiçbir tel için sonlandırma seçilmemişse
 Where the point is in the plant; y: its height above the ground level of the plant	Noktanın tesisteki yeri; y: tesisin zemin seviyesinin üzerindeki yüksekliği
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Cihazın yapısının kaynağı: sembolün çevresindeki yapıya eşit olan yönler devralınır ve sembol bir yapı kutusuna girdiğinde veya çıktığında değişir; diğer yönler cihazın kendisine aittir ve korunur.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Telin başladığı ve bittiği yer: parça verilerinden bir bağlantı noktası, fonksiyon şablonundan oluşturulan bir nokta veya eşleşen bağlantı noktası yoksa cihaz merkezi
@@ -1983,6 +2018,8 @@ Window macro: {}	Pencere makrosu: {}
 Window macros inserted from now on are recorded as macro boxes.	Bundan sonra eklenen pencere makroları makro kutuları olarak kaydedilir.
 Window macros placed on the pages (not printed)	Sayfalara yerleştirilen pencere makroları (yazdırılmaz)
 Wire colour	Tel rengi
+Wire crossings	Tel kesişimleri
+Wire crossings…	Tel kesişimleri…
 Wire ends	Tel uçları
 Wire ends with ferrules	Kablo yüksüklü tel uçları
 Wire markers	Tel işaretleri
@@ -1996,6 +2033,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Tel {} – {}  (burada
 Wire {} – {}  {} mm	Tel {} – {}  {} mm
 Wires and potentials	Teller ve potansiyeller
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Akışkan gücü ve P&ID sembollerinin bağlantı noktaları arasındaki teller hortum / borudur: kendi ağlarıdır, tel numaralandırmasıyla numaralandırılır ve hortum listesinde listelenir.
+Wires crossing without connection	Bağlantısız kesişen teller
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Buradan dört yöne de tel çıkmalı. O zamana kadar bağlantı şema sırasında zincirlenir.
 Wires of the connection	Bağlantının telleri
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Teller de yalnızca plakadaki kablo kanalları yerine engelleri dikkate alan 3D güzergâhları kullanır
@@ -2279,10 +2317,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} piksel, {}
 {} – {} ({} pages)	{} – {} ({} sayfa)
 {}: click to show its floor plan	{}: kat planını göstermek için tıklayın
+{}: crimp together with the wire to {}	{}: {} yönündeki telle birlikte sıkıştırın
 {}: drag to move it, R turns it, a double-click opens it	{}: taşımak için sürükleyin, R döndürür, çift tıklama açar
 {}: drag to move it, a double-click shows the floor	{}: taşımak için sürükleyin, çift tıklama zemini gösterir
 {}: nothing to change	{}: değiştirilecek bir şey yok
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: soyma {} mm, {}
 {}: {} addresses changed	{}: {} adres değiştirildi
 {}: {} changes in the open project (not saved yet)	{}: açık projede {} değişiklik (henüz kaydedilmedi)
 {}: {} changes saved	{}: {} değişiklik kaydedildi

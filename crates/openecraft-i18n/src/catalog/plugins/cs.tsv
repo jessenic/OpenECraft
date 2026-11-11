@@ -96,6 +96,7 @@ Changes the properties of a wire	Změní vlastnosti vodiče
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Změní systém, velikost a komponenty skříně (sokl, strany spojené do řady, přírubová deska); ukotvené prvky se přizpůsobí
 Check {} failed: {}	Kontrola {} selhala: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Zkontroluje rozvržení rozváděče: kolize, odstupy (montážní, větrací, EMC), servisní prostor, výšky nad podlahou, třídy kolizí, teploty a vyrobitelnost
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Volí zakončení konců vodičů: odizolované, s dutinkou nebo lisovaným okem; v připojovacím bodě, ve všech připojovacích bodech zařízení nebo jen pro jeden vodič
 Chosen value	Zvolená hodnota
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Odstupy, servisní prostor, výšky, třídy kolizí, tepelná simulace a vyrobitelnost rozvržení rozváděče
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Klimatizace skříní (IEC/TR 60890): ztrátový výkon, vnitřní teplota, potřebný ventilátor nebo chladicí jednotka a topení; na přání změní nastavení jedné skříně
@@ -110,8 +111,10 @@ Configuration of an enclosure for the configurator of the enclosure maker: syste
 Configurator condition, e.g. HEATER=yes (empty: switched by hand)	Podmínka konfigurátoru, např. HEATER=yes (prázdné: přepíná se ručně)
 Configures a hose / tube / pipe: line type, part, end fittings, pressure rating, bend radius, medium, size, colour and length	Nakonfiguruje hadici / trubku / potrubí: typ vedení, artikl, koncová šroubení, tlaková třída, poloměr ohybu, médium, světlost, barva a délka
 Connection point TAG:PIN, e.g. -K1:A1	Přípojný bod TAG:PIN, např. -K1:A1
+Connection point designation or number (1, 2, …)	Označení přípojného bodu nebo číslo (1, 2, …)
 Connection point designations separated by commas or blanks	Označení přípojných bodů oddělená čárkami nebo mezerami
 Connection point designations, comma separated, e.g. 13,14	Označení přípojných bodů oddělená čárkou, např. 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Připojovací bod, např. -K1:13, nebo zařízení, např. -K1 (všechny jeho připojovací body)
 Connector id (required unless removing)	ID konektoru (povinné, pokud se neodebírá)
 Connects two connection points with wires routed around symbols and other wires	Propojí dva přípojné body vodiči vedenými kolem symbolů a jiných vodičů
 Connects two ports of stations with a network cable; connections already on these ports are replaced	Spojí dva porty stanic síťovým kabelem; stávající spojení na těchto portech se nahradí
@@ -134,6 +137,8 @@ Creates or changes a fluid device group	Vytvoří nebo změní skupinu tekutinov
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Vytvoří nebo změní rámeček výkresu projektu (vestavěné rámečky se zkopírují pod novým názvem)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Vytvoří nebo změní definici potenciálu; jeho vodiče převezmou barvu a průřez, pokud nejsou nastaveny na vodiči
 Creates or changes a work area: only the pages and devices of its structure are shown	Vytvoří nebo změní pracovní oblast: zobrazí se jen stránky a přístroje její struktury
+Cross reference placed by hand: X offset from the insertion point in mm	Křížový odkaz umístěný ručně: posun X od bodu vložení v mm
+Cross reference placed by hand: Y offset from the insertion point in mm	Křížový odkaz umístěný ručně: posun Y od bodu vložení v mm
 Cross section, e.g. 0.75 mm²	Průřez, např. 0.75 mm²
 Cross section, e.g. 1.5 mm²	Průřez, např. 1.5 mm²
 Cross section, e.g. 1.5 mm² (empty = from the potential definition)	Průřez, např. 1.5 mm² (prázdné = z definice potenciálu)
@@ -290,6 +295,7 @@ Id of the panel item (from mounting_list)	ID prvku rozváděče (z mounting_list
 Id of the path or reservation	ID trasy nebo rezervace
 Id of the text	ID textu
 Identifier, e.g. A1 or CAB1	Identifikátor, např. A1 nebo CAB1
+Ids of interruption points	ID bodů přerušení
 Ids of page items	ID prvků stránky
 Ids of symbols and connection symbols (default: all symbols of the page)	Id symbolů a symbolů spojení (výchozí: všechny symboly strany)
 In front of the page name (default /)	Před názvem stránky (výchozí /)
@@ -375,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Vypíše podprojekty vyčleněné z projektu nebo projekt, ze kterého byl vyčleněn
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Vypíše symboly, které lze umístit, s jejich přípojnými body vzhledem k bodu vložení
 Lists the terminal strips with their number of terminals and length on the rail	Vypíše svorkovnice s počtem svorek a délkou na liště
+Lists the terminations chosen for wire ends and the kinds there are	Vypíše zvolená zakončení konců vodičů a dostupné druhy
 Lists the translation dictionary of the project texts (source line and translations)	Vypíše překladový slovník textů projektu (zdrojový řádek a překlady)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Vypíše okenní makra umístěná na stránkách (rámečky maker) s makrem, variantou, hodnotami zástupných symbolů a počtem prvků
 Load losses of the transformer in W (0: typical)	Ztráty nakrátko transformátoru ve W (0: typické)
@@ -429,6 +436,8 @@ Name of the segment	Název segmentu
 Name of the template	Název šablony
 Name of the work area	Název pracovní oblasti
 Name or id; the tag for places	Název nebo ID; u umístění označení
+Name placed by hand: X offset from the insertion point in mm	Název umístěný ručně: posun X od bodu vložení v mm
+Name placed by hand: Y offset from the insertion point in mm	Název umístěný ručně: posun Y od bodu vložení v mm
 Name, e.g. the location +M1	Název, např. umístění +M1
 New device tag	Nové označení přístroje
 New identifier	Nový identifikátor
@@ -475,6 +484,7 @@ Node name or id	Název nebo ID uzlu
 Node {} exists already	Uzel {} již existuje
 Nodes to pass in this order, comma separated	Uzly, kterými se má projít v tomto pořadí, oddělené čárkou
 Nominal size, e.g. 8 mm or DN25	Jmenovitá světlost, např. 8 mm nebo DN25
+None of the items is an interruption point	Žádný z prvků není bod přerušení
 Not a cross-section: {} (e.g. 1.5 mm²)	Nejde o průřez: {} (např. 1.5 mm²)
 Not a valid safety function: {}	Neplatná bezpečnostní funkce: {}
 Note, e.g. what the problem is	Poznámka, např. v čem je problém
@@ -489,6 +499,8 @@ Numbers the terminals of a strip 1 … n in strip order; non-numeric designation
 Numbers the wires by the numbering scheme of the project	Očísluje vodiče podle schématu číslování projektu
 OPTION=value, OPTION!=value, OPTION=a|b joined by & (empty: always)	OPTION=hodnota, OPTION!=hodnota, OPTION=a|b spojené pomocí & (prázdné: vždy)
 Offset from the symbol position in mm (default: below the symbol)	Odsazení od polohy symbolu v mm (výchozí: pod symbolem)
+Offset of the cable tag shown at the wire from its automatic place, one point [dx, dy] in mm (no point = automatic)	Posun označení kabelu u vodiče od jeho automatického místa, jeden bod [dx, dy] v mm (žádný bod = automaticky)
+Offset of the core designation from its automatic place, one point [dx, dy] in mm (no point = automatic)	Posun označení žíly od jeho automatického místa, jeden bod [dx, dy] v mm (žádný bod = automaticky)
 One end, e.g. -K1:A1	Jeden konec, např. -K1:A1
 One row per printed label instead of a count	Jeden řádek na každý vytištěný štítek místo počtu
 Only devices on these pages (names separated by commas)	Pouze přístroje na těchto stránkách (názvy oddělené čárkami)
@@ -512,6 +524,7 @@ Operations	Operace
 Option name	Název volby
 Option name, e.g. STARTER	Název volby, např. STARTER
 Options and rules of the configurator	Volby a pravidla konfigurátoru
+Other end of the wire, e.g. -X1:3: only this wire	Druhý konec vodiče, např. -X1:3: jen tento vodič
 Other end, e.g. -X1:3	Druhý konec, např. -X1:3
 Outer diameter in mm, 0 = estimated	Vnější průměr v mm, 0 = odhadnuto
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Vnější délky rovných úseků, mm, např. 200, 150, 300
@@ -554,7 +567,9 @@ Places a symbol on a page. Without a tag the next free one is used; auxiliary co
 Places an enclosure (+CAB1), a device (-M1) or a machine location (+M1) at a node of the field route network	Umístí skříň (+CAB1), přístroj (-M1) nebo umístění stroje (+M1) do uzlu sítě tras v poli
 Places an enclosure accessory (fan, filter, cable gland, light, handle, PE bar) on a face	Umístí příslušenství skříně (ventilátor, filtr, kabelovou vývodku, svítidlo, rukojeť, přípojnici PE) na plochu
 Places of the group (0 = not limited)	Místa skupiny (0 = neomezeno)
+Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Umístí označení přípojného bodu symbolu vlevo, vpravo, nad nebo pod něj a posune je; bez strany a posunu se opět umístí automaticky
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Umístí řadu skříní v místnosti (3D zobrazení všech skříní); bez x a z se umístí podle dispozice zařízení nebo vedle ostatních řad skříní
+Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Umístí název a křížový odkaz bodů přerušení na stranu šipky nebo ručně s posunem od bodu vložení
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Umístí vlastnosti schématu u symbolů; bez ID je znovu umístí u všech symbolů, které ho používají
 Planned part number	Plánované číslo artiklu
 Planned power in kW	Plánovaný výkon v kW
@@ -644,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Bloky výkazů a schémata výkazů
 Reserves space over the mounting plate: kept free of routes, or for one class only	Rezervuje prostor nad montážní deskou: bez tras, nebo jen pro jednu třídu
 Rest (mm)	Zbytek (mm)
+Reuse failed searches during one routing calculation	Znovu použít neúspěšná hledání během jednoho výpočtu tras
 Right side bayed (no side panel)	Pravá strana spojená do řady (bez boční stěny)
 Room {} exists already	Místnost {} již existuje
 Rotation in degrees clockwise: 0, 90, 180 or 270	Otočení ve stupních ve směru hodinových ručiček: 0, 90, 180 nebo 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Otočení ve stupních, proti směru hodinových ručiček (90 se čte zdola nahoru)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Vést spojení přesunutých prvků znovu: nejkratší cesta s nejmenším počtem ohybů a křížení
 Route the wires in 3D as well (otherwise through the cable ducts)	Vést ve 3D i vodiče (jinak kabelovými kanály)
 Routing rules, paths, reservations, frozen routes and cable shields	Pravidla trasování, trasy, rezervace, zmrazené trasy a stínění kabelů
 Row key (from table_get)	Klíč řádku (z table_get)
@@ -672,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Oddělovač: semicolon, comma nebo tab
 Sets how cross references are shown (only the given settings) and shows the settings	Nastaví, jak se zobrazují křížové odkazy (pouze zadaná nastavení), a zobrazí nastavení
 Sets how the terminals of a jumper are bridged	Nastaví, jak se propojí svorky propojky
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Nastaví zakončení konců vodičů bez zvoleného zakončení: s dutinkami nebo holé, a s dvojitými dutinkami tam, kde dva vodiče sdílejí přípojný bod
 Sets property values of an object; an empty value removes it	Nastaví hodnoty vlastností objektu; prázdná hodnota ji odebere
 Sets the aspects the pages use	Nastaví aspekty, které stránky používají
 Sets the collision class of a panel item (empty: automatic)	Nastaví třídu kolize prvku rozváděče (prázdné: automaticky)
@@ -690,6 +708,8 @@ Sets the wire colour and cross-section of nets without a defined potential (empt
 Share of the capacity kept free in percent	Podíl kapacity ponechaný volný v procentech
 Sheets	Listy
 Shield connected at: both, first, second or none	Stínění připojeno na: both, first, second nebo none
+Shift downwards in mm	Posun dolů v mm
+Shift to the right in mm	Posun doprava v mm
 Short circuit, load, EMC and safety calculations, rule sets and project verification	Výpočty zkratů, zatížení, EMC a bezpečnosti, sady pravidel a ověření projektu
 Short-circuit currents, breaking capacities, disconnection times, short-circuit withstand of the cables and selectivity of the protective devices	Zkratové proudy, vypínací schopnosti, doby odpojení, zkratová odolnost kabelů a selektivita ochranných přístrojů
 Short-circuit power of the network upstream of the transformer in MVA (0: infinite)	Zkratový výkon sítě před transformátorem v MVA (0: nekonečný)
@@ -701,6 +721,7 @@ Show as \"Name: value\"	Zobrazit jako \"Název: hodnota\"
 Show the content	Zobrazit obsah
 Shows a property as a text beside a symbol	Zobrazí vlastnost jako text vedle symbolu
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Zobrazí svorkovnici: svorky v pořadí svorkovnice s patrem, propojkou a cíli, bloky na liště a propojky
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Zobrazí, jak se vodiče na stránkách kříží a spojují a zda přesunutí prvků vede jejich spojení znovu, a změní zadané hodnoty
 Shows or changes the machining strategy and which machine makes which face	Zobrazí nebo změní strategii obrábění a který stroj vyrábí kterou plochu
 Shows or changes the rules of copper bars; lengths in mm	Zobrazí nebo změní pravidla pro měděné přípojnice; délky v mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Zobrazí nebo změní pravidla kontrol rozvržení rozváděče; hodnoty v mm (teplota v °C)
@@ -748,7 +769,9 @@ Switches the project options with a condition by the configurator options	Přepn
 Symbol id	ID symbolu
 Symbol ids	ID symbolů
 Symbol key from list_symbols	Klíč symbolu z list_symbols
+Symbol {} has no connection point {}	Symbol {} nemá přípojný bod {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	Symboly, vodiče, texty, definice kabelů a spojení na stránkách schémat
+T-connections: dot, large_dot or none	Spojení T: dot, large_dot nebo none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	T-kus: směr stopky; most: strana, odkud spojení přichází (left, right, up nebo down)
 Tag of the terminal strip, e.g. -X1	Označení svorkovnice, např. -X1
 Take the cut lengths over as cable lengths	Převzít délky řezu jako délky kabelů
@@ -794,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	Pří
 The text height must be at least 0.5 mm	Výška textu musí být alespoň 0,5 mm
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Dvě ramena rohu, svislé a vodorovné, např. down left (výchozí: podle vodičů v místě, jinak down right)
 The wire has no length	Spoj nemá délku
+The wire that jumps: vertical or horizontal	Vodič, který přeskakuje: vertical nebo horizontal
 The wrap width must not be negative	Šířka zalomení nesmí být záporná
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Tepelná simulace montážní desky: teploty vzduchu, horké místo, zdroje tepla a teplota u každého přístroje
 Thickest sheet or bar, mm	Nejsilnější plech nebo přípojnice, mm
@@ -804,7 +828,9 @@ Top edge on the face in mm	Horní okraj na ploše v mm
 Top edge on the mounting plate in mm	Horní okraj na montážní desce v mm
 Translated line	Přeložený řádek
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Otočení kolem svislé osy ve stupních, proti směru hodinových ručiček při pohledu shora (90: čela směřují doprava)
+Two wires at a connection point share a twin ferrule	Dva vodiče v přípojném bodu sdílejí dvojitou dutinku
 Unit, e.g. kW	Jednotka, např. kW
+Unknown T-connection style: {}	Neznámý styl spojení T: {}
 Unknown accessory kind: {}	Neznámý druh příslušenství: {}
 Unknown action: {}	Neznámá akce: {}
 Unknown address scheme: {}	Neznámé schéma adresování: {}
@@ -827,7 +853,9 @@ Unknown field: {}	Neznámé pole: {}
 Unknown group kind: {}	Neznámý druh skupiny: {}
 Unknown installation: {}	Neznámá instalace: {}
 Unknown insulation: {}	Neznámá izolace: {}
+Unknown jump style: {}	Neznámý styl přeskoku: {}
 Unknown jumper kind: {}	Neznámý druh propojky: {}
+Unknown jumping wire: {}	Neznámý přeskakující vodič: {}
 Unknown kind: {}	Neznámý druh: {}
 Unknown labels: {}	Neznámé popisky: {}
 Unknown level: {}	Neznámá úroveň: {}
@@ -854,10 +882,12 @@ Unknown separator: {}	Neznámý oddělovač: {}
 Unknown setting: {}	Neznámé nastavení: {}
 Unknown shield ends: {}	Neznámé konce stínění: {}
 Unknown side {} (socket or pin)	Neznámá strana {} (socket nebo pin)
+Unknown side: {}	Neznámá strana: {}
 Unknown state: {}	Neznámý stav: {}
 Unknown station kind: {}	Neznámý druh stanice: {}
 Unknown symbol: {}	Neznámý symbol: {}
 Unknown table: {}	Neznámá tabulka: {}
+Unknown termination: {}	Neznámé zakončení: {}
 Unknown vertical anchor: {}	Neznámé svislé ukotvení: {}
 Unknown way of opening: {}	Neznámý způsob otevírání: {}
 Unknown wire colour {} (IEC 60757: {})	Neznámá barva vodiče {} (IEC 60757: {})
@@ -885,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Okna: výška spodní h
 Wire colour (IEC 60757), e.g. BK	Barva vodiče (IEC 60757), např. BK
 Wire colour, e.g. BU	Barva vodiče, např. BU
 Wire colour, e.g. BU (empty = from the potential definition)	Barva vodiče, např. BU (prázdné = z definice potenciálu)
+Wire ends get ferrules	Konce vodičů dostanou dutinky
 Wire number (kept when renumbering)	Číslo vodiče (zachová se při přečíslování)
 Wire numbering and wiring marks	Číslování vodičů a značky zapojení
+Wires crossing without connection: none, arc, bridge or gap	Vodiče křížící se bez spojení: none, arc, bridge nebo gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Vodiče příliš tenké pro svůj ochranný přístroj a úbytek napětí kabelů (IEC 60204-1)
 Working area in x, mm	Pracovní prostor v ose x, mm
 Working area in y, mm	Pracovní prostor v ose y, mm
@@ -894,7 +926,9 @@ Wrap width in mm (0: no wrapping)	Šířka zalomení v mm (0: bez zalomení)
 X position in mm	Poloha X v mm
 Y position in mm (downwards)	Poloha Y v mm (směrem dolů)
 any, wires, cables or tubes	any, wires, cables nebo tubes
+auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left nebo right; zahodí ručně umístěné texty
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip nebo adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle nebo auto (podle nastavení dutinek v rozvržení)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam nebo product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi nebo other
 copper or aluminium	copper nebo aluminium
@@ -911,6 +945,7 @@ keepout (default), power, control, signal or fluid	keepout (výchozí), power, c
 l, n, pe, dc_plus, dc_minus, signal or other	l, n, pe, dc_plus, dc_minus, signal nebo other
 left, center, right, top, middle or bottom	left, center, right, top, middle nebo bottom
 left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rail nebo pattern
+left, right, above or below on the page, or auto (default)	left, right, above nebo below na stránce, nebo auto (výchozí)
 main (default), supplementary or functional	main (výchozí), supplementary nebo functional
 mounted, problem or open	mounted, problem nebo open
 node, segment, place, outline, bond or accessory	node, segment, place, outline, bond nebo accessory

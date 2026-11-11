@@ -61,6 +61,9 @@ pub struct PendingDrop {
     pub at: openecraft_core::geom::P,
 }
 
+/// Id of the part selection window.
+const SELECTOR: &str = "part_selection";
+
 struct SelectRequest {
     tag: String,
 }
@@ -420,42 +423,49 @@ impl PartsUi {
         }
         let placed = parts::placed_functions(prj, &tag);
         let main = parts::main_kind(prj, &tag);
-        egui::Window::new(tr_fmt!("Part selection – {}", tag)).open(&mut open).default_size([760.0, 480.0]).collapsible(false).show(ctx, |ui| {
-            ui.checkbox(&mut self.sel_matching, tr("Device selection"))
-                .on_hover_text(tr("Only parts whose function template provides the device's main function"));
-            ui.separator();
-            let shown: Vec<&Part> = all
-                .iter()
-                .filter(|p| !self.sel_matching || placed.is_empty() || parts::fits_device(p, &placed, main))
-                .collect();
-            let h = ui.available_height() - 36.0;
-            ui.horizontal_top(|ui| {
-                ui.allocate_ui_with_layout(vec2(300.0, h), egui::Layout::top_down(egui::Align::Min), |ui| {
-                    pe::part_filter(ui, "sel", &shown, &mut self.sel_filter);
-                    egui::ScrollArea::vertical().id_salt("seltree").auto_shrink([false, false]).show(ui, |ui| {
-                        if let Some(n) = pe::part_tree(ui, "sel", &shown, &self.sel_filter, &mut self.sel_part) {
-                            chosen = Some(n);
-                        }
-                    });
-                });
-                ui.separator();
-                ui.vertical(|ui| {
-                    match self.sel_part.as_ref().and_then(|n| all.iter().find(|p| &p.number == n)) {
-                        Some(p) => pe::part_summary(ui, p),
-                        None => {
-                            ui.weak(tr("Select a part. Double click adds it to the device."));
-                        }
+        // The list takes the room left between the rows above and below it: sized from the
+        // available height, the window grew by those rows every frame up to the screen.
+        let window = egui::Window::new(tr_fmt!("Part selection – {}", tag)).id(egui::Id::unique(SELECTOR));
+        window.open(&mut open).default_size([760.0, 480.0]).collapsible(false).show(ctx, |ui| {
+            egui::Panel::top("sel_options").show(ui, |ui| {
+                ui.checkbox(&mut self.sel_matching, tr("Device selection"))
+                    .on_hover_text(tr("Only parts whose function template provides the device's main function"));
+            });
+            egui::Panel::bottom("sel_buttons").show(ui, |ui| {
+                ui.horizontal(|ui| {
+                    if ui.add_enabled_ui(self.sel_part.is_some(), |ui| icons::text_button(ui, Icon::Check, tr("Add to device"))).inner.clicked() {
+                        chosen = self.sel_part.clone();
+                    }
+                    if ui.button(tr("Cancel")).clicked() {
+                        self.select = None;
                     }
                 });
             });
-            ui.separator();
-            ui.horizontal(|ui| {
-                if ui.add_enabled_ui(self.sel_part.is_some(), |ui| icons::text_button(ui, Icon::Check, tr("Add to device"))).inner.clicked() {
-                    chosen = self.sel_part.clone();
-                }
-                if ui.button(tr("Cancel")).clicked() {
-                    self.select = None;
-                }
+            egui::CentralPanel::default().show(ui, |ui| {
+                let shown: Vec<&Part> = all
+                    .iter()
+                    .filter(|p| !self.sel_matching || placed.is_empty() || parts::fits_device(p, &placed, main))
+                    .collect();
+                let h = ui.available_height();
+                ui.horizontal_top(|ui| {
+                    ui.allocate_ui_with_layout(vec2(300.0, h), egui::Layout::top_down(egui::Align::Min), |ui| {
+                        pe::part_filter(ui, "sel", &shown, &mut self.sel_filter);
+                        egui::ScrollArea::vertical().id_salt("seltree").auto_shrink([false, false]).show(ui, |ui| {
+                            if let Some(n) = pe::part_tree(ui, "sel", &shown, &self.sel_filter, &mut self.sel_part) {
+                                chosen = Some(n);
+                            }
+                        });
+                    });
+                    ui.separator();
+                    egui::ScrollArea::vertical().id_salt("selpart").show(ui, |ui| {
+                        match self.sel_part.as_ref().and_then(|n| all.iter().find(|p| &p.number == n)) {
+                            Some(p) => pe::part_summary(ui, p),
+                            None => {
+                                ui.weak(tr("Select a part. Double click adds it to the device."));
+                            }
+                        }
+                    });
+                });
             });
         });
         if let Some(number) = chosen {

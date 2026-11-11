@@ -8,6 +8,7 @@ A page named {} already exists	Лист с именем {} уже существ
 A page needs a name	Странице нужно имя
 A routing path needs {} points at least	Пути прокладки нужно не менее {} точек
 A section cannot be moved into itself	Раздел нельзя переместить в самого себя
+Above	Сверху
 Access token	Маркер доступа
 Accessories	Принадлежности
 Accessory	Принадлежность
@@ -18,6 +19,7 @@ Angle	Угол
 Apply	Применить
 Approvers	Утверждающие
 Automatic	Автоматически
+Below	Снизу
 Bold	Полужирный
 Bottom	Дно
 Bottom with removable gland plate	Дно со съёмной фланцевой панелью
@@ -472,6 +474,7 @@ open	открыто
 rejected	отклонено
 right	вправо
 spare	резерв
+strip {} mm, {}	зачистить {} мм, {}
 the disk is full	диск заполнен
 the file exists already	файл уже существует
 this is a folder	это папка
@@ -481,5 +484,6 @@ yes	да
 {} exists already	{} уже существует
 {} parts	Изделий: {}
 {} wires	Проводов: {}
+{}, together with the wire to {}	{}, вместе с проводом к {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} не устанавливается на пол, выберите напольное изделие
 ➕ Add accessory	➕ Добавить принадлежность

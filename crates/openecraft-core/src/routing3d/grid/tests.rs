@@ -568,3 +568,58 @@ fn routes_do_not_cross_each_other_where_they_come_up_to_a_device() {
         assert!(a1.iter().all(|&(d, other)| d != c || other == axis || s.near_point(s.centre(c), &second)), "cross at {:?}: {:?} {:?}", s.centre(c), w1.points, w2.points);
     }
 }
+
+#[test]
+fn a_way_that_comes_back_to_itself_is_told() {
+    let flat = |pts: &[[f32; 2]]| pts.iter().map(|q| [q[0], q[1], 0.0]).collect::<Vec<V3>>();
+    // Out, round and back across its first stretch.
+    let loop_back = flat(&[[0.0, 0.0], [300.0, 0.0], [300.0, 300.0], [100.0, 300.0], [100.0, -100.0]]);
+    let at = meets_itself(&loop_back, 50.0, 20.0, 0).expect("across itself");
+    assert!((at[0] - 100.0).abs() < 1e-3 && at[1].abs() < 20.0, "{at:?}");
+    // Only the stretches from the given one on are looked at.
+    assert!(meets_itself(&loop_back, 50.0, 20.0, 3).is_some());
+    let on = flat(&[[0.0, 0.0], [300.0, 0.0], [300.0, 300.0], [100.0, 300.0], [100.0, -100.0], [500.0, -100.0]]);
+    assert!(meets_itself(&on, 50.0, 20.0, 0).is_some());
+    assert_eq!(meets_itself(&on, 50.0, 20.0, 4), None);
+    // Short of itself by its thickness it does not meet itself, nearer it does.
+    let short = |gap: f32| flat(&[[0.0, 0.0], [300.0, 0.0], [300.0, 300.0], [100.0, 300.0], [100.0, gap]]);
+    assert_eq!(meets_itself(&short(20.0), 50.0, 20.0, 0), None);
+    assert!(meets_itself(&short(19.0), 50.0, 20.0, 0).is_some());
+    // Back beside itself two bend radii apart, round a corner and along a lane change
+    // (the lanes closer than it is thick) it only lies as near to itself as it must.
+    assert_eq!(meets_itself(&flat(&[[0.0, 0.0], [300.0, 0.0], [300.0, 100.0], [0.0, 100.0]]), 50.0, 20.0, 0), None);
+    assert_eq!(meets_itself(&flat(&[[0.0, 0.0], [100.0, 0.0], [100.0, 10.0], [300.0, 10.0], [300.0, 200.0]]), 50.0, 20.0, 0), None);
+    // Through the inside of one of its own bends: 30 mm from both stretches of the
+    // corner, but where the bend of 100 mm runs.
+    let through = [[-500.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 500.0, 0.0], [0.0, 500.0, 300.0], [-30.0, 500.0, 300.0], [-30.0, 30.0, 300.0], [-30.0, 30.0, -300.0]];
+    assert!(meets_itself(&through, 100.0, 25.0, 0).is_some());
+    assert_eq!(meets_itself(&through, 0.0, 25.0, 0), None);
+}
+
+#[test]
+fn a_route_does_not_run_through_itself() {
+    // Too stiff to turn into its end at once, a route runs round in a loop: a cable out
+    // of a point downwards into one 90 mm below it that it comes into from the right,
+    // a wire up out of a terminal into one 130 mm above it and nearer the front that
+    // it comes into from above. The shortest loop comes back across the way it went
+    // out; it takes one that keeps its thickness from itself, with its bends two
+    // radii apart as ever.
+    let prj = project(single());
+    let s = space(&prj);
+    let rules = RoutingRules::default();
+    let (up, down, right) = ([0.0, -1.0, 0.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]);
+    for (a, b, leave, turn, half) in [([300.0, 300.0, 110.0], [290.0, 386.0, 105.0], [down, right], 45.0, 5.6), ([300.0, 500.0, 75.0], [345.0, 370.0, 155.0], [up, down], 36.0, 4.5)] {
+        let r = Request { at: [a, b], leave, turn, half, ..req(&[]) };
+        let w = s.route(a, b, &r, &rules).expect("a way round");
+        assert_eq!(meets_itself(&w.points, turn, 2.0 * half + 0.5, 0), None, "{:?}", w.points);
+        assert_eq!(close_bends(&w.points, 2.0 * turn), 0, "{:?}", w.points);
+    }
+    // Out of the nozzle of its device a pipe comes from behind its end point: its way
+    // does not come back across the nozzle either.
+    let (a, b) = ([300.0, 300.0, 110.0], [290.0, 386.0, 105.0]);
+    let r = Request { at: [a, b], leave: [down, right], out: [40.0, 0.0], turn: 45.0, half: 5.6, ..req(&[]) };
+    let w = s.route(a, b, &r, &rules).expect("a way round");
+    let mut from_nozzle = vec![[300.0, 260.0, 110.0]];
+    from_nozzle.extend(&w.points);
+    assert_eq!(meets_itself(&from_nozzle, 45.0, 11.7, 0), None, "{from_nozzle:?}");
+}

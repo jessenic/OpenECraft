@@ -87,6 +87,17 @@ other points, star from the first point, or pairs in schematic order; the check
 reports a point without partner) and whether coils draw a contact image. Command:
 `set_cross_references`.
 
+The name and the cross reference of an interruption point follow the arrow: for
+horizontal points the name above and the cross reference below the conductor, ending at
+the connection point, so that they stay inside the page at its edge; for vertical points
+beside the arrow (cross reference below the name). *Display* in the properties puts
+them above, below, left or right of the arrow instead, for all selected points at once
+(right of a right arrow: in one line after its tip, for conductors 4 mm apart); with one point
+selected, each text can be dragged on its own without moving the symbol, and the
+reset button returns to the automatic placement. The places are saved with the project
+and used by the PDF, SVG and DXF exports; the cross reference stays a link to its page.
+Command: `place_interruption_texts`.
+
 ## Connectivity / potentials
 
 Wires, T-junctions (with connection dots), terminals,
@@ -103,7 +114,11 @@ rail stays on the rail), otherwise the wire gets a jog or a route around what is
 the way, and a wire that cannot be squared without touching another connection stays
 diagonal. Connection definition points and cable definition lines stay on their
 wires unless they are moved themselves; a line that cannot stay across exactly its
-wires stays where it is. Editing aids: grid sizes 1, 2, 4, 8 and 16 mm (View); a
+wires stays where it is. With *Route the connections of moved items anew*
+(*Connections › Wire crossings…*, off by default) such a wire is routed again
+together with the corners after it, up to the next connection point, junction or
+branch, on the way of the least weight: its length in grid steps, 1.2 per bend and
+1.5 per wire crossed; a connection without such a way is squared as before. Editing aids: grid sizes 1, 2, 4, 8 and 16 mm (View); a
 coordinate field in the tool bar (`x y` absolute or `@dx dy` relative to the last
 point, Enter acts like a click of the current tool); *Home › Align* (edges or
 centres), *Distribute* (evenly, horizontally or vertically), *Move selection by…*
@@ -131,6 +146,18 @@ polygons (width, colour, dashed, filled), dimensions (aligned / horizontal / ver
 scale, unit), PNG / JPEG images (also in the PDF and SVG export). **Layers**
 (navigator › Layers): visible, locked, printed, colour; DXF / DWG export per layer.
 
+## Wire crossings and T-connections
+
+Wires that cross without a connection are drawn as a plain crossing, or the vertical
+(or horizontal) wire jumps over the other with an **arc**, a square **bridge** or a
+**gap**; close jumps on a wire become one. T-connections show a **dot**, a **large
+dot** or **no dot** (a plain T); a connection of four or more wires always keeps its
+dot, so that it never looks like a crossing. *Connections › Wire crossings…* sets
+both with a preview; the setting is saved with the project and in settings schemes
+and applies to the canvas and the PDF, SVG and DXF export alike. Command line / MCP:
+`wire_settings` (`jump`: none, arc, bridge, gap; `jump_wire`: vertical, horizontal;
+`tee`: dot, large_dot, none; `reroute`).
+
 ## Routing
 
 Auto-connect draws wires between facing free connection points when
@@ -142,6 +169,15 @@ symbols are placed or moved; the wire tool can route around symbols and other wi
 Drag the tag block of a selected symbol; place further device
 properties (description, part / type number, manufacturer, designation, connection
 points, structure) beside it.
+
+Connection point designations are placed beside the lead of their connection point,
+moved along it, to its other side or out beside the wire where the symbol's graphics,
+wires, nearby symbols or the symbol's other texts are in the way. Drag one of a
+selected symbol to place it by hand, or choose left, right, above or below for each
+in *Property placement*; *Reset* returns it to automatic placement. The placement
+turns and mirrors with the symbol and never moves the connection point. Command:
+`place_pin_label`. The designation of a symbol with a single connection point (such as a
+device connection point) is dragged freely and keeps its alignment.
 
 Placed automatically, the tag block sits left of a vertical symbol and above a
 horizontal one. Where it would run into a neighbouring symbol there, it goes on the

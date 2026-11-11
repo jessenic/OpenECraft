@@ -174,6 +174,7 @@ Automatic (from the potential definition)	Automatisk (fra potentialedefinitionen
 Automatic ({})	Automatisk ({})
 Automatic accessories	Automatisk tilbehør
 Automatic configuration	Automatisk konfiguration
+Automatic placement	Automatisk placering
 Automation	Automatisering
 Aux	Hjælpe
 Avoid:	Undgå:
@@ -229,6 +230,7 @@ Cable definition	Kabeldefinition
 Cable definition on page {}	Kabeldefinition på side {}
 Cable definition: draw a line across the wires that are cores of a cable	Kabeldefinition: Tegn en linje hen over de ledninger, der er ledere i et kabel
 Cable end reserve	Reserve pr. kabelende
+Cable ends	Kabelender
 Cable markers	Kabelmærkater
 Cable passage to {}	Kabelgennemføring til {}
 Cable {}: {} cores assigned	Kabel {}: {} ledere tildelt
@@ -364,11 +366,13 @@ Connected devices	Tilsluttede enheder
 Connected to:	Forbundet med:
 Connection definition point	Forbindelsesdefinitionspunkt
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Forbindelsesdefinitionspunkt: definerer nummer, farve, tværsnit og kabelleder for en forbindelse
+Connection point designations	Tilslutningsbetegnelser
 Connection point {}	Tilslutningspunkt {}
 Connection points 1 and 2 are connected inside	Tilslutningspunkt 1 og 2 er forbundet internt
 Connection:	Forbindelse:
 Connections ({})	Forbindelser ({})
 Connections / harness	Forbindelser / ledningsnet
+Connections of four or more wires always have a dot.	Forbindelser mellem fire eller flere ledninger har altid en prik.
 Connections whose two ends are both on selected wires	Forbindelser, hvis to ender begge ligger på markerede ledninger
 Connections without a defined potential	Forbindelser uden defineret potentiale
 Connectors	Stik
@@ -389,6 +393,7 @@ Copy / cut / paste (devices get new tags)	Kopiér / klip / sæt ind (enheder få
 Copy as new	Kopiér som ny
 Copy built-in…	Kopiér indbygget…
 Core designations separated by blanks	Lederbetegnelser adskilt af mellemrum
+Core labels placed by hand	Lederbetegnelser placeret manuelt
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Ledere 1, 2, 3 … for de krydsede ledninger plus GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Hjørne: to ledere i ret vinkel; med automatisk forbindelse slået til forbindes tilslutningspunkter over for dets arme med det
 Cover sheet, overview, graphics, report, mounting layout or a page template	Forside, oversigt, grafik, rapport, monteringslayout eller en sideskabelon
@@ -428,6 +433,7 @@ Dashed	Stiplet
 Decimals	Decimaler
 Default	Standard
 Default (part data or definition)	Standard (artikeldata eller definition)
+Default ({})	Standard ({})
 Default label	Standardetiket
 Default medium	Standardmedie
 Default rules	Standardregler
@@ -547,7 +553,10 @@ Downloading OpenECraft {}	Henter OpenECraft {}
 Downstream part	Efterkoblet artikel
 Draft of revision {} created	Kladde til revision {} er oprettet
 Draft of revision {} discarded	Kladden til revision {} er kasseret
+Drag a connection point designation of the selected symbol to place it.	Træk en tilslutningsbetegnelse for det markerede symbol for at placere den.
 Drag an entry into the page, or click it and then click into the page.	Træk en post ind på siden, eller klik på den, og klik derefter på siden.
+Drag the core designation or the cable tag of the selected wire to place it.	Træk lederbetegnelsen eller kabelmærkningen for den markerede leder for at placere den.
+Drag the name or the cross reference of the selected point to place it.	Træk navnet eller krydshenvisningen for det markerede punkt for at placere det.
 Drag the tag of the selected symbol to place it.	Træk mærkningen for det markerede symbol for at placere den.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Træk: kredsløb · træk med højre/midterste knap eller Skift: panorer · hjul: zoom ved markøren · dobbeltklik: se derhen · W A S D / pile, Q E: bevæg · klik: vælg
 Draw	Tegn
@@ -649,7 +658,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Fastgørelsesmateriel i styklisten
 Favorite	Favorit
 Favorites (JSON)	Favoritter (JSON)
-Ferrule {} ({})	Terminalrør {} ({})
 Field	Felt
 Field (name, description, company, creator, date, revision) or project property	Felt (name, description, company, creator, date, revision) eller projektegenskab
 Field cables	Feltkabler
@@ -785,6 +793,8 @@ Hose number	Slangenummer
 Hoses and pipes	Slanger og rør
 Hoses rated below it are errors; 0 = not checked	Slanger med lavere trykklasse er fejl; 0 = kontrolleres ikke
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Hvordan fløjen åbner: hængsler i venstre eller højre kant (set inde fra rummet), ind i eller ud af rummet, eller skydes langs væggen
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Hvordan lederen afsluttes i denne ende; som standard som valgt for tilslutningspunktet eller dets enhed, ellers efter layoutets indstilling for terminalrør
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Hvordan ledninger springer over de ledninger, de krydser, hvordan T-forbindelser markeres, og om flyttede elementer får deres forbindelser trukket på ny
 IP / bus address	IP- / busadresse
 ISO 639-1 language code	Sprogkode efter ISO 639-1
 Identifiers	Betegnelser
@@ -859,6 +869,7 @@ Insulation	Isolering
 Interruption points refer to	Afbrydelsespunkter henviser til
 Introduction	Indledning
 Invalid value	Ugyldig værdi
+Invert the direction of panning by scrolling	Vend retningen for panorering med rulning
 Inverter or charge controller (devices with PV input data)	Inverter eller laderegulator (enheder med PV-indgangsdata)
 Isometric	Isometrisk
 Items on the layer	Elementer på laget
@@ -870,6 +881,7 @@ Join collinear wires	Sammenføj kollineære ledninger
 Joins	Forbinder
 Joins wire pieces in a line where nothing else connects (current page)	Sammenføjer ledningsstykker på en linje, hvor intet andet er tilsluttet (aktuel side)
 Jumper {}	Bro {}
+Jumps over the other:	Springer over den anden:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Hold undersider (3.a, 3.1) sammen med den forrige side
 Keep the degree of protection	Bevar kapslingsklassen
@@ -883,6 +895,7 @@ Label (grey)	Etiket (grå)
 Label field	Etiketfelt
 Labeling scheme	Mærkningsskema
 Landscape	Liggende
+Large dot	Stor prik
 Larger texts and buttons for a touch screen at the workbench	Større tekster og knapper til en berøringsskærm ved arbejdsbordet
 Latitude, longitude	Bredde, længde
 Layer	Lag
@@ -997,6 +1010,7 @@ Min. bend radius	Min. bøjningsradius
 Minimize the ribbon	Minimér båndet
 Mirror	Spejl
 Mirror (selection or symbol being placed)	Spejlvend (markering eller symbol, der placeres)
+Mixed	Blandet
 Mode	Tilstand
 Model of a part (2D / 3D)	Model af en artikel (2D / 3D)
 Module part; its size comes from the part	Moduldel; dens størrelse kommer fra delen
@@ -1020,6 +1034,7 @@ Move to section	Flyt til afsnit
 Move up	Flyt op
 Moves to the top level as page {}	Flyttes til øverste niveau som side {}
 Moves to {} as page {}	Flyttes til {} som side {}
+Moving	Flytning
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Flerstregede effektsymboler og ledere for de enstregede symboler på den aktuelle side, på en ny side
 Multiple copy	Kopiér flere gange
 Multiple copy…	Kopiér flere gange…
@@ -1032,9 +1047,11 @@ NC data (DXF)	NC-data (DXF)
 NC data of this face (DWG)	NC-data for denne flade (DWG)
 NC data of this face (DXF)	NC-data for denne flade (DXF)
 Nailboard (SVG)…	Sømbræt (SVG)…
+Name and cross reference	Navn og krydshenvisning
 Name on the server	Navn på serveren
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Navn; datatype; logisk adresse; kommentar – til PLC-programmeringsværktøjer
 Named copy of this form, for report blocks	Navngiven kopi af denne formular til rapportblokke
+Navigation	Navigation
 Navigators	Navigatorer
 Neutral exchange file…	Neutral udvekslingsfil…
 Never	Aldrig
@@ -1101,11 +1118,13 @@ No device has its main function in the box.	Ingen enhed har sin hovedfunktion i 
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Ingen enhed har monteringsdata endnu: tildel enhederne artikler med mål (Egenskaber › Artikler).
 No differences to {}.	Ingen forskelle i forhold til {}.
 No document embedded	Intet dokument integreret
+No dot: plain T	Ingen prik: almindeligt T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Ingen kapsling endnu – opret en med Ny kapsling, eller et rum til skabe med Nyt rum.
 No field cables: place the enclosures and field devices at nodes of the route network.	Ingen feltkabler: placer kapslingerne og feltenhederne ved knuder i føringsnettet.
 No filter fans: an air/air heat exchanger or a cooling unit	Ingen filterventilatorer: en luft/luft-varmeveksler eller en køleenhed
 No harnesses defined.	Ingen ledningsnet defineret.
 No inverter	Ingen inverter
+No jump: plain crossing, connections have dots	Intet spring: almindelig krydsning, forbindelser har prikker
 No longer reported	Rapporteres ikke længere
 No macros yet. Select items in a schematic and save them as a macro.	Endnu ingen makroer. Vælg elementer i et diagram, og gem dem som en makro.
 No modules: plug in PLC cards of the schematic.	Ingen moduler: Isæt PLC-kort fra diagrammet.
@@ -1308,6 +1327,7 @@ Place the georeferenced point everything is measured from	Placér det georeferer
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Placér anlæggets georefererede punkt i situationsplanen; dets koordinater indtastes i ruden Bygninger, hvert punkt måles derefter fra det
 Placed	Placeret
 Placed by hand	Placeret manuelt
+Placed by hand; choosing a side places them anew.	Placeret manuelt; valg af en side placerer dem igen.
 Placed here: {}	Placeret her: {}
 Placed {}× in the project	Placeret {}× i projektet
 Placeholders	Pladsholdere
@@ -1352,6 +1372,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Effekttab, der
 Pre-planning (CSV, Excel)	Forprojektering (CSV, Excel)
 Prefix	Præfiks
 Press a key…	Tryk på en tast…
+Preview	Forhåndsvisning
 Previous item	Forrige element
 Previous page	Forrige side
 Previous page tab	Forrige sidefane
@@ -1501,6 +1522,7 @@ Reset	Nulstil
 Reset all to the defaults	Nulstil alle til standarderne
 Reset pane layout	Nulstil panelarrangement
 Reset the ribbon	Nulstil båndet
+Reset to automatic placement	Nulstil til automatisk placering
 Reset to standard	Nulstil til standard
 Restart and update	Genstart og opdater
 Resulting: {} · {} · {} · {} m	Resultat: {} · {} · {} · {} m
@@ -1540,6 +1562,7 @@ Round	Rund
 Round cutouts facing each other in both side walls	Runde udskæringer over for hinanden i begge sidevægge
 Route definition of {}	Definition af føringen for {}
 Route network	Føringsnet
+Route the connections of moved items anew	Træk forbindelserne for flyttede elementer på ny
 Route wires in 3D	Før ledninger i 3D
 Routed in {}: {} m, {} bends	Ført i {}: {} m, {} bøjninger
 Routing around symbols	Føring uden om symboler
@@ -1601,6 +1624,9 @@ Scheme name	Skemanavn
 Scheme placed again at {} symbols	Skema placeret igen ved {} symboler
 Scheme {}	Skema {}
 Screws, nuts, washers and rivet nuts of the fixing points	Skruer, møtrikker, skiver og nittemøtrikker til fastgørelsespunkterne
+Scrolling	Rulning
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Rulning panorerer i alle retninger; knib eller Ctrl + rulning for at zoome.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Rulning op og ned zoomer ved markøren, til siden (vandret hjul, Skift + hjul) panorerer.
 Search (* and ? as placeholders)…	Søg (* og ? som jokertegn)…
 Search below this folder	Søg under denne mappe
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Søg på artikelserveren efter katalog, produktgruppe og tekniske data, tilføj artikler, og kontrollér databasen for opdateringer
@@ -1779,6 +1805,7 @@ Synchronize	Synkroniser
 Synchronize function texts	Synkronisér funktionstekster
 Synchronize project parts from database	Synkroniser projektartikler fra databasen
 T Text	T Tekst
+T-connections	T-forbindelser
 Tab	Tabulator
 Table import failed: {}	Tabelimporten mislykkedes: {}
 Tablet mode	Tablettilstand
@@ -1799,6 +1826,7 @@ Taken into the drawing: drawn faded	Overtaget i tegningen: tegnes nedtonet
 Takes the comments as function texts (matched by address)	Overtager kommentarerne som funktionstekster (tilknyttet via adressen)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Overtager tilslutningsbetegnelserne for alle funktioner i denne enhed fra funktionsskabelonerne for dens artikler
 Takes the rights of the role away, whatever other grants give	Fratager rollens rettigheder, uanset hvad andre tildelinger giver
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Vælger vejen med den laveste vægt: dens længde i gittertrin, 1,2 pr. knæk og 1,5 pr. krydset ledning. Fra: ledningerne strækkes og beholder deres hjørner.
 Target languages	Målsprog
 Temperature rise at the roof against the middle (IEC/TR 60890)	Temperaturstigning ved taget i forhold til midten (IEC/TR 60890)
 Template	Skabelon
@@ -1828,6 +1856,7 @@ The dictionary is empty: collect the texts from the project.	Ordbogen er tom: In
 The door seen from the front: door devices and cutouts	Døren set forfra: dørenheder og udskæringer
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Døren set indefra (hængsler til højre): kabelkanaler og ledningsføringen bag døren
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Kapslingen står med sin venstre side mod den valgtes højre side; ledninger føres mellem dem gennem kabelgennemføringer
+The horizontal wire	Den vandrette ledning
 The items are selected and moved together	Elementerne markeres og flyttes samlet
 The macro library has no page macros (Macros › Save page as macro…).	Makrobiblioteket har ingen sidemakroer (Makroer › Gem side som makro…).
 The modules no string takes yet in series, on the first inverter	Modulerne, som ingen streng tager endnu, i serie, på den første inverter
@@ -1854,6 +1883,7 @@ The side of {} is open	Siden af {} er åben
 The symbol is placed in the project	Symbolet bruges i projektet
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Klemmeartiklerne angiver ingen endeholdere eller endeplader (tekniske data End bracket, End plate).
 The update failed	Opdateringen mislykkedes
+The vertical wire	Den lodrette ledning
 The web version is updated on its server.	Webversionen opdateres på sin server.
 The wire tool routes around symbols and other wires	Ledningsværktøjet fører uden om symboler og andre ledninger
 The wires get the free cores of the cable in order (left to right)	Ledningerne får kablets ledige ledere i rækkefølge (fra venstre mod højre)
@@ -1880,10 +1910,14 @@ Top edges	Øverste kanter
 Top left	Øverst til venstre
 Top right	Øverst til højre
 Total selectivity	Total selektivitet
+Touch screen	Berøringsskærm
 Transfer project parts to database	Overfør projektartikler til databasen
 Translate the project texts; documentation per language	Oversæt projektteksterne; dokumentation pr. sprog
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Drejning om lodret akse, mod uret set ovenfra (90 °: fronterne vender mod højre)
 Tutorial	Selvstudium
+Twin ferrules where two wires share a connection point	Dobbelte terminalrør hvor to ledere deler et tilslutningspunkt
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	To fingre på et pegefelt panorerer, musehjulet zoomer. Kun macOS skelner mellem dem; ellers zoomer rulning som hjulet.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	To fingre panorerer og zoomer ved knib på samme tid; én finger virker som venstre museknap.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Her skal to ledere mødes i ret vinkel. Med automatisk forbindelse slået til forbindes tilslutningspunkter over for dets arme med det.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Skriv et punkt, og tryk på Enter: x y i mm eller @dx dy i forhold til det sidste punkt; det virker som et klik med det aktuelle værktøj
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1968,6 +2002,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Hjul: zoom · højreklik: annuller · grafik fastgøres til 0,5 mm, tilslutningspunkter til 4 mm-gitteret
 When it differs from the page	Når den afviger fra siden
 Where	Placering
+Where neither wire has a termination chosen for it	Hvor ingen af lederne har en valgt afslutning
 Where the point is in the plant; y: its height above the ground level of the plant	Hvor punktet ligger i anlægget; y: dets højde over anlæggets terræn
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Hvor enhedens struktur kommer fra: aspekter, der er lig med strukturen omkring symbolet, arves og følger med, når det flyttes ind i eller ud af en strukturboks; andre aspekter er enhedens egne og bliver.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Hvor ledningen starter og slutter: et tilslutningspunkt fra artikeldataene, et genereret fra funktionsskabelonen eller enhedens midte, hvis intet tilslutningspunkt passer
@@ -1983,6 +2018,8 @@ Window macro: {}	Vinduesmakro: {}
 Window macros inserted from now on are recorded as macro boxes.	Vinduesmakroer, der indsættes fra nu af, registreres som makrobokse.
 Window macros placed on the pages (not printed)	Vinduesmakroer placeret på siderne (udskrives ikke)
 Wire colour	Lederfarve
+Wire crossings	Ledningskrydsninger
+Wire crossings…	Ledningskrydsninger…
 Wire ends	Ledningsender
 Wire ends with ferrules	Ledningsender med terminalrør
 Wire markers	Ledningsmærkater
@@ -1996,6 +2033,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Ledning {} – {}  ({}
 Wire {} – {}  {} mm	Ledning {} – {}  {} mm
 Wires and potentials	Ledninger og potentialer
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Ledninger mellem portene på fluidtekniske symboler og P&ID-symboler er slanger / rør: egne net, nummereret med ledningsnummereringen, opført i slangelisten.
+Wires crossing without connection	Ledninger, der krydser uden forbindelse
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Ledere skal udgå herfra i alle fire retninger. Indtil da kædes forbindelsen i diagrammets rækkefølge.
 Wires of the connection	Forbindelsens ledere
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Ledninger følger også de 3D-føringer, der tager højde for forhindringer, i stedet for kun kabelkanalerne på pladen
@@ -2279,10 +2317,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pixel, {}
 {} – {} ({} pages)	{} – {} ({} sider)
 {}: click to show its floor plan	{}: klik for at vise plantegningen
+{}: crimp together with the wire to {}	{}: krymp sammen med lederen til {}
 {}: drag to move it, R turns it, a double-click opens it	{}: træk for at flytte, R drejer, dobbeltklik åbner
 {}: drag to move it, a double-click shows the floor	{}: træk for at flytte, dobbeltklik viser gulvet
 {}: nothing to change	{}: intet at ændre
 {}: pin {}	{}: ben {}
+{}: strip {} mm, {}	{}: afisoler {} mm, {}
 {}: {} addresses changed	{}: {} adresser ændret
 {}: {} changes in the open project (not saved yet)	{}: {} ændringer i det åbne projekt (endnu ikke gemt)
 {}: {} changes saved	{}: {} ændringer gemt

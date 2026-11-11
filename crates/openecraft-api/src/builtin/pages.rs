@@ -249,6 +249,8 @@ fn get_page(prj: &mut Project, a: &Args) -> Result<Value, String> {
                 "cross_section": w.cross_section,
                 "cable": w.cable,
                 "core": w.core,
+                "core_offset": w.core_offset.map(xy),
+                "cable_offset": w.cable_offset.map(xy),
                 "potential": auto.potential,
                 "resulting_color": auto.color,
                 "resulting_cross_section": auto.cross_section,

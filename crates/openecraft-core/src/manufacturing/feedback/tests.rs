@@ -34,8 +34,9 @@ fn progress_problems_and_calibration() {
     let csv = format!("job;program;status;time;dx;item\nCAB1-1;{};done;{};0.2;\nCAB1-1;CAB1_door.nc;started;;;\nCAB1-1;CAB1_door.nc;rework;;1.5;-S2\n", plate.name, plate.time * 2.0);
     assert_eq!(import(&mut prj, &csv).unwrap(), 3);
     let st = status(&prj);
-    assert_eq!((st[0].programs, st[0].done, st[0].rework), (2, 1, 1));
-    assert_eq!(st[0].progress(), 50.0);
+    // Plate, door and bottom (the hole of the gland): one of three done.
+    assert_eq!((st[0].programs, st[0].done, st[0].rework), (3, 1, 1));
+    assert!((st[0].progress() - 100.0 / 3.0).abs() < 0.01, "{}", st[0].progress());
     assert_eq!(st[0].title(), "In production");
     let p = problems(&prj);
     assert_eq!(p.len(), 2, "{p:?}");

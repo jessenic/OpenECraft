@@ -1,12 +1,12 @@
 //! Settings schemes (in the spirit of EPLAN's settings schemes): the settings of a
-//! project – wire numbering, potentials and wire defaults, wire colours, marking, hose
-//! defaults, cross references and the check scheme – as one file to start other
-//! projects with the same settings. Every part is optional, so a file may carry only
-//! some of them.
+//! project – wire numbering, potentials and wire defaults, wire colours, wire crossings
+//! and connections, marking, hose defaults, cross references and the check scheme – as
+//! one file to start other projects with the same settings. Every part is optional, so
+//! a file may carry only some of them.
 
 use crate::model::checks::Level;
 use crate::model::potentials::{PotentialDef, WireDefaults};
-use crate::model::{CrossRefs, Project, WireNumbering};
+use crate::model::{CrossRefs, Project, WireNumbering, WireSettings};
 use openecraft_i18n::{tr_const, tr_fmt};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
@@ -22,6 +22,8 @@ pub struct SettingsScheme {
     pub wire_defaults: Option<WireDefaults>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub wire_colors: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub wire_settings: Option<WireSettings>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub marking: Option<crate::model::marking::Settings>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -41,6 +43,7 @@ pub fn export(prj: &Project) -> String {
         potentials: Some(prj.potentials.clone()),
         wire_defaults: Some(prj.wire_defaults.clone()),
         wire_colors: Some(prj.wire_colors),
+        wire_settings: Some(prj.wire_settings.clone()),
         marking: Some(prj.marking.clone()),
         fluid: Some(prj.fluid.clone()),
         cross_references: Some(prj.xref.clone()),
@@ -74,6 +77,10 @@ pub fn apply(prj: &mut Project, json: &str) -> Result<Vec<&'static str>, String>
     if let Some(v) = s.wire_colors {
         prj.wire_colors = v;
         taken.push(tr_const!("Wire colours"));
+    }
+    if let Some(v) = s.wire_settings {
+        prj.wire_settings = v;
+        taken.push(tr_const!("Wire crossings and connections"));
     }
     if let Some(v) = s.marking {
         prj.marking = v;

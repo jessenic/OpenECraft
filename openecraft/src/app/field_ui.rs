@@ -238,24 +238,29 @@ impl App {
         // Interaction
         let nodes: Vec<(u64, Pos2)> = self.session.prj.field.nodes.iter().map(|n| (n.id, to_screen(n.x, n.y))).collect();
         let hit = |q: Pos2| nodes.iter().map(|(id, s)| (*id, s.distance(q))).filter(|(_, d)| *d < 9.0).min_by(|a, b| a.1.total_cmp(&b.1)).map(|x| x.0);
+        let gesture = openecraft_ui::nav::read(ui, &resp);
+        if let (true, Some(at)) = (gesture.zooms(), gesture.at) {
+            let before = to_world(at);
+            fu.zoom = (zoom * gesture.zoom).clamp(0.05, 50.0);
+            fu.pan = at - rect.min - vec2(before.0, before.1) * UNITS * fu.zoom;
+        }
+        fu.pan += gesture.pan;
+        // Fingers navigating leave a dragged node where it is.
+        if gesture.touch {
+            fu.dragging = None;
+        }
         if let Some(h) = resp.hover_pos() {
-            let scroll = ui.input(|i| i.smooth_scroll_delta.y);
-            if scroll != 0.0 {
-                let before = to_world(h);
-                fu.zoom = (zoom * (scroll * 0.002).exp()).clamp(0.05, 50.0);
-                fu.pan = h - rect.min - vec2(before.0, before.1) * UNITS * fu.zoom;
-            }
             let (x, y) = to_world(h);
             painter.text(rect.left_bottom() + vec2(6.0, -6.0), egui::Align2::LEFT_BOTTOM, format!("x {x:.1} m  y {y:.1} m"), egui::FontId::monospace(11.0), pal.line);
         }
         let pointer = resp.interact_pointer_pos();
-        if resp.drag_started() && fu.tool == CanvasTool::Select {
+        if resp.drag_started() && fu.tool == CanvasTool::Select && !gesture.touch {
             fu.dragging = pointer.and_then(hit);
             if fu.dragging.is_some() {
                 fu.node = fu.dragging;
             }
         }
-        if resp.dragged() {
+        if resp.dragged() && !gesture.touch {
             match (fu.dragging, pointer) {
                 (Some(id), Some(q)) => {
                     let (x, y) = to_world(q);

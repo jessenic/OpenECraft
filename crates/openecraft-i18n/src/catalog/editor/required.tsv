@@ -219,6 +219,7 @@ Automatic (from the potential definition)	Automatisch (aus der Potenzialdefiniti
 Automatic ({})	Automatisch ({})	Automatique ({})	Automática ({})
 Automatic accessories	Automatisches Zubehör	Accessoires automatiques	Accesorios automáticos
 Automatic configuration	Automatische Konfiguration	Configuration automatique	Configuración automática
+Automatic placement	Automatische Platzierung	Placement automatique	Colocación automática
 Automation	Automatisierung	Automatisation	Automatización
 Aux	Hilfs	Aux	Aux
 Avoid:	Meiden:	Éviter :	Evitar:
@@ -278,6 +279,7 @@ Cable definition	Kabeldefinition	Définition de câble	Definición de manguera
 Cable definition on page {}	Kabeldefinition auf Seite {}	Définition de câble en page {}	Definición de manguera en la página {}
 Cable definition: draw a line across the wires that are cores of a cable	Kabeldefinition: eine Linie über die Verbindungen ziehen, die Adern eines Kabels sind	Définition de câble : tracer une ligne à travers les fils qui sont des conducteurs d'un câble	Definición de manguera: trace una línea a través de los cables que son conductores de una manguera
 Cable end reserve	Reserve je Kabelende	Réserve par extrémité de câble	Reserva por extremo de manguera
+Cable ends	Kabelenden	Extrémités du câble	Extremos del cable
 Cable markers	Kabelmarkierer	Repères de câbles	Marcadores de mangueras
 Cable passage to {}	Kabeldurchführung zu {}	Passage de câbles vers {}	Paso de cables hacia {}
 Cable {}: {} cores assigned	Kabel {}: {} Adern zugeordnet	Câble {} : {} conducteurs affectés	Manguera {}: {} conductores asignados
@@ -446,12 +448,14 @@ Connected devices	Angeschlossene Betriebsmittel	Appareils raccordés	Dispositivo
 Connected to:	Verbunden mit:	Relié à :	Conectado a:
 Connection definition point	Verbindungsdefinitionspunkt	Point de définition de liaison	Punto de definición de conexión
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Verbindungsdefinitionspunkt: legt Nummer, Farbe, Querschnitt und Kabelader einer Verbindung fest	Point de définition de liaison : définit le numéro, la couleur, la section et le conducteur de câble d'une liaison	Punto de definición de conexión: define número, color, sección y conductor de cable de una conexión
+Connection point designations	Anschlussbezeichnungen	Désignations de connexion	Designaciones de conexión
 Connection point {}	Anschlusspunkt {}	Point de connexion {}	Punto de conexión {}
 Connection points 1 and 2 are connected inside	Anschlusspunkte 1 und 2 sind intern verbunden	Les points de connexion 1 et 2 sont reliés en interne	Los puntos de conexión 1 y 2 están conectados internamente
 Connection points shown	Gezeigte Anschlusspunkte	Points de connexion affichés	Puntos de conexión mostrados
 Connection:	Verbindung:	Liaison :	Conexión:
 Connections ({})	Verbindungen ({})	Liaisons ({})	Conexiones ({})
 Connections / harness	Verbindungen / Kabelbaum	Liaisons / faisceau	Conexiones / mazo
+Connections of four or more wires always have a dot.	Verbindungen von vier oder mehr Leitungen haben immer einen Punkt.	Les jonctions de quatre fils ou plus ont toujours un point.	Las uniones de cuatro o más cables siempre tienen un punto.
 Connections whose two ends are both on selected wires	Verbindungen, deren beide Enden an gewählten Leitungen liegen	Liaisons dont les deux extrémités sont sur les fils sélectionnés	Conexiones cuyos dos extremos están en los hilos seleccionados
 Connections without a defined potential	Verbindungen ohne definiertes Potenzial	Liaisons sans potentiel défini	Conexiones sin potencial definido
 Connectors	Stecker	Connecteurs	Conectores
@@ -472,6 +476,7 @@ Copy / cut / paste (devices get new tags)	Kopieren / Ausschneiden / Einfügen (B
 Copy as new	Als neu kopieren	Copier comme nouveau	Copiar como nuevo
 Copy built-in…	Eingebautes kopieren…	Copier un élément intégré…	Copiar incorporado…
 Core designations separated by blanks	Aderbezeichnungen, durch Leerzeichen getrennt	Désignations des âmes, séparées par des espaces	Designaciones de núcleos separadas por espacios
+Core labels placed by hand	Aderbeschriftung von Hand platziert	Repères d'âmes placés manuellement	Rótulos de conductores colocados a mano
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Adern 1, 2, 3 … für die gekreuzten Verbindungen, dazu GNYE	Conducteurs 1, 2, 3 … pour les fils croisés, plus GNYE	Conductores 1, 2, 3 … para los cables cruzados, más GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Ecke: zwei Verbindungslinien im rechten Winkel; bei eingeschaltetem Auto-Connect werden Anschlusspunkte, die ihren Armen gegenüberliegen, mit ihr verdrahtet	Coin : deux fils à angle droit ; avec l'auto-connexion activée, les points de connexion face à ses bras y sont reliés	Esquina: dos cables en ángulo recto; con la autoconexión activada, los puntos de conexión enfrentados a sus brazos se cablean a ella
 Could not prepare the recovery data.	Die Wiederherstellungsdaten konnten nicht vorbereitet werden.	Impossible de préparer les données de récupération.	No se pudieron preparar los datos de recuperación.
@@ -512,6 +517,7 @@ Dashed	Gestrichelt	Pointillé	Discontinuo
 Decimals	Nachkommastellen	Décimales	Decimales
 Default	Vorgabe	Par défaut	Predeterminado
 Default (part data or definition)	Vorgabe (Artikeldaten oder Definition)	Par défaut (données d'article ou définition)	Predeterminado (datos del artículo o definición)
+Default ({})	Standard ({})	Par défaut ({})	Predeterminado ({})
 Default function text	Standardfunktionstext	Texte de fonction par défaut	Texto de función predeterminado
 Default label	Standardbezeichnung	Désignation par défaut	Designación predeterminada
 Default medium	Standardmedium	Fluide par défaut	Medio predeterminado
@@ -651,9 +657,12 @@ Downloading OpenECraft {}	OpenECraft {} wird heruntergeladen	Téléchargement d'
 Downstream part	Nachgeschalteter Artikel	Article aval	Artículo aguas abajo
 Draft of revision {} created	Entwurf der Revision {} angelegt	Brouillon de la révision {} créé	Borrador de la revisión {} creado
 Draft of revision {} discarded	Entwurf der Revision {} verworfen	Brouillon de la révision {} abandonné	Borrador de la revisión {} descartado
+Drag a connection point designation of the selected symbol to place it.	Anschlussbezeichnung des markierten Symbols ziehen, um sie zu platzieren.	Glisser une désignation de connexion du symbole sélectionné pour la placer.	Arrastre una designación de conexión del símbolo seleccionado para colocarla.
 Drag a wall to move it, drag a cabinet to its place (R turns it); double-click a wall to equip it, a cabinet to open it. Del removes the selected inner wall.	Wand ziehen, um sie zu verschieben, Schaltschrank an seinen Platz ziehen (R dreht ihn); Doppelklick auf eine Wand, um sie zu bestücken, auf einen Schaltschrank, um ihn zu öffnen. Entf entfernt die gewählte Innenwand.	Faites glisser un mur pour le déplacer, une armoire vers son emplacement (R la tourne) ; double-cliquez sur un mur pour l'équiper, sur une armoire pour l'ouvrir. Suppr supprime le mur intérieur sélectionné.	Arrastre una pared para moverla, un armario a su lugar (R lo gira); doble clic en una pared para equiparla, en un armario para abrirlo. Supr elimina la pared interior seleccionada.
 Drag an entry into the page, or click it and then click into the page.	Einen Eintrag in die Seite ziehen, oder anklicken und dann in die Seite klicken.	Faites glisser une entrée dans la page, ou cliquez dessus puis dans la page.	Arrastre una entrada a la página, o haga clic en ella y luego en la página.
+Drag the core designation or the cable tag of the selected wire to place it.	Aderbezeichnung oder Kabelkennzeichen der markierten Leitung ziehen, um sie zu platzieren.	Glisser la désignation d'âme ou le repère du câble du fil sélectionné pour les placer.	Arrastre la designación del conductor o la identificación del cable del hilo seleccionado para colocarlas.
 Drag the designation of the selected point to place it	Die Bezeichnung des markierten Punkts ziehen, um sie zu platzieren	Faire glisser la désignation du point sélectionné pour la placer	Arrastre la designación del punto seleccionado para colocarla
+Drag the name or the cross reference of the selected point to place it.	Namen oder Querverweis des markierten Punkts ziehen, um ihn zu platzieren.	Glisser le nom ou le renvoi du point sélectionné pour le placer.	Arrastre el nombre o la referencia cruzada del punto seleccionado para colocarlo.
 Drag the tag of the selected symbol to place it.	Kennzeichen des markierten Symbols ziehen, um es zu platzieren.	Glisser le repère du symbole sélectionné pour le placer.	Arrastre la identificación del símbolo seleccionado para colocarla.
 Drag walls and cabinets in the floor plan of the room	Wände und Schaltschränke im Grundriss des Raums ziehen	Faire glisser murs et armoires dans le plan de la salle	Arrastrar paredes y armarios en el plano de la sala
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Ziehen: Orbit · Rechts-/Mittel- oder Umschalt+Ziehen: verschieben · Mausrad: Zoom am Mauszeiger · Doppelklick: dorthin blicken · W A S D / Pfeiltasten, Q E: bewegen · Klick: auswählen	Glisser : orbite · glisser avec clic droit/milieu ou Maj : déplacer · molette : zoom sous le pointeur · double-clic : regarder là · W A S D / flèches, Q E : avancer · clic : sélectionner	Arrastrar: órbita · arrastrar con botón derecho/central o Mayús: desplazar · rueda: zoom en el puntero · doble clic: mirar allí · W A S D / flechas, Q E: moverse · clic: seleccionar
@@ -769,7 +778,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Befestigungsmaterial in der Stückliste	Visserie de fixation dans la nomenclature	Tornillería de fijación en la lista de materiales
 Favorite	Favorit	Favori	Favorito
 Favorites (JSON)	Favoriten (JSON)	Favoris (JSON)	Favoritos (JSON)
-Ferrule {} ({})	Aderendhülse {} ({})	Embout {} ({})	Puntera {} ({})
 Field	Feld	Champ	Campo
 Field (name, description, company, creator, date, revision) or project property	Feld (name, description, company, creator, date, revision) oder Projekteigenschaft	Champ (name, description, company, creator, date, revision) ou propriété de projet	Campo (name, description, company, creator, date, revision) o propiedad de proyecto
 Field cables	Feldkabel	Câbles de terrain	Cables de campo
@@ -927,6 +935,8 @@ Hose number	Schlauchnummer	Numéro de flexible	Número de manguera
 Hoses and pipes	Schläuche und Rohre	Flexibles et tuyaux	Mangueras y tuberías
 Hoses rated below it are errors; 0 = not checked	Schläuche mit geringerer Druckstufe sind Fehler; 0 = nicht geprüft	Les flexibles prévus pour moins sont des erreurs ; 0 = non vérifié	Las mangueras aptas para menos son errores; 0 = no se comprueba
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Wie der Flügel öffnet: Anschlag an der linken oder rechten Kante (vom Raum aus gesehen), in den Raum hinein oder aus ihm heraus, oder schiebend an der Wand entlang	Comment le vantail s'ouvre : paumelles sur le bord gauche ou droit (vu de l'intérieur de la pièce), vers l'intérieur ou l'extérieur de la pièce, ou coulissant le long du mur	Cómo abre la hoja: con bisagras en el borde izquierdo o derecho (visto desde dentro del recinto), hacia dentro o hacia fuera del recinto, o corredera a lo largo de la pared
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Wie die Leitung an diesem Ende abgeschlossen wird; standardmäßig wie für den Anschlusspunkt oder sein Betriebsmittel gewählt, sonst wie das Layout Aderendhülsen vorgibt	Comment le fil est terminé à cette extrémité ; par défaut comme choisi pour le point de connexion ou son appareil, sinon selon le réglage des embouts de l'implantation	Cómo se termina el cable en este extremo; por defecto como se eligió para el punto de conexión o su equipo, si no según el ajuste de punteras del montaje
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Wie Leitungen über die gekreuzten Leitungen springen, wie T-Verbindungen markiert werden und ob verschobene Elemente ihre Verbindungen neu verlegen	Comment les fils sautent par-dessus les fils qu'ils croisent, comment les jonctions en T sont marquées et si les éléments déplacés retracent leurs connexions	Cómo saltan los cables sobre los cables que cruzan, cómo se marcan las uniones en T y si los elementos movidos vuelven a trazar sus conexiones
 IP / bus address	IP- / Busadresse	Adresse IP / de bus	Dirección IP / de bus
 ISO 639-1 language code	Sprachcode nach ISO 639-1	Code de langue ISO 639-1	Código de idioma ISO 639-1
 Identifiers	Kennzeichen	Identificateurs	Identificadores
@@ -1004,6 +1014,7 @@ Internal bridge attachment	Interner Brückenanschluss	Point de pont interne	Punt
 Interruption points refer to	Unterbrechungspunkte verweisen auf	Les points d'interruption renvoient à	Los puntos de interrupción remiten a
 Introduction	Einführung	Introduction	Introducción
 Invalid value	Ungültiger Wert	Valeur invalide	Valor no válido
+Invert the direction of panning by scrolling	Richtung des Verschiebens durch Scrollen umkehren	Inverser le sens du déplacement par défilement	Invertir la dirección del desplazamiento de la vista
 Inverter or charge controller (devices with PV input data)	Wechselrichter oder Laderegler (Betriebsmittel mit PV-Eingangsdaten)	Onduleur ou régulateur de charge (appareils avec des données d'entrée PV)	Inversor o regulador de carga (dispositivos con datos de entrada FV)
 Isometric	Isometrisch	Isométrique	Isométrica
 Items on the layer	Objekte auf der Ebene	Éléments sur le calque	Elementos en la capa
@@ -1015,6 +1026,7 @@ Join collinear wires	Fluchtende Verbindungen zusammenfassen	Fusionner les fils a
 Joins	Verbindet	Relie	Une
 Joins wire pieces in a line where nothing else connects (current page)	Fasst Verbindungsstücke in einer Linie zusammen, an denen nichts anderes anschließt (aktuelle Seite)	Fusionne les segments de fil alignés où rien d'autre n'est connecté (page actuelle)	Une los tramos de cable alineados donde no se conecta nada más (página actual)
 Jumper {}	Brücke {}	Pont {}	Puente {}
+Jumps over the other:	Springt über die andere:	Saute par-dessus l'autre :	Salta sobre el otro:
 K, Q, MM …	K, Q, MM …	K, Q, MM …	K, Q, MM …
 KBL (VDA 4964) for harness manufacturing: parts, connectors, wires, connections and the 3D topology	KBL (VDA 4964) für die Kabelbaumfertigung: Artikel, Steckverbinder, Leitungen, Verbindungen und die 3D-Topologie	KBL (VDA 4964) pour la fabrication des faisceaux : articles, connecteurs, fils, connexions et topologie 3D	KBL (VDA 4964) para la fabricación de mazos: artículos, conectores, cables, conexiones y la topología 3D
 KBL usage	KBL-Verwendung	Usage KBL	Uso KBL
@@ -1032,6 +1044,7 @@ Label field	Beschriftungsfeld	Champ de libellé	Campo de etiqueta
 Labeling scheme	Beschriftungsschema	Schéma de repérage	Esquema de marcado
 Labels	Beschriftungen	Étiquettes	Etiquetas
 Landscape	Querformat	Paysage	Horizontal
+Large dot	Großer Punkt	Gros point	Punto grande
 Larger texts and buttons for a touch screen at the workbench	Größere Texte und Schaltflächen für einen Touchscreen an der Werkbank	Textes et boutons plus grands pour un écran tactile à l'établi	Textos y botones más grandes para una pantalla táctil en el banco de trabajo
 Latitude, longitude	Breite, Länge	Latitude, longitude	Latitud, longitud
 Layer	Ebene	Calque	Capa
@@ -1152,6 +1165,7 @@ Min. bend radius	Min. Biegeradius	Rayon de courbure min.	Radio de curvatura mín
 Minimize the ribbon	Menüband minimieren	Réduire le ruban	Minimizar la cinta de opciones
 Mirror	Spiegeln	Miroir	Reflejar
 Mirror (selection or symbol being placed)	Spiegeln (Auswahl oder zu platzierendes Symbol)	Miroir (sélection ou symbole en cours de placement)	Reflejar (selección o símbolo que se coloca)
+Mixed	Gemischt	Mixte	Mixto
 Mode	Modus	Mode	Modo
 Model of a part (2D / 3D)	Modell eines Artikels (2D / 3D)	Modèle d'un article (2D / 3D)	Modelo de un artículo (2D / 3D)
 Module part; its size comes from the part	Modulartikel; seine Größe kommt vom Artikel	Article du module ; sa taille vient de l'article	Artículo del módulo; su tamaño viene del artículo
@@ -1181,6 +1195,7 @@ Moves this function to the existing device {}	Verschiebt diese Funktion zum vorh
 Moves this function to the new device {}	Verschiebt diese Funktion zum neuen Betriebsmittel {}	Déplace cette fonction vers le nouvel appareil {}	Mueve esta función al nuevo dispositivo {}
 Moves to the top level as page {}	Kommt als Seite {} auf die oberste Ebene	Passe au niveau supérieur comme page {}	Pasa al nivel superior como página {}
 Moves to {} as page {}	Kommt als Seite {1} in {0}	Passe dans {} comme page {}	Pasa a {} como página {}
+Moving	Verschieben	Déplacement	Mover
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Allpolige Leistungssymbole und Leiter für die einpoligen Symbole der aktuellen Seite, auf einer neuen Seite	Symboles de puissance multifilaires et conducteurs pour les symboles unifilaires de la page courante, sur une nouvelle page	Símbolos de potencia multifilares y conductores para los símbolos unifilares de la página actual, en una página nueva
 Multiple copy	Mehrfach kopieren	Copie multiple	Copia múltiple
 Multiple copy…	Mehrfach kopieren…	Copie multiple…	Copia múltiple…
@@ -1193,9 +1208,11 @@ NC data (DXF)	NC-Daten (DXF)	Données CN (DXF)	Datos NC (DXF)
 NC data of this face (DWG)	NC-Daten dieser Fläche (DWG)	Données CN de cette face (DWG)	Datos CN de esta cara (DWG)
 NC data of this face (DXF)	NC-Daten dieser Fläche (DXF)	Données CN de cette face (DXF)	Datos CN de esta cara (DXF)
 Nailboard (SVG)…	Nagelbrett (SVG)…	Plan de clouage (SVG)…	Plano de clavos (SVG)…
+Name and cross reference	Name und Querverweis	Nom et renvoi	Nombre y referencia cruzada
 Name on the server	Name auf dem Server	Nom sur le serveur	Nombre en el servidor
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Name; Datentyp; Logische Adresse; Kommentar – für SPS-Programmierwerkzeuge	Nom ; Type de données ; Adresse logique ; Commentaire – pour les outils de programmation API	Nombre; Tipo de datos; Dirección lógica; Comentario – para herramientas de programación PLC
 Named copy of this form, for report blocks	Benannte Kopie dieses Formulars, für Auswertungsblöcke	Copie nommée de ce formulaire, pour les blocs de rapports	Copia con nombre de este formulario, para bloques de informes
+Navigation	Navigation	Navigation	Navegación
 Navigators	Navigatoren	Navigateurs	Navegadores
 Neutral exchange file…	Neutrale Austauschdatei…	Fichier d'échange neutre…	Archivo de intercambio neutro…
 Never	Nie	Jamais	Nunca
@@ -1266,12 +1283,14 @@ No device has mounting data yet: assign parts with dimensions to the devices (Pr
 No devices yet. Pick a symbol in the Insert center and click into the page.	Noch keine Betriebsmittel. Ein Symbol im Einfügezentrum wählen und in die Seite klicken.	Pas encore d'appareils. Choisissez un symbole dans le centre d'insertion et cliquez dans la page.	Aún no hay dispositivos. Elija un símbolo en el centro de inserción y haga clic en la página.
 No differences to {}.	Keine Unterschiede zu {}.	Aucune différence avec {}.	Sin diferencias con {}.
 No document embedded	Kein Dokument eingebettet	Aucun document intégré	Ningún documento incrustado
+No dot: plain T	Kein Punkt: einfaches T	Pas de point : T simple	Sin punto: T simple
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Noch kein Gehäuse – mit Neues Gehäuse anlegen, oder mit Neuer Raum einen Raum für Schaltschränke.	Pas encore d'enveloppe – créez-en une avec Nouvelle enveloppe, ou une salle pour les armoires avec Nouvelle salle.	Aún no hay envolvente – cree una con Nueva envolvente, o una sala para armarios con Nueva sala.
 No field cables: place the enclosures and field devices at nodes of the route network.	Keine Feldkabel: Schaltschränke und Feldgeräte an Knoten des Trassennetzes platzieren.	Aucun câble de terrain : placez les armoires et les appareils de terrain sur des nœuds du réseau.	No hay cables de campo: coloque los armarios y aparatos de campo en nodos de la red de recorridos.
 No filter fans: an air/air heat exchanger or a cooling unit	Keine Filterlüfter: ein Luft/Luft-Wärmetauscher oder ein Kühlgerät	Pas de ventilateurs à filtre : un échangeur thermique air/air ou un climatiseur	Sin ventiladores con filtro: un intercambiador de calor aire/aire o un equipo de refrigeración
 No harnesses defined.	Keine Kabelbäume definiert.	Aucun faisceau défini.	No hay mazos definidos.
 No harnesses yet – Connections › Harnesses	Noch keine Kabelbäume – Verbindungen › Kabelbäume	Pas encore de faisceaux – Liaisons › Faisceaux	Aún no hay mazos – Conexiones › Mazos
 No inverter	Kein Wechselrichter	Pas d'onduleur	Sin inversor
+No jump: plain crossing, connections have dots	Kein Sprung: einfache Kreuzung, Verbindungen haben Punkte	Pas de saut : croisement simple, les jonctions ont des points	Sin salto: cruce simple, las uniones tienen puntos
 No longer reported	Wird nicht mehr gemeldet	N'est plus signalé	Ya no se notifica
 No macros yet. Select items in a schematic and save them as a macro.	Noch keine Makros. Wählen Sie Elemente in einem Schaltplan und speichern Sie sie als Makro.	Aucune macro pour l'instant. Sélectionnez des éléments dans un schéma et enregistrez-les comme macro.	Aún no hay macros. Selecciona elementos en un esquema y guárdalos como macro.
 No modules: plug in PLC cards of the schematic.	Keine Baugruppen: Stecken Sie SPS-Karten des Schaltplans.	Aucun module : insérez des cartes automate du schéma.	No hay módulos: inserte tarjetas PLC del esquema.
@@ -1492,6 +1511,7 @@ Place the georeferenced point everything is measured from	Den georeferenzierten 
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Den georeferenzierten Punkt der Anlage im Lageplan setzen; seine Koordinaten kommen in den Bereich Gebäude, jeder Punkt wird dann von ihm aus gemessen	Placer le point géoréférencé de l'installation sur le plan de masse ; ses coordonnées se saisissent dans le volet Bâtiments, chaque point est alors mesuré depuis lui	Colocar el punto georreferenciado de la instalación en el plano de situación; sus coordenadas se introducen en el panel Edificios y cada punto se mide desde él
 Placed	Platziert	Placé	Colocado
 Placed by hand	Von Hand platziert	Placé à la main	Colocado a mano
+Placed by hand; choosing a side places them anew.	Von Hand platziert; die Wahl einer Lage platziert sie neu.	Placés manuellement ; choisir un côté les replace.	Colocados a mano; elegir un lado los vuelve a colocar.
 Placed here: {}	Hier platziert: {}	Placé ici : {}	Colocado aquí: {}
 Placed {}× in the project	{}× im Projekt platziert	Placé {}× dans le projet	Colocado {}× en el proyecto
 Placeholders	Platzhalter	Variables	Marcadores
@@ -1540,6 +1560,7 @@ Prefix	Präfix	Préfixe	Prefijo
 Preparing the macro library	Makrobibliothek wird vorbereitet	Préparation de la bibliothèque de macros	Preparando la biblioteca de macros
 Preserve junction target paths	Zielpfade des Verbindungsknotens beibehalten	Conserver les chemins de destination de la jonction	Conservar las rutas de destino de la unión
 Press a key…	Taste drücken…	Appuyez sur une touche…	Pulse una tecla…
+Preview	Vorschau	Aperçu	Vista previa
 Previous item	Vorheriges Teil	Élément précédent	Elemento anterior
 Previous page	Vorherige Seite	Page précédente	Página anterior
 Previous page tab	Vorherige Seitenregisterkarte	Onglet de page précédent	Pestaña de página anterior
@@ -1705,6 +1726,7 @@ Reset	Zurücksetzen	Réinitialiser	Restablecer
 Reset all to the defaults	Alle auf die Vorgaben zurücksetzen	Tout réinitialiser aux valeurs par défaut	Restablecer todo a los valores predeterminados
 Reset pane layout	Anordnung der Fenster zurücksetzen	Réinitialiser la disposition des panneaux	Restablecer la disposición de los paneles
 Reset the ribbon	Menüband zurücksetzen	Réinitialiser le ruban	Restablecer la cinta de opciones
+Reset to automatic placement	Auf automatische Platzierung zurücksetzen	Revenir au placement automatique	Volver a la colocación automática
 Reset to standard	Auf Standard zurücksetzen	Rétablir la valeur standard	Restablecer al estándar
 Restart and update	Neu starten und aktualisieren	Redémarrer et mettre à jour	Reiniciar y actualizar
 Resulting: {} · {} · {} · {} m	Ergebnis: {} · {} · {} · {} m	Résultat : {} · {} · {} · {} m	Resultado: {} · {} · {} · {} m
@@ -1748,6 +1770,7 @@ Round	Rund	Rond	Redondo
 Round cutouts facing each other in both side walls	Runde Ausschnitte gegenüber in beiden Seitenwänden	Découpes rondes face à face dans les deux parois latérales	Recortes redondos enfrentados en ambas paredes laterales
 Route definition of {}	Trassendefinition von {}	Définition du cheminement de {}	Definición del recorrido de {}
 Route network	Trassennetz	Réseau de cheminement	Red de recorridos
+Route the connections of moved items anew	Verbindungen verschobener Elemente neu verlegen	Retracer les connexions des éléments déplacés	Volver a trazar las conexiones de los elementos movidos
 Route wires in 3D	Drähte in 3D verlegen	Router les fils en 3D	Tender los cables en 3D
 Routed in {}: {} m, {} bends	Verlegt in {}: {} m, {} Biegungen	Routé dans {} : {} m, {} coudes	Tendido en {}: {} m, {} curvas
 Routing around symbols	Führung um Symbole herum	Routage autour des symboles	Trazado alrededor de los símbolos
@@ -1813,6 +1836,9 @@ Scheme name	Name des Schemas	Nom du schéma	Nombre del esquema
 Scheme placed again at {} symbols	Schema an {} Symbolen neu platziert	Schéma replacé sur {} symboles	Esquema colocado de nuevo en {} símbolos
 Scheme {}	Schema {}	Schéma {}	Esquema {}
 Screws, nuts, washers and rivet nuts of the fixing points	Schrauben, Muttern, Scheiben und Einnietmuttern der Befestigungspunkte	Vis, écrous, rondelles et écrous à sertir des points de fixation	Tornillos, tuercas, arandelas y tuercas remachables de los puntos de fijación
+Scrolling	Scrollen	Défilement	Desplazamiento
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Scrollen verschiebt in jede Richtung; zum Zoomen die Finger zusammenziehen oder Strg + Scrollen.	Le défilement déplace la vue dans toutes les directions ; pincer ou Ctrl + défilement pour zoomer.	El desplazamiento mueve la vista en cualquier dirección; pellizcar o Ctrl + desplazar para hacer zoom.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Scrollen nach oben und unten zoomt am Mauszeiger, seitwärts (horizontales Rad, Umschalt + Rad) verschiebt.	Défiler vers le haut et le bas zoome au pointeur, latéralement (molette horizontale, Maj + molette) déplace la vue.	Desplazar arriba y abajo hace zoom en el puntero, de lado (rueda horizontal, Mayús + rueda) desplaza la vista.
 Seal	Einzeladerabdichtung	Joint	Junta
 Search (* and ? as placeholders)…	Suchen (* und ? als Platzhalter)…	Rechercher (* et ? comme jokers)…	Buscar (* y ? como comodines)…
 Search below this folder	Unterhalb dieses Ordners suchen	Rechercher sous ce dossier	Buscar debajo de esta carpeta
@@ -2011,6 +2037,7 @@ Synchronize	Abgleichen	Synchroniser	Sincronizar
 Synchronize function texts	Funktionstexte abgleichen	Synchroniser les textes de fonction	Sincronizar los textos de función
 Synchronize project parts from database	Projektartikel aus der Datenbank synchronisieren	Synchroniser les articles du projet depuis la base	Sincronizar los artículos del proyecto desde la base de datos
 T Text	T Text	T Texte	T Texto
+T-connections	T-Verbindungen	Jonctions en T	Uniones en T
 Tab	Tabulator	Tabulation	Tabulador
 Table import failed: {}	Tabellenimport fehlgeschlagen: {}	Échec de l'import du tableau : {}	Error al importar la tabla: {}
 Tablet mode	Tablet-Modus	Mode tablette	Modo tableta
@@ -2031,6 +2058,7 @@ Taken into the drawing: drawn faded	In die Zeichnung übernommen: blass dargeste
 Takes the comments as function texts (matched by address)	Übernimmt die Kommentare als Funktionstexte (zugeordnet über die Adresse)	Reprend les commentaires comme textes de fonction (associés par l'adresse)	Toma los comentarios como textos de función (asignados por la dirección)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Übernimmt die Anschlussbezeichnungen aller Funktionen dieses Betriebsmittels aus den Funktionsvorlagen seiner Artikel	Reprend les désignations de connexion de toutes les fonctions de cet appareil à partir des modèles de fonction de ses articles	Toma las designaciones de conexión de todas las funciones de este dispositivo de las plantillas de función de sus artículos
 Takes the rights of the role away, whatever other grants give	Entzieht die Rechte der Rolle, unabhängig davon, was andere Freigaben geben	Retire les droits du rôle, quoi que donnent les autres attributions	Retira los derechos del rol, den lo que den otras asignaciones
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Nimmt den Weg mit dem geringsten Gewicht: seine Länge in Rasterschritten, 1,2 je Knick und 1,5 je gekreuzter Leitung. Aus: Die Leitungen werden gedehnt und behalten ihre Ecken.	Prend le chemin du plus faible poids : sa longueur en pas de grille, 1,2 par coude et 1,5 par fil croisé. Désactivé : les fils s'étirent et gardent leurs angles.	Toma el camino de menor peso: su longitud en pasos de cuadrícula, 1,2 por codo y 1,5 por cable cruzado. Desactivado: los cables se estiran y conservan sus esquinas.
 Target languages	Zielsprachen	Langues cibles	Idiomas de destino
 Temperature rise at the roof against the middle (IEC/TR 60890)	Temperaturerhöhung am Dach gegenüber der Mitte (IEC/TR 60890)	Échauffement au toit par rapport au milieu (CEI/TR 60890)	Aumento de temperatura en el techo respecto al centro (IEC/TR 60890)
 Template	Vorlage	Modèle	Plantilla
@@ -2067,6 +2095,7 @@ The door seen from the inside (hinges on the right): cable ducts and the wiring 
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Der Schrank steht mit seiner linken Seite an der rechten Seite des gewählten; Drähte laufen durch Kabeldurchführungen hinüber	L'armoire est placée avec son côté gauche contre le côté droit de celle choisie ; les fils passent par des passages de câbles	El armario se coloca con su lado izquierdo contra el lado derecho del elegido; los cables pasan por pasos de cables
 The file could not be opened as an OpenECraft project.	Die Datei konnte nicht als OpenECraft-Projekt geöffnet werden.	Le fichier n'a pas pu être ouvert comme projet OpenECraft.	El archivo no se ha podido abrir como proyecto de OpenECraft.
 The first hour	Die erste Stunde	La première heure	La primera hora
+The horizontal wire	Die waagerechte Leitung	Le fil horizontal	El cable horizontal
 The items are selected and moved together	Die Elemente werden gemeinsam ausgewählt und verschoben	Les éléments sont sélectionnés et déplacés ensemble	Los elementos se seleccionan y se mueven juntos
 The level of a building the room is on (Layout space › Buildings); it moves with the building and its level	Die Ebene eines Gebäudes, auf der der Raum liegt (Layoutraum › Gebäude); er bewegt sich mit dem Gebäude und seiner Ebene	Le niveau d'un bâtiment sur lequel se trouve la pièce (Espace de montage › Bâtiments) ; elle suit le bâtiment et son niveau	El nivel de un edificio en el que está la sala (Espacio de montaje › Edificios); se mueve con el edificio y su nivel
 The low eaves at the rear or left instead of the front or right	Die niedrige Traufe hinten oder links statt vorne oder rechts	L'égout bas à l'arrière ou à gauche au lieu de l'avant ou de la droite	El alero bajo detrás o a la izquierda en lugar de delante o a la derecha
@@ -2103,6 +2132,7 @@ The terminal parts name no end brackets or end plates (tech data End bracket, En
 The tutorial goes on with terminals, PLC, the panel layout, revisions and automation.	Das Tutorial geht weiter mit Klemmen, SPS, Aufbau, Revisionen und Automatisierung.	Le tutoriel continue avec les bornes, l'API, l'implantation, les révisions et l'automatisation.	El tutorial continúa con bornes, PLC, el montaje, las revisiones y la automatización.
 The tutorial in 13 chapters, from the first project to the automation	Das Tutorial in 13 Kapiteln, vom ersten Projekt bis zur Automatisierung	Le tutoriel en 13 chapitres, du premier projet à l'automatisation	El tutorial en 13 capítulos, desde el primer proyecto hasta la automatización
 The update failed	Das Update ist fehlgeschlagen	La mise à jour a échoué	La actualización ha fallado
+The vertical wire	Die senkrechte Leitung	Le fil vertical	El cable vertical
 The web version is updated on its server.	Die Webversion wird auf ihrem Server aktualisiert.	La version web est mise à jour sur son serveur.	La versión web se actualiza en su servidor.
 The wire tool routes around symbols and other wires	Das Verbindungswerkzeug führt um Symbole und andere Verbindungen herum	L'outil fil contourne les symboles et les autres fils	La herramienta de cable rodea los símbolos y otros cables
 The wires get the free cores of the cable in order (left to right)	Die Leitungen erhalten der Reihe nach (von links nach rechts) die freien Adern des Kabels	Les fils reçoivent dans l'ordre (de gauche à droite) les âmes libres du câble	Los hilos reciben en orden (de izquierda a derecha) los núcleos libres del cable
@@ -2132,11 +2162,15 @@ Top left	Oben links	En haut à gauche	Arriba a la izquierda
 Top right	Oben rechts	En haut à droite	Arriba a la derecha
 Total quantity	Gesamtmenge	Quantité totale	Cantidad total
 Total selectivity	Vollselektivität	Sélectivité totale	Selectividad total
+Touch screen	Touchscreen	Écran tactile	Pantalla táctil
 Transfer project parts to database	Projektartikel in die Datenbank übernehmen	Transférer les articles du projet dans la base	Transferir los artículos del proyecto a la base de datos
 Translate the project texts; documentation per language	Projekttexte übersetzen; Dokumentation je Sprache	Traduire les textes du projet ; documentation par langue	Traducir los textos del proyecto; documentación por idioma
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Drehung um die Senkrechte, von oben gesehen gegen den Uhrzeigersinn (90 °: die Fronten zeigen nach rechts)	Rotation autour de la verticale, dans le sens antihoraire vu d'en haut (90 ° : les façades sont tournées vers la droite)	Giro alrededor de la vertical, en sentido antihorario visto desde arriba (90 °: los frentes miran a la derecha)
 Tutorial	Tutorial	Tutoriel	Tutorial
 Tutorial: {}	Tutorial: {}	Tutoriel : {}	Tutorial: {}
+Twin ferrules where two wires share a connection point	Zwillingsaderendhülsen, wo zwei Leitungen einen Anschlusspunkt teilen	Embouts doubles là où deux fils partagent un point de connexion	Punteras dobles donde dos cables comparten un punto de conexión
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Zwei Finger auf einem Trackpad verschieben, das Mausrad zoomt. Nur macOS unterscheidet beide; sonst zoomt Scrollen wie das Mausrad.	Deux doigts sur un pavé tactile déplacent la vue, la molette zoome. Seul macOS les distingue ; ailleurs, le défilement zoome comme la molette.	Dos dedos en un panel táctil desplazan la vista, la rueda del ratón hace zoom. Solo macOS los distingue; en otros sistemas el desplazamiento hace zoom como la rueda.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Zwei Finger verschieben und zoomen gleichzeitig; ein Finger wirkt wie die linke Maustaste.	Deux doigts déplacent la vue et zooment en pinçant en même temps ; un doigt agit comme le bouton gauche de la souris.	Dos dedos desplazan la vista y hacen zoom al pellizcar a la vez; un dedo funciona como el botón izquierdo del ratón.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Hier müssen zwei Verbindungslinien im rechten Winkel zusammentreffen. Bei eingeschaltetem Auto-Connect werden Anschlusspunkte, die ihren Armen gegenüberliegen, mit ihr verdrahtet.	Deux fils doivent se rejoindre ici à angle droit. Avec l'auto-connexion activée, les points de connexion face à ses bras y sont reliés.	Aquí deben unirse dos cables en ángulo recto. Con la autoconexión activada, los puntos de conexión enfrentados a sus brazos se cablean a ella.
 Type a point	Punkt eingeben	Saisir un point	Introducir un punto
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Punkt eingeben und Enter drücken: x y in mm oder @dx dy relativ zum letzten Punkt; wirkt wie ein Klick des aktuellen Werkzeugs	Saisir un point puis Entrée : x y en mm, ou @dx dy relatif au dernier point ; agit comme un clic de l'outil courant	Escriba un punto y pulse Intro: x y en mm, o @dx dy relativo al último punto; actúa como un clic de la herramienta actual
@@ -2233,6 +2267,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Mausrad: Zoom · Rechtsklick: abbrechen · Grafik rastet auf 0,5 mm ein, Anschlusspunkte auf das 4-mm-Raster	Molette : zoom · clic droit : annuler · les graphiques s'alignent sur 0,5 mm, les points de connexion sur la grille de 4 mm	Rueda: zoom · clic derecho: cancelar · los gráficos se ajustan a 0,5 mm, los puntos de conexión a la cuadrícula de 4 mm
 When it differs from the page	Wenn sie von der Seite abweicht	Si elle diffère de la page	Si difiere de la página
 Where	Lage	Emplacement	Ubicación
+Where neither wire has a termination chosen for it	Wo für keine der beiden Leitungen ein Abschluss gewählt ist	Là où aucun des deux fils n'a de terminaison choisie	Donde ninguno de los dos cables tiene una terminación elegida
 Where the point is in the plant; y: its height above the ground level of the plant	Wo der Punkt in der Anlage liegt; y: seine Höhe über der Geländehöhe der Anlage	Emplacement du point dans l'installation ; y : sa hauteur au-dessus du niveau du sol de l'installation	Dónde está el punto en la instalación; y: su altura sobre el nivel del suelo de la instalación
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Woher die Struktur des Betriebsmittels kommt: Aspekte, die der Struktur um das Symbol herum entsprechen, sind geerbt und folgen, wenn es in einen Strukturkasten hinein- oder aus ihm herausbewegt wird; andere Aspekte gehören dem Betriebsmittel selbst und bleiben.	Origine de la structure de l'appareil : les aspects égaux à la structure autour du symbole sont hérités et suivent lorsqu'il entre dans un cadre de structure ou en sort ; les autres aspects sont propres à l'appareil et restent.	De dónde viene la estructura del dispositivo: los aspectos iguales a la estructura alrededor del símbolo se heredan y cambian cuando entra en un recuadro de estructura o sale de él; los demás aspectos son propios del dispositivo y se mantienen.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Wo die Verbindung beginnt und endet: ein Anschluss aus den Artikeldaten, ein aus der Funktionsschablone erzeugter oder die Gerätemitte, wenn kein Anschluss passt	Où le fil commence et se termine : un point de connexion des données de l'article, un point généré à partir du modèle de fonctions ou le centre de l'appareil si aucun point ne correspond	Dónde empieza y termina el cable: un punto de conexión de los datos del artículo, uno generado a partir de la plantilla de funciones o el centro del equipo si no coincide ningún punto
@@ -2252,6 +2287,8 @@ Window macros inserted from now on are recorded as macro boxes.	Ab jetzt eingef�
 Window macros placed on the pages (not printed)	Auf den Seiten platzierte Fenstermakros (nicht gedruckt)	Macros de fenêtre placées sur les pages (non imprimées)	Macros de ventana colocadas en las páginas (no se imprimen)
 Wire colour	Aderfarbe	Couleur du fil	Color del cable
 Wire contacts	Drahtverbindungen	Contacts du fil	Contactos del cable
+Wire crossings	Leitungskreuzungen	Croisements de fils	Cruces de cables
+Wire crossings…	Leitungskreuzungen…	Croisements de fils…	Cruces de cables…
 Wire ends	Verbindungsenden	Extrémités du fil	Extremos del cable
 Wire ends with ferrules	Leitungsenden mit Aderendhülsen	Extrémités de fil avec embouts	Extremos de hilo con punteras
 Wire markers	Leitungsmarkierer	Repères de fils	Marcadores de cables
@@ -2266,6 +2303,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Leitung {} – {}  ({}
 Wire {} – {}  {} mm	Leitung {} – {}  {} mm	Fil {} – {}  {} mm	Hilo {} – {}  {} mm
 Wires and potentials	Leitungen und Potenziale	Fils et potentiels	Hilos y potenciales
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Verbindungen zwischen den Anschlüssen von Fluid- und R&I-Symbolen sind Schläuche / Rohre: eigene Netze, nummeriert mit der Drahtnummerierung, aufgeführt in der Schlauchliste.	Les liaisons entre les orifices des symboles fluides et P&ID sont des flexibles / tuyaux : réseaux propres, numérotés avec la numérotation des fils, listés dans la liste des flexibles.	Las conexiones entre las bocas de los símbolos de fluidos y P&ID son mangueras / tuberías: redes propias, numeradas con la numeración de cables, listadas en la lista de mangueras.
+Wires crossing without connection	Leitungen, die sich ohne Verbindung kreuzen	Fils qui se croisent sans connexion	Cables que se cruzan sin conexión
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Hier müssen Verbindungslinien in alle vier Richtungen abgehen. Bis dahin wird die Verbindung in der Reihenfolge des Schaltplans verkettet.	Des fils doivent partir d'ici dans les quatre directions. Jusque-là, la liaison est chaînée dans l'ordre du schéma.	Aquí deben salir cables en las cuatro direcciones. Hasta entonces la conexión se encadena en el orden del esquema.
 Wires of the connection	Drähte der Verbindung	Fils de la liaison	Hilos de la conexión
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Drähte nehmen ebenfalls die hindernisbewussten 3D-Wege statt nur der Kabelkanäle auf der Platte	Les fils prennent aussi les tracés 3D qui évitent les obstacles, au lieu des seules goulottes sur la plaque	Los cables también siguen los recorridos 3D que evitan obstáculos, en lugar de solo las canaletas de la placa
@@ -2570,10 +2608,12 @@ x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm
 {} – {} ({} pages)	{} – {} ({} Seiten)	{} – {} ({} pages)	{} – {} ({} páginas)
 {}: a double-click opens its floor plan	{}: ein Doppelklick öffnet seinen Grundriss	{} : un double-clic ouvre son plan	{}: un doble clic abre su planta
 {}: click to show its floor plan	{}: Klicken zeigt seinen Grundriss	{} : cliquer pour afficher son plan	{}: haga clic para mostrar su planta
+{}: crimp together with the wire to {}	{}: zusammen mit der Leitung nach {} crimpen	{} : sertir avec le fil vers {}	{}: engastar junto con el cable hacia {}
 {}: drag to move it, R turns it, a double-click opens it	{}: ziehen zum Verschieben, R dreht, Doppelklick öffnet	{} : faire glisser pour déplacer, R pour tourner, double-clic pour ouvrir	{}: arrastre para mover, R para girar, doble clic para abrir
 {}: drag to move it, a double-click shows the floor	{}: ziehen zum Verschieben, Doppelklick zeigt den Boden	{} : faire glisser pour déplacer, double-clic pour afficher le sol	{}: arrastre para mover, doble clic para mostrar el suelo
 {}: nothing to change	{}: nichts zu ändern	{} : rien à modifier	{}: nada que cambiar
 {}: pin {}	{}: Pin {}	{} : broche {}	{}: pin {}
+{}: strip {} mm, {}	{}: abisolieren {} mm, {}	{} : dénuder {} mm, {}	{}: pelar {} mm, {}
 {}: {} addresses changed	{}: {} Adressen geändert	{} : {} adresses modifiées	{}: {} direcciones cambiadas
 {}: {} changes in the open project (not saved yet)	{}: {} Änderungen im geöffneten Projekt (noch nicht gespeichert)	{} : {} modifications dans le projet ouvert (pas encore enregistrées)	{}: {} cambios en el proyecto abierto (aún sin guardar)
 {}: {} changes saved	{}: {} Änderungen gespeichert	{} : {} modifications enregistrées	{}: {} cambios guardados

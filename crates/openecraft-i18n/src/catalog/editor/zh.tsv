@@ -173,6 +173,7 @@ Automatic (from the potential definition)	自动（来自电位定义）
 Automatic ({})	自动 ({})
 Automatic accessories	自动附件
 Automatic configuration	自动组态
+Automatic placement	自动放置
 Automation	自动化
 Aux	辅助
 Avoid:	避开：
@@ -227,6 +228,7 @@ Cable definition	电缆定义
 Cable definition on page {}	页 {} 上的电缆定义
 Cable definition: draw a line across the wires that are cores of a cable	电缆定义：画一条线穿过作为电缆芯线的导线
 Cable end reserve	电缆端余量
+Cable ends	电缆端头
 Cable markers	电缆标记
 Cable passage to {}	到 {} 的电缆过孔
 Cable {}: {} cores assigned	电缆 {}：已分配 {} 根芯线
@@ -361,11 +363,13 @@ Connected devices	已连接的设备
 Connected to:	连接到：
 Connection definition point	连接定义点
 Connection definition point: defines number, colour, cross-section and cable core of a connection	连接定义点：定义连接的编号、颜色、截面积和电缆芯线
+Connection point designations	连接点标识
 Connection point {}	连接点 {}
 Connection points 1 and 2 are connected inside	连接点 1 和 2 在内部相连
 Connection:	连接：
 Connections ({})	连接（{}）
 Connections / harness	连接 / 线束
+Connections of four or more wires always have a dot.	四根及以上导线的连接始终带有圆点。
 Connections whose two ends are both on selected wires	两端都位于所选导线上的连接
 Connections without a defined potential	没有定义电位的连接
 Connectors	连接器
@@ -386,6 +390,7 @@ Copy / cut / paste (devices get new tags)	复制 / 剪切 / 粘贴（设备获�
 Copy as new	复制为新项
 Copy built-in…	复制内置项…
 Core designations separated by blanks	以空格分隔的芯线标识
+Core labels placed by hand	手动放置的芯线标注
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	穿过的导线使用芯线 1、2、3 …，另加 GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	拐角：两条直角相交的连接线；开启自动连接时，正对其分支的连接点会接到它上
 Cover sheet, overview, graphics, report, mounting layout or a page template	封面、概览、图形、报表、安装布局或页模板
@@ -425,6 +430,7 @@ Dashed	虚线
 Decimals	小数位数
 Default	默认
 Default (part data or definition)	默认值（部件数据或定义）
+Default ({})	默认（{}）
 Default label	默认标签
 Default medium	默认介质
 Default rules	默认规则
@@ -542,7 +548,10 @@ Downloading OpenECraft {}	正在下载 OpenECraft {}
 Downstream part	下级部件
 Draft of revision {} created	已创建修订 {} 的草稿
 Draft of revision {} discarded	已放弃修订 {} 的草稿
+Drag a connection point designation of the selected symbol to place it.	拖动所选符号的连接点标识以放置它。
 Drag an entry into the page, or click it and then click into the page.	将条目拖到页中，或单击条目后在页中单击。
+Drag the core designation or the cable tag of the selected wire to place it.	拖动所选导线的芯线标识或电缆标识符以放置它。
+Drag the name or the cross reference of the selected point to place it.	拖动所选点的名称或交叉引用以放置它。
 Drag the tag of the selected symbol to place it.	拖动所选符号的标识符以放置它。
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	拖动：环绕 · 右键/中键或 Shift 拖动：平移 · 滚轮：在指针处缩放 · 双击：看向该处 · W A S D / 方向键，Q E：移动 · 单击：选择
 Draw	绘制
@@ -643,7 +652,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	物料清单中的紧固件
 Favorite	收藏
 Favorites (JSON)	收藏 (JSON)
-Ferrule {} ({})	冷压端子 {}（{}）
 Field	字段
 Field (name, description, company, creator, date, revision) or project property	字段（name、description、company、creator、date、revision）或项目属性
 Field cables	现场电缆
@@ -778,6 +786,8 @@ Hose number	软管编号
 Hoses and pipes	软管和管道
 Hoses rated below it are errors; 0 = not checked	额定压力低于此值的软管视为错误；0 = 不检查
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	门扇的开启方式：铰链在左侧或右侧边缘（从房间内看），向房间内或向外开，或沿墙推拉
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	导线在此端的端接方式；默认按连接点或其设备的选择，否则按布局的管型端子设置
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	导线如何跳过所交叉的导线、T 形连接如何标记，以及移动的项目是否重新布线其连接
 IP / bus address	IP / 总线地址
 ISO 639-1 language code	ISO 639-1 语言代码
 Identifiers	标识符
@@ -852,6 +862,7 @@ Insulation	绝缘
 Interruption points refer to	中断点引用
 Introduction	简介
 Invalid value	无效值
+Invert the direction of panning by scrolling	反转滚动平移的方向
 Inverter or charge controller (devices with PV input data)	逆变器或充电控制器（带光伏输入数据的设备）
 Isometric	等轴测
 Items on the layer	图层上的元素
@@ -862,6 +873,7 @@ Its pages replace the pages taken out	其页替换已移出的页
 Join collinear wires	合并共线导线
 Joins wire pieces in a line where nothing else connects (current page)	合并一条直线上没有其他连接的导线段（当前页）
 Jumper {}	跳线 {}
+Jumps over the other:	跳过另一条：
 K, Q, MM …	K、Q、MM …
 Keep sub-pages (3.a, 3.1) with the page before	子页 (3.a, 3.1) 保持在前一页之下
 Keep the degree of protection	保持防护等级
@@ -875,6 +887,7 @@ Label (grey)	标签（灰色）
 Label field	标签字段
 Labeling scheme	标记方案
 Landscape	横向
+Large dot	大圆点
 Larger texts and buttons for a touch screen at the workbench	为工作台触摸屏提供更大的文字和按钮
 Latitude, longitude	纬度、经度
 Layer	图层
@@ -986,6 +999,7 @@ Min. bend radius	最小弯曲半径
 Minimize the ribbon	最小化功能区
 Mirror	镜像
 Mirror (selection or symbol being placed)	镜像（所选内容或正在放置的符号）
+Mixed	混合
 Mode	模式
 Model of a part (2D / 3D)	部件的模型 (2D / 3D)
 Module part; its size comes from the part	组件部件；尺寸来自部件
@@ -1009,6 +1023,7 @@ Move to section	移到分节
 Move up	上移
 Moves to the top level as page {}	移到最上层，成为页 {}
 Moves to {} as page {}	移到 {}，成为页 {}
+Moving	移动
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	为当前页的单线符号生成多线动力符号和导线，放在新页上
 Multiple copy	多重复制
 Multiple copy…	多重复制…
@@ -1021,9 +1036,11 @@ NC data (DXF)	NC 数据 (DXF)
 NC data of this face (DWG)	此面的 NC 数据 (DWG)
 NC data of this face (DXF)	此面的 NC 数据 (DXF)
 Nailboard (SVG)…	钉板图 (SVG)…
+Name and cross reference	名称和交叉引用
 Name on the server	服务器上的名称
 Name; Data Type; Logical Address; Comment – for PLC programming tools	名称; 数据类型; 逻辑地址; 注释 – 用于 PLC 编程工具
 Named copy of this form, for report blocks	此表单的命名副本，用于报表块
+Navigation	导航
 Navigators	导航器
 Neutral exchange file…	中性交换文件…
 Never	从不
@@ -1088,11 +1105,13 @@ No device has its main function in the box.	没有设备的主功能位于框内
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	尚无设备具有安装数据：请为设备分配带尺寸的部件（属性 › 部件）。
 No differences to {}.	与 {} 无差异。
 No document embedded	未嵌入文档
+No dot: plain T	无圆点：普通 T 形
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	还没有机柜 – 使用“新建机柜”创建，或使用“新建房间”创建放置机柜的房间。
 No field cables: place the enclosures and field devices at nodes of the route network.	没有现场电缆：请将机柜和现场设备放置在布线网络的节点上。
 No filter fans: an air/air heat exchanger or a cooling unit	不使用过滤风扇：使用空气/空气换热器或冷却装置
 No harnesses defined.	未定义线束。
 No inverter	无逆变器
+No jump: plain crossing, connections have dots	无跳线：普通交叉，连接处有圆点
 No longer reported	不再报告
 No macros yet. Select items in a schematic and save them as a macro.	尚无宏。在原理图中选择元素并将其另存为宏。
 No modules: plug in PLC cards of the schematic.	没有模块：请插入原理图中的 PLC 卡件。
@@ -1294,6 +1313,7 @@ Place the georeferenced point everything is measured from	放置用于测量一�
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	在总平面图中放置设施的地理参考点；其坐标在建筑窗格中输入，所有点都从它测量
 Placed	已放置
 Placed by hand	手动放置
+Placed by hand; choosing a side places them anew.	已手动放置；选择一侧会重新放置它们。
 Placed here: {}	放置在此处：{}
 Placed {}× in the project	在项目中已放置 {}×
 Placeholders	占位符
@@ -1338,6 +1358,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	部件未涵�
 Pre-planning (CSV, Excel)	预规划 (CSV, Excel)
 Prefix	前缀
 Press a key…	请按键…
+Preview	预览
 Previous item	上一个元件
 Previous page	上一页
 Previous page tab	上一个页选项卡
@@ -1484,6 +1505,7 @@ Reset	重置
 Reset all to the defaults	全部恢复为默认值
 Reset pane layout	重置窗口布局
 Reset the ribbon	重置功能区
+Reset to automatic placement	恢复自动放置
 Reset to standard	重置为标准
 Restart and update	重新启动并更新
 Resulting: {} · {} · {} · {} m	结果：{} · {} · {} · {} m
@@ -1523,6 +1545,7 @@ Round	圆形
 Round cutouts facing each other in both side walls	两侧板上相对的圆形开孔
 Route definition of {}	{} 的路径定义
 Route network	布线网络
+Route the connections of moved items anew	重新布线已移动项目的连接
 Route wires in 3D	以 3D 方式布置导线
 Routed in {}: {} m, {} bends	在 {} 中布线：{} m，{} 处弯曲
 Routing around symbols	绕开符号布线
@@ -1584,6 +1607,9 @@ Scheme name	方案名称
 Scheme placed again at {} symbols	已在 {} 个符号处重新放置方案
 Scheme {}	方案 {}
 Screws, nuts, washers and rivet nuts of the fixing points	固定点的螺钉、螺母、垫圈和拉铆螺母
+Scrolling	滚动
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	滚动可向任意方向平移视图；双指捏合或 Ctrl + 滚动进行缩放。
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	上下滚动在指针处缩放，横向滚动（水平滚轮、Shift + 滚轮）平移视图。
 Search (* and ? as placeholders)…	搜索（* 和 ? 作为通配符）…
 Search below this folder	在此文件夹下搜索
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	按目录、产品组和技术数据搜索部件服务器，添加部件并检查数据库更新
@@ -1760,6 +1786,7 @@ Synchronize	同步
 Synchronize function texts	同步功能文本
 Synchronize project parts from database	从数据库同步项目部件
 T Text	T 文本
+T-connections	T 形连接
 Tab	制表符
 Table import failed: {}	表格导入失败：{}
 Tablet mode	平板模式
@@ -1780,6 +1807,7 @@ Taken into the drawing: drawn faded	已采用到图纸中：淡化显示
 Takes the comments as function texts (matched by address)	将注释作为功能文本采用（按地址匹配）
 Takes the connection point designations of all functions of this device from the function templates of its parts	从部件的功能模板中采用此设备所有功能的连接点标识
 Takes the rights of the role away, whatever other grants give	收回该角色的权限，不论其他授权如何
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	采用权重最小的路径：以栅格步数计的长度，每个弯折 1.2，每跨过一根导线 1.5。关闭：导线拉伸并保留其拐角。
 Target languages	目标语言
 Temperature rise at the roof against the middle (IEC/TR 60890)	柜顶相对于中部的温升 (IEC/TR 60890)
 Template	模板
@@ -1809,6 +1837,7 @@ The dictionary is empty: collect the texts from the project.	词典为空：请�
 The door seen from the front: door devices and cutouts	从正面看柜门：柜门设备和开孔
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	从内侧看柜门（铰链在右侧）：线槽和柜门后的接线
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	该机柜的左侧紧靠所选机柜的右侧；导线通过电缆过孔在它们之间穿过
+The horizontal wire	水平导线
 The items are selected and moved together	这些元素将一起被选择和移动
 The macro library has no page macros (Macros › Save page as macro…).	宏库没有页宏（宏 › 将页另存为宏…）。
 The modules no string takes yet in series, on the first inverter	尚未分配到组串的组件串联，接到第一台逆变器
@@ -1835,6 +1864,7 @@ The side of {} is open	{} 的侧面是开放的
 The symbol is placed in the project	该符号已在项目中使用
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	端子部件未指定终端固定件或终端盖板（技术数据 End bracket、End plate）。
 The update failed	更新失败
+The vertical wire	垂直导线
 The web version is updated on its server.	网页版在其服务器上更新。
 The wire tool routes around symbols and other wires	导线工具绕开符号和其他导线布线
 The wires get the free cores of the cable in order (left to right)	导线按顺序（从左到右）获得电缆的空闲芯线
@@ -1861,10 +1891,14 @@ Top edges	上边缘
 Top left	左上
 Top right	右上
 Total selectivity	完全选择性
+Touch screen	触摸屏
 Transfer project parts to database	将项目部件传输到数据库
 Translate the project texts; documentation per language	翻译项目文本；按语言生成文档
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	绕垂直轴旋转，从上方看为逆时针（90 °：正面朝右）
 Tutorial	教程
+Twin ferrules where two wires share a connection point	两根导线共用一个连接点时使用双线管型端子
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	触控板上的双指平移视图，鼠标滚轮缩放。只有 macOS 能区分两者；在其他系统上，滚动与滚轮一样进行缩放。
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	双指可同时平移视图和捏合缩放；单指的作用与鼠标左键相同。
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	此处必须有两条连接线直角相交。开启自动连接时，正对其分支的连接点会接到它上。
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	输入点并按 Enter：x y（单位 mm），或 @dx dy 表示相对于上一个点；其作用与当前工具的单击相同
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V，I {} A，{} kWp
@@ -1947,6 +1981,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	滚轮：缩放 · 右键单击：取消 · 图形捕捉到 0.5 mm，连接点捕捉到 4 mm 栅格
 When it differs from the page	与该页不同时
 Where	位置
+Where neither wire has a termination chosen for it	两根导线都未选择端接方式时
 Where the point is in the plant; y: its height above the ground level of the plant	该点在设施中的位置；y：其高于设施地面的高度
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	设备结构的来源：与符号周围结构相同的结构部分为继承，符号移入或移出结构框时随之改变；其他结构部分属于设备本身，保持不变。
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	导线的起点和终点：部件数据中的连接点、由功能模板生成的连接点，或在没有匹配的连接点时使用设备中心
@@ -1962,6 +1997,8 @@ Window macro: {}	窗口宏：{}
 Window macros inserted from now on are recorded as macro boxes.	此后插入的窗口宏将被记录为宏边框。
 Window macros placed on the pages (not printed)	页上放置的窗口宏（不打印）
 Wire colour	导线颜色
+Wire crossings	导线交叉
+Wire crossings…	导线交叉…
 Wire ends	导线端
 Wire ends with ferrules	带冷压端子的导线端
 Wire markers	导线标记
@@ -1975,6 +2012,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	导线 {} – {}  （�
 Wire {} – {}  {} mm	导线 {} – {}  {} mm
 Wires and potentials	导线和电位
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	流体技术符号和 P&ID 符号的接口之间的导线是软管 / 管道：它们有自己的网络，使用导线编号进行编号，并列在软管列表中。
+Wires crossing without connection	无连接交叉的导线
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	此处必须有连接线通往四个方向。在此之前连接按原理图顺序串接。
 Wires of the connection	连接的导线
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	导线也采用避障的 3D 路径，而不是仅使用安装板上的线槽
@@ -2250,10 +2288,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} 像素，{}
 {} – {} ({} pages)	{} – {}（{} 页）
 {}: click to show its floor plan	{}：单击以显示其平面图
+{}: crimp together with the wire to {}	{}：与通往 {} 的导线一起压接
 {}: drag to move it, R turns it, a double-click opens it	{}：拖动以移动，R 旋转，双击打开
 {}: drag to move it, a double-click shows the floor	{}：拖动以移动，双击显示地面
 {}: nothing to change	{}：无需更改
 {}: pin {}	{}：引脚 {}
+{}: strip {} mm, {}	{}：剥线 {} mm，{}
 {}: {} addresses changed	{}：已更改 {} 个地址
 {}: {} changes in the open project (not saved yet)	{}：已打开的项目中有 {} 处更改（尚未保存）
 {}: {} changes saved	{}：已保存 {} 处更改

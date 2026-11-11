@@ -89,6 +89,7 @@ Auxiliary function: main contact	보조 기능: 주접점
 Auxiliary relay coil R (JIS)	보조 릴레이 코일 R(JIS)
 B10d	B10d
 Ball valve	볼 밸브
+Bare conductor	피복 벗긴 도체
 Basis	근거
 Battery	배터리
 Battery capacity	배터리 용량
@@ -492,8 +493,8 @@ Fan 3-phase	3상 팬
 Fan 3-phase, 6 terminals	3상 팬, 단자 6개
 Ferrule	페룰
 Ferrule from	시작 쪽 페룰
-Ferrule part	페룰 부품
 Ferrule to	끝 쪽 페룰
+Ferrule {} mm² {}	페룰 {} mm² {}
 Field cable routing	필드 케이블 경로 설정
 Field cable {} cannot be routed from {} to {}	필드 케이블 {}을(를) {}에서 {}(으)로 포설할 수 없습니다
 Field cable {}: {} is not placed in the plant layout	필드 케이블 {}: {}이(가) 플랜트 레이아웃에 배치되지 않았습니다
@@ -514,6 +515,8 @@ Fitting	피팅
 Fittings	피팅
 Flame retardant	난연성
 Flat cable {} has {} cores, the IDC connector {} has {} pins	리본 케이블 {}은(는) {}심, IDC 커넥터 {}은(는) {}핀입니다
+Flat plug	평형 수 단자
+Flat receptacle	평형 암 단자
 Flat roof	평지붕
 Float switch NC	플로트 스위치 b접점
 Float switch NO	플로트 스위치 a접점
@@ -539,6 +542,7 @@ Foot switch NC	풋 스위치 b접점
 Foot switch NO	풋 스위치 a접점
 Foot switch NO (NFPA)	풋 스위치 a접점(NFPA)
 Force	힘
+Fork terminal	Y형 단자
 Format (placeholders)	형식(자리 표시자)
 Frame size	프레임 크기
 Free	자유
@@ -1122,6 +1126,7 @@ Pilot light (NFPA)	표시등(NFPA)
 Pilot line	파일럿 라인
 Pin connection diagram	핀 연결 다이어그램
 Pin side (male)	핀 측 (수)
+Pin terminal	핀 단자
 Pipe	배관
 Piston diameter	피스톤 직경
 Piston rod diameter	피스톤 로드 직경
@@ -1327,6 +1332,7 @@ Reviewer	검토자
 Revision overview (changes)	개정 개요(변경 내용)
 Right side	오른쪽 측면
 Right side panel	오른쪽 측면 패널
+Ring terminal	링 단자
 Rivet nut	리벳 너트
 RoHS compliant	RoHS 준수
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1551,9 +1557,12 @@ Terminal description	단자 설명
 Terminal diagram	단자 다이어그램
 Terminal line-up	단자 배열
 Terminal marker	단자 마커
+Terminal parts	단말 부품
 Terminal strip data of {} without terminals	단자가 없는 {}의 단자대 데이터
 Terminal strip overview	단자대 개요
 Terminal strips and PLC addresses	단자대 및 PLC 주소
+Termination (from)	마감(시작)
+Termination (to)	마감(끝)
 Text file	텍스트 파일
 The DXF file contains nothing that can be imported	DXF 파일에 가져올 수 있는 내용이 없습니다
 The PDF has no pages that can be read	PDF에 읽을 수 있는 페이지가 없습니다
@@ -1676,6 +1685,14 @@ Tubes	튜브
 Tubing / piping list	튜브 / 배관 목록
 Turned once (quarter landing)	한 번 꺾임 (모서리 참)
 Turned twice (two quarter landings)	두 번 꺾임 (모서리 참 두 개)
+Twin ferrule	이중 페룰
+Twin ferrule at {} is not shared with a second wire	{}의 이중 페룰을 함께 쓰는 두 번째 전선이 없습니다
+Twin ferrule at {} joins wires of {} and {}	{}의 이중 페룰이 {}와 {} 전선을 묶습니다
+Twin ferrule at {}: {} wires end there, it takes two	{}의 이중 페룰: 전선 {}개가 끝나지만 두 개용입니다
+Twin ferrule with (from)	이중 페룰 상대(시작)
+Twin ferrule with (to)	이중 페룰 상대(끝)
+Twin ferrule {} mm² {}	이중 페룰 {} mm² {}
+Twin ferrules	이중 페룰
 Two connection symbols on page {} lie on the same point	페이지 {}의 두 연결 기호가 같은 지점에 있습니다
 Two-way switch (installation)	3로 스위치(옥내 배선)
 Type numbers	유형 번호
@@ -1758,6 +1775,7 @@ Winding connection	권선 결선
 Wire assigned to unknown cable {}	알 수 없는 케이블 {}에 지정된 전선
 Wire colour GNYE is reserved for protective conductors ({})	전선 색상 GNYE는 보호 도체 전용입니다({})
 Wire colours and cross-sections	전선 색상 및 단면적
+Wire crossings and connections	전선 교차 및 연결
 Wire defaults	전선 기본값
 Wire jumper	와이어 점퍼
 Wire list (panel routing)	전선 목록(패널 배선 경로)
@@ -1866,8 +1884,6 @@ routed	배선 경로 지정됨
 shield clamp ({} mm away)	차폐 클램프({} mm 떨어짐)
 silver	은색
 starts with	시작 문자
-strip {} mm	피복 제거 {} mm
-strip {} mm, ferrule {} mm² {}	피복 제거 {} mm, 페룰 {} mm² {}
 suction	흡입
 supply	공급
 terminals {} – {}	단자 {} – {}
@@ -1991,6 +2007,7 @@ yellow	노랑
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{0}: 점퍼 {1}에 대한 점퍼 부품 없음(단자 부품의 기술 데이터 Jumper)
 {}: no part assigned	{}: 지정된 부품 없음
 {}: no service space of {} mm in front of {} (the door is too close)	{}: {} mm의 서비스 공간이 {} 앞에 없습니다(도어가 너무 가까움)
+{}: none for this cross-section	{}: 이 단면적용 없음
 {}: not in the single-line diagram	{}: 단선도에 없습니다
 {}: not placed in the panel layout	{}: 패널 레이아웃에 배치되지 않음
 {}: operations per year needed for the B10d of {}	{0}: {1}의 B10d에 연간 동작 횟수가 필요합니다

@@ -174,6 +174,7 @@ Automatic (from the potential definition)	Автоматично (з визна�
 Automatic ({})	Автоматично ({})
 Automatic accessories	Автоматичні аксесуари
 Automatic configuration	Автоматична конфігурація
+Automatic placement	Автоматичне розміщення
 Automation	Автоматизація
 Aux	Доп.
 Avoid:	Уникати:
@@ -229,6 +230,7 @@ Cable definition	Визначення кабелю
 Cable definition on page {}	Визначення кабелю на сторінці {}
 Cable definition: draw a line across the wires that are cores of a cable	Визначення кабелю: проведіть лінію через проводи, які є жилами кабелю
 Cable end reserve	Запас на кінець кабелю
+Cable ends	Кінці кабелю
 Cable markers	Маркери кабелів
 Cable passage to {}	Кабельний прохід до {}
 Cable {}: {} cores assigned	Кабель {}: призначено жил: {}
@@ -363,11 +365,13 @@ Connected devices	Підключені пристрої
 Connected to:	Підключено до:
 Connection definition point	Точка визначення з’єднання
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Точка визначення з’єднання: визначає номер, колір, переріз і жилу кабелю з’єднання
+Connection point designations	Позначення точок підключення
 Connection point {}	Точка підключення {}
 Connection points 1 and 2 are connected inside	Точки підключення 1 і 2 з’єднані всередині
 Connection:	З’єднання:
 Connections ({})	З’єднання ({})
 Connections / harness	З’єднання / джгут
+Connections of four or more wires always have a dot.	З'єднання чотирьох і більше проводів завжди позначаються крапкою.
 Connections whose two ends are both on selected wires	З’єднання, обидва кінці яких лежать на вибраних проводах
 Connections without a defined potential	З’єднання без визначеного потенціалу
 Connectors	Роз’єми
@@ -388,6 +392,7 @@ Copy / cut / paste (devices get new tags)	Копіювати / вирізати 
 Copy as new	Копіювати як новий
 Copy built-in…	Копіювати вбудований…
 Core designations separated by blanks	Позначення жил, розділені пробілами
+Core labels placed by hand	Написи жил розміщено вручну
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Жили 1, 2, 3 … для перетнутих проводів, плюс GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Кут: два проводи під прямим кутом; за ввімкненого автоз'єднання точки підключення навпроти його плечей з'єднуються з ним
 Cover sheet, overview, graphics, report, mounting layout or a page template	Титульна сторінка, огляд, графіка, звіт, монтажне компонування або шаблон сторінки
@@ -427,6 +432,7 @@ Dashed	Штрихова
 Decimals	Десяткові знаки
 Default	За замовчуванням
 Default (part data or definition)	За замовчуванням (дані виробу або визначення)
+Default ({})	За замовчуванням ({})
 Default label	Стандартна мітка
 Default medium	Стандартне середовище
 Default rules	Стандартні правила
@@ -546,7 +552,10 @@ Downloading OpenECraft {}	Завантаження OpenECraft {}
 Downstream part	Наступний виріб
 Draft of revision {} created	Чернетку ревізії {} створено
 Draft of revision {} discarded	Чернетку ревізії {} відхилено
+Drag a connection point designation of the selected symbol to place it.	Перетягніть позначення точки підключення вибраного символу, щоб розмістити його.
 Drag an entry into the page, or click it and then click into the page.	Перетягніть запис на сторінку або клацніть його, а потім клацніть на сторінці.
+Drag the core designation or the cable tag of the selected wire to place it.	Перетягніть позначення жили або позначення кабелю вибраного проводу, щоб розмістити їх.
+Drag the name or the cross reference of the selected point to place it.	Перетягніть ім'я або перехресне посилання вибраної точки, щоб розмістити їх.
 Drag the tag of the selected symbol to place it.	Перетягніть позначення вибраного символу, щоб розмістити його.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Перетягування: обертання · перетягування правою/середньою кнопкою або з Shift: зсув · колесо: масштаб біля вказівника · подвійне клацання: подивитися туди · W A S D / стрілки, Q E: рух · клацання: вибір
 Draw	Малювати
@@ -648,7 +657,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Кріпильні вироби в специфікації
 Favorite	Вибране
 Favorites (JSON)	Вибране (JSON)
-Ferrule {} ({})	Наконечник {} ({})
 Field	Поле
 Field (name, description, company, creator, date, revision) or project property	Поле (name, description, company, creator, date, revision) або властивість проєкту
 Field cables	Польові кабелі
@@ -784,6 +792,8 @@ Hose number	Номер шланга
 Hoses and pipes	Шланги й трубопроводи
 Hoses rated below it are errors; 0 = not checked	Шланги з меншим номінальним тиском – помилки; 0 = не перевіряється
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Як відчиняється стулка: петлі біля лівого чи правого краю (вигляд зсередини приміщення), всередину чи назовні приміщення, або зсувається вздовж стіни
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Як провід оконцьовано на цьому кінці; за замовчуванням як вибрано для точки підключення або її пристрою, інакше за налаштуванням наконечників компонування
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Як проводи перескакують через проводи, які вони перетинають, як позначаються T-з'єднання та чи прокладаються з'єднання переміщених елементів заново
 IP / bus address	IP-адреса / адреса на шині
 ISO 639-1 language code	Код мови ISO 639-1
 Identifiers	Позначення
@@ -858,6 +868,7 @@ Insulation	Ізоляція
 Interruption points refer to	Точки розриву посилаються на
 Introduction	Вступ
 Invalid value	Недійсне значення
+Invert the direction of panning by scrolling	Обернути напрямок зсуву прокручуванням
 Inverter or charge controller (devices with PV input data)	Інвертор або контролер заряду (пристрої з даними входу ФЕ)
 Isometric	Ізометрія
 Items on the layer	Об’єкти на шарі
@@ -869,6 +880,7 @@ Join collinear wires	Об’єднати колінеарні проводи
 Joins	З'єднує
 Joins wire pieces in a line where nothing else connects (current page)	Об’єднує відрізки проводів на одній лінії, де більше нічого не підключено (поточна сторінка)
 Jumper {}	Перемичка {}
+Jumps over the other:	Перескакує через інший:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Залишати підсторінки (3.a, 3.1) з попередньою сторінкою
 Keep the degree of protection	Зберігати ступінь захисту
@@ -882,6 +894,7 @@ Label (grey)	Мітка (сіра)
 Label field	Поле мітки
 Labeling scheme	Схема маркування
 Landscape	Альбомна
+Large dot	Велика крапка
 Larger texts and buttons for a touch screen at the workbench	Більші тексти й кнопки для сенсорного екрана на робочому місці
 Latitude, longitude	Широта, довгота
 Layer	Шар
@@ -996,6 +1009,7 @@ Min. bend radius	Мін. радіус згину
 Minimize the ribbon	Згорнути стрічку
 Mirror	Віддзеркалити
 Mirror (selection or symbol being placed)	Віддзеркалити (вибране або символ, що розміщується)
+Mixed	Різні
 Mode	Режим
 Model of a part (2D / 3D)	Модель виробу (2D / 3D)
 Module part; its size comes from the part	Виріб модуля; його розмір береться з виробу
@@ -1019,6 +1033,7 @@ Move to section	Перемістити до розділу
 Move up	Перемістити вгору
 Moves to the top level as page {}	Переходить на верхній рівень як сторінка {}
 Moves to {} as page {}	Переходить до {} як сторінка {}
+Moving	Переміщення
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Багатолінійні силові символи та провідники для однолінійних символів поточної сторінки на новій сторінці
 Multiple copy	Багаторазове копіювання
 Multiple copy…	Багаторазове копіювання…
@@ -1031,9 +1046,11 @@ NC data (DXF)	Дані ЧПК (DXF)
 NC data of this face (DWG)	Дані ЧПК цієї грані (DWG)
 NC data of this face (DXF)	Дані ЧПК цієї грані (DXF)
 Nailboard (SVG)…	Шаблон джгута (SVG)…
+Name and cross reference	Ім'я та перехресне посилання
 Name on the server	Назва на сервері
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Ім’я; тип даних; логічна адреса; коментар – для засобів програмування ПЛК
 Named copy of this form, for report blocks	Іменована копія цієї форми для блоків звітів
+Navigation	Навігація
 Navigators	Навігатори
 Neutral exchange file…	Нейтральний файл обміну…
 Never	Ніколи
@@ -1100,11 +1117,13 @@ No device has its main function in the box.	Жоден пристрій не м�
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Жоден пристрій ще не має даних монтажу: призначте пристроям вироби з розмірами (Властивості › Вироби).
 No differences to {}.	Немає відмінностей від {}.
 No document embedded	Документ не вбудовано
+No dot: plain T	Без крапки: просте T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Корпусів ще немає – створіть корпус командою Новий корпус або приміщення для шаф командою Нове приміщення.
 No field cables: place the enclosures and field devices at nodes of the route network.	Немає польових кабелів: розмістіть шафи та польові пристрої у вузлах мережі трас.
 No filter fans: an air/air heat exchanger or a cooling unit	Без фільтрувальних вентиляторів: теплообмінник повітря/повітря або холодильний агрегат
 No harnesses defined.	Джгути не визначено.
 No inverter	Без інвертора
+No jump: plain crossing, connections have dots	Без перескоку: просте перетинання, з'єднання позначені крапками
 No longer reported	Більше не повідомляється
 No macros yet. Select items in a schematic and save them as a macro.	Макросів ще немає. Виберіть елементи на схемі та збережіть їх як макрос.
 No modules: plug in PLC cards of the schematic.	Немає модулів: встановіть плати ПЛК зі схеми.
@@ -1307,6 +1326,7 @@ Place the georeferenced point everything is measured from	Розмістити �
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Розмістити геоприв'язану точку установки на генплані; її координати вводяться на панелі Будівлі, кожна точка вимірюється від неї
 Placed	Розміщено
 Placed by hand	Розміщено вручну
+Placed by hand; choosing a side places them anew.	Розміщено вручну; вибір сторони розміщує їх заново.
 Placed here: {}	Розміщено тут: {}
 Placed {}× in the project	Розміщено в проєкті {}×
 Placeholders	Заповнювачі
@@ -1351,6 +1371,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Втрати �
 Pre-planning (CSV, Excel)	Попереднє планування (CSV, Excel)
 Prefix	Префікс
 Press a key…	Натисніть клавішу…
+Preview	Попередній перегляд
 Previous item	Попередній елемент
 Previous page	Попередня сторінка
 Previous page tab	Попередня вкладка сторінки
@@ -1500,6 +1521,7 @@ Reset	Скинути
 Reset all to the defaults	Скинути все до стандартних значень
 Reset pane layout	Скинути розташування панелей
 Reset the ribbon	Скинути стрічку
+Reset to automatic placement	Повернути автоматичне розміщення
 Reset to standard	Скинути до стандартних
 Restart and update	Перезапустити й оновити
 Resulting: {} · {} · {} · {} m	Результат: {} · {} · {} · {} м
@@ -1539,6 +1561,7 @@ Round	Круглий
 Round cutouts facing each other in both side walls	Круглі вирізи один навпроти одного в обох бічних стінках
 Route definition of {}	Визначення траси {}
 Route network	Мережа трас
+Route the connections of moved items anew	Прокладати з'єднання переміщених елементів заново
 Route wires in 3D	Прокладати проводи в 3D
 Routed in {}: {} m, {} bends	Прокладено в {}: {} м, згинів – {}
 Routing around symbols	Обхід символів
@@ -1600,6 +1623,9 @@ Scheme name	Назва схеми
 Scheme placed again at {} symbols	Схему знову розміщено на символах: {}
 Scheme {}	Схема {}
 Screws, nuts, washers and rivet nuts of the fixing points	Гвинти, гайки, шайби та заклепкові гайки точок кріплення
+Scrolling	Прокручування
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Прокручування зсуває вигляд у будь-якому напрямку; для масштабування зведіть пальці або скористайтеся Ctrl + прокручуванням.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Прокручування вгору й униз масштабує біля вказівника, убік (горизонтальне коліщатко, Shift + коліщатко) зсуває вигляд.
 Search (* and ? as placeholders)…	Пошук (* і ? як символи підстановки)…
 Search below this folder	Шукати в цій папці та вкладених
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Шукати на сервері виробів за каталогом, групою продуктів і технічними даними, додавати вироби та перевіряти базу даних на оновлення
@@ -1778,6 +1804,7 @@ Synchronize	Синхронізувати
 Synchronize function texts	Синхронізувати тексти функцій
 Synchronize project parts from database	Синхронізувати вироби проєкту з бази даних
 T Text	T Текст
+T-connections	T-з'єднання
 Tab	Табуляція
 Table import failed: {}	Помилка імпорту таблиці: {}
 Tablet mode	Режим планшета
@@ -1798,6 +1825,7 @@ Taken into the drawing: drawn faded	Перенесено в креслення: 
 Takes the comments as function texts (matched by address)	Бере коментарі як тексти функцій (зіставлення за адресою)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Бере позначення точок підключення всіх функцій цього пристрою із шаблонів функцій його виробів
 Takes the rights of the role away, whatever other grants give	Позбавляє прав ролі незалежно від того, що надають інші призначення
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Обирає шлях із найменшою вагою: його довжина в кроках сітки, 1,2 за згин і 1,5 за перетнутий провід. Вимк.: проводи розтягуються та зберігають свої кути.
 Target languages	Цільові мови
 Temperature rise at the roof against the middle (IEC/TR 60890)	Підвищення температури під дахом відносно середини (IEC/TR 60890)
 Template	Шаблон
@@ -1827,6 +1855,7 @@ The dictionary is empty: collect the texts from the project.	Словник по
 The door seen from the front: door devices and cutouts	Двері спереду: пристрої на дверях і вирізи
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Двері зсередини (петлі праворуч): кабельні канали та монтаж проводів за дверима
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Корпус стоїть лівою стороною впритул до правої сторони вибраного; проводи проходять між ними через кабельні проходи
+The horizontal wire	Горизонтальний провід
 The items are selected and moved together	Елементи вибираються й переміщуються разом
 The macro library has no page macros (Macros › Save page as macro…).	Бібліотека макросів не містить макросів сторінок (Макроси › Зберегти сторінку як макрос…).
 The modules no string takes yet in series, on the first inverter	Модулі, не зайняті жодним ланцюжком, послідовно, на першому інверторі
@@ -1853,6 +1882,7 @@ The side of {} is open	Сторона {} відкрита
 The symbol is placed in the project	Символ використовується в проєкті
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Вироби клем не вказують кінцевих фіксаторів або кінцевих кришок (технічні дані End bracket, End plate).
 The update failed	Не вдалося виконати оновлення
+The vertical wire	Вертикальний провід
 The web version is updated on its server.	Вебверсія оновлюється на своєму сервері.
 The wire tool routes around symbols and other wires	Інструмент «Провід» прокладає проводи в обхід символів та інших проводів
 The wires get the free cores of the cable in order (left to right)	Проводи по черзі (зліва направо) отримують вільні жили кабелю
@@ -1879,10 +1909,14 @@ Top edges	Верхні краї
 Top left	Ліворуч угорі
 Top right	Праворуч угорі
 Total selectivity	Повна селективність
+Touch screen	Сенсорний екран
 Transfer project parts to database	Передати вироби проєкту до бази даних
 Translate the project texts; documentation per language	Переклад текстів проєкту; документація для кожної мови
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Поворот навколо вертикалі проти годинникової стрілки, якщо дивитися згори (90 °: фронти повернуті праворуч)
 Tutorial	Навчальний посібник
+Twin ferrules where two wires share a connection point	Подвійні наконечники там, де два проводи підключені до однієї точки
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Два пальці на тачпаді зсувають вигляд, коліщатко миші масштабує. Розрізняє їх лише macOS; в інших системах прокручування масштабує, як коліщатко.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Два пальці одночасно зсувають вигляд і масштабують щипком; один палець працює як ліва кнопка миші.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Тут мають сходитися два проводи під прямим кутом. За ввімкненого автоз'єднання точки підключення навпроти його плечей з'єднуються з ним.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Введіть точку й натисніть Enter: x y у мм або @dx dy відносно останньої точки; діє як клацання поточним інструментом
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} В, I {} А, {} кВт пік
@@ -1967,6 +2001,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Коліщатко: масштаб · правий клік: скасувати · графіка прив’язується до 0,5 мм, точки підключення – до сітки 4 мм
 When it differs from the page	Якщо відрізняється від сторінки
 Where	Положення
+Where neither wire has a termination chosen for it	Якщо для жодного з проводів не вибрано оконцювання
 Where the point is in the plant; y: its height above the ground level of the plant	Де точка розташована в установці; y: її висота над рівнем землі установки
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Звідки береться структура пристрою: аспекти, що збігаються зі структурою навколо символу, успадковуються і змінюються, коли він переміщується в рамку структури або з неї; інші аспекти належать пристрою і зберігаються.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Де провід починається й закінчується: точка підключення з даних виробу, згенерована із шаблону функцій або центр пристрою, якщо жодна точка підключення не підходить
@@ -1982,6 +2017,8 @@ Window macro: {}	Макрос вікна: {}
 Window macros inserted from now on are recorded as macro boxes.	Віконні макроси, вставлені відтепер, записуються як рамки макросів.
 Window macros placed on the pages (not printed)	Віконні макроси, розміщені на сторінках (не друкуються)
 Wire colour	Колір проводу
+Wire crossings	Перетини проводів
+Wire crossings…	Перетини проводів…
 Wire ends	Кінці проводів
 Wire ends with ferrules	Кінці проводів із наконечниками
 Wire markers	Маркери проводів
@@ -1995,6 +2032,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Провід {} – {}
 Wire {} – {}  {} mm	Провід {} – {}  {} мм
 Wires and potentials	Проводи та потенціали
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Проводи між портами символів гідро-/пневмотехніки та P&ID є шлангами / трубопроводами: власні мережі, пронумеровані нумерацією проводів, наведені в переліку шлангів.
+Wires crossing without connection	Проводи, що перетинаються без з'єднання
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Звідси мають виходити проводи в усіх чотирьох напрямках. До того з'єднання вибудовується в порядку схеми.
 Wires of the connection	Проводи з'єднання
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Проводи також прокладаються 3D-трасами з урахуванням перешкод, а не лише кабельними каналами на панелі
@@ -2278,10 +2316,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} пікселів, {}
 {} – {} ({} pages)	{} – {} (сторінок: {})
 {}: click to show its floor plan	{}: клацніть, щоб показати план
+{}: crimp together with the wire to {}	{}: обтиснути разом із проводом до {}
 {}: drag to move it, R turns it, a double-click opens it	{}: перетягніть, щоб перемістити, R повертає, подвійне клацання відкриває
 {}: drag to move it, a double-click shows the floor	{}: перетягніть, щоб перемістити, подвійне клацання показує підлогу
 {}: nothing to change	{}: нічого змінювати
 {}: pin {}	{}: контакт {}
+{}: strip {} mm, {}	{}: зачистити {} мм, {}
 {}: {} addresses changed	{}: змінено адрес: {}
 {}: {} changes in the open project (not saved yet)	{}: змін у відкритому проєкті (ще не збережено): {}
 {}: {} changes saved	{}: збережено змін: {}

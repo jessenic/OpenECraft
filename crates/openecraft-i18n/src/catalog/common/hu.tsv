@@ -8,6 +8,7 @@ A page named {} already exists	Már létezik {} nevű oldal
 A page needs a name	Az oldalnak nevet kell adni
 A routing path needs {} points at least	A fektetési úthoz legalább {} pont szükséges
 A section cannot be moved into itself	Egy szakasz nem helyezhető át önmagába
+Above	Felül
 Access token	Hozzáférési token
 Accessories	Tartozékok
 Accessory	Tartozék
@@ -18,6 +19,7 @@ Angle	Szög
 Apply	Alkalmaz
 Approvers	Jóváhagyók
 Automatic	Automatikus
+Below	Alul
 Bold	Félkövér
 Bottom	Fenék
 Bottom with removable gland plate	Fenék levehető kábelbevezető lemezzel
@@ -472,6 +474,7 @@ open	nyitott
 rejected	elutasítva
 right	jobbra
 spare	tartalék
+strip {} mm, {}	csupaszítás {} mm, {}
 the disk is full	a lemez megtelt
 the file exists already	a fájl már létezik
 this is a folder	ez egy mappa
@@ -481,5 +484,6 @@ yes	igen
 {} exists already	{} már létezik
 {} parts	{} alkatrész
 {} wires	{} vezeték
+{}, together with the wire to {}	{}, a(z) {} felé menő vezetékkel együtt
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} nem a padlón áll, válasszon padlón álló alkatrészt
 ➕ Add accessory	➕ Tartozék hozzáadása

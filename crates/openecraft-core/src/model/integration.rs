@@ -131,6 +131,9 @@ pub enum Field {
     StripTo,
     FerruleFrom,
     FerruleTo,
+    /// The other wire (its far end) crimped into the twin ferrule of the `from` end.
+    TwinFrom,
+    TwinTo,
     Cable,
     Core,
     Job,

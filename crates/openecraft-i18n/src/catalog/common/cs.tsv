@@ -8,6 +8,7 @@ A page named {} already exists	Stránka s názvem {} již existuje
 A page needs a name	Stránka musí mít název
 A routing path needs {} points at least	Trasa vedení potřebuje alespoň {} bodů
 A section cannot be moved into itself	Oddíl nelze přesunout sám do sebe
+Above	Nad
 Access token	Přístupový token
 Accessories	Příslušenství
 Accessory	Příslušenství
@@ -18,6 +19,7 @@ Angle	Úhel
 Apply	Použít
 Approvers	Schvalovatelé
 Automatic	Automaticky
+Below	Pod
 Bold	Tučné
 Bottom	Dno
 Bottom with removable gland plate	Dno s odnímatelnou přírubovou deskou
@@ -472,6 +474,7 @@ open	otevřený
 rejected	zamítnuto
 right	doprava
 spare	rezerva
+strip {} mm, {}	odizolovat {} mm, {}
 the disk is full	disk je plný
 the file exists already	soubor již existuje
 this is a folder	toto je složka
@@ -481,5 +484,6 @@ yes	ano
 {} exists already	{} již existuje
 {} parts	Artikly: {}
 {} wires	Vodiče: {}
+{}, together with the wire to {}	{}, společně s vodičem do {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} nestojí na podlaze, zvolte artikl stojící na podlaze
 ➕ Add accessory	➕ Přidat příslušenství

@@ -192,6 +192,7 @@ pub static TABS: &[Tab] = &[
             g("field", tr_const!("Field wiring"), &[L(C::FieldWiring)]),
             g("marking", tr_const!("Marking"), &[L(C::Marking)]),
             g("xref", tr_const!("Cross references"), &[L(C::CrossReferences)]),
+            g("crossings", tr_const!("Wire crossings"), &[L(C::WireCrossings)]),
         ],
     },
     Tab {

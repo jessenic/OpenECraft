@@ -67,6 +67,7 @@ Only parts for direct wall mounting	Doar articole pentru montaj direct pe perete
 Open datasheet	Deschidere fișă tehnică
 Open in the browser	Deschidere în browser
 Outside the face	În afara feței
+Pans (trackpad)	Deplasează (touchpad)
 Parts server: {}	Server de articole: {}
 Parts this part is assembled from; the bill of materials lists them under it	Articolele din care este asamblat acest articol; lista de materiale le listează sub el
 Personal access token	Token de acces personal
@@ -113,6 +114,7 @@ Wall mounting	Montaj pe perete
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Unde se află accesoriul pe articolul cu care se potrivește, în schema de montaj și în vederea 3D
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Unde se conectează conductoarele în amplasarea în tablou: denumirea ca în șablonul de funcție, poziția în vederea frontală (x de la stânga, y de sus, z deasupra suprafeței de montaj) și direcția în care iese conductorul. Articolele fără puncte de conexiune proprii le primesc din șablonul de funcție.
 Wire leaves	Ieșire conductor
+Zooms (mouse wheel)	Mărește (rotița mouse-ului)
 changes with token	modificări cu token
 created in your EPLAN account (ePulse)	creat în contul dumneavoastră EPLAN (ePulse)
 down	în jos

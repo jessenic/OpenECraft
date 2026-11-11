@@ -107,7 +107,7 @@ impl Section {
         match self {
             Section::Info => a.info == b.info,
             Section::WireNumbering => a.wire_numbering == b.wire_numbering,
-            Section::Wires => (&a.wire_defaults, a.wire_colors) == (&b.wire_defaults, b.wire_colors),
+            Section::Wires => (&a.wire_defaults, a.wire_colors, &a.wire_settings) == (&b.wire_defaults, b.wire_colors, &b.wire_settings),
             Section::Layout => layout_settings(a) == layout_settings(b),
             Section::PlcHardware => a.plc == b.plc,
             Section::Symbols => a.symbols == b.symbols,
@@ -132,6 +132,7 @@ impl Section {
             Section::Wires => {
                 to.wire_defaults = from.wire_defaults.clone();
                 to.wire_colors = from.wire_colors;
+                to.wire_settings = from.wire_settings.clone();
             }
             Section::Layout => {
                 let enclosures = std::mem::take(&mut to.layout.enclosures);

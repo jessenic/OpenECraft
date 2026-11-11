@@ -48,6 +48,18 @@ pub(super) fn zoom_at(cam: &mut Orbit, factor: f32, at: Vec2, f: f32) {
     }
 }
 
+/// Pans and zooms by the wheel, a trackpad or the fingers (`centre`: middle of the
+/// view); gives whether the camera moved.
+pub(super) fn gesture(cam: &mut Orbit, g: &openecraft_ui::nav::Gesture, centre: egui::Pos2, f: f32) -> bool {
+    if g.pans() {
+        pan(cam, g.pan, f);
+    }
+    if g.zooms() {
+        zoom_at(cam, g.zoom, g.at.map_or(Vec2::ZERO, |q| q - centre), f);
+    }
+    g.pans() || g.zooms()
+}
+
 /// Moves the camera with its orbit centre: `ahead` level in the direction looked at,
 /// `side` to the right, `rise` up (mm).
 pub(super) fn walk(cam: &mut Orbit, ahead: f32, side: f32, rise: f32) {

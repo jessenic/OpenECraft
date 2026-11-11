@@ -8,6 +8,7 @@ A page named {} already exists	{} adlı bir sayfa zaten var
 A page needs a name	Bir sayfanın adı olmalı
 A routing path needs {} points at least	Bir yönlendirme yolu en az {} nokta gerektirir
 A section cannot be moved into itself	Bir bölüm kendi içine taşınamaz
+Above	Üstte
 Access token	Erişim belirteci
 Accessories	Aksesuarlar
 Accessory	Aksesuar
@@ -18,6 +19,7 @@ Angle	Açı
 Apply	Uygula
 Approvers	Onaylayıcılar
 Automatic	Otomatik
+Below	Altta
 Bold	Kalın
 Bottom	Taban
 Bottom with removable gland plate	Sökülebilir rakor plakalı taban
@@ -472,6 +474,7 @@ open	açık
 rejected	reddedildi
 right	sağa
 spare	yedek
+strip {} mm, {}	soyma {} mm, {}
 the disk is full	disk dolu
 the file exists already	dosya zaten var
 this is a folder	bu bir klasör
@@ -481,5 +484,6 @@ yes	evet
 {} exists already	{} zaten var
 {} parts	{} parça
 {} wires	{} tel
+{}, together with the wire to {}	{}, {} yönündeki telle birlikte
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} zemine konmaz, zemine konan bir parça seçin
 ➕ Add accessory	➕ Aksesuar ekle

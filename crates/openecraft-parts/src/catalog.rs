@@ -810,6 +810,38 @@ Breaking capacity: 100 kA".into();
         p.mounting.clear();
         p.tech_data = format!("Cross-section: {shown} mm²\nColour: {color}\nLength: {len} mm");
     }
+    // Twin ferrules: two wires of the cross-section in one.
+    for (cs, color) in [("0.34", "turquoise"), ("0.5", "white"), ("0.75", "grey"), ("1.0", "red"), ("1.5", "black"), ("2.5", "blue"), ("4", "grey"), ("6", "yellow"), ("10", "red"), ("16", "blue")] {
+        let shown = cs.strip_suffix(".0").unwrap_or(cs);
+        let p = c.add(&format!("GEN.FER2-{cs}"), &format!("Twin ferrule 2 x {shown} mm², insulated, {color}"), "Wiring material", "Ferrule", "", 0.06, (0.0, 0.0, 0.0, 0.0), &[]);
+        p.mounting.clear();
+        p.tech_data = format!("Cross-section: 2 x {shown} mm²\nColour: {color}");
+    }
+
+    // Insulated crimp terminals, coloured by the cross-sections they take.
+    for (band, color, range, stud) in [("R", "red", "0.5 - 1 mm²", "M4"), ("B", "blue", "1.5 - 2.5 mm²", "M4"), ("Y", "yellow", "4 - 6 mm²", "M5")] {
+        for (kind, name, subgroup) in [
+            ("RING", format!("Ring terminal {stud}"), "Ring terminal"),
+            ("FORK", format!("Fork terminal {stud}"), "Fork terminal"),
+            ("PIN", "Pin terminal".to_string(), "Pin terminal"),
+            ("TAB", "Flat plug 6.3 x 0.8 mm".to_string(), "Flat plug"),
+            ("REC", "Flat receptacle 6.3 x 0.8 mm".to_string(), "Flat receptacle"),
+        ] {
+            let p = c.add(&format!("GEN.{kind}-{band}"), &format!("{name}, insulated, {color}, {range}"), "Wiring material", subgroup, "", 0.08, (0.0, 0.0, 0.0, 0.0), &[]);
+            p.mounting.clear();
+            p.tech_data = format!("Cross-section: {range}\nColour: {color}");
+        }
+    }
+    // Uninsulated tubular cable lugs (DIN 46235) and pin terminals for large cross-sections.
+    for cs in ["10", "16", "25", "35", "50", "70", "95", "120", "150", "185", "240"] {
+        let stud = if cs == "10" || cs == "16" { "M6" } else { "M8" };
+        let p = c.add(&format!("GEN.LUG-{cs}"), &format!("Tubular cable lug {cs} mm² {stud}, tinned copper"), "Wiring material", "Cable lug", "", 0.6, (0.0, 0.0, 0.0, 0.0), &[]);
+        p.mounting.clear();
+        p.tech_data = format!("Cross-section: {cs} mm²\nStud: {stud}");
+        let p = c.add(&format!("GEN.PIN-{cs}"), &format!("Pin terminal {cs} mm², tinned copper"), "Wiring material", "Pin terminal", "", 0.5, (0.0, 0.0, 0.0, 0.0), &[]);
+        p.mounting.clear();
+        p.tech_data = format!("Cross-section: {cs} mm²");
+    }
 
     // Cables: sold by the metre; the cores are listed in the technical data.
     for (number, desc, subgroup, price, kg, cores, cs) in [
@@ -982,12 +1014,30 @@ fn accessories(c: &mut C) {
     for (number, desc, subgroup, price, dims, tech) in [
         ("GEN.FAN-FILTER-120", "Filter fan 120 m³/h, 230 V AC, 204 x 204 mm, IP54", "Filter fan", 98.0, (204.0, 204.0, 105.0, 1.6), "Cutout: 177 x 177\nOutside: 25\nAir flow: 120 m³/h\nFaces: Left, Right, Door, Rear\nFastening: Clip"),
         ("GEN.FAN-OUTLET-120", "Outlet filter for filter fan 120 m³/h, 204 x 204 mm", "Outlet filter", 32.0, (204.0, 204.0, 30.0, 0.4), "Cutout: 177 x 177\nOutside: 25\nFaces: Left, Right, Door, Rear\nFastening: Clip"),
-        ("GEN.GLAND-M16", "Cable gland M16 x 1.5, polyamide, IP68, cable Ø 4 – 8 mm", "Cable gland", 1.1, (24.0, 24.0, 10.0, 0.01), "Cutout: Ø16.5\nOutside: 17\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 4\nClamping range max: 8"),
-        ("GEN.GLAND-M20", "Cable gland M20 x 1.5, polyamide, IP68, cable Ø 6 – 12 mm", "Cable gland", 1.4, (30.0, 30.0, 12.0, 0.01), "Cutout: Ø20.5\nOutside: 20\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 6\nClamping range max: 12"),
-        ("GEN.GLAND-M25", "Cable gland M25 x 1.5, polyamide, IP68, cable Ø 9 – 17 mm", "Cable gland", 1.9, (36.0, 36.0, 13.0, 0.02), "Cutout: Ø25.5\nOutside: 24\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 9\nClamping range max: 17"),
-        ("GEN.GLAND-M32", "Cable gland M32 x 1.5, polyamide, IP68, cable Ø 13 – 21 mm", "Cable gland", 2.8, (46.0, 46.0, 15.0, 0.03), "Cutout: Ø32.5\nOutside: 28\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 13\nClamping range max: 21"),
-        ("GEN.GLAND-M40", "Cable gland M40 x 1.5, polyamide, IP68, cable Ø 22 – 32 mm", "Cable gland", 4.6, (55.0, 55.0, 18.0, 0.05), "Cutout: Ø40.5\nOutside: 32\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 22\nClamping range max: 32"),
-        ("GEN.GLAND-M63", "Cable gland M63 x 1.5, polyamide, IP68, cable Ø 34 – 48 mm", "Cable gland", 11.0, (80.0, 80.0, 24.0, 0.12), "Cutout: Ø63.5\nOutside: 45\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 34\nClamping range max: 48"),
+        // Cable glands: polyamide (light grey), brass nickel-plated, and EMC glands with
+        // a contact spring for the braid of shielded cables; one cable each. As deep as
+        // they stand out of the face (`Outside`) and their locknut and thread end
+        // reach into the enclosure.
+        ("GEN.GLAND-M16", "Cable gland M16 x 1.5, polyamide, light grey, IP68, cable Ø 4 – 8 mm", "Cable gland", 1.1, (24.0, 24.0, 23.0, 0.01), "Cutout: Ø16.5\nOutside: 17\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 4\nClamping range max: 8\nMaterial: Polyamide\nColour: RAL 7035"),
+        ("GEN.GLAND-M20", "Cable gland M20 x 1.5, polyamide, light grey, IP68, cable Ø 6 – 12 mm", "Cable gland", 1.4, (30.0, 30.0, 27.0, 0.01), "Cutout: Ø20.5\nOutside: 20\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 6\nClamping range max: 12\nMaterial: Polyamide\nColour: RAL 7035"),
+        ("GEN.GLAND-M25", "Cable gland M25 x 1.5, polyamide, light grey, IP68, cable Ø 9 – 17 mm", "Cable gland", 1.9, (36.0, 36.0, 32.0, 0.02), "Cutout: Ø25.5\nOutside: 24\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 9\nClamping range max: 17\nMaterial: Polyamide\nColour: RAL 7035"),
+        ("GEN.GLAND-M32", "Cable gland M32 x 1.5, polyamide, light grey, IP68, cable Ø 13 – 21 mm", "Cable gland", 2.8, (46.0, 46.0, 37.0, 0.03), "Cutout: Ø32.5\nOutside: 28\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 13\nClamping range max: 21\nMaterial: Polyamide\nColour: RAL 7035"),
+        ("GEN.GLAND-M40", "Cable gland M40 x 1.5, polyamide, light grey, IP68, cable Ø 22 – 32 mm", "Cable gland", 4.6, (55.0, 55.0, 42.0, 0.05), "Cutout: Ø40.5\nOutside: 32\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 22\nClamping range max: 32\nMaterial: Polyamide\nColour: RAL 7035"),
+        ("GEN.GLAND-M63", "Cable gland M63 x 1.5, polyamide, light grey, IP68, cable Ø 34 – 48 mm", "Cable gland", 11.0, (80.0, 80.0, 57.0, 0.12), "Cutout: Ø63.5\nOutside: 45\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 34\nClamping range max: 48\nMaterial: Polyamide\nColour: RAL 7035"),
+        ("GEN.GLAND-M16-MS", "Cable gland M16 x 1.5, brass nickel-plated, IP68, cable Ø 4 – 8 mm", "Cable gland", 2.9, (24.0, 24.0, 23.0, 0.045), "Cutout: Ø16.5\nOutside: 17\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 4\nClamping range max: 8\nMaterial: Brass, nickel-plated"),
+        ("GEN.GLAND-M20-MS", "Cable gland M20 x 1.5, brass nickel-plated, IP68, cable Ø 6 – 12 mm", "Cable gland", 3.6, (30.0, 30.0, 27.0, 0.045), "Cutout: Ø20.5\nOutside: 20\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 6\nClamping range max: 12\nMaterial: Brass, nickel-plated"),
+        ("GEN.GLAND-M25-MS", "Cable gland M25 x 1.5, brass nickel-plated, IP68, cable Ø 9 – 17 mm", "Cable gland", 4.9, (36.0, 36.0, 32.0, 0.09), "Cutout: Ø25.5\nOutside: 24\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 9\nClamping range max: 17\nMaterial: Brass, nickel-plated"),
+        ("GEN.GLAND-M32-MS", "Cable gland M32 x 1.5, brass nickel-plated, IP68, cable Ø 13 – 21 mm", "Cable gland", 7.4, (46.0, 46.0, 37.0, 0.135), "Cutout: Ø32.5\nOutside: 28\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 13\nClamping range max: 21\nMaterial: Brass, nickel-plated"),
+        ("GEN.GLAND-M40-MS", "Cable gland M40 x 1.5, brass nickel-plated, IP68, cable Ø 22 – 32 mm", "Cable gland", 12.0, (55.0, 55.0, 42.0, 0.225), "Cutout: Ø40.5\nOutside: 32\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 22\nClamping range max: 32\nMaterial: Brass, nickel-plated"),
+        ("GEN.GLAND-M63-MS", "Cable gland M63 x 1.5, brass nickel-plated, IP68, cable Ø 34 – 48 mm", "Cable gland", 27.0, (80.0, 80.0, 57.0, 0.54), "Cutout: Ø63.5\nOutside: 45\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 34\nClamping range max: 48\nMaterial: Brass, nickel-plated"),
+        ("GEN.GLAND-M16-EMC", "EMC cable gland M16 x 1.5, brass nickel-plated, contact spring for the shield braid, IP68, cable Ø 4 – 8 mm", "Cable gland", 4.9, (24.0, 24.0, 23.0, 0.048), "Cutout: Ø16.5\nOutside: 17\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 4\nClamping range max: 8\nMaterial: Brass, nickel-plated\nShielding: Contact spring"),
+        ("GEN.GLAND-M20-EMC", "EMC cable gland M20 x 1.5, brass nickel-plated, contact spring for the shield braid, IP68, cable Ø 6 – 12 mm", "Cable gland", 6.2, (30.0, 30.0, 27.0, 0.048), "Cutout: Ø20.5\nOutside: 20\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 6\nClamping range max: 12\nMaterial: Brass, nickel-plated\nShielding: Contact spring"),
+        ("GEN.GLAND-M25-EMC", "EMC cable gland M25 x 1.5, brass nickel-plated, contact spring for the shield braid, IP68, cable Ø 9 – 17 mm", "Cable gland", 8.4, (36.0, 36.0, 32.0, 0.096), "Cutout: Ø25.5\nOutside: 24\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 9\nClamping range max: 17\nMaterial: Brass, nickel-plated\nShielding: Contact spring"),
+        ("GEN.GLAND-M32-EMC", "EMC cable gland M32 x 1.5, brass nickel-plated, contact spring for the shield braid, IP68, cable Ø 13 – 21 mm", "Cable gland", 12.5, (46.0, 46.0, 37.0, 0.144), "Cutout: Ø32.5\nOutside: 28\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 13\nClamping range max: 21\nMaterial: Brass, nickel-plated\nShielding: Contact spring"),
+        ("GEN.GLAND-M40-EMC", "EMC cable gland M40 x 1.5, brass nickel-plated, contact spring for the shield braid, IP68, cable Ø 22 – 32 mm", "Cable gland", 19.5, (55.0, 55.0, 42.0, 0.24), "Cutout: Ø40.5\nOutside: 32\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 22\nClamping range max: 32\nMaterial: Brass, nickel-plated\nShielding: Contact spring"),
+        // LAPP SKINTOP, a manufacturer's cable glands of both kinds, as an example.
+        ("LAPP.53111020", "SKINTOP ST-M 20x1.5 cable gland, polyamide, silver grey RAL 7001, IP68, cable Ø 7 – 13 mm", "Cable gland", 1.9, (27.0, 27.0, 27.0, 0.012), "Cutout: Ø20.5\nOutside: 20\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 7\nClamping range max: 13\nMaterial: Polyamide\nColour: RAL 7001"),
+        ("LAPP.53112020", "SKINTOP MS-M 20x1.5 cable gland, brass nickel-plated, IP68, cable Ø 7 – 13 mm", "Cable gland", 5.4, (27.0, 27.0, 27.0, 0.045), "Cutout: Ø20.5\nOutside: 20\nFaces: Bottom, Roof, Left, Right, Rear\nFastening: Clip\nClamping range min: 7\nClamping range max: 13\nMaterial: Brass, nickel-plated"),
         ("GEN.LIGHT-LED-350", "Enclosure LED light 5 W, 230 V AC, 350 mm, with door switch input", "Enclosure light", 46.0, (350.0, 30.0, 25.0, 0.2), "Mounting holes: M4: 10,15; 340,15\nFaces: Plate, Roof, Left, Right, Door"),
         ("GEN.PE-BAR-10", "PE busbar 10 x 3 mm with 10 screw terminals, 200 mm", "PE busbar", 9.5, (200.0, 30.0, 30.0, 0.15), "Mounting holes: M5: 10,15; 190,15\nFaces: Plate, Bottom, Left, Right"),
         ("GEN.CLAMP-RAIL-500", "Cable clamp rail C 30, 500 mm, for strain relief", "Cable clamp rail", 7.8, (500.0, 30.0, 15.0, 0.3), "Mounting holes: M6: 15,15; 250,15; 485,15\nFaces: Plate, Bottom, Left, Right, Rear"),
@@ -1263,6 +1313,7 @@ const PUSHER: [u8; 3] = [236, 116, 34];
 
 mod models;
 mod mounting;
+pub use mounting::GLAND_GAP;
 
 pub use models::{nozzles, shaft, Nozzle, Shaft};
 

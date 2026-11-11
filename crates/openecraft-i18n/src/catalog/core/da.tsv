@@ -92,6 +92,7 @@ Auxiliary function: main contact	Hjælpefunktion: hovedkontakt
 Auxiliary relay coil R (JIS)	Hjælperelæspole R (JIS)
 B10d	B10d
 Ball valve	Kugleventil
+Bare conductor	Afisoleret leder
 Basis	Grundlag
 Battery	Batteri
 Battery capacity	Batterikapacitet
@@ -499,8 +500,8 @@ Fan 3-phase	Ventilator 3-faset
 Fan 3-phase, 6 terminals	Ventilator 3-faset, 6 tilslutninger
 Ferrule	Terminalrør
 Ferrule from	Terminalrør fra
-Ferrule part	Artikel til terminalrør
 Ferrule to	Terminalrør til
+Ferrule {} mm² {}	Terminalrør {} mm² {}
 Field cable routing	Føring af feltkabler
 Field cable {} cannot be routed from {} to {}	Feltkabel {} kan ikke føres fra {} til {}
 Field cable {}: {} is not placed in the plant layout	Feltkabel {}: {} er ikke placeret i anlægslayoutet
@@ -521,6 +522,8 @@ Fitting	Fitting
 Fittings	Fittings
 Flame retardant	Flammehæmmende
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Fladkablet {} har {} ledere, IDC-stikket {} har {} ben
+Flat plug	Fladstik
+Flat receptacle	Fladstikhylster
 Flat roof	Fladt tag
 Float switch NC	Svømmerafbryder, bryde
 Float switch NO	Svømmerafbryder sluttekontakt
@@ -546,6 +549,7 @@ Foot switch NC	Fodafbryder, bryde
 Foot switch NO	Fodafbryder, slutte
 Foot switch NO (NFPA)	Fodafbryder, slutte (NFPA)
 Force	Kraft
+Fork terminal	Gaffelkabelsko
 Format (placeholders)	Format (pladsholdere)
 Frame size	Byggestørrelse
 Free	Fri
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Signallampe (NFPA)
 Pilot line	Styreledning
 Pin connection diagram	Stiktilslutningsdiagram
 Pin side (male)	Benside (han)
+Pin terminal	Stiftkabelsko
 Pipe	Rørledning
 Piston diameter	Stempeldiameter
 Piston rod diameter	Stempelstangsdiameter
@@ -1338,6 +1343,7 @@ Reviewer	Korrekturlæser
 Revision overview (changes)	Revisionsoversigt (ændringer)
 Right side	Højre side
 Right side panel	Højre sideplade
+Ring terminal	Ringkabelsko
 Rivet nut	Nittemøtrik
 RoHS compliant	RoHS-kompatibel
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Klemmebeskrivelse
 Terminal diagram	Klemdiagram
 Terminal line-up	Klemopstilling
 Terminal marker	Klemmærkat
+Terminal parts	Artikler til ender
 Terminal strip data of {} without terminals	Klemrækkedata for {} uden klemmer
 Terminal strip overview	Klemrækkeoversigt
 Terminal strips and PLC addresses	Klemrækker og PLC-adresser
+Termination (from)	Afslutning (fra)
+Termination (to)	Afslutning (til)
 Text file	Tekstfil
 The DXF file contains nothing that can be imported	DXF-filen indeholder intet, der kan importeres
 The PDF has no pages that can be read	PDF'en har ingen sider, der kan læses
@@ -1688,6 +1697,14 @@ Tubes	Slanger
 Tubing / piping list	Rør- / slangeliste
 Turned once (quarter landing)	Drejet én gang (kvartreposen)
 Turned twice (two quarter landings)	Drejet to gange (to kvartreposer)
+Twin ferrule	Dobbelt terminalrør
+Twin ferrule at {} is not shared with a second wire	Dobbelt terminalrør ved {} deles ikke med en anden leder
+Twin ferrule at {} joins wires of {} and {}	Dobbelt terminalrør ved {} samler ledere på {} og {}
+Twin ferrule at {}: {} wires end there, it takes two	Dobbelt terminalrør ved {}: {} ledere ender der, det tager to
+Twin ferrule with (from)	Dobbelt terminalrør med (fra)
+Twin ferrule with (to)	Dobbelt terminalrør med (til)
+Twin ferrule {} mm² {}	Dobbelt terminalrør {} mm² {}
+Twin ferrules	Dobbelte terminalrør
 Two connection symbols on page {} lie on the same point	To forbindelsessymboler på side {} ligger i samme punkt
 Two-way switch (installation)	Korrespondanceafbryder (installation)
 Type numbers	Typenumre
@@ -1770,6 +1787,7 @@ Winding connection	Viklingskobling
 Wire assigned to unknown cable {}	Ledning tildelt ukendt kabel {}
 Wire colour GNYE is reserved for protective conductors ({})	Ledningsfarven GNYE er forbeholdt beskyttelsesledere ({})
 Wire colours and cross-sections	Ledningsfarver og tværsnit
+Wire crossings and connections	Ledningskrydsninger og -forbindelser
 Wire defaults	Ledningsstandarder
 Wire jumper	Ledningsbro
 Wire list (panel routing)	Ledningsliste (føring i tavlen)
@@ -1847,6 +1865,7 @@ leakage	læk
 low	lav
 measuring	måle
 new	ny
+no free cable gland	ingen ledig kabelforskruning
 no header	ingen overskriftsrække
 no list	ingen liste
 no path through the route network	ingen vej gennem føringsnettet
@@ -1878,8 +1897,6 @@ routed	ført
 shield clamp ({} mm away)	skærmklemme ({} mm væk)
 silver	sølv
 starts with	begynder med
-strip {} mm	afisoler {} mm
-strip {} mm, ferrule {} mm² {}	afisoler {} mm, terminalrør {} mm² {}
 suction	suge
 supply	forsyning
 terminals {} – {}	klemmer {} – {}
@@ -1937,6 +1954,7 @@ yellow	gul
 {} unused device data records removed	{} ubrugte enhedsdataposter fjernet
 {} wiring marks belong to wires that no longer exist	{} ledningsføringsmarkeringer hører til ledninger, der ikke længere findes
 {} without device tag on page {}	{} uden enhedsmærkning på side {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} kan ikke føres: hver kabelforskruning i {} er optaget af et andet kabel. Tilføj en kabelforskruning til det.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} kan ikke føres: ingen vej, der holder halvdelen af tykkelsen fri af alt og bøjer med radius {} mm. Flyt enderne eller gør plads.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} føres ind gennem bunden: ingen kabelforskruning i kapslingen
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} føres ind gennem taget: ingen kabelforskruning på tag, sider eller bagside
@@ -2003,6 +2021,7 @@ yellow	gul
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: ingen broartikel til broen {} (tekniske data Jumper for klemmeartiklen)
 {}: no part assigned	{}: ingen artikel tildelt
 {}: no service space of {} mm in front of {} (the door is too close)	{}: intet serviceområde på {} mm foran {} (døren er for tæt på)
+{}: none for this cross-section	{}: ingen til dette tværsnit
 {}: not in the single-line diagram	{}: ikke i enstregsdiagrammet
 {}: not placed in the panel layout	{}: ikke placeret i tavlelayoutet
 {}: operations per year needed for the B10d of {}	{}: Antal koblinger pr. år kræves til B10d for {}

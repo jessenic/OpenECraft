@@ -92,6 +92,7 @@ Auxiliary function: main contact	Pomocná funkce: hlavní kontakt
 Auxiliary relay coil R (JIS)	Cívka pomocného relé R (JIS)
 B10d	B10d
 Ball valve	Kulový kohout
+Bare conductor	Odizolovaný vodič
 Basis	Základ
 Battery	Baterie
 Battery capacity	Kapacita baterie
@@ -499,8 +500,8 @@ Fan 3-phase	Ventilátor 3fázový
 Fan 3-phase, 6 terminals	Ventilátor 3fázový, 6 svorek
 Ferrule	Dutinka
 Ferrule from	Dutinka od
-Ferrule part	Artikl dutinky
 Ferrule to	Dutinka do
+Ferrule {} mm² {}	Dutinka {} mm² {}
 Field cable routing	Trasování polních kabelů
 Field cable {} cannot be routed from {} to {}	Polní kabel {} nelze vést z {} do {}
 Field cable {}: {} is not placed in the plant layout	Polní kabel {}: {} není umístěno v dispozici zařízení
@@ -521,6 +522,8 @@ Fitting	Šroubení
 Fittings	Šroubení
 Flame retardant	Nehořlavý
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Plochý kabel {} má {} žil, konektor IDC {} má {} pinů
+Flat plug	Plochý kolík
+Flat receptacle	Plochá dutinka
 Flat roof	Plochá střecha
 Float switch NC	Plovákový spínač, rozpínací
 Float switch NO	Plovákový spínač spínací
@@ -546,6 +549,7 @@ Foot switch NC	Nožní spínač, rozpínací
 Foot switch NO	Nožní spínač, spínací
 Foot switch NO (NFPA)	Nožní spínač, spínací (NFPA)
 Force	Síla
+Fork terminal	Vidlicové oko
 Format (placeholders)	Formát (zástupné symboly)
 Frame size	Konstrukční velikost
 Free	Volné
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Signálka (NFPA)
 Pilot line	Řídicí vedení
 Pin connection diagram	Schéma připojení kolíků
 Pin side (male)	Strana kolíků (samec)
+Pin terminal	Kolíkové oko
 Pipe	Potrubí
 Piston diameter	Průměr pístu
 Piston rod diameter	Průměr pístnice
@@ -1338,6 +1343,7 @@ Reviewer	Kontrolor
 Revision overview (changes)	Přehled revizí (změny)
 Right side	Pravá strana
 Right side panel	Pravá boční stěna
+Ring terminal	Kabelové oko
 Rivet nut	Nýtovací matice
 RoHS compliant	Vyhovuje RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Popis svorky
 Terminal diagram	Schéma svorkovnice
 Terminal line-up	Řazení svorek
 Terminal marker	Štítek svorky
+Terminal parts	Díly koncovek
 Terminal strip data of {} without terminals	Data svorkovnice {} bez svorek
 Terminal strip overview	Přehled svorkovnic
 Terminal strips and PLC addresses	Svorkovnice a adresy PLC
+Termination (from)	Zakončení (od)
+Termination (to)	Zakončení (do)
 Text file	Textový soubor
 The DXF file contains nothing that can be imported	Soubor DXF neobsahuje nic, co by bylo možné importovat
 The PDF has no pages that can be read	PDF nemá žádné čitelné stránky
@@ -1688,6 +1697,14 @@ Tubes	Trubky
 Tubing / piping list	Seznam trubek / potrubí
 Turned once (quarter landing)	Jednou zalomené (čtvrtinová podesta)
 Turned twice (two quarter landings)	Dvakrát zalomené (dvě čtvrtinové podesty)
+Twin ferrule	Dvojitá dutinka
+Twin ferrule at {} is not shared with a second wire	Dvojitá dutinka v {} není sdílena s druhým vodičem
+Twin ferrule at {} joins wires of {} and {}	Dvojitá dutinka v {} spojuje vodiče {} a {}
+Twin ferrule at {}: {} wires end there, it takes two	Dvojitá dutinka v {}: končí tam {} vodičů, pojme dva
+Twin ferrule with (from)	Dvojitá dutinka s (od)
+Twin ferrule with (to)	Dvojitá dutinka s (do)
+Twin ferrule {} mm² {}	Dvojitá dutinka {} mm² {}
+Twin ferrules	Dvojité dutinky
 Two connection symbols on page {} lie on the same point	Dva symboly spojení na straně {} leží v tomtéž bodě
 Two-way switch (installation)	Střídavý přepínač (instalace)
 Type numbers	Typová čísla
@@ -1770,6 +1787,7 @@ Winding connection	Zapojení vinutí
 Wire assigned to unknown cable {}	Vodič přiřazen k neznámému kabelu {}
 Wire colour GNYE is reserved for protective conductors ({})	Barva vodiče GNYE je vyhrazena pro ochranné vodiče ({})
 Wire colours and cross-sections	Barvy a průřezy vodičů
+Wire crossings and connections	Křížení a spojení vodičů
 Wire defaults	Výchozí hodnoty vodičů
 Wire jumper	Drátová propojka
 Wire list (panel routing)	Seznam vodičů (vedení v rozváděči)
@@ -1847,6 +1865,7 @@ leakage	únik
 low	nízká
 measuring	měřicí
 new	nový
+no free cable gland	žádná volná kabelová průchodka
 no header	žádné záhlaví
 no list	žádný seznam
 no path through the route network	žádná cesta sítí tras
@@ -1878,8 +1897,6 @@ routed	vedeno
 shield clamp ({} mm away)	svorka stínění ({} mm daleko)
 silver	stříbrná
 starts with	začíná na
-strip {} mm	odizolovat {} mm
-strip {} mm, ferrule {} mm² {}	odizolovat {} mm, dutinka {} mm² {}
 suction	sací
 supply	napájení
 terminals {} – {}	svorky {} – {}
@@ -1937,6 +1954,7 @@ yellow	žlutá
 {} unused device data records removed	Odebráno {} nepoužitých záznamů dat přístrojů
 {} wiring marks belong to wires that no longer exist	Značky zapojení ({}) patří k vodičům, které již neexistují
 {} without device tag on page {}	{} bez označení přístroje na stránce {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} nelze vést: každá kabelová průchodka v {} je obsazena jiným kabelem. Přidejte pro něj kabelovou průchodku.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} nelze vést: žádná cesta, která drží polovinu tloušťky od všeho a ohýbá se s poloměrem {} mm. Přesuňte konce nebo udělejte místo.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} vstupuje dnem: ve skříni není kabelová vývodka
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} vstupuje střechou: na střeše, bocích ani zadní stěně není kabelová vývodka
@@ -2003,6 +2021,7 @@ yellow	žlutá
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: žádný artikl propojky pro propojku {} (technické údaje Jumper artiklu svorky)
 {}: no part assigned	{}: není přiřazen žádný artikl
 {}: no service space of {} mm in front of {} (the door is too close)	{}: před {1} není servisní prostor {0} mm (dveře jsou příliš blízko)
+{}: none for this cross-section	{}: žádný pro tento průřez
 {}: not in the single-line diagram	{}: není v jednopólovém schématu
 {}: not placed in the panel layout	{}: není umístěno v rozvržení rozváděče
 {}: operations per year needed for the B10d of {}	{}: pro B10d {} je potřeba počet operací za rok

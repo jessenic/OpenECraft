@@ -146,6 +146,7 @@ pub enum Cmd {
     PdfInLanguage,
     CheckSettings,
     CrossReferences,
+    WireCrossings,
     Marking,
     Shortcuts,
     CustomizeRibbon,
@@ -556,6 +557,8 @@ pub static ALL: &[Def] = &[
     d(C::CheckSettings, "check_settings", tr_const!("Check settings…"), I::Settings).tip(tr_const!("Check settings: checks, message levels, accepted messages")),
     d(C::CrossReferences, "cross_references", tr_const!("Cross references…"), I::CrossRef)
         .tip(tr_const!("Format of cross references, structure of the target page, interruption points, contact images")),
+    d(C::WireCrossings, "wire_crossings", tr_const!("Wire crossings…"), I::Wire)
+        .tip(tr_const!("How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew")),
     d(C::Marking, "marking", tr_const!("Marking…"), I::Marking),
     d(C::Shortcuts, "shortcuts", tr_const!("Keyboard shortcuts…"), I::Keyboard),
     d(C::CustomizeRibbon, "customize_ribbon", tr_const!("Customize the ribbon…"), I::Settings),
@@ -763,6 +766,47 @@ pub static ALL: &[Def] = &[
     d(C::WiringExport, "wiring_export", tr_const!("Export CSV"), I::Download),
     d(C::TabletMode, "tablet_mode", tr_const!("Tablet mode"), I::Tablet).toggle().tip(tr_const!("Larger texts and buttons for a touch screen at the workbench")),
 ];
+
+/// Commands that change what the panel layout view shows or does: they bring it to the
+/// front, otherwise they would change a view hidden behind the page (the commands
+/// that create enclosures and rooms or work in the site plan switch to the panel layout).
+pub fn acts_in_layout_view(cmd: Cmd) -> bool {
+    use Cmd as C;
+    matches!(
+        cmd,
+        C::LayoutSelect
+            | C::LayoutRail
+            | C::LayoutDuct
+            | C::LayoutBusbar
+            | C::LayoutCutout
+            | C::LayoutRoutingPath
+            | C::LayoutReservation
+            | C::LayoutFloorPlan
+            | C::LayoutDrawWalls
+            | C::LayoutInnerWalls
+            | C::LayoutRoomDoor
+            | C::LayoutRoomWindow
+            | C::LayoutRoomPenetration
+            | C::LayoutRoomEntry
+            | C::LayoutPipeRun
+            | C::LayoutFront
+            | C::LayoutDoor
+            | C::LayoutDoorInside
+            | C::Layout3d
+            | C::LayoutWires
+            | C::LayoutDuctFill
+            | C::LayoutHeat
+            | C::LayoutLineup
+            | C::LayoutSite
+            | C::LayoutBuilding
+            | C::LayoutHideFrontWalls
+            | C::LayoutHideCeiling
+            | C::LayoutZones
+            | C::LayoutOpenWalls
+            | C::LayoutOpenDucts
+            | C::LayoutFit
+    )
+}
 
 /// The definition of a command.
 pub fn def(cmd: Cmd) -> &'static Def {

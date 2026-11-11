@@ -199,6 +199,10 @@ impl App {
             ui.end_row();
         });
         ui.data_mut(|d| d.insert_temp(key, text));
+        let intr: Vec<usize> = syms.into_iter().filter(|&i| self.session.prj.symbol(&self.session.prj.pages[pi].symbols[i].sym).is_some_and(|d| d.func == Func::Interruption)).collect();
+        if !intr.is_empty() {
+            self.interruption_texts(ui, pi, &intr);
+        }
     }
 
     #[allow(clippy::too_many_lines)]
@@ -404,11 +408,13 @@ impl App {
                     if ui.selectable_label(w.cable.is_empty(), "(none)").clicked() {
                         w.cable.clear();
                         w.core.clear();
+                        (w.core_offset, w.cable_offset) = (None, None);
                     }
                     for (tag, _) in &cables {
                         if ui.selectable_label(w.cable == *tag, tag).clicked() && w.cable != *tag {
                             w.cable = tag.clone();
                             w.core.clear();
+                            (w.core_offset, w.cable_offset) = (None, None);
                         }
                     }
                 });
@@ -434,6 +440,19 @@ impl App {
                 ui.label(format!("{:.0} / {:.0}", w.b.x, w.b.y));
                 ui.end_row();
             });
+            if !w.cable.is_empty() {
+                ui.horizontal(|ui| {
+                    if w.core_offset.is_some() || w.cable_offset.is_some() {
+                        ui.weak(tr("Core labels placed by hand"));
+                        if ui.small_button(tr("Reset")).clicked() {
+                            w.core_offset = None;
+                            w.cable_offset = None;
+                        }
+                    } else {
+                        ui.weak(tr("Drag the core designation or the cable tag of the selected wire to place it."));
+                    }
+                });
+            }
             wire_labels_ui(ui, &mut w.labels);
             if number != number_now {
                 if let Some(net) = &open_net {
@@ -628,7 +647,8 @@ impl App {
         };
         ui.label(RichText::new(tr(def.name)).strong());
         let device = def.func.has_tag() && !s.tag.is_empty();
-        let tab = self.props_tab_bar(ui, device, !def.pins.is_empty(), def.show_tag);
+        let intr = def.func == Func::Interruption;
+        let tab = self.props_tab_bar(ui, device, !def.pins.is_empty(), def.show_tag || intr);
         let mut edited = s.clone();
         // The structure in effect where the symbol is: the page's or a structure box's.
         let page = &self.session.prj.pages[pi];
@@ -988,8 +1008,13 @@ impl App {
                 }
             });
         }
-        if tab == PropTab::Display && self.session.prj.pages[pi].symbols.get(si).is_some_and(|x| x.id == s.id) && def.show_tag {
-            self.placement_properties(ui, pi, si);
+        if tab == PropTab::Display && self.session.prj.pages[pi].symbols.get(si).is_some_and(|x| x.id == s.id) {
+            if def.show_tag {
+                self.placement_properties(ui, pi, si);
+            }
+            if intr {
+                self.interruption_texts(ui, pi, &[si]);
+            }
         }
     }
 }

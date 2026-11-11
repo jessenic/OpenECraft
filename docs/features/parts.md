@@ -76,7 +76,8 @@ in the app storage (desktop) / local storage (browser).
 Parts with dimensions but without a model get a generated one by what they are: DIN
 rail devices with their terminals, toggle or display, terminals in their colours (PE
 green, N blue), PLC modules, fuse switch disconnectors, wall-mounted electronics with
-display and cable glands, 19-inch devices and rack batteries, PV modules, pumps, motors,
+display, cable glands (hexagon body, neck and dome, in nickel-plated brass or polyamide
+by their material and colour), 19-inch devices and rack batteries, PV modules, pumps, motors,
 vessels, heat pumps, compressors, refrigeration dryers, valves with lever or actuator,
 pipe fittings, manifolds and air treatment units. Devices of the bundled catalogs
 are drawn after their product photos: Victron inverters with their black corner caps

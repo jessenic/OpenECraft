@@ -229,6 +229,10 @@ impl Macro {
         for tag in clip.devices.keys() {
             scan(tag, &mut set);
         }
+        for (tag,numbers) in &clip.device_part_additions {
+            scan(tag,&mut set);
+            for number in numbers {scan(number,&mut set);}
+        }
         scan(&self.page_description, &mut set);
         set.into_iter().collect()
     }
@@ -240,6 +244,7 @@ impl Macro {
             *t = fill(t, values);
         }
         clip.devices = clip.devices.into_iter().map(|(tag, data)| (fill(&tag, values), data)).collect();
+        clip.device_part_additions=clip.device_part_additions.into_iter().map(|(tag,numbers)|(fill(&tag,values),numbers.into_iter().map(|number|fill(&number,values)).collect())).collect();
         clip
     }
 

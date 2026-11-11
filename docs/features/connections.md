@@ -22,7 +22,11 @@ wires such as GNYE are drawn dashed in their second colour.
 Cable definitions (tag, type, cores, cross-section, length, part from the
 product group *Cables*). Wires are assigned to cores (several wires at once get the free
 cores in order, the wires of one connection share a core); cores and the cable tag are
-shown on the schematic. Cable overview and
+shown on the schematic, with a stroke across the wire where a cable definition line of
+the cable crosses it (else at 30 % of the wire). The core designation and the cable tag
+of a selected wire can be dragged into place and keep their offset from there; *Reset*
+in the wire properties (or `update_wire` with an empty `core_offset` / `cable_offset`)
+places them automatically again. Cable overview and
 cable diagram reports, cables in the BOM by length, checks for unknown cables, cores
 used twice or not in the cable.
 

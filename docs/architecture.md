@@ -75,7 +75,7 @@ Layers, bottom up (a module may use its own layer and the layers below):
    `plc_hw`, `field`, `routing3d`, `strips`, `plugs`, `pinout` (connector faces, flat cables), `harness`, `marking`, `forms`,
    `report_blocks`, `revision`, `review`, `compare`, …
 6. Derived data and the registry: `analysis` (`Analysis`: index, netlists,
-   connections, panel wiring, routing, field plan, report tables on demand), `checks`
+   connections, wire ends, panel wiring, routing, field plan, report tables on demand), `checks`
    (the built-in checks as `Check` entries), `reports` (the built-in tables as `Report`
    entries), `exporters` (the built-in exports as `Exporter` entries), `ext` (the
    registry kinds).

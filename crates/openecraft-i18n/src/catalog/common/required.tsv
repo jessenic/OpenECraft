@@ -9,6 +9,7 @@ A page named {} already exists	Eine Seite mit dem Namen {} existiert bereits	Une
 A page needs a name	Eine Seite braucht einen Namen	Une page doit avoir un nom	Una página necesita un nombre
 A routing path needs {} points at least	Ein Verlegeweg braucht mindestens {} Punkte	Un chemin de routage nécessite au moins {} points	Una ruta de tendido necesita al menos {} puntos
 A section cannot be moved into itself	Ein Abschnitt kann nicht in sich selbst verschoben werden	Une section ne peut pas être déplacée dans elle-même	Una sección no puede moverse dentro de sí misma
+Above	Oberhalb	Au-dessus	Arriba
 Access token	Zugriffstoken	Jeton d'accès	Token de acceso
 Accessories	Zubehör	Accessoires	Accesorios
 Accessory	Zubehör	Accessoire	Accesorio
@@ -20,6 +21,7 @@ Angle	Winkel	Angle	Ángulo
 Apply	Übernehmen	Appliquer	Aplicar
 Approvers	Genehmiger	Approbateurs	Aprobadores
 Automatic	Automatisch	Automatique	Automático
+Below	Unterhalb	En dessous	Abajo
 Bold	Fett	Gras	Negrita
 Bottom	Boden	Fond	Fondo
 Bottom with removable gland plate	Boden mit abnehmbarer Flanschplatte	Fond avec plaque passe-câbles amovible	Fondo con placa pasacables desmontable
@@ -489,6 +491,7 @@ open	offen	ouvert	abierto
 rejected	abgelehnt	refusé	rechazado
 right	nach rechts	vers la droite	hacia la derecha
 spare	Reserve	réserve	reserva
+strip {} mm, {}	abisolieren {} mm, {}	dénuder {} mm, {}	pelar {} mm, {}
 the disk is full	der Datenträger ist voll	le disque est plein	el disco está lleno
 the file exists already	die Datei existiert bereits	le fichier existe déjà	el archivo ya existe
 this is a folder	dies ist ein Ordner	c'est un dossier	es una carpeta
@@ -500,5 +503,6 @@ yes	ja	oui	sí
 {} is not a room	{} ist kein Raum	{} n'est pas une salle	{} no es una sala
 {} parts	{} Artikel	{} articles	{} artículos
 {} wires	{} Leitungen	{} fils	{} hilos
+{}, together with the wire to {}	{}, zusammen mit der Leitung nach {}	{}, avec le fil vers {}	{}, junto con el cable hacia {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} steht nicht auf dem Boden, einen bodenstehenden Artikel wählen	{} : {} ne se pose pas au sol, choisissez un article posé au sol	{}: {} no se apoya en el suelo, elija un artículo de pie sobre el suelo
 ➕ Add accessory	➕ Zubehör hinzufügen	➕ Ajouter un accessoire	➕ Añadir accesorio

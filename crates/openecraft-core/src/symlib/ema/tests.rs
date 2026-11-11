@@ -332,6 +332,58 @@ fn omitted_zero_coordinates_are_drawn_inside_embedded_blocks() {
 }
 
 #[test]
+fn texts_keep_their_justification() {
+    let text = |justification: &str, text: &str| {
+        let record = format!(r#"<S30x5 A511="??_??@{text};"><S54x505 A961="2" A966="{justification}"/></S30x5><S31x5"#);
+        let v = decode(&MACRO.replace("<S31x5", &record)).unwrap();
+        let Prim::Text { pos, anchor, .. } = v[0].symbol.prims[0].clone() else { panic!("{:?}", v[0].symbol.prims) };
+        (pos, anchor)
+    };
+    // Drawn around its middle: a bottom justified text (table labels of the S7-1200) rises
+    // to stand on its point instead of being struck through by the line below it.
+    assert_eq!(text("7", "0"), (p(2., 2. - 0.7), Anchor::Left));
+    assert_eq!(text("9", "6ES7"), (p(2., 2. - 0.7), Anchor::Right));
+    assert_eq!(text("2", "X10"), (p(2., 2. + 1.1), Anchor::Center));
+    assert_eq!(text("0", "X10"), (p(2., 2.), Anchor::Left));
+    // The last line of a bottom justified text stands on the point.
+    assert_eq!(text("7", "CPU 1212C&#10;DC/DC/RLY").0, p(2., 2. - 0.7 - 2.5));
+}
+
+#[test]
+fn polylines_are_closed_only_without_the_open_flag() {
+    // 6ES7212-1HG50-0XB0 draws its edges as open polylines: closed, each got a chord
+    // back to its start, across the device.
+    let poly = |record: &str| {
+        let v = decode(&MACRO.replace("<S31x5", &format!("{record}<S31x5"))).unwrap();
+        let Prim::Poly { closed, .. } = v[0].symbol.prims[0] else { panic!("{:?}", v[0].symbol.prims) };
+        closed
+    };
+    assert!(!poly(r#"<S34x5 A621="0/0;10/0;10/40" A623="0"/>"#));
+    assert!(poly(r#"<S34x5 A621="0/0;10/0;10/40"/>"#));
+}
+
+#[test]
+fn elliptic_arcs_keep_the_ratio_of_their_axes() {
+    // A vertical major semi-axis of 4 mm and a minor one half as long, all around.
+    let v = decode(&MACRO.replace("<S31x5", r#"<S32x5 A556="0/4" A557="0.5"/><S31x5"#)).unwrap();
+    let Prim::Poly { pts, .. } = &v[0].symbol.prims[0] else { panic!("{:?}", v[0].symbol.prims) };
+    let span = |f: fn(&P) -> f32| pts.iter().map(f).fold(f32::MIN, f32::max) - pts.iter().map(f).fold(f32::MAX, f32::min);
+    assert!((span(|q| q.x) - 4.).abs() < 0.01, "{pts:?}");
+    assert!((span(|q| q.y) - 8.).abs() < 0.01, "{pts:?}");
+    // The angles are seen from the centre: an eighth of a flat ellipse ends on its diagonal
+    // (the parameter would end far out on the major axis).
+    let v = decode(&MACRO.replace("<S31x5", r#"<S32x5 A556="4/0" A557="0.5" A554="0.785398"/><S31x5"#)).unwrap();
+    let Prim::Poly { pts, .. } = &v[0].symbol.prims[0] else { panic!() };
+    let end = *pts.last().unwrap() - p(2., 2.);
+    assert!((end.x - 1.789).abs() < 0.01 && (end.y + 1.789).abs() < 0.01, "{end:?}");
+    // 6ES7212-1HG50-0XB0: a 52 mm edge drawn as an arc of a 800 mm long, 3.5 mm wide ellipse.
+    let edge = r#"<S32x5 A553="0.0676127642085957" A554="3.07397988938122" A556="0/400" A557="0.004361"/><S31x5"#;
+    let v = decode(&MACRO.replace("<S31x5", edge)).unwrap();
+    let Prim::Poly { pts, .. } = &v[0].symbol.prims[0] else { panic!() };
+    assert!(pts.iter().all(|q| (q.y - 2.).abs() < 26.5 && (q.x - 2.).abs() < 1.8), "{pts:?}");
+}
+
+#[test]
 fn local_slots_and_named_potentials_resolve_only_reciprocal_unambiguous_pairs() {
     let device = r#"<P150 P20013="Q" P20014="1"/>"#;
     let gnd = |plug: &str, pin: &str, target: &str| {

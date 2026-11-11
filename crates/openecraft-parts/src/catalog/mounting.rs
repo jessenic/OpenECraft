@@ -46,6 +46,14 @@ impl Draft {
     }
 }
 
+/// How far behind its face the model of a cable gland goes on inside the enclosure
+/// (its locknut): where the wall lies, as thick as it is where the gland is placed.
+pub const GLAND_GAP: f32 = 0.1;
+
+/// Nickel-plated brass and light grey polyamide (RAL 7035) of cable glands.
+const NICKEL: [u8; 3] = [178, 186, 198];
+const POLYAMIDE: [u8; 3] = [204, 207, 205];
+
 /// Positions of `n` evenly spaced points between `a` and `b` (the middle for one).
 fn spread(a: f32, b: f32, n: usize) -> Vec<f32> {
     match n {
@@ -193,18 +201,41 @@ pub(super) fn model(p: &Part) -> Option<(Model2d, Mesh3d)> {
             }
         }
         "Cable gland" => {
-            // Nut, body and the dome of the seal; the front view seen from outside.
-            m.solid([0.0, 0.0, 0.0], [w, h, d * 0.45]);
-            m.solid([w * 0.12, h * 0.12, d * 0.45], [w * 0.88, h * 0.88, d * 0.8]);
-            m.solid([w * 0.28, h * 0.28, d * 0.8], [w * 0.72, h * 0.72, d]);
-            let r = w.min(h) / 2.0;
+            // Seen from outside (z 0 is the outermost point): the seal insert standing a
+            // little out of the mouth of the dome (no face of it in one plane with one of
+            // the dome: they would flicker), the dome of the cap nut, its ring, the
+            // threaded neck and the hexagon body, against the face at z `Outside`; behind
+            // it, [`GLAND_GAP`] further (the wall of the enclosure there, as thick as it
+            // is), the locknut and the end of the thread inside. Brass nickel-plated or
+            // polyamide (light grey, or black) by the material and colour of its
+            // technical data.
+            use super::models::{BLACK, DARK};
+            let material = p.tech_value("Material").unwrap_or_default().to_lowercase();
+            let metal = ["brass", "nickel", "steel", "metal"].iter().any(|m| material.contains(m)) || p.description.to_lowercase().contains("brass");
+            let black = p.tech_value("Colour").is_some_and(|c| c.to_lowercase().contains("black") || c.contains("9005")) || p.description.to_lowercase().contains("black");
+            let body = if metal { NICKEL } else if black { BLACK } else { POLYAMIDE };
+            let (cx, cy, r) = (w / 2.0, h / 2.0, w.min(h) / 2.0);
+            let m3 = &mut m.m3;
+            let o = p.tech_value("Outside").and_then(|v| v.trim().parse::<f32>().ok()).filter(|o| *o > 0.0 && *o < d - GLAND_GAP).unwrap_or(d);
+            m3.add_cylinder([cx, cy, 0.0], 2, r * 0.5, o * 0.08, 16, DARK);
+            m3.add_frustum([cx, cy, o * 0.04], 2, r * 0.6, r, o * 0.21, 16, body);
+            m3.add_cylinder([cx, cy, o * 0.25], 2, r, o * 0.2, 16, body);
+            m3.add_cylinder([cx, cy, o * 0.45], 2, r * 0.8, o * 0.2, 16, if metal { NICKEL } else { DARK });
+            m3.add_frustum([cx, cy, o * 0.65], 2, r, r, o * 0.35, 6, body);
+            let inner = d - o - GLAND_GAP;
+            if inner > 0.0 {
+                let nut = o + GLAND_GAP;
+                m3.add_frustum([cx, cy, nut], 2, r * 0.9, r * 0.9, inner * 0.6, 6, body);
+                m3.add_cylinder([cx, cy, nut + inner * 0.6], 2, r * 0.62, inner * 0.4, 16, if metal { NICKEL } else { DARK });
+            }
             let hex: Vec<[f32; 2]> = (0..6).map(|i| {
                 let a = std::f32::consts::FRAC_PI_3 * i as f32;
-                [w / 2.0 + r * a.cos(), h / 2.0 + r * a.sin() * 0.95]
+                [cx + r * a.cos(), cy + r * a.sin()]
             }).collect();
             m.prims = vec![Prim2d::Polyline { pts: hex, closed: true, fill: false }];
-            m.circle(w / 2.0, h / 2.0, r * 0.76, false);
-            m.circle(w / 2.0, h / 2.0, r * 0.3, false);
+            m.circle(cx, cy, r, false);
+            m.circle(cx, cy, r * 0.6, false);
+            m.circle(cx, cy, r * 0.3, false);
             // The outline of the bounding box keeps the size of the front view.
             m.prims.push(Prim2d::Rect { min: [0.0, 0.0], max: [w, h], fill: false });
         }

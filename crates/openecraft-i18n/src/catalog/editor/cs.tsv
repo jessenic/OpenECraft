@@ -174,6 +174,7 @@ Automatic (from the potential definition)	Automaticky (z definice potenciálu)
 Automatic ({})	Automaticky ({})
 Automatic accessories	Automatické příslušenství
 Automatic configuration	Automatická konfigurace
+Automatic placement	Automatické umístění
 Automation	Automatizace
 Aux	Pomocné
 Avoid:	Vyhnout se:
@@ -229,6 +230,7 @@ Cable definition	Definice kabelu
 Cable definition on page {}	Definice kabelu na stránce {}
 Cable definition: draw a line across the wires that are cores of a cable	Definice kabelu: nakreslete čáru přes vodiče, které jsou žílami kabelu
 Cable end reserve	Rezerva na konec kabelu
+Cable ends	Konce kabelu
 Cable markers	Štítky kabelů
 Cable passage to {}	Kabelová průchodka do {}
 Cable {}: {} cores assigned	Kabel {}: přiřazeno žil: {}
@@ -364,11 +366,13 @@ Connected devices	Připojené přístroje
 Connected to:	Připojeno k:
 Connection definition point	Bod definice spojení
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Bod definice spojení: určuje číslo, barvu, průřez a žílu kabelu spojení
+Connection point designations	Označení přípojných bodů
 Connection point {}	Přípojný bod {}
 Connection points 1 and 2 are connected inside	Přípojné body 1 a 2 jsou vnitřně propojeny
 Connection:	Spojení:
 Connections ({})	Spojení ({})
 Connections / harness	Spojení / svazek
+Connections of four or more wires always have a dot.	Spojení čtyř a více vodičů mají vždy tečku.
 Connections whose two ends are both on selected wires	Spojení, jejichž oba konce leží na vybraných vodičích
 Connections without a defined potential	Spojení bez definovaného potenciálu
 Connectors	Konektory
@@ -389,6 +393,7 @@ Copy / cut / paste (devices get new tags)	Kopírovat / vyjmout / vložit (přís
 Copy as new	Kopírovat jako nové
 Copy built-in…	Kopírovat vestavěné…
 Core designations separated by blanks	Označení žil oddělená mezerami
+Core labels placed by hand	Popisy žil umístěny ručně
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Žíly 1, 2, 3 … pro překřížené vodiče, plus GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Roh: dva vodiče v pravém úhlu; při zapnutém automatickém spojování se k němu připojí připojovací body naproti jeho ramenům
 Cover sheet, overview, graphics, report, mounting layout or a page template	Titulní list, přehled, grafika, výkaz, montážní rozvržení nebo šablona stránky
@@ -428,6 +433,7 @@ Dashed	Čárkovaná
 Decimals	Desetinná místa
 Default	Výchozí
 Default (part data or definition)	Výchozí (data artiklu nebo definice)
+Default ({})	Výchozí ({})
 Default label	Výchozí popisek
 Default medium	Výchozí médium
 Default rules	Výchozí pravidla
@@ -547,7 +553,10 @@ Downloading OpenECraft {}	Stahování OpenECraft {}
 Downstream part	Následný artikl
 Draft of revision {} created	Koncept revize {} vytvořen
 Draft of revision {} discarded	Koncept revize {} zahozen
+Drag a connection point designation of the selected symbol to place it.	Přetažením označení přípojného bodu vybraného symbolu jej umístíte.
 Drag an entry into the page, or click it and then click into the page.	Přetáhněte položku do stránky nebo na ni klikněte a potom klikněte do stránky.
+Drag the core designation or the cable tag of the selected wire to place it.	Přetažením označení žíly nebo označení kabelu vybraného vodiče je umístíte.
+Drag the name or the cross reference of the selected point to place it.	Přetažením názvu nebo křížového odkazu vybraného bodu jej umístíte.
 Drag the tag of the selected symbol to place it.	Přetažením označení vybraného symbolu jej umístíte.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Tažení: otáčení · tažení pravým/prostředním tlačítkem nebo se Shift: posun · kolečko: zoom u ukazatele · dvojklik: podívat se tam · W A S D / šipky, Q E: pohyb · klik: výběr
 Draw	Kreslit
@@ -649,7 +658,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Spojovací materiál v kusovníku
 Favorite	Oblíbené
 Favorites (JSON)	Oblíbené (JSON)
-Ferrule {} ({})	Dutinka {} ({})
 Field	Pole
 Field (name, description, company, creator, date, revision) or project property	Pole (name, description, company, creator, date, revision) nebo vlastnost projektu
 Field cables	Polní kabely
@@ -785,6 +793,8 @@ Hose number	Číslo hadice
 Hoses and pipes	Hadice a potrubí
 Hoses rated below it are errors; 0 = not checked	Hadice dimenzované na nižší tlak jsou chyby; 0 = nekontroluje se
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Jak se otevírá křídlo: závěsy na levé nebo pravé hraně (při pohledu z místnosti), dovnitř nebo ven z místnosti, nebo posuvně podél stěny
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Jak je vodič na tomto konci zakončen; výchozí je volba pro připojovací bod nebo jeho zařízení, jinak podle nastavení dutinek v rozvržení
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Jak vodiče přeskakují křížené vodiče, jak se značí spojení T a zda přesunuté prvky vedou svá spojení znovu
 IP / bus address	Adresa IP / sběrnice
 ISO 639-1 language code	Kód jazyka podle ISO 639-1
 Identifiers	Identifikátory
@@ -859,6 +869,7 @@ Insulation	Izolace
 Interruption points refer to	Body přerušení odkazují na
 Introduction	Úvod
 Invalid value	Neplatná hodnota
+Invert the direction of panning by scrolling	Obrátit směr posouvání pohledu
 Inverter or charge controller (devices with PV input data)	Střídač nebo regulátor nabíjení (zařízení s daty FV vstupu)
 Isometric	Izometrický
 Items on the layer	Objekty ve vrstvě
@@ -870,6 +881,7 @@ Join collinear wires	Sloučit souosé vodiče
 Joins	Spojuje
 Joins wire pieces in a line where nothing else connects (current page)	Sloučí úseky vodičů v přímce, kde se nic jiného nepřipojuje (aktuální stránka)
 Jumper {}	Propojka {}
+Jumps over the other:	Přeskakuje druhý:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Ponechat podstránky (3.a, 3.1) u předchozí stránky
 Keep the degree of protection	Zachovat stupeň krytí
@@ -883,6 +895,7 @@ Label (grey)	Popisek (šedý)
 Label field	Pole popisku
 Labeling scheme	Schéma popisování
 Landscape	Na šířku
+Large dot	Velká tečka
 Larger texts and buttons for a touch screen at the workbench	Větší texty a tlačítka pro dotykovou obrazovku u pracovního stolu
 Latitude, longitude	Zeměpisná šířka, délka
 Layer	Vrstva
@@ -997,6 +1010,7 @@ Min. bend radius	Min. poloměr ohybu
 Minimize the ribbon	Minimalizovat pás karet
 Mirror	Zrcadlit
 Mirror (selection or symbol being placed)	Zrcadlit (výběr nebo umísťovaný symbol)
+Mixed	Smíšené
 Mode	Režim
 Model of a part (2D / 3D)	Model artiklu (2D / 3D)
 Module part; its size comes from the part	Díl modulu; jeho velikost pochází z dílu
@@ -1020,6 +1034,7 @@ Move to section	Přesunout do oddílu
 Move up	Posunout nahoru
 Moves to the top level as page {}	Přejde na nejvyšší úroveň jako stránka {}
 Moves to {} as page {}	Přejde do {} jako stránka {}
+Moving	Přesouvání
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Vícepólové silové symboly a vodiče pro jednopólové symboly aktuální stránky na nové stránce
 Multiple copy	Vícenásobná kopie
 Multiple copy…	Vícenásobná kopie…
@@ -1032,9 +1047,11 @@ NC data (DXF)	Data NC (DXF)
 NC data of this face (DWG)	Data NC této plochy (DWG)
 NC data of this face (DXF)	Data NC této plochy (DXF)
 Nailboard (SVG)…	Formovací deska (SVG)…
+Name and cross reference	Název a křížový odkaz
 Name on the server	Název na serveru
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Název; datový typ; logická adresa; komentář – pro programovací nástroje PLC
 Named copy of this form, for report blocks	Pojmenovaná kopie tohoto formuláře pro bloky výkazů
+Navigation	Navigace
 Navigators	Navigátory
 Neutral exchange file…	Neutrální výměnný soubor…
 Never	Nikdy
@@ -1101,11 +1118,13 @@ No device has its main function in the box.	Žádný přístroj nemá hlavní fu
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Zatím žádný přístroj nemá montážní data: přiřaďte přístrojům artikly s rozměry (Vlastnosti › Artikly).
 No differences to {}.	Žádné rozdíly oproti {}.
 No document embedded	Není vložen žádný dokument
+No dot: plain T	Bez tečky: prosté T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Zatím žádná skříň – vytvořte ji pomocí Nová skříň, nebo místnost pro rozváděče pomocí Nová místnost.
 No field cables: place the enclosures and field devices at nodes of the route network.	Žádné polní kabely: umístěte skříně a polní přístroje do uzlů sítě tras.
 No filter fans: an air/air heat exchanger or a cooling unit	Bez filtračních ventilátorů: výměník tepla vzduch/vzduch nebo chladicí jednotka
 No harnesses defined.	Nejsou definovány žádné kabelové svazky.
 No inverter	Žádný střídač
+No jump: plain crossing, connections have dots	Bez přeskoku: prosté křížení, spojení mají tečky
 No longer reported	Již se nehlásí
 No macros yet. Select items in a schematic and save them as a macro.	Zatím žádná makra. Vyberte prvky ve schématu a uložte je jako makro.
 No modules: plug in PLC cards of the schematic.	Žádné moduly: zasuňte karty PLC ze schématu.
@@ -1308,6 +1327,7 @@ Place the georeferenced point everything is measured from	Umístit georeferencov
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Umístěte georeferencovaný bod zařízení do situačního plánu; jeho souřadnice se zadávají v panelu Budovy, každý bod se pak měří od něj
 Placed	Umístěno
 Placed by hand	Umístěno ručně
+Placed by hand; choosing a side places them anew.	Umístěno ručně; volba strany je umístí znovu.
 Placed here: {}	Zde umístěno: {}
 Placed {}× in the project	V projektu umístěno {}×
 Placeholders	Zástupné symboly
@@ -1352,6 +1372,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Ztrátový vý
 Pre-planning (CSV, Excel)	Předběžné plánování (CSV, Excel)
 Prefix	Předpona
 Press a key…	Stiskněte klávesu…
+Preview	Náhled
 Previous item	Předchozí prvek
 Previous page	Předchozí stránka
 Previous page tab	Předchozí karta stránky
@@ -1501,6 +1522,7 @@ Reset	Obnovit
 Reset all to the defaults	Obnovit vše na výchozí hodnoty
 Reset pane layout	Obnovit uspořádání panelů
 Reset the ribbon	Obnovit pás karet
+Reset to automatic placement	Obnovit automatické umístění
 Reset to standard	Obnovit standardní nastavení
 Restart and update	Restartovat a aktualizovat
 Resulting: {} · {} · {} · {} m	Výsledek: {} · {} · {} · {} m
@@ -1540,6 +1562,7 @@ Round	Kruhový
 Round cutouts facing each other in both side walls	Kruhové výřezy proti sobě v obou bočních stěnách
 Route definition of {}	Definice trasy kabelu {}
 Route network	Síť tras
+Route the connections of moved items anew	Vést spojení přesunutých prvků znovu
 Route wires in 3D	Vést vodiče ve 3D
 Routed in {}: {} m, {} bends	Vedeno v {}: {} m, ohyby: {}
 Routing around symbols	Vedení kolem symbolů
@@ -1601,6 +1624,9 @@ Scheme name	Název schématu
 Scheme placed again at {} symbols	Schéma znovu umístěno u {} symbolů
 Scheme {}	Schéma {}
 Screws, nuts, washers and rivet nuts of the fixing points	Šrouby, matice, podložky a nýtovací matice upevňovacích bodů
+Scrolling	Posouvání
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Posouvání posouvá pohled všemi směry; přiblížení sevřením prstů nebo Ctrl + posouvání.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Posouvání nahoru a dolů přibližuje u ukazatele, do stran (vodorovné kolečko, Shift + kolečko) posouvá pohled.
 Search (* and ? as placeholders)…	Hledat (* a ? jako zástupné znaky)…
 Search below this folder	Hledat pod touto složkou
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Prohledávat server artiklů podle katalogu, skupiny produktů a technických údajů, přidávat artikly a kontrolovat aktualizace databáze
@@ -1779,6 +1805,7 @@ Synchronize	Synchronizovat
 Synchronize function texts	Synchronizovat texty funkcí
 Synchronize project parts from database	Synchronizovat artikly projektu z databáze
 T Text	T Text
+T-connections	Spojení T
 Tab	Tabulátor
 Table import failed: {}	Import tabulky se nezdařil: {}
 Tablet mode	Režim tabletu
@@ -1799,6 +1826,7 @@ Taken into the drawing: drawn faded	Převzato do výkresu: zobrazeno vybledle
 Takes the comments as function texts (matched by address)	Převezme komentáře jako texty funkcí (přiřazené podle adresy)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Převezme označení přípojných bodů všech funkcí tohoto přístroje ze šablon funkcí jeho artiklů
 Takes the rights of the role away, whatever other grants give	Odebere práva role bez ohledu na to, co dávají jiná přidělení
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Zvolí cestu s nejmenší váhou: její délka v krocích mřížky, 1,2 za ohyb a 1,5 za křížený vodič. Vypnuto: vodiče se natáhnou a ponechají si rohy.
 Target languages	Cílové jazyky
 Temperature rise at the roof against the middle (IEC/TR 60890)	Nárůst teploty u stropu oproti středu (IEC/TR 60890)
 Template	Šablona
@@ -1828,6 +1856,7 @@ The dictionary is empty: collect the texts from the project.	Slovník je prázdn
 The door seen from the front: door devices and cutouts	Dveře zepředu: přístroje ve dveřích a výřezy
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Dveře zevnitř (závěsy vpravo): kabelové kanály a zapojení za dveřmi
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Skříň stojí levou stranou u pravé strany zvolené skříně; vodiče mezi nimi vedou kabelovými průchodkami
+The horizontal wire	Vodorovný vodič
 The items are selected and moved together	Prvky se vybírají a přesouvají společně
 The macro library has no page macros (Macros › Save page as macro…).	Knihovna maker neobsahuje žádná makra stránek (Makra › Uložit stránku jako makro…).
 The modules no string takes yet in series, on the first inverter	Moduly, které ještě žádný string nebere, v sérii, na prvním střídači
@@ -1854,6 +1883,7 @@ The side of {} is open	Strana {} je otevřená
 The symbol is placed in the project	Symbol je v projektu použit
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Artikly svorek neuvádějí žádné koncové příchytky ani koncové kryty (technické údaje End bracket, End plate).
 The update failed	Aktualizace se nezdařila
+The vertical wire	Svislý vodič
 The web version is updated on its server.	Webová verze se aktualizuje na svém serveru.
 The wire tool routes around symbols and other wires	Nástroj pro vodiče vede vodiče kolem symbolů a jiných vodičů
 The wires get the free cores of the cable in order (left to right)	Vodiče dostanou postupně (zleva doprava) volné žíly kabelu
@@ -1880,10 +1910,14 @@ Top edges	Horní hrany
 Top left	Vlevo nahoře
 Top right	Vpravo nahoře
 Total selectivity	Úplná selektivita
+Touch screen	Dotyková obrazovka
 Transfer project parts to database	Převzít artikly projektu do databáze
 Translate the project texts; documentation per language	Překlad textů projektu; dokumentace pro každý jazyk
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Otočení kolem svislé osy, proti směru hodinových ručiček při pohledu shora (90 °: čela směřují doprava)
 Tutorial	Výukový kurz
+Twin ferrules where two wires share a connection point	Dvojité dutinky tam, kde dva vodiče sdílejí přípojný bod
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dva prsty na touchpadu posouvají pohled, kolečko myši přibližuje. Rozlišit je umí jen macOS; jinde posouvání přibližuje jako kolečko.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Dva prsty současně posouvají pohled a sevřením přibližují; jeden prst funguje jako levé tlačítko myši.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Zde se musí stýkat dva vodiče v pravém úhlu. Při zapnutém automatickém spojování se k němu připojí připojovací body naproti jeho ramenům.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Zadejte bod a stiskněte Enter: x y v mm nebo @dx dy relativně k poslednímu bodu; působí jako kliknutí aktuálním nástrojem
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1968,6 +2002,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Kolečko: zoom · pravé tlačítko: zrušit · grafika se přichytává na 0,5 mm, přípojné body na rastr 4 mm
 When it differs from the page	Pokud se liší od stránky
 Where	Poloha
+Where neither wire has a termination chosen for it	Tam, kde ani jeden vodič nemá zvolené zakončení
 Where the point is in the plant; y: its height above the ground level of the plant	Kde bod leží v zařízení; y: jeho výška nad úrovní terénu zařízení
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Odkud pochází struktura přístroje: aspekty shodné se strukturou kolem symbolu jsou zděděné a mění se, když se přesune do rámečku struktury nebo z něj; ostatní aspekty patří přístroji a zůstávají.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Kde vodič začíná a končí: přípojný bod z dat artiklu, bod vygenerovaný ze šablony funkce, nebo střed přístroje, pokud žádný přípojný bod neodpovídá
@@ -1983,6 +2018,8 @@ Window macro: {}	Makro okna: {}
 Window macros inserted from now on are recorded as macro boxes.	Okenní makra vložená od této chvíle se zaznamenávají jako rámečky maker.
 Window macros placed on the pages (not printed)	Okenní makra umístěná na stránkách (netisknou se)
 Wire colour	Barva vodiče
+Wire crossings	Křížení vodičů
+Wire crossings…	Křížení vodičů…
 Wire ends	Konce vodičů
 Wire ends with ferrules	Konce vodičů s dutinkami
 Wire markers	Štítky vodičů
@@ -1996,6 +2033,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Vodič {} – {}  ({} 
 Wire {} – {}  {} mm	Vodič {} – {}  {} mm
 Wires and potentials	Vodiče a potenciály
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Vodiče mezi přípoji symbolů tekutinových mechanismů a P&ID jsou hadice / potrubí: vlastní sítě, číslované číslováním vodičů, uvedené v seznamu hadic.
+Wires crossing without connection	Vodiče křížící se bez spojení
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Odtud musí vycházet vodiče ve všech čtyřech směrech. Do té doby je spojení řetězeno v pořadí ve schématu.
 Wires of the connection	Vodiče spojení
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Vodiče také použijí 3D trasy respektující překážky, místo pouze kabelových kanálů na desce
@@ -2279,10 +2317,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pixelů, {}
 {} – {} ({} pages)	{} – {} (stránky: {})
 {}: click to show its floor plan	{}: kliknutím zobrazíte půdorys
+{}: crimp together with the wire to {}	{}: krimpovat společně s vodičem do {}
 {}: drag to move it, R turns it, a double-click opens it	{}: přetažením přesunete, R otočí, dvojklik otevře
 {}: drag to move it, a double-click shows the floor	{}: přetažením přesunete, dvojklik zobrazí podlahu
 {}: nothing to change	{}: není co měnit
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: odizolovat {} mm, {}
 {}: {} addresses changed	{}: změněno adres: {}
 {}: {} changes in the open project (not saved yet)	{}: {} změn v otevřeném projektu (zatím neuloženo)
 {}: {} changes saved	{}: uloženo {} změn

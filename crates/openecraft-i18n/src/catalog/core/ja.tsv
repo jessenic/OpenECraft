@@ -89,6 +89,7 @@ Auxiliary function: main contact	補助機能: 主接点
 Auxiliary relay coil R (JIS)	補助リレーコイル R (JIS)
 B10d	B10d
 Ball valve	ボールバルブ
+Bare conductor	被覆除去した導体
 Basis	根拠
 Battery	バッテリー
 Battery capacity	バッテリー容量
@@ -492,8 +493,8 @@ Fan 3-phase	三相ファン
 Fan 3-phase, 6 terminals	三相ファン (端子 6 個)
 Ferrule	フェルール
 Ferrule from	接続元側のフェルール
-Ferrule part	フェルール部品
 Ferrule to	接続先側のフェルール
+Ferrule {} mm² {}	フェルール {} mm² {}
 Field cable routing	フィールドケーブルのルーティング
 Field cable {} cannot be routed from {} to {}	フィールドケーブル {} を {} から {} へ敷設できません
 Field cable {}: {} is not placed in the plant layout	フィールドケーブル {}: {} はプラントレイアウトに配置されていません
@@ -514,6 +515,8 @@ Fitting	継手
 Fittings	継手
 Flame retardant	難燃性
 Flat cable {} has {} cores, the IDC connector {} has {} pins	フラットケーブル {} は {} 心、IDC コネクタ {} は {} ピンです
+Flat plug	平形オス端子
+Flat receptacle	平形メス端子
 Flat roof	陸屋根
 Float switch NC	フロートスイッチ b接点
 Float switch NO	フロートスイッチ a接点
@@ -539,6 +542,7 @@ Foot switch NC	フットスイッチ b接点
 Foot switch NO	フットスイッチ a接点
 Foot switch NO (NFPA)	フットスイッチ a接点 (NFPA)
 Force	力
+Fork terminal	Y形端子
 Format (placeholders)	書式 (プレースホルダー)
 Frame size	フレームサイズ
 Free	自由
@@ -1122,6 +1126,7 @@ Pilot light (NFPA)	パイロットランプ (NFPA)
 Pilot line	パイロットライン
 Pin connection diagram	ピン接続図
 Pin side (male)	ピン側 (オス)
+Pin terminal	棒形端子
 Pipe	配管
 Piston diameter	ピストン径
 Piston rod diameter	ピストンロッド径
@@ -1327,6 +1332,7 @@ Reviewer	レビュー担当者
 Revision overview (changes)	リビジョン概要 (変更)
 Right side	右側
 Right side panel	右側板
+Ring terminal	丸形端子
 Rivet nut	リベットナット
 RoHS compliant	RoHS 準拠
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1551,9 +1557,12 @@ Terminal description	端子の説明
 Terminal diagram	端子図
 Terminal line-up	端子配列
 Terminal marker	端子マーカー
+Terminal parts	端末部品
 Terminal strip data of {} without terminals	端子のない {} の端子台データ
 Terminal strip overview	端子台概要
 Terminal strips and PLC addresses	端子台と PLC アドレス
+Termination (from)	端末処理（始点）
+Termination (to)	端末処理（終点）
 Text file	テキストファイル
 The DXF file contains nothing that can be imported	DXF ファイルにインポートできる内容がありません
 The PDF has no pages that can be read	PDF に読み取り可能なページがありません
@@ -1676,6 +1685,14 @@ Tubes	チューブ
 Tubing / piping list	チューブ / 配管リスト
 Turned once (quarter landing)	1 回曲がり (踊り場)
 Turned twice (two quarter landings)	2 回曲がり (2 つの踊り場)
+Twin ferrule	ツインフェルール
+Twin ferrule at {} is not shared with a second wire	{} のツインフェルールを共有する2本目の電線がありません
+Twin ferrule at {} joins wires of {} and {}	{} のツインフェルールが {} と {} の電線をまとめています
+Twin ferrule at {}: {} wires end there, it takes two	{} のツインフェルール: {} 本の電線が終わっています。2本用です
+Twin ferrule with (from)	ツインフェルールの相手（始点）
+Twin ferrule with (to)	ツインフェルールの相手（終点）
+Twin ferrule {} mm² {}	ツインフェルール {} mm² {}
+Twin ferrules	ツインフェルール
 Two connection symbols on page {} lie on the same point	ページ {} の2つの接続シンボルが同じ点にあります
 Two-way switch (installation)	3 路スイッチ (屋内配線)
 Type numbers	型番
@@ -1758,6 +1775,7 @@ Winding connection	巻線結線
 Wire assigned to unknown cable {}	電線が不明なケーブル {} に割り当てられています
 Wire colour GNYE is reserved for protective conductors ({})	電線色 GNYE は保護導体用に予約されています ({})
 Wire colours and cross-sections	電線色と断面積
+Wire crossings and connections	配線の交差と接続
 Wire defaults	電線の既定値
 Wire jumper	ワイヤージャンパー
 Wire list (panel routing)	電線リスト (盤内配線ルート)
@@ -1866,8 +1884,6 @@ routed	配線済み
 shield clamp ({} mm away)	シールドクランプ ({} mm 先)
 silver	銀
 starts with	で始まる
-strip {} mm	被覆剥き {} mm
-strip {} mm, ferrule {} mm² {}	被覆剥き {} mm、フェルール {} mm² {}
 suction	吸込
 supply	供給
 terminals {} – {}	端子 {} – {}
@@ -1991,6 +2007,7 @@ yellow	黄
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: ジャンパー {} のジャンパー部品がありません (端子部品の技術データ Jumper)
 {}: no part assigned	{}: 部品が割り当てられていません
 {}: no service space of {} mm in front of {} (the door is too close)	{0}: {2} の前面に {1} mm のサービススペースがありません (扉が近すぎます)
+{}: none for this cross-section	{}：この断面積用はありません
 {}: not in the single-line diagram	{}: 単線結線図にありません
 {}: not placed in the panel layout	{}: 盤レイアウトに配置されていません
 {}: operations per year needed for the B10d of {}	{}: {} の B10d に必要な年間動作回数

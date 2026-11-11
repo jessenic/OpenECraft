@@ -360,7 +360,7 @@ impl App {
                     self.editor.insert = Some(m.resolve(&self.eng.macro_values));
                     self.editor.insert_macro = Some((m.clone(), self.eng.macro_values.clone()));
                     self.editor.set_tool(Tool::Insert);
-                    self.workspace = super::Workspace::Schematic;
+                    self.set_workspace(super::Workspace::Schematic);
                 }
             }
             Some(MacroAction::Delete(i)) => {

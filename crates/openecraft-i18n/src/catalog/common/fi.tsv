@@ -8,6 +8,7 @@ A page named {} already exists	Sivu nimeltä {} on jo olemassa
 A page needs a name	Sivulla on oltava nimi
 A routing path needs {} points at least	Reitityspolku tarvitsee vähintään {} pistettä
 A section cannot be moved into itself	Osiota ei voi siirtää itsensä sisään
+Above	Yläpuolella
 Access token	Käyttöoikeustokeni
 Accessories	Tarvikkeet
 Accessory	Tarvike
@@ -18,6 +19,7 @@ Angle	Kulma
 Apply	Käytä
 Approvers	Hyväksyjät
 Automatic	Automaattinen
+Below	Alapuolella
 Bold	Lihavointi
 Bottom	Pohja
 Bottom with removable gland plate	Pohja irrotettavalla läpivientilevyllä
@@ -472,6 +474,7 @@ open	avoin
 rejected	hylätty
 right	oikealle
 spare	vara
+strip {} mm, {}	kuori {} mm, {}
 the disk is full	levy on täynnä
 the file exists already	tiedosto on jo olemassa
 this is a folder	tämä on kansio
@@ -481,5 +484,6 @@ yes	kyllä
 {} exists already	{} on jo olemassa
 {} parts	{} osaa
 {} wires	{} johtoa
+{}, together with the wire to {}	{}, yhdessä johtimen {} kanssa
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} ei seiso lattialla, valitse lattialle sijoitettava osa
 ➕ Add accessory	➕ Lisää tarvike

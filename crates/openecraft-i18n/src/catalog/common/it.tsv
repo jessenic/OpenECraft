@@ -8,6 +8,7 @@ A page named {} already exists	Esiste già una pagina denominata {}
 A page needs a name	Una pagina ha bisogno di un nome
 A routing path needs {} points at least	Un percorso di instradamento richiede almeno {} punti
 A section cannot be moved into itself	Una sezione non può essere spostata in se stessa
+Above	Sopra
 Access token	Token di accesso
 Accessories	Accessori
 Accessory	Accessorio
@@ -18,6 +19,7 @@ Angle	Angolo
 Apply	Applica
 Approvers	Approvatori
 Automatic	Automatico
+Below	Sotto
 Bold	Grassetto
 Bottom	Fondo
 Bottom with removable gland plate	Fondo con piastra passacavi rimovibile
@@ -472,6 +474,7 @@ open	aperto
 rejected	rifiutato
 right	verso destra
 spare	riserva
+strip {} mm, {}	spelare {} mm, {}
 the disk is full	il disco è pieno
 the file exists already	il file esiste già
 this is a folder	è una cartella
@@ -481,5 +484,6 @@ yes	sì
 {} exists already	{} esiste già
 {} parts	{} articoli
 {} wires	{} conduttori
+{}, together with the wire to {}	{}, insieme al conduttore verso {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} non poggia sul pavimento, scegli un articolo a pavimento
 ➕ Add accessory	➕ Aggiungi accessorio

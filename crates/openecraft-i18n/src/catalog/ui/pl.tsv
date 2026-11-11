@@ -67,6 +67,7 @@ Only parts for direct wall mounting	Tylko artykuły do bezpośredniego montażu 
 Open datasheet	Otwórz kartę katalogową
 Open in the browser	Otwórz w przeglądarce
 Outside the face	Poza powierzchnią
+Pans (trackpad)	Przesuwa (gładzik)
 Parts server: {}	Serwer artykułów: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artykuły, z których składa się ten artykuł; zestawienie materiałów wymienia je pod nim
 Personal access token	Osobisty token dostępu
@@ -113,6 +114,7 @@ Wall mounting	Montaż naścienny
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Gdzie akcesorium znajduje się na pasującej części, w układzie szafy i w widoku 3D
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Gdzie przewody są podłączane w zabudowie szafy: oznaczenie jak w szablonie funkcji, położenie w widoku z przodu (x od lewej, y od góry, z nad powierzchnią montażową) i kierunek wyprowadzenia przewodu. Artykuły bez własnych punktów połączeń otrzymują je z szablonu funkcji.
 Wire leaves	Wyprowadzenie przewodu
+Zooms (mouse wheel)	Powiększa (kółko myszy)
 changes with token	zmiany z tokenem
 created in your EPLAN account (ePulse)	utworzony na Twoim koncie EPLAN (ePulse)
 down	w dół

@@ -52,3 +52,18 @@ fn parts_are_placed_with_the_symbol_of_their_main_function() {
     assert_eq!(pins, vec!["X1".to_string(), "X2".to_string()]);
     assert_eq!(part_symbol(&crate::parts::Part::default()), None);
 }
+
+#[test]
+fn generic_functions_are_placed_as_black_boxes_not_as_earth_electrodes() {
+    // A drive from an EDZ without a usable macro: its connection points are generic functions.
+    let generic = |pins: &str| crate::parts::FunctionTemplate::new(FnKind::Generic, pins);
+    let mut drive = crate::parts::Part { number: "SIE.DRIVE".into(), functions: vec![generic("L1 L1"), generic("L2 L2")], ..Default::default() };
+    let (sym, pins) = part_symbol(&drive).unwrap();
+    assert_eq!((sym, pins), ("box1", vec!["L1".to_string(), "L1".to_string()]));
+    assert_eq!(crate::parts::kind_of_symbol(sym), Some(FnKind::Generic), "the box uses the generic function");
+    drive.functions[0] = generic("X136.1 X136.2 X136.3");
+    assert_eq!(part_symbol(&drive).unwrap().0, "box2");
+    drive.functions[0] = generic("1 2 3 4 5 6 7 8 9");
+    assert_eq!(part_symbol(&drive).unwrap().0, "box4");
+    assert_ne!(symbol_for(FnKind::Generic), Some("earth_electrode"));
+}

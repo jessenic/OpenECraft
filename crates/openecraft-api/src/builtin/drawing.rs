@@ -15,7 +15,7 @@ use openecraft_core::symbols::{self, Anchor, Func, SymbolRef};
 use openecraft_core::symlib::Symbols;
 use openecraft_core::arrange::{self, Align};
 use openecraft_core::netlist::junctions;
-use openecraft_core::{cabledef, conndef, routing};
+use openecraft_core::{cabledef, conndef, render, routing};
 use openecraft_i18n::{tr, tr_const, tr_fmt};
 use serde_json::{json, Value};
 use std::collections::BTreeSet;
@@ -137,6 +137,19 @@ pub static COMMANDS: &[Spec] = &[
         run: update_symbol,
     },
     Spec {
+        name: "place_pin_label",
+        help: tr_const!("Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again"),
+        params: &[
+            PAGE,
+            param("id", Kind::Int, tr_const!("Item id")),
+            param("pin", Kind::Str, tr_const!("Connection point designation or number (1, 2, …)")),
+            optional("side", Kind::Str, tr_const!("left, right, above or below on the page, or auto (default)")),
+            optional("dx", Kind::Num, tr_const!("Shift to the right in mm")),
+            optional("dy", Kind::Num, tr_const!("Shift downwards in mm")),
+        ],
+        run: place_pin_label,
+    },
+    Spec {
         name: "add_wire",
         help: tr_const!("Draws a wire through two or more points"),
         params: &[PAGE, param("points", Kind::Points, tr_const!("Points in mm: [[x, y], …]")),JUNCTION_POLICY],
@@ -169,6 +182,8 @@ pub static COMMANDS: &[Spec] = &[
             optional("wire_type", Kind::Str, tr_const!("Wire type")),
             optional("cable", Kind::Str, tr_const!("Cable tag")),
             optional("core", Kind::Str, tr_const!("Cable core")),
+            optional("core_offset", Kind::Points, tr_const!("Offset of the core designation from its automatic place, one point [dx, dy] in mm (no point = automatic)")),
+            optional("cable_offset", Kind::Points, tr_const!("Offset of the cable tag shown at the wire from its automatic place, one point [dx, dy] in mm (no point = automatic)")),
             optional("medium", Kind::Str, tr_const!("Hoses / pipes: medium (compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam, product; empty = project default)")),
             optional("length", Kind::Num, tr_const!("Hoses / pipes: length in m")),
         ],
@@ -233,6 +248,17 @@ pub static COMMANDS: &[Spec] = &[
         run: move_items,
     },
     Spec {
+        name: "wire_settings",
+        help: tr_const!("Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given"),
+        params: &[
+            optional("jump", Kind::Str, tr_const!("Wires crossing without connection: none, arc, bridge or gap")),
+            optional("jump_wire", Kind::Str, tr_const!("The wire that jumps: vertical or horizontal")),
+            optional("tee", Kind::Str, tr_const!("T-connections: dot, large_dot or none")),
+            optional("reroute", Kind::Bool, tr_const!("Route the connections of moved items anew: shortest way with the fewest bends and crossings")),
+        ],
+        run: wire_settings,
+    },
+    Spec {
         name: "align_items",
         help: tr_const!("Aligns symbols, texts and graphics to a common edge or centre; connected wire ends follow"),
         params: &[
@@ -247,6 +273,20 @@ pub static COMMANDS: &[Spec] = &[
         help: tr_const!("Distributes symbols, texts and graphics evenly between the first and the last one"),
         params: &[PAGE, param("ids", Kind::Ids, tr_const!("Item ids")), optional("vertical", Kind::Bool, tr_const!("Distribute vertically (default horizontally)"))],
         run: distribute_items,
+    },
+    Spec {
+        name: "place_interruption_texts",
+        help: tr_const!("Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point"),
+        params: &[
+            PAGE,
+            param("ids", Kind::Ids, tr_const!("Ids of interruption points")),
+            optional("side", Kind::Str, tr_const!("auto, above, below, left or right; drops the texts placed by hand")),
+            optional("label_x", Kind::Num, tr_const!("Name placed by hand: X offset from the insertion point in mm")),
+            optional("label_y", Kind::Num, tr_const!("Name placed by hand: Y offset from the insertion point in mm")),
+            optional("xref_x", Kind::Num, tr_const!("Cross reference placed by hand: X offset from the insertion point in mm")),
+            optional("xref_y", Kind::Num, tr_const!("Cross reference placed by hand: Y offset from the insertion point in mm")),
+        ],
+        run: place_interruption_texts,
     },
     Spec {
         name: "copy_items",
@@ -781,6 +821,38 @@ fn update_symbol(prj: &mut Project, a: &Args) -> Result<Value, String> {
     Ok(symbol_json(&symbols, sym))
 }
 
+fn place_pin_label(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let symbols = prj.symbol_table();
+    let i = editable(prj, a.req("page"))?;
+    let id = a.int("id").unwrap_or_default() as u64;
+    let si = prj.pages[i].symbols.iter().position(|x| x.id == id).ok_or_else(|| tr_fmt!("No symbol with id {}", id))?;
+    let s = &prj.pages[i].symbols[si];
+    let def = symbols.get(&s.sym).ok_or_else(|| tr_fmt!("Unknown symbol: {}", s.sym))?;
+    let pin = a.req("pin");
+    let pi = pins_of(&symbols, s).iter().position(|(label, _)| label == pin).ok_or_else(|| tr_fmt!("Symbol {} has no connection point {}", id, pin))?;
+    let side = match a.str("side").unwrap_or("auto") {
+        "auto" => None,
+        name => Some(LabelSide::from_name(name).ok_or_else(|| tr_fmt!("Unknown side: {}", name))?),
+    };
+    let shift = p(num_in(a, "dx", -50.0, 50.0)?.unwrap_or(0.0), num_in(a, "dy", -50.0, 50.0)?.unwrap_or(0.0));
+    let s = &mut prj.pages[i].symbols[si];
+    let label = PinPlacement { side: side.map(|x| x.in_symbol(s.rot, s.mirror)), offset: shift.untransform(s.rot, s.mirror) };
+    s.set_pin_placement(pi, label);
+    if pi == 0 {
+        s.pin_label = None;
+    }
+    let s = &prj.pages[i].symbols[si];
+    let place = openecraft_core::render::pin_label_places(prj, &openecraft_core::index::Index::build(prj), i, &def, s).into_iter().find(|l| l.pin == pi);
+    Ok(json!({
+        "id": id,
+        "pin": pin,
+        "auto": label.is_auto(),
+        "side": place.as_ref().map(|l| l.side.on_page(s.rot, s.mirror).name()),
+        "x": place.as_ref().map(|l| l.pos.x),
+        "y": place.as_ref().map(|l| l.pos.y),
+    }))
+}
+
 fn set_pin_connection_directions(prj:&mut Project,a:&Args)->Result<Value,String> {
     let key=a.req("symbol");
     let pin=int_in(a,"pin",0,u32::MAX.into())?.unwrap_or(0) as usize;
@@ -864,6 +936,11 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
             *field = v.into();
         }
     }
+    for (name, field) in [("core_offset", &mut w.core_offset), ("cable_offset", &mut w.cable_offset)] {
+        if a.value(name).is_some_and(|v| !v.is_null()) {
+            *field = raw_points(a, name).first().map(|&[x, y]| p(x as f32, y as f32));
+        }
+    }
     if let Some(c) = color {
         w.color = c;
     }
@@ -880,7 +957,7 @@ fn update_wire(prj: &mut Project, a: &Args) -> Result<Value, String> {
         w.length = l;
     }
     let medium = w.medium.map(|m| m.code()).unwrap_or_default();
-    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels,"labels":w.labels,"junction_policy":w.junction_policy(), "color": w.color, "cross_section": w.cross_section, "wire_type": w.wire_type, "cable": w.cable, "core": w.core, "medium": medium, "length": w.length }))
+    Ok(json!({ "id": w.id, "number": w.number, "hide_labels": w.hide_labels,"labels":w.labels,"junction_policy":w.junction_policy(), "color": w.color, "cross_section": w.cross_section, "wire_type": w.wire_type, "cable": w.cable, "core": w.core, "core_offset": w.core_offset.map(xy), "cable_offset": w.cable_offset.map(xy), "medium": medium, "length": w.length }))
 }
 
 /// Takes the style parameters of `add_text` / `update_text` that are given.
@@ -934,12 +1011,16 @@ fn text_style_args(t: &mut TextItem, a: &Args) -> Result<(), String> {
     Ok(())
 }
 
-fn text_json(t: &TextItem) -> Value {
-    let align = match t.align {
+fn anchor_code(a: Anchor) -> &'static str {
+    match a {
         Anchor::Left => "left",
         Anchor::Center => "center",
         Anchor::Right => "right",
-    };
+    }
+}
+
+fn text_json(t: &TextItem) -> Value {
+    let align = anchor_code(t.align);
     let valign = match t.valign {
         VAnchor::Top => "top",
         VAnchor::Middle => "middle",
@@ -993,6 +1074,23 @@ fn move_items(prj: &mut Project, a: &Args) -> Result<Value, String> {
     Ok(json!({ "moved": sel.len(), "dx": d.x, "dy": d.y }))
 }
 
+fn wire_settings(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let s = &mut prj.wire_settings;
+    if let Some(k) = a.str("jump") {
+        s.jump = JumpStyle::from_key(k).ok_or_else(|| tr_fmt!("Unknown jump style: {}", k))?;
+    }
+    if let Some(k) = a.str("jump_wire") {
+        s.jump_wire = JumpWire::from_key(k).ok_or_else(|| tr_fmt!("Unknown jumping wire: {}", k))?;
+    }
+    if let Some(k) = a.str("tee") {
+        s.tee = TeeStyle::from_key(k).ok_or_else(|| tr_fmt!("Unknown T-connection style: {}", k))?;
+    }
+    if let Some(v) = a.value("reroute").and_then(Value::as_bool) {
+        s.reroute = v;
+    }
+    Ok(json!({ "jump": s.jump.key(), "jump_wire": s.jump_wire.key(), "tee": s.tee.key(), "reroute": s.reroute }))
+}
+
 fn align_items(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let i = editable(prj, a.req("page"))?;
     let how = Align::from_code(a.req("align")).ok_or_else(|| tr_fmt!("Unknown alignment: {}", a.req("align")))?;
@@ -1006,6 +1104,41 @@ fn distribute_items(prj: &mut Project, a: &Args) -> Result<Value, String> {
     let sel = selection(&prj.pages[i], a)?;
     let n = arrange::distribute(prj, i, &sel, !a.flag("vertical"));
     Ok(json!({ "moved": n }))
+}
+
+fn place_interruption_texts(prj: &mut Project, a: &Args) -> Result<Value, String> {
+    let symbols = prj.symbol_table();
+    let i = editable(prj, a.req("page"))?;
+    let side = match a.str("side") {
+        Some(code) => Some(TextSide::from_code(code.trim()).ok_or_else(|| tr_fmt!("Unknown side: {}", code))?),
+        None => None,
+    };
+    let sel = selection(&prj.pages[i], a)?;
+    let by_hand = |name: &str, now: TextPlace| {
+        let (x, y) = (a.num(&format!("{name}_x")), a.num(&format!("{name}_y")));
+        (x.is_some() || y.is_some()).then(|| TextPlace { offset: p(x.unwrap_or(now.offset.x), y.unwrap_or(now.offset.y)), ..now })
+    };
+    let place_json = |t: TextPlace| json!({ "x": t.offset.x, "y": t.offset.y, "align": anchor_code(t.anchor) });
+    let mut points = Vec::new();
+    for s in prj.pages[i].symbols.iter_mut().filter(|s| sel.contains(&s.id)) {
+        let Some(def) = symbols.get(&s.sym).filter(|d| d.func == Func::Interruption) else { continue };
+        if let Some(side) = side {
+            s.set_text_side(side);
+        }
+        let (label, xref) = render::interruption_places(&def, s);
+        if let Some(t) = by_hand("label", label) {
+            s.label_place = Some(t);
+        }
+        if let Some(t) = by_hand("xref", xref) {
+            s.xref_place = Some(t);
+        }
+        let (label, xref) = render::interruption_places(&def, s);
+        points.push(json!({ "id": s.id, "name": s.label, "side": s.text_side.code(), "label": place_json(label), "xref": place_json(xref) }));
+    }
+    if points.is_empty() {
+        return Err(tr("None of the items is an interruption point").to_string());
+    }
+    Ok(json!({ "points": points }))
 }
 
 fn copy_items(prj: &mut Project, a: &Args) -> Result<Value, String> {

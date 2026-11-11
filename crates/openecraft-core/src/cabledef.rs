@@ -28,6 +28,12 @@ pub fn crossed_wires(page: &Page, a: P, b: P) -> Vec<u64> {
     v.into_iter().map(|(_, id)| id).collect()
 }
 
+/// Position along wire `w` (0..1) of its core stroke and designation: where a cable
+/// definition line of its cable crosses it, else at 30 %.
+pub fn core_position(page: &Page, w: &Wire) -> f32 {
+    page.cable_defs.iter().filter(|d| d.cable == w.cable).find_map(|d| crossing(w.a, w.b, d.a, d.b)).unwrap_or(0.3)
+}
+
 /// Core designations "1 2 … n", with a protective earth core "GNYE" at the end.
 pub fn numbered_cores(n: usize, pe: bool) -> String {
     let mut v: Vec<String> = (1..=n).map(|i| i.to_string()).collect();
@@ -72,6 +78,7 @@ pub fn apply(prj: &mut Project, page: usize, id: u64) -> usize {
         }
         w.cable = def.cable.clone();
         w.core = cores.remove(0);
+        (w.core_offset, w.cable_offset) = (None, None);
         n += 1;
     }
     n

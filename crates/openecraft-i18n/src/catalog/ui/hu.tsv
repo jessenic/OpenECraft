@@ -67,6 +67,7 @@ Only parts for direct wall mounting	Csak közvetlen falra szerelésre szolgáló
 Open datasheet	Adatlap megnyitása
 Open in the browser	Megnyitás a böngészőben
 Outside the face	A felületen kívül
+Pans (trackpad)	Mozgat (érintőpad)
 Parts server: {}	Alkatrészszerver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Alkatrészek, amelyekből ez az alkatrész össze van állítva; az anyagjegyzék alatta sorolja fel őket
 Personal access token	Személyes hozzáférési token
@@ -113,6 +114,7 @@ Wall mounting	Falra szerelés
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Hol helyezkedik el a tartozék az illeszkedő cikken, a szekrényelrendezésben és a 3D-nézetben
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	A vezetékek bekötési helye a szekrényelrendezésben: a megnevezés a funkciósablon szerint, a pozíció az elölnézetben (x balról, y felülről, z a szerelőfelület fölött) és a vezeték kilépési iránya. A saját csatlakozási pontok nélküli alkatrészek a funkciósablonból kapják meg azokat.
 Wire leaves	Vezeték kilépése
+Zooms (mouse wheel)	Nagyít (egérgörgő)
 changes with token	módosítás tokennel
 created in your EPLAN account (ePulse)	az EPLAN-fiókjában (ePulse) létrehozva
 down	lefelé

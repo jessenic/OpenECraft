@@ -5,6 +5,112 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.2] - unreleased
 
+- **Trackpads and touch screens** (#134): every 2D and 3D view (schematic, front,
+  floor and site plan, 3D view, field plan, symbol editor) zooms with a pinch and pans
+  with two fingers, both in one movement; on a touch screen the first finger no longer
+  selects, moves or orbits while two are down. The horizontal mouse wheel and
+  `Shift`+wheel pan sideways. *Settings › Navigation* chooses what scrolling does:
+  *Automatic* (trackpads pan, mouse wheels zoom, told apart on macOS), *Zooms (mouse
+  wheel)* or *Pans (trackpad)*, and can invert the direction of panning by scrolling.
+  The symbol editor's canvas pans too (also with the middle mouse button).
+- **Settings after an update check:** checking for updates no longer collapses Settings
+  into an unusable title bar. Dialogs already stuck this way recover their contents.
+- **Wire jumps** (#132): wires that cross without a connection can jump over each other
+  with an arc, a square bridge or a gap, besides the plain crossing of before; the
+  vertical or the horizontal wire jumps. T-connections show a dot, a large dot or no
+  dot (a plain T); connections of four or more wires always keep their dot. Set in
+  *Connections › Wire crossings…* (Settings › Wire crossings) with a preview, saved
+  with the project and in settings schemes, drawn alike on screen and in PDF, SVG and
+  DXF. Command `wire_settings`.
+- **Rerouting moved connections** (#132, off by default): with *Route the connections
+  of moved items anew* a wire left diagonal by a move is routed again together with
+  the corners after it, up to the next connection point, junction or branch: the
+  way of the least weight, its length in grid steps plus 1.2 per bend and 1.5 per
+  wire crossed. Labels and connection definition points come along; without a way the
+  wire is squared as before.
+- **EDZ parts without a usable macro** (#131): a part whose first function is a
+  generic one (the connection points of a drive or an HMI) is placed as a black box
+  with room for its connection points instead of an earth electrode. Elliptic arcs of
+  EPLAN macros keep the ratio of their axes and start and end where the macro says (the
+  S7-1200 CPU 6ES7212-1HG50-0XB0 had a half circle of 400 mm across the page), and
+  texts keep their justification (table labels stood on their lines, right-aligned
+  texts ran into their neighbours). Open polylines of EPLAN macros stay open (each edge
+  of the CPU was closed back to its start), and the schematic no longer draws spikes
+  where a line turns back on itself. The part selection of *Add part…* no longer grows
+  to the height of the screen.
+- **Wire ends in 3D:** the 3D view of the panel layout shows the end of each wire and
+  cable core at its connection point: the ferrule (metal sleeve and collar in its
+  DIN 46228-4 colour) where *Wire ends with ferrules* is set, otherwise the bare copper
+  conductor as long as it is stripped.
+- **Terminations per wire end:** each end of a wire or cable core gets its own
+  termination: bare conductor, ferrule, twin ferrule, ring, fork or pin terminal, flat
+  plug or flat receptacle (insulated in red, blue or yellow by the cross-section,
+  uninsulated tubular cable lugs from 10 mm²). It is chosen in the properties of a
+  wire (*Wire ends*) or a cable (*Cable ends*, for all cores at one device), or with
+  the command `set_termination` for a connection point, a device or one wire;
+  `terminations` lists them. Ends without one keep the ferrule setting of the layout.
+  The 3D view draws every termination (rings round the connection point, flat plugs,
+  forks, pins and insulated sleeves in their colour, each cable core with its own
+  cross-section); the production wire list shows the termination and parts of both
+  ends, and the wiring assistant, the machine exports, the harness data and the bill of
+  materials (with the new catalog parts) take them too.
+- **Twin ferrules for two wires:** a twin ferrule belongs to the two wires ending at
+  one connection point. Chosen for one of them it is chosen for the other one too
+  (offered only where exactly two wires end), it is shown once in 3D, counted once in
+  the bill of materials, named with the other wire in the production wire list and the
+  wiring assistant (which puts the two wires one after the other, to be crimped
+  together) and carried by the first of them in the machine exports (new fields *Twin
+  ferrule with (from)* / *(to)*). Two cross-sections get the ferrule for the larger
+  one. The check *Twin ferrules* warns about one with a single wire, at a point with
+  more than two wires or for two cross-sections. New layout setting *Twin ferrules where
+  two wires share a connection point* (command `set_ferrules`).
+- **Workspaces show their view again:** a workspace chosen in the title bar shows its
+  main view (the panel layout, the workbench, …) even where the page was left in front
+  of it, and the commands of the layout view (3D view, floor plan, mounting plate,
+  tools, …) bring it to the front instead of changing it unseen behind the page.
+- **3D routing keeps a route apart from itself:** a cable, wire or pipe whose ends lie
+  too close for its bend radius no longer runs back across or alongside its own way
+  (the supply cable `=GRID-W1` of the example `building_services` crossed itself below
+  the house connection box); it takes a loop that keeps its thickness from itself, its
+  bends and the nozzle it comes out of, and is reported as not routable where there is
+  none. Cables and pipes through one wall penetration pass it side by side instead of
+  through one point. The example `building_services` has its cable entry lower in the
+  wall, the water service sleeve in front of its building entry and the couplings of
+  the compressed air outlets beside their units, so that every line has room for its
+  bends.
+- **One cable per cable gland:** a cable gland takes one cable (the free one whose
+  clamping range fits, nearest to where the cable heads); a cable that finds every
+  gland of its cabinet taken is not routed and reported as an error that names the
+  cabinet, instead of being drawn through a gland with another cable. Cable entry
+  flanges still take several cables side by side. Cable glands are drawn with a model
+  of their own in the colour of their material: outside the hexagon body, neck and
+  dome on the outer surface of their wall (they floated a centimetre above it), inside
+  the locknut and the end of the thread, which other routes keep clear of; and the
+  generic catalog gains them in brass nickel-plated (`GEN.GLAND-M16-MS` …
+  `-M63-MS`), as EMC glands with a contact spring for the shield braid
+  (`GEN.GLAND-M16-EMC` … `-M40-EMC`) and two LAPP SKINTOP glands (ST-M and MS-M
+  20x1.5) as manufacturer parts. The example `building_services` has a gland for every
+  cable, sized to it, and the conveyor (`conveyor`, `engineering_workflow`) one for its
+  motor cable, which came in through the middle of the bottom.
+- **Connection point designations** (#116): each designation of a selected symbol can
+  be dragged on its own, put left, right, above or below its connection point or reset
+  to automatic placement (Properties › *Property placement*); the placement is stored
+  with the symbol and turns and mirrors with it, without changing the connection point.
+  Placed automatically, a designation follows the lead of its connection point and
+  moves along it, to the other side or out beside the wire to keep clear of the
+  symbol's graphics, wires, nearby symbols and its other texts (the surge protective
+  device's PE no longer runs into its arrow). Command `place_pin_label`.
+- **Interruption points:** the name and the cross reference no longer crowd the arrow:
+  horizontal points show the name above and the cross reference below the conductor,
+  inside the page, vertical ones beside the arrow. Both can be put above, below, left
+  or right of the arrow for
+  all selected points at once, or dragged on their own without moving the symbol, and
+  reset to the automatic placement; the places are saved and exported, the cross
+  reference keeps its link. Command `place_interruption_texts`
+  ([schematic](docs/features/schematic.md)).
+- CAD drawing imports return original geometry bounds and their page origin, so
+  external importers can recover drawing coordinates without changing page placement.
+
 - **Device boxes with device connection points:** a dashed box of any size drawn on
   the schematic is a device of its own (power supply, measuring instrument, control
   module) without a library symbol; device connection points placed on its outline
@@ -23,6 +129,13 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   on `add_device_box` and `update_device_box`, command `show_device_pins`
   ([schematic](docs/features/schematic.md)).
 
+- **Cable cores at the cable definition line:** the stroke, core designation and cable
+  tag of each core sit where a cable definition line of its cable crosses the wire, so
+  they line up on wires of different lengths (30 % of the wire without a line). The core
+  designation and the cable tag of a selected wire can be dragged into place; they keep
+  their offset when the line moves, *Reset* in the wire properties places them
+  automatically again. `update_wire` takes `core_offset` and `cable_offset`
+  ([connections](docs/features/connections.md)).
 - **Plot boundary:** the boundary of the plot is drawn in the site plan corner by corner
   and its corners are dragged afterwards; all buildings have to stay inside it, the check
   reports rooms, roofs and cabinets outside it and the site plan draws them red.
@@ -139,6 +252,14 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 - Preserve the connectivity domain of imported fluid and process symbols so their ports stay distinct from electrical connections.
 - Keep imported property text angles and pin designation fields editable and linked to their placed symbol.
 - Support imported secondary device functions and local junction paths without adding spurious main functions or device endpoints.
+
+- **Accessories from macros:** a macro can list in `device_part_additions` the literal
+  accessory articles of its devices to add when it extends an existing device; the other
+  articles and the local quantities of that device stay as they are.
+
+- **Reusing failed route searches:** with the routing rule `reuse_failed_searches` (off by
+  default), a search that found no route is not repeated when later routes only fill the
+  channels.
 
 ## [0.1.1] - 2026-11-08
 

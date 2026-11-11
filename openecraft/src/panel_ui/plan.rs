@@ -3,7 +3,7 @@
 //! pipe runs seen from above.
 
 use super::routing_ui::PIPE_COLOR;
-use super::{wheel_delta, PanelUi, Tool, View};
+use super::{PanelUi, Tool, View};
 use crate::editor::Palette;
 use egui::{vec2, CursorIcon, Key, PointerButton, Pos2, Rect, Sense, Shape, Stroke};
 use openecraft_core::geom::{p, P};
@@ -213,19 +213,19 @@ impl PanelUi {
             self.offset = vec2((rect.width() - w * self.zoom) / 2.0 - (lo[0] - margin) * self.zoom, (rect.height() - h * self.zoom) / 2.0 - (lo[1] - margin) * self.zoom);
             self.fit_pending = false;
         }
-        if resp.hovered() {
-            let (wheel, zoom_delta, ptr) = ui.input(|i| (wheel_delta(i), i.zoom_delta(), i.pointer.hover_pos()));
-            if let Some(ptr) = ptr {
-                let factor = zoom_delta * (wheel * 0.0025).exp();
-                if (factor - 1.0).abs() > 1e-4 {
-                    let before = self.s2w(rect, ptr);
-                    self.zoom = (self.zoom * factor).clamp(0.002, 5.0);
-                    self.offset = ptr - rect.min - vec2(before.x, before.y) * self.zoom;
-                }
-            }
+        let gesture = openecraft_ui::nav::read(ui, &resp);
+        self.offset += gesture.pan;
+        if let (true, Some(at)) = (gesture.zooms(), gesture.at) {
+            let before = self.s2w(rect, at);
+            self.zoom = (self.zoom * gesture.zoom).clamp(0.002, 5.0);
+            self.offset = at - rect.min - vec2(before.x, before.y) * self.zoom;
         }
         if resp.dragged_by(PointerButton::Middle) || resp.dragged_by(PointerButton::Secondary) {
             self.offset += resp.drag_delta();
+        }
+        // Fingers navigating end a drag of the first one where it is.
+        if gesture.touch {
+            self.plan_drag = None;
         }
         let ptr = ui.input(|i| i.pointer.hover_pos()).filter(|q| rect.contains(*q));
         let plan = ptr.map(|s| self.s2w(rect, s));
@@ -309,8 +309,9 @@ impl PanelUi {
         let pressed = ui.input(|i| i.pointer.press_origin()).map(|s| self.s2w(rect, s));
         let dragged_to = ui.input(|i| i.pointer.interact_pos()).map(|s| self.s2w(rect, s));
 
-        // Mouse
+        // Mouse (not while fingers navigate)
         match self.tool.clone() {
+            _ if gesture.touch => {}
             Tool::Walls => {
                 if let (true, Some(q)) = (resp.clicked_by(PointerButton::Primary), plan) {
                     let corner = ortho_corner(self.wall_points.last().copied(), q);

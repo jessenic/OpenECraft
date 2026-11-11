@@ -92,6 +92,7 @@ Auxiliary function: main contact	Função auxiliar: contato principal
 Auxiliary relay coil R (JIS)	Bobina de relé auxiliar R (JIS)
 B10d	B10d
 Ball valve	Válvula de esfera
+Bare conductor	Condutor desencapado
 Basis	Base
 Battery	Bateria
 Battery capacity	Capacidade da bateria
@@ -499,8 +500,8 @@ Fan 3-phase	Ventilador trifásico
 Fan 3-phase, 6 terminals	Ventilador trifásico, 6 terminais
 Ferrule	Ponteira
 Ferrule from	Ponteira de
-Ferrule part	Peça de ponteira
 Ferrule to	Ponteira para
+Ferrule {} mm² {}	Terminal tubular {} mm² {}
 Field cable routing	Roteamento de cabos de campo
 Field cable {} cannot be routed from {} to {}	O cabo de campo {} não pode ser roteado de {} para {}
 Field cable {}: {} is not placed in the plant layout	Cabo de campo {}: {} não está posicionado no layout da planta
@@ -521,6 +522,8 @@ Fitting	Engate
 Fittings	Engates
 Flame retardant	Retardante de chama
 Flat cable {} has {} cores, the IDC connector {} has {} pins	O cabo plano {} tem {} condutores, o conector IDC {} tem {} pinos
+Flat plug	Terminal faston macho
+Flat receptacle	Terminal faston fêmea
 Flat roof	Telhado plano
 Float switch NC	Chave de boia NF
 Float switch NO	Chave de boia NA
@@ -546,6 +549,7 @@ Foot switch NC	Pedal NF
 Foot switch NO	Pedal NA
 Foot switch NO (NFPA)	Pedal NA (NFPA)
 Force	Força
+Fork terminal	Terminal garfo
 Format (placeholders)	Formato (espaços reservados)
 Frame size	Tamanho construtivo
 Free	Livre
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Lâmpada piloto (NFPA)
 Pilot line	Linha de pilotagem
 Pin connection diagram	Diagrama de conexões de pinos
 Pin side (male)	Lado dos pinos (macho)
+Pin terminal	Terminal pino
 Pipe	Tubulação
 Piston diameter	Diâmetro do pistão
 Piston rod diameter	Diâmetro da haste do pistão
@@ -1338,6 +1343,7 @@ Reviewer	Revisor
 Revision overview (changes)	Visão geral de revisões (alterações)
 Right side	Lado direito
 Right side panel	Painel lateral direito
+Ring terminal	Terminal olhal
 Rivet nut	Porca rebite
 RoHS compliant	Em conformidade com RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Descrição do borne
 Terminal diagram	Diagrama de bornes
 Terminal line-up	Alinhamento de bornes
 Terminal marker	Marcador de borne
+Terminal parts	Peças das pontas
 Terminal strip data of {} without terminals	Dados de régua de bornes de {} sem bornes
 Terminal strip overview	Visão geral de réguas de bornes
 Terminal strips and PLC addresses	Réguas de bornes e endereços de CLP
+Termination (from)	Terminação (de)
+Termination (to)	Terminação (para)
 Text file	Arquivo de texto
 The DXF file contains nothing that can be imported	O arquivo DXF não contém nada que possa ser importado
 The PDF has no pages that can be read	O PDF não tem páginas que possam ser lidas
@@ -1688,6 +1697,14 @@ Tubes	Tubos
 Tubing / piping list	Lista de tubos / tubulações
 Turned once (quarter landing)	Com um giro (patamar de canto)
 Turned twice (two quarter landings)	Com dois giros (dois patamares de canto)
+Twin ferrule	Terminal tubular duplo
+Twin ferrule at {} is not shared with a second wire	O terminal tubular duplo em {} não é compartilhado com um segundo fio
+Twin ferrule at {} joins wires of {} and {}	O terminal tubular duplo em {} une fios de {} e {}
+Twin ferrule at {}: {} wires end there, it takes two	Terminal tubular duplo em {}: {} fios terminam ali, ele recebe dois
+Twin ferrule with (from)	Terminal tubular duplo com (de)
+Twin ferrule with (to)	Terminal tubular duplo com (para)
+Twin ferrule {} mm² {}	Terminal tubular duplo {} mm² {}
+Twin ferrules	Terminais tubulares duplos
 Two connection symbols on page {} lie on the same point	Dois símbolos de conexão na página {} estão no mesmo ponto
 Two-way switch (installation)	Interruptor paralelo (instalação)
 Type numbers	Números de tipo
@@ -1770,6 +1787,7 @@ Winding connection	Ligação do enrolamento
 Wire assigned to unknown cable {}	Fio atribuído a cabo desconhecido {}
 Wire colour GNYE is reserved for protective conductors ({})	A cor de fio GNYE é reservada para condutores de proteção ({})
 Wire colours and cross-sections	Cores e seções transversais dos fios
+Wire crossings and connections	Cruzamentos e junções de fios
 Wire defaults	Padrões de fio
 Wire jumper	Ponte de fio
 Wire list (panel routing)	Lista de fios (roteamento no painel)
@@ -1847,6 +1865,7 @@ leakage	dreno
 low	baixa
 measuring	medição
 new	novo
+no free cable gland	nenhum prensa-cabo livre
 no header	nenhum cabeçalho
 no list	nenhuma lista
 no path through the route network	nenhum caminho pela rede de rotas
@@ -1878,8 +1897,6 @@ routed	roteado
 shield clamp ({} mm away)	braçadeira de blindagem (a {} mm)
 silver	prateado
 starts with	começa com
-strip {} mm	decapar {} mm
-strip {} mm, ferrule {} mm² {}	decapar {} mm, ponteira {} mm² {}
 suction	sucção
 supply	alimentação
 terminals {} – {}	bornes {} – {}
@@ -1937,6 +1954,7 @@ yellow	amarelo
 {} unused device data records removed	{} registros de dados de dispositivo não usados removidos
 {} wiring marks belong to wires that no longer exist	{} marcas de fiação pertencem a fios que não existem mais
 {} without device tag on page {}	{} sem identificador de dispositivo na página {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} não pode ser roteado: cada prensa-cabo de {} está ocupado por outro cabo. Adicione um prensa-cabo para ele.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} não pode ser roteado: nenhum caminho que mantenha metade da sua espessura livre de tudo e curve com o seu raio de {} mm. Mova as suas extremidades ou abra espaço.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} entra pelo fundo: nenhum prensa-cabo no gabinete
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} entra pelo teto: nenhum prensa-cabo no teto, nas laterais ou na traseira
@@ -2003,6 +2021,7 @@ yellow	amarelo
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: nenhuma peça de ponte para a ponte {} (dados técnicos Jumper da peça de borne)
 {}: no part assigned	{}: nenhuma peça atribuída
 {}: no service space of {} mm in front of {} (the door is too close)	{}: não há espaço de serviço de {} mm à frente de {} (a porta está muito próxima)
+{}: none for this cross-section	{}: nenhum para esta seção
 {}: not in the single-line diagram	{}: fora do diagrama unifilar
 {}: not placed in the panel layout	{}: não posicionado no layout do painel
 {}: operations per year needed for the B10d of {}	{}: manobras por ano necessárias para o B10d de {}

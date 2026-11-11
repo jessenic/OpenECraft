@@ -10,8 +10,17 @@ pub struct Layout {
     pub enclosures: Vec<Enclosure>,
     /// Additional wire length per connection (stripping, reserve loops) in mm.
     pub wire_reserve: f32,
-    /// Wire ends get ferrules (production wire list, bill of materials).
+    /// Wire ends get ferrules (production wire list, bill of materials, 3D view), where
+    /// no other termination is chosen for them (`terminations`).
     pub ferrules: bool,
+    /// With ferrules: two wires ending at the same connection point share a twin
+    /// ferrule, where neither has a termination chosen for it.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub twin_ferrules: bool,
+    /// Terminations chosen for wire ends (ring terminals, …), see
+    /// `crate::production::termination_of`.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub terminations: Vec<WireTermination>,
     /// Highest fill level of the cable ducts in percent (project check).
     pub duct_fill_limit: f32,
     /// Screws, nuts and rivet nuts of the fastening systems in the bill of materials.
@@ -52,6 +61,57 @@ pub struct Layout {
     /// `crate::panel::plot`).
     #[serde(skip_serializing_if = "Plot::is_default")]
     pub plot: Plot,
+}
+
+/// How a wire end is terminated: stripped bare, with a ferrule or a crimped terminal
+/// (sizes and parts in `crate::production`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Termination {
+    /// Stripped, the bare conductor.
+    Bare,
+    /// Insulated ferrule (DIN 46228-4).
+    Ferrule,
+    /// Twin ferrule: two wires in one ferrule.
+    TwinFerrule,
+    /// Ring terminal (cable lug); uninsulated tubular cable lug from 10 mm².
+    Ring,
+    /// Fork (spade) terminal.
+    Fork,
+    /// Pin terminal.
+    Pin,
+    /// Flat plug (male tab 6.3 mm).
+    Blade,
+    /// Flat receptacle (female 6.3 mm).
+    Receptacle,
+}
+
+/// The termination of the wire ends at a connection point.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct WireTermination {
+    /// Connection point (`-K1:13`), or a device (`-K1`: all its connection points).
+    pub at: String,
+    /// The other end of the wire (`-X1:3`): only that wire; empty: every wire at `at`.
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub to: String,
+    pub kind: Termination,
+}
+
+impl Layout {
+    /// Keeps the chosen terminations of wire ends when a device is renamed.
+    pub fn rename_device(&mut self, old: &str, new: &str) {
+        let rename = |s: &mut String| {
+            if s == old {
+                *s = new.to_string();
+            } else if let Some(pin) = s.strip_prefix(old).and_then(|r| r.strip_prefix(':')) {
+                *s = format!("{new}:{pin}");
+            }
+        };
+        for t in &mut self.terminations {
+            rename(&mut t.at);
+            rename(&mut t.to);
+        }
+    }
 }
 
 /// The plot (parcel of land) of the plant.

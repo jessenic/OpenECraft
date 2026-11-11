@@ -49,6 +49,7 @@ pub fn builtin() -> Vec<Check> {
             crate::singleline::problems(prj, &an.index, &an.netlist).into_iter().map(|(severity, message, target)| Issue::plain(severity, message, target)).collect()
         }),
         entry("wiring_marks", tr_const!("Wiring marks"), |prj, an| check_wiring_marks(prj, &an.wiring)),
+        entry("twin_ferrules", tr_const!("Twin ferrules"), |prj, an| check_twin_ferrules(prj, &an.ends)),
         entry("mounting_marks", tr_const!("Mounting marks"), |prj, _| check_mounting_marks(prj)),
         entry("preplanning", tr_const!("Pre-planning"), |prj, an| crate::preplanning::issues(prj, &an.index)),
         entry("integration", tr_const!("Enterprise integration"), |prj, _| crate::integration::problems(prj)),
@@ -636,6 +637,29 @@ fn check_wiring_marks(prj: &Project, wiring: &[RoutedWire]) -> Vec<Issue> {
     let stale = crate::wiring::stale(prj, wiring).len();
     if stale > 0 {
         v.push(crate::issue!(Severity::Info, None, "{} wiring marks belong to wires that no longer exist", stale));
+    }
+    v
+}
+
+/// Twin ferrules: each takes two wires of the same cross-section.
+fn check_twin_ferrules(prj: &Project, ends: &crate::production::Ends) -> Vec<Issue> {
+    use crate::production::{cross_section_mm2, Termination};
+    let mut points: Vec<&str> = ends.points().collect();
+    points.sort_by(|a, b| crate::model::natural_cmp(a, b));
+    let mut v = Vec::new();
+    for at in points {
+        let wires = ends.wires_at(at);
+        let twins: Vec<&(String, String)> = wires.iter().filter(|(o, _)| ends.kind(prj, at, o) == Termination::TwinFerrule).collect();
+        if twins.is_empty() {
+            continue;
+        }
+        if wires.len() > 2 {
+            v.push(crate::issue!(Severity::Warning, None, "Twin ferrule at {}: {} wires end there, it takes two", at, wires.len()));
+        } else if twins.len() < 2 {
+            v.push(crate::issue!(Severity::Warning, None, "Twin ferrule at {} is not shared with a second wire", at));
+        } else if cross_section_mm2(&twins[0].1) != cross_section_mm2(&twins[1].1) {
+            v.push(crate::issue!(Severity::Warning, None, "Twin ferrule at {} joins wires of {} and {}", at, twins[0].1, twins[1].1));
+        }
     }
     v
 }

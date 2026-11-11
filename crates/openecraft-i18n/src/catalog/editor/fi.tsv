@@ -174,6 +174,7 @@ Automatic (from the potential definition)	Automaattinen (potentiaalin määrityk
 Automatic ({})	Automaattinen ({})
 Automatic accessories	Automaattiset tarvikkeet
 Automatic configuration	Automaattinen kokoonpano
+Automatic placement	Automaattinen sijoittelu
 Automation	Automaatio
 Aux	Apu
 Avoid:	Vältä:
@@ -229,6 +230,7 @@ Cable definition	Kaapelimääritys
 Cable definition on page {}	Kaapelimääritys sivulla {}
 Cable definition: draw a line across the wires that are cores of a cable	Kaapelimääritys: piirrä viiva niiden johtojen poikki, jotka ovat kaapelin johtimia
 Cable end reserve	Kaapelin päävara
+Cable ends	Kaapelin päät
 Cable markers	Kaapelimerkit
 Cable passage to {}	Kaapelin läpivientiaukko kohteeseen {}
 Cable {}: {} cores assigned	Kaapeli {}: {} johdinta määritetty
@@ -364,11 +366,13 @@ Connected devices	Liitetyt laitteet
 Connected to:	Yhdistetty kohteeseen:
 Connection definition point	Yhteyden määrityspiste
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Yhteyden määrityspiste: määrittää yhteyden numeron, värin, poikkipinta-alan ja kaapelin johtimen
+Connection point designations	Liitäntäpisteiden merkinnät
 Connection point {}	Liitäntäpiste {}
 Connection points 1 and 2 are connected inside	Liitäntäpisteet 1 ja 2 on yhdistetty sisäisesti
 Connection:	Yhteys:
 Connections ({})	Yhteydet ({})
 Connections / harness	Yhteydet / johtosarja
+Connections of four or more wires always have a dot.	Neljän tai useamman johtimen liitoksissa on aina piste.
 Connections whose two ends are both on selected wires	Yhteydet, joiden molemmat päät ovat valituissa johdoissa
 Connections without a defined potential	Yhteydet ilman määritettyä potentiaalia
 Connectors	Liittimet
@@ -389,6 +393,7 @@ Copy / cut / paste (devices get new tags)	Kopioi / leikkaa / liitä (laitteet sa
 Copy as new	Kopioi uutena
 Copy built-in…	Kopioi sisäinen…
 Core designations separated by blanks	Johdinmerkinnät välilyönneillä erotettuina
+Core labels placed by hand	Johdinmerkinnät sijoitettu käsin
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Johtimet 1, 2, 3 … ristityille johdoille sekä GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Kulma: kaksi johdinta suorassa kulmassa; automaattisen kytkennän ollessa päällä sen haaroja vastapäätä olevat liitäntäpisteet johdotetaan siihen
 Cover sheet, overview, graphics, report, mounting layout or a page template	Kansilehti, yleiskuva, grafiikka, raportti, asennuskuva tai sivumalli
@@ -428,6 +433,7 @@ Dashed	Katkoviiva
 Decimals	Desimaalit
 Default	Oletus
 Default (part data or definition)	Oletus (osan tiedot tai määrittely)
+Default ({})	Oletus ({})
 Default label	Oletusnimitys
 Default medium	Oletusväliaine
 Default rules	Oletussäännöt
@@ -547,7 +553,10 @@ Downloading OpenECraft {}	Ladataan OpenECraft {}
 Downstream part	Jälkimmäinen osa
 Draft of revision {} created	Revision {} luonnos luotu
 Draft of revision {} discarded	Revision {} luonnos hylätty
+Drag a connection point designation of the selected symbol to place it.	Vedä valitun symbolin liitäntäpisteen merkintää sijoittaaksesi sen.
 Drag an entry into the page, or click it and then click into the page.	Vedä merkintä sivulle tai napsauta sitä ja sitten sivua.
+Drag the core designation or the cable tag of the selected wire to place it.	Vedä valitun johtimen johdinmerkintää tai kaapelin tunnusta sijoittaaksesi sen.
+Drag the name or the cross reference of the selected point to place it.	Vedä valitun pisteen nimeä tai ristiviittausta sijoittaaksesi sen.
 Drag the tag of the selected symbol to place it.	Vedä valitun symbolin tunnusta sijoittaaksesi sen.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Veto: kierrä · oikean/keskipainikkeen tai Vaihto-näppäimen veto: panoroi · rulla: zoomaa osoittimen kohdalle · kaksoisnapsautus: katso sinne · W A S D / nuolet, Q E: liiku · napsautus: valitse
 Draw	Piirrä
@@ -649,7 +658,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Kiinnitystarvikkeet osaluettelossa
 Favorite	Suosikki
 Favorites (JSON)	Suosikit (JSON)
-Ferrule {} ({})	Pääteholkki {} ({})
 Field	Kenttä
 Field (name, description, company, creator, date, revision) or project property	Kenttä (name, description, company, creator, date, revision) tai projektiominaisuus
 Field cables	Kenttäkaapelit
@@ -785,6 +793,8 @@ Hose number	Letkun numero
 Hoses and pipes	Letkut ja putket
 Hoses rated below it are errors; 0 = not checked	Sitä pienemmälle paineelle mitoitetut letkut ovat virheitä; 0 = ei tarkisteta
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Miten lehti avautuu: saranat vasemmassa tai oikeassa reunassa (huoneen sisältä katsottuna), huoneeseen päin tai siitä ulos, tai liukuen seinää pitkin
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Miten johdin päätetään tässä päässä; oletuksena liitäntäpisteelle tai sen laitteelle valitulla tavalla, muuten asettelun pääteholkkiasetuksen mukaan
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Miten johtimet hyppäävät risteämiensä johtimien yli, miten T-liitokset merkitään ja reititetäänkö siirrettyjen kohteiden yhteydet uudelleen
 IP / bus address	IP- / väyläosoite
 ISO 639-1 language code	ISO 639-1 -kielikoodi
 Identifiers	Tunnukset
@@ -859,6 +869,7 @@ Insulation	Eristys
 Interruption points refer to	Katkoskohdat viittaavat
 Introduction	Johdanto
 Invalid value	Virheellinen arvo
+Invert the direction of panning by scrolling	Käännä vierityksellä panoroinnin suunta
 Inverter or charge controller (devices with PV input data)	Vaihtosuuntaaja tai lataussäädin (laitteet, joilla on aurinkosähkötulon tiedot)
 Isometric	Isometrinen
 Items on the layer	Tason kohteet
@@ -870,6 +881,7 @@ Join collinear wires	Yhdistä samalla suoralla olevat johdot
 Joins	Yhdistää
 Joins wire pieces in a line where nothing else connects (current page)	Yhdistää johdonpalat linjassa, jossa mitään muuta ei liity (nykyinen sivu)
 Jumper {}	Silta {}
+Jumps over the other:	Hyppää toisen yli:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Pidä alasivut (3.a, 3.1) edellisen sivun yhteydessä
 Keep the degree of protection	Säilytä kotelointiluokka
@@ -883,6 +895,7 @@ Label (grey)	Merkintä (harmaa)
 Label field	Merkintäkenttä
 Labeling scheme	Merkintäskeema
 Landscape	Vaakasuunta
+Large dot	Suuri piste
 Larger texts and buttons for a touch screen at the workbench	Suuremmat tekstit ja painikkeet työpenkin kosketusnäytölle
 Latitude, longitude	Leveys, pituus
 Layer	Taso
@@ -997,6 +1010,7 @@ Min. bend radius	Pienin taivutussäde
 Minimize the ribbon	Pienennä valintanauha
 Mirror	Peilaa
 Mirror (selection or symbol being placed)	Peilaa (valinta tai sijoitettava symboli)
+Mixed	Sekalainen
 Mode	Tila
 Model of a part (2D / 3D)	Osan malli (2D / 3D)
 Module part; its size comes from the part	Moduulin osa; sen koko tulee osasta
@@ -1020,6 +1034,7 @@ Move to section	Siirrä osioon
 Move up	Siirrä ylöspäin
 Moves to the top level as page {}	Siirtyy ylimmälle tasolle sivuksi {}
 Moves to {} as page {}	Siirtyy osioon {} sivuksi {}
+Moving	Siirtäminen
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Moninapaiset tehopiirin symbolit ja johtimet nykyisen sivun yksinapaisille symboleille uudelle sivulle
 Multiple copy	Monikopiointi
 Multiple copy…	Monikopiointi…
@@ -1032,9 +1047,11 @@ NC data (DXF)	NC-tiedot (DXF)
 NC data of this face (DWG)	Tämän pinnan NC-tiedot (DWG)
 NC data of this face (DXF)	Tämän pinnan NC-tiedot (DXF)
 Nailboard (SVG)…	Naulalauta (SVG)…
+Name and cross reference	Nimi ja ristiviittaus
 Name on the server	Nimi palvelimella
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Nimi; tietotyyppi; looginen osoite; kommentti – PLC-ohjelmointityökaluille
 Named copy of this form, for report blocks	Tämän lomakkeen nimetty kopio raporttilohkoja varten
+Navigation	Navigointi
 Navigators	Navigaattorit
 Neutral exchange file…	Neutraali siirtotiedosto…
 Never	Ei koskaan
@@ -1101,11 +1118,13 @@ No device has its main function in the box.	Minkään laitteen päätoiminto ei 
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Millään laitteella ei vielä ole asennustietoja: liitä laitteisiin osat, joilla on mitat (Ominaisuudet › Osat).
 No differences to {}.	Ei eroja kohteeseen {}.
 No document embedded	Dokumenttia ei ole upotettu
+No dot: plain T	Ei pistettä: tavallinen T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Ei vielä koteloa – luo sellainen komennolla Uusi kotelo tai tila kaapeille komennolla Uusi tila.
 No field cables: place the enclosures and field devices at nodes of the route network.	Ei kenttäkaapeleita: sijoita kotelot ja kenttälaitteet reittiverkon solmuihin.
 No filter fans: an air/air heat exchanger or a cooling unit	Ei suodatinpuhaltimia: ilma/ilma-lämmönsiirrin tai jäähdytyslaite
 No harnesses defined.	Johtosarjoja ei ole määritetty.
 No inverter	Ei vaihtosuuntaajaa
+No jump: plain crossing, connections have dots	Ei hyppyä: tavallinen risteys, liitoksissa on pisteet
 No longer reported	Ei enää ilmoiteta
 No macros yet. Select items in a schematic and save them as a macro.	Ei vielä makroja. Valitse kohteita piirikaaviossa ja tallenna ne makrona.
 No modules: plug in PLC cards of the schematic.	Ei moduuleja: asenna piirikaavion PLC-kortteja.
@@ -1308,6 +1327,7 @@ Place the georeferenced point everything is measured from	Sijoita georeferoitu p
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Sijoita laitoksen georeferoitu piste asemapiirrokseen; sen koordinaatit annetaan Rakennukset-paneelissa, ja jokainen piste mitataan siitä
 Placed	Sijoitettu
 Placed by hand	Sijoitettu käsin
+Placed by hand; choosing a side places them anew.	Sijoitettu käsin; puolen valinta sijoittaa ne uudelleen.
 Placed here: {}	Sijoitettu tähän: {}
 Placed {}× in the project	Sijoitettu {}× projektissa
 Placeholders	Paikkamerkit
@@ -1352,6 +1372,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Häviöteho, j
 Pre-planning (CSV, Excel)	Esisuunnittelu (CSV, Excel)
 Prefix	Etuliite
 Press a key…	Paina näppäintä…
+Preview	Esikatselu
 Previous item	Edellinen kohde
 Previous page	Edellinen sivu
 Previous page tab	Edellinen sivuvälilehti
@@ -1501,6 +1522,7 @@ Reset	Nollaa
 Reset all to the defaults	Palauta kaikki oletuksiin
 Reset pane layout	Palauta paneelien asettelu
 Reset the ribbon	Palauta valintanauha
+Reset to automatic placement	Palauta automaattinen sijoittelu
 Reset to standard	Palauta vakioasetukset
 Restart and update	Käynnistä uudelleen ja päivitä
 Resulting: {} · {} · {} · {} m	Tulos: {} · {} · {} · {} m
@@ -1540,6 +1562,7 @@ Round	Pyöreä
 Round cutouts facing each other in both side walls	Pyöreät aukot vastakkain molemmissa sivuseinissä
 Route definition of {}	Kaapelin {} reitin määrittely
 Route network	Reittiverkko
+Route the connections of moved items anew	Reititä siirrettyjen kohteiden yhteydet uudelleen
 Route wires in 3D	Reititä johdot 3D:nä
 Routed in {}: {} m, {} bends	Reititetty kohteessa {}: {} m, {} taivutusta
 Routing around symbols	Reititys symbolien ympäri
@@ -1601,6 +1624,9 @@ Scheme name	Mallin nimi
 Scheme placed again at {} symbols	Skeema sijoitettiin uudelleen {} symboliin
 Scheme {}	Malli {}
 Screws, nuts, washers and rivet nuts of the fixing points	Kiinnityspisteiden ruuvit, mutterit, aluslevyt ja niittimutterit
+Scrolling	Vieritys
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Vieritys panoroi kaikkiin suuntiin; zoomaa nipistämällä tai Ctrl + vierityksellä.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Vieritys ylös ja alas zoomaa osoittimen kohdalla, sivuttain (vaakarulla, Vaihto + rulla) panoroi.
 Search (* and ? as placeholders)…	Hae (* ja ? jokerimerkkeinä)…
 Search below this folder	Hae tämän kansion alta
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Hae osapalvelimelta luettelon, tuoteryhmän ja teknisten tietojen mukaan, lisää osia ja tarkista tietokannan päivitykset
@@ -1779,6 +1805,7 @@ Synchronize	Synkronoi
 Synchronize function texts	Synkronoi toimintotekstit
 Synchronize project parts from database	Synkronoi projektin osat tietokannasta
 T Text	T Teksti
+T-connections	T-liitokset
 Tab	Sarkain
 Table import failed: {}	Taulukon tuonti epäonnistui: {}
 Tablet mode	Tablettitila
@@ -1799,6 +1826,7 @@ Taken into the drawing: drawn faded	Viety piirustukseen: piirretään haaleana
 Takes the comments as function texts (matched by address)	Ottaa kommentit toimintoteksteiksi (kohdistetaan osoitteen mukaan)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Ottaa tämän laitteen kaikkien toimintojen liitäntäpisteiden merkinnät sen osien toimintomalleista
 Takes the rights of the role away, whatever other grants give	Poistaa roolin oikeudet riippumatta siitä, mitä muut myönnöt antavat
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Valitsee reitin, jonka paino on pienin: sen pituus ruudukon askelina, 1,2 mutkaa kohden ja 1,5 risteävää johdinta kohden. Pois: johtimet venyvät ja säilyttävät kulmansa.
 Target languages	Kohdekielet
 Temperature rise at the roof against the middle (IEC/TR 60890)	Lämpötilan nousu katossa keskikohtaan verrattuna (IEC/TR 60890)
 Template	Malli
@@ -1828,6 +1856,7 @@ The dictionary is empty: collect the texts from the project.	Sanakirja on tyhjä
 The door seen from the front: door devices and cutouts	Ovi edestä katsottuna: ovilaitteet ja aukot
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Ovi sisältä katsottuna (saranat oikealla): johtokourut ja johdotus oven takana
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Kotelon vasen puoli on valitun kotelon oikeaa puolta vasten; johdot kulkevat niiden välillä kaapelin läpivientiaukkojen kautta
+The horizontal wire	Vaakasuora johdin
 The items are selected and moved together	Kohteet valitaan ja siirretään yhdessä
 The macro library has no page macros (Macros › Save page as macro…).	Makrokirjastossa ei ole sivumakroja (Makrot › Tallenna sivu makrona…).
 The modules no string takes yet in series, on the first inverter	Moduulit, joita mikään merkkijono ei vielä ota, sarjassa, ensimmäiseen vaihtosuuntaajaan
@@ -1854,6 +1883,7 @@ The side of {} is open	Kohteen {} puoli on avoin
 The symbol is placed in the project	Symbolia käytetään projektissa
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	Riviliitinosissa ei ole mainittu päätypidikkeitä tai päätylevyjä (tekniset tiedot End bracket, End plate).
 The update failed	Päivitys epäonnistui
+The vertical wire	Pystysuora johdin
 The web version is updated on its server.	Verkkoversio päivitetään sen palvelimella.
 The wire tool routes around symbols and other wires	Johtotyökalu reitittää symbolien ja muiden johtojen ympäri
 The wires get the free cores of the cable in order (left to right)	Johdot saavat kaapelin vapaat johtimet järjestyksessä (vasemmalta oikealle)
@@ -1880,10 +1910,14 @@ Top edges	Yläreunat
 Top left	Vasen yläkulma
 Top right	Oikea yläkulma
 Total selectivity	Täydellinen selektiivisyys
+Touch screen	Kosketusnäyttö
 Transfer project parts to database	Siirrä projektin osat tietokantaan
 Translate the project texts; documentation per language	Käännä projektin tekstit; dokumentaatio kielittäin
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Kierto pystyakselin ympäri, ylhäältä katsottuna vastapäivään (90 °: etupuolet osoittavat oikealle)
 Tutorial	Opetusohjelma
+Twin ferrules where two wires share a connection point	Kaksoispääteholkit, kun kaksi johdinta jakaa liitäntäpisteen
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Kaksi sormea kosketuslevyllä panoroi, hiiren rulla zoomaa. Vain macOS erottaa ne; muualla vieritys zoomaa kuten rulla.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Kaksi sormea panoroi ja zoomaa nipistämällä samanaikaisesti; yksi sormi toimii kuten hiiren vasen painike.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Tässä on kohdattava kaksi johdinta suorassa kulmassa. Automaattisen kytkennän ollessa päällä sen haaroja vastapäätä olevat liitäntäpisteet johdotetaan siihen.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Kirjoita piste ja paina Enter: x y millimetreinä tai @dx dy suhteessa edelliseen pisteeseen; toimii kuin nykyisen työkalun napsautus
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1968,6 +2002,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Rulla: zoomaa · hiiren oikea painike: peruuta · grafiikka kohdistuu 0,5 mm:iin, liitäntäpisteet 4 mm:n ruudukkoon
 When it differs from the page	Kun se poikkeaa sivusta
 Where	Sijainti
+Where neither wire has a termination chosen for it	Kun kummallekaan johtimelle ei ole valittu päätettä
 Where the point is in the plant; y: its height above the ground level of the plant	Missä piste on laitoksessa; y: sen korkeus laitoksen maanpinnan yläpuolella
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Mistä laitteen rakenne tulee: symbolia ympäröivää rakennetta vastaavat aspektit peritään ja ne muuttuvat, kun symboli siirretään rakennelaatikkoon tai siitä pois; muut aspektit ovat laitteen omia ja säilyvät.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Mistä johto alkaa ja mihin se päättyy: liitäntäpiste osan tiedoista, toimintomallista luotu liitäntäpiste tai laitteen keskikohta, jos mikään liitäntäpiste ei vastaa
@@ -1983,6 +2018,8 @@ Window macro: {}	Ikkunamakro: {}
 Window macros inserted from now on are recorded as macro boxes.	Tästä lähtien lisätyt ikkunamakrot tallennetaan makrolaatikoina.
 Window macros placed on the pages (not printed)	Sivuille sijoitetut ikkunamakrot (ei tulosteta)
 Wire colour	Johtimen väri
+Wire crossings	Johdinten risteykset
+Wire crossings…	Johdinten risteykset…
 Wire ends	Johtojen päät
 Wire ends with ferrules	Johtojen päät pääteholkeilla
 Wire markers	Johtomerkit
@@ -1996,6 +2033,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Johto {} – {}  ({}/{
 Wire {} – {}  {} mm	Johto {} – {}  {} mm
 Wires and potentials	Johtimet ja potentiaalit
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Fluidivoima- ja PI-symbolien porttien väliset johdot ovat letkuja / putkia: omat verkkonsa, numeroidaan johtojen numeroinnilla, luetellaan letkuluettelossa.
+Wires crossing without connection	Ilman liitosta risteävät johtimet
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Tästä on lähdettävä johtimia kaikkiin neljään suuntaan. Siihen asti liitos ketjutetaan kaavion järjestyksessä.
 Wires of the connection	Liitoksen johtimet
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Myös johdot käyttävät esteet huomioivia 3D-reittejä pelkkien levyn johtokourujen sijaan
@@ -2279,10 +2317,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pikseliä, {}
 {} – {} ({} pages)	{} – {} ({} sivua)
 {}: click to show its floor plan	{}: napsauta näyttääksesi pohjapiirroksen
+{}: crimp together with the wire to {}	{}: puristetaan yhdessä johtimen {} kanssa
 {}: drag to move it, R turns it, a double-click opens it	{}: siirrä vetämällä, R kääntää, kaksoisnapsautus avaa
 {}: drag to move it, a double-click shows the floor	{}: siirrä vetämällä, kaksoisnapsautus näyttää lattian
 {}: nothing to change	{}: ei muutettavaa
 {}: pin {}	{}: nasta {}
+{}: strip {} mm, {}	{}: kuori {} mm, {}
 {}: {} addresses changed	{}: {} osoitetta muutettu
 {}: {} changes in the open project (not saved yet)	{}: {} muutosta avoimessa projektissa (ei vielä tallennettu)
 {}: {} changes saved	{}: {} muutosta tallennettu

@@ -57,3 +57,18 @@ fn numbered_core_list() {
     assert_eq!(numbered_cores(3, true), "1 2 3 GNYE");
     assert_eq!(numbered_cores(2, false), "1 2");
 }
+
+#[test]
+fn cores_sit_where_the_cable_definition_line_crosses() {
+    let mut prj = project();
+    add(&mut prj, 0, p(16.0, 50.0), p(40.0, 35.0), "");
+    let page = &prj.pages[0];
+    for w in &page.wires {
+        let t = core_position(page, w);
+        let y = w.a.y + (w.b.y - w.a.y) * t;
+        let on_line = 50.0 + (w.a.x - 16.0) * (35.0 - 50.0) / 24.0;
+        assert!((y - on_line).abs() < 1e-3, "{} {y} {on_line}", w.id);
+    }
+    let other = Wire { id: 99, a: p(60.0, 20.0), b: p(60.0, 80.0), cable: page.wires[0].cable.clone(), ..Default::default() };
+    assert_eq!(core_position(page, &other), 0.3, "not crossed: at 30 %");
+}

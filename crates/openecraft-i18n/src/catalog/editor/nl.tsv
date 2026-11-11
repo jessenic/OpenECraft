@@ -174,6 +174,7 @@ Automatic (from the potential definition)	Automatisch (uit de potentiaaldefiniti
 Automatic ({})	Automatisch ({})
 Automatic accessories	Automatische toebehoren
 Automatic configuration	Automatische configuratie
+Automatic placement	Automatische plaatsing
 Automation	Automatisering
 Aux	Hulp
 Avoid:	Vermijden:
@@ -229,6 +230,7 @@ Cable definition	Kabeldefinitie
 Cable definition on page {}	Kabeldefinitie op pagina {}
 Cable definition: draw a line across the wires that are cores of a cable	Kabeldefinitie: trek een lijn over de draden die aders van een kabel zijn
 Cable end reserve	Reserve per kabeleinde
+Cable ends	Kabeleinden
 Cable markers	Kabelmarkeringen
 Cable passage to {}	Kabeldoorvoer naar {}
 Cable {}: {} cores assigned	Kabel {}: {} aders toegewezen
@@ -364,11 +366,13 @@ Connected devices	Aangesloten apparaten
 Connected to:	Verbonden met:
 Connection definition point	Verbindingsdefinitiepunt
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Verbindingsdefinitiepunt: bepaalt nummer, kleur, doorsnede en kabelader van een verbinding
+Connection point designations	Aansluitbenamingen
 Connection point {}	Aansluitpunt {}
 Connection points 1 and 2 are connected inside	Aansluitpunten 1 en 2 zijn intern verbonden
 Connection:	Verbinding:
 Connections ({})	Verbindingen ({})
 Connections / harness	Verbindingen / kabelboom
+Connections of four or more wires always have a dot.	Verbindingen van vier of meer draden hebben altijd een punt.
 Connections whose two ends are both on selected wires	Verbindingen waarvan beide uiteinden op geselecteerde draden liggen
 Connections without a defined potential	Verbindingen zonder gedefinieerde potentiaal
 Connectors	Connectoren
@@ -389,6 +393,7 @@ Copy / cut / paste (devices get new tags)	Kopiëren / knippen / plakken (apparat
 Copy as new	Als nieuw kopiëren
 Copy built-in…	Ingebouwd kopiëren…
 Core designations separated by blanks	Aderbenamingen, gescheiden door spaties
+Core labels placed by hand	Aderopschriften handmatig geplaatst
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Aders 1, 2, 3 … voor de gekruiste draden, plus GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Hoek: twee draden in een rechte hoek; met Auto-connect aan worden aansluitpunten tegenover zijn armen ermee verbonden
 Cover sheet, overview, graphics, report, mounting layout or a page template	Voorblad, overzicht, grafiek, rapport, montagelay-out of een paginasjabloon
@@ -428,6 +433,7 @@ Dashed	Gestreept
 Decimals	Decimalen
 Default	Standaard
 Default (part data or definition)	Standaard (artikelgegevens of definitie)
+Default ({})	Standaard ({})
 Default label	Standaardlabel
 Default medium	Standaardmedium
 Default rules	Standaardregels
@@ -547,7 +553,10 @@ Downloading OpenECraft {}	OpenECraft {} wordt gedownload
 Downstream part	Nageschakeld artikel
 Draft of revision {} created	Concept van revisie {} gemaakt
 Draft of revision {} discarded	Concept van revisie {} genegeerd
+Drag a connection point designation of the selected symbol to place it.	Sleep een aansluitbenaming van het geselecteerde symbool om deze te plaatsen.
 Drag an entry into the page, or click it and then click into the page.	Sleep een item naar de pagina, of klik erop en klik daarna in de pagina.
+Drag the core designation or the cable tag of the selected wire to place it.	Sleep de aderaanduiding of de kabelaanduiding van de geselecteerde draad om deze te plaatsen.
+Drag the name or the cross reference of the selected point to place it.	Sleep de naam of de kruisverwijzing van het geselecteerde punt om deze te plaatsen.
 Drag the tag of the selected symbol to place it.	Sleep de aanduiding van het geselecteerde symbool om deze te plaatsen.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Slepen: draaien · slepen met rechter-/middelste muisknop of Shift: verschuiven · wiel: zoomen bij de aanwijzer · dubbelklik: daarheen kijken · W A S D / pijltjes, Q E: bewegen · klik: selecteren
 Draw	Tekenen
@@ -649,7 +658,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Bevestigingsmateriaal in de stuklijst
 Favorite	Favoriet
 Favorites (JSON)	Favorieten (JSON)
-Ferrule {} ({})	Adereindhuls {} ({})
 Field	Veld
 Field (name, description, company, creator, date, revision) or project property	Veld (name, description, company, creator, date, revision) of projecteigenschap
 Field cables	Veldkabels
@@ -785,6 +793,8 @@ Hose number	Slangnummer
 Hoses and pipes	Slangen en buizen
 Hoses rated below it are errors; 0 = not checked	Slangen met een lagere drukklasse zijn fouten; 0 = niet gecontroleerd
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Hoe het blad opent: scharnieren aan de linker- of rechterrand (gezien vanuit de ruimte), de ruimte in of uit, of schuivend langs de wand
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Hoe de draad aan dit uiteinde wordt afgewerkt; standaard zoals gekozen voor het aansluitpunt of zijn apparaat, anders zoals de layout adereindhulzen instelt
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Hoe draden over de gekruiste draden springen, hoe T-verbindingen gemarkeerd worden en of verplaatste elementen hun verbindingen opnieuw leggen
 IP / bus address	IP- / busadres
 ISO 639-1 language code	Taalcode volgens ISO 639-1
 Identifiers	Aanduidingen
@@ -859,6 +869,7 @@ Insulation	Isolatie
 Interruption points refer to	Onderbrekingspunten verwijzen naar
 Introduction	Inleiding
 Invalid value	Ongeldige waarde
+Invert the direction of panning by scrolling	Richting van verschuiven door scrollen omkeren
 Inverter or charge controller (devices with PV input data)	Omvormer of laadregelaar (apparaten met PV-ingangsgegevens)
 Isometric	Isometrisch
 Items on the layer	Elementen op de laag
@@ -870,6 +881,7 @@ Join collinear wires	Draden op één lijn samenvoegen
 Joins	Verbindt
 Joins wire pieces in a line where nothing else connects (current page)	Voegt draadstukken op één lijn samen waar verder niets op aansluit (huidige pagina)
 Jumper {}	Brug {}
+Jumps over the other:	Springt over de andere:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Subpagina's (3.a, 3.1) bij de vorige pagina houden
 Keep the degree of protection	Beschermingsgraad behouden
@@ -883,6 +895,7 @@ Label (grey)	Label (grijs)
 Label field	Labelveld
 Labeling scheme	Markeringsschema
 Landscape	Liggend
+Large dot	Grote punt
 Larger texts and buttons for a touch screen at the workbench	Grotere teksten en knoppen voor een aanraakscherm aan de werkbank
 Latitude, longitude	Breedtegraad, lengtegraad
 Layer	Laag
@@ -997,6 +1010,7 @@ Min. bend radius	Min. buigradius
 Minimize the ribbon	Het lint minimaliseren
 Mirror	Spiegelen
 Mirror (selection or symbol being placed)	Spiegelen (selectie of symbool dat wordt geplaatst)
+Mixed	Gemengd
 Mode	Modus
 Model of a part (2D / 3D)	Model van een artikel (2D / 3D)
 Module part; its size comes from the part	Moduleartikel; de grootte komt van het artikel
@@ -1020,6 +1034,7 @@ Move to section	Naar sectie verplaatsen
 Move up	Omhoog
 Moves to the top level as page {}	Gaat naar het bovenste niveau als pagina {}
 Moves to {} as page {}	Gaat naar {} als pagina {}
+Moving	Verplaatsen
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Meerlijnige vermogenssymbolen en geleiders voor de eenlijnige symbolen van de huidige pagina, op een nieuwe pagina
 Multiple copy	Meervoudig kopiëren
 Multiple copy…	Meervoudig kopiëren…
@@ -1032,9 +1047,11 @@ NC data (DXF)	NC-gegevens (DXF)
 NC data of this face (DWG)	NC-gegevens van dit vlak (DWG)
 NC data of this face (DXF)	NC-gegevens van dit vlak (DXF)
 Nailboard (SVG)…	Spijkerbord (SVG)…
+Name and cross reference	Naam en kruisverwijzing
 Name on the server	Naam op de server
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Naam; gegevenstype; logisch adres; commentaar – voor PLC-programmeertools
 Named copy of this form, for report blocks	Benoemde kopie van dit formulier, voor rapportblokken
+Navigation	Navigatie
 Navigators	Navigators
 Neutral exchange file…	Neutraal uitwisselingsbestand…
 Never	Nooit
@@ -1101,11 +1118,13 @@ No device has its main function in the box.	Geen apparaat heeft zijn hoofdfuncti
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Nog geen apparaat heeft montagegegevens: wijs de apparaten artikelen met afmetingen toe (Eigenschappen › Artikelen).
 No differences to {}.	Geen verschillen met {}.
 No document embedded	Geen document ingesloten
+No dot: plain T	Geen punt: gewone T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Nog geen behuizing – maak er een met Nieuwe behuizing, of een ruimte voor kasten met Nieuwe ruimte.
 No field cables: place the enclosures and field devices at nodes of the route network.	Geen veldkabels: plaats de behuizingen en veldapparaten bij knooppunten van het tracénetwerk.
 No filter fans: an air/air heat exchanger or a cooling unit	Geen filterventilatoren: een lucht/lucht-warmtewisselaar of een koelaggregaat
 No harnesses defined.	Geen kabelbomen gedefinieerd.
 No inverter	Geen omvormer
+No jump: plain crossing, connections have dots	Geen sprong: gewone kruising, verbindingen hebben punten
 No longer reported	Wordt niet meer gemeld
 No macros yet. Select items in a schematic and save them as a macro.	Nog geen macro's. Selecteer elementen in een schema en sla ze op als macro.
 No modules: plug in PLC cards of the schematic.	Geen modules: plaats PLC-kaarten uit het schema.
@@ -1308,6 +1327,7 @@ Place the georeferenced point everything is measured from	Het gegeorefereerde pu
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	Het gegeorefereerde punt van de installatie in de situatietekening plaatsen; de coördinaten komen in het venster Gebouwen, elk punt wordt ervandaan gemeten
 Placed	Geplaatst
 Placed by hand	Handmatig geplaatst
+Placed by hand; choosing a side places them anew.	Handmatig geplaatst; een kant kiezen plaatst ze opnieuw.
 Placed here: {}	Hier geplaatst: {}
 Placed {}× in the project	{}× in het project geplaatst
 Placeholders	Tijdelijke aanduidingen
@@ -1352,6 +1372,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Vermogensverli
 Pre-planning (CSV, Excel)	Voorplanning (CSV, Excel)
 Prefix	Voorvoegsel
 Press a key…	Druk op een toets…
+Preview	Voorbeeld
 Previous item	Vorig element
 Previous page	Vorige pagina
 Previous page tab	Vorig paginatabblad
@@ -1501,6 +1522,7 @@ Reset	Herstellen
 Reset all to the defaults	Alles terugzetten naar de standaardwaarden
 Reset pane layout	Indeling van de deelvensters herstellen
 Reset the ribbon	Het lint herstellen
+Reset to automatic placement	Terug naar automatische plaatsing
 Reset to standard	Standaard herstellen
 Restart and update	Opnieuw starten en bijwerken
 Resulting: {} · {} · {} · {} m	Resultaat: {} · {} · {} · {} m
@@ -1540,6 +1562,7 @@ Round	Rond
 Round cutouts facing each other in both side walls	Ronde uitsparingen tegenover elkaar in beide zijwanden
 Route definition of {}	Tracédefinitie van {}
 Route network	Tracénetwerk
+Route the connections of moved items anew	Verbindingen van verplaatste elementen opnieuw leggen
 Route wires in 3D	Draden in 3D routeren
 Routed in {}: {} m, {} bends	Gerouteerd in {}: {} m, {} bochten
 Routing around symbols	Routeren om symbolen heen
@@ -1601,6 +1624,9 @@ Scheme name	Naam van het schema
 Scheme placed again at {} symbols	Schema opnieuw geplaatst bij {} symbolen
 Scheme {}	Schema {}
 Screws, nuts, washers and rivet nuts of the fixing points	Schroeven, moeren, ringen en blindklinkmoeren van de bevestigingspunten
+Scrolling	Scrollen
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	Scrollen verschuift in elke richting; knijpen of Ctrl + scrollen om te zoomen.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	Omhoog en omlaag scrollen zoomt bij de aanwijzer, zijwaarts (horizontaal wiel, Shift + wiel) verschuift.
 Search (* and ? as placeholders)…	Zoeken (* en ? als jokertekens)…
 Search below this folder	Zoeken onder deze map
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	De artikelserver doorzoeken op catalogus, productgroep en technische gegevens, artikelen toevoegen en de database controleren op updates
@@ -1779,6 +1805,7 @@ Synchronize	Synchroniseren
 Synchronize function texts	Functieteksten synchroniseren
 Synchronize project parts from database	Projectartikelen synchroniseren vanuit de database
 T Text	T Tekst
+T-connections	T-verbindingen
 Tab	Tab
 Table import failed: {}	Tabel importeren mislukt: {}
 Tablet mode	Tabletmodus
@@ -1799,6 +1826,7 @@ Taken into the drawing: drawn faded	Overgenomen in de tekening: vervaagd weergeg
 Takes the comments as function texts (matched by address)	Neemt de commentaren over als functieteksten (gekoppeld via het adres)
 Takes the connection point designations of all functions of this device from the function templates of its parts	Neemt de aansluitbenamingen van alle functies van dit apparaat over uit de functiesjablonen van de artikelen ervan
 Takes the rights of the role away, whatever other grants give	Ontneemt de rechten van de rol, ongeacht wat andere toekenningen geven
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	Neemt de weg met het laagste gewicht: de lengte in rasterstappen, 1,2 per bocht en 1,5 per gekruiste draad. Uit: de draden rekken op en houden hun hoeken.
 Target languages	Doeltalen
 Temperature rise at the roof against the middle (IEC/TR 60890)	Temperatuurstijging bij het dak ten opzichte van het midden (IEC/TR 60890)
 Template	Sjabloon
@@ -1828,6 +1856,7 @@ The dictionary is empty: collect the texts from the project.	Het woordenboek is 
 The door seen from the front: door devices and cutouts	De deur gezien van voren: deurapparaten en uitsparingen
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	De deur gezien van binnen (scharnieren rechts): kabelgoten en de bedrading achter de deur
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	De behuizing staat met haar linkerzijde tegen de rechterzijde van de gekozen behuizing; draden lopen ertussen door kabeldoorvoeren
+The horizontal wire	De horizontale draad
 The items are selected and moved together	De elementen worden samen geselecteerd en verplaatst
 The macro library has no page macros (Macros › Save page as macro…).	De macrobibliotheek heeft geen paginamacro's (Macro's › Pagina opslaan als macro…).
 The modules no string takes yet in series, on the first inverter	De modules die nog geen string neemt, in serie, op de eerste omvormer
@@ -1854,6 +1883,7 @@ The side of {} is open	De zijde van {} is open
 The symbol is placed in the project	Het symbool wordt in het project gebruikt
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	De klemartikelen noemen geen eindsteunen of afdekplaten (technische gegevens End bracket, End plate).
 The update failed	De update is mislukt
+The vertical wire	De verticale draad
 The web version is updated on its server.	De webversie wordt op haar server bijgewerkt.
 The wire tool routes around symbols and other wires	Het draadgereedschap routeert om symbolen en andere draden heen
 The wires get the free cores of the cable in order (left to right)	De draden krijgen op volgorde (van links naar rechts) de vrije aders van de kabel
@@ -1880,10 +1910,14 @@ Top edges	Bovenranden
 Top left	Linksboven
 Top right	Rechtsboven
 Total selectivity	Volledige selectiviteit
+Touch screen	Touchscreen
 Transfer project parts to database	Projectartikelen overnemen in de database
 Translate the project texts; documentation per language	De projectteksten vertalen; documentatie per taal
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Draaiing om de verticale as, van boven gezien linksom (90 °: de fronten wijzen naar rechts)
 Tutorial	Tutorial
+Twin ferrules where two wires share a connection point	Dubbele adereindhulzen waar twee draden een aansluitpunt delen
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Twee vingers op een trackpad verschuiven, het muiswiel zoomt. Alleen macOS onderscheidt ze; elders zoomt scrollen zoals het wiel.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Twee vingers verschuiven en zoomen tegelijk door te knijpen; één vinger werkt als de linkermuisknop.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Hier moeten twee draden in een rechte hoek samenkomen. Met Auto-connect aan worden aansluitpunten tegenover zijn armen ermee verbonden.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Typ een punt en druk op Enter: x y in mm, of @dx dy ten opzichte van het laatste punt; dit werkt als een klik met het huidige gereedschap
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1968,6 +2002,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Muiswiel: zoomen · rechtsklik: annuleren · grafiek springt naar 0,5 mm, aansluitpunten naar het raster van 4 mm
 When it differs from the page	Wanneer deze afwijkt van de pagina
 Where	Plaats
+Where neither wire has a termination chosen for it	Waar voor geen van beide draden een afwerking is gekozen
 Where the point is in the plant; y: its height above the ground level of the plant	Waar het punt in de installatie ligt; y: de hoogte boven het maaiveld van de installatie
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Waar de structuur van het apparaat vandaan komt: aspecten die gelijk zijn aan de structuur rond het symbool zijn geërfd en volgen wanneer het in of uit een structuurkader wordt verplaatst; andere aspecten zijn van het apparaat zelf en blijven.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	Waar de draad begint en eindigt: een aansluitpunt uit de artikelgegevens, een aansluitpunt gegenereerd uit de functiesjabloon, of het midden van het apparaat als geen aansluitpunt overeenkomt
@@ -1983,6 +2018,8 @@ Window macro: {}	Venstermacro: {}
 Window macros inserted from now on are recorded as macro boxes.	Venstermacro's die vanaf nu worden ingevoegd, worden vastgelegd als macrokaders.
 Window macros placed on the pages (not printed)	Op de pagina's geplaatste venstermacro's (niet afgedrukt)
 Wire colour	Draadkleur
+Wire crossings	Draadkruisingen
+Wire crossings…	Draadkruisingen…
 Wire ends	Draadeinden
 Wire ends with ferrules	Draadeinden met adereindhulzen
 Wire markers	Draadmarkeringen
@@ -1996,6 +2033,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	Draad {} – {}  ({} v
 Wire {} – {}  {} mm	Draad {} – {}  {} mm
 Wires and potentials	Draden en potentialen
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	Draden tussen de poorten van vloeistoftechniek- en P&ID-symbolen zijn slangen / buizen: eigen netten, genummerd met de draadnummering, vermeld in de slangenlijst.
+Wires crossing without connection	Draden die elkaar kruisen zonder verbinding
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Hier moeten draden in alle vier richtingen vertrekken. Tot dan wordt de verbinding in schemavolgorde geketend.
 Wires of the connection	Draden van de verbinding
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	Draden volgen ook de 3D-routes die obstakels vermijden, in plaats van alleen de kabelgoten op de plaat
@@ -2279,10 +2317,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} pixels, {}
 {} – {} ({} pages)	{} – {} ({} pagina's)
 {}: click to show its floor plan	{}: klik om de plattegrond te tonen
+{}: crimp together with the wire to {}	{}: samen met de draad naar {} krimpen
 {}: drag to move it, R turns it, a double-click opens it	{}: slepen om te verplaatsen, R draait, dubbelklik opent
 {}: drag to move it, a double-click shows the floor	{}: slepen om te verplaatsen, dubbelklik toont de vloer
 {}: nothing to change	{}: niets te wijzigen
 {}: pin {}	{}: pin {}
+{}: strip {} mm, {}	{}: strippen {} mm, {}
 {}: {} addresses changed	{}: {} adressen gewijzigd
 {}: {} changes in the open project (not saved yet)	{}: {} wijzigingen in het geopende project (nog niet opgeslagen)
 {}: {} changes saved	{}: {} wijzigingen opgeslagen

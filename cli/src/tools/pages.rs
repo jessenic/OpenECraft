@@ -87,6 +87,8 @@ fn import_drawing(s: &mut Session, a: &Args) -> Result<Value, String> {
     v["lines"] = json!(r.lines);
     v["texts"] = json!(r.texts);
     v["scale"] = json!(r.scale);
+    v["source_bounds"] = json!({ "min": r.source_min, "max": r.source_max });
+    v["page_origin"] = json!(r.page_origin);
     v["not_imported"] = json!(r.skipped);
     Ok(v)
 }

@@ -368,6 +368,11 @@ pub struct DxfImport {
     pub texts: usize,
     /// Scale from drawing millimetres to the page.
     pub scale: f32,
+    /// Bounds of the decoded geometry in drawing millimetres (y up).
+    pub source_min: P,
+    pub source_max: P,
+    /// Page position corresponding to the drawing's top-left bound.
+    pub page_origin: P,
     /// Entity types that are not imported (hatches, images, …).
     pub skipped: Vec<String>,
 }
@@ -425,7 +430,8 @@ pub fn import_page(prj: &mut Project, text: &str, description: &str, after: usiz
             }
         }
     }
-    Ok(DxfImport { page: at, lines, texts, scale, skipped: skipped.into_iter().collect() })
+    Ok(DxfImport { page: at, lines, texts, scale, source_min: min, source_max: max,
+        page_origin: p(area.0, area.1), skipped: skipped.into_iter().collect() })
 }
 
 #[cfg(test)]

@@ -14,11 +14,15 @@ fn the_scene_has_walls_door_plate_and_items() {
     assert_eq!(solids.len(), parts + e.items.iter().filter(|i| i.kind != ItemKind::Cutout).count());
     assert!(solids.iter().any(|x| x.transparent && x.name.ends_with("door")));
     assert!(solids.iter().any(|x| x.name == "-K1"));
-    // Everything lies inside the enclosure (the door in front of it).
+    // Everything lies inside the enclosure (the door in front of it), but the cable
+    // gland in the bottom, standing out of it.
+    let standing = standing_out(e);
+    assert!(standing > 20.0, "{standing}");
     for x in solids {
+        let m = if x.name == "Accessory" { standing } else { 0.0 } + 0.01;
         for v in x.triangles.iter().flatten() {
-            assert!(v[0] >= -0.01 && v[0] <= e.width + 0.01 && v[1] >= -0.01 && v[1] <= e.height + 0.01, "{} {v:?}", x.name);
-            assert!(v[2] >= -0.01 && v[2] <= e.depth + crate::panel::WALL + 0.01, "{} {v:?}", x.name);
+            assert!(v[0] >= -m && v[0] <= e.width + m && v[1] >= -m && v[1] <= e.height + m, "{} {v:?}", x.name);
+            assert!(v[2] >= -m && v[2] <= e.depth + crate::panel::WALL + m, "{} {v:?}", x.name);
         }
     }
 }
@@ -111,7 +115,7 @@ fn ifc_has_a_board_per_enclosure_and_an_element_per_solid() {
     assert_eq!(ifc(&prj, "panel.ifc"), text);
     // The IFC import reads it back: z up, all enclosures side by side.
     let mesh = crate::parts::parse_ifc(text.as_bytes()).unwrap();
-    let height = prj.layout.enclosures.iter().map(|e| e.height).fold(0.0, f32::max);
+    let height = prj.layout.enclosures.iter().map(|e| e.height + standing_out(e)).fold(0.0, f32::max);
     assert!((mesh.size()[2] - height).abs() < 0.01, "{:?}", mesh.size());
 }
 
@@ -199,8 +203,9 @@ fn jt_holds_every_solid() {
     let mesh = openecraft_jt::parse_jt(&jt(&prj)).unwrap();
     let triangles: usize = scene(&prj).iter().flat_map(|e| &e.solids).map(|s| s.triangles.len()).sum();
     assert!(mesh.triangles.len() > triangles / 2, "{} of {triangles}", mesh.triangles.len());
-    // z up: the enclosure height is the extent in z.
-    let height = prj.layout.enclosures.iter().map(|e| e.height).fold(0.0, f32::max);
+    // z up: the enclosure height (with the gland standing out of its bottom) is the
+    // extent in z.
+    let height = prj.layout.enclosures.iter().map(|e| e.height + standing_out(e)).fold(0.0, f32::max);
     assert!((mesh.size()[2] - height).abs() < 0.01, "{:?}", mesh.size());
 }
 
@@ -272,4 +277,9 @@ fn the_ifc_site_has_the_name_and_place_of_the_plot() {
     assert!(text.contains(",'Flur 3, 112/4',$,$,#"), "{text}");
     assert!(text.contains(".ELEMENT.,(52,31,12,28800),(-13,-24,-17,-834400),54250.0,$,$)"), "{text}");
     assert_references_defined(&text);
+}
+
+/// How far the cable glands in the bottom of an enclosure stand out of it.
+fn standing_out(e: &crate::panel::Enclosure) -> f32 {
+    e.items.iter().filter(|i| i.kind == ItemKind::Accessory && i.face == crate::panel::Face::Bottom).map(|i| (-i.z - e.wall()).max(0.0)).fold(0.0, f32::max)
 }

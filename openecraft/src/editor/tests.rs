@@ -276,6 +276,82 @@ fn tag_block_is_dragged_into_place() {
     assert!(o.dist(expect) < 0.6, "{o:?} {expect:?}");
 }
 
+#[test]
+fn connection_point_designation_is_dragged_into_place() {
+    let mut prj = Project::default();
+    prj.pages[0].symbols.push(SymbolInst { id: 7, sym: "coil".into(), pos: p(100.0, 100.0), rot: 1, tag: "-K1".into(), pins: vec!["A1".into(), "A2".into()], ..Default::default() });
+    prj.fix_next_id();
+    let before = prj.pages[0].symbols[0].clone();
+    let ctx = egui::Context::default();
+    let mut ed = Editor::default();
+    ready(&mut ed, &ctx, &mut prj);
+    ed.selection.insert(7);
+    let def = prj.symbol("coil").unwrap();
+    let label = render::pin_label_places(&prj, &Index::build(&prj), 0, &def, &prj.pages[0].symbols[0])[1].clone();
+    let from = ed.w2s(SCREEN, label.bounds.center());
+    let to = ed.w2s(SCREEN, label.bounds.center() + p(3.0, -2.0));
+    frame(&mut ed, &ctx, &mut prj, 0, vec![Event::PointerMoved(from)]);
+    frame(&mut ed, &ctx, &mut prj, 0, vec![button(from, true)]);
+    for i in 1..=5 {
+        let t = i as f32 / 5.0;
+        frame(&mut ed, &ctx, &mut prj, 0, vec![Event::PointerMoved(from + (to - from) * t)]);
+    }
+    frame(&mut ed, &ctx, &mut prj, 0, vec![button(to, false)]);
+    let s = &prj.pages[0].symbols[0];
+    assert_eq!((s.pos, &s.pins, s.tag_offset), (before.pos, &before.pins, None), "symbol, designations and tag stay");
+    assert!(s.pin_placement(0).is_auto());
+    let placed = s.pin_placement(1);
+    assert_eq!(placed.side, Some(label.side), "the side it had");
+    // Stored in the symbol's orientation: the quarter turn maps it back to the drag.
+    assert!((placed.offset - label.shift).transform(1, false).dist(p(3.0, -2.0)) < 0.6, "{placed:?}");
+    let moved = render::pin_label_places(&prj, &Index::build(&prj), 0, &def, s)[1].clone();
+    assert!((moved.pos - label.pos).dist(p(3.0, -2.0)) < 0.6);
+}
+
+#[test]
+fn interruption_name_and_cross_reference_are_dragged_on_their_own() {
+    let mut prj = Project::default();
+    let id = prj.new_id();
+    prj.pages.push(Page::new(id, "2", "", PageKind::Schematic));
+    for (page, id) in [(0, 7), (1, 8)] {
+        prj.pages[page].symbols.push(SymbolInst { id, sym: "intr".into(), pos: p(100.0, 100.0), rot: 3, label: "L1_OUT".into(), ..Default::default() });
+    }
+    prj.fix_next_id();
+    let ctx = egui::Context::default();
+    let mut ed = Editor::default();
+    ready(&mut ed, &ctx, &mut prj);
+    ed.selection.insert(7);
+    let def = prj.symbol("intr").unwrap();
+    for (text, moved) in [(render::IntrText::Xref, p(8.0, 12.0)), (render::IntrText::Label, p(-12.0, -8.0))] {
+        let s = prj.pages[0].symbols[0].clone();
+        let idx = Index::build(&prj);
+        let area = render::interruption_text_bounds(&prj, &idx, 0, &def, &s).into_iter().find(|t| t.0 == text).unwrap().1;
+        let before = render::interruption_places(&def, &s);
+        let from = ed.w2s(SCREEN, area.center());
+        let to = ed.w2s(SCREEN, area.center() + moved);
+        frame(&mut ed, &ctx, &mut prj, 0, vec![Event::PointerMoved(from)]);
+        frame(&mut ed, &ctx, &mut prj, 0, vec![button(from, true)]);
+        for i in 1..=5 {
+            let t = i as f32 / 5.0;
+            frame(&mut ed, &ctx, &mut prj, 0, vec![Event::PointerMoved(from + (to - from) * t)]);
+        }
+        frame(&mut ed, &ctx, &mut prj, 0, vec![button(to, false)]);
+        let s = &prj.pages[0].symbols[0];
+        assert_eq!((s.pos, s.rot), (p(100.0, 100.0), 3), "the symbol stays");
+        let (old, new, other) = match text {
+            render::IntrText::Label => (before.0, s.label_place.expect("name placed"), (before.1, s.xref_place)),
+            render::IntrText::Xref => (before.1, s.xref_place.expect("cross reference placed"), (before.0, s.label_place)),
+        };
+        assert_eq!(new.anchor, old.anchor);
+        assert!(new.offset.dist(old.offset + moved) < 0.6, "{text:?}: {new:?} {old:?}");
+        if text == render::IntrText::Xref {
+            assert_eq!(other.1, None, "the name stays automatic");
+        } else {
+            assert_eq!(other.1.map(|t| t.offset), Some(other.0.offset), "the cross reference stays where it was dragged");
+        }
+    }
+}
+
 fn key(key: Key) -> Event {
     Event::Key { key, physical_key: None, pressed: true, repeat: false, modifiers: Modifiers::default() }
 }
@@ -689,4 +765,39 @@ fn the_designation_of_a_device_connection_point_is_dragged_into_place() {
     assert!(l.offset.dist(auto - s.pos + p(6.0, 10.0)) < 0.6, "{l:?}");
     assert_eq!(l.anchor, anchor);
     assert_eq!(openecraft_core::device_boxes::box_of(&prj, &prj.pages[0], s), Some(b));
+}
+
+#[test]
+fn cable_core_texts_of_a_selected_wire_are_dragged_into_place() {
+    let mut prj = Project::default();
+    prj.pages[0].wires.push(Wire { id: 7, a: p(100.0, 100.0), b: p(160.0, 100.0), ..Default::default() });
+    prj.fix_next_id();
+    cabledef::add(&mut prj, 0, p(120.0, 95.0), p(120.0, 105.0), "");
+    let ctx = egui::Context::default();
+    let mut ed = Editor::default();
+    ready(&mut ed, &ctx, &mut prj);
+    ed.selection.insert(7);
+    let before = prj.pages[0].wires[0].clone();
+    for which in [render::CoreText::Core, render::CoreText::Cable] {
+        let at = render::core_text_bounds(&prj.pages[0], &prj.pages[0].wires[0], which).unwrap().center();
+        drag(&mut ed, &ctx, &mut prj, 0, at, at + p(6.0, 4.0));
+        let w = &prj.pages[0].wires[0];
+        let o = which.offset(w).expect("text placed");
+        assert!(o.dist(p(6.0, 4.0)) < 0.6, "{which:?} {o:?}");
+        assert_eq!((w.a, w.b, &w.cable, &w.core), (before.a, before.b, &before.cable, &before.core), "the wire and its core stay");
+    }
+}
+
+#[test]
+fn polylines_are_stroked_without_miter_spikes() {
+    let q = |pts: &[(f32, f32)]| pts.iter().map(|&(x, y)| pos2(x, y)).collect::<Vec<_>>();
+    // An outline without sharp turns stays one closed line.
+    let square = q(&[(0., 0.), (10., 0.), (10., 10.), (0., 10.)]);
+    assert_eq!(stroke_runs(square.clone(), true), Runs::Loop(square));
+    // A line that turns back is split there; repeated points are dropped.
+    let back = q(&[(0., 0.), (10., 0.), (10., 0.), (2., 0.5)]);
+    assert_eq!(stroke_runs(back, false), Runs::Open(vec![q(&[(0., 0.), (10., 0.)]), q(&[(10., 0.), (2., 0.5)])]));
+    // A closed outline along a line (an open polyline drawn closed) is no loop either.
+    let flat = q(&[(0., 0.), (5., 0.), (10., 0.)]);
+    assert_eq!(stroke_runs(flat, true), Runs::Open(vec![q(&[(0., 0.), (5., 0.), (10., 0.)]), q(&[(10., 0.), (0., 0.)])]));
 }

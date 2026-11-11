@@ -92,6 +92,7 @@ Auxiliary function: main contact	Funkcja pomocnicza: styk główny
 Auxiliary relay coil R (JIS)	Cewka przekaźnika pomocniczego R (JIS)
 B10d	B10d
 Ball valve	Zawór kulowy
+Bare conductor	Goły przewód
 Basis	Podstawa
 Battery	Akumulator
 Battery capacity	Pojemność akumulatora
@@ -499,8 +500,8 @@ Fan 3-phase	Wentylator 3-fazowy
 Fan 3-phase, 6 terminals	Wentylator 3-fazowy, 6 zacisków
 Ferrule	Tulejka kablowa
 Ferrule from	Tulejka kablowa od
-Ferrule part	Artykuł tulejki kablowej
 Ferrule to	Tulejka kablowa do
+Ferrule {} mm² {}	Tulejka {} mm² {}
 Field cable routing	Trasowanie kabli obiektowych
 Field cable {} cannot be routed from {} to {}	Nie można poprowadzić kabla obiektowego {} od {} do {}
 Field cable {}: {} is not placed in the plant layout	Kabel obiektowy {}: {} nie jest umieszczone na planie instalacji
@@ -521,6 +522,8 @@ Fitting	Złączka
 Fittings	Złączki
 Flame retardant	Trudnopalny
 Flat cable {} has {} cores, the IDC connector {} has {} pins	Kabel płaski {} ma {} żył, złącze IDC {} ma {} pinów
+Flat plug	Konektor płaski męski
+Flat receptacle	Konektor płaski żeński
 Flat roof	Dach płaski
 Float switch NC	Łącznik pływakowy, rozwierny
 Float switch NO	Łącznik pływakowy NO
@@ -546,6 +549,7 @@ Foot switch NC	Łącznik nożny, rozwierny
 Foot switch NO	Łącznik nożny, zwierny
 Foot switch NO (NFPA)	Łącznik nożny, zwierny (NFPA)
 Force	Siła
+Fork terminal	Końcówka widełkowa
 Format (placeholders)	Format (symbole zastępcze)
 Frame size	Wielkość mechaniczna
 Free	Swobodnie
@@ -1133,6 +1137,7 @@ Pilot light (NFPA)	Lampka sygnalizacyjna (NFPA)
 Pilot line	Przewód sterujący
 Pin connection diagram	Schemat podłączeń pinów
 Pin side (male)	Strona pinów (męska)
+Pin terminal	Końcówka sztyftowa
 Pipe	Rurociąg
 Piston diameter	Średnica tłoka
 Piston rod diameter	Średnica tłoczyska
@@ -1338,6 +1343,7 @@ Reviewer	Recenzent
 Revision overview (changes)	Przegląd rewizji (zmiany)
 Right side	Prawa strona
 Right side panel	Prawa ściana boczna
+Ring terminal	Końcówka oczkowa
 Rivet nut	Nitonakrętka
 RoHS compliant	Zgodny z RoHS
 Rockwell (Local:1:I.Data.0)	Rockwell (Local:1:I.Data.0)
@@ -1563,9 +1569,12 @@ Terminal description	Opis zacisku
 Terminal diagram	Schemat zacisków
 Terminal line-up	Rozmieszczenie zacisków
 Terminal marker	Oznacznik zacisku
+Terminal parts	Części końcówek
 Terminal strip data of {} without terminals	Dane listwy zaciskowej {} bez zacisków
 Terminal strip overview	Przegląd listew zaciskowych
 Terminal strips and PLC addresses	Listwy zaciskowe i adresy PLC
+Termination (from)	Zakończenie (od)
+Termination (to)	Zakończenie (do)
 Text file	Plik tekstowy
 The DXF file contains nothing that can be imported	Plik DXF nie zawiera niczego, co można zaimportować
 The PDF has no pages that can be read	Plik PDF nie zawiera stron, które można odczytać
@@ -1688,6 +1697,14 @@ Tubes	Węże
 Tubing / piping list	Lista rur / przewodów rurowych
 Turned once (quarter landing)	Zabiegowe raz (spocznik narożny)
 Turned twice (two quarter landings)	Zabiegowe dwa razy (dwa spoczniki narożne)
+Twin ferrule	Tulejka podwójna
+Twin ferrule at {} is not shared with a second wire	Tulejka podwójna w {} nie jest współdzielona z drugim przewodem
+Twin ferrule at {} joins wires of {} and {}	Tulejka podwójna w {} łączy przewody {} i {}
+Twin ferrule at {}: {} wires end there, it takes two	Tulejka podwójna w {}: kończy się tam {} przewodów, mieści dwa
+Twin ferrule with (from)	Tulejka podwójna z (od)
+Twin ferrule with (to)	Tulejka podwójna z (do)
+Twin ferrule {} mm² {}	Tulejka podwójna {} mm² {}
+Twin ferrules	Tulejki podwójne
 Two connection symbols on page {} lie on the same point	Dwa symbole połączeń na stronie {} leżą w tym samym punkcie
 Two-way switch (installation)	Łącznik schodowy (instalacyjny)
 Type numbers	Numery typów
@@ -1770,6 +1787,7 @@ Winding connection	Układ połączeń uzwojenia
 Wire assigned to unknown cable {}	Przewód przypisany do nieznanego kabla {}
 Wire colour GNYE is reserved for protective conductors ({})	Kolor przewodu GNYE jest zarezerwowany dla przewodów ochronnych ({})
 Wire colours and cross-sections	Kolory i przekroje przewodów
+Wire crossings and connections	Skrzyżowania i połączenia przewodów
 Wire defaults	Wartości domyślne przewodów
 Wire jumper	Mostek przewodowy
 Wire list (panel routing)	Lista przewodów (prowadzenie w szafie)
@@ -1847,6 +1865,7 @@ leakage	przeciek
 low	niski
 measuring	pomiar
 new	nowy
+no free cable gland	brak wolnej dławnicy kablowej
 no header	brak nagłówka
 no list	brak listy
 no path through the route network	brak drogi przez sieć tras
@@ -1878,8 +1897,6 @@ routed	poprowadzony
 shield clamp ({} mm away)	zacisk ekranu ({} mm dalej)
 silver	srebrny
 starts with	zaczyna się od
-strip {} mm	odizolowanie {} mm
-strip {} mm, ferrule {} mm² {}	odizolowanie {} mm, tulejka kablowa {} mm² {}
 suction	ssanie
 supply	zasilanie
 terminals {} – {}	zaciski {} – {}
@@ -1937,6 +1954,7 @@ yellow	żółty
 {} unused device data records removed	Usunięto nieużywane rekordy danych urządzeń: {}
 {} wiring marks belong to wires that no longer exist	Znaczniki okablowania należące do przewodów, które już nie istnieją: {}
 {} without device tag on page {}	{} bez oznaczenia urządzenia na stronie {}
+{} {} cannot be routed: every cable gland of {} is taken by another cable. Add a cable gland for it.	{} {} nie można poprowadzić: każda dławnica kablowa w {} jest zajęta przez inny kabel. Dodaj dla niego dławnicę kablową.
 {} {} cannot be routed: no way that keeps half its thickness clear of everything and bends with its radius of {} mm. Move its ends or make room for it.	{} {} nie może zostać poprowadzony: brak drogi, która zachowuje połowę grubości od wszystkiego i zagina się z promieniem {} mm. Przesuń końce lub zrób miejsce.
 {} {} enters through the bottom: no cable gland in the enclosure	{} {} wchodzi przez dno: brak dławika kablowego w obudowie
 {} {} enters through the roof: no cable gland on the roof, sides or rear	{} {} wchodzi przez dach: brak dławika kablowego na dachu, bokach lub tylnej ścianie
@@ -2003,6 +2021,7 @@ yellow	żółty
 {}: no jumper part for jumper {} (tech data Jumper of the terminal part)	{}: brak artykułu mostka dla mostka {} (dane techniczne Jumper artykułu zacisku)
 {}: no part assigned	{}: nie przypisano artykułu
 {}: no service space of {} mm in front of {} (the door is too close)	{}: brak przestrzeni serwisowej {} mm przed {} (drzwi są zbyt blisko)
+{}: none for this cross-section	{}: brak dla tego przekroju
 {}: not in the single-line diagram	{}: brak na schemacie jednokreskowym
 {}: not placed in the panel layout	{}: nie umieszczono w zabudowie szafy
 {}: operations per year needed for the B10d of {}	{}: wymagana liczba cykli łączeniowych na rok dla B10d {}

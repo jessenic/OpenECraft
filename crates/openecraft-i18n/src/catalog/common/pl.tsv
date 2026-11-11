@@ -8,6 +8,7 @@ A page named {} already exists	Strona o nazwie {} już istnieje
 A page needs a name	Strona musi mieć nazwę
 A routing path needs {} points at least	Ścieżka prowadzenia wymaga co najmniej {} punktów
 A section cannot be moved into itself	Sekcji nie można przenieść do niej samej
+Above	Powyżej
 Access token	Token dostępu
 Accessories	Akcesoria
 Accessory	Akcesorium
@@ -18,6 +19,7 @@ Angle	Kąt
 Apply	Zastosuj
 Approvers	Zatwierdzający
 Automatic	Automatycznie
+Below	Poniżej
 Bold	Pogrubienie
 Bottom	Dno
 Bottom with removable gland plate	Dno ze zdejmowaną płytą dławicową
@@ -472,6 +474,7 @@ open	otwarty
 rejected	odrzucona
 right	w prawo
 spare	rezerwa
+strip {} mm, {}	odizolować {} mm, {}
 the disk is full	dysk jest pełny
 the file exists already	plik już istnieje
 this is a folder	to jest folder
@@ -481,5 +484,6 @@ yes	tak
 {} exists already	{} już istnieje
 {} parts	Artykuły: {}
 {} wires	Przewody: {}
+{}, together with the wire to {}	{}, razem z przewodem do {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} nie stoi na podłodze, wybierz artykuł stojący na podłodze
 ➕ Add accessory	➕ Dodaj akcesorium

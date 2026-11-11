@@ -270,3 +270,20 @@ fn each_corner_gets_its_own_radius() {
     assert!(round.iter().any(|q| dist(*q, [450.0, 0.0, 0.0]) < 0.01));
     assert_eq!(fillet_each(&path, &[], 4), path.to_vec());
 }
+
+#[test]
+fn polylines_are_split_along_their_length() {
+    let path = [[0.0, 0.0, 0.0], [10.0, 0.0, 0.0], [10.0, 10.0, 0.0]];
+    assert_eq!(path_length(&path), 20.0);
+    let (head, tail) = split_at(&path, 4.0);
+    assert_eq!(head, vec![[0.0, 0.0, 0.0], [4.0, 0.0, 0.0]]);
+    assert_eq!(tail, vec![[4.0, 0.0, 0.0], [10.0, 0.0, 0.0], [10.0, 10.0, 0.0]]);
+    // Past the corner.
+    let (head, tail) = split_at(&path, 15.0);
+    assert_eq!(head.last(), Some(&[10.0, 5.0, 0.0]));
+    assert_eq!(head.len(), 3);
+    assert_eq!(tail, vec![[10.0, 5.0, 0.0], [10.0, 10.0, 0.0]]);
+    // Past the end: all of it before.
+    let (head, tail) = split_at(&path, 30.0);
+    assert_eq!((head, tail), (path.to_vec(), vec![[10.0, 10.0, 0.0]]));
+}

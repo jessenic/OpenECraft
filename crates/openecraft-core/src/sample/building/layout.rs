@@ -120,12 +120,18 @@ fn gland(prj: &mut Project, enc: usize, part: &str, face: Face, x: f32, y: f32) 
     panel::place_accessory(prj, enc, part, face, p(x, y));
 }
 
-/// A cable gland in the roof right above a device: its cables go straight up.
+/// A cable gland in the roof right above a device: its cable goes straight up.
 fn gland_over(prj: &mut Project, enc: usize, part: &str, tag: &str) {
+    gland_near(prj, enc, part, tag, 0.0, 0.0);
+}
+
+/// A cable gland in the roof above a device, `dx` beside and `dz` behind the point
+/// right above its middle: a gland for each further cable to the device.
+fn gland_near(prj: &mut Project, enc: usize, part: &str, tag: &str, dx: f32, dz: f32) {
     let e = &prj.layout.enclosures[enc];
     let Some(it) = e.items.iter().find(|i| i.tag == tag) else { return };
     let c = panel::face_point(e, it.face, [it.x + it.w / 2.0, it.y + it.h / 2.0, it.z + it.d]);
-    gland_at(prj, enc, part, c[0], c[2]);
+    gland_at(prj, enc, part, c[0] + dx, c[2] + dz);
 }
 
 /// A cable gland in the roof with its middle in the routing cell of `x` and depth `z`
@@ -144,6 +150,12 @@ fn fittings(prj: &mut Project, room: usize, face: Face, y: f32, at: &[(&str, f32
         panel::mount_on_wall(prj, room, tag, face, p(*x, y - h / 2.0)).unwrap_or_else(|e| panic!("{tag}: {e}"));
     }
 }
+
+/// Where the coupling of a compressed air outlet hangs: its middle this far beside the
+/// outlet port of the unit before it, its top this much lower than a unit would hang
+/// below that one.
+const COUPLING_ASIDE: f32 = 150.0;
+const COUPLING_BELOW: f32 = 80.0;
 
 pub(super) fn rooms(prj: &mut Project, db: &PartsDb, section: u64) {
     let [md, cc1, rack, acd, gak, hak] = enclosures(prj, db);
@@ -219,7 +231,7 @@ fn enclosures(prj: &mut Project, db: &PartsDb) -> [usize; 6] {
     let e = &prj.layout.enclosures[md];
     if let Some(it) = e.items.iter().find(|i| i.tag == "=MD+MD-X2") {
         let x = panel::face_point(e, it.face, [it.x + it.w / 2.0, it.y, 0.0])[0];
-        gland_at(prj, md, "GEN.GLAND-M20", x, 200.0);
+        gland_at(prj, md, "GEN.GLAND-M25", x, 200.0);
     }
     let duct_x = panel::PLATE_MARGIN + prj.layout.enclosures[md].plate_size().0 - panel::profile(prj, ItemKind::Duct, "GEN.DUCT-100X80").0 / 2.0;
     for k in 0..3 {
@@ -251,13 +263,27 @@ fn enclosures(prj: &mut Project, db: &PartsDb) -> [usize; 6] {
     panel::place_accessory(prj, cc2, "GEN.HANDLE-SWING", Face::Door, p(700.0, 900.0));
     panel::bay_right_of(prj, cc2, cc1);
     panel::add_passage(prj, cc1, 300.0, 120.0, panel::PASSAGE_DIAMETER);
-    for (enc, tag) in [(cc1, "=CTL+CC1-X0"), (cc1, "=CTL+CC1-X1"), (cc2, "=WAT+CC2-X0"), (cc2, "=WAT+CC2-X11"), (cc2, "=WAT+CC2-X12"), (cc2, "=AIR+CC2-X1"), (cc2, "=HEAT+CC2-X1")] {
-        gland_over(prj, enc, "GEN.GLAND-M25", tag);
-    }
-    for enc in [cc1, cc2] {
-        for x in [520.0, 620.0] {
-            gland(prj, enc, "GEN.GLAND-M20", Face::Bottom, x, 300.0);
-        }
+    // A cable gland in the roof for every cable, sized to it, above the device it goes
+    // to: the feeders (22 and 25 mm) M40, the control cables theirs, the patch cable
+    // and the three sensor cables to the PLC M16 in a row behind it; the heat pump's
+    // three cables one behind the other above their strip.
+    for (enc, part, tag, dx, dz) in [
+        (cc1, "GEN.GLAND-M40", "=CTL+CC1-X0", 0.0, 0.0),
+        (cc1, "GEN.GLAND-M25", "=CTL+CC1-X1", 0.0, 0.0),
+        (cc1, "GEN.GLAND-M20", "=CTL+CC1-X3", 0.0, 0.0),
+        (cc1, "GEN.GLAND-M16", "=CTL+CC1-A1", -75.0, 100.0),
+        (cc1, "GEN.GLAND-M16", "=CTL+CC1-A1", 0.0, 100.0),
+        (cc1, "GEN.GLAND-M16", "=CTL+CC1-A1", 75.0, 100.0),
+        (cc1, "GEN.GLAND-M16", "=CTL+CC1-A1", 150.0, 100.0),
+        (cc2, "GEN.GLAND-M40", "=WAT+CC2-X0", 0.0, 0.0),
+        (cc2, "GEN.GLAND-M20", "=WAT+CC2-X11", 0.0, 0.0),
+        (cc2, "GEN.GLAND-M20", "=WAT+CC2-X12", 0.0, 0.0),
+        (cc2, "GEN.GLAND-M20", "=AIR+CC2-X1", 0.0, 0.0),
+        (cc2, "GEN.GLAND-M20", "=HEAT+CC2-X1", 0.0, 0.0),
+        (cc2, "GEN.GLAND-M20", "=HEAT+CC2-X1", 0.0, 100.0),
+        (cc2, "GEN.GLAND-M20", "=HEAT+CC2-X1", 0.0, 200.0),
+    ] {
+        gland_near(prj, enc, part, tag, dx, dz);
     }
 
     // AC distribution of the battery storage and the generator junction box, both
@@ -273,8 +299,11 @@ fn enclosures(prj: &mut Project, db: &PartsDb) -> [usize; 6] {
     on_rail(prj, acd, 470.0, 360.0, &["=ESS+ACD-X0"]);
     on_rail(prj, acd, 470.0, 460.0, &["=ESS+ACD-X1"]);
     on_rail(prj, acd, 470.0, 560.0, &["=ESS+ACD-X2"]);
-    for tag in ["=ESS+ACD-X0", "=ESS+ACD-X1", "=ESS+ACD-X2"] {
-        gland_over(prj, acd, "GEN.GLAND-M32", tag);
+    // The feeder (25 mm) through an M40 gland, the two cables to each of the other
+    // strips through M20 glands one behind the other.
+    gland_over(prj, acd, "GEN.GLAND-M40", "=ESS+ACD-X0");
+    for (tag, dz) in [("=ESS+ACD-X1", 0.0), ("=ESS+ACD-X1", 100.0), ("=ESS+ACD-X2", 0.0), ("=ESS+ACD-X2", 100.0)] {
+        gland_near(prj, acd, "GEN.GLAND-M20", tag, 0.0, dz);
     }
     let mut gak = panel::new_enclosure(prj, "GEN.PC-400X600X200", "+GAK");
     gak.elevation = Some(1100.0);
@@ -286,9 +315,10 @@ fn enclosures(prj: &mut Project, db: &PartsDb) -> [usize; 6] {
     on_rail(prj, gak, 150.0, 20.0, &["=PV+GAK-F1", "=PV+GAK-F2"]);
     profile(prj, gak, ItemKind::Rail, panel::RAIL_PART, (20.0, 360.0), (340.0, 360.0));
     on_rail(prj, gak, 360.0, 20.0, &["=PV+GAK-X1", "=PV+GAK-F3", "=PV+GAK-F4"]);
-    gland_over(prj, gak, "GEN.GLAND-M20", "=PV+GAK-X1");
-    for x in [60.0, 120.0] {
-        gland(prj, gak, "GEN.GLAND-M20", Face::Bottom, x, 100.0);
+    // The two strings come in through the roof above their fuses, the two cables to
+    // the inverters on the wall above the box leave through the roof too.
+    for (tag, dx) in [("=PV+GAK-F1", 0.0), ("=PV+GAK-F2", 0.0), ("=PV+GAK-X1", 150.0), ("=PV+GAK-X1", 225.0)] {
+        gland_near(prj, gak, "GEN.GLAND-M20", tag, dx, 0.0);
     }
 
     // The 19-inch rack: batteries at the bottom, network at the top.
@@ -337,8 +367,10 @@ fn house_connection_room(prj: &mut Project, md: usize, hak: usize) {
     prj.layout.enclosures.push(hr);
     let hr = prj.layout.enclosures.len() - 1;
     // Walls: 0 rear, 1 right (to the technical room), 2 front, 3 left.
-    panel::add_opening(prj, hr, Opening::Entry, Face::Wall(3), Some(600.0), None, None).expect("cable entry");
-    panel::add_opening(prj, hr, Opening::Entry, Face::Wall(3), Some(2500.0), Some((200.0, 200.0)), Some(1140.0)).expect("water entry");
+    // The cable entry low in the wall: the supply cable, 45 mm thick, bends up out of
+    // it and over into the house connection box with its bend radius of 180 mm.
+    panel::add_opening(prj, hr, Opening::Entry, Face::Wall(3), Some(600.0), None, Some(225.0)).expect("cable entry");
+    panel::add_opening(prj, hr, Opening::Entry, Face::Wall(3), Some(2700.0), Some((200.0, 200.0)), Some(1140.0)).expect("water entry");
     panel::add_opening(prj, hr, Opening::Door, Face::Wall(2), Some(400.0), None, None).expect("door");
     panel::add_opening(prj, hr, Opening::Penetration, Face::Wall(1), Some(1000.0), None, None).expect("cable penetration");
     panel::add_opening(prj, hr, Opening::Penetration, Face::Wall(1), Some(2400.0), Some((200.0, 200.0)), Some(1140.0)).expect("pipe penetration");
@@ -349,8 +381,9 @@ fn house_connection_room(prj: &mut Project, md: usize, hak: usize) {
     panel::mount_on_wall(prj, hr, "=GRID+HR-X1", Face::Wall(3), p(950.0, 2220.0)).expect("main earthing busbar");
     panel::mount_on_wall(prj, hr, "=GRID+HR-E1", Face::Wall(3), p(960.0, 2320.0)).expect("foundation earth electrode");
     // The water main along a pipe run on the left wall to the motor valve beside the
-    // wall penetration.
-    fittings(prj, hr, Face::Wall(3), 1560.0, &[("=WAT+HR-UM1", 2300.0), ("=WAT+HR-QM1", 2000.0), ("=WAT+HR-BF1", 1600.0), ("=WAT+HR-RM1", 1250.0)]);
+    // wall penetration; its wall sleeve sits right before the building entry, far enough
+    // from the ball valve for the pipe out of the wall to bend round and along it.
+    fittings(prj, hr, Face::Wall(3), 1560.0, &[("=WAT+HR-UM1", 2510.0), ("=WAT+HR-QM1", 2000.0), ("=WAT+HR-BF1", 1600.0), ("=WAT+HR-RM1", 1250.0)]);
     fittings(prj, hr, Face::Wall(1), 1560.0, &[("=WAT+HR-QM2", 1900.0)]);
     panel::add_pipe_run(prj, hr, Face::Wall(3), &[p(1100.0, 1560.0), p(2700.0, 1560.0)], None, None, Some("PR1")).expect("pipe run");
     panel::add_wall_profile(prj, hr, ItemKind::Duct, "GEN.DUCT-100X80", Face::Roof, p(400.0, 1150.0), p(3900.0, 1150.0)).expect("cable tray");
@@ -415,14 +448,18 @@ fn technical_room(prj: &mut Project, [cc1, rack, acd, gak]: [usize; 4]) {
     panel::add_pipe_run(prj, tr, Face::Wall(2), &[p(200.0, 1560.0), p(5800.0, 1560.0)], None, Some(250.0), Some("PR2")).expect("pipe run");
     fittings(prj, tr, Face::Wall(1), 2000.0, &[("=HEAT+TR-GP1", 2300.0)]);
     // Compressed air: the distribution line along the common wall, each outlet hanging
-    // from it with its treatment.
+    // from it with its treatment. The units have their ports on their sides: the
+    // coupling hangs beside the last one and lower, where the pipe out of its outlet
+    // port bends down into it.
     for ((devices, _), x) in super::air::OUTLETS.iter().zip([1200.0, 1600.0, 2000.0, 2900.0]) {
-        let mut y = 1000.0;
-        for (_, tag) in devices.iter() {
+        let (mut y, mut right) = (1000.0, x);
+        for (i, (_, tag)) in devices.iter().enumerate() {
             let tag = format!("=AIR+TR{tag}");
             let (w, h) = panel::device_size(prj, &tag).map_or((80.0, 80.0), |d| (d.w, d.h));
-            panel::mount_on_wall(prj, tr, &tag, Face::Wall(3), p(x - w / 2.0, y)).unwrap_or_else(|e| panic!("{tag}: {e}"));
-            y += h + 60.0;
+            let coupling = i + 1 == devices.len();
+            let at = if coupling { p(right + COUPLING_ASIDE - w / 2.0, y + COUPLING_BELOW) } else { p(x - w / 2.0, y) };
+            panel::mount_on_wall(prj, tr, &tag, Face::Wall(3), at).unwrap_or_else(|e| panic!("{tag}: {e}"));
+            (y, right) = (y + h + 60.0, x + w / 2.0);
         }
     }
     panel::add_pipe_run(prj, tr, Face::Wall(3), &[p(1000.0, 900.0), p(3100.0, 900.0)], None, None, Some("PR3")).expect("pipe run");

@@ -96,6 +96,7 @@ Changes the properties of a wire	Altera as propriedades de um fio
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	Altera o sistema, o tamanho e os componentes de um gabinete (base, lados acoplados, placa de entrada de cabos); os itens ancorados acompanham
 Check {} failed: {}	A verificação {} falhou: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	Verifica o layout do painel: colisões, distâncias (montagem, ventilação, EMC), espaço de serviço, alturas acima do piso, classes de colisão, temperaturas e fabricabilidade
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	Escolhe como as pontas dos fios são terminadas: desencapadas, com terminal tubular ou terminal crimpado; num ponto de conexão, em todos os pontos de conexão de um dispositivo ou só para um fio
 Chosen value	Valor escolhido
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Distâncias, espaço de serviço, alturas, classes de colisão, simulação térmica e fabricabilidade do layout do painel
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Climatização dos gabinetes (IEC/TR 60890): perda de potência, temperatura interna, ventilador ou unidade de refrigeração e aquecimento necessários; opcionalmente altera as configurações de um gabinete
@@ -110,8 +111,10 @@ Configuration of an enclosure for the configurator of the enclosure maker: syste
 Configurator condition, e.g. HEATER=yes (empty: switched by hand)	Condição do configurador, por exemplo, HEATER=yes (vazio: comutada manualmente)
 Configures a hose / tube / pipe: line type, part, end fittings, pressure rating, bend radius, medium, size, colour and length	Configura uma mangueira / um tubo / uma tubulação: tipo de linha, peça, engates das extremidades, pressão nominal, raio de curvatura, meio, tamanho, cor e comprimento
 Connection point TAG:PIN, e.g. -K1:A1	Ponto de conexão TAG:PIN, por exemplo, -K1:A1
+Connection point designation or number (1, 2, …)	Designação do ponto de conexão ou número (1, 2, …)
 Connection point designations separated by commas or blanks	Designações dos pontos de conexão separadas por vírgulas ou espaços
 Connection point designations, comma separated, e.g. 13,14	Designações dos pontos de conexão, separadas por vírgula, por exemplo, 13,14
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	Ponto de conexão, p. ex. -K1:13, ou um dispositivo, p. ex. -K1 (todos os seus pontos de conexão)
 Connector id (required unless removing)	ID do conector (obrigatório, exceto ao remover)
 Connects two connection points with wires routed around symbols and other wires	Conecta dois pontos de conexão com fios roteados em torno de símbolos e outros fios
 Connects two ports of stations with a network cable; connections already on these ports are replaced	Conecta duas portas de estações com um cabo de rede; as conexões já existentes nessas portas são substituídas
@@ -134,6 +137,8 @@ Creates or changes a fluid device group	Cria ou altera um grupo de dispositivos 
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Cria ou altera uma moldura de plotagem do projeto (as molduras integradas são copiadas com um novo nome)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Cria ou altera uma definição de potencial; seus fios recebem a cor e a seção transversal, a menos que estejam definidas no fio
 Creates or changes a work area: only the pages and devices of its structure are shown	Cria ou altera uma área de trabalho: apenas as páginas e os dispositivos de sua estrutura são exibidos
+Cross reference placed by hand: X offset from the insertion point in mm	Referência cruzada posicionada manualmente: deslocamento X do ponto de inserção em mm
+Cross reference placed by hand: Y offset from the insertion point in mm	Referência cruzada posicionada manualmente: deslocamento Y do ponto de inserção em mm
 Cross section, e.g. 0.75 mm²	Seção transversal, por exemplo, 0.75 mm²
 Cross section, e.g. 1.5 mm²	Seção transversal, por exemplo, 1.5 mm²
 Cross section, e.g. 1.5 mm² (empty = from the potential definition)	Seção transversal, por exemplo, 1.5 mm² (vazio = da definição do potencial)
@@ -290,6 +295,7 @@ Id of the panel item (from mounting_list)	ID do item do painel (de mounting_list
 Id of the path or reservation	ID do caminho ou da reserva
 Id of the text	ID do texto
 Identifier, e.g. A1 or CAB1	Identificador, por exemplo, A1 ou CAB1
+Ids of interruption points	IDs dos pontos de interrupção
 Ids of page items	IDs de itens de página
 Ids of symbols and connection symbols (default: all symbols of the page)	Ids de símbolos e símbolos de conexão (padrão: todos os símbolos da página)
 In front of the page name (default /)	Antes do nome da página (padrão /)
@@ -375,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	Lista os subprojetos retirados do projeto ou o projeto do qual ele foi retirado
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Lista os símbolos que podem ser posicionados, com seus pontos de conexão relativos ao ponto de inserção
 Lists the terminal strips with their number of terminals and length on the rail	Lista as réguas de bornes com seu número de bornes e comprimento no trilho
+Lists the terminations chosen for wire ends and the kinds there are	Lista as terminações escolhidas para pontas de fio e os tipos existentes
 Lists the translation dictionary of the project texts (source line and translations)	Lista o dicionário de tradução dos textos do projeto (linha de origem e traduções)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Lista as macros de janela posicionadas nas páginas (caixas de macro) com macro, variante, valores dos espaços reservados e número de itens
 Load losses of the transformer in W (0: typical)	Perdas em carga do transformador em W (0: típico)
@@ -429,6 +436,8 @@ Name of the segment	Nome do segmento
 Name of the template	Nome do modelo
 Name of the work area	Nome da área de trabalho
 Name or id; the tag for places	Nome ou ID; o identificador para posicionamentos
+Name placed by hand: X offset from the insertion point in mm	Nome posicionado manualmente: deslocamento X do ponto de inserção em mm
+Name placed by hand: Y offset from the insertion point in mm	Nome posicionado manualmente: deslocamento Y do ponto de inserção em mm
 Name, e.g. the location +M1	Nome, por exemplo, a localização +M1
 New device tag	Novo identificador de dispositivo
 New identifier	Novo identificador
@@ -475,6 +484,7 @@ Node name or id	Nome ou ID do nó
 Node {} exists already	O nó {} já existe
 Nodes to pass in this order, comma separated	Nós a percorrer nesta ordem, separados por vírgula
 Nominal size, e.g. 8 mm or DN25	Diâmetro nominal, por exemplo, 8 mm ou DN25
+None of the items is an interruption point	Nenhum dos itens é um ponto de interrupção
 Not a cross-section: {} (e.g. 1.5 mm²)	Não é uma seção transversal: {} (por exemplo, 1.5 mm²)
 Not a valid safety function: {}	Não é uma função de segurança válida: {}
 Note, e.g. what the problem is	Nota, por exemplo, qual é o problema
@@ -489,6 +499,8 @@ Numbers the terminals of a strip 1 … n in strip order; non-numeric designation
 Numbers the wires by the numbering scheme of the project	Numera os fios conforme o esquema de numeração do projeto
 OPTION=value, OPTION!=value, OPTION=a|b joined by & (empty: always)	OPTION=valor, OPTION!=valor, OPTION=a|b unidos por & (vazio: sempre)
 Offset from the symbol position in mm (default: below the symbol)	Deslocamento em relação à posição do símbolo em mm (padrão: abaixo do símbolo)
+Offset of the cable tag shown at the wire from its automatic place, one point [dx, dy] in mm (no point = automatic)	Deslocamento do identificador do cabo mostrado no fio em relação à posição automática, um ponto [dx, dy] em mm (sem ponto = automático)
+Offset of the core designation from its automatic place, one point [dx, dy] in mm (no point = automatic)	Deslocamento da designação da veia em relação à posição automática, um ponto [dx, dy] em mm (sem ponto = automático)
 One end, e.g. -K1:A1	Uma extremidade, por exemplo, -K1:A1
 One row per printed label instead of a count	Uma linha por etiqueta impressa em vez de uma contagem
 Only devices on these pages (names separated by commas)	Somente dispositivos nestas páginas (nomes separados por vírgulas)
@@ -512,6 +524,7 @@ Operations	Operações
 Option name	Nome da opção
 Option name, e.g. STARTER	Nome da opção, por exemplo, STARTER
 Options and rules of the configurator	Opções e regras do configurador
+Other end of the wire, e.g. -X1:3: only this wire	Outra ponta do fio, p. ex. -X1:3: só este fio
 Other end, e.g. -X1:3	Outra extremidade, por exemplo, -X1:3
 Outer diameter in mm, 0 = estimated	Diâmetro externo em mm, 0 = estimado
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	Comprimentos externos dos trechos retos, mm, por exemplo, 200, 150, 300
@@ -554,7 +567,9 @@ Places a symbol on a page. Without a tag the next free one is used; auxiliary co
 Places an enclosure (+CAB1), a device (-M1) or a machine location (+M1) at a node of the field route network	Posiciona um gabinete (+CAB1), um dispositivo (-M1) ou uma localização de máquina (+M1) em um nó da rede de rotas de campo
 Places an enclosure accessory (fan, filter, cable gland, light, handle, PE bar) on a face	Posiciona um acessório de gabinete (ventilador, filtro, prensa-cabo, luminária, manopla, barra PE) em uma face
 Places of the group (0 = not limited)	Posições do grupo (0 = sem limite)
+Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Posiciona a designação de um ponto de conexão de um símbolo à esquerda, à direita, acima ou abaixo dele e a desloca; sem lado nem deslocamento, ela volta a ser posicionada automaticamente
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Posiciona a fileira de um gabinete no ambiente (vista 3D de todos os gabinetes); sem x e z, ela é posicionada a partir do layout da planta ou ao lado das outras fileiras
+Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Posiciona o nome e a referência cruzada dos pontos de interrupção num lado da seta ou manualmente com um deslocamento do ponto de inserção
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Posiciona as propriedades de um esquema em símbolos; sem IDs, ele é posicionado novamente em todos os símbolos que o utilizam
 Planned part number	Número de peça planejado
 Planned power in kW	Potência planejada em kW
@@ -644,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	Blocos de relatório e esquemas de relatório
 Reserves space over the mounting plate: kept free of routes, or for one class only	Reserva espaço sobre a placa de montagem: mantido livre de rotas ou apenas para uma classe
 Rest (mm)	Sobra (mm)
+Reuse failed searches during one routing calculation	Reutilizar pesquisas sem sucesso durante o mesmo cálculo de encaminhamento
 Right side bayed (no side panel)	Lado direito acoplado (sem painel lateral)
 Room {} exists already	A sala {} já existe
 Rotation in degrees clockwise: 0, 90, 180 or 270	Rotação em graus no sentido horário: 0, 90, 180 ou 270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	Rotação em graus, no sentido anti-horário (90 é lido de baixo para cima)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	Retraçar as conexões dos itens movidos: o caminho mais curto com o menor número de curvas e cruzamentos
 Route the wires in 3D as well (otherwise through the cable ducts)	Rotear também os fios em 3D (caso contrário, pelas canaletas)
 Routing rules, paths, reservations, frozen routes and cable shields	Regras de roteamento, caminhos, reservas, rotas congeladas e blindagens de cabos
 Row key (from table_get)	Chave da linha (de table_get)
@@ -672,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	Separador: semicolon, comma ou tab
 Sets how cross references are shown (only the given settings) and shows the settings	Define como as referências cruzadas são mostradas (somente as configurações informadas) e mostra as configurações
 Sets how the terminals of a jumper are bridged	Define como os bornes de uma ponte são interligados
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	Define como as extremidades de fio sem terminação escolhida são terminadas: com ponteiras ou desencapadas, e com terminais tubulares duplos onde dois fios compartilham um ponto de conexão
 Sets property values of an object; an empty value removes it	Define valores de propriedades de um objeto; um valor vazio o remove
 Sets the aspects the pages use	Define os aspectos que as páginas usam
 Sets the collision class of a panel item (empty: automatic)	Define a classe de colisão de um item do painel (vazio: automático)
@@ -690,6 +708,8 @@ Sets the wire colour and cross-section of nets without a defined potential (empt
 Share of the capacity kept free in percent	Parcela da capacidade mantida livre em porcentagem
 Sheets	Folhas
 Shield connected at: both, first, second or none	Blindagem conectada em: both, first, second ou none
+Shift downwards in mm	Deslocamento para baixo em mm
+Shift to the right in mm	Deslocamento para a direita em mm
 Short circuit, load, EMC and safety calculations, rule sets and project verification	Cálculos de curto-circuito, carga, EMC e segurança, conjuntos de regras e verificação do projeto
 Short-circuit currents, breaking capacities, disconnection times, short-circuit withstand of the cables and selectivity of the protective devices	Correntes de curto-circuito, capacidades de interrupção, tempos de seccionamento, suportabilidade a curto-circuito dos cabos e seletividade dos dispositivos de proteção
 Short-circuit power of the network upstream of the transformer in MVA (0: infinite)	Potência de curto-circuito da rede a montante do transformador em MVA (0: infinita)
@@ -701,6 +721,7 @@ Show as \"Name: value\"	Mostrar como \"Nome: valor\"
 Show the content	Mostrar o conteúdo
 Shows a property as a text beside a symbol	Mostra uma propriedade como texto ao lado de um símbolo
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	Mostra uma régua de bornes: bornes na ordem da régua com nível, ponte e destinos, os blocos no trilho e as pontes
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	Mostra como os fios se cruzam e se unem nas páginas e se mover itens retraça suas conexões, e altera os valores informados
 Shows or changes the machining strategy and which machine makes which face	Mostra ou altera a estratégia de usinagem e qual máquina fabrica qual face
 Shows or changes the rules of copper bars; lengths in mm	Mostra ou altera as regras das barras de cobre; comprimentos em mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	Mostra ou altera as regras das verificações do layout do painel; valores em mm (temperatura em °C)
@@ -748,7 +769,9 @@ Switches the project options with a condition by the configurator options	Comuta
 Symbol id	ID do símbolo
 Symbol ids	IDs de símbolos
 Symbol key from list_symbols	Chave do símbolo de list_symbols
+Symbol {} has no connection point {}	O símbolo {} não tem o ponto de conexão {}
 Symbols, wires, texts, cable and connection definitions on schematic pages	Símbolos, fios, textos, definições de cabo e de conexão em páginas de esquema elétrico
+T-connections: dot, large_dot or none	Junções em T: dot, large_dot ou none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	Peça em T: direção da haste; ponte: lado de onde vem a conexão (left, right, up ou down)
 Tag of the terminal strip, e.g. -X1	Identificador da régua de bornes, por exemplo, -X1
 Take the cut lengths over as cable lengths	Adotar os comprimentos de corte como comprimentos de cabo
@@ -794,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	A lin
 The text height must be at least 0.5 mm	A altura do texto deve ser de pelo menos 0,5 mm
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	Os dois braços de um canto, vertical e horizontal, p. ex. down left (padrão: conforme os fios no local, senão down right)
 The wire has no length	A ligação não tem comprimento
+The wire that jumps: vertical or horizontal	O fio que salta: vertical ou horizontal
 The wrap width must not be negative	A largura de quebra não pode ser negativa
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	Simulação térmica da placa de montagem: temperaturas do ar, ponto quente, fontes de calor e a temperatura em cada dispositivo
 Thickest sheet or bar, mm	Chapa ou barra mais espessa, mm
@@ -804,7 +828,9 @@ Top edge on the face in mm	Borda superior na face em mm
 Top edge on the mounting plate in mm	Borda superior na placa de montagem em mm
 Translated line	Linha traduzida
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	Rotação em torno da vertical em graus, no sentido anti-horário visto de cima (90: as frentes ficam voltadas para a direita)
+Two wires at a connection point share a twin ferrule	Dois fios num ponto de conexão compartilham um terminal tubular duplo
 Unit, e.g. kW	Unidade, por exemplo, kW
+Unknown T-connection style: {}	Estilo de junção em T desconhecido: {}
 Unknown accessory kind: {}	Tipo de acessório desconhecido: {}
 Unknown action: {}	Ação desconhecida: {}
 Unknown address scheme: {}	Esquema de endereçamento desconhecido: {}
@@ -827,7 +853,9 @@ Unknown field: {}	Campo desconhecido: {}
 Unknown group kind: {}	Tipo de grupo desconhecido: {}
 Unknown installation: {}	Instalação desconhecida: {}
 Unknown insulation: {}	Isolação desconhecida: {}
+Unknown jump style: {}	Estilo de salto desconhecido: {}
 Unknown jumper kind: {}	Tipo de ponte desconhecido: {}
+Unknown jumping wire: {}	Fio que salta desconhecido: {}
 Unknown kind: {}	Tipo desconhecido: {}
 Unknown labels: {}	Rótulos desconhecidos: {}
 Unknown level: {}	Nível desconhecido: {}
@@ -854,10 +882,12 @@ Unknown separator: {}	Separador desconhecido: {}
 Unknown setting: {}	Configuração desconhecida: {}
 Unknown shield ends: {}	Extremidades de blindagem desconhecidas: {}
 Unknown side {} (socket or pin)	Lado desconhecido {} (socket ou pin)
+Unknown side: {}	Lado desconhecido: {}
 Unknown state: {}	Estado desconhecido: {}
 Unknown station kind: {}	Tipo de estação desconhecido: {}
 Unknown symbol: {}	Símbolo desconhecido: {}
 Unknown table: {}	Tabela desconhecida: {}
+Unknown termination: {}	Terminação desconhecida: {}
 Unknown vertical anchor: {}	Âncora vertical desconhecida: {}
 Unknown way of opening: {}	Modo de abertura desconhecido: {}
 Unknown wire colour {} (IEC 60757: {})	Cor de fio desconhecida {} (IEC 60757: {})
@@ -885,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	Janelas: altura da bord
 Wire colour (IEC 60757), e.g. BK	Cor do fio (IEC 60757), por exemplo, BK
 Wire colour, e.g. BU	Cor do fio, por exemplo, BU
 Wire colour, e.g. BU (empty = from the potential definition)	Cor do fio, por exemplo, BU (vazio = da definição do potencial)
+Wire ends get ferrules	As extremidades de fio recebem ponteiras
 Wire number (kept when renumbering)	Número do fio (mantido ao renumerar)
 Wire numbering and wiring marks	Numeração de fios e marcas de fiação
+Wires crossing without connection: none, arc, bridge or gap	Fios que se cruzam sem conexão: none, arc, bridge ou gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	Fios finos demais para seu dispositivo de proteção e a queda de tensão dos cabos (IEC 60204-1)
 Working area in x, mm	Área de trabalho em x, mm
 Working area in y, mm	Área de trabalho em y, mm
@@ -894,7 +926,9 @@ Wrap width in mm (0: no wrapping)	Largura de quebra em mm (0: sem quebra de linh
 X position in mm	Posição X em mm
 Y position in mm (downwards)	Posição Y em mm (para baixo)
 any, wires, cables or tubes	any, wires, cables ou tubes
+auto, above, below, left or right; drops the texts placed by hand	auto, above, below, left ou right; descarta os textos posicionados manualmente
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto, tapped, through, rivet_nut, stud, clip ou adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle ou auto (conforme a configuração de terminais tubulares do layout)
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam ou product
 controller, io_device, drive, hmi or other	controller, io_device, drive, hmi ou other
 copper or aluminium	copper ou aluminium
@@ -911,6 +945,7 @@ keepout (default), power, control, signal or fluid	keepout (padrão), power, con
 l, n, pe, dc_plus, dc_minus, signal or other	l, n, pe, dc_plus, dc_minus, signal ou other
 left, center, right, top, middle or bottom	left, center, right, top, middle ou bottom
 left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rail or pattern	left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rail ou pattern
+left, right, above or below on the page, or auto (default)	left, right, above ou below na página, ou auto (padrão)
 main (default), supplementary or functional	main (padrão), supplementary ou functional
 mounted, problem or open	mounted, problem ou open
 node, segment, place, outline, bond or accessory	node, segment, place, outline, bond ou accessory

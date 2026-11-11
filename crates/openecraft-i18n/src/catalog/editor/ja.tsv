@@ -173,6 +173,7 @@ Automatic (from the potential definition)	自動 (電位定義から)
 Automatic ({})	自動 ({})
 Automatic accessories	自動付属品
 Automatic configuration	自動構成
+Automatic placement	自動配置
 Automation	自動化
 Aux	補助
 Avoid:	回避:
@@ -227,6 +228,7 @@ Cable definition	ケーブル定義
 Cable definition on page {}	ページ {} のケーブル定義
 Cable definition: draw a line across the wires that are cores of a cable	ケーブル定義: ケーブルの心線となる電線を横切る線を描画します
 Cable end reserve	ケーブル端の余長
+Cable ends	ケーブル端末
 Cable markers	ケーブルマーカー
 Cable passage to {}	{} へのケーブル貫通口
 Cable {}: {} cores assigned	ケーブル {}: {} 本の心線を割り当てました
@@ -361,11 +363,13 @@ Connected devices	接続されたデバイス
 Connected to:	接続先:
 Connection definition point	接続定義ポイント
 Connection definition point: defines number, colour, cross-section and cable core of a connection	接続定義ポイント: 接続の番号、色、断面積、ケーブル心線を定義します
+Connection point designations	接続ポイントの名称
 Connection point {}	接続ポイント {}
 Connection points 1 and 2 are connected inside	接続ポイント 1 と 2 は内部で接続されています
 Connection:	接続:
 Connections ({})	接続 ({})
 Connections / harness	接続 / ハーネス
+Connections of four or more wires always have a dot.	4 本以上の配線の接続には常に点が付きます。
 Connections whose two ends are both on selected wires	両端が選択した電線上にある接続
 Connections without a defined potential	電位が定義されていない接続
 Connectors	コネクター
@@ -386,6 +390,7 @@ Copy / cut / paste (devices get new tags)	コピー / 切り取り / 貼り付�
 Copy as new	新規としてコピー
 Copy built-in…	組み込みをコピー…
 Core designations separated by blanks	スペース区切りの心線名称
+Core labels placed by hand	手動で配置した心線ラベル
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	横切った電線に心線 1、2、3 …、さらに GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	コーナー：直角に交わる2本の接続線。自動接続が有効なとき、その側に向き合う接続点がここへ配線されます
 Cover sheet, overview, graphics, report, mounting layout or a page template	表紙、概要、グラフィック、レポート、取付レイアウト、またはページテンプレート
@@ -424,6 +429,7 @@ Dashed	破線
 Decimals	小数点以下の桁数
 Default	既定
 Default (part data or definition)	既定値 (部品データまたは定義)
+Default ({})	既定（{}）
 Default label	既定のラベル
 Default medium	既定の媒体
 Default rules	既定のルール
@@ -541,7 +547,10 @@ Downloading OpenECraft {}	OpenECraft {} をダウンロード中
 Downstream part	下位部品
 Draft of revision {} created	リビジョン {} のドラフトを作成しました
 Draft of revision {} discarded	リビジョン {} のドラフトを破棄しました
+Drag a connection point designation of the selected symbol to place it.	選択したシンボルの接続ポイントの名称をドラッグして配置します。
 Drag an entry into the page, or click it and then click into the page.	エントリをページにドラッグするか、クリックしてからページ内をクリックします。
+Drag the core designation or the cable tag of the selected wire to place it.	選択した電線の心線記号またはケーブルタグをドラッグして配置します。
+Drag the name or the cross reference of the selected point to place it.	選択したポイントの名前または相互参照をドラッグして配置します。
 Drag the tag of the selected symbol to place it.	選択したシンボルのタグをドラッグして配置します。
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	ドラッグ: 回転 · 右/中ボタンまたは Shift でドラッグ: パン · ホイール: ポインター位置でズーム · ダブルクリック: そこを見る · W A S D / 矢印キー、Q E: 移動 · クリック: 選択
 Draw	作図
@@ -642,7 +651,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	部品表に固定用部品を含める
 Favorite	お気に入り
 Favorites (JSON)	お気に入り (JSON)
-Ferrule {} ({})	フェルール {} ({})
 Field	フィールド
 Field (name, description, company, creator, date, revision) or project property	フィールド (name、description、company、creator、date、revision) またはプロジェクトプロパティ
 Field cables	フィールドケーブル
@@ -777,6 +785,8 @@ Hose number	ホース番号
 Hoses and pipes	ホースと配管
 Hoses rated below it are errors; 0 = not checked	これより定格の低いホースはエラーになります。0 = チェックしない
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	扉の開き方：左または右の端に吊り元（室内から見て）、室内側または室外側へ開く、または壁に沿って引く
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	この端での電線の端末処理。既定では接続点またはその機器に選んだもの、なければレイアウトのフェルール設定に従います
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	配線が交差する配線をどのように越えるか、T 接続をどのように示すか、移動した項目の接続を再配線するか
 IP / bus address	IP / バスアドレス
 ISO 639-1 language code	ISO 639-1 言語コード
 Identifiers	識別子
@@ -851,6 +861,7 @@ Insulation	絶縁
 Interruption points refer to	中断ポイントの参照先
 Introduction	はじめに
 Invalid value	無効な値
+Invert the direction of panning by scrolling	スクロールによるパンの方向を反転する
 Inverter or charge controller (devices with PV input data)	インバーターまたは充電コントローラー（PV入力データのある機器）
 Isometric	等角
 Items on the layer	レイヤー上のアイテム
@@ -861,6 +872,7 @@ Its pages replace the pages taken out	そのページで切り出されたペー
 Join collinear wires	一直線上の電線を結合
 Joins wire pieces in a line where nothing else connects (current page)	他に何も接続されていない一直線上の電線部分を結合します (現在のページ)
 Jumper {}	ジャンパー {}
+Jumps over the other:	もう一方を越える:
 K, Q, MM …	K、Q、MM …
 Keep sub-pages (3.a, 3.1) with the page before	サブページ (3.a、3.1) を前のページと一緒に維持
 Keep the degree of protection	保護等級を維持
@@ -874,6 +886,7 @@ Label (grey)	ラベル (グレー)
 Label field	ラベルフィールド
 Labeling scheme	ラベリングスキーム
 Landscape	横
+Large dot	大きい点
 Larger texts and buttons for a touch screen at the workbench	作業台のタッチスクリーン用に文字とボタンを大きく
 Latitude, longitude	緯度、経度
 Layer	レイヤー
@@ -985,6 +998,7 @@ Min. bend radius	最小曲げ半径
 Minimize the ribbon	リボンを最小化
 Mirror	反転
 Mirror (selection or symbol being placed)	反転 (選択内容または配置中のシンボル)
+Mixed	混在
 Mode	モード
 Model of a part (2D / 3D)	部品のモデル (2D / 3D)
 Module part; its size comes from the part	モジュール部品。サイズは部品から取得
@@ -1008,6 +1022,7 @@ Move to section	セクションへ移動
 Move up	上へ移動
 Moves to the top level as page {}	最上位レベルのページ {} になります
 Moves to {} as page {}	{} のページ {} になります
+Moving	移動
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	現在のページの単線シンボルに対する複線の動力シンボルと導体 (新しいページに作成)
 Multiple copy	複数コピー
 Multiple copy…	複数コピー…
@@ -1020,9 +1035,11 @@ NC data (DXF)	NC データ (DXF)
 NC data of this face (DWG)	この面の NC データ (DWG)
 NC data of this face (DXF)	この面の NC データ (DXF)
 Nailboard (SVG)…	布線板 (SVG)…
+Name and cross reference	名前と相互参照
 Name on the server	サーバー上の名前
 Name; Data Type; Logical Address; Comment – for PLC programming tools	名前; データ型; 論理アドレス; コメント – PLC プログラミングツール用
 Named copy of this form, for report blocks	このフォームの名前付きコピー (レポートブロック用)
+Navigation	ナビゲーション
 Navigators	ナビゲーター
 Neutral exchange file…	ニュートラル交換ファイル…
 Never	表示しない
@@ -1087,11 +1104,13 @@ No device has its main function in the box.	主機能がボックス内にある
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	取付データを持つデバイスはまだありません: 寸法のある部品をデバイスに割り当ててください (プロパティ › 部品)。
 No differences to {}.	{} との相違点はありません。
 No document embedded	ドキュメントが埋め込まれていません
+No dot: plain T	点なし: 単純な T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	エンクロージャーがまだありません – 「新しいエンクロージャー」で作成するか、「新しい部屋」でキャビネット用の部屋を作成します。
 No field cables: place the enclosures and field devices at nodes of the route network.	フィールドケーブルがありません。エンクロージャーとフィールドデバイスをルートネットワークのノードに配置してください。
 No filter fans: an air/air heat exchanger or a cooling unit	フィルターファンなし: 空気/空気熱交換器またはクーラー
 No harnesses defined.	ハーネスが定義されていません。
 No inverter	インバーターなし
+No jump: plain crossing, connections have dots	ジャンプなし: 単純な交差、接続には点
 No longer reported	報告されなくなりました
 No macros yet. Select items in a schematic and save them as a macro.	マクロはまだありません。回路図で要素を選択し、マクロとして保存してください。
 No modules: plug in PLC cards of the schematic.	モジュールがありません: 回路図の PLC カードを装着してください。
@@ -1293,6 +1312,7 @@ Place the georeferenced point everything is measured from	すべての測定の�
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	設備のジオリファレンス点を配置図に配置します。座標は建物ペインで入力し、すべての点はそこから測定されます
 Placed	配置済み
 Placed by hand	手動で配置
+Placed by hand; choosing a side places them anew.	手動で配置済み。側を選ぶと配置し直します。
 Placed here: {}	ここに配置: {}
 Placed {}× in the project	プロジェクト内に {}× 配置
 Placeholders	プレースホルダー
@@ -1337,6 +1357,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	部品でカ�
 Pre-planning (CSV, Excel)	事前計画 (CSV、Excel)
 Prefix	プレフィックス
 Press a key…	キーを押してください…
+Preview	プレビュー
 Previous item	前のアイテム
 Previous page	前のページ
 Previous page tab	前のページタブ
@@ -1483,6 +1504,7 @@ Reset	リセット
 Reset all to the defaults	すべて既定値にリセット
 Reset pane layout	パネル配置をリセット
 Reset the ribbon	リボンをリセット
+Reset to automatic placement	自動配置に戻す
 Reset to standard	標準にリセット
 Restart and update	再起動して更新
 Resulting: {} · {} · {} · {} m	結果: {} · {} · {} · {} m
@@ -1522,6 +1544,7 @@ Round	円形
 Round cutouts facing each other in both side walls	両側板に向かい合う円形の切り欠き
 Route definition of {}	{} のルート定義
 Route network	ルートネットワーク
+Route the connections of moved items anew	移動した項目の接続を再配線
 Route wires in 3D	電線を 3D で配線
 Routed in {}: {} m, {} bends	{} 内の配線ルート: {} m、曲げ {} 箇所
 Routing around symbols	シンボル回避ルート
@@ -1583,6 +1606,9 @@ Scheme name	スキーム名
 Scheme placed again at {} symbols	スキームを {} 個のシンボルに再配置しました
 Scheme {}	スキーム {}
 Screws, nuts, washers and rivet nuts of the fixing points	固定ポイントのねじ、ナット、ワッシャー、リベットナット
+Scrolling	スクロール
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	スクロールで全方向にパンします。ズームはピンチまたは Ctrl + スクロールで行います。
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	上下のスクロールでポインター位置をズーム、横方向（水平ホイール、Shift + ホイール）でパンします。
 Search (* and ? as placeholders)…	検索 (* と ? はワイルドカード)…
 Search below this folder	このフォルダーの下を検索
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	カタログ、製品グループ、技術データで部品サーバーを検索し、部品を追加して、データベースの更新を確認します
@@ -1759,6 +1785,7 @@ Synchronize	同期
 Synchronize function texts	機能テキストを同期
 Synchronize project parts from database	データベースからプロジェクト部品を同期
 T Text	T テキスト
+T-connections	T 接続
 Tab	タブ
 Table import failed: {}	表のインポートに失敗しました: {}
 Tablet mode	タブレットモード
@@ -1779,6 +1806,7 @@ Taken into the drawing: drawn faded	図面に反映済み: 薄く表示
 Takes the comments as function texts (matched by address)	コメントを機能テキストとして取り込みます (アドレスで照合)
 Takes the connection point designations of all functions of this device from the function templates of its parts	このデバイスのすべての機能の接続ポイント名称を、部品の機能テンプレートから取り込みます
 Takes the rights of the role away, whatever other grants give	他の付与内容にかかわらず、ロールの権限を取り消します
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	重みが最小の経路を選びます: グリッド単位の長さ、曲がりごとに 1.2、交差する配線ごとに 1.5。オフ: 配線は伸びて角を保ちます。
 Target languages	ターゲット言語
 Temperature rise at the roof against the middle (IEC/TR 60890)	中央部に対する天井部の温度上昇 (IEC/TR 60890)
 Template	テンプレート
@@ -1808,6 +1836,7 @@ The dictionary is empty: collect the texts from the project.	辞書が空です:
 The door seen from the front: door devices and cutouts	前面から見た扉: 扉取付機器と切り欠き
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	内側から見た扉 (ヒンジは右): 配線ダクトと扉裏の配線
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	エンクロージャーの左側を選択したエンクロージャーの右側に接して設置します。電線はケーブル貫通口を通って両者の間を通ります
+The horizontal wire	水平の配線
 The items are selected and moved together	アイテムはまとめて選択、移動されます
 The macro library has no page macros (Macros › Save page as macro…).	マクロライブラリにページマクロがありません (マクロ › ページをマクロとして保存…)。
 The modules no string takes yet in series, on the first inverter	まだどのストリングにも属さないモジュールを直列に、最初のインバーターへ
@@ -1834,6 +1863,7 @@ The side of {} is open	{} の側面は開放されています
 The symbol is placed in the project	シンボルはプロジェクト内で使用されています
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	端子部品にエンドクランプまたはエンドカバーの指定がありません (技術データ End bracket、End plate)。
 The update failed	更新に失敗しました
+The vertical wire	垂直の配線
 The web version is updated on its server.	Web 版はそのサーバー上で更新されます。
 The wire tool routes around symbols and other wires	電線ツールはシンボルや他の電線を回避してルートを決めます
 The wires get the free cores of the cable in order (left to right)	電線にはケーブルの空き心線が順番に (左から右へ) 割り当てられます
@@ -1860,10 +1890,14 @@ Top edges	上端
 Top left	左上
 Top right	右上
 Total selectivity	完全選択遮断
+Touch screen	タッチスクリーン
 Transfer project parts to database	プロジェクト部品をデータベースに転送
 Translate the project texts; documentation per language	プロジェクトテキストを翻訳します。言語ごとのドキュメント
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	鉛直軸まわりの回転 (上から見て反時計回り、90 °: 正面が右向き)
 Tutorial	チュートリアル
+Twin ferrules where two wires share a connection point	2本の電線が接続ポイントを共有する場合はツインフェルール
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	トラックパッドの 2 本指でパン、マウスホイールでズームします。両者を区別できるのは macOS だけで、その他ではスクロールはホイールと同じくズームします。
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	2 本指でパンとピンチズームを同時に行えます。1 本指はマウスの左ボタンと同じ働きをします。
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	ここで2本の接続線が直角に交わる必要があります。自動接続が有効なとき、その側に向き合う接続点がここへ配線されます。
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	点を入力して Enter キーを押します: x y (mm)、または最後の点からの相対位置 @dx dy。現在のツールでのクリックと同じように動作します
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V、I {} A、{} kWp
@@ -1947,6 +1981,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	ホイール: ズーム · 右クリック: キャンセル · 図形は 0.5 mm、接続ポイントは 4 mm グリッドにスナップ
 When it differs from the page	ページと異なる場合
 Where	位置
+Where neither wire has a termination chosen for it	どちらの電線にも端末処理が選ばれていない場合
 Where the point is in the plant; y: its height above the ground level of the plant	設備内の点の位置。y：設備の地盤面からの高さ
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	デバイスの構造の由来: シンボル周囲の構造と等しいアスペクトは継承され、構造ボックスへの出し入れに追従します。その他のアスペクトはデバイス固有のもので、変わりません。
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	電線の始点と終点: 部品データの接続ポイント、機能テンプレートから生成された接続ポイント、または一致する接続ポイントがない場合はデバイスの中心
@@ -1962,6 +1997,8 @@ Window macro: {}	ウィンドウマクロ: {}
 Window macros inserted from now on are recorded as macro boxes.	今後挿入するウィンドウマクロはマクロボックスとして記録されます。
 Window macros placed on the pages (not printed)	ページに配置されたウィンドウマクロ (印刷されません)
 Wire colour	電線の色
+Wire crossings	配線の交差
+Wire crossings…	配線の交差…
 Wire ends	電線端
 Wire ends with ferrules	フェルール付きの電線端
 Wire markers	電線マーカー
@@ -1975,6 +2012,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	電線 {} – {}  (こ
 Wire {} – {}  {} mm	電線 {} – {}  {} mm
 Wires and potentials	電線と電位
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	流体動力シンボルと P&ID シンボルのポート間の電線はホース / 配管です: 独自のネットを持ち、電線番号付けで番号が付けられ、ホースリストに記載されます。
+Wires crossing without connection	接続なしで交差する配線
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	ここから4方向すべてに接続線が出ている必要があります。それまでは接続は回路図の順序でつながれます。
 Wires of the connection	接続の電線
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	電線も、板上の配線ダクトだけでなく、障害物を考慮した 3D ルートを使用します
@@ -2250,10 +2288,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} ピクセル、{}
 {} – {} ({} pages)	{} – {} ({} ページ)
 {}: click to show its floor plan	{}：クリックで平面図を表示
+{}: crimp together with the wire to {}	{}: {} への電線と一緒に圧着
 {}: drag to move it, R turns it, a double-click opens it	{}: ドラッグで移動、R で回転、ダブルクリックで開く
 {}: drag to move it, a double-click shows the floor	{}: ドラッグで移動、ダブルクリックで床を表示
 {}: nothing to change	{}: 変更なし
 {}: pin {}	{}: ピン {}
+{}: strip {} mm, {}	{}：被覆除去 {} mm、{}
 {}: {} addresses changed	{}: {} 個のアドレスを変更しました
 {}: {} changes in the open project (not saved yet)	{}: 開いているプロジェクトで {} 件の変更 (未保存)
 {}: {} changes saved	{}: {} 件の変更を保存しました

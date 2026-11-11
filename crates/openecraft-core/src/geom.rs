@@ -39,6 +39,15 @@ impl P {
         q
     }
 
+    /// Inverse of [`P::transform`]: from page directions back to the symbol's own.
+    pub fn untransform(self, rot: u8, mirror: bool) -> P {
+        let mut q = self;
+        for _ in 0..(rot % 4) {
+            q = p(q.y, -q.x);
+        }
+        if mirror { p(-q.x, q.y) } else { q }
+    }
+
     /// Integer key used for connectivity (0.01 mm resolution).
     pub fn key(self) -> (i64, i64) {
         ((self.x * 100.0).round() as i64, (self.y * 100.0).round() as i64)

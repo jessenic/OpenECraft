@@ -8,6 +8,7 @@ A page named {} already exists	Сторінка з назвою {} вже існ
 A page needs a name	Сторінці потрібна назва
 A routing path needs {} points at least	Траса прокладання потребує щонайменше {} точок
 A section cannot be moved into itself	Розділ не можна перемістити в самого себе
+Above	Зверху
 Access token	Токен доступу
 Accessories	Аксесуари
 Accessory	Аксесуар
@@ -18,6 +19,7 @@ Angle	Кут
 Apply	Застосувати
 Approvers	Погоджувачі
 Automatic	Автоматично
+Below	Знизу
 Bold	Жирний
 Bottom	Дно
 Bottom with removable gland plate	Дно зі знімною фланцевою панеллю
@@ -472,6 +474,7 @@ open	відкрито
 rejected	відхилено
 right	праворуч
 spare	резерв
+strip {} mm, {}	зачистити {} мм, {}
 the disk is full	диск заповнено
 the file exists already	файл уже існує
 this is a folder	це папка
@@ -481,5 +484,6 @@ yes	так
 {} exists already	{} вже існує
 {} parts	Виробів: {}
 {} wires	Проводів: {}
+{}, together with the wire to {}	{}, разом із проводом до {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} не встановлюється на підлогу, виберіть виріб, що стоїть на підлозі
 ➕ Add accessory	➕ Додати аксесуар

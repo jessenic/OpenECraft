@@ -96,6 +96,7 @@ Changes the properties of a wire	電線のプロパティを変更します
 Changes the system, size and components of an enclosure (plinth, bayed sides, gland plate); anchored items follow	エンクロージャーのシステム、サイズ、構成部品 (台座、連結側、グランドプレート) を変更します。アンカー付きのアイテムは追従します
 Check {} failed: {}	チェック {} が失敗しました: {}
 Checks the panel layout: collisions, clearances (mounting, ventilation, EMC), service space, heights above the floor, collision classes, temperatures and manufacturability	盤レイアウトをチェックします: 干渉、クリアランス (取付、換気、EMC)、サービススペース、床面からの高さ、干渉クラス、温度、製造性
+Chooses how wire ends are terminated: bare, with a ferrule or a crimped terminal; at a connection point, at all connection points of a device or for one wire only	電線端末の処理を選びます：被覆除去のみ、フェルール、圧着端子。接続点ごと、機器の全接続点、または1本の電線のみ
 Chosen value	選択した値
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	盤レイアウトのクリアランス、サービススペース、高さ、干渉クラス、熱シミュレーション、製造性
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	エンクロージャーの温度管理 (IEC/TR 60890): 損失電力、内部温度、必要なファンまたはクーラーとヒーター。必要に応じてエンクロージャーの設定を変更します
@@ -110,8 +111,10 @@ Configuration of an enclosure for the configurator of the enclosure maker: syste
 Configurator condition, e.g. HEATER=yes (empty: switched by hand)	コンフィギュレーターの条件 (例: HEATER=yes) (空欄: 手動で切り替え)
 Configures a hose / tube / pipe: line type, part, end fittings, pressure rating, bend radius, medium, size, colour and length	ホース / チューブ / 配管を構成します: ラインタイプ、部品、端部継手、定格圧力、曲げ半径、媒体、サイズ、色、長さ
 Connection point TAG:PIN, e.g. -K1:A1	接続ポイント TAG:PIN (例: -K1:A1)
+Connection point designation or number (1, 2, …)	接続ポイントの名称または番号 (1, 2, …)
 Connection point designations separated by commas or blanks	接続ポイントの名称 (カンマまたはスペース区切り)
 Connection point designations, comma separated, e.g. 13,14	接続ポイントの名称 (カンマ区切り、例: 13,14)
+Connection point, e.g. -K1:13, or a device, e.g. -K1 (all its connection points)	接続点（例：-K1:13）または機器（例：-K1、そのすべての接続点）
 Connector id (required unless removing)	コネクター ID (削除時以外は必須)
 Connects two connection points with wires routed around symbols and other wires	シンボルや他の電線を回避するルートの電線で 2 つの接続ポイントを接続します
 Connects two ports of stations with a network cable; connections already on these ports are replaced	ステーションの 2 つのポートをネットワークケーブルで接続します。これらのポートの既存の接続は置き換えられます
@@ -134,6 +137,8 @@ Creates or changes a fluid device group	流体デバイスグループを作成�
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	プロジェクトの図枠を作成または変更します (組み込みの図枠は新しい名前でコピーされます)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	電位定義を作成または変更します。電線に設定がない限り、その電線は色と断面積を引き継ぎます
 Creates or changes a work area: only the pages and devices of its structure are shown	作業領域を作成または変更します: その構造のページとデバイスのみが表示されます
+Cross reference placed by hand: X offset from the insertion point in mm	手動で配置した相互参照：挿入点からの X オフセット（mm）
+Cross reference placed by hand: Y offset from the insertion point in mm	手動で配置した相互参照：挿入点からの Y オフセット（mm）
 Cross section, e.g. 0.75 mm²	断面積 (例: 0.75 mm²)
 Cross section, e.g. 1.5 mm²	断面積 (例: 1.5 mm²)
 Cross section, e.g. 1.5 mm² (empty = from the potential definition)	断面積 (例: 1.5 mm²、空 = 電位定義から)
@@ -290,6 +295,7 @@ Id of the panel item (from mounting_list)	盤アイテムの ID (mounting_list �
 Id of the path or reservation	経路または予約領域の ID
 Id of the text	テキストの ID
 Identifier, e.g. A1 or CAB1	識別子 (例: A1 または CAB1)
+Ids of interruption points	中断ポイントの ID
 Ids of page items	ページアイテムの ID
 Ids of symbols and connection symbols (default: all symbols of the page)	シンボルおよび接続シンボルの id（既定：ページのすべてのシンボル）
 In front of the page name (default /)	ページ名の前 (既定 /)
@@ -375,6 +381,7 @@ Lists the structure management: aspects of the pages, defined and used identifie
 Lists the subprojects taken out of the project, or the project it was taken from	プロジェクトから切り出されたサブプロジェクト、または切り出し元のプロジェクトを一覧表示します
 Lists the symbols that can be placed, with their connection points relative to the insertion point	配置可能なシンボルを、挿入点からの相対位置で表した接続ポイントと共に一覧表示します
 Lists the terminal strips with their number of terminals and length on the rail	端子台を端子数とレール上の長さとともに一覧表示します
+Lists the terminations chosen for wire ends and the kinds there are	電線端末に選んだ端末処理と使用できる種類を一覧表示します
 Lists the translation dictionary of the project texts (source line and translations)	プロジェクトテキストの翻訳辞書 (ソース行と翻訳) を一覧表示します
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	ページに配置されたウィンドウマクロ (マクロボックス) を、マクロ、バリアント、プレースホルダー値、アイテム数とともに一覧表示します
 Load losses of the transformer in W (0: typical)	変圧器の負荷損 (W) (0: 標準値)
@@ -429,6 +436,8 @@ Name of the segment	セグメントの名前
 Name of the template	テンプレートの名前
 Name of the work area	作業領域の名前
 Name or id; the tag for places	名前または ID (配置の場合はタグ)
+Name placed by hand: X offset from the insertion point in mm	手動で配置した名前：挿入点からの X オフセット（mm）
+Name placed by hand: Y offset from the insertion point in mm	手動で配置した名前：挿入点からの Y オフセット（mm）
 Name, e.g. the location +M1	名前 (例: 取付場所 +M1)
 New device tag	新しいデバイスタグ
 New identifier	新しい識別子
@@ -475,6 +484,7 @@ Node name or id	ノード名または ID
 Node {} exists already	ノード {} はすでに存在します
 Nodes to pass in this order, comma separated	この順序で通過するノード (カンマ区切り)
 Nominal size, e.g. 8 mm or DN25	呼び径 (例: 8 mm または DN25)
+None of the items is an interruption point	中断ポイントである要素がありません
 Not a cross-section: {} (e.g. 1.5 mm²)	断面積ではありません: {} (例: 1.5 mm²)
 Not a valid safety function: {}	有効な安全機能ではありません: {}
 Note, e.g. what the problem is	注記 (例: 問題の内容)
@@ -489,6 +499,8 @@ Numbers the terminals of a strip 1 … n in strip order; non-numeric designation
 Numbers the wires by the numbering scheme of the project	プロジェクトの番号付けスキームで電線に番号を付けます
 OPTION=value, OPTION!=value, OPTION=a|b joined by & (empty: always)	OPTION=値、OPTION!=値、OPTION=a|b を & で連結 (空: 常に)
 Offset from the symbol position in mm (default: below the symbol)	シンボル位置からのオフセット (mm) (既定: シンボルの下)
+Offset of the cable tag shown at the wire from its automatic place, one point [dx, dy] in mm (no point = automatic)	電線に表示するケーブルタグの自動位置からのオフセット、1 点 [dx, dy]（mm）（点なし = 自動）
+Offset of the core designation from its automatic place, one point [dx, dy] in mm (no point = automatic)	心線記号の自動位置からのオフセット、1 点 [dx, dy]（mm）（点なし = 自動）
 One end, e.g. -K1:A1	一方の端 (例: -K1:A1)
 One row per printed label instead of a count	数量の代わりに印刷するラベルごとに 1 行
 Only devices on these pages (names separated by commas)	これらのページのデバイスのみ (名前をカンマ区切りで指定)
@@ -512,6 +524,7 @@ Operations	工程
 Option name	オプション名
 Option name, e.g. STARTER	オプション名 (例: STARTER)
 Options and rules of the configurator	コンフィギュレーターのオプションとルール
+Other end of the wire, e.g. -X1:3: only this wire	電線のもう一方の端（例：-X1:3）：この電線のみ
 Other end, e.g. -X1:3	もう一方の端 (例: -X1:3)
 Outer diameter in mm, 0 = estimated	外径 (mm、0 = 推定)
 Outer lengths of the straight segments, mm, e.g. 200, 150, 300	直線区間の外寸 (mm) (例: 200, 150, 300)
@@ -554,7 +567,9 @@ Places a symbol on a page. Without a tag the next free one is used; auxiliary co
 Places an enclosure (+CAB1), a device (-M1) or a machine location (+M1) at a node of the field route network	エンクロージャー (+CAB1)、デバイス (-M1)、または機械の取付場所 (+M1) をフィールドルートネットワークのノードに配置します
 Places an enclosure accessory (fan, filter, cable gland, light, handle, PE bar) on a face	エンクロージャーの付属品 (ファン、フィルター、ケーブルグランド、照明、ハンドル、PE バー) を面に配置します
 Places of the group (0 = not limited)	グループの位置数 (0 = 制限なし)
+Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	シンボルの接続ポイントの名称を左、右、上または下に配置してずらします。位置とずれを指定しない場合は再び自動で配置します
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	エンクロージャーの列盤を室内に配置します (すべてのエンクロージャーの 3D ビュー)。x と z を省略した場合は、プラントレイアウトに従って、または他の列盤の隣に配置されます
+Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	中断ポイントの名前と相互参照を矢印の側に、または挿入点からのオフセットで手動で配置します
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	スキームのプロパティをシンボルに配置します。ID を指定しない場合は、使用しているすべてのシンボルに再配置します
 Planned part number	計画部品番号
 Planned power in kW	計画電力 (kW)
@@ -644,10 +659,12 @@ Replaces text in free texts, function texts, page, device and cable descriptions
 Report blocks and report schemes	レポートブロックとレポートスキーム
 Reserves space over the mounting plate: kept free of routes, or for one class only	取付板上の空間を予約します: ルートを通さない、または 1 つのクラス専用
 Rest (mm)	残り (mm)
+Reuse failed searches during one routing calculation	同じ配線経路計算内で失敗した検索結果を再利用する
 Right side bayed (no side panel)	右側を連結 (側板なし)
 Room {} exists already	部屋 {} は既に存在します
 Rotation in degrees clockwise: 0, 90, 180 or 270	時計回りの回転角度 (度): 0、90、180、270
 Rotation in degrees, counter-clockwise (90 reads from bottom to top)	回転角度 (度、反時計回り。90 で下から上に読む向き)
+Route the connections of moved items anew: shortest way with the fewest bends and crossings	移動した項目の接続を再配線: 曲がりと交差が最も少ない最短経路
 Route the wires in 3D as well (otherwise through the cable ducts)	電線も 3D で配線する (それ以外は配線ダクト経由)
 Routing rules, paths, reservations, frozen routes and cable shields	配線ルールとルート、予約、固定されたルート、ケーブルシールド
 Row key (from table_get)	行キー (table_get から)
@@ -672,6 +689,7 @@ Selectivity and back-up protection of device pairs from the manufacturers' table
 Separator: semicolon, comma or tab	区切り文字: semicolon、comma または tab
 Sets how cross references are shown (only the given settings) and shows the settings	相互参照の表示方法を設定 (指定した設定のみ) し、設定を表示します
 Sets how the terminals of a jumper are bridged	ジャンパーの端子の橋絡方法を設定します
+Sets how wire ends without a chosen termination are terminated: with ferrules or bare, and with twin ferrules where two wires share a connection point	端末処理が選ばれていない電線端の処理を設定します: フェルール付きか剥き出しか、2本の電線が接続ポイントを共有する場合はツインフェルール
 Sets property values of an object; an empty value removes it	オブジェクトのプロパティ値を設定します。空の値を指定すると削除されます
 Sets the aspects the pages use	ページで使用するアスペクトを設定します
 Sets the collision class of a panel item (empty: automatic)	盤アイテムの干渉クラスを設定します (空欄: 自動)
@@ -690,6 +708,8 @@ Sets the wire colour and cross-section of nets without a defined potential (empt
 Share of the capacity kept free in percent	空けておく容量の割合 (%)
 Sheets	シート
 Shield connected at: both, first, second or none	シールドの接続先: both、first、second、または none
+Shift downwards in mm	下へのずれ (mm)
+Shift to the right in mm	右へのずれ (mm)
 Short circuit, load, EMC and safety calculations, rule sets and project verification	短絡、負荷、EMC、安全の計算、ルールセット、プロジェクト検証
 Short-circuit currents, breaking capacities, disconnection times, short-circuit withstand of the cables and selectivity of the protective devices	短絡電流、遮断容量、遮断時間、ケーブルの短絡耐量、保護機器の選択遮断
 Short-circuit power of the network upstream of the transformer in MVA (0: infinite)	変圧器の上位系統の短絡容量 (MVA) (0: 無限大)
@@ -701,6 +721,7 @@ Show as \"Name: value\"	「名前: 値」として表示
 Show the content	内容を表示
 Shows a property as a text beside a symbol	プロパティをシンボルの横にテキストとして表示します
 Shows a terminal strip: terminals in strip order with level, jumper and targets, the blocks on the rail and the jumpers	端子台を表示します: 端子台の順序の端子 (段、ジャンパー、接続先を含む)、レール上のブロック、ジャンパー
+Shows how wires cross and connect on the pages and whether moving items routes their connections anew, and changes those given	ページ上で配線がどのように交差・接続するか、および移動した項目の接続を再配線するかを表示し、指定した値を変更します
 Shows or changes the machining strategy and which machine makes which face	加工方針と、どの面をどの機械で加工するかを表示または変更します
 Shows or changes the rules of copper bars; lengths in mm	銅バーのルールを表示または変更します。長さは mm
 Shows or changes the rules of the panel layout checks; values in mm (temperature in °C)	盤レイアウトチェックのルールを表示または変更します。値は mm (温度は °C)
@@ -748,7 +769,9 @@ Switches the project options with a condition by the configurator options	条件
 Symbol id	シンボル ID
 Symbol ids	シンボル ID
 Symbol key from list_symbols	list_symbols のシンボルキー
+Symbol {} has no connection point {}	シンボル {} に接続ポイント {} はありません
 Symbols, wires, texts, cable and connection definitions on schematic pages	回路図ページ上のシンボル、電線、テキスト、ケーブル定義と接続定義
+T-connections: dot, large_dot or none	T 接続: dot、large_dot または none
 T-junction: direction of the stem; bridge: side the connection comes from (left, right, up or down)	T分岐：軸の方向。ブリッジ：接続が入ってくる側（left、right、up または down）
 Tag of the terminal strip, e.g. -X1	端子台のタグ (例: -X1)
 Take the cut lengths over as cable lengths	切断長をケーブル長として反映
@@ -794,6 +817,7 @@ The straight line of a crossing: vertical or horizontal (default vertical)	交�
 The text height must be at least 0.5 mm	文字の高さは 0.5 mm 以上である必要があります
 The two arms of a corner, vertical and horizontal, e.g. down left (default: from the wires there, else down right)	コーナーの2つの側、縦と横（例：down left。既定：その位置の接続線から、なければ down right）
 The wire has no length	接続に長さがありません
+The wire that jumps: vertical or horizontal	ジャンプする配線: vertical または horizontal
 The wrap width must not be negative	折り返し幅に負の値は指定できません
 Thermal simulation of the mounting plate: air temperatures, hot spot, heat sources and the temperature at every device	取付板の熱シミュレーション: 空気温度、ホットスポット、熱源、各デバイスの温度
 Thickest sheet or bar, mm	最大の板厚またはバー厚 (mm)
@@ -804,7 +828,9 @@ Top edge on the face in mm	面上の上端の位置 (mm)
 Top edge on the mounting plate in mm	取付板上の上端の位置 (mm)
 Translated line	翻訳された行
 Turn about the vertical in degrees, counter-clockwise seen from above (90: the fronts face to the right)	鉛直軸まわりの回転角度 (度、上から見て反時計回り、90: 正面が右向き)
+Two wires at a connection point share a twin ferrule	接続ポイントの2本の電線がツインフェルールを共有する
 Unit, e.g. kW	単位 (例: kW)
+Unknown T-connection style: {}	不明な T 接続スタイル: {}
 Unknown accessory kind: {}	不明な付属品の種類: {}
 Unknown action: {}	不明なアクション: {}
 Unknown address scheme: {}	不明なアドレス方式: {}
@@ -827,7 +853,9 @@ Unknown field: {}	不明なフィールド: {}
 Unknown group kind: {}	不明なグループの種類: {}
 Unknown installation: {}	不明な設置方法: {}
 Unknown insulation: {}	不明な絶縁: {}
+Unknown jump style: {}	不明なジャンプスタイル: {}
 Unknown jumper kind: {}	不明なジャンパーの種類: {}
+Unknown jumping wire: {}	不明なジャンプする配線: {}
 Unknown kind: {}	不明な種類: {}
 Unknown labels: {}	不明なラベル: {}
 Unknown level: {}	不明なレベル: {}
@@ -854,10 +882,12 @@ Unknown separator: {}	不明な区切り文字: {}
 Unknown setting: {}	不明な設定: {}
 Unknown shield ends: {}	不明なシールド端: {}
 Unknown side {} (socket or pin)	不明な側 {} (socket または pin)
+Unknown side: {}	不明な位置: {}
 Unknown state: {}	不明な状態: {}
 Unknown station kind: {}	不明なステーションの種類: {}
 Unknown symbol: {}	不明なシンボル: {}
 Unknown table: {}	不明な表: {}
+Unknown termination: {}	不明な端末処理：{}
 Unknown vertical anchor: {}	不明な垂直アンカー: {}
 Unknown way of opening: {}	不明な開き方：{}
 Unknown wire colour {} (IEC 60757: {})	不明な電線色 {} (IEC 60757: {})
@@ -885,8 +915,10 @@ Windows: height of the bottom edge above the floor in mm	窓：床からの下�
 Wire colour (IEC 60757), e.g. BK	電線色 (IEC 60757、例: BK)
 Wire colour, e.g. BU	電線色 (例: BU)
 Wire colour, e.g. BU (empty = from the potential definition)	電線色 (例: BU、空 = 電位定義から)
+Wire ends get ferrules	電線端にフェルールを付ける
 Wire number (kept when renumbering)	電線番号 (番号の振り直し時も保持されます)
 Wire numbering and wiring marks	電線番号付けと配線マーク
+Wires crossing without connection: none, arc, bridge or gap	接続なしで交差する配線: none、arc、bridge または gap
 Wires too thin for their protective device and the voltage drop of the cables (IEC 60204-1)	保護機器に対して細すぎる電線とケーブルの電圧降下 (IEC 60204-1)
 Working area in x, mm	X 方向の加工範囲 (mm)
 Working area in y, mm	Y 方向の加工範囲 (mm)
@@ -894,7 +926,9 @@ Wrap width in mm (0: no wrapping)	折り返し幅 (mm) (0: 折り返しなし)
 X position in mm	X 位置 (mm)
 Y position in mm (downwards)	Y 位置 (mm、下向き)
 any, wires, cables or tubes	any、wires、cables、または tubes
+auto, above, below, left or right; drops the texts placed by hand	auto、above、below、left または right。手動で配置したテキストを破棄します
 auto, tapped, through, rivet_nut, stud, clip or adhesive	auto、tapped、through、rivet_nut、stud、clip、または adhesive
+bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle, or auto (as the layout sets ferrules)	bare, ferrule, twin_ferrule, ring, fork, pin, blade, receptacle、または auto（レイアウトのフェルール設定に従う）
 compressed_air, vacuum, hydraulic_oil, water, coolant, lubricant, gas, steam or product	compressed_air、vacuum、hydraulic_oil、water、coolant、lubricant、gas、steam、または product
 controller, io_device, drive, hmi or other	controller、io_device、drive、hmi、または other
 copper or aluminium	copper または aluminium
@@ -911,6 +945,7 @@ keepout (default), power, control, signal or fluid	keepout (既定)、power、co
 l, n, pe, dc_plus, dc_minus, signal or other	l、n、pe、dc_plus、dc_minus、signal、または other
 left, center, right, top, middle or bottom	left、center、right、top、middle または bottom
 left, center_x, right, top, center_y, bottom, distribute_x, distribute_y, rail or pattern	left、center_x、right、top、center_y、bottom、distribute_x、distribute_y、rail、または pattern
+left, right, above or below on the page, or auto (default)	ページ上の left, right, above または below, または auto (既定)
 main (default), supplementary or functional	main (既定)、supplementary または functional
 mounted, problem or open	mounted、problem または open
 node, segment, place, outline, bond or accessory	node、segment、place、outline、bond または accessory

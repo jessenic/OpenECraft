@@ -41,7 +41,7 @@ pub mod xml;
 
 pub use accessory::AccessoryMount;
 pub use bmecat::{from_bmecat, is_bmecat};
-pub use catalog::{add_generated_models, default_catalog, nozzles, shaft, Nozzle, Shaft};
+pub use catalog::{add_generated_models, default_catalog, nozzles, shaft, Nozzle, Shaft, GLAND_GAP};
 pub use connection::{default_connection_points, points_from_text, points_to_text, upper_side, ConnectionPoint, Exit};
 pub use csv::{csv_escape, from_csv, import, parse_csv, to_csv};
 pub use eplan::{from_eplan_documents, from_eplan_xml, is_eplan_xml, language_text, to_eplan_xml};

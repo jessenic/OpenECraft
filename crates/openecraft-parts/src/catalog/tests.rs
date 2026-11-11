@@ -109,6 +109,61 @@ fn the_catalog_has_a_part_for_wall_mounting() {
 }
 
 #[test]
+fn cable_glands_come_in_both_materials_and_from_a_manufacturer() {
+    let parts = default_catalog();
+    let part = |n: &str| parts.iter().find(|p| p.number == n).unwrap_or_else(|| panic!("{n}"));
+    for size in ["M16", "M20", "M25", "M32", "M40", "M63"] {
+        let (plastic, metal) = (part(&format!("GEN.GLAND-{size}")), part(&format!("GEN.GLAND-{size}-MS")));
+        assert_eq!((plastic.subgroup.as_str(), metal.subgroup.as_str()), ("Cable gland", "Cable gland"));
+        assert_eq!((plastic.tech_value("Clamping range min"), plastic.tech_value("Clamping range max")), (metal.tech_value("Clamping range min"), metal.tech_value("Clamping range max")));
+        assert!(plastic.tech_value("Material").is_some_and(|m| m.contains("Polyamide")) && metal.tech_value("Material").is_some_and(|m| m.contains("nickel")), "{size}");
+        // Drawn in their colours: the same shape, a different look.
+        let (m1, m2) = (plastic.model_3d.as_ref().unwrap(), metal.model_3d.as_ref().unwrap());
+        assert_eq!(m1.triangles.len(), m2.triangles.len());
+        assert!(m1.color(0).is_some() && m1.color(m1.triangles.len() - 1) != m2.color(m2.triangles.len() - 1), "{size}");
+    }
+    assert!(part("GEN.GLAND-M20-EMC").description.contains("EMC") && part("GEN.GLAND-M20-EMC").tech_value("Shielding").is_some());
+    let lapp = part("LAPP.53111020");
+    assert_eq!((lapp.manufacturer.as_str(), lapp.subgroup.as_str(), lapp.tech_value("Clamping range max")), ("LAPP", "Cable gland", Some("13")));
+    assert!(lapp.description.contains("SKINTOP") && lapp.model_3d.is_some());
+    assert_eq!(part("LAPP.53112020").tech_value("Material"), Some("Brass, nickel-plated"));
+}
+
+/// Two triangles of a model in one plane, facing the same way, one over the other:
+/// drawn, they flicker (the depth test cannot tell which is in front).
+fn overlapping_faces(m: &crate::Mesh3d) -> Vec<(usize, usize)> {
+    use crate::vec3::{cross, dot, norm, sub};
+    let tri = |i: usize| m.triangles[i].map(|k| m.vertices[k as usize]);
+    let normal = |t: [[f32; 3]; 3]| norm(cross(sub(t[1], t[0]), sub(t[2], t[0])));
+    let centroid = |t: [[f32; 3]; 3]| [0, 1, 2].map(|k| (t[0][k] + t[1][k] + t[2][k]) / 3.0);
+    let inside = |q: [f32; 3], t: [[f32; 3]; 3], n: [f32; 3]| (0..3).all(|i| dot(cross(sub(t[(i + 1) % 3], t[i]), sub(q, t[i])), n) > 1e-4);
+    let mut out = Vec::new();
+    for i in 0..m.triangles.len() {
+        let (a, na) = (tri(i), normal(tri(i)));
+        for j in i + 1..m.triangles.len() {
+            let (b, nb) = (tri(j), normal(tri(j)));
+            if dot(na, nb) < 0.999 || dot(na, sub(b[0], a[0])).abs() > 0.01 {
+                continue;
+            }
+            if inside(centroid(a), b, nb) || inside(centroid(b), a, na) {
+                out.push((i, j));
+            }
+        }
+    }
+    out
+}
+
+#[test]
+fn cable_gland_models_have_no_faces_over_each_other() {
+    // The seal insert stood flush with the mouth of the dome: on the outermost face of
+    // every gland two caps lay over each other and flickered in the 3D view.
+    for p in default_catalog().iter().filter(|p| p.subgroup == "Cable gland") {
+        let m = p.model_3d.as_ref().unwrap();
+        assert!(overlapping_faces(m).is_empty(), "{}: {:?}", p.number, overlapping_faces(m));
+    }
+}
+
+#[test]
 fn the_catalog_has_fluid_parts_for_rooms() {
     let parts = default_catalog();
     let part = |n: &str| parts.iter().find(|p| p.number == n).unwrap_or_else(|| panic!("{n}"));

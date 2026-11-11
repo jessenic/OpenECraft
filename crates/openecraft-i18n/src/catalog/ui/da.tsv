@@ -67,6 +67,7 @@ Only parts for direct wall mounting	Kun artikler til direkte vægmontage
 Open datasheet	Åbn datablad
 Open in the browser	Åbn i browseren
 Outside the face	Uden for fladen
+Pans (trackpad)	Panorerer (pegefelt)
 Parts server: {}	Artikelserver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikler, som denne artikel er sammensat af; styklisten viser dem under den
 Personal access token	Personligt adgangstoken
@@ -113,6 +114,7 @@ Wall mounting	Vægmontage
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Hvor tilbehøret sidder på den artikel, det passer til, i tavlelayoutet og 3D-visningen
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Hvor ledningerne tilsluttes i tavlelayoutet: betegnelsen som i funktionsskabelonen, positionen i frontvisningen (x fra venstre, y fra toppen, z over monteringsfladen) og den retning, ledningen forlader i. Artikler uden egne tilslutningspunkter får dem fra funktionsskabelonen.
 Wire leaves	Ledningsudgang
+Zooms (mouse wheel)	Zoomer (musehjul)
 changes with token	ændringer med token
 created in your EPLAN account (ePulse)	oprettet i din EPLAN-konto (ePulse)
 down	ned

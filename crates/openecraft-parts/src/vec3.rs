@@ -246,6 +246,31 @@ pub fn length(a: V3) -> f32 {
     dot(a, a).sqrt()
 }
 
+/// Length of a polyline.
+pub fn path_length(points: &[V3]) -> f32 {
+    points.windows(2).map(|s| dist(s[0], s[1])).sum()
+}
+
+/// A polyline cut `at` along it from its start: the part before and the part after,
+/// both with the point of the cut (the whole polyline before it when `at` is past
+/// its end).
+pub fn split_at(points: &[V3], at: f32) -> (Vec<V3>, Vec<V3>) {
+    let mut gone = 0.0;
+    for (i, s) in points.windows(2).enumerate() {
+        let l = dist(s[0], s[1]);
+        if gone + l >= at && l > 0.0 {
+            let q = add(s[0], scale(sub(s[1], s[0]), ((at - gone) / l).max(0.0)));
+            let mut head = points[..=i].to_vec();
+            head.push(q);
+            let mut tail = vec![q];
+            tail.extend_from_slice(&points[i + 1..]);
+            return (head, tail);
+        }
+        gone += l;
+    }
+    (points.to_vec(), points.last().into_iter().copied().collect())
+}
+
 /// The polyline with each corner rounded by an arc of `radius`, `steps` points per
 /// quarter turn; the radius is the least the way may bend with. Where the arcs of two
 /// corners do not both fit on the stretch between them, or the arc of a corner on an

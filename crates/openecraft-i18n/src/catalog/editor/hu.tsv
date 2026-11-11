@@ -174,6 +174,7 @@ Automatic (from the potential definition)	Automatikus (a potenciáldefiníciób�
 Automatic ({})	Automatikus ({})
 Automatic accessories	Automatikus tartozékok
 Automatic configuration	Automatikus konfiguráció
+Automatic placement	Automatikus elhelyezés
 Automation	Automatizálás
 Aux	Segéd
 Avoid:	Kerülendő:
@@ -229,6 +230,7 @@ Cable definition	Kábeldefiníció
 Cable definition on page {}	Kábeldefiníció a(z) {}. oldalon
 Cable definition: draw a line across the wires that are cores of a cable	Kábeldefiníció: húzzon egy vonalat egy kábel ereit alkotó vezetékeken keresztül
 Cable end reserve	Kábelvégtartalék
+Cable ends	Kábelvégek
 Cable markers	Kábeljelölők
 Cable passage to {}	Kábelátvezetés ehhez: {}
 Cable {}: {} cores assigned	{} kábel: {} ér hozzárendelve
@@ -364,11 +366,13 @@ Connected devices	Csatlakoztatott készülékek
 Connected to:	Csatlakoztatva ehhez:
 Connection definition point	Összeköttetés-definíciós pont
 Connection definition point: defines number, colour, cross-section and cable core of a connection	Összeköttetés-definíciós pont: meghatározza egy összeköttetés számát, színét, keresztmetszetét és kábelerét
+Connection point designations	Csatlakozásmegnevezések
 Connection point {}	{} csatlakozási pont
 Connection points 1 and 2 are connected inside	Az 1. és 2. csatlakozási pont belül össze van kötve
 Connection:	Összeköttetés:
 Connections ({})	Összeköttetések ({})
 Connections / harness	Összeköttetések / kábelköteg
+Connections of four or more wires always have a dot.	Négy vagy több vezeték csatlakozásának mindig van pontja.
 Connections whose two ends are both on selected wires	Összeköttetések, amelyeknek mindkét vége kijelölt vezetéken van
 Connections without a defined potential	Definiált potenciál nélküli összeköttetések
 Connectors	Csatlakozók
@@ -389,6 +393,7 @@ Copy / cut / paste (devices get new tags)	Másolás / kivágás / beillesztés (
 Copy as new	Másolás újként
 Copy built-in…	Beépített másolása…
 Core designations separated by blanks	Érmegnevezések szóközzel elválasztva
+Core labels placed by hand	Kézzel elhelyezett érfeliratok
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	1, 2, 3 … erek a keresztezett vezetékekhez, továbbá GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Sarok: két vezeték derékszögben; bekapcsolt automatikus csatlakoztatással a karjaival szemközti csatlakozási pontok hozzá vezetékeződnek
 Cover sheet, overview, graphics, report, mounting layout or a page template	Fedőlap, áttekintés, grafika, kimutatás, szerelési elrendezés vagy oldalsablon
@@ -428,6 +433,7 @@ Dashed	Szaggatott
 Decimals	Tizedesjegyek
 Default	Alapértelmezett
 Default (part data or definition)	Alapértelmezés (alkatrészadatok vagy definíció)
+Default ({})	Alapértelmezett ({})
 Default label	Alapértelmezett felirat
 Default medium	Alapértelmezett közeg
 Default rules	Alapértelmezett szabályok
@@ -547,7 +553,10 @@ Downloading OpenECraft {}	Az OpenECraft {} letöltése
 Downstream part	Utána kapcsolt alkatrész
 Draft of revision {} created	A(z) {} revízió piszkozata létrehozva
 Draft of revision {} discarded	A(z) {} revízió piszkozata elvetve
+Drag a connection point designation of the selected symbol to place it.	Húzza a kijelölt szimbólum egy csatlakozásmegnevezését az elhelyezéséhez.
 Drag an entry into the page, or click it and then click into the page.	Húzzon egy bejegyzést az oldalra, vagy kattintson rá, majd az oldalra.
+Drag the core designation or the cable tag of the selected wire to place it.	Húzza a kijelölt vezeték érjelölését vagy kábelazonosítóját az elhelyezéséhez.
+Drag the name or the cross reference of the selected point to place it.	Húzza a kijelölt pont nevét vagy kereszthivatkozását az elhelyezéséhez.
 Drag the tag of the selected symbol to place it.	Húzza a kijelölt szimbólum azonosítóját az elhelyezéséhez.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	Húzás: körbeforgatás · jobb/középső gombos vagy Shift+húzás: mozgatás · görgő: nagyítás a mutatónál · dupla kattintás: odanézés · W A S D / nyilak, Q E: mozgás · kattintás: kijelölés
 Draw	Rajzolás
@@ -649,7 +658,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	Rögzítőelemek az anyagjegyzékben
 Favorite	Kedvenc
 Favorites (JSON)	Kedvencek (JSON)
-Ferrule {} ({})	Érvéghüvely {} ({})
 Field	Mező
 Field (name, description, company, creator, date, revision) or project property	Mező (name, description, company, creator, date, revision) vagy projekttulajdonság
 Field cables	Terepi kábelek
@@ -785,6 +793,8 @@ Hose number	Tömlőszám
 Hoses and pipes	Tömlők és csövek
 Hoses rated below it are errors; 0 = not checked	Az ennél kisebb névleges nyomású tömlők hibának számítanak; 0 = nincs ellenőrzés
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	Hogyan nyílik a szárny: a bal vagy jobb élén zsanérral (a helyiség belsejéből nézve), a helyiség felé vagy kifelé, vagy a fal mentén tolva
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	Hogyan van a vezeték ezen a végén lezárva; alapértelmezés szerint a csatlakozási ponthoz vagy eszközéhez választott módon, egyébként az elrendezés érvéghüvely-beállítása szerint
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	Hogyan ugorják át a vezetékek az általuk keresztezett vezetékeket, hogyan jelölik a T-csatlakozásokat, és újravezetik-e az áthelyezett elemek a kapcsolataikat
 IP / bus address	IP- / buszcím
 ISO 639-1 language code	ISO 639-1 szerinti nyelvkód
 Identifiers	Azonosítók
@@ -859,6 +869,7 @@ Insulation	Szigetelés
 Interruption points refer to	A megszakítási pontok hivatkozása
 Introduction	Bevezetés
 Invalid value	Érvénytelen érték
+Invert the direction of panning by scrolling	A görgetéssel való mozgatás irányának megfordítása
 Inverter or charge controller (devices with PV input data)	Inverter vagy töltésszabályozó (PV-bemeneti adatokkal rendelkező eszközök)
 Isometric	Izometrikus
 Items on the layer	A réteg elemei
@@ -870,6 +881,7 @@ Join collinear wires	Egy vonalba eső vezetékek egyesítése
 Joins	Összeköt
 Joins wire pieces in a line where nothing else connects (current page)	Egyesíti az egy vonalba eső vezetékdarabokat ott, ahol semmi más nem csatlakozik (aktuális oldal)
 Jumper {}	{} áthidalás
+Jumps over the other:	Átugorja a másikat:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	Az aloldalak (3.a, 3.1) az előző oldalnál maradnak
 Keep the degree of protection	A védettségi fokozat megtartása
@@ -883,6 +895,7 @@ Label (grey)	Felirat (szürke)
 Label field	Feliratmező
 Labeling scheme	Feliratozási séma
 Landscape	Fekvő
+Large dot	Nagy pont
 Larger texts and buttons for a touch screen at the workbench	Nagyobb szövegek és gombok a munkapad érintőképernyőjéhez
 Latitude, longitude	Szélesség, hosszúság
 Layer	Réteg
@@ -997,6 +1010,7 @@ Min. bend radius	Min. hajlítási sugár
 Minimize the ribbon	A menüszalag kis méretre állítása
 Mirror	Tükrözés
 Mirror (selection or symbol being placed)	Tükrözés (kijelölés vagy az elhelyezés alatt álló szimbólum)
+Mixed	Vegyes
 Mode	Mód
 Model of a part (2D / 3D)	Alkatrész modellje (2D / 3D)
 Module part; its size comes from the part	Modul alkatrész; mérete az alkatrészből származik
@@ -1020,6 +1034,7 @@ Move to section	Áthelyezés szakaszba
 Move up	Mozgatás felfelé
 Moves to the top level as page {}	A legfelső szintre kerül {} oldalként
 Moves to {} as page {}	{} szakaszba kerül {} oldalként
+Moving	Áthelyezés
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	Többvonalas erősáramú szimbólumok és vezetők az aktuális oldal egyvonalas szimbólumaihoz, új oldalon
 Multiple copy	Többszörös másolás
 Multiple copy…	Többszörös másolás…
@@ -1032,9 +1047,11 @@ NC data (DXF)	NC-adatok (DXF)
 NC data of this face (DWG)	E felület NC-adatai (DWG)
 NC data of this face (DXF)	A felület NC-adatai (DXF)
 Nailboard (SVG)…	Szögestábla (SVG)…
+Name and cross reference	Név és kereszthivatkozás
 Name on the server	Név a szerveren
 Name; Data Type; Logical Address; Comment – for PLC programming tools	Név; Adattípus; Logikai cím; Megjegyzés – PLC-programozó eszközökhöz
 Named copy of this form, for report blocks	Az űrlap elnevezett másolata kimutatásblokkokhoz
+Navigation	Navigáció
 Navigators	Navigátorok
 Neutral exchange file…	Semleges cserefájl…
 Never	Soha
@@ -1101,11 +1118,13 @@ No device has its main function in the box.	Egyetlen készülék főfunkciója s
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	Még egyik készüléknek sincsenek szerelési adatai: rendeljen a készülékekhez méretekkel rendelkező alkatrészeket (Tulajdonságok › Alkatrészek).
 No differences to {}.	Nincs különbség ehhez képest: {}.
 No document embedded	Nincs beágyazott dokumentum
+No dot: plain T	Nincs pont: egyszerű T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	Még nincs szekrény – hozzon létre egyet az Új szekrény paranccsal, vagy helyiséget a szekrényeknek az Új helyiség paranccsal.
 No field cables: place the enclosures and field devices at nodes of the route network.	Nincsenek terepi kábelek: helyezze el a szekrényeket és a terepi készülékeket a nyomvonalhálózat csomópontjain.
 No filter fans: an air/air heat exchanger or a cooling unit	Nincsenek szűrős ventilátorok: levegő/levegő hőcserélő vagy hűtőkészülék
 No harnesses defined.	Nincsenek definiált kábelkötegek.
 No inverter	Nincs inverter
+No jump: plain crossing, connections have dots	Nincs átugrás: egyszerű kereszteződés, a csatlakozásoknak pontjuk van
 No longer reported	Már nem jelentett
 No macros yet. Select items in a schematic and save them as a macro.	Még nincsenek makrók. Jelöljön ki elemeket egy kapcsolási rajzon, és mentse őket makróként.
 No modules: plug in PLC cards of the schematic.	Nincsenek modulok: helyezze be a kapcsolási rajz PLC-kártyáit.
@@ -1308,6 +1327,7 @@ Place the georeferenced point everything is measured from	A georeferált pont el
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	A létesítmény georeferált pontjának elhelyezése a helyszínrajzon; koordinátái az Épületek panelre kerülnek, minden pontot tőle mérnek
 Placed	Elhelyezve
 Placed by hand	Kézzel elhelyezve
+Placed by hand; choosing a side places them anew.	Kézzel elhelyezve; egy oldal választása újra elhelyezi őket.
 Placed here: {}	Itt elhelyezve: {}
 Placed {}× in the project	{}× elhelyezve a projektben
 Placeholders	Helyőrzők
@@ -1352,6 +1372,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	Az alkatrésze
 Pre-planning (CSV, Excel)	Előtervezés (CSV, Excel)
 Prefix	Előtag
 Press a key…	Nyomjon le egy billentyűt…
+Preview	Előnézet
 Previous item	Előző elem
 Previous page	Előző oldal
 Previous page tab	Előző oldallap
@@ -1501,6 +1522,7 @@ Reset	Alaphelyzet
 Reset all to the defaults	Az összes visszaállítása alapértelmezésre
 Reset pane layout	A panelek elrendezésének visszaállítása
 Reset the ribbon	A menüszalag visszaállítása
+Reset to automatic placement	Automatikus elhelyezés visszaállítása
 Reset to standard	Visszaállítás alapértékre
 Restart and update	Újraindítás és frissítés
 Resulting: {} · {} · {} · {} m	Eredmény: {} · {} · {} · {} m
@@ -1540,6 +1562,7 @@ Round	Kerek
 Round cutouts facing each other in both side walls	Egymással szemben lévő kerek kivágások mindkét oldalfalban
 Route definition of {}	{} nyomvonal-definíciója
 Route network	Nyomvonalhálózat
+Route the connections of moved items anew	Az áthelyezett elemek kapcsolatainak újravezetése
 Route wires in 3D	Vezetékek nyomvonalvezetése 3D-ben
 Routed in {}: {} m, {} bends	Fektetve itt: {}: {} m, {} hajlítás
 Routing around symbols	Szimbólumok kikerülése
@@ -1601,6 +1624,9 @@ Scheme name	Séma neve
 Scheme placed again at {} symbols	Séma újra elhelyezve {} szimbólumon
 Scheme {}	{} séma
 Screws, nuts, washers and rivet nuts of the fixing points	A rögzítési pontok csavarjai, anyái, alátétei és szegecsanyái
+Scrolling	Görgetés
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	A görgetés minden irányba mozgatja a nézetet; nagyításhoz csippentsen, vagy használja a Ctrl + görgetést.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	A fel-le görgetés a mutatónál nagyít, az oldalirányú (vízszintes görgő, Shift + görgő) mozgatja a nézetet.
 Search (* and ? as placeholders)…	Keresés (* és ? helyettesítő karakterként)…
 Search below this folder	Keresés ebben a mappában és alatta
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	Keresés az alkatrészszerveren katalógus, termékcsoport és műszaki adatok szerint, alkatrészek hozzáadása és az adatbázis frissítéseinek ellenőrzése
@@ -1779,6 +1805,7 @@ Synchronize	Szinkronizálás
 Synchronize function texts	Funkciószövegek szinkronizálása
 Synchronize project parts from database	Projektalkatrészek szinkronizálása az adatbázisból
 T Text	T Szöveg
+T-connections	T-csatlakozások
 Tab	Tabulátor
 Table import failed: {}	Sikertelen táblázatimportálás: {}
 Tablet mode	Táblagép mód
@@ -1799,6 +1826,7 @@ Taken into the drawing: drawn faded	Átvéve a rajzba: halványan megjelenítve
 Takes the comments as function texts (matched by address)	A megjegyzéseket funkciószövegként veszi át (cím alapján párosítva)
 Takes the connection point designations of all functions of this device from the function templates of its parts	A készülék összes funkciójának csatlakozásmegnevezéseit az alkatrészei funkciósablonjaiból veszi át
 Takes the rights of the role away, whatever other grants give	Visszavonja a szerepkör jogosultságait, függetlenül attól, hogy más hozzárendelések mit adnak
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	A legkisebb súlyú utat választja: hossza rácslépésekben, töréspontonként 1,2 és keresztezett vezetékenként 1,5. Ki: a vezetékek megnyúlnak, és megtartják a sarkaikat.
 Target languages	Célnyelvek
 Temperature rise at the roof against the middle (IEC/TR 60890)	Hőmérséklet-emelkedés a tetőnél a középhez képest (IEC/TR 60890)
 Template	Sablon
@@ -1828,6 +1856,7 @@ The dictionary is empty: collect the texts from the project.	A szótár üres: g
 The door seen from the front: door devices and cutouts	Az ajtó elölről nézve: ajtókészülékek és kivágások
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Az ajtó belülről nézve (zsanérok jobbra): kábelcsatornák és az ajtó mögötti huzalozás
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	A szekrény bal oldalával a kiválasztott szekrény jobb oldalához áll; a vezetékek kábelátvezetéseken át futnak közöttük
+The horizontal wire	A vízszintes vezeték
 The items are selected and moved together	Az elemek kijelölése és mozgatása együtt történik
 The macro library has no page macros (Macros › Save page as macro…).	A makrókönyvtárban nincsenek oldalmakrók (Makrók › Oldal mentése makróként…).
 The modules no string takes yet in series, on the first inverter	A még egy stringhez sem tartozó modulok sorba kötve, az első inverteren
@@ -1854,6 +1883,7 @@ The side of {} is open	{} oldala nyitott
 The symbol is placed in the project	A szimbólum használatban van a projektben
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	A sorkapocs-alkatrészek nem adnak meg végbakot vagy zárófedelet (End bracket, End plate műszaki adat).
 The update failed	A frissítés nem sikerült
+The vertical wire	A függőleges vezeték
 The web version is updated on its server.	A webes verzió a saját szerverén frissül.
 The wire tool routes around symbols and other wires	A vezetékeszköz kikerüli a szimbólumokat és más vezetékeket
 The wires get the free cores of the cable in order (left to right)	A vezetékek sorrendben (balról jobbra) megkapják a kábel szabad ereit
@@ -1880,10 +1910,14 @@ Top edges	Felső élek
 Top left	Bal felső
 Top right	Jobb felső
 Total selectivity	Teljes szelektivitás
+Touch screen	Érintőképernyő
 Transfer project parts to database	Projektalkatrészek átvitele az adatbázisba
 Translate the project texts; documentation per language	A projektszövegek fordítása; dokumentáció nyelvenként
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	Elforgatás a függőleges tengely körül, felülről nézve az óramutató járásával ellentétesen (90 °: az előlapok jobbra néznek)
 Tutorial	Oktatóanyag
+Twin ferrules where two wires share a connection point	Iker érvéghüvelyek, ahol két vezeték osztozik egy csatlakozási ponton
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Az érintőpadon két ujj mozgatja a nézetet, az egérgörgő nagyít. Csak a macOS különbözteti meg őket; máshol a görgetés a görgőhöz hasonlóan nagyít.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	Két ujj egyszerre mozgatja a nézetet és csippentéssel nagyít; egy ujj a bal egérgombként működik.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Itt két vezetéknek kell derékszögben találkoznia. Bekapcsolt automatikus csatlakoztatással a karjaival szemközti csatlakozási pontok hozzá vezetékeződnek.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Írjon be egy pontot, és nyomja le az Enter billentyűt: x y mm-ben, vagy @dx dy az utolsó ponthoz képest; úgy működik, mint az aktuális eszközzel végzett kattintás
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1968,6 +2002,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	Görgő: nagyítás · jobb kattintás: mégse · a grafika 0,5 mm-re, a csatlakozási pontok a 4 mm-es rácsra illeszkednek
 When it differs from the page	Ha eltér az oldaltól
 Where	Hely
+Where neither wire has a termination chosen for it	Ahol egyik vezetékhez sincs lezárás kiválasztva
 Where the point is in the plant; y: its height above the ground level of the plant	Hol van a pont a létesítményben; y: magassága a létesítmény terepszintje felett
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	Honnan származik a készülék struktúrája: a szimbólum körüli struktúrával egyező aspektusok öröklődnek, és követik, ha a szimbólum struktúrakeretbe kerül vagy kikerül onnan; a többi aspektus a készülék sajátja és megmarad.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	A vezeték kezdete és vége: az alkatrészadatokból származó csatlakozási pont, a funkciósablonból generált pont, vagy a készülék közepe, ha egyik csatlakozási pont sem egyezik
@@ -1983,6 +2018,8 @@ Window macro: {}	Ablakmakró: {}
 Window macros inserted from now on are recorded as macro boxes.	A mostantól beszúrt ablakmakrók makródobozként kerülnek rögzítésre.
 Window macros placed on the pages (not printed)	Az oldalakon elhelyezett ablakmakrók (nem nyomtatódnak)
 Wire colour	Érszín
+Wire crossings	Vezetékkereszteződések
+Wire crossings…	Vezetékkereszteződések…
 Wire ends	Vezetékvégek
 Wire ends with ferrules	Vezetékvégek érvéghüvelyekkel
 Wire markers	Vezetékjelölők
@@ -1996,6 +2033,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	{0} – {1} vezeték  
 Wire {} – {}  {} mm	{} – {} vezeték  {} mm
 Wires and potentials	Vezetékek és potenciálok
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	A fluidtechnikai és P&ID-szimbólumok csatlakozásai közötti vezetékek tömlők / csövek: saját hálózatok, a vezetékszámozással számozva, a tömlőlistában felsorolva.
+Wires crossing without connection	Csatlakozás nélkül keresztező vezetékek
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	Innen mind a négy irányban vezetéknek kell indulnia. Addig a kapcsolat a kapcsolási rajz sorrendjében fűződik.
 Wires of the connection	A kapcsolat vezetékei
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	A vezetékek is az akadályokat figyelembe vevő 3D nyomvonalakat követik, nem csak a lapon lévő kábelcsatornákat
@@ -2279,10 +2317,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} képpont, {}
 {} – {} ({} pages)	{} – {} ({} oldal)
 {}: click to show its floor plan	{}: kattintson az alaprajz megjelenítéséhez
+{}: crimp together with the wire to {}	{}: a(z) {} felé menő vezetékkel együtt krimpelendő
 {}: drag to move it, R turns it, a double-click opens it	{}: húzással mozgatható, R elforgatja, dupla kattintás megnyitja
 {}: drag to move it, a double-click shows the floor	{}: húzással mozgatható, dupla kattintás megjeleníti a padlót
 {}: nothing to change	{}: nincs mit módosítani
 {}: pin {}	{}: láb {}
+{}: strip {} mm, {}	{}: csupaszítás {} mm, {}
 {}: {} addresses changed	{}: {} cím módosítva
 {}: {} changes in the open project (not saved yet)	{}: {} módosítás a megnyitott projektben (még nincs mentve)
 {}: {} changes saved	{}: {} módosítás mentve

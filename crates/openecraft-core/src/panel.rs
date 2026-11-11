@@ -595,6 +595,8 @@ impl Default for Layout {
             enclosures: Vec::new(),
             wire_reserve: 100.0,
             ferrules: true,
+            twin_ferrules: false,
+            terminations: Vec::new(),
             duct_fill_limit: 70.0,
             hardware: true,
             macros: Vec::new(),
@@ -1020,14 +1022,37 @@ pub fn device_mesh_painted(prj: &Project, it: &PanelItem) -> Option<Vec<(Tri, Op
     if it.kind == ItemKind::Busbar {
         return Some(busbars::mesh(prj, it));
     }
-    if it.kind != ItemKind::Device {
-        return None;
-    }
     // A placed model repeats the model's triangles in their order.
     let painted = |mesh: &crate::parts::Mesh3d, tris: Vec<Tri>| -> Vec<(Tri, Option<[u8; 3]>)> {
         let n = mesh.triangles.len().max(1);
         tris.into_iter().enumerate().map(|(i, t)| (t, mesh.color(i % n))).collect()
     };
+    // A cable gland with its model, along the face (on the bottom of a cabinet as on its
+    // roof): the part outside from its outer end down onto the outer surface of the
+    // wall it sits in, the locknut and the end of the thread from the inner surface on
+    // into the enclosure ([`crate::parts::GLAND_GAP`]), whatever the wall's thickness.
+    if it.kind == ItemKind::Accessory {
+        let part = part_by_number(prj, &it.part).filter(|p| p.subgroup == "Cable gland")?;
+        let mesh = part.model_3d.as_ref()?;
+        let wall = prj.layout.enclosures.iter().find(|e| e.item(it.id).is_some()).map_or(0.0, |e| e.wall());
+        let (min, size) = (mesh.bounds().0, mesh.size());
+        let out = tech_number(part, "Outside").filter(|o| *o > 0.0).unwrap_or(size[2]).min(size[2]);
+        let through = (-wall - it.z).max(0.1) / out;
+        // Placed with its depth as it is: the depth along the axis is worked out here.
+        let along = PanelItem { face: if it.face == Face::Bottom { Face::Roof } else { it.face }, z: 0.0, d: size[2], ..it.clone() };
+        let len = if item_rotated(&along, size[1]) { it.h } else { it.w };
+        let depth = |z: f32| if z <= out + 1e-3 { it.z + z * through } else { z - out - crate::parts::GLAND_GAP };
+        let tris: Vec<Tri> = mesh.triangles.iter().map(|t| t.map(|k| {
+            let mut v = mesh.vertices[k as usize];
+            v[2] = min[2] + depth(v[2] - min[2]);
+            place_vertex(&along, min, size, 0.0, len, v)
+        })).collect();
+        let tris = painted(mesh, tris);
+        return (!tris.is_empty()).then_some(tris);
+    }
+    if it.kind != ItemKind::Device {
+        return None;
+    }
     // Accessories mounted on the main part: every piece in its box.
     if let Some(a) = mounted(prj, it) {
         let mut out = Vec::new();

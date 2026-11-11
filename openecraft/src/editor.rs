@@ -17,7 +17,7 @@ use egui::Mesh;
 use openecraft_core::analysis::Analysis;
 use openecraft_core::review::{Hit, MarkupKind, Pen};
 use openecraft_core::symlib::Symbols;
-use openecraft_core::symbols::{Anchor, Func};
+use openecraft_core::symbols::{Anchor, Func, SymbolDef};
 use openecraft_core::device_boxes;
 use openecraft_core::netlist::junctions;
 use openecraft_core::structure::StructureBox;
@@ -86,24 +86,51 @@ impl Tool {
     }
 }
 
+/// Where the designation of pin `i` of a placed symbol is drawn.
+fn pin_place(prj: &Project, idx: &Index, page_i: usize, s: &SymbolInst, i: usize) -> Option<render::PinLabelPlace> {
+    prj.symbol(&s.sym).and_then(|def| render::pin_label_places(prj, idx, page_i, &def, s).into_iter().find(|l| l.pin == i))
+}
+
 /// Part of a symbol that can be dragged on its own.
 #[derive(Clone, Copy, Debug, PartialEq)]
 enum Handle {
+    /// The tag block.
     Tag,
     /// A placed property (index).
     Prop(usize),
-    /// The designation of its only connection point.
-    Pin,
+    /// The designation of a connection point (pin index).
+    Pin(usize),
+    /// The designation of its only connection point, placed freely.
+    OnlyPin,
+    /// Name and cross reference of an interruption point.
+    Intr(render::IntrText),
 }
 
-type PropHandle = (u64, Handle);
+/// Text that can be dragged on its own: the tag block, a placed property, a
+/// connection point designation or the interruption texts of a symbol, or a cable
+/// core text of a wire.
+#[derive(Clone, Copy, Debug, PartialEq)]
+enum PropHandle {
+    Symbol(u64, Handle),
+    Wire(u64, render::CoreText),
+}
+
+impl PropHandle {
+    /// The symbol or wire the text belongs to.
+    fn id(self) -> u64 {
+        match self {
+            PropHandle::Symbol(id, _) | PropHandle::Wire(id, _) => id,
+        }
+    }
+}
 
 enum Drag {
     None,
     /// The selection with the connection points of its device boxes (`items`) moves.
     Move { start: P, applied: P, moving: routing::Moving, items: BTreeSet<u64> },
     Box { start: Pos2 },
-    Prop { handle: PropHandle, start: P, orig: P },
+    /// `side`: side of a dragged connection point designation (symbol orientation).
+    Prop { handle: PropHandle, start: P, orig: P, side: Option<LabelSide> },
 }
 
 pub struct Palette {
@@ -195,6 +222,45 @@ impl Palette {
 /// None when the file cannot be decoded).
 pub type Textures = HashMap<u64, (u64, Option<egui::TextureHandle>)>;
 
+/// How a polyline is stroked.
+#[derive(Debug, PartialEq)]
+enum Runs {
+    /// A closed outline without sharp turns.
+    Loop(Vec<Pos2>),
+    /// Open lines, split where the outline turns back.
+    Open(Vec<Vec<Pos2>>),
+}
+
+/// The runs a polyline (screen points) is stroked in. egui joins segments with a miter
+/// that grows without limit where a line turns back on itself or repeats a point, so
+/// imported drawings got spikes across the page: repeated points are dropped and the
+/// line is split where it turns by more than about 135°.
+fn stroke_runs(mut v: Vec<Pos2>, closed: bool) -> Runs {
+    v.dedup_by(|b, a| a.distance(*b) < 0.01);
+    if closed && v.len() > 2 && v[0].distance(v[v.len() - 1]) < 0.01 {
+        v.pop();
+    }
+    let sharp = |a: Pos2, b: Pos2, c: Pos2| (b - a).normalized().dot((c - b).normalized()) < -0.7;
+    let n = v.len();
+    if closed && n > 2 && !(0..n).any(|i| sharp(v[(i + n - 1) % n], v[i], v[(i + 1) % n])) {
+        return Runs::Loop(v);
+    }
+    if closed && n > 2 {
+        v.push(v[0]);
+    }
+    let mut runs = Vec::new();
+    let mut run = Vec::new();
+    for (i, &q) in v.iter().enumerate() {
+        run.push(q);
+        if i > 0 && i + 1 < v.len() && sharp(v[i - 1], q, v[i + 1]) {
+            runs.push(std::mem::replace(&mut run, vec![q]));
+        }
+    }
+    runs.push(run);
+    runs.retain(|r| r.len() > 1);
+    Runs::Open(runs)
+}
+
 /// Renders page geometry with an egui painter.
 pub struct EguiDraw<'a> {
     pub painter: &'a Painter,
@@ -247,10 +313,14 @@ impl Draw for EguiDraw<'_> {
             } else {
                 self.painter.add(EShape::convex_polygon(v, self.color(ink), st));
             }
-        } else if closed {
-            self.painter.add(EShape::closed_line(v, self.stroke(width, ink)));
         } else {
-            self.painter.add(EShape::line(v, self.stroke(width, ink)));
+            let st = self.stroke(width, ink);
+            match stroke_runs(v, closed) {
+                Runs::Loop(v) => {
+                    self.painter.add(EShape::closed_line(v, st));
+                }
+                Runs::Open(runs) => self.painter.extend(runs.into_iter().map(|run| EShape::line(run, st))),
+            }
         }
     }
 
@@ -832,15 +902,26 @@ impl Editor {
         for s in page.symbols.iter().filter(|s| self.selection.contains(&s.id)) {
             for (i, pp) in s.props.iter().enumerate() {
                 if render::prop_bounds(prj, page_i, s, pp).expand(0.3).contains(q) {
-                    return Some((s.id, Handle::Prop(i)));
+                    return Some(PropHandle::Symbol(s.id, Handle::Prop(i)));
                 }
             }
             let Some(def) = prj.symbol(&s.sym) else { continue };
-            if def.pins.len() == 1 && render::pin_label_bounds(&def, s).is_some_and(|r| r.expand(0.3).contains(q)) {
-                return Some((s.id, Handle::Pin));
+            if let Some(l) = render::pin_label_places(prj, idx, page_i, &def, s).iter().find(|l| l.bounds.expand(0.2).contains(q)) {
+                let pin = if def.pins.len() == 1 { Handle::OnlyPin } else { Handle::Pin(l.pin) };
+                return Some(PropHandle::Symbol(s.id, pin));
             }
             if render::tag_block_bounds(prj, idx, page_i, &def, s).is_some_and(|r| r.expand(0.3).contains(q)) {
-                return Some((s.id, Handle::Tag));
+                return Some(PropHandle::Symbol(s.id, Handle::Tag));
+            }
+            if let Some((t, _)) = render::interruption_text_bounds(prj, idx, page_i, &def, s).into_iter().find(|(_, r)| r.expand(0.3).contains(q)) {
+                return Some(PropHandle::Symbol(s.id, Handle::Intr(t)));
+            }
+        }
+        for w in page.wires.iter().filter(|w| self.selection.contains(&w.id)) {
+            for which in [render::CoreText::Core, render::CoreText::Cable] {
+                if render::core_text_bounds(page, w, which).is_some_and(|r| r.expand(0.3).contains(q)) {
+                    return Some(PropHandle::Wire(w.id, which));
+                }
             }
         }
         None
@@ -946,34 +1027,21 @@ impl Editor {
         }
 
         // ------------------------------------------------------------ navigation
-        if resp.hovered() {
-            // Raw wheel events: CAD style zoom around the cursor, no smoothing.
-            let (wheel, zoom_delta, ptr) = ui.input(|i| {
-                let mut wheel = 0.0;
-                for e in &i.events {
-                    if let egui::Event::MouseWheel { unit, delta, modifiers, .. } = e {
-                        if modifiers.ctrl || modifiers.command {
-                            continue; // already contained in zoom_delta()
-                        }
-                        wheel += match unit {
-                            egui::MouseWheelUnit::Point => delta.y,
-                            egui::MouseWheelUnit::Line => delta.y * 40.0,
-                            egui::MouseWheelUnit::Page => delta.y * 400.0,
-                        };
-                    }
-                }
-                (wheel, i.zoom_delta(), i.pointer.hover_pos())
-            });
-            if let Some(ptr) = ptr {
-                let factor = zoom_delta * (wheel * 0.0025).exp();
-                if (factor - 1.0).abs() > 1e-4 {
-                    self.zoom_at(rect, ptr, factor);
-                }
-            }
+        // Wheel, trackpad and touch: CAD style zoom around the cursor, no smoothing.
+        let gesture = openecraft_ui::nav::read(ui, &resp);
+        self.offset += gesture.pan;
+        if let (true, Some(at)) = (gesture.zooms(), gesture.at) {
+            self.zoom_at(rect, at, gesture.zoom);
         }
         if resp.dragged_by(PointerButton::Middle) || resp.dragged_by(PointerButton::Secondary) {
             self.offset += resp.drag_delta();
         }
+        // Fingers navigating leave out the first one's selection window; a move already
+        // under way goes on.
+        if gesture.touch && matches!(self.drag, Drag::Box { .. }) {
+            self.drag = Drag::None;
+        }
+        let pointer_tools = !gesture.touch || !matches!(self.drag, Drag::None);
 
         let locked = prj.pages[page_i].locked;
         let editable = prj.pages[page_i].is_editable() && !self.read_only;
@@ -1001,7 +1069,7 @@ impl Editor {
         }
 
         // ------------------------------------------------------------ mouse
-        if self.tool == Tool::Select && resp.clicked_by(PointerButton::Primary) {
+        if self.tool == Tool::Select && pointer_tools && resp.clicked_by(PointerButton::Primary) {
             out.clicked = world;
         }
         // Right click selects what is under the cursor; the app shows the context menu.
@@ -1015,7 +1083,9 @@ impl Editor {
             }
             out.response = Some(resp.clone());
         }
-        if self.tool.is_review() {
+        if !pointer_tools {
+            // The fingers navigate.
+        } else if self.tool.is_review() {
             self.review_mouse(&resp, world, &mut out);
         } else if editable {
             self.mouse(ui, &resp, prj, page_i, rect, world, snapped, an, idx, &mut out);
@@ -1122,19 +1192,23 @@ impl Editor {
                 }
             }
         }
-        // Handles of the movable texts of a single selected symbol.
+        // Handles of the movable texts of a single selected symbol or wire.
         if self.tool == Tool::Select && self.selection.len() == 1 && editable {
             let page = &prj.pages[page_i];
+            let mut boxes: Vec<R> = Vec::new();
             if let Some(s) = page.symbols.iter().find(|s| self.selection.contains(&s.id)) {
-                let mut boxes: Vec<R> = s.props.iter().map(|pp| render::prop_bounds(prj, page_i, s, pp)).collect();
+                boxes.extend(s.props.iter().map(|pp| render::prop_bounds(prj, page_i, s, pp)));
                 if let Some(def) = prj.symbol(&s.sym) {
                     boxes.extend(render::tag_block_bounds(prj, idx, page_i, &def, s));
-                    boxes.extend(render::pin_label_bounds(&def, s).filter(|_| def.pins.len() == 1));
+                    boxes.extend(render::pin_label_places(prj, idx, page_i, &def, s).into_iter().map(|l| l.bounds));
                 }
-                for r in boxes {
-                    let sr = Rect::from_min_max(self.w2s(rect, r.min), self.w2s(rect, r.max)).expand(1.0);
-                    painter.rect_stroke(sr, 0.0, Stroke::new(1.0, pal.ghost), egui::StrokeKind::Outside);
-                }
+            }
+            if let Some(w) = page.wires.iter().find(|w| self.selection.contains(&w.id)) {
+                boxes.extend([render::CoreText::Core, render::CoreText::Cable].into_iter().filter_map(|which| render::core_text_bounds(page, w, which)));
+            }
+            for r in boxes {
+                let sr = Rect::from_min_max(self.w2s(rect, r.min), self.w2s(rect, r.max)).expand(1.0);
+                painter.rect_stroke(sr, 0.0, Stroke::new(1.0, pal.ghost), egui::StrokeKind::Outside);
             }
         }
         if !editable {
@@ -1780,20 +1854,29 @@ impl Editor {
             let handle = self.prop_hit(prj, idx, page_i, ow).filter(|_| editable);
             // The texts of a single selected symbol are placed on their own; with several
             // selected, dragging a text moves them all.
-            let group = handle.filter(|_| self.selection.len() > 1).map(|h| h.0);
+            let group = handle.filter(|_| self.selection.len() > 1).map(PropHandle::id);
             let hit = self.hit(prj, page_i, ow).or(group).filter(|_| editable);
             if let Some(handle) = handle.filter(|_| self.selection.len() == 1) {
                 let page = &prj.pages[page_i];
-                let s = page.symbols.iter().find(|s| s.id == handle.0);
-                let orig = match (s, handle.1) {
-                    (Some(s), Handle::Prop(i)) => s.props[i].offset,
-                    (Some(s), Handle::Tag) => s.tag_offset.unwrap_or_else(|| {
-                        prj.symbol(&s.sym).and_then(|def| render::tag_block_bounds(prj, idx, page_i, &def, s)).map(|r| r.min - s.pos).unwrap_or_default()
-                    }),
-                    (Some(s), Handle::Pin) => prj.symbol(&s.sym).map(|def| render::pin_label_at(&def, s, 0).0 - s.pos).unwrap_or_default(),
-                    _ => P::default(),
+                let orig = match handle {
+                    PropHandle::Symbol(id, h) => match (page.symbols.iter().find(|s| s.id == id), h) {
+                        (Some(s), Handle::Prop(i)) => s.props[i].offset,
+                        (Some(s), Handle::Tag) => s.tag_offset.unwrap_or_else(|| {
+                            prj.symbol(&s.sym).and_then(|def| render::tag_block_bounds(prj, idx, page_i, &def, s)).map(|r| r.min - s.pos).unwrap_or_default()
+                        }),
+                        (Some(s), Handle::Pin(i)) => pin_place(prj, idx, page_i, s, i).map(|l| l.shift).unwrap_or_default(),
+                        (Some(s), Handle::OnlyPin) => pin_place(prj, idx, page_i, s, 0).map(|l| l.pos - s.pos).unwrap_or_default(),
+                        (Some(s), Handle::Intr(t)) => prj.symbol(&s.sym).map(|def| intr_place(&def, s, t).offset).unwrap_or_default(),
+                        _ => P::default(),
+                    },
+                    PropHandle::Wire(id, which) => page.wires.iter().find(|w| w.id == id).and_then(|w| which.offset(w)).unwrap_or_default(),
                 };
-                self.drag = Drag::Prop { handle, start: ow, orig };
+                // A designation placed automatically keeps the place it has now.
+                let side = match handle {
+                    PropHandle::Symbol(id, Handle::Pin(i)) => page.symbols.iter().find(|s| s.id == id).and_then(|s| pin_place(prj, idx, page_i, s, i)).map(|l| l.side),
+                    _ => None,
+                };
+                self.drag = Drag::Prop { handle, start: ow, orig, side };
             } else if let Some(id) = hit {
                 if !self.selection.contains(&id) {
                     if !shift {
@@ -1818,14 +1901,42 @@ impl Editor {
                         *applied = total;
                     }
                 }
-                (Drag::Prop { handle, start, orig }, Some(w)) => {
-                    let to = *orig + (w - *start).snap(0.5);
-                    let auto = prj.pages[page_i].symbols.iter().find(|s| s.id == handle.0).and_then(|s| prj.symbol(&s.sym).map(|def| render::pin_label_at(&def, s, 0).1));
-                    if let Some(s) = prj.pages[page_i].symbols.iter_mut().find(|s| s.id == handle.0) {
-                        match handle.1 {
-                            Handle::Prop(i) => s.props[i].offset = to,
-                            Handle::Tag => s.tag_offset = Some(to),
-                            Handle::Pin => s.pin_label = Some(PinLabel { offset: to, anchor: auto.unwrap_or(Anchor::Left) }),
+                (Drag::Prop { handle, start, orig, side }, Some(w)) => {
+                    let delta = (w - *start).snap(0.5);
+                    let to = *orig + delta;
+                    let symbols = prj.symbol_table();
+                    let anchor = match *handle {
+                        PropHandle::Symbol(id, Handle::OnlyPin) => prj.pages[page_i].symbols.iter().find(|s| s.id == id).and_then(|s| pin_place(prj, idx, page_i, s, 0)).map(|l| l.anchor),
+                        _ => None,
+                    };
+                    let page = &mut prj.pages[page_i];
+                    match *handle {
+                        PropHandle::Symbol(id, part) => {
+                            if let Some(s) = page.symbols.iter_mut().find(|s| s.id == id) {
+                                match part {
+                                    Handle::Prop(i) => s.props[i].offset = to,
+                                    Handle::Tag => s.tag_offset = Some(to),
+                                    Handle::Pin(i) => {
+                                        let offset = *orig + delta.untransform(s.rot, s.mirror);
+                                        s.set_pin_placement(i, PinPlacement { side: *side, offset });
+                                    }
+                                    Handle::OnlyPin => s.pin_label = Some(PinLabel { offset: to, anchor: anchor.unwrap_or(Anchor::Left) }),
+                                    Handle::Intr(t) => {
+                                        if let Some(def) = symbols.get(&s.sym) {
+                                            let place = TextPlace { offset: to, ..intr_place(&def, s, t) };
+                                            match t {
+                                                render::IntrText::Label => s.label_place = Some(place),
+                                                render::IntrText::Xref => s.xref_place = Some(place),
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        PropHandle::Wire(id, which) => {
+                            if let Some(w) = page.wires.iter_mut().find(|w| w.id == id) {
+                                *which.offset_mut(w) = Some(to);
+                            }
                         }
                     }
                 }
@@ -2000,6 +2111,13 @@ pub fn take_keys(ui: &egui::Ui, resp: &egui::Response) {
     if resp.contains_pointer() && ui.input(|i| i.pointer.any_pressed()) {
         ui.memory_mut(|m| m.stop_text_input());
     }
+}
+
+
+/// Current place of the name or the cross reference of an interruption point.
+fn intr_place(def: &SymbolDef, s: &SymbolInst, t: render::IntrText) -> TextPlace {
+    let (label, xref) = render::interruption_places(def, s);
+    if t == render::IntrText::Label { label } else { xref }
 }
 
 #[cfg(test)]

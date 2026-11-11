@@ -8,6 +8,7 @@ A page named {} already exists	Der findes allerede en side med navnet {}
 A page needs a name	En side skal have et navn
 A routing path needs {} points at least	En føringsvej kræver mindst {} punkter
 A section cannot be moved into itself	Et afsnit kan ikke flyttes ind i sig selv
+Above	Over
 Access token	Adgangstoken
 Accessories	Tilbehør
 Accessory	Tilbehør
@@ -18,6 +19,7 @@ Angle	Vinkel
 Apply	Anvend
 Approvers	Godkendere
 Automatic	Automatisk
+Below	Under
 Bold	Fed
 Bottom	Bund
 Bottom with removable gland plate	Bund med aftagelig flangeplade
@@ -472,6 +474,7 @@ open	åben
 rejected	afvist
 right	højre
 spare	reserve
+strip {} mm, {}	afisoler {} mm, {}
 the disk is full	disken er fuld
 the file exists already	filen findes allerede
 this is a folder	dette er en mappe
@@ -481,5 +484,6 @@ yes	ja
 {} exists already	{} findes allerede
 {} parts	{} artikler
 {} wires	{} ledninger
+{}, together with the wire to {}	{}, sammen med lederen til {}
 {}: {} does not stand on the floor, choose a floor-standing part	{}: {} står ikke på gulvet, vælg en gulvstående artikel
 ➕ Add accessory	➕ Tilføj tilbehør

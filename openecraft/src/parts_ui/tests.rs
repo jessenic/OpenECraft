@@ -44,3 +44,19 @@ fn dropped_parts_come_from_the_project_the_database_the_catalog_or_the_server() 
     prj.parts.push(Part { number: "PRJ.OWN".into(), ..Default::default() });
     assert_eq!(drop_source(&prj, &db, "PRJ.OWN"), DropSource::Local);
 }
+
+#[test]
+fn part_selection_keeps_its_size() {
+    let (mut prj, db) = (demo_project(), PartsDb { parts: parts::default_catalog() });
+    let mut parts_ui = PartsUi::default();
+    parts_ui.select_for("-K1");
+    let ctx = egui::Context::default();
+    let mut heights = Vec::new();
+    for _ in 0..40 {
+        let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, vec2(1600., 1200.))), ..Default::default() };
+        ctx.run_ui(input, |ui| parts_ui.selector(&ui.ctx().clone(), &db, &mut prj)).textures_delta.clear();
+        heights.push(ctx.memory(|m| m.area_rect(egui::Id::unique(SELECTOR))).expect("window shown").height());
+    }
+    // It grew by its rows above and below the list every frame, up to the screen.
+    assert!(heights[39] < 700. && heights[39] == heights[20], "{heights:?}");
+}

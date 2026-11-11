@@ -173,6 +173,7 @@ Automatic (from the potential definition)	자동(전위 정의에서)
 Automatic ({})	자동({})
 Automatic accessories	자동 부속품
 Automatic configuration	자동 구성
+Automatic placement	자동 배치
 Automation	자동화
 Aux	보조
 Avoid:	회피:
@@ -226,6 +227,7 @@ Cable definition	케이블 정의
 Cable definition on page {}	페이지 {}의 케이블 정의
 Cable definition: draw a line across the wires that are cores of a cable	케이블 정의: 케이블의 심선인 전선을 가로질러 선을 그립니다
 Cable end reserve	케이블 끝 여유 길이
+Cable ends	케이블 끝단
 Cable markers	케이블 마커
 Cable passage to {}	{}(으)로의 케이블 통로
 Cable {}: {} cores assigned	케이블 {}: 심선 {}개 지정됨
@@ -359,11 +361,13 @@ Connected devices	연결된 장치
 Connected to:	연결 대상:
 Connection definition point	연결 정의점
 Connection definition point: defines number, colour, cross-section and cable core of a connection	연결 정의점: 연결의 번호, 색상, 단면적 및 케이블 심선을 정의합니다
+Connection point designations	연결 지점 명칭
 Connection point {}	연결 지점 {}
 Connection points 1 and 2 are connected inside	연결 지점 1과 2는 내부에서 연결되어 있습니다
 Connection:	연결:
 Connections ({})	연결({})
 Connections / harness	연결 / 하네스
+Connections of four or more wires always have a dot.	네 개 이상의 전선 연결에는 항상 점이 표시됩니다.
 Connections whose two ends are both on selected wires	양쪽 끝이 모두 선택한 전선에 있는 연결
 Connections without a defined potential	정의된 전위가 없는 연결
 Connectors	커넥터
@@ -384,6 +388,7 @@ Copy / cut / paste (devices get new tags)	복사 / 잘라내기 / 붙여넣기(�
 Copy as new	새로 복사
 Copy built-in…	기본 제공 항목 복사…
 Core designations separated by blanks	공백으로 구분된 심선 명칭
+Core labels placed by hand	수동으로 배치된 심선 레이블
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	교차된 전선에 심선 1, 2, 3 …, 그리고 GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	모서리: 직각으로 만나는 두 연결선. 자동 연결이 켜져 있으면 그 쪽을 마주하는 접속점이 여기에 배선됩니다
 Cover sheet, overview, graphics, report, mounting layout or a page template	표지, 개요, 그래픽, 보고서, 장착 레이아웃 또는 페이지 템플릿
@@ -423,6 +428,7 @@ Dashed	파선
 Decimals	소수 자릿수
 Default	기본
 Default (part data or definition)	기본값(부품 데이터 또는 정의)
+Default ({})	기본값({})
 Default label	기본 레이블
 Default medium	기본 매체
 Default rules	기본 규칙
@@ -540,7 +546,10 @@ Downloading OpenECraft {}	OpenECraft {} 다운로드 중
 Downstream part	하위 부품
 Draft of revision {} created	개정 {}의 초안 만들어짐
 Draft of revision {} discarded	개정 {}의 초안 취소됨
+Drag a connection point designation of the selected symbol to place it.	선택한 심볼의 연결 지점 명칭을 끌어서 배치하세요.
 Drag an entry into the page, or click it and then click into the page.	항목을 페이지로 끌어 놓거나, 항목을 클릭한 다음 페이지를 클릭하세요.
+Drag the core designation or the cable tag of the selected wire to place it.	선택한 전선의 심선 표시 또는 케이블 태그를 끌어서 배치하세요.
+Drag the name or the cross reference of the selected point to place it.	선택한 점의 이름 또는 상호 참조를 끌어서 배치하세요.
 Drag the tag of the selected symbol to place it.	선택한 심볼의 태그를 끌어서 배치하세요.
 Drag: orbit · right/middle or Shift+drag: pan · wheel: zoom at the pointer · double-click: look there · W A S D / arrows, Q E: move · click: select	끌기: 궤도 회전 · 오른쪽/가운데 버튼 또는 Shift 끌기: 이동 · 휠: 포인터 위치에서 확대/축소 · 두 번 클릭: 그곳 보기 · W A S D / 화살표, Q E: 이동 · 클릭: 선택
 Draw	그리기
@@ -640,7 +649,6 @@ Fans, filters, cable glands, lights, handles: choose one, then click where it go
 Fastening hardware in the bill of materials	자재 명세서의 고정 부품
 Favorite	즐겨찾기
 Favorites (JSON)	즐겨찾기 (JSON)
-Ferrule {} ({})	페룰 {}({})
 Field	필드
 Field (name, description, company, creator, date, revision) or project property	필드(name, description, company, creator, date, revision) 또는 프로젝트 속성
 Field cables	필드 케이블
@@ -775,6 +783,8 @@ Hose number	호스 번호
 Hoses and pipes	호스 및 배관
 Hoses rated below it are errors; 0 = not checked	정격이 이보다 낮은 호스는 오류입니다. 0 = 검사 안 함
 How the leaf opens: hinged at its left or right edge (seen from inside the room), into or out of the room, or sliding along the wall	문짝이 열리는 방식: 왼쪽 또는 오른쪽 가장자리에 경첩(실내에서 볼 때), 실내 쪽 또는 바깥쪽으로 열림, 또는 벽을 따라 미닫이
+How the wire is terminated at this end; by default as chosen for the connection point or its device, otherwise as the layout sets ferrules	이 끝단에서 전선을 마감하는 방식. 기본값은 연결점 또는 그 장치에 선택한 것, 없으면 레이아웃의 페룰 설정을 따릅니다
+How wires jump over the wires they cross, how T-connections are marked and whether moved items route their connections anew	전선이 교차하는 전선을 넘는 방식, T 연결을 표시하는 방식, 이동한 항목의 연결을 다시 배선할지 여부
 IP / bus address	IP / 버스 주소
 ISO 639-1 language code	ISO 639-1 언어 코드
 Identifiers	식별자
@@ -849,6 +859,7 @@ Insulation	절연
 Interruption points refer to	중단점의 참조 대상
 Introduction	소개
 Invalid value	잘못된 값
+Invert the direction of panning by scrolling	스크롤 이동 방향 반전
 Inverter or charge controller (devices with PV input data)	인버터 또는 충전 컨트롤러 (태양광 입력 데이터가 있는 장치)
 Isometric	등각
 Items on the layer	레이어의 항목
@@ -859,6 +870,7 @@ Its pages replace the pages taken out	해당 페이지가 반출된 페이지를
 Join collinear wires	동일 선상의 전선 결합
 Joins wire pieces in a line where nothing else connects (current page)	다른 연결이 없는 곳에서 일직선상의 전선 조각을 결합합니다(현재 페이지)
 Jumper {}	점퍼 {}
+Jumps over the other:	다른 전선을 넘음:
 K, Q, MM …	K, Q, MM …
 Keep sub-pages (3.a, 3.1) with the page before	하위 페이지(3.a, 3.1)를 이전 페이지와 함께 유지
 Keep the degree of protection	보호 등급 유지
@@ -872,6 +884,7 @@ Label (grey)	레이블(회색)
 Label field	레이블 필드
 Labeling scheme	라벨링 스키마
 Landscape	가로
+Large dot	큰 점
 Larger texts and buttons for a touch screen at the workbench	작업대 터치스크린을 위한 더 큰 글자와 버튼
 Latitude, longitude	위도, 경도
 Layer	레이어
@@ -983,6 +996,7 @@ Min. bend radius	최소 굽힘 반경
 Minimize the ribbon	리본 최소화
 Mirror	대칭
 Mirror (selection or symbol being placed)	대칭(선택 항목 또는 배치 중인 심볼)
+Mixed	혼합
 Mode	모드
 Model of a part (2D / 3D)	부품의 모델(2D / 3D)
 Module part; its size comes from the part	모듈 부품; 크기는 부품에서 가져옴
@@ -1006,6 +1020,7 @@ Move to section	구역으로 이동
 Move up	위로 이동
 Moves to the top level as page {}	최상위 수준의 페이지 {}(으)로 이동합니다
 Moves to {} as page {}	{}의 페이지 {}(으)로 이동합니다
+Moving	이동
 Multi-line power symbols and conductors for the single-line symbols of the current page, on a new page	현재 페이지의 단선 심볼에 대한 복선 전력 심볼과 도체(새 페이지에 생성)
 Multiple copy	다중 복사
 Multiple copy…	다중 복사…
@@ -1018,9 +1033,11 @@ NC data (DXF)	NC 데이터(DXF)
 NC data of this face (DWG)	이 면의 NC 데이터(DWG)
 NC data of this face (DXF)	이 면의 NC 데이터(DXF)
 Nailboard (SVG)…	네일보드(SVG)…
+Name and cross reference	이름 및 상호 참조
 Name on the server	서버의 이름
 Name; Data Type; Logical Address; Comment – for PLC programming tools	이름; 데이터 유형; 논리 주소; 주석 – PLC 프로그래밍 도구용
 Named copy of this form, for report blocks	보고서 블록용으로 이 양식에 이름을 지정한 복사본
+Navigation	탐색
 Navigators	탐색기
 Neutral exchange file…	중립 교환 파일…
 Never	안 함
@@ -1085,11 +1102,13 @@ No device has its main function in the box.	주 기능이 박스 안에 있는 �
 No device has mounting data yet: assign parts with dimensions to the devices (Properties › Parts).	아직 장착 데이터가 있는 장치가 없습니다: 장치에 치수가 있는 부품을 할당하십시오(속성 › 부품).
 No differences to {}.	{}와(과) 차이점이 없습니다.
 No document embedded	포함된 문서 없음
+No dot: plain T	점 없음: 단순 T
 No enclosure yet – create one with New enclosure, or a room for cabinets with New room.	아직 외함이 없습니다 – 새 외함으로 만들거나 새 방으로 외함용 방을 만드십시오.
 No field cables: place the enclosures and field devices at nodes of the route network.	필드 케이블이 없습니다. 외함과 필드 장치를 경로 네트워크의 노드에 배치하세요.
 No filter fans: an air/air heat exchanger or a cooling unit	필터 팬 없음: 공기/공기 열교환기 또는 냉각 장치
 No harnesses defined.	정의된 하네스가 없습니다.
 No inverter	인버터 없음
+No jump: plain crossing, connections have dots	점프 없음: 단순 교차, 연결에 점 표시
 No longer reported	더 이상 보고되지 않음
 No macros yet. Select items in a schematic and save them as a macro.	아직 매크로가 없습니다. 회로도에서 항목을 선택하고 매크로로 저장하세요.
 No modules: plug in PLC cards of the schematic.	모듈이 없습니다. 회로도의 PLC 카드를 장착하세요.
@@ -1290,6 +1309,7 @@ Place the georeferenced point everything is measured from	모든 측정의 기�
 Place the georeferenced point of the plant in the site plan; its coordinates go into the Buildings pane, every point is then measured from it	설비의 지리 참조점을 배치도에 배치합니다. 좌표는 건물 창에 입력하며 모든 점은 이 점에서 측정됩니다
 Placed	배치됨
 Placed by hand	수동 배치
+Placed by hand; choosing a side places them anew.	수동으로 배치됨. 방향을 선택하면 다시 배치됩니다.
 Placed here: {}	여기에 배치됨: {}
 Placed {}× in the project	프로젝트에 {}× 배치됨
 Placeholders	자리 표시자
@@ -1334,6 +1354,7 @@ Power loss not covered by the parts (tech data Power loss: 7.5 W)	부품에 포�
 Pre-planning (CSV, Excel)	사전 계획(CSV, Excel)
 Prefix	접두사
 Press a key…	키를 누르세요…
+Preview	미리 보기
 Previous item	이전 항목
 Previous page	이전 페이지
 Previous page tab	이전 페이지 탭
@@ -1480,6 +1501,7 @@ Reset	재설정
 Reset all to the defaults	모두 기본값으로 재설정
 Reset pane layout	창 배치 재설정
 Reset the ribbon	리본 초기화
+Reset to automatic placement	자동 배치로 되돌리기
 Reset to standard	표준으로 재설정
 Restart and update	다시 시작하여 업데이트
 Resulting: {} · {} · {} · {} m	결과: {} · {} · {} · {} m
@@ -1519,6 +1541,7 @@ Round	원형
 Round cutouts facing each other in both side walls	양쪽 측벽에 서로 마주 보는 원형 컷아웃
 Route definition of {}	{}의 경로 정의
 Route network	경로 네트워크
+Route the connections of moved items anew	이동한 항목의 연결을 다시 배선
 Route wires in 3D	3D로 전선 배선 경로 지정
 Routed in {}: {} m, {} bends	{0}에 배선 경로 지정됨: {1} m, 굽힘 {2}개
 Routing around symbols	심볼 우회 경로 설정
@@ -1580,6 +1603,9 @@ Scheme name	스키마 이름
 Scheme placed again at {} symbols	심볼 {}개에 스키마를 다시 배치했습니다
 Scheme {}	스키마 {}
 Screws, nuts, washers and rivet nuts of the fixing points	고정점의 나사, 너트, 와셔 및 리벳 너트
+Scrolling	스크롤
+Scrolling pans in every direction; pinch or Ctrl + scroll to zoom.	스크롤하면 모든 방향으로 화면을 이동합니다. 확대/축소는 핀치 또는 Ctrl + 스크롤로 합니다.
+Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans.	위아래로 스크롤하면 포인터 위치에서 확대/축소하고, 옆으로(가로 휠, Shift + 휠) 스크롤하면 화면을 이동합니다.
 Search (* and ? as placeholders)…	검색 (* 와 ? 는 와일드카드)…
 Search below this folder	이 폴더 아래에서 검색
 Search the parts server by catalog, product group and technical data, add parts and check the database for updates	카탈로그, 제품 그룹 및 기술 데이터로 부품 서버를 검색하고, 부품을 추가하며, 데이터베이스의 업데이트를 확인합니다
@@ -1756,6 +1782,7 @@ Synchronize	동기화
 Synchronize function texts	기능 텍스트 동기화
 Synchronize project parts from database	데이터베이스에서 프로젝트 부품 동기화
 T Text	T 텍스트
+T-connections	T 연결
 Tab	탭
 Table import failed: {}	표 가져오기 실패: {}
 Tablet mode	태블릿 모드
@@ -1776,6 +1803,7 @@ Taken into the drawing: drawn faded	도면에 반영됨: 흐리게 표시
 Takes the comments as function texts (matched by address)	주석을 기능 텍스트로 가져옵니다(주소로 매칭)
 Takes the connection point designations of all functions of this device from the function templates of its parts	이 장치의 모든 기능의 연결 지점 명칭을 부품의 기능 템플릿에서 가져옵니다
 Takes the rights of the role away, whatever other grants give	다른 권한 부여와 관계없이 역할의 권한을 박탈합니다
+Takes the way with the least weight: its length in grid steps, 1.2 per bend and 1.5 per wire crossed. Off: the wires stretch and keep their corners.	가중치가 가장 작은 경로를 택합니다: 그리드 단위 길이, 꺾임마다 1.2, 교차하는 전선마다 1.5. 사용 안 함: 전선이 늘어나며 모서리를 유지합니다.
 Target languages	대상 언어
 Temperature rise at the roof against the middle (IEC/TR 60890)	중앙 대비 천장부 온도 상승(IEC/TR 60890)
 Template	템플릿
@@ -1805,6 +1833,7 @@ The dictionary is empty: collect the texts from the project.	사전이 비어 �
 The door seen from the front: door devices and cutouts	앞에서 본 도어: 도어 장치 및 컷아웃
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	안쪽에서 본 도어(힌지 오른쪽): 케이블 덕트 및 도어 뒤 배선
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	외함의 왼쪽 측면이 선택한 외함의 오른쪽 측면에 붙어 있으며, 전선은 케이블 통로를 통해 그 사이를 지나갑니다
+The horizontal wire	가로 전선
 The items are selected and moved together	항목이 함께 선택되고 이동됩니다
 The macro library has no page macros (Macros › Save page as macro…).	매크로 라이브러리에 페이지 매크로가 없습니다(매크로 › 페이지를 매크로로 저장…).
 The modules no string takes yet in series, on the first inverter	아직 어느 스트링에도 속하지 않은 모듈을 직렬로, 첫 번째 인버터에
@@ -1831,6 +1860,7 @@ The side of {} is open	{}의 측면이 개방되어 있습니다
 The symbol is placed in the project	심볼이 프로젝트에 배치되어 있습니다
 The terminal parts name no end brackets or end plates (tech data End bracket, End plate).	단자 부품에 엔드 브래킷이나 엔드 플레이트가 지정되어 있지 않습니다(기술 데이터 End bracket, End plate).
 The update failed	업데이트에 실패했습니다
+The vertical wire	세로 전선
 The web version is updated on its server.	웹 버전은 해당 서버에서 업데이트됩니다.
 The wires get the free cores of the cable in order (left to right)	전선은 케이블의 빈 심선을 순서대로(왼쪽에서 오른쪽) 받습니다
 The wires of the connection take these values again	연결의 전선이 이 값을 다시 받습니다
@@ -1856,10 +1886,14 @@ Top edges	위쪽 가장자리
 Top left	왼쪽 위
 Top right	오른쪽 위
 Total selectivity	완전 선택 차단
+Touch screen	터치스크린
 Transfer project parts to database	프로젝트 부품을 데이터베이스로 전송
 Translate the project texts; documentation per language	프로젝트 텍스트 번역, 언어별 문서
 Turn about the vertical, counter-clockwise seen from above (90 °: the fronts face to the right)	수직축 기준 회전, 위에서 볼 때 시계 반대 방향(90 °: 전면이 오른쪽을 향함)
 Tutorial	튜토리얼
+Twin ferrules where two wires share a connection point	두 전선이 연결 지점을 공유하는 곳에 이중 페룰
+Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	트랙패드에서 두 손가락은 화면을 이동하고 마우스 휠은 확대/축소합니다. 둘을 구분하는 것은 macOS뿐이며, 다른 곳에서는 스크롤이 휠처럼 확대/축소합니다.
+Two fingers pan and pinch to zoom at the same time; one finger works like the left mouse button.	두 손가락으로 이동과 핀치 확대/축소를 동시에 할 수 있으며, 한 손가락은 마우스 왼쪽 버튼처럼 작동합니다.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	여기에서 두 연결선이 직각으로 만나야 합니다. 자동 연결이 켜져 있으면 그 가지를 마주하는 접속점이 여기에 배선됩니다.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	점을 입력하고 Enter 키를 누르세요: x y(mm) 또는 마지막 점 기준 상대 좌표 @dx dy. 현재 도구로 클릭한 것과 같이 동작합니다
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp
@@ -1943,6 +1977,7 @@ Wheel: zoom · drag: move · click on a room: its floor plan · drag a corner of
 Wheel: zoom · right click: cancel · graphics snap to 0.5 mm, connection points to the 4 mm grid	휠: 확대/축소 · 오른쪽 클릭: 취소 · 그래픽은 0.5mm, 연결 지점은 4mm 그리드에 맞춰짐
 When it differs from the page	페이지와 다를 때
 Where	위치
+Where neither wire has a termination chosen for it	두 전선 모두 마감을 선택하지 않은 경우
 Where the point is in the plant; y: its height above the ground level of the plant	설비 내 점의 위치. y: 설비 지반면 위의 높이
 Where the structure of the device comes from: aspects equal to the structure around the symbol are inherited and follow when it moves into or out of a structure box; other aspects are the device's own and stay.	장치 구조의 출처: 기호 주변 구조와 같은 측면은 상속되며 기호를 구조 박스 안으로 또는 밖으로 이동하면 함께 변경됩니다. 다른 측면은 장치 고유의 것으로 유지됩니다.
 Where the wire starts and ends: a connection point from the part data, one generated from the function template, or the device centre if no connection point matches	전선이 시작하고 끝나는 곳: 부품 데이터의 연결 지점, 기능 템플릿에서 생성된 연결 지점 또는 일치하는 연결 지점이 없으면 장치 중심
@@ -1958,6 +1993,8 @@ Window macro: {}	창 매크로: {}
 Window macros inserted from now on are recorded as macro boxes.	지금부터 삽입되는 창 매크로는 매크로 박스로 기록됩니다.
 Window macros placed on the pages (not printed)	페이지에 배치된 창 매크로(인쇄되지 않음)
 Wire colour	전선 색상
+Wire crossings	전선 교차
+Wire crossings…	전선 교차…
 Wire ends	전선 끝
 Wire ends with ferrules	페룰이 있는 전선 끝
 Wire markers	전선 마커
@@ -1971,6 +2008,7 @@ Wire {} – {}  ({} of {} here, click again for the next)	전선 {0} – {1}  (�
 Wire {} – {}  {} mm	전선 {} – {}  {} mm
 Wires and potentials	전선과 전위
 Wires between the ports of fluid power and P&ID symbols are hoses / pipes: their own nets, numbered with the wire numbering, listed in the hose list.	유체 동력 심볼과 P&ID 심볼의 포트 사이의 전선은 호스 / 배관입니다: 고유 네트이며, 전선 번호 지정으로 번호가 매겨지고 호스 목록에 나열됩니다.
+Wires crossing without connection	연결 없이 교차하는 전선
 Wires must leave here in all four directions. Until then the connection is chained in schematic order.	여기에서 네 방향 모두로 연결선이 나가야 합니다. 그때까지 연결은 회로도 순서로 연결됩니다.
 Wires of the connection	연결의 전선
 Wires take the obstacle-aware 3D routes too, instead of only the cable ducts on the plate	전선도 플레이트 위의 케이블 덕트만 사용하는 대신 장애물을 고려한 3D 경로를 사용합니다
@@ -2245,10 +2283,12 @@ x y	x y
 {} × {} pixels, {}	{} × {} 픽셀, {}
 {} – {} ({} pages)	{} – {}(페이지 {}개)
 {}: click to show its floor plan	{}: 클릭하면 평면도를 표시합니다
+{}: crimp together with the wire to {}	{}: {}(으)로 가는 전선과 함께 압착
 {}: drag to move it, R turns it, a double-click opens it	{}: 드래그하여 이동, R로 회전, 두 번 클릭하여 열기
 {}: drag to move it, a double-click shows the floor	{}: 드래그하여 이동, 두 번 클릭하여 바닥 표시
 {}: nothing to change	{}: 변경할 항목 없음
 {}: pin {}	{}: 핀 {}
+{}: strip {} mm, {}	{}: 피복 제거 {} mm, {}
 {}: {} addresses changed	{}: 주소 {}개 변경됨
 {}: {} changes in the open project (not saved yet)	{}: 열린 프로젝트에서 {}개 변경됨(아직 저장 안 됨)
 {}: {} changes saved	{}: {}개 변경 내용 저장됨

@@ -7,7 +7,7 @@
 use openecraft_i18n::tr;
 use crate::model::{natural_cmp, Project};
 use crate::panel::RoutedWire;
-use crate::production::{cross_section_mm2, end_treatment, EndTreatment};
+use crate::production::{cross_section_mm2, EndTreatment, Ends, Twin};
 use std::fmt::Write;
 pub use crate::model::wiring::{Mark, WiringMark};
 
@@ -83,8 +83,10 @@ pub struct Step {
     pub wire: usize,
     pub status: Status,
     pub note: String,
-    /// Stripping length and ferrule of both ends.
-    pub ends: Option<EndTreatment>,
+    /// Stripping length and ferrule or terminal of its `from` and `to` end.
+    pub ends: [Option<EndTreatment>; 2],
+    /// The other wire sharing the twin ferrule of its `from` and `to` end.
+    pub twins: [Option<Twin>; 2],
 }
 
 pub fn mark_of<'a>(prj: &'a Project, w: &RoutedWire) -> Option<&'a WiringMark> {
@@ -100,8 +102,9 @@ pub fn status(prj: &Project, w: &RoutedWire) -> Status {
     }
 }
 
-/// Wires of an enclosure (all with `None`) as wiring steps in the given order.
-pub fn steps(prj: &Project, wiring: &[RoutedWire], enclosure: Option<usize>, order: Order) -> Vec<Step> {
+/// Wires of an enclosure (all with `None`) as wiring steps in the given order; two
+/// wires sharing a twin ferrule one after the other, as they are crimped together.
+pub fn steps(prj: &Project, ends: &Ends, wiring: &[RoutedWire], enclosure: Option<usize>, order: Order) -> Vec<Step> {
     let mut v: Vec<Step> = wiring
         .iter()
         .enumerate()
@@ -110,7 +113,8 @@ pub fn steps(prj: &Project, wiring: &[RoutedWire], enclosure: Option<usize>, ord
             wire: i,
             status: status(prj, w),
             note: mark_of(prj, w).map(|m| m.note.clone()).unwrap_or_default(),
-            ends: end_treatment(&w.cross_section, prj.layout.ferrules),
+            ends: [ends.end(prj, &w.from, &w.to, &w.cross_section), ends.end(prj, &w.to, &w.from, &w.cross_section)],
+            twins: [ends.twin(prj, &w.from, &w.to), ends.twin(prj, &w.to, &w.from)],
         })
         .collect();
     let start = |w: &RoutedWire| w.route.points.first().copied().unwrap_or_default();
@@ -132,7 +136,39 @@ pub fn steps(prj: &Project, wiring: &[RoutedWire], enclosure: Option<usize>, ord
         };
         wa.enclosure.cmp(&wb.enclosure).then(first).then_with(by_ends)
     });
-    v
+    together(v, wiring)
+}
+
+/// The steps with the wires sharing a twin ferrule right after the first of them.
+fn together(steps: Vec<Step>, wiring: &[RoutedWire]) -> Vec<Step> {
+    let partners = |k: usize| -> Vec<usize> {
+        let w = &wiring[steps[k].wire];
+        [&w.from, &w.to]
+            .into_iter()
+            .zip(&steps[k].twins)
+            .filter_map(|(at, t)| {
+                let t = t.as_ref()?;
+                steps.iter().position(|s| {
+                    let o = &wiring[s.wire];
+                    (&o.from == at && o.to == t.with) || (&o.to == at && o.from == t.with)
+                })
+            })
+            .collect()
+    };
+    let mut order = Vec::with_capacity(steps.len());
+    let mut done = vec![false; steps.len()];
+    for i in 0..steps.len() {
+        let mut next = vec![i];
+        while let Some(k) = next.pop() {
+            if std::mem::replace(&mut done[k], true) {
+                continue;
+            }
+            order.push(k);
+            next.extend(partners(k).into_iter().rev());
+        }
+    }
+    let mut steps: Vec<Option<Step>> = steps.into_iter().map(Some).collect();
+    order.into_iter().filter_map(|k| steps[k].take()).collect()
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -210,12 +246,19 @@ pub fn next_open(steps: &[Step], current: Option<usize>) -> Option<usize> {
 }
 
 /// Checklist with the wiring state as CSV (machine readable, English headers).
-pub fn csv(prj: &Project, wiring: &[RoutedWire], order: Order) -> String {
-    let mut out = String::from("Enclosure;Wire no.;From;To;Colour;Cross-section;Length (mm);Strip (mm);Ferrule;Status;Note\n");
-    for s in steps(prj, wiring, None, order) {
+pub fn csv(prj: &Project, ends: &Ends, wiring: &[RoutedWire], order: Order) -> String {
+    let mut out = String::from("Enclosure;Wire no.;From;To;Colour;Cross-section;Length (mm);Strip (mm);Termination from;Termination to;Status;Note\n");
+    for s in steps(prj, ends, wiring, None, order) {
         let w = &wiring[s.wire];
-        let strip = s.ends.map(|e| format!("{:.0}", e.strip)).unwrap_or_default();
-        let ferrule = s.ends.and_then(|e| e.ferrule).map(|f| f.part).unwrap_or_default();
+        let [a, b] = s.ends.map(|e| e.map(|e| format!("{:.0}", e.strip)).unwrap_or_default());
+        let strip = if a == b { a } else { format!("{a}/{b}") };
+        let [from_end, to_end] = [0, 1].map(|k| {
+            let part = s.ends[k].map(|e| if e.part().is_empty() { e.kind.key().to_string() } else { e.part() }).unwrap_or_default();
+            match &s.twins[k] {
+                Some(t) => format!("{part} with {}", t.with),
+                None => part,
+            }
+        });
         let status = match s.status {
             Status::Open => "open",
             Status::Done => "wired",
@@ -224,7 +267,7 @@ pub fn csv(prj: &Project, wiring: &[RoutedWire], order: Order) -> String {
         };
         let _ = writeln!(
             out,
-            "{};{};{};{};{};{};{:.0};{strip};{ferrule};{status};{}",
+            "{};{};{};{};{};{};{:.0};{strip};{from_end};{to_end};{status};{}",
             w.enclosure_names(&prj.layout),
             w.number,
             w.from,
