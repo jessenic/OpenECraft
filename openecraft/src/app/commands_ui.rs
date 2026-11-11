@@ -21,7 +21,9 @@ impl App {
         match cmd {
             Cmd::Undo => self.session.history.can_undo(),
             Cmd::Redo => self.session.history.can_redo(),
-            Cmd::Cut | Cmd::Copy | Cmd::Delete | Cmd::Rotate | Cmd::Mirror | Cmd::MoveBy | Cmd::MultipleCopy | Cmd::SaveSelectionAsMacro | Cmd::AutoConnectSelection => has_sel,
+            // Rotate turns the symbol to place while a placing tool is active.
+            Cmd::Rotate => has_sel || matches!(self.editor.tool, Tool::Place(_) | Tool::Junction(_)),
+            Cmd::Cut | Cmd::Copy | Cmd::Delete | Cmd::Mirror | Cmd::MoveBy | Cmd::MultipleCopy | Cmd::SaveSelectionAsMacro | Cmd::AutoConnectSelection => has_sel,
             Cmd::Paste => self.editor.clip.is_some(),
             Cmd::Align => self.editor.selection.len() >= 2,
             Cmd::Distribute => self.editor.selection.len() >= 3,
@@ -299,6 +301,8 @@ impl App {
             Cmd::Rotate => {
                 if matches!(self.editor.tool, Tool::Place(_)) {
                     self.editor.place_rot = (self.editor.place_rot + 1) % 4;
+                } else if matches!(self.editor.tool, Tool::Junction(_)) {
+                    self.editor.symbol_proto.turn();
                 } else {
                     let items = self.editor.items(&self.session.prj, page);
                     routing::rotate(&mut self.session.prj, page, &items);
@@ -530,11 +534,15 @@ impl App {
 
     /// Sets a tool of the page editor and brings the page to the front.
     pub(super) fn set_tool(&mut self, tool: Tool) {
+        let symbol_tool = matches!(tool, Tool::Junction(_));
         self.editor.set_tool(tool);
         if crate::dock::find(&self.dock, Pane::Page).is_some() || self.workspace.is_workshop() {
             self.show_pane(Pane::Page);
         } else {
             self.set_workspace(Workspace::Schematic);
+        }
+        if symbol_tool {
+            self.show_symbol_tool_properties();
         }
         self.backstage = None;
     }

@@ -392,15 +392,18 @@ pub fn selection_points(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>) -> 
 }
 
 /// Wire ends (wire id, is end `a`) of unselected wires touching the selection, so they
-/// can be stretched ("rubber band") while moving.
+/// can be stretched ("rubber band") while moving: at its connection points and wire
+/// ends, and branching off a selected wire (a drop from a rail).
 pub fn attached_wire_ends(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>) -> Vec<(u64, bool)> {
     let pts = selection_points(symbols, page, sel);
+    let moved: Vec<&Wire> = page.wires.iter().filter(|w| sel.contains(&w.id)).collect();
+    let touches = |q: P| pts.iter().any(|x| x.same(q)) || moved.iter().any(|m| on_segment_interior(q, m.a, m.b));
     let mut v = Vec::new();
     for w in page.wires.iter().filter(|w| !sel.contains(&w.id)) {
-        if pts.iter().any(|q| q.same(w.a)) {
+        if touches(w.a) {
             v.push((w.id, true));
         }
-        if pts.iter().any(|q| q.same(w.b)) {
+        if touches(w.b) {
             v.push((w.id, false));
         }
     }

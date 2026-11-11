@@ -221,6 +221,22 @@ fn a_standard_workspace_comes_back_in_its_default_arrangement() {
 }
 
 #[test]
+fn a_closed_properties_pane_comes_back_beside_the_page() {
+    // The connection symbol tools show the Properties pane again (#96).
+    let mut tree = default_tree();
+    close(&mut tree, Pane::Properties);
+    assert!(!visible(&tree).contains(&Pane::Properties));
+    show(&mut tree, Pane::Properties);
+    let shown = visible(&tree);
+    assert!(shown.contains(&Pane::Properties) && shown.contains(&Pane::Page), "{shown:?}");
+    // Behind another tab it becomes the active one; the page stays.
+    show(&mut tree, Pane::Library);
+    show(&mut tree, Pane::Properties);
+    let shown = visible(&tree);
+    assert!(shown.contains(&Pane::Properties) && shown.contains(&Pane::Page), "{shown:?}");
+}
+
+#[test]
 fn a_workspace_shows_its_main_document_again() {
     assert_eq!(main_document(Workspace::Schematic), Pane::Page);
     assert_eq!(main_document(Workspace::Panel), Pane::LayoutView);

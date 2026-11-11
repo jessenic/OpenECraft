@@ -1056,6 +1056,16 @@ fn drag_source<P: std::any::Any + Send + Sync>(ui: &mut egui::Ui, id: egui::Id, 
 }
 
 impl eframe::App for App {
+    /// Tab picks the next routing of the connection symbol tool while no widget has
+    /// the keyboard focus, instead of moving the focus to the first widget.
+    fn raw_input_hook(&mut self, ctx: &egui::Context, raw_input: &mut egui::RawInput) {
+        if matches!(self.editor.tool, crate::editor::Tool::Junction(_)) && ctx.memory(|m| m.focused().is_none()) {
+            for _ in 0..self.editor.shortcuts.take_tab(raw_input, crate::shortcuts::Action::NextRouting) {
+                self.editor.next_routing();
+            }
+        }
+    }
+
     fn ui(&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
         let ctx = ui.ctx().clone();
         self.frame_stats.record(ctx.input(|i| i.time), frame.info().cpu_usage);

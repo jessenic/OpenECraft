@@ -121,6 +121,17 @@ impl App {
         self.props_window = true;
     }
 
+    /// The Properties pane with the routing of the next connection symbol, shown again
+    /// when it was closed, without taking the keyboard from the page.
+    pub(super) fn show_symbol_tool_properties(&mut self) {
+        if crate::dock::visible(&self.dock).contains(&Pane::Properties) || self.floating.contains(&Pane::Properties) {
+            return;
+        }
+        let active = self.active_pane;
+        self.show_pane(Pane::Properties);
+        self.active_pane = active;
+    }
+
     /// The properties of the selection in a window beside the page (F2, double click).
     pub(super) fn properties_float_window(&mut self, ctx: &egui::Context) {
         if !self.props_window {
@@ -231,6 +242,11 @@ impl App {
                 self.page_props = Some(pi);
             }
             ui.add_space(6.0);
+            if matches!(self.editor.tool, Tool::Junction(_)) {
+                ui.separator();
+                self.junction_tool_properties(ui);
+                ui.separator();
+            }
             ui.weak(self.editor.hint());
             return;
         }

@@ -652,7 +652,7 @@ fn the_junction_tool_takes_its_direction_from_the_wires() {
     assert_eq!((js[0].pos, js[0].dir, js[0].variant), (p(100.0, 60.0), TeeDir::Up, 3));
     assert_eq!((js[1].pos, js[1].dir), (p(160.0, 100.0), TeeDir::Left));
     assert_eq!(ed.tool, Tool::Junction(JunctionKind::Tee), "the tool stays for the next junction");
-    assert_eq!(ed.selection, BTreeSet::from([js[1].id]));
+    assert!(ed.selection.is_empty(), "the placed junction is not selected, so changes go to the next one");
     // The same point takes no second junction.
     ed.typed = Some(p(100.0, 60.0));
     let out = frame(&mut ed, &ctx, &mut prj, 0, vec![]);
@@ -710,6 +710,39 @@ fn the_crossing_tool_connects_crossing_wires_and_turns_with_r() {
     // The bridge tool starts from its own prototype.
     ed.set_tool(Tool::Junction(JunctionKind::Bridge));
     assert_eq!((ed.symbol_proto.kind, ed.symbol_proto.dir), (JunctionKind::Bridge, TeeDir::Up));
+}
+
+#[test]
+fn a_placed_connection_symbol_keeps_its_routing_when_the_next_one_changes() {
+    // Regression (#96): changing the orientation after a placement changed the
+    // corner just placed instead of the next one.
+    let mut prj = Project::new_default();
+    let ctx = egui::Context::default();
+    let mut ed = Editor::default();
+    ed.set_tool(Tool::Junction(JunctionKind::Corner));
+    let click = |ed: &mut Editor, prj: &mut Project, at: Pos2| {
+        frame(ed, &ctx, prj, 0, vec![Event::PointerMoved(at)]);
+        frame(ed, &ctx, prj, 0, vec![button(at, true)]);
+        frame(ed, &ctx, prj, 0, vec![button(at, false)]);
+    };
+    frame(&mut ed, &ctx, &mut prj, 0, vec![Event::PointerMoved(pos2(500.0, 400.0))]);
+    frame(&mut ed, &ctx, &mut prj, 0, vec![button(pos2(500.0, 400.0), true)]);
+    let out = frame(&mut ed, &ctx, &mut prj, 0, vec![button(pos2(500.0, 400.0), false)]);
+    assert!(out.open_properties, "the properties with the next symbol are shown again");
+    let first = prj.pages[0].junctions.last().cloned().unwrap();
+    assert!(ed.selection.is_empty(), "the placed symbol is not selected while the tool stays");
+    ed.next_routing();
+    ed.symbol_proto.turn();
+    click(&mut ed, &mut prj, pos2(700.0, 400.0));
+    let page = &prj.pages[0];
+    assert_eq!(page.junctions.len(), 2);
+    assert_eq!(page.junctions[0], first, "the first corner keeps its arms");
+    assert_ne!(page.junctions[1].links(), first.links(), "the second one has the new arms");
+    // The next routing only changes the tool's symbol.
+    let before = ed.symbol_proto.clone();
+    ed.next_routing();
+    assert_ne!(ed.symbol_proto.links(), before.links());
+    assert_eq!(prj.pages[0].junctions[0], first);
 }
 
 #[test]

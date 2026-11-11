@@ -505,3 +505,22 @@ fn a_crossing_placed_or_removed_scans_the_page_again() {
     Netlist::build_with(&prj, true, &mut scans);
     assert_eq!(scans.scanned, 0, "a corner changes no connectivity");
 }
+
+#[test]
+fn next_choice_cycles_through_every_routing_of_a_kind() {
+    for kind in [JunctionKind::Tee, JunctionKind::Corner, JunctionKind::Crossing, JunctionKind::Bridge] {
+        let start = Junction { id: 7, dot: true, ..Junction::new(kind, P { x: 4.0, y: 8.0 }) };
+        let mut j = start.clone();
+        let mut seen = Vec::new();
+        for _ in 0..4 {
+            assert!(!seen.contains(&j.links()), "{kind:?}: {j:?} repeats");
+            seen.push(j.links());
+            j = next_choice(&j);
+            assert_eq!((j.id, j.pos, j.dot, j.kind), (start.id, start.pos, start.dot, kind));
+        }
+        assert_eq!(j.links(), start.links(), "{kind:?}: back at the start after four");
+    }
+    // A T-junction keeps its direction; only the routing changes.
+    let t = Junction { dir: TeeDir::Left, ..Junction::new(JunctionKind::Tee, P::default()) };
+    assert!(choices(&t).iter().all(|c| c.dir == TeeDir::Left));
+}

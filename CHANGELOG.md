@@ -14,6 +14,15 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 - **Auto-connect hints:** while a symbol is placed or moved with the mouse, faint
   dotted lines show the wires auto-connect would draw
   ([schematic](docs/features/schematic.md#routing)).
+- **Connection symbols** (#96): Auto-connect wires the branch of a T-junction that sits
+  on one continuous wire, as it does on a wire split at the junction. While a connection
+  symbol tool is active, Tab (*Next routing of the connection symbol to place*) cycles
+  the routing or orientation of the next symbol, Rotate turns it, and the Properties
+  pane shows its routings to pick from; a placed symbol is no longer selected, so these
+  changes never alter it; the tools show the Properties pane again when it was closed.
+  A T-junction placed where three wires meet keeps the chosen routing. Connection
+  symbols follow their wires when wires or devices move, also in fast drags, sliding
+  along the rail with their drop, and wires branching off a moved wire stretch with it.
 - **Trackpads and touch screens** (#134): every 2D and 3D view (schematic, front,
   floor and site plan, 3D view, field plan, symbol editor) zooms with a pinch and pans
   with two fingers, both in one movement; on a touch screen the first finger no longer

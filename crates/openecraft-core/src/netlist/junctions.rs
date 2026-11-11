@@ -41,6 +41,27 @@ pub fn routing(j: &Junction) -> [TeeDir; 3] {
 
 pub const VARIANTS: [u8; 4] = [1, 2, 3, 4];
 
+/// The routings to choose from for a symbol like `j`: the four variants of a
+/// T-junction in its direction, the orientations of a corner, crossing or bridge.
+pub fn choices(j: &Junction) -> Vec<Junction> {
+    let keep = |c: Junction| Junction { id: j.id, pos: j.pos, dot: j.dot, ..c };
+    match j.kind {
+        JunctionKind::Tee => VARIANTS.into_iter().map(|variant| Junction { variant, ..j.clone() }).collect(),
+        JunctionKind::Corner => {
+            [(TeeDir::Down, TeeDir::Right), (TeeDir::Down, TeeDir::Left), (TeeDir::Up, TeeDir::Right), (TeeDir::Up, TeeDir::Left)].into_iter().map(|(v, h)| keep(Junction::corner(j.pos, v, h))).collect()
+        }
+        JunctionKind::Crossing => [(TeeDir::Up, 1), (TeeDir::Up, 2), (TeeDir::Left, 1), (TeeDir::Left, 2)].into_iter().map(|(dir, variant)| Junction { dir, variant, ..j.clone() }).collect(),
+        JunctionKind::Bridge => TeeDir::ALL.into_iter().map(|dir| Junction { dir, ..j.clone() }).collect(),
+    }
+}
+
+/// The routing after the one of `j` in [`choices`], round.
+pub fn next_choice(j: &Junction) -> Junction {
+    let all = choices(j);
+    let i = all.iter().position(|c| c.links() == j.links()).map_or(0, |i| (i + 1) % all.len());
+    all[i].clone()
+}
+
 /// Name of a kind of connection symbol.
 pub fn kind_name(kind: JunctionKind) -> &'static str {
     match kind {

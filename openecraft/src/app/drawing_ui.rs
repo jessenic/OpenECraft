@@ -444,6 +444,38 @@ impl App {
         false
     }
 
+    /// The routing the connection symbol tool places next where the wires do not
+    /// decide it, with a preview of each to pick from.
+    pub(super) fn junction_tool_properties(&mut self, ui: &mut egui::Ui) {
+        let mut j = self.editor.symbol_proto.clone();
+        ui.label(RichText::new(junctions::kind_name(j.kind)).strong());
+        if j.kind == JunctionKind::Tee {
+            ui.horizontal(|ui| {
+                ui.label(tr("Direction"));
+                egui::ComboBox::from_id_salt("tjdir_tool").selected_text(junctions::side(j.dir)).show_ui(ui, |ui| {
+                    for d in TeeDir::ALL {
+                        ui.selectable_value(&mut j.dir, d, junctions::side(d));
+                    }
+                });
+            });
+        }
+        ui.horizontal(|ui| {
+            for c in junctions::choices(&j) {
+                if junction_preview(ui, &c, c.links() == j.links()).on_hover_text(junctions::describe(&c)).clicked() {
+                    j = c;
+                }
+            }
+        });
+        ui.weak(junctions::describe(&j));
+        let keys = &self.editor.shortcuts;
+        ui.weak(tr_fmt!(
+            "The next symbol is placed with this routing; placed symbols keep theirs · {} next routing · {} turns it",
+            keys.text(crate::shortcuts::Action::NextRouting.id()),
+            keys.cmd_text(crate::commands::Cmd::Rotate)
+        ));
+        self.editor.symbol_proto = j;
+    }
+
     /// Direction, variant (with a preview of each) and representation of a T-junction,
     /// the orientation of a corner, and the wires of their connection.
     fn junction_properties(&mut self, ui: &mut egui::Ui, id: u64) {
@@ -454,12 +486,7 @@ impl App {
         let fits = junctions::fits(&self.session.prj, pg, &before);
         let mut j = before.clone();
         // The orientations of a corner, crossing or bridge as previews to pick from.
-        let choices: Vec<Junction> = match j.kind {
-            JunctionKind::Corner => [(TeeDir::Down, TeeDir::Right), (TeeDir::Down, TeeDir::Left), (TeeDir::Up, TeeDir::Right), (TeeDir::Up, TeeDir::Left)].into_iter().map(|(v, h)| Junction::corner(j.pos, v, h)).collect(),
-            JunctionKind::Crossing => [(TeeDir::Up, 1), (TeeDir::Up, 2), (TeeDir::Left, 1), (TeeDir::Left, 2)].into_iter().map(|(dir, variant)| Junction { dir, variant, ..j.clone() }).collect(),
-            JunctionKind::Bridge => TeeDir::ALL.into_iter().map(|dir| Junction { dir, ..j.clone() }).collect(),
-            JunctionKind::Tee => Vec::new(),
-        };
+        let choices: Vec<Junction> = if j.kind == JunctionKind::Tee { Vec::new() } else { junctions::choices(&j) };
         if !choices.is_empty() {
             ui.label(if j.is_corner() { tr("Arms") } else { tr("Routing") });
             ui.horizontal(|ui| {

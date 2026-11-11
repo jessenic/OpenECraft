@@ -71,16 +71,24 @@ The symbol is a short diagonal from the source to the second target (the first t
 lies straight on); *Representation › Dot* draws the usual connection dot instead and
 keeps the routing. The properties pane shows the four variants as previews with the
 targets numbered, the direction, and the wires of the connection. Rotating or mirroring
-the drawing turns the junction with its wires; a moved device stretches its wire and
-leaves the junction where the wires meet, and when the whole node moves the junction
-follows.
+the drawing turns the junction with its wires. Connection symbols follow their wires:
+when a device or a drop moves along the rail, the T-junction slides with the drop; when
+the rail moves, its drops stretch and the junction stays on it; when the whole node
+moves the junction moves with it.
+
+While a connection symbol tool is active, the Properties pane (shown again by the tool
+when it was closed) holds the routings of the next symbol to pick from, Tab cycles them and R (Rotate) turns the symbol. A symbol just
+placed is not selected, so these choices only affect the symbols still to place; a
+placed one is changed by selecting it. Where three wires meet already, a T-junction
+takes its direction from them and the chosen routing.
 
 A **corner** (*Insert › Connections › Corner*) is the second connection symbol: two
-wires meeting at a right angle, with four orientations (R turns it while placing). It
+wires meeting at a right angle, with four orientations (Tab or R picks the next one while
+placing). It
 changes no routing; its use is automatic wiring: with *Auto-connect* on, placing a
 corner (or a T-junction) draws wires from connection points that face its free arms
-straight on, and a symbol placed or moved so that a connection point faces a free arm
-is wired to it. So a corner at the meeting point of two connections wires both of them
+straight on (also from a T-junction on a wire running through it), and a symbol placed
+or moved so that a connection point faces a free arm is wired to it. So a corner at the meeting point of two connections wires both of them
 in. A corner that fits its wires is drawn as nothing but the bend; one without its two
 wires shows its arms in the error colour and is reported by the check.
 

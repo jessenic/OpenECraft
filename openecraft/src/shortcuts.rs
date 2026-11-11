@@ -22,10 +22,11 @@ pub enum Action {
     NudgeRight,
     NudgeUp,
     NudgeDown,
+    NextRouting,
 }
 
 impl Action {
-    pub const ALL: [Action; 7] = [Action::WireCorner, Action::Autoroute, Action::FinishPolyline, Action::NudgeLeft, Action::NudgeRight, Action::NudgeUp, Action::NudgeDown];
+    pub const ALL: [Action; 8] = [Action::WireCorner, Action::Autoroute, Action::FinishPolyline, Action::NudgeLeft, Action::NudgeRight, Action::NudgeUp, Action::NudgeDown, Action::NextRouting];
 
     /// Id in the stored settings.
     pub fn id(self) -> &'static str {
@@ -37,6 +38,7 @@ impl Action {
             Action::NudgeRight => "nudge_right",
             Action::NudgeUp => "nudge_up",
             Action::NudgeDown => "nudge_down",
+            Action::NextRouting => "next_routing",
         }
     }
 
@@ -50,6 +52,7 @@ impl Action {
             Action::NudgeRight => tr_const!("Move selection right by one grid step"),
             Action::NudgeUp => tr_const!("Move selection up by one grid step"),
             Action::NudgeDown => tr_const!("Move selection down by one grid step"),
+            Action::NextRouting => tr_const!("Next routing of the connection symbol to place"),
         }
     }
 
@@ -63,6 +66,7 @@ impl Action {
             Action::NudgeRight => vec![plain(Key::ArrowRight)],
             Action::NudgeUp => vec![plain(Key::ArrowUp)],
             Action::NudgeDown => vec![plain(Key::ArrowDown)],
+            Action::NextRouting => vec![plain(Key::Tab)],
         }
     }
 }
@@ -231,6 +235,18 @@ impl Shortcuts {
 
     pub fn action_pressed(&self, i: &InputState, a: Action) -> bool {
         self.pressed(i, a.id())
+    }
+
+    /// Takes the presses of an action's plain Tab key out of the raw input, before
+    /// egui moves the keyboard focus with them; returns how many there were.
+    pub fn take_tab(&self, raw: &mut egui::RawInput, a: Action) -> usize {
+        if !self.keys(a.id()).iter().any(|s| s.key == Key::Tab && !s.command && !s.shift && !s.alt) {
+            return 0;
+        }
+        let tab = |e: &egui::Event| matches!(e, egui::Event::Key { key: Key::Tab, modifiers, .. } if modifiers.is_none());
+        let presses = raw.events.iter().filter(|e| tab(e) && matches!(e, egui::Event::Key { pressed: true, .. })).count();
+        raw.events.retain(|e| !tab(e));
+        presses
     }
 
     /// Like [`Shortcuts::pressed`], and takes the key press so that widgets do not see it.
