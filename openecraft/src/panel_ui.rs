@@ -95,6 +95,73 @@ pub enum NcFormat {
 struct MoveDrag {
     start: P,
     originals: Vec<(u64, f32, f32)>,
+    resize: Option<ProfileResize>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ProfileEnd {
+    Start,
+    End,
+}
+
+struct ProfileResize {
+    id: u64,
+    end: ProfileEnd,
+    original: PanelItem,
+}
+
+fn profile_end_hit(item: &PanelItem, q: P, tolerance: f32) -> Option<ProfileEnd> {
+    if !matches!(item.kind, ItemKind::Rail | ItemKind::Duct) {
+        return None;
+    }
+    let (start, end) = item.center_line();
+    let (start_dist, end_dist) = (q.dist(start), q.dist(end));
+    if start_dist.min(end_dist) > tolerance {
+        None
+    } else if start_dist <= end_dist {
+        Some(ProfileEnd::Start)
+    } else {
+        Some(ProfileEnd::End)
+    }
+}
+
+fn selected_profile<'a>(e: &'a Enclosure, selection: &BTreeSet<u64>, face: Face) -> Option<&'a PanelItem> {
+    let mut profiles = selection.iter().filter_map(|id| {
+        e.item(*id).filter(|i| i.face == face && matches!(i.kind, ItemKind::Rail | ItemKind::Duct))
+    });
+    let profile = profiles.next()?;
+    profiles.next().is_none().then_some(profile)
+}
+
+fn resize_profile_end(item: &mut PanelItem, original: &PanelItem, end: ProfileEnd, coordinate: f32) {
+    let coordinate = panel::snap(coordinate);
+    if original.horizontal() {
+        let start = original.x;
+        let finish = original.x + original.w;
+        match end {
+            ProfileEnd::Start => {
+                item.x = coordinate.clamp(finish - 5000.0, finish - 10.0);
+                item.w = finish - item.x;
+            }
+            ProfileEnd::End => {
+                item.x = start;
+                item.w = coordinate.clamp(start + 10.0, start + 5000.0) - start;
+            }
+        }
+    } else {
+        let start = original.y;
+        let finish = original.y + original.h;
+        match end {
+            ProfileEnd::Start => {
+                item.y = coordinate.clamp(finish - 5000.0, finish - 10.0);
+                item.h = finish - item.y;
+            }
+            ProfileEnd::End => {
+                item.y = start;
+                item.h = coordinate.clamp(start + 10.0, start + 5000.0) - start;
+            }
+        }
+    }
 }
 
 /// Climate settings and result of an enclosure (IEC/TR 60890).
@@ -3488,6 +3555,14 @@ impl PanelUi {
                 self.status = tr_fmt!("X {}  Y {} mm · {}", format!("{:.0}", q.x), format!("{:.0}", q.y), self.face.title());
             }
         }
+        if let Some(item) = selected_profile(e, &self.selection, self.face).filter(|i| !self.hidden(i)) {
+            let (start, end) = item.center_line();
+            for point in [start, end] {
+                let point = to_screen(point);
+                painter.circle_filled(point, 4.0, ui.visuals().selection.bg_fill);
+                painter.circle_stroke(point, 4.0, Stroke::new(1.5, pal.line));
+            }
+        }
     }
 
     fn select_and_move(&mut self, ui: &egui::Ui, resp: &egui::Response, prj: &mut Project, ei: usize, rect: Rect, an: &Analysis) {
@@ -3508,11 +3583,28 @@ impl PanelUi {
             let x = (s.x - rect.min.x - offset.x) / zoom;
             p(mirror.map(|m| m - x).unwrap_or(x) - fm.x, (s.y - rect.min.y - offset.y) / zoom - fm.y)
         };
+        if self.drag.is_none() && resp.hovered() {
+            if let (Some(ptr), Some(item)) = (resp.hover_pos(), selected_profile(&prj.layout.enclosures[ei], &self.selection, face)) {
+                if !hidden(item) && profile_end_hit(item, to_plate(ptr), 8.0 / zoom).is_some() {
+                    ui.ctx().set_cursor_icon(if item.horizontal() {
+                        egui::CursorIcon::ResizeHorizontal
+                    } else {
+                        egui::CursorIcon::ResizeVertical
+                    });
+                }
+            }
+        }
         if resp.drag_started_by(PointerButton::Primary) {
             let origin = ui.input(|i| i.pointer.press_origin()).unwrap_or(rect.center());
             let q = to_plate(origin);
             let e = &prj.layout.enclosures[ei];
-            if let Some(id) = hit(e, q) {
+            let resize = selected_profile(e, &self.selection, face)
+                .filter(|i| !hidden(i))
+                .and_then(|i| profile_end_hit(i, q, 8.0 / self.zoom).map(|end| ProfileResize { id: i.id, end, original: i.clone() }));
+            if let Some(resize) = resize {
+                self.selected_wire = None;
+                self.drag = Some(MoveDrag { start: q, originals: Vec::new(), resize: Some(resize) });
+            } else if let Some(id) = hit(e, q) {
                 self.selected_wire = None;
                 if !self.selection.contains(&id) {
                     if !shift {
@@ -3528,41 +3620,52 @@ impl PanelUi {
                     }
                 }
                 let originals = e.items.iter().filter(|i| ids.contains(&i.id)).map(|i| (i.id, i.x, i.y)).collect();
-                self.drag = Some(MoveDrag { start: q, originals });
+                self.drag = Some(MoveDrag { start: q, originals, resize: None });
             }
         }
         if resp.dragged_by(PointerButton::Primary) {
             if let (Some(drag), Some(ptr)) = (&self.drag, resp.interact_pointer_pos()) {
                 let q = to_plate(ptr);
-                let dx = panel::snap(q.x - drag.start.x);
-                let dy = panel::snap(q.y - drag.start.y);
                 let e = &mut prj.layout.enclosures[ei];
-                for (id, x0, y0) in &drag.originals {
-                    if let Some(it) = e.items.iter_mut().find(|i| i.id == *id) {
-                        it.x = x0 + dx;
-                        it.y = y0 + dy;
+                if let Some(resize) = &drag.resize {
+                    if let Some(item) = e.items.iter_mut().find(|i| i.id == resize.id) {
+                        let coordinate = if resize.original.horizontal() { q.x } else { q.y };
+                        resize_profile_end(item, &resize.original, resize.end, coordinate);
                     }
-                }
-                // Devices that are moved on their own snap onto rails.
-                let moved: Vec<u64> = drag.originals.iter().map(|o| o.0).collect();
-                let moving_rails = e.items.iter().any(|i| i.kind == ItemKind::Rail && moved.contains(&i.id));
-                if !moving_rails {
-                    let single = moved.len() == 1;
-                    for id in moved {
-                        if let Some(idx) = e.items.iter().position(|i| i.id == id) {
-                            let mut it = e.items[idx].clone();
-                            if single { panel::snap_device(e, &mut it); } else { panel::snap_to_rail(e, &mut it); }
-                            e.items[idx] = it;
+                } else {
+                    let dx = panel::snap(q.x - drag.start.x);
+                    let dy = panel::snap(q.y - drag.start.y);
+                    for (id, x0, y0) in &drag.originals {
+                        if let Some(it) = e.items.iter_mut().find(|i| i.id == *id) {
+                            it.x = x0 + dx;
+                            it.y = y0 + dy;
                         }
                     }
+                    // Devices that are moved on their own snap onto rails.
+                    let moved: Vec<u64> = drag.originals.iter().map(|o| o.0).collect();
+                    let moving_rails = e.items.iter().any(|i| i.kind == ItemKind::Rail && moved.contains(&i.id));
+                    if !moving_rails {
+                        let single = moved.len() == 1;
+                        for id in moved {
+                            if let Some(idx) = e.items.iter().position(|i| i.id == id) {
+                                let mut it = e.items[idx].clone();
+                                if single { panel::snap_device(e, &mut it); } else { panel::snap_to_rail(e, &mut it); }
+                                e.items[idx] = it;
+                            }
+                        }
+                    }
+                    self.status = format!("ΔX {dx:.0}  ΔY {dy:.0} mm");
                 }
-                self.status = format!("ΔX {dx:.0}  ΔY {dy:.0} mm");
             }
         }
         if resp.drag_stopped() {
             if let Some(drag) = self.drag.take() {
-                let moved: Vec<u64> = drag.originals.iter().map(|o| o.0).collect();
-                panel::capture_anchors(&mut prj.layout.enclosures[ei], &moved);
+                let changed = drag
+                    .resize
+                    .as_ref()
+                    .map(|r| vec![r.id])
+                    .unwrap_or_else(|| drag.originals.iter().map(|o| o.0).collect());
+                panel::capture_anchors(&mut prj.layout.enclosures[ei], &changed);
             }
         }
         if resp.clicked_by(PointerButton::Primary) {

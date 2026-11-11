@@ -17,10 +17,11 @@ line-ups, rooms of the building with their floor-standing equipment and pipe run
 ## Enclosures and devices
 
 - Enclosures (from a part such as `GEN.ENC-600X800` or custom size) with mounting plate.
-- Mounting rails and cable ducts drawn by length; devices placed from a "devices to
-  place" list with their real dimensions from the parts data (contactor + auxiliary
-  block add up in depth, terminal strips are as long as their terminals and spares) and
-  snapped onto rails; move (devices travel with their rail), rotate, delete.
+- Mounting rails and cable ducts drawn by length; select one and drag either end to
+  resize it, or move it (devices travel with their rail). Devices are placed from a
+  "devices to place" list with their real dimensions from the parts data (contactor +
+  auxiliary block add up in depth, terminal strips are as long as their terminals and
+  spares) and snapped onto rails; rotate, delete.
 - 2D front view and a 3D view: drag to orbit, right / middle or Shift+drag to pan, the
   wheel zooms at the pointer and walks on into a room, a double-click turns to what was
   clicked and closes in, `W` `A` `S` `D` / arrow keys and `Q` `E` move through the view
