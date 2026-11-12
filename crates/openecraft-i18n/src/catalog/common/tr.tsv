@@ -17,6 +17,7 @@ Add to favorites	Sık kullanılanlara ekle
 Address	Adres
 Angle	Açı
 Apply	Uygula
+Approve	Onayla
 Approvers	Onaylayıcılar
 Automatic	Otomatik
 Below	Altta
@@ -92,6 +93,8 @@ Dark	Koyu
 Data portal	Veri portalı
 Data type	Veri tipi
 Date	Tarih
+Delete	Sil
+Deny	Reddet
 Depth	Derinlik
 Descending	Azalan
 Description	Açıklama
@@ -105,6 +108,7 @@ Device {}	Cihaz {}
 Devices	Cihazlar
 Direction	Yön
 Discard	At
+Discard changes	Değişiklikleri at
 Display	Görünüm
 Done	Tamamlandı
 Door	Kapı
@@ -112,6 +116,7 @@ Door cutout	Kapı kesimi
 Downloading {}…	{} indiriliyor…
 Drag to turn the model	Modeli döndürmek için sürükleyin
 EMC clearance	EMC mesafesi
+Edit	Düzen
 Electro-fluid cross reference	Elektro-akışkan çapraz referansı
 Enclosure	Pano
 Enclosures	Panolar
@@ -164,6 +169,7 @@ Hose no.	Hortum no.
 Identifier	Tanımlayıcı
 Identifying letter	Tanıtıcı harf
 Image	Görüntü
+Import	İçe aktar
 Input	Giriş
 Integration	Entegrasyon
 Internal (bottom)	Dahili (alt)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Arsanın adı, ör. kadastro parseli
 Name of the point, e.g. a survey point	Noktanın adı, ör. bir ölçüm noktası
 Name of the scheme	Düzenin adı
 Net	Ağ
+Never	Hiçbir zaman
 New name	Yeni ad
 No	Hayır
 No Vault item matches a part of the project	Hiçbir Vault öğesi projenin bir parçasıyla eşleşmiyor
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Seçenek {}: {} geçerli bir seçim değ
 Order number	Sipariş numarası
 Outer diameter	Dış çap
 Output	Çıkış
+Overview	Genel bakış
 PCT loop	PCT döngüsü
 PCT loop overview	PCT döngüsü genel bakışı
 PL	PL
@@ -335,6 +343,7 @@ Range	Aralık
 Rated current	Anma akımı
 Rated power	Anma gücü
 Rectangle	Dikdörtgen
+Reject	Reddet
 Relative humidity	Bağıl nem
 Relay	Röle
 Released pages cannot be moved	Yayımlanmış sayfalar taşınamaz
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Modül sıraları (doğu-batı: çift
 Rule	Kural
 Rule set	Kural seti
 Safety function	Güvenlik fonksiyonu
+Save	Kaydet
+Saved catalog {}	{} kataloğu kaydedildi
+Saved user {}	{} kullanıcısı kaydedildi
 Saved {}	{} kaydedildi
 Scale	Ölçek
 Schematic	Şema
@@ -442,7 +454,9 @@ Unknown property: {}	Bilinmeyen özellik: {}
 Unknown scheme: {}	Bilinmeyen şema: {}
 Unknown segment	Bilinmeyen segment
 Unknown symbol {}	Bilinmeyen sembol {}
+Update	Güncelle
 Uploading {}…	{} karşıya yükleniyor…
+User	Kullanıcı
 User name	Kullanıcı adı
 Users	Kullanıcılar
 Version	Sürüm

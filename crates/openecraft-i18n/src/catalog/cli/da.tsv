@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	Overtag også 
 Also verify each project (slower)	Verificér også hvert projekt (langsommere)
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	Anvender en CSV, der er eksporteret med table_get (og ændret i et regneark): De ændrede celler angives
 Applies a structure template: the aspects of the pages and its identifiers	Anvender en strukturskabelon: sidernes aspekter og dens betegnelser
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	Godkender en bruger, der har registreret sig på artikelserveren, så vedkommende kan logge på (kun administratorer)
 Archive file (.oecz)	Arkivfil (.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	Tildeler en artikel til en enhed (fra projektet, det indbyggede katalog eller artikelserveren)
 Author of comments without one (default: the user name)	Forfatter til kommentarer uden forfatter (standard: brugernavnet)
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	Producent, hvis artikler 
 Maximum number of hits (default 50)	Maksimalt antal resultater (standard 50)
 Name of a built-in template (list_structure_templates)	Navn på en indbygget skabelon (list_structure_templates)
 Name of the knowledge vault (default Vault)	Navnet på vaulten (standard Vault)
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	Nye konti venter på godkendelse af en administrator (true) eller logger på med det samme (false)
 New file name (save as)	Nyt filnavn (gem som)
 New pages for every value of the group column (default true)	Nye sider for hver værdi i grupperingskolonnen (standard true)
 New part number	Nyt artikelnummer
@@ -147,6 +149,7 @@ Only show the changes, write nothing	Vis kun ændringerne, skriv intet
 Only the pages of this report block; default all report pages	Kun siderne i denne rapportblok; standard alle rapportsider
 Only the projects that match these search terms	Kun de projekter, der matcher disse søgetermer
 Only this block	Kun denne blok
+Open (true) or close (false) the registration	Åbn (true) eller luk (false) registreringen
 Opens a project file or archive (files of older versions are converted)	Åbner en projektfil eller et arkiv (filer fra ældre versioner konverteres)
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	Åbner en projektfil eller et arkiv fra vaulten; vault_upload uden mål tjekker en ny version af den ind
 Option {} needs the form name=value	Option {} skal have formen navn=værdi
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	Viser manifestet for et projektarkiv
 Shows the project properties, file, number of pages and devices and the check result	Viser projektegenskaber, fil, antal sider og enheder samt kontrolresultatet
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	Viser artikelserverens roller, tildelinger og katalogtjenester og angiver eventuelt rollen for anonyme anmodninger (kun administratorer)
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	Viser, om brugere selv må registrere sig på artikelserveren (som læsere), og åbner eller lukker eventuelt registreringen (kun administratorer)
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	Start fra en projektskabelon: en indbygget (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) eller en projektfil
 Start from an example project (names: list_examples)	Start fra et eksempelprojekt (navne: list_examples)
 Start from the demo project	Start fra demoprojektet

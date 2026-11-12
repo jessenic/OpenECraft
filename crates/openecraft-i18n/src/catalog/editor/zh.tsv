@@ -143,7 +143,6 @@ Apply to the connection	应用到连接
 Apply to {} projects	应用于 {} 个项目
 Approval workflow	审批流程
 Approvals needed	所需审批数
-Approve	批准
 Approving needs an approver; you are \"{}\".	只有审批人才能批准；你是 \"{}\"。
 Arc	圆弧
 Archive and version	归档和版本
@@ -450,7 +449,6 @@ Define	定义
 Define all used	定义所有已使用的
 Defined potentials	已定义的电位
 Del	Del
-Delete	删除
 Delete PV array	删除光伏阵列
 Delete cable (its wires are removed from it)	删除电缆（其导线将从中移除）
 Delete comment	删除批注
@@ -478,7 +476,6 @@ Delete the property and all its values	删除该属性及其所有值
 Delete this workspace	删除此工作区
 Delete variant	删除变体
 Delete zone	删除安装区
-Deny	拒绝
 Depth / mounted at	深度 / 安装于
 Depth from / to	深度从 / 到
 Depth in the floor	地面内深度
@@ -522,7 +519,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	有向交叉：连接在此交叉的两条连接线；其直线的每一端先直通再横向接线
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	坐标北的方向，从上方看自设施后方 (-z) 逆时针
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	组件朝向的方向，从上方看逆时针（0：朝前）
-Discard changes	放弃更改
 Discard draft	放弃草稿
 Disconnection of distribution circuits	配电电路的切断
 Disconnection of final circuits	终端电路的切断
@@ -606,7 +602,6 @@ Earthing system	接地系统
 Easting, northing	东坐标、北坐标
 Eaves	檐口
 Edge length of the routing grid: smaller is finer and slower	布线栅格的边长：越小越精细，但越慢
-Edit	编辑
 Edit in table	在表格中编辑
 Edit in table…	在表格中编辑…
 Editable copy of this plot frame	此图框的可编辑副本
@@ -817,7 +812,6 @@ Identifiers of the structure management	结构标识符管理的标识符
 Identifying letters	标识字母
 Images (PNG, JPEG)	图像（PNG、JPEG）
 Image…	图像…
-Import	导入
 Import AutomationML…	导入 AutomationML…
 Import CSV / Excel…	导入 CSV / Excel…
 Import CSV…	导入 CSV…
@@ -1085,7 +1079,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	名称; 
 Named copy of this form, for report blocks	此表单的命名副本，用于报表块
 Navigators	导航器
 Neutral exchange file…	中性交换文件…
-Never	从不
 New	新建
 New block	新建块
 New cable	新建电缆
@@ -1489,7 +1482,6 @@ Reference point	参考点
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	参考点已放置在 x {} m、z {} m；请在建筑窗格中输入其坐标
 Refresh	刷新
 Refresh example catalog parts (GEN.*)	刷新示例目录部件 (GEN.*)
-Reject	拒绝
 Rejected and closed ones too	包括已拒绝和已关闭的
 Relative column width	相对列宽
 Release	发布
@@ -1635,7 +1627,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	运行
 SVG drawing	SVG 图纸
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	ISO 13849-1 的安全功能：每个子系统（输入、逻辑、输出）及一个通道的设备、其类别、诊断覆盖率和每年操作次数。设备按其部件的 PL / PFHd、MTTFd 或 B10d 计入。
-Save	保存
 Save a selection under this name with another variant to add one.	以此名称和另一个变体保存所选内容即可添加变体。
 Save access	保存访问权限
 Save and release	保存并释放
@@ -1998,7 +1989,6 @@ Ungroup	取消组合
 Unlock all	全部解锁
 Unplaced	未放置
 Unplaced ({})	未放置 ({})
-Update	更新
 Update all	全部更新
 Update part links from Vault items	从 Vault 项更新部件链接
 Update report blocks	更新报表块
@@ -2016,7 +2006,6 @@ Use for all pages	用于所有页
 Used	已使用
 Used by {} pages	由 {} 个页使用
 Used on {} of {} pages	在 {} / {} 页上使用
-User	用户
 User / group	用户 / 组
 User defined property	用户定义属性
 User names, separated by commas	用户名，以逗号分隔

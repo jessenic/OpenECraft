@@ -144,7 +144,6 @@ Apply to the connection	Alkalmazás az összeköttetésre
 Apply to {} projects	Alkalmazás {} projektre
 Approval workflow	Jóváhagyási munkafolyamat
 Approvals needed	Szükséges jóváhagyások
-Approve	Jóváhagyás
 Approving needs an approver; you are \"{}\".	Jóváhagyni csak jóváhagyó tud; Ön: \"{}\".
 Arc	Ív
 Archive and version	Archívum és verzió
@@ -453,7 +452,6 @@ Define	Definiálás
 Define all used	Az összes használt definiálása
 Defined potentials	Definiált potenciálok
 Del	Del
-Delete	Törlés
 Delete PV array	PV-mező törlése
 Delete cable (its wires are removed from it)	Kábel törlése (a vezetékei lekerülnek róla)
 Delete comment	Megjegyzés törlése
@@ -483,7 +481,6 @@ Delete the property and all its values	Tulajdonság törlése az összes érték
 Delete this workspace	A munkaterület törlése
 Delete variant	Változat törlése
 Delete zone	Zóna törlése
-Deny	Megtagadás
 Depth / mounted at	Mélység / szerelve itt
 Depth from / to	Mélység ettől / eddig
 Depth in the floor	Mélység a padlóban
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Irányított kereszteződés: összeköti az ott keresztező két vezetéket; vonalának mindkét vége először egyenesen, majd keresztben vezetékeződik
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	A hálózati észak iránya, felülről nézve az óramutatóval ellentétesen a létesítmény hátuljától (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Az irány, amerre a modulok néznek, felülről nézve az óramutató járásával ellentétesen (0: előre)
-Discard changes	Módosítások elvetése
 Discard draft	Piszkozat elvetése
 Disconnection of distribution circuits	Elosztó áramkörök lekapcsolása
 Disconnection of final circuits	Végáramkörök lekapcsolása
@@ -611,7 +607,6 @@ Earthing system	Földelési rendszer
 Easting, northing	Keleti, északi koordináta
 Eaves	Eresz
 Edge length of the routing grid: smaller is finer and slower	A nyomvonalrács élhossza: a kisebb finomabb és lassabb
-Edit	Szerkesztés
 Edit in table	Szerkesztés táblázatban
 Edit in table…	Szerkesztés táblázatban…
 Editable copy of this plot frame	A rajzkeret szerkeszthető másolata
@@ -824,7 +819,6 @@ Identifiers of the structure management	A struktúrakezelés azonosítói
 Identifying letters	Kódbetűk
 Images (PNG, JPEG)	Képek (PNG, JPEG)
 Image…	Kép…
-Import	Importálás
 Import AutomationML…	AutomationML importálása…
 Import CSV / Excel…	CSV / Excel importálása…
 Import CSV…	CSV importálása…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Név; Ad
 Named copy of this form, for report blocks	Az űrlap elnevezett másolata kimutatásblokkokhoz
 Navigators	Navigátorok
 Neutral exchange file…	Semleges cserefájl…
-Never	Soha
 New	Új
 New block	Új blokk
 New building	Új épület
@@ -1506,7 +1499,6 @@ Reference point	Referenciapont
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referenciapont elhelyezve: x {} m, z {} m; adja meg koordinátáit az Épületek panelen
 Refresh	Frissítés
 Refresh example catalog parts (GEN.*)	Példakatalógus-alkatrészek frissítése (GEN.*)
-Reject	Elutasítás
 Rejected and closed ones too	Az elutasítottak és lezártak is
 Relative column width	Relatív oszlopszélesség
 Release	Kiadás
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Futtatás
 SVG drawing	SVG-rajz
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Az ISO 13849-1 biztonsági funkciói: minden alrendszer (bemenet, logika, kimenet) egy csatorna készülékeivel, a kategóriájával, diagnosztikai lefedettségével és évenkénti kapcsolási számával. A készülékek az alkatrészeik PL / PFHd, MTTFd vagy B10d értékével számítanak.
-Save	Mentés
 Save a selection under this name with another variant to add one.	Változat hozzáadásához mentsen egy kijelölést ezen a néven egy másik változattal.
 Save access	Hozzáférés mentése
 Save and release	Mentés és zárolás feloldása
@@ -2018,7 +2009,6 @@ Ungroup	Csoportosítás megszüntetése
 Unlock all	Összes zárolásának feloldása
 Unplaced	Nincs elhelyezve
 Unplaced ({})	Nincs elhelyezve ({})
-Update	Frissítés
 Update all	Összes frissítése
 Update part links from Vault items	Alkatrészhivatkozások frissítése Vault-elemekből
 Update report blocks	Kimutatásblokkok frissítése
@@ -2037,7 +2027,6 @@ Use for all pages	Használat az összes oldalhoz
 Used	Használatban
 Used by {} pages	{} oldal használja
 Used on {} of {} pages	{} / {} oldalon használatban
-User	Felhasználó
 User / group	Felhasználó / csoport
 User defined property	Felhasználó által definiált tulajdonság
 User names, separated by commas	Felhasználónevek vesszővel elválasztva

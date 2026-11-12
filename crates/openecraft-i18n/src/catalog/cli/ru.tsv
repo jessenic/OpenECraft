@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	Также п�
 Also verify each project (slower)	Также проверять каждый проект (медленнее)
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	Применяет CSV, экспортированный с помощью table_get (и изменённый в электронной таблице): изменённые ячейки записываются
 Applies a structure template: the aspects of the pages and its identifiers	Применяет шаблон структуры: аспекты листов и его идентификаторы
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	Одобряет пользователя, зарегистрировавшегося на сервере изделий, чтобы он мог войти (только администраторы)
 Archive file (.oecz)	Файл архива (.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	Назначает изделие устройству (из проекта, встроенного каталога или сервера изделий)
 Author of comments without one (default: the user name)	Автор комментариев без автора (по умолчанию: имя пользователя)
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	Производител�
 Maximum number of hits (default 50)	Максимальное число результатов (по умолчанию 50)
 Name of a built-in template (list_structure_templates)	Имя встроенного шаблона (list_structure_templates)
 Name of the knowledge vault (default Vault)	Имя хранилища (по умолчанию Vault)
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	Новые учётные записи ждут одобрения администратора (true) или входят сразу (false)
 New file name (save as)	Новое имя файла (сохранить как)
 New pages for every value of the group column (default true)	Новые листы для каждого значения столбца группировки (по умолчанию true)
 New part number	Новый номер изделия
@@ -147,6 +149,7 @@ Only show the changes, write nothing	Только показать измене�
 Only the pages of this report block; default all report pages	Только листы этого блока отчёта; по умолчанию все листы отчётов
 Only the projects that match these search terms	Только проекты, соответствующие этим условиям поиска
 Only this block	Только этот блок
+Open (true) or close (false) the registration	Открыть (true) или закрыть (false) регистрацию
 Opens a project file or archive (files of older versions are converted)	Открывает файл проекта или архив (файлы старых версий преобразуются)
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	Открывает файл проекта или архив из хранилища; vault_upload без цели возвращает его новую версию
 Option {} needs the form name=value	Параметр {} должен иметь вид имя=значение
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	Показывает манифест архива проекта
 Shows the project properties, file, number of pages and devices and the check result	Показывает свойства проекта, файл, число листов и устройств, а также результат проверки
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	Показывает роли, назначения и службы каталогов сервера изделий и при необходимости задаёт роль анонимных запросов (только администраторы)
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	Показывает, могут ли пользователи сами регистрироваться на сервере изделий (как читатели), и при необходимости открывает или закрывает регистрацию (только администраторы)
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	Начать с шаблона проекта: встроенного (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) или файла проекта
 Start from an example project (names: list_examples)	Начать с примера проекта (имена: list_examples)
 Start from the demo project	Начать с демонстрационного проекта

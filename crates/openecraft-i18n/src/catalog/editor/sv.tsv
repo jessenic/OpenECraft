@@ -144,7 +144,6 @@ Apply to the connection	Tillämpa på förbindelsen
 Apply to {} projects	Tillämpa på {} projekt
 Approval workflow	Godkännandeflöde
 Approvals needed	Godkännanden som krävs
-Approve	Godkänn
 Approving needs an approver; you are \"{}\".	Godkännande kräver en godkännare; du är \"{}\".
 Arc	Båge
 Archive and version	Arkiv och version
@@ -453,7 +452,6 @@ Define	Definiera
 Define all used	Definiera alla använda
 Defined potentials	Definierade potentialer
 Del	Del
-Delete	Ta bort
 Delete PV array	Ta bort solcellsfält
 Delete cable (its wires are removed from it)	Ta bort kabel (dess ledningar tas bort från den)
 Delete comment	Ta bort kommentar
@@ -483,7 +481,6 @@ Delete the property and all its values	Ta bort egenskapen och alla dess värden
 Delete this workspace	Ta bort den här arbetsytan
 Delete variant	Ta bort variant
 Delete zone	Ta bort zon
-Deny	Neka
 Depth / mounted at	Djup / monterad vid
 Depth from / to	Djup från / till
 Depth in the floor	Djup i golvet
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Riktad korsning: förbinder de två ledare som korsar varandra där; varje ände av dess linje kopplas först rakt fram och sedan tvärs över
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Gridnorrs riktning, moturs sett ovanifrån från anläggningens baksida (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Riktning som modulerna vetter mot, moturs sett ovanifrån (0: framåt)
-Discard changes	Släng ändringarna
 Discard draft	Ignorera utkast
 Disconnection of distribution circuits	Frånkoppling av fördelningsledningar
 Disconnection of final circuits	Frånkoppling av gruppledningar
@@ -611,7 +607,6 @@ Earthing system	Jordningssystem
 Easting, northing	Östkoordinat, nordkoordinat
 Eaves	Takfot
 Edge length of the routing grid: smaller is finer and slower	Kantlängd för dragningsrutnätet: mindre är finare och långsammare
-Edit	Redigera
 Edit in table	Redigera i tabell
 Edit in table…	Redigera i tabell…
 Editable copy of this plot frame	Redigerbar kopia av den här ritningsramen
@@ -824,7 +819,6 @@ Identifiers of the structure management	Strukturhanteringens beteckningar
 Identifying letters	Kodbokstäver
 Images (PNG, JPEG)	Bilder (PNG, JPEG)
 Image…	Bild…
-Import	Import
 Import AutomationML…	Importera AutomationML…
 Import CSV / Excel…	Importera CSV / Excel…
 Import CSV…	Importera CSV…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Namn; da
 Named copy of this form, for report blocks	Namngiven kopia av det här formuläret, för rapportblock
 Navigators	Navigatorer
 Neutral exchange file…	Neutral utbytesfil…
-Never	Aldrig
 New	Ny
 New block	Nytt block
 New building	Ny byggnad
@@ -1506,7 +1499,6 @@ Reference point	Referenspunkt
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referenspunkten placerad vid x {} m, z {} m; ange dess koordinater i panelen Byggnader
 Refresh	Uppdatera
 Refresh example catalog parts (GEN.*)	Uppdatera exempelkatalogens artiklar (GEN.*)
-Reject	Avvisa
 Rejected and closed ones too	Även avvisade och stängda
 Relative column width	Relativ kolumnbredd
 Release	Frisläpp
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Kör
 SVG drawing	SVG-ritning
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Säkerhetsfunktioner enligt ISO 13849-1: varje delsystem (ingång, logik, utgång) med apparaterna i en kanal, dess kategori, diagnostisk täckning och antal manövrer per år. Apparater räknas med PL / PFHd, MTTFd eller B10d för sina artiklar.
-Save	Spara
 Save a selection under this name with another variant to add one.	Spara en markering under det här namnet med en annan variant för att lägga till en.
 Save access	Spara åtkomst
 Save and release	Spara och lås upp
@@ -2018,7 +2009,6 @@ Ungroup	Dela upp grupp
 Unlock all	Lås upp alla
 Unplaced	Oplacerade
 Unplaced ({})	Oplacerade ({})
-Update	Uppdatera
 Update all	Uppdatera alla
 Update part links from Vault items	Uppdatera artikellänkar från Vault-objekt
 Update report blocks	Uppdatera rapportblock
@@ -2037,7 +2027,6 @@ Use for all pages	Använd för alla sidor
 Used	Används
 Used by {} pages	Används av {} sidor
 Used on {} of {} pages	Används på {} av {} sidor
-User	Användare
 User / group	Användare / grupp
 User defined property	Användardefinierad egenskap
 User names, separated by commas	Användarnamn, åtskilda med kommatecken

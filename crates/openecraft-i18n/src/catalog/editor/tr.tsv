@@ -144,7 +144,6 @@ Apply to the connection	Bağlantıya uygula
 Apply to {} projects	{} projeye uygula
 Approval workflow	Onay iş akışı
 Approvals needed	Gereken onay sayısı
-Approve	Onayla
 Approving needs an approver; you are \"{}\".	Onaylamak için onaylayıcı olmanız gerekir; siz \"{}\" kullanıcısısınız.
 Arc	Yay
 Archive and version	Arşiv ve sürüm
@@ -453,7 +452,6 @@ Define	Tanımla
 Define all used	Kullanılanların tümünü tanımla
 Defined potentials	Tanımlı potansiyeller
 Del	Del
-Delete	Sil
 Delete PV array	PV dizisini sil
 Delete cable (its wires are removed from it)	Kabloyu sil (telleri kablodan çıkarılır)
 Delete comment	Yorumu sil
@@ -483,7 +481,6 @@ Delete the property and all its values	Özelliği ve tüm değerlerini sil
 Delete this workspace	Bu çalışma alanını sil
 Delete variant	Varyantı sil
 Delete zone	Bölgeyi sil
-Deny	Reddet
 Depth / mounted at	Derinlik / montaj konumu
 Depth from / to	Derinlik başlangıç / bitiş
 Depth in the floor	Zemindeki derinlik
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Yönlü kesişme: orada kesişen iki teli bağlar; çizgisinin her ucu önce düz, sonra enine bağlanır
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Grid kuzeyinin yönü, üstten bakıldığında tesisin arkasından (-z) saat yönünün tersine
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Modüllerin baktığı yön, yukarıdan bakıldığında saat yönünün tersine (0: öne doğru)
-Discard changes	Değişiklikleri at
 Discard draft	Taslağı at
 Disconnection of distribution circuits	Dağıtım devrelerinin açması
 Disconnection of final circuits	Son devrelerin açması
@@ -611,7 +607,6 @@ Earthing system	Topraklama sistemi
 Easting, northing	Doğu, kuzey koordinatı
 Eaves	Saçak
 Edge length of the routing grid: smaller is finer and slower	Yönlendirme ızgarasının kenar uzunluğu: küçük değer daha hassas ve daha yavaştır
-Edit	Düzen
 Edit in table	Tabloda düzenle
 Edit in table…	Tabloda düzenle…
 Editable copy of this plot frame	Bu çizim çerçevesinin düzenlenebilir kopyası
@@ -824,7 +819,6 @@ Identifiers of the structure management	Yapı yönetiminin tanımlayıcıları
 Identifying letters	Tanıtıcı harfler
 Images (PNG, JPEG)	Görüntüler (PNG, JPEG)
 Image…	Görüntü…
-Import	İçe aktar
 Import AutomationML…	AutomationML içe aktar…
 Import CSV / Excel…	CSV / Excel içe aktar…
 Import CSV…	CSV içe aktar…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Ad; Veri
 Named copy of this form, for report blocks	Rapor blokları için bu formun adlandırılmış kopyası
 Navigators	Gezginler
 Neutral exchange file…	Nötr değişim dosyası…
-Never	Hiçbir zaman
 New	Yeni
 New block	Yeni blok
 New building	Yeni bina
@@ -1506,7 +1499,6 @@ Reference point	Referans noktası
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referans noktası x {} m, z {} m konumuna yerleştirildi; koordinatlarını Binalar panelinde girin
 Refresh	Yenile
 Refresh example catalog parts (GEN.*)	Örnek katalog parçalarını yenile (GEN.*)
-Reject	Reddet
 Rejected and closed ones too	Reddedilenler ve kapatılanlar da
 Relative column width	Göreli sütun genişliği
 Release	Yayımla
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Çalıştır
 SVG drawing	SVG çizimi
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	ISO 13849-1 güvenlik fonksiyonları: bir kanalın cihazları, kategorisi, tanı kapsamı ve yıllık çalışma sayısıyla her alt sistem (giriş, mantık, çıkış). Cihazlar, parçalarının PL / PFHd, MTTFd veya B10d değerleriyle hesaba katılır.
-Save	Kaydet
 Save a selection under this name with another variant to add one.	Varyant eklemek için bir seçimi bu adla ve başka bir varyantla kaydedin.
 Save access	Erişimi kaydet
 Save and release	Kaydet ve kilidi kaldır
@@ -2018,7 +2009,6 @@ Ungroup	Gruplamayı kaldır
 Unlock all	Tümünün kilidini aç
 Unplaced	Yerleştirilmemiş
 Unplaced ({})	Yerleştirilmemiş ({})
-Update	Güncelle
 Update all	Tümünü güncelle
 Update part links from Vault items	Parça bağlantılarını Vault öğelerinden güncelle
 Update report blocks	Rapor bloklarını güncelle
@@ -2037,7 +2027,6 @@ Use for all pages	Tüm sayfalar için kullan
 Used	Kullanılan
 Used by {} pages	{} sayfa tarafından kullanılıyor
 Used on {} of {} pages	{} / {} sayfada kullanılıyor
-User	Kullanıcı
 User / group	Kullanıcı / grup
 User defined property	Kullanıcı tanımlı özellik
 User names, separated by commas	Virgülle ayrılmış kullanıcı adları

@@ -145,11 +145,28 @@ pub static TOOLS: &[Tool] = &[
         run: user_delete,
     },
     Tool {
+        name: "parts_user_approve",
+        help: tr_const!("Approves a user who registered on the parts server, so that they can sign in (administrators only)"),
+        params: &[param("name", Kind::Str, tr_const!("User name"))],
+        needs_project: false,
+        run: user_approve,
+    },
+    Tool {
         name: "parts_access",
         help: tr_const!("Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)"),
         params: &[optional("anonymous", Kind::Str, tr_const!("Role of requests without sign-in; none: sign-in needed for reading"))],
         needs_project: false,
         run: access,
+    },
+    Tool {
+        name: "parts_registration",
+        help: tr_const!("Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)"),
+        params: &[
+            optional("enabled", Kind::Bool, tr_const!("Open (true) or close (false) the registration")),
+            optional("approval", Kind::Bool, tr_const!("New accounts wait for the approval of an administrator (true) or sign in at once (false)")),
+        ],
+        needs_project: false,
+        run: registration,
     },
     Tool {
         name: "parts_grant",
@@ -436,6 +453,21 @@ fn access(s: &mut Session, a: &Args) -> Result<Value, String> {
         }),
         None => Ok(serde_json::to_value(s.server.access()?).unwrap_or_default()),
     }
+}
+
+fn registration(s: &mut Session, a: &Args) -> Result<Value, String> {
+    let mut r = s.server.registration()?;
+    let (enabled, approval) = (a.value("enabled").and_then(Value::as_bool), a.value("approval").and_then(Value::as_bool));
+    if enabled.is_some() || approval.is_some() {
+        r.enabled = enabled.unwrap_or(r.enabled);
+        r.approval = approval.unwrap_or(r.approval);
+        r = s.server.save_registration(&r)?;
+    }
+    Ok(serde_json::to_value(r).unwrap_or_default())
+}
+
+fn user_approve(s: &mut Session, a: &Args) -> Result<Value, String> {
+    Ok(serde_json::to_value(s.server.approve_user(a.req("name"))?).unwrap_or_default())
 }
 
 fn grant(s: &mut Session, a: &Args) -> Result<Value, String> {

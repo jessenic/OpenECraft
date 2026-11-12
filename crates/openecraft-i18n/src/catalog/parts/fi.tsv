@@ -1,19 +1,34 @@
 # English<TAB>Suomi – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(nimetty uudelleen nimestä {})
 19-inch module technology	19 tuuman moduulitekniikka
+A catalog id must not be empty or contain blanks	Luettelon tunnus ei saa olla tyhjä eikä sisältää välilyöntejä
+A manufacturer user needs a manufacturer	Valmistajakäyttäjä tarvitsee valmistajan
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Rooli on joukko oikeuksia. Myönnöt antavat käyttäjälle tai ryhmälle roolin valmistajan osiin (* ja ? jokerimerkkeinä, * kaikille); estävä myöntö poistaa roolin oikeudet riippumatta muista myönnöistä.
+A user name must not be empty or contain blanks	Käyttäjänimi ei saa olla tyhjä eikä sisältää välilyöntejä
+Access rights	Käyttöoikeudet
+Access settings saved	Käyttöoikeusasetukset tallennettu
 Accumulator blocks	Akkulohkot
 Accumulators	Akut
 Actuators, general	Toimilaitteet, yleiset
 Adapter	Sovitin
 Adapter plates	Sovitinlevyt
+Add grant	Lisää myöntö
 Adds new parts and replaces existing ones on the server	Lisää uudet osat ja korvaa olemassa olevat palvelimella
+Administration	Hallinta
+All manufacturers	Kaikki valmistajat
 All parts	Kaikki osat
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Kaikki osat tietoineen taulukkolaskentaan tai toiselle palvelimelle tuotavaksi. Niiden tiedostot ovat vain tietokannan varmuuskopiossa.
 Amplifiers, controllers	Vahvistimet, säätimet
 Analog sensor	Analoginen anturi
+Approval of new accounts	Uusien tilien hyväksyntä
+Approved user {}	Käyttäjä {} hyväksytty
+At least {} characters	Vähintään {} merkkiä
 Attachment nut	Pistosovite
 Auxiliary block	Apukosketinlohko
 Auxiliary contact block	Apukosketinlohko
 Auxiliary switch	Apukytkin
+Awaiting approval	Odottaa hyväksyntää
+Awaiting approval: {}	Odottaa hyväksyntää: {}
 Back to the results	Takaisin tuloksiin
 Ball valve pneumatic	Palloventtiili, pneumaattinen
 Ball valves	Palloventtiilit
@@ -23,22 +38,28 @@ Block ball valves	Lohkopalloventtiilit
 Body	Runko
 Brake motor	Jarrumoottori
 Built into the part	Osaan sisäänrakennettu
+Built-in	Sisäänrakennettu
+Bundled catalogs	Mukana tulevat luettelot
 Bunker	Bunkkeri
 Busbar cover	Kokoojakiskon suojus
 Busbars	Kokoojakiskot
 C horizontal rails	C-profiilikiskot
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (viennin sarakenimillä), JSON, BMEcat tai EPLAN XML. Saman numeron osat korvataan; niiden tiedostot säilytetään.
 Cable / tubing clamp	Kaapelin- / letkunkiinnitin
 Cable / tubing protection	Kaapelin- / letkunsuoja
 Cable / tubing tie	Kaapeli- / letkuside
 Cable clamp rails	Kaapelinkiinnityskiskot
 Cable ducts	Johtokourut
 Capacitors	Kondensaattorit
+Catalog {} exists already. Change it?	Luettelo {} on jo olemassa. Muutetaanko sitä?
 Catalogs	Luettelot
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Palvelimen mukana tulevat luettelot. Asennus lisää niiden osat ja päivittää ne, joita kukaan ei ole muuttanut tällä palvelimella.
 Central lubrication power units	Keskusvoitelukoneikot
 Centrifugal pumps	Keskipakopumput
 Centrifuge	Sentrifugi
 Certificate	Sertifikaatti
 Changed	Muutettu
+Changes allowed	Muutokset sallittu
 Check control valve	Takaiskuventtiili
 Check flap	Takaiskuläppä
 Chimney	Savupiippu
@@ -69,6 +90,7 @@ Coupling motor pumps	Kytkinmoottoripumput
 Couplings	Pikaliittimet
 Cover plates	Peitelevyt
 Create / update the part on the server (Ctrl+S)	Luo / päivitä osa palvelimella (Ctrl+S)
+Create an account on this server	Luo tili tälle palvelimelle
 Created	Luotu
 Crimp contact	Puristusliitin
 Cross-connector	Poikkisilta
@@ -77,8 +99,11 @@ Cylinders	Sylinterit
 DC motor	Tasavirtamoottori
 DC-DC converter	DC/DC-muunnin
 Data recorder	Mittausarvojen piirturi
+Database backup	Tietokannan varmuuskopio
 Datasheet	Tietolehti
+Defined roles	Määritetyt roolit
 Delete catalog {} from the server?	Poistetaanko luettelo {} palvelimelta?
+Delete catalog {}?	Poistetaanko luettelo {}?
 Delete part {} from the server? This cannot be undone.	Poistetaanko osa {} palvelimelta? Tätä ei voi kumota.
 Delete parts	Poista osia
 Delete user {}? Their sessions and favorites are removed.	Poistetaanko käyttäjä {}? Käyttäjän istunnot ja suosikit poistetaan.
@@ -86,6 +111,8 @@ Deleted	Poistettu
 Digital sensor, general	Digitaalinen anturi, yleinen
 Directional control valves	Suuntaventtiilit
 Directional control valves, coaxial	Koaksiaaliset suuntaventtiilit
+Directories	Hakemistopalvelut
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Hakemistopalvelut (Active Directory, LDAP) määritetään palvelimen käyttöoikeusasetusten tiedostossa.
 Directory	Hakemistopalvelu
 Dirt trap	Liansieppari
 Discard the changes	Hylkää muutokset
@@ -94,13 +121,16 @@ Discontinued	Poistunut valikoimasta
 Display device	Näyttölaite
 Document holder	Asiakirjatasku
 Door handle	Ovenkahva
+Download	Lataa
 Drawings box	Piirustustasku
 Dryer	Kuivain
 Dummy plate	Sokkolaippa
 Duplex switch filters	Kaksoisvaihtosuodattimet
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Muokkaa luetteloa {}
 Edit catalogs	Muokkaa luetteloita
 Edit parts	Muokkaa osia
+Edit user {}	Muokkaa käyttäjää {}
 Electrical engineering - special items	Sähkötekniikka – erikoisosat
 Electrically-operated mechanical devices	Sähköisesti ohjatut mekaaniset laitteet
 Electrolysis cell	Elektrolyysikenno
@@ -113,6 +143,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Kirjoita open
 Evaporator	Höyrystin
 Exhaust valves	Ilmanpoistoventtiilit
 Export (CSV)	Vienti (CSV)
+Export and backup	Vienti ja varmuuskopio
+Export the parts, catalogs and settings, or download a backup of the whole database.	Vie osat, luettelot ja asetukset tai lataa koko tietokannan varmuuskopio.
 Exported {} parts to {}	Viety {} osaa kohteeseen {}
 Extraction hood	Poistohuuva
 Feed-through terminal	Läpivientiriviliitin
@@ -136,6 +168,7 @@ Front view (2D)	Etunäkymä (2D)
 Funnel	Suppilo
 Furnace	Uuni
 Generator	Generaattori
+Grants	Myönnöt
 Grants of the server's access settings can refer to them	Palvelimen käyttöoikeusasetusten myönnöt voivat viitata niihin
 Ground fault current circuit breaker	Vikavirtasuojakytkin
 Ground fault voltage circuit-breaker	Vikajännitesuojakytkin
@@ -150,13 +183,18 @@ Housing accessories, internal extension	Kotelotarvikkeet, sisäinen asennus
 Hydraulic motors	Hydraulimoottorit
 Hydraulic tanks	Hydraulisäiliöt
 Import / export	Tuonti / vienti
+Import parts	Tuo osia
+Imported {} parts (revision {})	{} osaa tuotu (revisio {})
 Inductors	Induktanssit
+Install	Asenna
+Install again	Asenna uudelleen
 Intermediate plates	Välilevyt
 Isolating valves	Sulkuventtiilit
 KNX actuator	KNX-toimilaite
 KNX system device	KNX-järjestelmälaite
 Key switch	Avainkytkin
 Kneader	Vaivain
+Last sign-in	Viimeisin kirjautuminen
 Legend plate	Kilpi
 Level detector	Raja-arvoanturi
 Level switches	Pintakytkimet
@@ -168,6 +206,7 @@ Line return filters	Paluulinjasuodattimet
 Lines / conduits	Johdot / putkipaketit
 Load all parts from the server again	Lataa kaikki osat uudelleen palvelimelta
 Loading…	Ladataan…
+Local	Paikallinen
 Lock systems	Lukitusjärjestelmät
 Locking couplings	Lukittavat liittimet
 Logic item	Logiikkaosa
@@ -186,17 +225,28 @@ Modulators	Modulaattorit
 Motor overload switch	Moottorinsuojakatkaisija
 Mounting chassis	Asennusrunko
 Mounting panels	Asennuslevyt
+New accounts need the approval of an administrator	Uudet tilit tarvitsevat järjestelmänvalvojan hyväksynnän
+New catalog	Uusi luettelo
 New part based on the open one	Uusi osa avoinna olevan pohjalta
 New password	Uusi salasana
+New role	Uusi rooli
+New user	Uusi käyttäjä
 Newer version	Uudempi versio
 Next	Seuraava
+No grants: users have the rights of their role	Ei myöntöjä: käyttäjillä on roolinsa oikeudet
+No users	Ei käyttäjiä
 Non-return valves	Takaiskuventtiilit
 Not mounted	Ei asennettu
 Nut	Mutteri
 On the front	Edessä
 On the left side	Vasemmalla puolella
 On the right side	Oikealla puolella
+On this server	Tällä palvelimella
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Yksi SQLite-tiedosto, jossa ovat kaikki osat historioineen ja tiedostoineen, luettelot sekä käyttäjät suosikkeineen. Se sisältää käyttäjien salasanatiivisteet: säilytä se turvallisesti.
 Only catalogs without parts can be deleted	Vain luettelot, joissa ei ole osia, voi poistaa
+Only empty catalogs can be deleted	Vain tyhjiä luetteloita voi poistaa
+Only local accounts	Vain paikalliset tilit
+Open sessions: {}	Avoimet istunnot: {}
 OpenECraft data portal	OpenECraft-dataportaali
 OpenECraft parts manager	OpenECraft-osien hallinta
 OpenECraft parts server	OpenECraft-osapalvelin
@@ -256,6 +306,7 @@ Pushbutton	Painike
 Rail standoff	Kiskon välike
 Rails	Kiskot
 Reactor	Reaktori
+Read only	Vain luku
 Read only: sign in with a user who may change parts of this manufacturer	Vain luku: kirjaudu käyttäjänä, joka saa muuttaa tämän valmistajan osia
 Read parts	Lue osia
 Reader	Lukija
@@ -265,12 +316,20 @@ Rear / side panel	Taka- / sivuseinä
 Rectifier	Tasasuuntaaja
 Reducer	Supistus
 Reducing plates	Supistuslevyt
+Register	Rekisteröidy
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Rekisteröityneistä käyttäjistä tulee lukijoita: he tallentavat suosikkeja ja lukevat osia, vaikka lukeminen vaatisi kirjautumisen. Anna heille lisää oikeuksia kohdassa Käyttäjät.
+Registration	Rekisteröityminen
+Reject the registration of {}? The account is deleted.	Hylätäänkö käyttäjän {} rekisteröityminen? Tili poistetaan.
 Remove the file from the part	Poista tiedosto osasta
 Removed from the server	Poistettu palvelimelta
+Repeat password	Toista salasana
+Replace the roles and grants with those of the file?	Korvataanko roolit ja myönnöt tiedoston rooleilla ja myönnöillä?
 Replaced by {}	Korvattu osalla {}
 Resistors	Vastukset
+Restore from a file	Palauta tiedostosta
 Return flushing filters, all-autom.	Huuhtelusuodattimet, täysautomaattiset
 Ribbon cables	Lattakaapelit
+Roles	Roolit
 Roof hook	Kattokoukku
 Routing accessories	Reititystarvikkeet
 Routing path (topology)	Reittiosuus (topologia)
@@ -284,6 +343,7 @@ Screw connections	Ruuviliitokset
 Screw pumps	Ruuvipumput
 Screw spindle compressors	Ruuvikompressorit
 Scroll compressors	Scroll-kompressorit
+Search users	Hae käyttäjiä
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Valitse luettelo tai luo uusi. Osat kuuluvat luetteloon luettelon ID:n kautta (osaeditori, välilehti Dataportaali).
 Select a user or create a new one.	Valitse käyttäjä tai luo uusi.
 Selector switch	Valintakytkin
@@ -292,6 +352,7 @@ Sensor NC	Anturi avautuva
 Sensor, switch, and pushbutton	Anturit, kytkimet ja painikkeet
 Sensors - pressure gauges	Anturit – painemittarit
 Serial sub-plates	Sarjaliitäntälevyt
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Asetettu palvelimen käynnistysvalinnoilla (--registration tai OPENECRAFT_REGISTRATION).
 Show parts	Näytä osat
 Shut-off accumulators	Sulkuakut
 Shut-off control valve	Sulkuventtiili
@@ -299,12 +360,19 @@ Shut-off flap	Sulkuläppä
 Side panel	Sivuseinä
 Sifter	Seulain
 Sight glass	Näkölasi
+Sign in as an administrator to manage the server	Kirjaudu sisään järjestelmänvalvojana hallitaksesi palvelinta
 Sign in or connect with the access token to change parts	Kirjaudu sisään tai yhdistä käyttöoikeustunnuksella muuttaaksesi osia
 Sign in to keep favorites	Kirjaudu sisään, jotta voit tallentaa suosikkeja
+Sign in with a user account	Kirjaudu käyttäjätilillä
+Sign in with the access token of the server	Kirjaudu palvelimen käyttöoikeustokenilla
+Sign out everywhere	Kirjaa ulos kaikkialta
+Sign out {} on all devices?	Kirjataanko {} ulos kaikilla laitteilla?
+Sign-in needed to read	Lukeminen vaatii kirjautumisen
 Signal device	Merkinantolaite
 Signal device, acoustic	Merkinantolaite, akustinen
 Signal device, optical	Merkinantolaite, optinen
 Signal lamp	Merkkivalo
+Signed in	Kirjautuneet
 Silencers	Äänenvaimentimet
 Silo	Siilo
 Single-phase motor	Yksivaihemoottori
@@ -316,6 +384,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Käynnistä palve
 Start openecraft-parts-server with --token to allow changes	Käynnistä openecraft-parts-server valitsimella --token salliaksesi muutokset
 Steam boiler	Höyrykattila
 Stirrer	Hämmennin
+Storage	Tallennus
 Strainer	Siivilä
 Strip label	Liitinriman kilpi
 Sub-plates	Liitäntälevyt
@@ -335,22 +404,36 @@ Terminator	Pääte
 Terminators, filters	Päätteet, suodattimet
 Test accessories	Testaustarvikkeet
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal tarjoaa vain osien haun ja lukemisen
+The access settings would leave nobody who manages users	Näillä käyttöoikeusasetuksilla kukaan ei voisi hallita käyttäjiä
 The access token is only needed for changes; it is not stored.	Käyttöoikeustokenia tarvitaan vain muutoksiin; sitä ei tallenneta.
+The catalogs with their manufacturer, version and description.	Luettelot valmistajineen, versioineen ja kuvauksineen.
 The checksum of {} does not match: the download is damaged	Tiedoston {} tarkistussumma ei täsmää: lataus on vioittunut
 The directory checks the password and sets the groups at every sign-in	Hakemistopalvelu tarkistaa salasanan ja asettaa ryhmät jokaisella kirjautumisella
+The file holds no access settings	Tiedostossa ei ole käyttöoikeusasetuksia
+The last administrator cannot lose the right to manage users	Viimeinen järjestelmänvalvoja ei voi menettää oikeutta hallita käyttäjiä
+The password needs at least {} characters	Salasanassa on oltava vähintään {} merkkiä
+The passwords do not match	Salasanat eivät täsmää
 The project has no parts	Projektissa ei ole osia
+The registration is closed	Rekisteröityminen on suljettu
+The registration is open	Rekisteröityminen on avoinna
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Roolit, myönnöt ja käyttö ilman kirjautumista. Palautus korvaa ne; hakemistopalvelut säilyvät palvelimelle määritettyinä.
 The server cannot be reached	Palvelimeen ei saada yhteyttä
 The server sent no text	Palvelin ei lähettänyt tekstiä
 The upload is finished	Lataus palvelimelle on valmis
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Käyttäjät rooleineen, valmistajineen, ryhmineen ja viimeisimpine kirjautumisineen ilman salasanoja.
 Thermometers	Lämpömittarit
 Thermostat valves	Termostaattiventtiilit
+This user name cannot be used	Tätä käyttäjänimeä ei voi käyttää
+This user name is taken	Käyttäjänimi on varattu
 Three-phase motor	Kolmivaihemoottori
 Three-way control valve	Kolmitieventtiili
 Three-way flap	Kolmitieläppä
 Three-way valve	Kolmitieventtiili
 Throttle plate	Kuristuslevy
 Timer relay	Aikarele
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Palauta se käynnistämällä palvelin valinnalla --data <tiedosto> tai kopioi se uuteen tietokantaan valinnalla --migrate-from <tiedosto>.
 Too many failed sign-ins, try again later	Liian monta epäonnistunutta kirjautumista, yritä myöhemmin uudelleen
+Too many registrations from this address, try again later	Liian monta rekisteröitymistä tästä osoitteesta, yritä myöhemmin uudelleen
 Top cover	Katto
 Transformers	Muuntajat
 Transmission paths	Siirtotiet
@@ -361,7 +444,11 @@ Under the part (base)	Osan alla (alusta)
 Unexpected Data Portal response	Odottamaton Data Portal -vastaus
 Uploading {} to Vault ({} %)…	Ladataan {} Vaultiin ({} %)…
 Uploading {} to Vault…	Ladataan {} Vaultiin…
+User account	Käyttäjätili
+User or group	Käyttäjä tai ryhmä
+User {} exists already. Change it?	Käyttäjä {} on jo olemassa. Muutetaanko sitä?
 User-defined rail	Käyttäjän määrittämä kisko
+Users may register themselves (as readers)	Käyttäjät voivat rekisteröityä itse (lukijoina)
 Vacuum pump	Tyhjiöpumppu
 Valve / distributor	Venttiili / jakaja
 Valve coil	Venttiilin kela
@@ -372,15 +459,21 @@ Ventilation filters	Tuuletussuodattimet
 Ventilator	Puhallin
 Voltage source	Jännitelähde
 Voltage source and generator	Jännitelähde ja generaattori
+Waiting accounts cannot sign in; approve or reject them in Users.	Odottavat tilit eivät voi kirjautua; hyväksy tai hylkää ne kohdassa Käyttäjät.
 Washer	Aluslevy
 Water traps	Vedenerottimet
 Wind deflector	Tuulenohjain
 Wiring material	Johdotustarvikkeet
+Without sign-in	Ilman kirjautumista
+Wrong access token	Väärä käyttöoikeustokeni
 Wrong user name or password	Väärä käyttäjänimi tai salasana
+Your account awaits the approval of an administrator	Tilisi odottaa järjestelmänvalvojan hyväksyntää
+Your account was created. An administrator has to approve it before you can sign in.	Tilisi on luotu. Järjestelmänvalvojan on hyväksyttävä se, ennen kuin voit kirjautua.
 access denied – check the personal access token	käyttö estetty – tarkista henkilökohtainen käyttöoikeustokeni
 by file name	tiedostonimen mukaan
 changed, not saved	muutettu, ei tallennettu
 connection failed: {}	yhteys epäonnistui: {}
+directory:group	hakemisto:ryhmä
 from the name	nimestä
 needed for changes	tarvitaan muutoksiin
 new part, not saved	uusi osa, ei tallennettu
@@ -393,12 +486,14 @@ the server name is unknown	palvelimen nimi on tuntematon
 the server refuses the connection (not started, or another port)	palvelin hylkää yhteyden (ei käynnissä tai eri portti)
 unchanged if empty	ennallaan, jos tyhjä
 unexpected answer: {}	odottamaton vastaus: {}
+you	sinä
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	Tiedostolla {} ei ole tarkistussummaa SHA256SUMS-tiedostossa
 {} parts in {} catalogs, revision {}	{} osaa {} luettelossa, revisio {}
 {} parts, {} catalogs, {}	{} osaa, {} luetteloa, {}
 {} – save to upload it	{} – tallenna ladataksesi palvelimelle
 {}: the part is no longer open	{}: osa ei ole enää auki
+{}: {} parts added, {} updated, {} kept	{}: {} osaa lisätty, {} päivitetty, {} säilytetty
 ⎘ Copy	⎘ Kopioi
 ✔ Save	✔ Tallenna
 ➕ New	➕ Uusi

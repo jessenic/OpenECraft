@@ -17,6 +17,7 @@ Add to favorites	Додати до вибраного
 Address	Адреса
 Angle	Кут
 Apply	Застосувати
+Approve	Погодити
 Approvers	Погоджувачі
 Automatic	Автоматично
 Below	Знизу
@@ -92,6 +93,8 @@ Dark	Темна
 Data portal	Портал даних
 Data type	Тип даних
 Date	Дата
+Delete	Видалити
+Deny	Заборонити
 Depth	Глибина
 Descending	За спаданням
 Description	Опис
@@ -105,6 +108,7 @@ Device {}	Пристрій {}
 Devices	Пристрої
 Direction	Напрямок
 Discard	Скасувати
+Discard changes	Скасувати зміни
 Display	Відображення
 Done	Виконано
 Door	Двері
@@ -112,6 +116,7 @@ Door cutout	Виріз у дверцятах
 Downloading {}…	Завантаження {}…
 Drag to turn the model	Перетягніть, щоб повернути модель
 EMC clearance	Відстань ЕМС
+Edit	Редагувати
 Electro-fluid cross reference	Електро-гідропневматичні перехресні посилання
 Enclosure	Корпус
 Enclosures	Корпуси
@@ -164,6 +169,7 @@ Hose no.	№ шланга
 Identifier	Ідентифікатор
 Identifying letter	Літерний код
 Image	Зображення
+Import	Імпорт
 Input	Вхід
 Integration	Інтеграція
 Internal (bottom)	Внутрішній (знизу)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Назва ділянки, напр.
 Name of the point, e.g. a survey point	Назва точки, напр. геодезичний пункт
 Name of the scheme	Назва схеми
 Net	Мережа
+Never	Ніколи
 New name	Нова назва
 No	Ні
 No Vault item matches a part of the project	Жоден елемент Vault не відповідає виробу проєкту
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Параметр {}: {} не є одни
 Order number	Номер для замовлення
 Outer diameter	Зовнішній діаметр
 Output	Вихід
+Overview	Огляд
 PCT loop	Контур КВПіА
 PCT loop overview	Огляд контурів КВПіА
 PL	PL
@@ -335,6 +343,7 @@ Range	Діапазон
 Rated current	Номінальний струм
 Rated power	Номінальна потужність
 Rectangle	Прямокутник
+Reject	Відхилити
 Relative humidity	Відносна вологість
 Relay	Реле
 Released pages cannot be moved	Затверджені сторінки не можна переміщувати
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Ряди модулів (схід-з�
 Rule	Правило
 Rule set	Набір правил
 Safety function	Функція безпеки
+Save	Зберегти
+Saved catalog {}	Каталог {} збережено
+Saved user {}	Користувача {} збережено
 Saved {}	Збережено {}
 Scale	Масштаб
 Schematic	Схема
@@ -442,7 +454,9 @@ Unknown property: {}	Невідома властивість: {}
 Unknown scheme: {}	Невідома схема: {}
 Unknown segment	Невідомий сегмент
 Unknown symbol {}	Невідомий символ {}
+Update	Оновити
 Uploading {}…	Вивантаження {}…
+User	Користувач
 User name	Ім’я користувача
 Users	Користувачі
 Version	Версія

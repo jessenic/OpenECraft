@@ -17,6 +17,7 @@ Add to favorites	Lisää suosikkeihin
 Address	Osoite
 Angle	Kulma
 Apply	Käytä
+Approve	Hyväksy
 Approvers	Hyväksyjät
 Automatic	Automaattinen
 Below	Alapuolella
@@ -92,6 +93,8 @@ Dark	Tumma
 Data portal	Dataportaali
 Data type	Tietotyyppi
 Date	Päivämäärä
+Delete	Poista
+Deny	Estä
 Depth	Syvyys
 Descending	Laskeva
 Description	Kuvaus
@@ -105,6 +108,7 @@ Device {}	Laite {}
 Devices	Laitteet
 Direction	Suunta
 Discard	Hylkää
+Discard changes	Hylkää muutokset
 Display	Esitys
 Done	Valmis
 Door	Ovi
@@ -112,6 +116,7 @@ Door cutout	Oven aukko
 Downloading {}…	Ladataan {}…
 Drag to turn the model	Käännä mallia vetämällä
 EMC clearance	EMC-etäisyys
+Edit	Muokkaa
 Electro-fluid cross reference	Sähkö-fluidi-ristiviittaukset
 Enclosure	Kotelo
 Enclosures	Kotelot
@@ -164,6 +169,7 @@ Hose no.	Letkunro
 Identifier	Tunniste
 Identifying letter	Tunnuskirjain
 Image	Kuva
+Import	Tuonti
 Input	Tulo
 Integration	Integraatio
 Internal (bottom)	Sisäinen (alhaalla)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Tontin nimi, esim. kiinteistötunnus
 Name of the point, e.g. a survey point	Pisteen nimi, esim. mittapiste
 Name of the scheme	Mallin nimi
 Net	Verkko
+Never	Ei koskaan
 New name	Uusi nimi
 No	Ei
 No Vault item matches a part of the project	Mikään Vault-nimike ei vastaa projektin osaa
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Vaihtoehto {}: {} ei ole sen valinnoissa
 Order number	Tilausnumero
 Outer diameter	Ulkohalkaisija
 Output	Lähtö
+Overview	Yleiskatsaus
 PCT loop	Instrumentointipiiri
 PCT loop overview	Instrumentointipiirien yleiskatsaus
 PL	PL
@@ -335,6 +343,7 @@ Range	Alue
 Rated current	Mitoitusvirta
 Rated power	Mitoitusteho
 Rectangle	Suorakulmio
+Reject	Hylkää
 Relative humidity	Suhteellinen kosteus
 Relay	Rele
 Released pages cannot be moved	Vapautettuja sivuja ei voi siirtää
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Moduulirivit (itä-länsi: paririvit)
 Rule	Sääntö
 Rule set	Sääntökokoelma
 Safety function	Turvatoiminto
+Save	Tallenna
+Saved catalog {}	Luettelo {} tallennettiin
+Saved user {}	Käyttäjä {} tallennettiin
 Saved {}	Tallennettu {}
 Scale	Mittakaava
 Schematic	Piirikaavio
@@ -442,7 +454,9 @@ Unknown property: {}	Tuntematon ominaisuus: {}
 Unknown scheme: {}	Tuntematon skeema: {}
 Unknown segment	Tuntematon segmentti
 Unknown symbol {}	Tuntematon symboli {}
+Update	Päivitä
 Uploading {}…	Ladataan {} palvelimelle…
+User	Käyttäjä
 User name	Käyttäjänimi
 Users	Käyttäjät
 Version	Versio

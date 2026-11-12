@@ -144,7 +144,6 @@ Apply to the connection	Zastosuj do połączenia
 Apply to {} projects	Zastosuj do projektów: {}
 Approval workflow	Proces zatwierdzania
 Approvals needed	Wymagane zatwierdzenia
-Approve	Zatwierdź
 Approving needs an approver; you are \"{}\".	Zatwierdzać może tylko zatwierdzający; jesteś \"{}\".
 Arc	Łuk
 Archive and version	Archiwum i wersja
@@ -453,7 +452,6 @@ Define	Zdefiniuj
 Define all used	Zdefiniuj wszystkie używane
 Defined potentials	Zdefiniowane potencjały
 Del	Del
-Delete	Usuń
 Delete PV array	Usuń instalację PV
 Delete cable (its wires are removed from it)	Usuń kabel (jego przewody zostaną z niego usunięte)
 Delete comment	Usuń komentarz
@@ -483,7 +481,6 @@ Delete the property and all its values	Usuń właściwość wraz ze wszystkimi w
 Delete this workspace	Usuń ten obszar roboczy
 Delete variant	Usuń wariant
 Delete zone	Usuń strefę
-Deny	Odmów
 Depth / mounted at	Głębokość / montaż na
 Depth from / to	Głębokość od / do
 Depth in the floor	Głębokość w podłodze
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Skrzyżowanie kierunkowe: łączy dwa krzyżujące się tam przewody; każdy koniec jego linii jest łączony najpierw na wprost, a potem poprzecznie
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Kierunek północy siatki, przeciwnie do ruchu wskazówek zegara patrząc z góry od tyłu instalacji (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Kierunek, w którym zwrócone są moduły, przeciwnie do ruchu wskazówek zegara patrząc z góry (0: do przodu)
-Discard changes	Odrzuć zmiany
 Discard draft	Odrzuć wersję roboczą
 Disconnection of distribution circuits	Wyłączenie obwodów rozdzielczych
 Disconnection of final circuits	Wyłączenie obwodów odbiorczych
@@ -611,7 +607,6 @@ Earthing system	Układ sieci
 Easting, northing	Współrzędna wschodnia, północna
 Eaves	Okap
 Edge length of the routing grid: smaller is finer and slower	Długość krawędzi siatki prowadzenia: mniejsza oznacza dokładniej i wolniej
-Edit	Edycja
 Edit in table	Edytuj w tabeli
 Edit in table…	Edytuj w tabeli…
 Editable copy of this plot frame	Edytowalna kopia tej ramki rysunku
@@ -824,7 +819,6 @@ Identifiers of the structure management	Identyfikatory zarządzania strukturą
 Identifying letters	Litery kodu
 Images (PNG, JPEG)	Obrazy (PNG, JPEG)
 Image…	Obraz…
-Import	Import
 Import AutomationML…	Importuj AutomationML…
 Import CSV / Excel…	Importuj CSV / Excel…
 Import CSV…	Importuj CSV…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Nazwa; t
 Named copy of this form, for report blocks	Nazwana kopia tego formularza, dla bloków raportów
 Navigators	Nawigatory
 Neutral exchange file…	Neutralny plik wymiany…
-Never	Nigdy
 New	Nowy
 New block	Nowy blok
 New building	Nowy budynek
@@ -1506,7 +1499,6 @@ Reference point	Punkt odniesienia
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Punkt odniesienia umieszczony w x {} m, z {} m; wprowadź jego współrzędne w panelu Budynki
 Refresh	Odśwież
 Refresh example catalog parts (GEN.*)	Odśwież artykuły katalogu przykładowego (GEN.*)
-Reject	Odrzuć
 Rejected and closed ones too	Także odrzucone i zamknięte
 Relative column width	Względna szerokość kolumny
 Release	Wydaj
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Uruchom
 SVG drawing	Rysunek SVG
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Funkcje bezpieczeństwa wg ISO 13849-1: każdy podsystem (wejście, logika, wyjście) z urządzeniami kanału, jego kategorią, pokryciem diagnostycznym i liczbą cykli łączeniowych na rok. Urządzenia są uwzględniane z PL / PFHd, MTTFd lub B10d ich artykułów.
-Save	Zapisz
 Save a selection under this name with another variant to add one.	Zapisz zaznaczenie pod tą nazwą z innym wariantem, aby go dodać.
 Save access	Zapisz dostęp
 Save and release	Zapisz i zwolnij
@@ -2018,7 +2009,6 @@ Ungroup	Rozgrupuj
 Unlock all	Odblokuj wszystko
 Unplaced	Nieumieszczone
 Unplaced ({})	Nieumieszczone ({})
-Update	Aktualizuj
 Update all	Aktualizuj wszystkie
 Update part links from Vault items	Aktualizuj powiązania artykułów z elementów Vault
 Update report blocks	Aktualizuj bloki raportów
@@ -2037,7 +2027,6 @@ Use for all pages	Użyj dla wszystkich stron
 Used	Użyte
 Used by {} pages	Używana przez strony: {}
 Used on {} of {} pages	Użyte na {} z {} stron
-User	Użytkownik
 User / group	Użytkownik / grupa
 User defined property	Właściwość zdefiniowana przez użytkownika
 User names, separated by commas	Nazwy użytkowników oddzielone przecinkami

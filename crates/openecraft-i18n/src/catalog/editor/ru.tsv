@@ -144,7 +144,6 @@ Apply to the connection	Применить к соединению
 Apply to {} projects	Применить к проектам: {}
 Approval workflow	Процесс утверждения
 Approvals needed	Требуется утверждений
-Approve	Утвердить
 Approving needs an approver; you are \"{}\".	Утверждать может только утверждающий; вы – \"{}\".
 Arc	Дуга
 Archive and version	Архив и версия
@@ -452,7 +451,6 @@ Define	Определить
 Define all used	Определить все используемые
 Defined potentials	Определённые потенциалы
 Del	Del
-Delete	Удалить
 Delete PV array	Удалить фотоэлектрическое поле
 Delete cable (its wires are removed from it)	Удалить кабель (его провода отвязываются от него)
 Delete comment	Удалить комментарий
@@ -482,7 +480,6 @@ Delete the property and all its values	Удалить свойство со вс
 Delete this workspace	Удалить это рабочее пространство
 Delete variant	Удалить вариант
 Delete zone	Удалить зону
-Deny	Запретить
 Depth / mounted at	Глубина / монтаж на
 Depth from / to	Глубина от / до
 Depth in the floor	Глубина в полу
@@ -526,7 +523,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Направленное пересечение: соединяет два пересекающихся там провода; каждый конец его линии соединяется сначала прямо, затем поперёк
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Направление севера сетки, против часовой стрелки при виде сверху от задней стороны установки (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Направление, в которое обращены модули, против часовой стрелки при виде сверху (0: вперёд)
-Discard changes	Отменить изменения
 Discard draft	Отменить черновик
 Disconnection of distribution circuits	Отключение распределительных цепей
 Disconnection of final circuits	Отключение конечных цепей
@@ -610,7 +606,6 @@ Earthing system	Тип системы заземления
 Easting, northing	Восточная, северная координата
 Eaves	Карниз
 Edge length of the routing grid: smaller is finer and slower	Длина ребра сетки прокладки: чем меньше, тем точнее и медленнее
-Edit	Правка
 Edit in table	Изменить в таблице
 Edit in table…	Изменить в таблице…
 Editable copy of this plot frame	Редактируемая копия этой рамки листа
@@ -823,7 +818,6 @@ Identifiers of the structure management	Идентификаторы управ�
 Identifying letters	Буквенные коды
 Images (PNG, JPEG)	Изображения (PNG, JPEG)
 Image…	Изображение…
-Import	Импорт
 Import AutomationML…	Импортировать AutomationML…
 Import CSV / Excel…	Импортировать CSV / Excel…
 Import CSV…	Импортировать CSV…
@@ -1095,7 +1089,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Имя; 
 Named copy of this form, for report blocks	Именованная копия этой формы для блоков отчётов
 Navigators	Навигаторы
 Neutral exchange file…	Нейтральный файл обмена…
-Never	Никогда
 New	Создать
 New block	Новый блок
 New building	Новое здание
@@ -1505,7 +1498,6 @@ Reference point	Опорная точка
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Опорная точка размещена в x {} м, z {} м; введите её координаты на панели Здания
 Refresh	Обновить
 Refresh example catalog parts (GEN.*)	Обновить изделия примера каталога (GEN.*)
-Reject	Отклонить
 Rejected and closed ones too	Также отклонённые и закрытые
 Relative column width	Относительная ширина столбца
 Release	Выпустить
@@ -1651,7 +1643,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Выполнить
 SVG drawing	Чертёж SVG
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Функции безопасности по ISO 13849-1: каждая подсистема (вход, логика, выход) с устройствами канала, его категорией, охватом диагностики и числом срабатываний в год. Устройства учитываются с PL / PFHd, MTTFd или B10d их изделий.
-Save	Сохранить
 Save a selection under this name with another variant to add one.	Сохраните выделенное под этим именем с другим вариантом, чтобы добавить вариант.
 Save access	Сохранить доступ
 Save and release	Сохранить и снять блокировку
@@ -2017,7 +2008,6 @@ Ungroup	Разгруппировать
 Unlock all	Разблокировать все
 Unplaced	Неразмещённые
 Unplaced ({})	Неразмещённые ({})
-Update	Обновить
 Update all	Обновить все
 Update part links from Vault items	Обновить связи изделий по элементам Vault
 Update report blocks	Обновить блоки отчётов
@@ -2036,7 +2026,6 @@ Use for all pages	Использовать для всех листов
 Used	Используется
 Used by {} pages	Используется листами: {}
 Used on {} of {} pages	Используется на {} из {} листов
-User	Пользователь
 User / group	Пользователь / группа
 User defined property	Пользовательское свойство
 User names, separated by commas	Имена пользователей через запятую

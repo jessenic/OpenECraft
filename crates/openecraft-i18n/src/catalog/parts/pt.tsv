@@ -1,19 +1,34 @@
 # English<TAB>Português – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(renomeado de {})
 19-inch module technology	Tecnologia de módulos de 19 polegadas
+A catalog id must not be empty or contain blanks	Um identificador de catálogo não pode estar vazio nem conter espaços
+A manufacturer user needs a manufacturer	Um usuário fabricante precisa de um fabricante
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Uma função é um conjunto de direitos. As concessões dão a um usuário ou grupo uma função sobre as peças de um fabricante (* e ? como curingas, * para todos); uma concessão de negação retira os direitos da função, independentemente do que outras concessões concedam.
+A user name must not be empty or contain blanks	Um nome de usuário não pode estar vazio nem conter espaços
+Access rights	Direitos de acesso
+Access settings saved	Configurações de acesso salvas
 Accumulator blocks	Blocos de acumuladores
 Accumulators	Acumuladores
 Actuators, general	Atuadores, geral
 Adapter	Adaptador
 Adapter plates	Placas adaptadoras
+Add grant	Adicionar concessão
 Adds new parts and replaces existing ones on the server	Adiciona novas peças e substitui as existentes no servidor
+Administration	Administração
+All manufacturers	Todos os fabricantes
 All parts	Todas as peças
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Todas as peças com seus dados, para planilhas ou para importá-las em outro servidor. Os arquivos delas só estão no backup do banco de dados.
 Amplifiers, controllers	Amplificadores, controladores
 Analog sensor	Sensor analógico
+Approval of new accounts	Aprovação de novas contas
+Approved user {}	Usuário {} aprovado
+At least {} characters	Pelo menos {} caracteres
 Attachment nut	Porca de fixação
 Auxiliary block	Bloco auxiliar
 Auxiliary contact block	Bloco de contatos auxiliares
 Auxiliary switch	Chave auxiliar
+Awaiting approval	Aguardando aprovação
+Awaiting approval: {}	Aguardando aprovação: {}
 Back to the results	Voltar aos resultados
 Ball valve pneumatic	Válvula de esfera pneumática
 Ball valves	Válvulas de esfera
@@ -23,22 +38,28 @@ Block ball valves	Válvulas de esfera em bloco
 Body	Corpo
 Brake motor	Motofreio
 Built into the part	Integrado no artigo
+Built-in	Integrada
+Bundled catalogs	Catálogos incluídos
 Bunker	Bunker
 Busbar cover	Cobertura do barramento
 Busbars	Barramentos
 C horizontal rails	Trilhos horizontais C
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (com os nomes de coluna da exportação), JSON, BMEcat ou XML do EPLAN. Peças com o mesmo número são substituídas; seus arquivos são mantidos.
 Cable / tubing clamp	Fixação de cabo / mangueira
 Cable / tubing protection	Proteção de cabo / mangueira
 Cable / tubing tie	Abraçadeira de cabo / mangueira
 Cable clamp rails	Trilhos de fixação de cabos
 Cable ducts	Canaletas
 Capacitors	Capacitores
+Catalog {} exists already. Change it?	O catálogo {} já existe. Alterá-lo?
 Catalogs	Catálogos
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Catálogos fornecidos com o servidor. A instalação adiciona as peças deles e atualiza as que ninguém alterou neste servidor.
 Central lubrication power units	Unidades de lubrificação centralizada
 Centrifugal pumps	Bombas centrífugas
 Centrifuge	Centrífuga
 Certificate	Certificado
 Changed	Alterado
+Changes allowed	Alterações permitidas
 Check control valve	Válvula de retenção
 Check flap	Válvula de retenção tipo portinhola
 Chimney	Chaminé
@@ -66,6 +87,7 @@ Coupling motor pumps	Motobombas com acoplamento
 Couplings	Acoplamentos
 Cover plates	Placas de cobertura
 Create / update the part on the server (Ctrl+S)	Criar / atualizar a peça no servidor (Ctrl+S)
+Create an account on this server	Criar uma conta neste servidor
 Created	Criado
 Crimp contact	Contato de crimpagem
 Cross-connector	Ponte transversal
@@ -74,8 +96,11 @@ Cylinders	Cilindros
 DC motor	Motor CC
 DC-DC converter	Conversor CC-CC
 Data recorder	Registrador de dados
+Database backup	Backup do banco de dados
 Datasheet	Folha de dados
+Defined roles	Funções definidas
 Delete catalog {} from the server?	Excluir o catálogo {} do servidor?
+Delete catalog {}?	Excluir o catálogo {}?
 Delete part {} from the server? This cannot be undone.	Excluir a peça {} do servidor? Esta ação não pode ser desfeita.
 Delete parts	Excluir peças
 Delete user {}? Their sessions and favorites are removed.	Excluir o usuário {}? As sessões e os favoritos dele serão removidos.
@@ -83,6 +108,8 @@ Deleted	Excluído
 Digital sensor, general	Sensor digital, geral
 Directional control valves	Válvulas direcionais
 Directional control valves, coaxial	Válvulas direcionais coaxiais
+Directories	Serviços de diretório
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Os serviços de diretório (Active Directory, LDAP) são configurados no arquivo de configurações de acesso do servidor.
 Directory	Serviço de diretório
 Dirt trap	Filtro de sujeira
 Discard the changes	Descartar as alterações
@@ -91,13 +118,16 @@ Discontinued	Descontinuado
 Display device	Dispositivo de exibição
 Document holder	Porta-documentos
 Door handle	Maçaneta
+Download	Baixar
 Drawings box	Porta-documentos
 Dryer	Secador
 Dummy plate	Flange cega
 Duplex switch filters	Filtros duplex comutáveis
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Editar o catálogo {}
 Edit catalogs	Editar catálogos
 Edit parts	Editar peças
+Edit user {}	Editar o usuário {}
 Electrical engineering - special items	Engenharia elétrica - itens especiais
 Electrically-operated mechanical devices	Dispositivos mecânicos acionados eletricamente
 Electrolysis cell	Célula eletrolítica
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Digite o ende
 Evaporator	Evaporador
 Exhaust valves	Válvulas de exaustão
 Export (CSV)	Exportar (CSV)
+Export and backup	Exportação e backup
+Export the parts, catalogs and settings, or download a backup of the whole database.	Exporte as peças, os catálogos e as configurações ou baixe um backup de todo o banco de dados.
 Exported {} parts to {}	{} peças exportadas para {}
 Extraction hood	Coifa de exaustão
 Feed-through terminal	Borne de passagem
@@ -133,6 +165,7 @@ Front view (2D)	Vista frontal (2D)
 Funnel	Funil
 Furnace	Forno
 Generator	Gerador
+Grants	Concessões
 Grants of the server's access settings can refer to them	As concessões das configurações de acesso do servidor podem se referir a eles
 Ground fault current circuit breaker	Disjuntor diferencial residual
 Ground fault voltage circuit-breaker	Disjuntor de tensão de falta à terra
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Acessórios de invólucro, montagem inte
 Hydraulic motors	Motores hidráulicos
 Hydraulic tanks	Tanques hidráulicos
 Import / export	Importação / exportação
+Import parts	Importar peças
+Imported {} parts (revision {})	{} peças importadas (revisão {})
 Inductors	Indutores
+Install	Instalar
+Install again	Instalar novamente
 Intermediate plates	Placas intermediárias
 Isolating valves	Válvulas de isolamento
 KNX actuator	Atuador KNX
 KNX system device	Dispositivo de sistema KNX
 Key switch	Chave com fechadura
 Kneader	Amassadeira
+Last sign-in	Último acesso
 Legend plate	Placa de identificação
 Level detector	Detector de nível
 Level switches	Chaves de nível
@@ -165,6 +203,7 @@ Line return filters	Filtros de retorno
 Lines / conduits	Linhas / eletrodutos
 Load all parts from the server again	Carregar novamente todas as peças do servidor
 Loading…	Carregando…
+Local	Local
 Lock systems	Sistemas de fechamento
 Locking couplings	Acoplamentos de bloqueio
 Logic item	Item lógico
@@ -183,17 +222,28 @@ Modulators	Moduladores
 Motor overload switch	Disjuntor-motor
 Mounting chassis	Chassi de montagem
 Mounting panels	Placas de montagem
+New accounts need the approval of an administrator	Novas contas precisam da aprovação de um administrador
+New catalog	Novo catálogo
 New part based on the open one	Nova peça com base na aberta
 New password	Nova senha
+New role	Nova função
+New user	Novo usuário
 Newer version	Versão mais recente
 Next	Próximo
+No grants: users have the rights of their role	Nenhuma concessão: os usuários têm os direitos da sua função
+No users	Nenhum usuário
 Non-return valves	Válvulas de retenção
 Not mounted	Não montado
 Nut	Porca
 On the front	Na frente
 On the left side	No lado esquerdo
 On the right side	No lado direito
+On this server	Neste servidor
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Um arquivo SQLite com todas as peças, seu histórico e arquivos, os catálogos, os usuários e seus favoritos. Ele contém os hashes das senhas dos usuários: guarde-o em segurança.
 Only catalogs without parts can be deleted	Somente catálogos sem peças podem ser excluídos
+Only empty catalogs can be deleted	Somente catálogos vazios podem ser excluídos
+Only local accounts	Somente contas locais
+Open sessions: {}	Sessões abertas: {}
 OpenECraft data portal	Portal de dados do OpenECraft
 OpenECraft parts manager	Gerenciador de peças do OpenECraft
 OpenECraft parts server	Servidor de peças do OpenECraft
@@ -253,6 +303,7 @@ Pushbutton	Botão
 Rail standoff	Espaçador de trilho
 Rails	Trilhos
 Reactor	Reator
+Read only	Somente leitura
 Read only: sign in with a user who may change parts of this manufacturer	Somente leitura: entre com um usuário que possa alterar peças deste fabricante
 Read parts	Ler peças
 Reader	Leitor
@@ -262,12 +313,20 @@ Rear / side panel	Painel traseiro / lateral
 Rectifier	Retificador
 Reducer	Redução
 Reducing plates	Placas redutoras
+Register	Cadastrar-se
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Os usuários cadastrados tornam-se leitores: guardam favoritos e leem as peças mesmo quando a leitura exige entrar. Dê a eles mais direitos em Usuários.
+Registration	Cadastro
+Reject the registration of {}? The account is deleted.	Recusar o cadastro de {}? A conta é excluída.
 Remove the file from the part	Remover o arquivo da peça
 Removed from the server	Removido do servidor
+Repeat password	Repetir a senha
+Replace the roles and grants with those of the file?	Substituir as funções e as concessões pelas do arquivo?
 Replaced by {}	Substituído por {}
 Resistors	Resistores
+Restore from a file	Restaurar de um arquivo
 Return flushing filters, all-autom.	Filtros de retrolavagem totalmente automáticos
 Ribbon cables	Cabos planos
+Roles	Funções
 Roof hook	Gancho de telhado
 Routing accessories	Acessórios de roteamento
 Routing path (topology)	Percurso de roteamento (topologia)
@@ -281,6 +340,7 @@ Screw connections	Conexões roscadas
 Screw pumps	Bombas de parafuso
 Screw spindle compressors	Compressores de parafuso
 Scroll compressors	Compressores scroll
+Search users	Pesquisar usuários
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Selecione um catálogo ou crie um novo. As peças pertencem a um catálogo por meio do ID do catálogo (editor de peças, guia Portal de dados).
 Select a user or create a new one.	Selecione um usuário ou crie um novo.
 Selector switch	Chave seletora
@@ -289,6 +349,7 @@ Sensor NC	Sensor NF
 Sensor, switch, and pushbutton	Sensores, chaves e botões
 Sensors - pressure gauges	Sensores - manômetros
 Serial sub-plates	Placas de base em série
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Definido pelas opções de inicialização do servidor (--registration ou OPENECRAFT_REGISTRATION).
 Show parts	Mostrar peças
 Shut-off accumulators	Acumuladores de bloqueio
 Shut-off control valve	Válvula de bloqueio
@@ -296,12 +357,19 @@ Shut-off flap	Válvula borboleta de bloqueio
 Side panel	Painel lateral
 Sifter	Classificador
 Sight glass	Visor de fluxo
+Sign in as an administrator to manage the server	Entre como administrador para gerenciar o servidor
 Sign in or connect with the access token to change parts	Entre ou conecte-se com o token de acesso para alterar peças
 Sign in to keep favorites	Entre para manter favoritos
+Sign in with a user account	Entrar com uma conta de usuário
+Sign in with the access token of the server	Entrar com o token de acesso do servidor
+Sign out everywhere	Sair de todos os dispositivos
+Sign out {} on all devices?	Desconectar {} em todos os dispositivos?
+Sign-in needed to read	É preciso entrar para ler
 Signal device	Dispositivo de sinalização
 Signal device, acoustic	Dispositivo de sinalização acústica
 Signal device, optical	Dispositivo de sinalização óptica
 Signal lamp	Sinaleiro
+Signed in	Conectados
 Silencers	Silenciadores
 Silo	Silo
 Single-phase motor	Motor monofásico
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Inicie um servido
 Start openecraft-parts-server with --token to allow changes	Inicie o openecraft-parts-server com --token para permitir alterações
 Steam boiler	Caldeira a vapor
 Stirrer	Agitador
+Storage	Armazenamento
 Strainer	Peneira
 Strip label	Etiqueta de régua
 Sub-plates	Placas de base
@@ -332,22 +401,36 @@ Terminator	Terminação
 Terminators, filters	Terminações, filtros
 Test accessories	Acessórios de teste
 The EPLAN Data Portal only offers searching and reading parts	O EPLAN Data Portal oferece somente pesquisa e leitura de peças
+The access settings would leave nobody who manages users	Com essas configurações de acesso, ninguém poderia gerenciar os usuários
 The access token is only needed for changes; it is not stored.	O token de acesso só é necessário para alterações; ele não é armazenado.
+The catalogs with their manufacturer, version and description.	Os catálogos com fabricante, versão e descrição.
 The checksum of {} does not match: the download is damaged	A soma de verificação de {} não confere: o download está danificado
 The directory checks the password and sets the groups at every sign-in	O serviço de diretório verifica a senha e define os grupos a cada entrada
+The file holds no access settings	O arquivo não contém configurações de acesso
+The last administrator cannot lose the right to manage users	O último administrador não pode perder o direito de gerenciar usuários
+The password needs at least {} characters	A senha precisa de pelo menos {} caracteres
+The passwords do not match	As senhas não coincidem
 The project has no parts	O projeto não tem peças
+The registration is closed	O cadastro está fechado
+The registration is open	O cadastro está aberto
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	As funções, as concessões e o acesso sem entrar. A restauração os substitui; os serviços de diretório permanecem como configurados no servidor.
 The server cannot be reached	Não é possível acessar o servidor
 The server sent no text	O servidor não enviou texto
 The upload is finished	O envio foi concluído
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Os usuários com função, fabricante, grupos e último acesso, sem senhas.
 Thermometers	Termômetros
 Thermostat valves	Válvulas termostáticas
+This user name cannot be used	Este nome de usuário não pode ser usado
+This user name is taken	Este nome de usuário já está em uso
 Three-phase motor	Motor trifásico
 Three-way control valve	Válvula de três vias
 Three-way flap	Válvula borboleta de três vias
 Three-way valve	Válvula de três vias
 Throttle plate	Placa de orifício
 Timer relay	Relé temporizador
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Para restaurá-lo, inicie o servidor com --data <arquivo> ou copie-o para um novo banco de dados com --migrate-from <arquivo>.
 Too many failed sign-ins, try again later	Muitas tentativas de login falharam, tente novamente mais tarde
+Too many registrations from this address, try again later	Muitos cadastros deste endereço, tente novamente mais tarde
 Top cover	Teto
 Transformers	Transformadores
 Transmission paths	Vias de transmissão
@@ -357,7 +440,11 @@ Undefined	Indefinido
 Under the part (base)	Sob o artigo (base)
 Uploading {} to Vault ({} %)…	Enviando {} para o Vault ({} %)…
 Uploading {} to Vault…	Enviando {} para o Vault…
+User account	Conta de usuário
+User or group	Usuário ou grupo
+User {} exists already. Change it?	O usuário {} já existe. Alterá-lo?
 User-defined rail	Trilho definido pelo usuário
+Users may register themselves (as readers)	Os usuários podem se cadastrar sozinhos (como leitores)
 Vacuum pump	Bomba de vácuo
 Valve / distributor	Válvula / distribuidor
 Valve coil	Bobina de válvula
@@ -368,15 +455,21 @@ Ventilation filters	Filtros de ventilação
 Ventilator	Ventilador
 Voltage source	Fonte de tensão
 Voltage source and generator	Fonte de tensão e gerador
+Waiting accounts cannot sign in; approve or reject them in Users.	Contas pendentes não podem entrar; aprove-as ou recuse-as em Usuários.
 Washer	Arruela
 Water traps	Separadores de água
 Wind deflector	Defletor de vento
 Wiring material	Material de fiação
+Without sign-in	Sem entrar
+Wrong access token	Token de acesso incorreto
 Wrong user name or password	Nome de usuário ou senha incorretos
+Your account awaits the approval of an administrator	Sua conta aguarda a aprovação de um administrador
+Your account was created. An administrator has to approve it before you can sign in.	Sua conta foi criada. Um administrador precisa aprová-la antes que você possa entrar.
 access denied – check the personal access token	acesso negado – verifique o token de acesso pessoal
 by file name	por nome de arquivo
 changed, not saved	alterado, não salvo
 connection failed: {}	falha na conexão: {}
+directory:group	diretório:grupo
 from the name	a partir do nome
 needed for changes	necessário para alterações
 new part, not saved	nova peça, não salva
@@ -389,12 +482,14 @@ the server name is unknown	o nome do servidor é desconhecido
 the server refuses the connection (not started, or another port)	o servidor recusa a conexão (não iniciado ou outra porta)
 unchanged if empty	inalterado se vazio
 unexpected answer: {}	resposta inesperada: {}
+you	você
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} não tem soma de verificação em SHA256SUMS
 {} parts in {} catalogs, revision {}	{} peças em {} catálogos, revisão {}
 {} parts, {} catalogs, {}	{} peças, {} catálogos, {}
 {} – save to upload it	{} – salve para enviá-lo
 {}: the part is no longer open	{}: a peça não está mais aberta
+{}: {} parts added, {} updated, {} kept	{}: {} peças adicionadas, {} atualizadas, {} mantidas
 ⎘ Copy	⎘ Copiar
 ✔ Save	✔ Salvar
 ➕ New	➕ Novo

@@ -17,6 +17,7 @@ Add to favorites	Aggiungi ai preferiti
 Address	Indirizzo
 Angle	Angolo
 Apply	Applica
+Approve	Approva
 Approvers	Approvatori
 Automatic	Automatico
 Below	Sotto
@@ -92,6 +93,8 @@ Dark	Scuro
 Data portal	Data Portal
 Data type	Tipo di dati
 Date	Data
+Delete	Elimina
+Deny	Nega
 Depth	Profondità
 Descending	Decrescente
 Description	Descrizione
@@ -105,6 +108,7 @@ Device {}	Dispositivo {}
 Devices	Dispositivi
 Direction	Direzione
 Discard	Scarta
+Discard changes	Scarta le modifiche
 Display	Visualizzazione
 Done	Completato
 Door	Porta
@@ -112,6 +116,7 @@ Door cutout	Foratura della porta
 Downloading {}…	Download di {}…
 Drag to turn the model	Trascina per ruotare il modello
 EMC clearance	Distanza EMC
+Edit	Modifica
 Electro-fluid cross reference	Riferimenti incrociati elettro-fluidici
 Enclosure	Armadio
 Enclosures	Armadi
@@ -164,6 +169,7 @@ Hose no.	N. tubo flessibile
 Identifier	Identificatore
 Identifying letter	Lettera identificativa
 Image	Immagine
+Import	Importazione
 Input	Ingresso
 Integration	Integrazione
 Internal (bottom)	Interno (sotto)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Nome del lotto, p. es. la particella
 Name of the point, e.g. a survey point	Nome del punto, p. es. un caposaldo
 Name of the scheme	Nome dello schema
 Net	Rete
+Never	Mai
 New name	Nuovo nome
 No	No
 No Vault item matches a part of the project	Nessun elemento di Vault corrisponde a un articolo del progetto
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Opzione {}: {} non è una delle sue scel
 Order number	Codice d'ordine
 Outer diameter	Diametro esterno
 Output	Uscita
+Overview	Panoramica
 PCT loop	Loop PCT
 PCT loop overview	Panoramica loop PCT
 PL	PL
@@ -335,6 +343,7 @@ Range	Campo
 Rated current	Corrente nominale
 Rated power	Potenza nominale
 Rectangle	Rettangolo
+Reject	Rifiuta
 Relative humidity	Umidità relativa
 Relay	Relè
 Released pages cannot be moved	Le pagine rilasciate non possono essere spostate
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	File di moduli (est-ovest: file di co
 Rule	Regola
 Rule set	Set di regole
 Safety function	Funzione di sicurezza
+Save	Salva
+Saved catalog {}	Catalogo {} salvato
+Saved user {}	Utente {} salvato
 Saved {}	{} salvato
 Scale	Scala
 Schematic	Schema
@@ -442,7 +454,9 @@ Unknown property: {}	Proprietà sconosciuta: {}
 Unknown scheme: {}	Schema sconosciuto: {}
 Unknown segment	Segmento sconosciuto
 Unknown symbol {}	Simbolo sconosciuto {}
+Update	Aggiorna
 Uploading {}…	Caricamento di {}…
+User	Utente
 User name	Nome utente
 Users	Utenti
 Version	Versione

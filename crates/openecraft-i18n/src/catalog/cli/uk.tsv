@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	Також п�
 Also verify each project (slower)	Також перевіряти кожен проєкт (повільніше)
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	Застосовує CSV, експортований за допомогою table_get (і змінений в електронній таблиці): змінені клітинки встановлюються
 Applies a structure template: the aspects of the pages and its identifiers	Застосовує шаблон структури: аспекти сторінок і його позначення
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	Схвалює користувача, який зареєструвався на сервері виробів, щоб він міг увійти (лише адміністратори)
 Archive file (.oecz)	Файл архіву (.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	Призначає виріб пристрою (із проєкту, вбудованого каталогу або сервера виробів)
 Author of comments without one (default: the user name)	Автор коментарів без автора (за замовчуванням: ім’я користувача)
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	Виробник, вир�
 Maximum number of hits (default 50)	Максимальна кількість результатів (за замовчуванням 50)
 Name of a built-in template (list_structure_templates)	Назва вбудованого шаблону (list_structure_templates)
 Name of the knowledge vault (default Vault)	Назва сховища (за замовчуванням Vault)
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	Нові облікові записи чекають схвалення адміністратора (true) або входять одразу (false)
 New file name (save as)	Нове ім’я файлу (зберегти як)
 New pages for every value of the group column (default true)	Нові сторінки для кожного значення стовпця групування (за замовчуванням true)
 New part number	Новий номер виробу
@@ -147,6 +149,7 @@ Only show the changes, write nothing	Лише показати зміни, ні�
 Only the pages of this report block; default all report pages	Лише сторінки цього блоку звітів; за замовчуванням всі сторінки звітів
 Only the projects that match these search terms	Лише проєкти, що відповідають цим умовам пошуку
 Only this block	Лише цей блок
+Open (true) or close (false) the registration	Відкрити (true) або закрити (false) реєстрацію
 Opens a project file or archive (files of older versions are converted)	Відкриває файл або архів проєкту (файли старіших версій перетворюються)
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	Відкриває файл або архів проєкту зі сховища; vault_upload без цілі повертає його нову версію
 Option {} needs the form name=value	Для опції {} потрібна форма назва=значення
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	Показує маніфест архіву проєкту
 Shows the project properties, file, number of pages and devices and the check result	Показує властивості проєкту, файл, кількість сторінок і пристроїв та результат перевірки
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	Показує ролі, призначення та служби каталогів сервера виробів і за потреби задає роль анонімних запитів (лише адміністратори)
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	Показує, чи можуть користувачі самі реєструватися на сервері виробів (як читачі), і за потреби відкриває або закриває реєстрацію (лише адміністратори)
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	Почати із шаблону проєкту: вбудованого (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) або файлу проєкту
 Start from an example project (names: list_examples)	Почати з прикладу проєкту (імена: list_examples)
 Start from the demo project	Почати з демонстраційного проєкту

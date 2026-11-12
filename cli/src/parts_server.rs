@@ -6,7 +6,7 @@ use crate::args::Options;
 use openecraft_client::{check, decode, decode_found, ehttp, text, Call, Connection, Endpoint, PortalKind};
 use openecraft_client::credentials::{CredentialStore, SystemCredentialStore};
 use openecraft_parts::access::{Policy, Settings};
-use openecraft_parts::api::{ImportResult, PartQuery, ServerInfo, Session, UserUpdate};
+use openecraft_parts::api::{ImportResult, PartQuery, Registration, ServerInfo, Session, UserUpdate};
 use openecraft_parts::portal::{AttachmentKind, Catalog, HistoryEntry, PartsRight, SearchResult, User};
 use openecraft_parts::Part;
 
@@ -169,5 +169,17 @@ impl Server {
 
     pub fn save_access(&self, policy: &Policy<PartsRight>) -> Result<Settings<PartsRight>, String> {
         decode(self.fetch(self.full()?.save_access(policy)))
+    }
+
+    pub fn registration(&self) -> Result<Registration, String> {
+        decode(self.fetch(self.full()?.registration()))
+    }
+
+    pub fn save_registration(&self, registration: &Registration) -> Result<Registration, String> {
+        decode(self.fetch(self.full()?.save_registration(registration)))
+    }
+
+    pub fn approve_user(&self, name: &str) -> Result<User, String> {
+        decode(self.fetch(self.full()?.approve_user(name)))
     }
 }

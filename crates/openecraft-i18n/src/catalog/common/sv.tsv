@@ -17,6 +17,7 @@ Add to favorites	Lägg till i favoriter
 Address	Adress
 Angle	Vinkel
 Apply	Verkställ
+Approve	Godkänn
 Approvers	Godkännare
 Automatic	Automatisk
 Below	Nedanför
@@ -92,6 +93,8 @@ Dark	Mörkt
 Data portal	Dataportal
 Data type	Datatyp
 Date	Datum
+Delete	Ta bort
+Deny	Neka
 Depth	Djup
 Descending	Fallande
 Description	Beskrivning
@@ -105,6 +108,7 @@ Device {}	Apparat {}
 Devices	Apparater
 Direction	Riktning
 Discard	Ignorera
+Discard changes	Släng ändringarna
 Display	Visning
 Done	Klar
 Door	Dörr
@@ -112,6 +116,7 @@ Door cutout	Dörrurtag
 Downloading {}…	Laddar ned {}…
 Drag to turn the model	Dra för att vrida modellen
 EMC clearance	EMC-avstånd
+Edit	Redigera
 Electro-fluid cross reference	Elektro-fluid-korsreferens
 Enclosure	Kapsling
 Enclosures	Kapslingar
@@ -164,6 +169,7 @@ Hose no.	Slangnr
 Identifier	Identifierare
 Identifying letter	Kodbokstav
 Image	Bild
+Import	Import
 Input	Ingång
 Integration	Integration
 Internal (bottom)	Intern (nedan)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Tomtens namn, t.ex. fastighetsbeteck
 Name of the point, e.g. a survey point	Punktens namn, t.ex. en mätpunkt
 Name of the scheme	Schemats namn
 Net	Nät
+Never	Aldrig
 New name	Nytt namn
 No	Nej
 No Vault item matches a part of the project	Inget Vault-objekt matchar någon artikel i projektet
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Alternativ {}: {} är inte ett av dess v
 Order number	Beställningsnummer
 Outer diameter	Ytterdiameter
 Output	Utgång
+Overview	Översikt
 PCT loop	Instrumentslinga
 PCT loop overview	Översikt över instrumentslingor
 PL	PL
@@ -335,6 +343,7 @@ Range	Område
 Rated current	Märkström
 Rated power	Märkeffekt
 Rectangle	Rektangel
+Reject	Avvisa
 Relative humidity	Relativ luftfuktighet
 Relay	Relä
 Released pages cannot be moved	Frisläppta sidor kan inte flyttas
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Modulrader (öst-väst: rader av par)
 Rule	Regel
 Rule set	Regelverk
 Safety function	Säkerhetsfunktion
+Save	Spara
+Saved catalog {}	Katalog {} sparad
+Saved user {}	Användare {} sparad
 Saved {}	{} sparad
 Scale	Skala
 Schematic	Kretsschema
@@ -442,7 +454,9 @@ Unknown property: {}	Okänd egenskap: {}
 Unknown scheme: {}	Okänt schema: {}
 Unknown segment	Okänt segment
 Unknown symbol {}	Okänd symbol {}
+Update	Uppdatera
 Uploading {}…	Laddar upp {}…
+User	Användare
 User name	Användarnamn
 Users	Användare
 Version	Version

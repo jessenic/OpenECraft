@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	Applica anche 
 Also verify each project (slower)	Verifica anche ogni progetto (più lento)
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	Applica un CSV esportato con table_get (e modificato in un foglio di calcolo): vengono impostate le celle modificate
 Applies a structure template: the aspects of the pages and its identifiers	Applica un modello di struttura: gli aspetti delle pagine e i suoi identificatori
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	Approva un utente registrato sul server degli articoli, così che possa accedere (solo amministratori)
 Archive file (.oecz)	File di archivio (.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	Assegna un articolo a un dispositivo (dal progetto, dal catalogo integrato o dal server articoli)
 Author of comments without one (default: the user name)	Autore dei commenti senza autore (predefinito: il nome utente)
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	Produttore i cui articoli
 Maximum number of hits (default 50)	Numero massimo di risultati (predefinito 50)
 Name of a built-in template (list_structure_templates)	Nome di un modello integrato (list_structure_templates)
 Name of the knowledge vault (default Vault)	Nome del vault (predefinito Vault)
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	I nuovi account attendono l'approvazione di un amministratore (true) o accedono subito (false)
 New file name (save as)	Nuovo nome file (salva con nome)
 New pages for every value of the group column (default true)	Nuove pagine per ogni valore della colonna di raggruppamento (predefinito true)
 New part number	Nuovo codice articolo
@@ -147,6 +149,7 @@ Only show the changes, write nothing	Mostra solo le modifiche, non scrivere null
 Only the pages of this report block; default all report pages	Solo le pagine di questo blocco di report; predefinito tutte le pagine di report
 Only the projects that match these search terms	Solo i progetti che corrispondono a questi termini di ricerca
 Only this block	Solo questo blocco
+Open (true) or close (false) the registration	Apri (true) o chiudi (false) la registrazione
 Opens a project file or archive (files of older versions are converted)	Apre un file di progetto o un archivio (i file di versioni precedenti vengono convertiti)
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	Apre un file di progetto o un archivio dal vault; vault_upload senza destinazione ne esegue il check-in di una nuova versione
 Option {} needs the form name=value	L'opzione {} richiede la forma nome=valore
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	Mostra il manifest di un archivio di progetto
 Shows the project properties, file, number of pages and devices and the check result	Mostra le proprietà del progetto, il file, il numero di pagine e di dispositivi e il risultato della verifica
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	Mostra i ruoli, le assegnazioni e i servizi di directory del server articoli, impostando facoltativamente il ruolo delle richieste anonime (solo amministratori)
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	Mostra se gli utenti possono registrarsi da soli sul server degli articoli (come lettori), aprendo o chiudendo facoltativamente la registrazione (solo amministratori)
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	Inizia da un modello di progetto: uno predefinito (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) o un file di progetto
 Start from an example project (names: list_examples)	Partire da un progetto di esempio (nomi: list_examples)
 Start from the demo project	Parti dal progetto demo

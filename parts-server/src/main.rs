@@ -119,7 +119,11 @@ async fn main() {
     if token.is_none() && store.accounts().is_empty() && access.config.directories.is_empty() {
         log::warn!("no access token, users or directories: the server is read-only");
     }
-    let state = routes::AppState::new(store, token, access);
+    let registration = args.registration.unwrap_or(access.config.registration);
+    if registration {
+        log::info!("users may register themselves{}", if args.registration.is_some() { " (start options)" } else { "" });
+    }
+    let state = routes::AppState::new(store, token, access).with_registration(args.registration);
     let listener = tokio::net::TcpListener::bind(args.bind).await.unwrap_or_else(|e| fail(format!("cannot listen on {}: {e}", args.bind)));
     log::info!("listening on http://{}", args.bind);
     let shutdown = async {

@@ -17,6 +17,7 @@ Add to favorites	Adicionar aos favoritos
 Address	Endereço
 Angle	Ângulo
 Apply	Aplicar
+Approve	Aprovar
 Approvers	Aprovadores
 Automatic	Automático
 Below	Abaixo
@@ -92,6 +93,8 @@ Dark	Escuro
 Data portal	Portal de dados
 Data type	Tipo de dados
 Date	Data
+Delete	Excluir
+Deny	Negar
 Depth	Profundidade
 Descending	Decrescente
 Description	Descrição
@@ -105,6 +108,7 @@ Device {}	Dispositivo {}
 Devices	Dispositivos
 Direction	Direção
 Discard	Descartar
+Discard changes	Descartar alterações
 Display	Exibição
 Done	Concluído
 Door	Porta
@@ -112,6 +116,7 @@ Door cutout	Recorte da porta
 Downloading {}…	Baixando {}…
 Drag to turn the model	Arraste para girar o modelo
 EMC clearance	Distância EMC
+Edit	Editar
 Electro-fluid cross reference	Referência cruzada eletrofluídica
 Enclosure	Gabinete
 Enclosures	Gabinetes
@@ -164,6 +169,7 @@ Hose no.	Nº da mangueira
 Identifier	Identificador
 Identifying letter	Letra de identificação
 Image	Imagem
+Import	Importação
 Input	Entrada
 Integration	Integração
 Internal (bottom)	Interno (embaixo)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Nome do terreno, p. ex. o lote cadas
 Name of the point, e.g. a survey point	Nome do ponto, p. ex. um marco topográfico
 Name of the scheme	Nome do esquema
 Net	Rede
+Never	Nunca
 New name	Novo nome
 No	Não
 No Vault item matches a part of the project	Nenhum item do Vault corresponde a uma peça do projeto
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Opção {}: {} não é uma de suas opç�
 Order number	Número de pedido
 Outer diameter	Diâmetro externo
 Output	Saída
+Overview	Visão geral
 PCT loop	Malha de instrumentação
 PCT loop overview	Visão geral das malhas de instrumentação
 PL	PL
@@ -335,6 +343,7 @@ Range	Faixa
 Rated current	Corrente nominal
 Rated power	Potência nominal
 Rectangle	Retângulo
+Reject	Rejeitar
 Relative humidity	Umidade relativa
 Relay	Relé
 Released pages cannot be moved	Páginas liberadas não podem ser movidas
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Fileiras de módulos (leste-oeste: fi
 Rule	Regra
 Rule set	Conjunto de regras
 Safety function	Função de segurança
+Save	Salvar
+Saved catalog {}	Catálogo {} salvo
+Saved user {}	Usuário {} salvo
 Saved {}	{} salvo
 Scale	Escala
 Schematic	Esquema elétrico
@@ -442,7 +454,9 @@ Unknown property: {}	Propriedade desconhecida: {}
 Unknown scheme: {}	Esquema desconhecido: {}
 Unknown segment	Segmento desconhecido
 Unknown symbol {}	Símbolo desconhecido {}
+Update	Atualizar
 Uploading {}…	Enviando {}…
+User	Usuário
 User name	Nome de usuário
 Users	Usuários
 Version	Versão

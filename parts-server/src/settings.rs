@@ -46,6 +46,10 @@ pub struct Args {
     /// Default: `<data>.access.json` next to the database.
     #[arg(long)]
     access: Option<PathBuf>,
+    /// Let users register themselves (`true`) or not (`false`) as readers; without it
+    /// administrators switch it on the web page.
+    #[arg(long, env = "OPENECRAFT_REGISTRATION", value_parser = clap::builder::BoolishValueParser::new())]
+    registration: Option<bool>,
 }
 
 /// The configuration file: the options without `--config` and `--migrate-from`.
@@ -59,6 +63,7 @@ struct File {
     admin_user: Option<String>,
     install_catalogs: Vec<String>,
     access: Option<PathBuf>,
+    registration: Option<bool>,
 }
 
 /// The settings the server runs with.
@@ -74,6 +79,8 @@ pub struct Settings {
     pub admin_user: Option<String>,
     pub install_catalogs: Vec<String>,
     pub access: PathBuf,
+    /// Registration of users fixed by the start options; `None`: as administrators set it.
+    pub registration: Option<bool>,
 }
 
 impl Settings {
@@ -100,6 +107,7 @@ impl Settings {
             token: args.token.or(file.token).filter(|t| !t.trim().is_empty()),
             admin_user: args.admin_user.or(file.admin_user).filter(|n| !n.trim().is_empty()),
             install_catalogs: if args.install_catalogs.is_empty() { file.install_catalogs } else { args.install_catalogs },
+            registration: args.registration.or(file.registration),
             data,
             access,
         }

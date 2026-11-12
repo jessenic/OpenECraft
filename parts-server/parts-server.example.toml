@@ -25,3 +25,8 @@ data = "parts-db.sqlite"
 
 # Access settings (directories, roles, grants). Default: <data>.access.json.
 # access = "parts-db.access.json"
+
+# Users may register themselves as readers on the web page (or OPENECRAFT_REGISTRATION,
+# --registration true|false). Without it, administrators switch it on the web page
+# (Administration > Access rights).
+# registration = true

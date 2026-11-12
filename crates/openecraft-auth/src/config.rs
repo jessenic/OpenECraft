@@ -26,11 +26,22 @@ pub struct AccessConfig<R: Right> {
     pub directories: Vec<Directory>,
     #[serde(flatten)]
     pub policy: Policy<R>,
+    /// Anybody may create a local account on the sign-in page (parts server; its
+    /// start options can override it).
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub registration: bool,
+    /// Registered accounts wait for the approval of an administrator (the default).
+    #[serde(skip_serializing_if = "is_true")]
+    pub registration_approval: bool,
+}
+
+fn is_true(b: &bool) -> bool {
+    *b
 }
 
 impl<R: Right> Default for AccessConfig<R> {
     fn default() -> Self {
-        AccessConfig { directories: Vec::new(), policy: Policy::default() }
+        AccessConfig { directories: Vec::new(), policy: Policy::default(), registration: false, registration_approval: true }
     }
 }
 
@@ -88,6 +99,14 @@ impl<R: Right> AccessFile<R> {
     pub fn set_policy(&mut self, policy: Policy<R>) -> Result<(), String> {
         policy.validate()?;
         self.config.policy = policy;
+        self.save().map_err(|e| format!("cannot store the access settings: {e}"))
+    }
+
+    /// Opens or closes the registration of new users, with or without the approval of
+    /// an administrator, and stores it.
+    pub fn set_registration(&mut self, open: bool, approval: bool) -> Result<(), String> {
+        self.config.registration = open;
+        self.config.registration_approval = approval;
         self.save().map_err(|e| format!("cannot store the access settings: {e}"))
     }
 

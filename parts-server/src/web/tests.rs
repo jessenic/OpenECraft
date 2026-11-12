@@ -14,6 +14,14 @@ fn texts_are_translated() {
     assert_eq!(de.keys["fn:MainContacts3"], translate("Main contacts 3-pole", Lang::De));
     assert_eq!(de.keys["mount:Left"], translate("On the left side", Lang::De));
     assert_eq!(de.languages.len(), Lang::ALL.len());
+    // Rights and built-in roles for the administration.
+    assert_eq!(de.rights.len(), PartsRight::ALL.len());
+    let administer = de.rights.iter().find(|r| r.name == "administer").unwrap();
+    assert!(administer.server_wide && administer.title == translate("Administer the server", Lang::De));
+    let roles: Vec<&str> = de.roles.iter().map(|r| r.name.as_str()).collect();
+    assert_eq!(roles, PartsRight::ROLES);
+    assert_eq!(de.roles[0].rights, ["read"]);
+    assert_eq!(de.roles[3].title, translate("Administrator", Lang::De));
     let en = web_texts(Lang::En);
     assert!(en.texts.iter().all(|(k, v)| k == v));
 }
@@ -44,8 +52,8 @@ fn names_and_titles_are_in_the_catalog() {
 fn the_page_uses_known_texts_only() {
     let known: Vec<&str> = TEXTS.to_vec();
     let mut missing = Vec::new();
-    for marker in ["t(\"", "tf(\"", "data-t=\"", "data-tp=\""] {
-        let page = format!("{PAGE}{SCRIPT}");
+    for marker in ["t(\"", "tf(\"", "tp(\"", "data-t=\"", "data-tp=\""] {
+        let page = format!("{PAGE}{SCRIPT}{ADMIN_SCRIPT}");
         let mut rest = page.as_str();
         while let Some(i) = rest.find(marker) {
             let before = rest[..i].chars().last();
@@ -60,7 +68,11 @@ fn the_page_uses_known_texts_only() {
             }
         }
     }
-    for title in ["Product top group", "Product group", "Product subgroup", "Manufacturer", "Catalog", "Lifecycle"] {
+    // Titles the scripts translate from tables (facets, tabs, field labels).
+    let titles = ["Product top group", "Product group", "Product subgroup", "Manufacturer", "Catalog", "Lifecycle", "Overview", "Users", "Access rights", "Catalogs", "Import parts"];
+    let labels = ["Storage", "Status", "Revision", "Signed in", "Defined roles", "Grants", "Directories", "Without sign-in", "Directory", "User name", "Role", "Groups"];
+    let more = ["New password", "Password", "Repeat password", "Identifier", "Name", "Version", "Description", "Install", "Install again", "Update"];
+    for title in titles.into_iter().chain(labels).chain(more) {
         assert!(known.contains(&title));
     }
     assert!(missing.is_empty(), "texts of portal.html missing in web.rs TEXTS: {missing:?}");

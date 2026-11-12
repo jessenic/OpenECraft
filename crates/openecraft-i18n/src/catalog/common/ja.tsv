@@ -17,6 +17,7 @@ Add to favorites	お気に入りに追加
 Address	アドレス
 Angle	角度
 Apply	適用
+Approve	承認
 Approvers	承認者
 Automatic	自動
 Below	下
@@ -90,6 +91,8 @@ Dark	ダーク
 Data portal	データポータル
 Data type	データ型
 Date	日付
+Delete	削除
+Deny	拒否
 Depth	奥行き
 Descending	降順
 Description	説明
@@ -103,6 +106,7 @@ Device {}	デバイス {}
 Devices	デバイス
 Direction	方向
 Discard	破棄
+Discard changes	変更を破棄
 Display	表示
 Done	完了
 Door	扉
@@ -110,6 +114,7 @@ Door cutout	扉の切り欠き
 Downloading {}…	{} をダウンロードしています…
 Drag to turn the model	ドラッグしてモデルを回転
 EMC clearance	EMC クリアランス
+Edit	編集
 Electro-fluid cross reference	電気-流体相互参照
 Enclosure	エンクロージャー
 Enclosures	エンクロージャー
@@ -162,6 +167,7 @@ Hose no.	ホース番号
 Identifier	識別子
 Identifying letter	識別文字
 Image	画像
+Import	インポート
 Input	入力
 Integration	統合
 Internal (bottom)	内部 (下)
@@ -218,6 +224,7 @@ Name of the plot, e.g. the cadastral parcel	敷地の名前（例：地番）
 Name of the point, e.g. a survey point	点の名前（例：測量点）
 Name of the scheme	スキームの名前
 Net	ネット
+Never	表示しない
 New name	新しい名前
 No	いいえ
 No Vault item matches a part of the project	プロジェクトの部品に一致する Vault アイテムはありません
@@ -258,6 +265,7 @@ Option {}: {} is not one of its choices	オプション {}: {} は選択肢に�
 Order number	注文番号
 Outer diameter	外径
 Output	出力
+Overview	概要
 PCT loop	計装ループ
 PCT loop overview	計装ループ概要
 PL	PL
@@ -333,6 +341,7 @@ Range	範囲
 Rated current	定格電流
 Rated power	定格出力
 Rectangle	四角形
+Reject	却下
 Relative humidity	相対湿度
 Relay	リレー
 Released pages cannot be moved	リリース済みのページは移動できません
@@ -357,6 +366,9 @@ Rows of modules (east-west: rows of pairs)	モジュールの列（東西向き�
 Rule	ルール
 Rule set	ルールセット
 Safety function	安全機能
+Save	保存
+Saved catalog {}	カタログ {} を保存しました
+Saved user {}	ユーザー {} を保存しました
 Saved {}	{} を保存しました
 Scale	尺度
 Schematic	回路図
@@ -440,7 +452,9 @@ Unknown property: {}	不明なプロパティ: {}
 Unknown scheme: {}	不明なスキーム: {}
 Unknown segment	不明なセグメント
 Unknown symbol {}	不明なシンボル {}
+Update	更新
 Uploading {}…	{} をアップロードしています…
+User	ユーザー
 User name	ユーザー名
 Users	ユーザー
 Version	バージョン

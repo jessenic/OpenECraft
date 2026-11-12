@@ -1,19 +1,34 @@
 # English<TAB>Русский – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(переименовано из {})
 19-inch module technology	19-дюймовые конструктивы
+A catalog id must not be empty or contain blanks	Идентификатор каталога не может быть пустым или содержать пробелы
+A manufacturer user needs a manufacturer	Пользователю-производителю нужен производитель
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Роль — это набор прав. Назначения дают пользователю или группе роль для изделий производителя (* и ? как подстановочные знаки, * для всех); запрещающее назначение отнимает права роли, что бы ни давали другие назначения.
+A user name must not be empty or contain blanks	Имя пользователя не может быть пустым или содержать пробелы
+Access rights	Права доступа
+Access settings saved	Настройки доступа сохранены
 Accumulator blocks	Блоки гидроаккумуляторов
 Accumulators	Гидроаккумуляторы
 Actuators, general	Исполнительные механизмы, общие
 Adapter	Адаптер
 Adapter plates	Переходные плиты
+Add grant	Добавить назначение
 Adds new parts and replaces existing ones on the server	Добавляет новые изделия и заменяет существующие на сервере
+Administration	Администрирование
+All manufacturers	Все производители
 All parts	Все изделия
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Все изделия с их данными — для электронных таблиц или импорта на другой сервер. Их файлы есть только в резервной копии базы данных.
 Amplifiers, controllers	Усилители, регуляторы
 Analog sensor	Аналоговый датчик
+Approval of new accounts	Одобрение новых учётных записей
+Approved user {}	Пользователь {} одобрен
+At least {} characters	Не менее {} символов
 Attachment nut	Насадка
 Auxiliary block	Блок вспомогательных контактов
 Auxiliary contact block	Блок вспомогательных контактов
 Auxiliary switch	Вспомогательный выключатель
+Awaiting approval	Ожидает одобрения
+Awaiting approval: {}	Ожидают одобрения: {}
 Back to the results	Назад к результатам
 Ball valve pneumatic	Шаровой кран с пневмоприводом
 Ball valves	Шаровые краны
@@ -23,22 +38,28 @@ Block ball valves	Блочные шаровые краны
 Body	Каркас
 Brake motor	Двигатель с тормозом
 Built into the part	Встроено в изделие
+Built-in	Встроенная
+Bundled catalogs	Поставляемые каталоги
 Bunker	Бункер
 Busbar cover	Защитная крышка сборных шин
 Busbars	Сборные шины
 C horizontal rails	Горизонтальные C-профили
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (с именами столбцов экспорта), JSON, BMEcat или EPLAN XML. Изделия с тем же номером заменяются; их файлы сохраняются.
 Cable / tubing clamp	Крепление кабелей / шлангов
 Cable / tubing protection	Защита кабелей / шлангов
 Cable / tubing tie	Стяжка для кабелей / шлангов
 Cable clamp rails	Рейки для крепления кабелей
 Cable ducts	Кабельные каналы
 Capacitors	Конденсаторы
+Catalog {} exists already. Change it?	Каталог {} уже существует. Изменить его?
 Catalogs	Каталоги
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Каталоги, поставляемые с сервером. Установка добавляет их изделия и обновляет те, которые никто не изменял на этом сервере.
 Central lubrication power units	Агрегаты централизованной смазки
 Centrifugal pumps	Центробежные насосы
 Centrifuge	Центрифуга
 Certificate	Сертификат
 Changed	Изменено
+Changes allowed	Изменения разрешены
 Check control valve	Обратная арматура
 Check flap	Обратная заслонка
 Chimney	Дымовая труба
@@ -66,6 +87,7 @@ Coupling motor pumps	Мотор-насосы с муфтой
 Couplings	Муфты
 Cover plates	Заглушающие плиты
 Create / update the part on the server (Ctrl+S)	Создать / обновить изделие на сервере (Ctrl+S)
+Create an account on this server	Создать учётную запись на этом сервере
 Created	Создано
 Crimp contact	Обжимной контакт
 Cross-connector	Поперечная перемычка
@@ -74,8 +96,11 @@ Cylinders	Цилиндры
 DC motor	Двигатель постоянного тока
 DC-DC converter	Преобразователь DC-DC
 Data recorder	Регистратор
+Database backup	Резервная копия базы данных
 Datasheet	Техническое описание
+Defined roles	Определённые роли
 Delete catalog {} from the server?	Удалить каталог {} с сервера?
+Delete catalog {}?	Удалить каталог {}?
 Delete part {} from the server? This cannot be undone.	Удалить изделие {} с сервера? Это действие нельзя отменить.
 Delete parts	Удаление изделий
 Delete user {}? Their sessions and favorites are removed.	Удалить пользователя {}? Его сеансы и избранное будут удалены.
@@ -83,6 +108,8 @@ Deleted	Удалено
 Digital sensor, general	Дискретный датчик, общий
 Directional control valves	Распределители
 Directional control valves, coaxial	Распределители, коаксиальные
+Directories	Службы каталогов
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Службы каталогов (Active Directory, LDAP) настраиваются в файле настроек доступа сервера.
 Directory	Служба каталогов
 Dirt trap	Грязеуловитель
 Discard the changes	Отменить изменения
@@ -91,13 +118,16 @@ Discontinued	Снято с производства
 Display device	Устройство индикации
 Document holder	Карман для документации
 Door handle	Дверная ручка
+Download	Скачать
 Drawings box	Карман для документации
 Dryer	Сушилка
 Dummy plate	Глухая шайба
 Duplex switch filters	Сдвоенные переключаемые фильтры
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Изменить каталог {}
 Edit catalogs	Редактирование каталогов
 Edit parts	Редактирование изделий
+Edit user {}	Изменить пользователя {}
 Electrical engineering - special items	Электротехника – специальные изделия
 Electrically-operated mechanical devices	Электрически управляемые механические устройства
 Electrolysis cell	Электролизер
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Введит�
 Evaporator	Испаритель
 Exhaust valves	Воздуховыпускные клапаны
 Export (CSV)	Экспорт (CSV)
+Export and backup	Экспорт и резервная копия
+Export the parts, catalogs and settings, or download a backup of the whole database.	Экспортируйте изделия, каталоги и настройки или скачайте резервную копию всей базы данных.
 Exported {} parts to {}	Экспортировано изделий: {} в {}
 Extraction hood	Вытяжной зонт
 Feed-through terminal	Проходная клемма
@@ -133,6 +165,7 @@ Front view (2D)	Вид спереди (2D)
 Funnel	Воронка
 Furnace	Печь
 Generator	Генератор
+Grants	Назначения
 Grants of the server's access settings can refer to them	На них могут ссылаться назначения в настройках доступа сервера
 Ground fault current circuit breaker	Выключатель дифференциального тока
 Ground fault voltage circuit-breaker	Защитный выключатель по напряжению повреждения
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Принадлежности корпу�
 Hydraulic motors	Гидромоторы
 Hydraulic tanks	Гидробаки
 Import / export	Импорт / экспорт
+Import parts	Импорт изделий
+Imported {} parts (revision {})	Импортировано изделий: {} (ревизия {})
 Inductors	Катушки индуктивности
+Install	Установить
+Install again	Установить заново
 Intermediate plates	Промежуточные плиты
 Isolating valves	Запорные клапаны
 KNX actuator	Исполнительное устройство KNX
 KNX system device	Системное устройство KNX
 Key switch	Переключатель с ключом
 Kneader	Месильная машина
+Last sign-in	Последний вход
 Legend plate	Табличка с надписью
 Level detector	Датчик предельного значения
 Level switches	Сигнализаторы уровня
@@ -165,6 +203,7 @@ Line return filters	Сливные фильтры
 Lines / conduits	Линии / кабелепроводы
 Load all parts from the server again	Снова загрузить все изделия с сервера
 Loading…	Загрузка…
+Local	Локальный
 Lock systems	Системы замков
 Locking couplings	Запорные муфты
 Logic item	Логический элемент
@@ -183,17 +222,28 @@ Modulators	Модуляторы
 Motor overload switch	Автоматический выключатель защиты двигателя
 Mounting chassis	Монтажное шасси
 Mounting panels	Монтажные панели
+New accounts need the approval of an administrator	Новым учётным записям нужно одобрение администратора
+New catalog	Новый каталог
 New part based on the open one	Новое изделие на основе открытого
 New password	Новый пароль
+New role	Новая роль
+New user	Новый пользователь
 Newer version	Более новая версия
 Next	Далее
+No grants: users have the rights of their role	Нет назначений: у пользователей права их роли
+No users	Нет пользователей
 Non-return valves	Обратные клапаны
 Not mounted	Не монтируется
 Nut	Гайка
 On the front	Спереди
 On the left side	Слева
 On the right side	Справа
+On this server	На этом сервере
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Один файл SQLite со всеми изделиями, их историей и файлами, каталогами, пользователями и их избранным. Он содержит хеши паролей пользователей: храните его в надёжном месте.
 Only catalogs without parts can be deleted	Удалять можно только каталоги без изделий
+Only empty catalogs can be deleted	Удалять можно только пустые каталоги
+Only local accounts	Только локальные учётные записи
+Open sessions: {}	Открытые сеансы: {}
 OpenECraft data portal	Портал данных OpenECraft
 OpenECraft parts manager	Управление изделиями OpenECraft
 OpenECraft parts server	Сервер изделий OpenECraft
@@ -253,6 +303,7 @@ Pushbutton	Кнопка
 Rail standoff	Дистанционная стойка шины
 Rails	Рейки
 Reactor	Реактор
+Read only	Только чтение
 Read only: sign in with a user who may change parts of this manufacturer	Только чтение: войдите как пользователь, которому разрешено изменять изделия этого производителя
 Read parts	Чтение изделий
 Reader	Читатель
@@ -262,12 +313,20 @@ Rear / side panel	Задняя / боковая стенка
 Rectifier	Выпрямитель
 Reducer	Переход
 Reducing plates	Редукционные плиты
+Register	Зарегистрироваться
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Зарегистрированные пользователи становятся читателями: они сохраняют избранное и читают изделия, даже если для чтения нужен вход. Дополнительные права выдаются в разделе «Пользователи».
+Registration	Регистрация
+Reject the registration of {}? The account is deleted.	Отклонить регистрацию {}? Учётная запись будет удалена.
 Remove the file from the part	Удалить файл из изделия
 Removed from the server	Удалено с сервера
+Repeat password	Повторите пароль
+Replace the roles and grants with those of the file?	Заменить роли и назначения данными из файла?
 Replaced by {}	Заменено на {}
 Resistors	Резисторы
+Restore from a file	Восстановить из файла
 Return flushing filters, all-autom.	Фильтры с обратной промывкой, полностью автом.
 Ribbon cables	Плоские ленточные кабели
+Roles	Роли
 Roof hook	Кровельный крюк
 Routing accessories	Принадлежности для прокладки
 Routing path (topology)	Участок трассы (топология)
@@ -281,6 +340,7 @@ Screw connections	Резьбовые соединения
 Screw pumps	Винтовые насосы
 Screw spindle compressors	Винтовые компрессоры
 Scroll compressors	Спиральные компрессоры
+Search users	Поиск пользователей
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Выберите каталог или создайте новый. Изделия относятся к каталогу через ID каталога (редактор изделий, вкладка «Портал данных»).
 Select a user or create a new one.	Выберите пользователя или создайте нового.
 Selector switch	Переключатель
@@ -289,6 +349,7 @@ Sensor NC	Датчик, размыкающий
 Sensor, switch, and pushbutton	Датчики, выключатели и кнопки
 Sensors - pressure gauges	Датчики – манометры
 Serial sub-plates	Многосекционные монтажные плиты
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Задано параметрами запуска сервера (--registration или OPENECRAFT_REGISTRATION).
 Show parts	Показать изделия
 Shut-off accumulators	Запорные гидроаккумуляторы
 Shut-off control valve	Запорная арматура
@@ -296,12 +357,19 @@ Shut-off flap	Запорная заслонка
 Side panel	Боковая стенка
 Sifter	Классификатор
 Sight glass	Смотровое стекло
+Sign in as an administrator to manage the server	Войдите как администратор, чтобы управлять сервером
 Sign in or connect with the access token to change parts	Войдите или подключитесь с токеном доступа, чтобы изменять изделия
 Sign in to keep favorites	Войдите, чтобы сохранять избранное
+Sign in with a user account	Войти с учётной записью
+Sign in with the access token of the server	Войти с маркером доступа сервера
+Sign out everywhere	Выйти везде
+Sign out {} on all devices?	Завершить сеансы {} на всех устройствах?
+Sign-in needed to read	Для чтения нужен вход
 Signal device	Сигнальное устройство
 Signal device, acoustic	Сигнальное устройство, звуковое
 Signal device, optical	Сигнальное устройство, световое
 Signal lamp	Сигнальная лампа
+Signed in	Вошли
 Silencers	Глушители
 Silo	Силос
 Single-phase motor	Однофазный двигатель
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Запустит�
 Start openecraft-parts-server with --token to allow changes	Запустите openecraft-parts-server с параметром --token, чтобы разрешить изменения
 Steam boiler	Паровой котел
 Stirrer	Мешалка
+Storage	Хранилище
 Strainer	Сетчатый фильтр
 Strip label	Маркер клеммной колодки
 Sub-plates	Монтажные плиты
@@ -332,22 +401,36 @@ Terminator	Торцевая пластина
 Terminators, filters	Оконечные устройства, фильтры
 Test accessories	Принадлежности для испытаний
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal позволяет только искать и читать изделия
+The access settings would leave nobody who manages users	С такими настройками доступа никто не сможет управлять пользователями
 The access token is only needed for changes; it is not stored.	Маркер доступа нужен только для изменений; он не сохраняется.
+The catalogs with their manufacturer, version and description.	Каталоги с производителем, версией и описанием.
 The checksum of {} does not match: the download is damaged	Контрольная сумма {} не совпадает: загрузка повреждена
 The directory checks the password and sets the groups at every sign-in	Служба каталогов проверяет пароль и задаёт группы при каждом входе
+The file holds no access settings	Файл не содержит настроек доступа
+The last administrator cannot lose the right to manage users	Последний администратор не может лишиться права управлять пользователями
+The password needs at least {} characters	Пароль должен содержать не менее {} символов
+The passwords do not match	Пароли не совпадают
 The project has no parts	В проекте нет изделий
+The registration is closed	Регистрация закрыта
+The registration is open	Регистрация открыта
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Роли, назначения и доступ без входа. Восстановление заменяет их; службы каталогов остаются такими, как настроены на сервере.
 The server cannot be reached	Сервер недоступен
 The server sent no text	Сервер не отправил текст
 The upload is finished	Выгрузка завершена
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Пользователи с ролью, производителем, группами и последним входом, без паролей.
 Thermometers	Термометры
 Thermostat valves	Термостатические клапаны
+This user name cannot be used	Это имя пользователя нельзя использовать
+This user name is taken	Это имя пользователя занято
 Three-phase motor	Трёхфазный двигатель
 Three-way control valve	Трёхходовая арматура
 Three-way flap	Трёхходовая заслонка
 Three-way valve	Трёхходовой клапан
 Throttle plate	Дроссельная шайба
 Timer relay	Реле времени
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Чтобы восстановить её, запустите сервер с --data <файл> или скопируйте её в новую базу данных с помощью --migrate-from <файл>.
 Too many failed sign-ins, try again later	Слишком много неудачных попыток входа, повторите позже
+Too many registrations from this address, try again later	Слишком много регистраций с этого адреса, повторите попытку позже
 Top cover	Крыша
 Transformers	Трансформаторы
 Transmission paths	Линии передачи
@@ -357,7 +440,11 @@ Undefined	Не определено
 Under the part (base)	Под изделием (основание)
 Uploading {} to Vault ({} %)…	Выгрузка {} в Vault ({} %)…
 Uploading {} to Vault…	Выгрузка {} в Vault…
+User account	Учётная запись
+User or group	Пользователь или группа
+User {} exists already. Change it?	Пользователь {} уже существует. Изменить его?
 User-defined rail	Пользовательская рейка
+Users may register themselves (as readers)	Пользователи могут регистрироваться сами (как читатели)
 Vacuum pump	Вакуумный насос
 Valve / distributor	Клапан / распределитель
 Valve coil	Катушка клапана
@@ -368,15 +455,21 @@ Ventilation filters	Сапунные фильтры
 Ventilator	Вентилятор
 Voltage source	Источник напряжения
 Voltage source and generator	Источник напряжения и генератор
+Waiting accounts cannot sign in; approve or reject them in Users.	Ожидающие учётные записи не могут войти; одобрите или отклоните их в разделе «Пользователи».
 Washer	Шайба
 Water traps	Влагоотделители
 Wind deflector	Ветровой дефлектор
 Wiring material	Монтажные материалы
+Without sign-in	Без входа
+Wrong access token	Неверный маркер доступа
 Wrong user name or password	Неверное имя пользователя или пароль
+Your account awaits the approval of an administrator	Учётная запись ожидает одобрения администратора
+Your account was created. An administrator has to approve it before you can sign in.	Учётная запись создана. Администратор должен одобрить её, прежде чем вы сможете войти.
 access denied – check the personal access token	доступ запрещён – проверьте персональный маркер доступа
 by file name	по имени файла
 changed, not saved	изменено, не сохранено
 connection failed: {}	ошибка подключения: {}
+directory:group	каталог:группа
 from the name	из имени
 needed for changes	нужен для изменений
 new part, not saved	новое изделие, не сохранено
@@ -389,12 +482,14 @@ the server name is unknown	имя сервера неизвестно
 the server refuses the connection (not started, or another port)	сервер отклоняет подключение (не запущен или другой порт)
 unchanged if empty	без изменений, если пусто
 unexpected answer: {}	непредвиденный ответ: {}
+you	вы
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	Для {} нет контрольной суммы в SHA256SUMS
 {} parts in {} catalogs, revision {}	Изделий: {}, каталогов: {}, ревизия {}
 {} parts, {} catalogs, {}	Изделий: {}, каталогов: {}, {}
 {} – save to upload it	{} – сохраните, чтобы выгрузить
 {}: the part is no longer open	{}: изделие больше не открыто
+{}: {} parts added, {} updated, {} kept	{}: добавлено изделий: {}, обновлено: {}, сохранено: {}
 ⎘ Copy	⎘ Копировать
 ✔ Save	✔ Сохранить
 ➕ New	➕ Создать

@@ -4,3 +4,6 @@
 # and in the environment (OPENECRAFT_TOKEN) win.
 bind = "0.0.0.0:8090"
 data = "/data/parts-db.sqlite"
+# Users may register themselves as readers (or OPENECRAFT_REGISTRATION=true); without
+# it, administrators switch it on the web page.
+# registration = true

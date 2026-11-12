@@ -144,7 +144,6 @@ Apply to the connection	Použít na spojení
 Apply to {} projects	Použít na {} projektů
 Approval workflow	Schvalovací postup
 Approvals needed	Potřebná schválení
-Approve	Schválit
 Approving needs an approver; you are \"{}\".	Schvalovat může jen schvalovatel; vy jste \"{}\".
 Arc	Oblouk
 Archive and version	Archiv a verze
@@ -453,7 +452,6 @@ Define	Definovat
 Define all used	Definovat všechny použité
 Defined potentials	Definované potenciály
 Del	Del
-Delete	Odstranit
 Delete PV array	Smazat FV pole
 Delete cable (its wires are removed from it)	Odstranit kabel (jeho vodiče z něj budou odebrány)
 Delete comment	Odstranit komentář
@@ -483,7 +481,6 @@ Delete the property and all its values	Odstranit vlastnost se všemi hodnotami
 Delete this workspace	Odstranit tento pracovní prostor
 Delete variant	Odstranit variantu
 Delete zone	Smazat zónu
-Deny	Odepřít
 Depth / mounted at	Hloubka / montáž na
 Depth from / to	Hloubka od / do
 Depth in the floor	Hloubka v podlaze
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Směrované křížení: spojuje dva vodiče, které se tam kříží; každý konec jeho čáry je zapojen nejprve rovně a pak napříč
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Směr severu sítě, proti směru hodinových ručiček při pohledu shora od zadní strany zařízení (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Směr, kterým moduly míří, proti směru hodinových ručiček při pohledu shora (0: dopředu)
-Discard changes	Zahodit změny
 Discard draft	Zahodit koncept
 Disconnection of distribution circuits	Odpojení distribučních obvodů
 Disconnection of final circuits	Odpojení koncových obvodů
@@ -611,7 +607,6 @@ Earthing system	Soustava uzemnění
 Easting, northing	Východní, severní souřadnice
 Eaves	Okap
 Edge length of the routing grid: smaller is finer and slower	Délka hrany rastru vedení: menší je jemnější a pomalejší
-Edit	Úpravy
 Edit in table	Upravit v tabulce
 Edit in table…	Upravit v tabulce…
 Editable copy of this plot frame	Upravitelná kopie tohoto rámečku výkresu
@@ -824,7 +819,6 @@ Identifiers of the structure management	Identifikátory správy struktury
 Identifying letters	Identifikační písmena
 Images (PNG, JPEG)	Obrázky (PNG, JPEG)
 Image…	Obrázek…
-Import	Import
 Import AutomationML…	Importovat AutomationML…
 Import CSV / Excel…	Importovat CSV / Excel…
 Import CSV…	Importovat CSV…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Název; 
 Named copy of this form, for report blocks	Pojmenovaná kopie tohoto formuláře pro bloky výkazů
 Navigators	Navigátory
 Neutral exchange file…	Neutrální výměnný soubor…
-Never	Nikdy
 New	Nový
 New block	Nový blok
 New building	Nová budova
@@ -1506,7 +1499,6 @@ Reference point	Referenční bod
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Referenční bod umístěn v x {} m, z {} m; zadejte jeho souřadnice v panelu Budovy
 Refresh	Obnovit
 Refresh example catalog parts (GEN.*)	Aktualizovat artikly ukázkového katalogu (GEN.*)
-Reject	Zamítnout
 Rejected and closed ones too	I zamítnuté a uzavřené
 Relative column width	Relativní šířka sloupce
 Release	Uvolnit
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Spustit
 SVG drawing	Výkres SVG
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Bezpečnostní funkce podle ISO 13849-1: každý subsystém (vstup, logika, výstup) s přístroji jednoho kanálu, jeho kategorií, diagnostickým pokrytím a počtem operací za rok. Přístroje se započítávají s PL / PFHd, MTTFd nebo B10d svých artiklů.
-Save	Uložit
 Save a selection under this name with another variant to add one.	Chcete-li přidat variantu, uložte výběr pod tímto názvem s jinou variantou.
 Save access	Uložit přístup
 Save and release	Uložit a uvolnit
@@ -2018,7 +2009,6 @@ Ungroup	Zrušit seskupení
 Unlock all	Odemknout vše
 Unplaced	Neumístěné
 Unplaced ({})	Neumístěné ({})
-Update	Aktualizovat
 Update all	Aktualizovat vše
 Update part links from Vault items	Aktualizovat odkazy na artikly z položek Vault
 Update report blocks	Aktualizovat bloky výkazů
@@ -2037,7 +2027,6 @@ Use for all pages	Použít pro všechny stránky
 Used	Použito
 Used by {} pages	Používá stránek: {}
 Used on {} of {} pages	Použito na {} z {} stránek
-User	Uživatel
 User / group	Uživatel / skupina
 User defined property	Uživatelsky definovaná vlastnost
 User names, separated by commas	Uživatelská jména oddělená čárkami

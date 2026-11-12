@@ -78,7 +78,8 @@ pub struct SessionKey {
 }
 
 impl SessionKey {
-    fn alive(&self, now: u64) -> bool {
+    /// The session has not expired at `now`.
+    pub fn alive(&self, now: u64) -> bool {
         now.saturating_sub(self.started) < SESSION_LIFETIME_SECS
     }
 }

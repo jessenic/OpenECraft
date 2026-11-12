@@ -19,6 +19,7 @@ Add to favorites	Zu Favoriten hinzufügen	Ajouter aux favoris	Añadir a favorito
 Address	Adresse	Adresse	Dirección
 Angle	Winkel	Angle	Ángulo
 Apply	Übernehmen	Appliquer	Aplicar
+Approve	Genehmigen	Approuver	Aprobar
 Approvers	Genehmiger	Approbateurs	Aprobadores
 Automatic	Automatisch	Automatique	Automático
 Below	Unterhalb	En dessous	Abajo
@@ -96,6 +97,8 @@ Dark	Dunkel	Sombre	Oscuro
 Data portal	Data Portal	Portail de données	Portal de datos
 Data type	Datentyp	Type de données	Tipo de datos
 Date	Datum	Date	Fecha
+Delete	Löschen	Supprimer	Eliminar
+Deny	Verweigern	Refuser	Denegar
 Depth	Tiefe	Profondeur	Profundidad
 Descending	Absteigend	Décroissant	Descendente
 Description	Beschreibung	Description	Descripción
@@ -109,6 +112,7 @@ Device {}	Betriebsmittel {}	Appareil {}	Dispositivo {}
 Devices	Betriebsmittel	Appareils	Dispositivos
 Direction	Richtung	Direction	Dirección
 Discard	Verwerfen	Abandonner	Descartar
+Discard changes	Änderungen verwerfen	Abandonner les modifications	Descartar los cambios
 Display	Darstellung	Affichage	Presentación
 Done	Erledigt	Terminé	Hecho
 Door	Tür	Porte	Puerta
@@ -116,6 +120,7 @@ Door cutout	Türausschnitt	Découpe de porte	Recorte de puerta
 Downloading {}…	{} wird heruntergeladen…	Téléchargement de {}…	Descargando {}…
 Drag to turn the model	Ziehen, um das Modell zu drehen	Faites glisser pour tourner le modèle	Arrastre para girar el modelo
 EMC clearance	EMV-Abstand	Distance CEM	Distancia CEM
+Edit	Bearbeiten	Édition	Edición
 Electro-fluid cross reference	Elektro-Fluid-Querverweise	Renvois électro-fluidiques	Referencias cruzadas electro-fluidos
 Enclosure	Gehäuse	Enveloppe	Envolvente
 Enclosures	Gehäuse	Enveloppes	Envolventes
@@ -171,6 +176,7 @@ Hose no.	Schlauch-Nr.	N° flexible	N.º manguera
 Identifier	Kennung	Identifiant	Identificador
 Identifying letter	Kennbuchstabe	Lettre d'identification	Letra identificativa
 Image	Bild	Image	Imagen
+Import	Import	Import	Importación
 Infer panel rotation from part dimensions	Drehung aus Artikelabmessungen ableiten	Déduire la rotation des dimensions de l’article	Deducir la rotación de las dimensiones del artículo
 Input	Eingang	Entrée	Entrada
 Integration	Integration	Intégration	Integración
@@ -231,6 +237,7 @@ Name of the plot, e.g. the cadastral parcel	Name des Grundstücks, z. B. das Flu
 Name of the point, e.g. a survey point	Name des Punkts, z. B. ein Vermessungspunkt	Nom du point, p. ex. un point géodésique	Nombre del punto, p. ej. un punto topográfico
 Name of the scheme	Name des Schemas	Nom du schéma	Nombre del esquema
 Net	Netz	Réseau	Red
+Never	Nie	Jamais	Nunca
 New name	Neuer Name	Nouveau nom	Nuevo nombre
 No	Nein	Non	No
 No Vault item matches a part of the project	Kein Vault-Element passt zu einem Artikel des Projekts	Aucun élément Vault ne correspond à un article du projet	Ningún elemento de Vault coincide con un artículo del proyecto
@@ -273,6 +280,7 @@ Option {}: {} is not one of its choices	Option {}: {} ist keiner ihrer Auswahlwe
 Order number	Bestellnummer	Référence de commande	Número de pedido
 Outer diameter	Außendurchmesser	Diamètre extérieur	Diámetro exterior
 Output	Ausgang	Sortie	Salida
+Overview	Übersicht	Vue d'ensemble	Vista general
 PCT loop	PLT-Stelle	Boucle CCP	Lazo PCT
 PCT loop overview	PLT-Stellenübersicht	Vue d'ensemble des boucles CCP	Resumen de lazos PCT
 PL	PL	PL	PL
@@ -349,6 +357,7 @@ Range	Bereich	Plage	Rango
 Rated current	Bemessungsstrom	Courant assigné	Corriente nominal
 Rated power	Bemessungsleistung	Puissance assignée	Potencia nominal
 Rectangle	Rechteck	Rectangle	Rectángulo
+Reject	Ablehnen	Refuser	Rechazar
 Relative humidity	Relative Luftfeuchte	Humidité relative	Humedad relativa
 Relay	Relais	Relais	Relé
 Released pages cannot be moved	Freigegebene Seiten können nicht verschoben werden	Les pages validées ne peuvent pas être déplacées	Las páginas liberadas no se pueden mover
@@ -373,6 +382,9 @@ Rows of modules (east-west: rows of pairs)	Modulreihen (Ost-West: Reihen von Paa
 Rule	Regel	Règle	Regla
 Rule set	Regelwerk	Jeu de règles	Conjunto de reglas
 Safety function	Sicherheitsfunktion	Fonction de sécurité	Función de seguridad
+Save	Speichern	Enregistrer	Guardar
+Saved catalog {}	Katalog {} gespeichert	Catalogue {} enregistré	Catálogo {} guardado
+Saved user {}	Benutzer {} gespeichert	Utilisateur {} enregistré	Usuario {} guardado
 Saved {}	{} gespeichert	{} enregistré	{} guardado
 Scale	Maßstab	Échelle	Escala
 Schematic	Schaltplan	Schéma	Esquema
@@ -457,7 +469,9 @@ Unknown property: {}	Unbekannte Eigenschaft: {}	Propriété inconnue : {}	Propie
 Unknown scheme: {}	Unbekanntes Schema: {}	Schéma inconnu : {}	Esquema desconocido: {}
 Unknown segment	Unbekanntes Segment	Segment inconnu	Segmento desconocido
 Unknown symbol {}	Unbekanntes Symbol {}	Symbole inconnu {}	Símbolo desconocido {}
+Update	Aktualisieren	Mettre à jour	Actualizar
 Uploading {}…	{} wird hochgeladen…	Envoi de {}…	Subiendo {}…
+User	Benutzer	Utilisateur	Usuario
 User name	Benutzername	Nom d'utilisateur	Nombre de usuario
 Users	Benutzer	Utilisateurs	Usuarios
 Version	Version	Version	Versión

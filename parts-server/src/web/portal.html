@@ -19,11 +19,15 @@
 body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
-button, input, select { font: inherit; color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 12px; }
 button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
 button:disabled { opacity: .5; cursor: default; }
-input, select { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 10px; }
+input, select, textarea { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 10px; }
+button.link { border-color: transparent; background: none; color: var(--accent); padding: 6px 4px; }
+button.small { padding: 2px 8px; font-size: 13px; }
+button.danger { color: var(--bad); }
+[hidden] { display: none !important; }
 header { background: var(--panel); border-bottom: 1px solid var(--line); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; position: sticky; top: 0; z-index: 2; }
 header h1 { font-size: 18px; margin: 0 12px 0 0; white-space: nowrap; }
 #search-form { display: flex; gap: 6px; flex: 1 1 320px; }
@@ -83,6 +87,28 @@ dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .status { padding: 24px; text-align: center; color: var(--muted); }
 .error { color: var(--bad); }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 14px; }
+.tabs button { border-color: transparent; background: none; }
+.tabs button.active { background: var(--chip); font-weight: 600; }
+.admin table.plain tbody tr { cursor: default; }
+.admin table.plain tbody tr:hover { background: none; }
+.admin td { vertical-align: middle; }
+.admin td input:not([type=checkbox]), .admin td select { width: 100%; min-width: 110px; padding: 4px 8px; }
+.admin th.check, .admin td.check { text-align: center; }
+.admin td.actions { white-space: nowrap; text-align: right; }
+.admin td.actions button { margin-left: 4px; }
+.admin .toolbar input[type=search] { flex: 1 1 200px; max-width: 360px; }
+.admin h3.section { font-size: 15px; margin: 22px 0 8px; }
+.admin .box.section { margin: 0 0 16px; }
+.form { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 10px 14px; align-items: start; max-width: 680px; }
+.form > label { color: var(--muted); padding-top: 7px; }
+.form input:not([type=checkbox]), .form select, .form textarea { width: 100%; }
+.form .hint { font-size: 13px; color: var(--muted); margin-top: 3px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.buttons.sticky { position: sticky; bottom: 0; background: var(--panel); padding: 10px 0; border-top: 1px solid var(--line); margin-top: 18px; }
+.ok { color: var(--ok); }
+label.check { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+.notice { background: var(--chip); border-radius: 6px; padding: 8px 12px; margin: 0 0 12px; }
 footer { text-align: center; color: var(--muted); font-size: 13px; padding: 8px 16px 20px; }
 .star { font-size: 18px; line-height: 1; }
 @media (max-width: 800px) {
@@ -90,6 +116,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; padding: 8px 
   /* The results come first, the filters below them. */
   #facets { order: 2; }
   #account input { width: 110px; }
+  .form { grid-template-columns: 1fr; gap: 4px; }
   .hide-narrow { display: none; }
 }
 </style>
@@ -105,6 +132,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; padding: 8px 
     <button id="nav-parts" class="active" data-t="All parts">All parts</button>
     <button id="nav-favorites" data-t="Favorites">Favorites</button>
     <button id="nav-catalogs" data-t="Catalogs">Catalogs</button>
+    <button id="nav-admin" data-t="Administration" hidden>Administration</button>
     <select id="lang" aria-label="Language"></select>
   </nav>
   <div id="account"></div>
@@ -114,6 +142,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; padding: 8px 
   <section class="panel" id="content"><div class="status" data-t="Loading…">Loading…</div></section>
 </main>
 <footer id="footer"></footer>
+<script src="/admin.js"></script>
 <script src="/portal.js"></script>
 </body>
 </html>

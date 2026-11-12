@@ -1,19 +1,34 @@
 # English<TAB>日本語 – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	({} から名前変更)
 19-inch module technology	19 インチモジュール技術
+A catalog id must not be empty or contain blanks	カタログ ID は空にできず、空白を含めることもできません
+A manufacturer user needs a manufacturer	メーカーユーザーにはメーカーが必要です
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	ロールは権限のセットです。付与により、ユーザーまたはグループにメーカーの部品に対するロールが与えられます (* と ? はワイルドカード、* はすべて)。拒否の付与は、ほかの付与に関係なくロールの権限を取り消します。
+A user name must not be empty or contain blanks	ユーザー名は空にできず、空白を含めることもできません
+Access rights	アクセス権
+Access settings saved	アクセス設定を保存しました
 Accumulator blocks	アキュムレーターブロック
 Accumulators	アキュムレーター
 Actuators, general	アクチュエーター (一般)
 Adapter	アダプター
 Adapter plates	アダプタープレート
+Add grant	付与を追加
 Adds new parts and replaces existing ones on the server	新しい部品を追加し、サーバー上の既存の部品を置換します
+Administration	管理
+All manufacturers	すべてのメーカー
 All parts	すべての部品
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	すべての部品とそのデータです。表計算ソフトで使うか、別のサーバーにインポートできます。ファイルはデータベースのバックアップにのみ含まれます。
 Amplifiers, controllers	増幅器、制御器
 Analog sensor	アナログセンサー
+Approval of new accounts	新しいアカウントの承認
+Approved user {}	ユーザー {} を承認しました
+At least {} characters	{} 文字以上
 Attachment nut	アタッチメントナット
 Auxiliary block	補助ブロック
 Auxiliary contact block	補助接点ブロック
 Auxiliary switch	補助スイッチ
+Awaiting approval	承認待ち
+Awaiting approval: {}	承認待ち: {}
 Back to the results	検索結果に戻る
 Ball valve pneumatic	空気圧ボールバルブ
 Ball valves	ボールバルブ
@@ -22,22 +37,28 @@ Battery monitor	バッテリーモニター
 Block ball valves	ブロックボールバルブ
 Body	本体
 Brake motor	ブレーキ付きモーター
+Built-in	組み込み
+Bundled catalogs	付属のカタログ
 Bunker	バンカー
 Busbar cover	ブスバーカバー
 Busbars	ブスバー
 C horizontal rails	C 形チャンネルレール
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (エクスポートの列名を使用)、JSON、BMEcat、または EPLAN XML。同じ番号の部品は置き換えられ、そのファイルは保持されます。
 Cable / tubing clamp	ケーブル / チューブクランプ
 Cable / tubing protection	ケーブル / チューブ保護材
 Cable / tubing tie	ケーブル / チューブタイ
 Cable clamp rails	ケーブルクランプレール
 Cable ducts	配線ダクト
 Capacitors	コンデンサー
+Catalog {} exists already. Change it?	カタログ {} は既に存在します。変更しますか?
 Catalogs	カタログ
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	サーバーに付属するカタログです。インストールすると部品が追加され、このサーバーで変更されていない部品が更新されます。
 Central lubrication power units	集中潤滑ユニット
 Centrifugal pumps	遠心ポンプ
 Centrifuge	遠心分離機
 Certificate	証明書
 Changed	変更
+Changes allowed	変更可能
 Check control valve	逆止弁
 Check flap	逆止ダンパー
 Chimney	煙突
@@ -65,6 +86,7 @@ Coupling motor pumps	カップリング式モーターポンプ
 Couplings	カップリング
 Cover plates	カバープレート
 Create / update the part on the server (Ctrl+S)	サーバー上の部品を作成 / 更新 (Ctrl+S)
+Create an account on this server	このサーバーにアカウントを作成
 Created	作成
 Crimp contact	圧着コンタクト
 Cross-connector	クロスコネクター
@@ -73,8 +95,11 @@ Cylinders	シリンダー
 DC motor	DC モーター
 DC-DC converter	DC-DC コンバータ
 Data recorder	記録計
+Database backup	データベースのバックアップ
 Datasheet	データシート
+Defined roles	定義済みのロール
 Delete catalog {} from the server?	カタログ {} をサーバーから削除しますか?
+Delete catalog {}?	カタログ {} を削除しますか?
 Delete part {} from the server? This cannot be undone.	サーバーから部品 {} を削除しますか? この操作は元に戻せません。
 Delete parts	部品の削除
 Delete user {}? Their sessions and favorites are removed.	ユーザー {} を削除しますか? そのユーザーのセッションとお気に入りも削除されます。
@@ -82,6 +107,8 @@ Deleted	削除
 Digital sensor, general	デジタルセンサー (一般)
 Directional control valves	方向制御弁
 Directional control valves, coaxial	同軸方向制御弁
+Directories	ディレクトリ
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	ディレクトリ (Active Directory、LDAP) はサーバーのアクセス設定ファイルで設定します。
 Directory	ディレクトリ
 Dirt trap	ストレーナー
 Discard the changes	変更を破棄
@@ -90,13 +117,16 @@ Discontinued	生産終了
 Display device	表示器
 Document holder	図面ポケット
 Door handle	ドアハンドル
+Download	ダウンロード
 Drawings box	図面ポケット
 Dryer	乾燥機
 Dummy plate	閉止板
 Duplex switch filters	切替式複式フィルター
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	カタログ {} の編集
 Edit catalogs	カタログの編集
 Edit parts	部品の編集
+Edit user {}	ユーザー {} の編集
 Electrical engineering - special items	電気工学 - 特殊品
 Electrically-operated mechanical devices	電気操作式機械装置
 Electrolysis cell	電解槽
@@ -109,6 +139,8 @@ Enter the address of an openecraft-parts-server and click Connect.	openecraft-pa
 Evaporator	蒸発器
 Exhaust valves	排気弁
 Export (CSV)	エクスポート (CSV)
+Export and backup	エクスポートとバックアップ
+Export the parts, catalogs and settings, or download a backup of the whole database.	部品、カタログ、設定をエクスポートするか、データベース全体のバックアップをダウンロードします。
 Exported {} parts to {}	{} 個の部品を {} にエクスポートしました
 Extraction hood	排気フード
 Feed-through terminal	中継端子
@@ -132,6 +164,7 @@ Front view (2D)	正面図 (2D)
 Funnel	ホッパー
 Furnace	炉
 Generator	発電機
+Grants	付与
 Grants of the server's access settings can refer to them	サーバーのアクセス設定の付与で参照できます
 Ground fault current circuit breaker	漏電遮断器
 Ground fault voltage circuit-breaker	漏電電圧遮断器
@@ -146,13 +179,18 @@ Housing accessories, internal extension	筐体付属品 (内部増設)
 Hydraulic motors	油圧モーター
 Hydraulic tanks	油圧タンク
 Import / export	インポート / エクスポート
+Import parts	部品のインポート
+Imported {} parts (revision {})	{} 件の部品をインポートしました (リビジョン {})
 Inductors	インダクター
+Install	インストール
+Install again	再インストール
 Intermediate plates	中間プレート
 Isolating valves	ストップ弁
 KNX actuator	KNX アクチュエータ
 KNX system device	KNX システム機器
 Key switch	キースイッチ
 Kneader	ニーダー
+Last sign-in	最終サインイン
 Legend plate	銘板
 Level detector	レベル検出器
 Level switches	レベルスイッチ
@@ -164,6 +202,7 @@ Line return filters	リターンフィルター
 Lines / conduits	ライン / 配管束
 Load all parts from the server again	サーバーからすべての部品を再読み込み
 Loading…	読み込み中…
+Local	ローカル
 Lock systems	ロックシステム
 Locking couplings	ロック式カップリング
 Logic item	ロジック素子
@@ -182,17 +221,28 @@ Modulators	変調器
 Motor overload switch	モーター保護スイッチ
 Mounting chassis	取付シャーシ
 Mounting panels	取付板
+New accounts need the approval of an administrator	新しいアカウントには管理者の承認が必要です
+New catalog	新しいカタログ
 New part based on the open one	開いている部品に基づく新しい部品
 New password	新しいパスワード
+New role	新しいロール
+New user	新しいユーザー
 Newer version	新しいバージョン
 Next	次へ
+No grants: users have the rights of their role	付与なし: ユーザーにはそのロールの権限があります
+No users	ユーザーがいません
 Non-return valves	チェック弁
 Not mounted	取り付けなし
 Nut	ナット
 On the front	前面
 On the left side	左側
 On the right side	右側
+On this server	このサーバー
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	すべての部品とその履歴およびファイル、カタログ、ユーザーとそのお気に入りを含む 1 つの SQLite ファイルです。ユーザーのパスワードハッシュが含まれるため、安全に保管してください。
 Only catalogs without parts can be deleted	削除できるのは部品のないカタログのみです
+Only empty catalogs can be deleted	削除できるのは空のカタログだけです
+Only local accounts	ローカルアカウントのみ
+Open sessions: {}	開いているセッション: {}
 OpenECraft data portal	OpenECraft データポータル
 OpenECraft parts manager	OpenECraft 部品マネージャー
 OpenECraft parts server	OpenECraft 部品サーバー
@@ -252,6 +302,7 @@ Pushbutton	押しボタン
 Rail standoff	レールスペーサー
 Rails	レール
 Reactor	反応器
+Read only	読み取り専用
 Read only: sign in with a user who may change parts of this manufacturer	読み取り専用: このメーカーの部品を変更できるユーザーでサインインしてください
 Read parts	部品の読み取り
 Reader	閲覧者
@@ -261,12 +312,20 @@ Rear / side panel	背板 / 側板
 Rectifier	整流器
 Reducer	レデューサー
 Reducing plates	レデューシングプレート
+Register	登録
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	登録ユーザーは閲覧者になります。お気に入りを保存でき、閲覧にサインインが必要な場合でも部品を閲覧できます。ほかの権限は「ユーザー」で付与します。
+Registration	登録
+Reject the registration of {}? The account is deleted.	{} の登録を却下しますか? アカウントは削除されます。
 Remove the file from the part	ファイルを部品から削除
 Removed from the server	サーバーから削除済み
+Repeat password	パスワードの再入力
+Replace the roles and grants with those of the file?	ロールと付与をファイルの内容で置き換えますか?
 Replaced by {}	{} に置き換え済み
 Resistors	抵抗器
+Restore from a file	ファイルから復元
 Return flushing filters, all-autom.	全自動逆洗フィルター
 Ribbon cables	フラットケーブル
+Roles	ロール
 Roof hook	屋根フック
 Routing accessories	配線付属品
 Routing path (topology)	配線経路 (トポロジー)
@@ -280,6 +339,7 @@ Screw connections	継手
 Screw pumps	スクリューポンプ
 Screw spindle compressors	スクリュー圧縮機
 Scroll compressors	スクロール圧縮機
+Search users	ユーザーを検索
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	カタログを選択するか、新しく作成してください。部品はカタログ ID (部品エディター、[データポータル] タブ) によってカタログに属します。
 Select a user or create a new one.	ユーザーを選択するか、新しく作成してください。
 Selector switch	セレクタースイッチ
@@ -288,6 +348,7 @@ Sensor NC	センサー b接点
 Sensor, switch, and pushbutton	センサー、スイッチ、押しボタン
 Sensors - pressure gauges	センサー - 圧力計
 Serial sub-plates	連結サブプレート
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	サーバーの起動オプションで設定されています (--registration または OPENECRAFT_REGISTRATION)。
 Show parts	部品を表示
 Shut-off accumulators	遮断式アキュムレーター
 Shut-off control valve	遮断弁
@@ -295,12 +356,19 @@ Shut-off flap	遮断ダンパー
 Side panel	側板
 Sifter	分級機
 Sight glass	サイトグラス
+Sign in as an administrator to manage the server	サーバーを管理するには管理者としてサインインしてください
 Sign in or connect with the access token to change parts	部品を変更するには、サインインするかアクセストークンで接続してください
 Sign in to keep favorites	お気に入りを保存するにはサインインしてください
+Sign in with a user account	ユーザーアカウントでサインイン
+Sign in with the access token of the server	サーバーのアクセストークンでサインイン
+Sign out everywhere	すべてサインアウト
+Sign out {} on all devices?	すべてのデバイスで {} をサインアウトしますか?
+Sign-in needed to read	閲覧にはサインインが必要
 Signal device	表示機器
 Signal device, acoustic	信号装置 (音響)
 Signal device, optical	信号装置 (光学)
 Signal lamp	表示灯
+Signed in	サインイン中
 Silencers	サイレンサー
 Silo	サイロ
 Single-phase motor	単相モーター
@@ -312,6 +380,7 @@ Start a server with:  openecraft-parts-server --token <secret>	サーバーの�
 Start openecraft-parts-server with --token to allow changes	変更を許可するには openecraft-parts-server を --token 付きで起動してください
 Steam boiler	蒸気ボイラー
 Stirrer	撹拌機
+Storage	ストレージ
 Strainer	ストレーナー
 Strip label	端子台ラベル
 Sub-plates	サブプレート
@@ -331,22 +400,36 @@ Terminator	終端器
 Terminators, filters	終端器、フィルター
 Test accessories	テスト用付属品
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal では部品の検索と読み取りのみ可能です
+The access settings would leave nobody who manages users	このアクセス設定では、ユーザーを管理できる人がいなくなります
 The access token is only needed for changes; it is not stored.	アクセストークンは変更時にのみ必要です。保存されません。
+The catalogs with their manufacturer, version and description.	メーカー、バージョン、説明付きのカタログです。
 The checksum of {} does not match: the download is damaged	{} のチェックサムが一致しません：ダウンロードが破損しています
 The directory checks the password and sets the groups at every sign-in	ディレクトリはサインインのたびにパスワードを確認し、グループを設定します
+The file holds no access settings	このファイルにはアクセス設定が含まれていません
+The last administrator cannot lose the right to manage users	最後の管理者からユーザー管理の権限を外すことはできません
+The password needs at least {} characters	パスワードは {} 文字以上必要です
+The passwords do not match	パスワードが一致しません
 The project has no parts	プロジェクトに部品がありません
+The registration is closed	登録は受け付けていません
+The registration is open	登録は受け付け中です
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	ロール、付与、サインインなしのアクセスです。復元すると置き換えられます。ディレクトリはサーバーでの設定のまま残ります。
 The server cannot be reached	サーバーに接続できません
 The server sent no text	サーバーからテキストが送信されませんでした
 The upload is finished	アップロードが完了しました
+The users with their role, manufacturer, groups and last sign-in, without passwords.	ロール、メーカー、グループ、最終サインイン付きのユーザーです (パスワードは含みません)。
 Thermometers	温度計
 Thermostat valves	サーモスタット弁
+This user name cannot be used	このユーザー名は使用できません
+This user name is taken	このユーザー名は使用されています
 Three-phase motor	三相モーター
 Three-way control valve	三方弁
 Three-way flap	三方ダンパー
 Three-way valve	三方弁
 Throttle plate	オリフィス板
 Timer relay	タイマーリレー
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	復元するには、--data <ファイル> でサーバーを起動するか、--migrate-from <ファイル> で新しいデータベースにコピーします。
 Too many failed sign-ins, try again later	サインインの失敗が多すぎます。後でもう一度お試しください
+Too many registrations from this address, try again later	このアドレスからの登録が多すぎます。後でもう一度お試しください
 Top cover	天板
 Transformers	変圧器
 Transmission paths	伝送路
@@ -355,7 +438,11 @@ Transporter	搬送装置
 Undefined	未定義
 Uploading {} to Vault ({} %)…	{} を Vault にアップロードしています ({} %)…
 Uploading {} to Vault…	{} を Vault にアップロードしています…
+User account	ユーザーアカウント
+User or group	ユーザーまたはグループ
+User {} exists already. Change it?	ユーザー {} は既に存在します。変更しますか?
 User-defined rail	ユーザー定義レール
+Users may register themselves (as readers)	ユーザーは自分で登録できます (閲覧者として)
 Vacuum pump	真空ポンプ
 Valve / distributor	バルブ / 分配器
 Valve coil	弁コイル
@@ -366,15 +453,21 @@ Ventilation filters	エアブリーザー
 Ventilator	送風機
 Voltage source	電圧源
 Voltage source and generator	電圧源と発電機
+Waiting accounts cannot sign in; approve or reject them in Users.	承認待ちのアカウントはサインインできません。「ユーザー」で承認または却下してください。
 Washer	ワッシャー
 Water traps	ドレントラップ
 Wind deflector	風よけ板
 Wiring material	配線材料
+Without sign-in	サインインなし
+Wrong access token	アクセストークンが正しくありません
 Wrong user name or password	ユーザー名またはパスワードが違います
+Your account awaits the approval of an administrator	アカウントは管理者の承認待ちです
+Your account was created. An administrator has to approve it before you can sign in.	アカウントを作成しました。サインインする前に管理者の承認が必要です。
 access denied – check the personal access token	アクセスが拒否されました – 個人用アクセストークンを確認してください
 by file name	ファイル名で
 changed, not saved	変更済み、未保存
 connection failed: {}	接続に失敗しました: {}
+directory:group	ディレクトリ:グループ
 from the name	名前から
 needed for changes	変更に必要
 new part, not saved	新しい部品、未保存
@@ -387,12 +480,14 @@ the server name is unknown	サーバー名が不明です
 the server refuses the connection (not started, or another port)	サーバーが接続を拒否しています (未起動、または別のポート)
 unchanged if empty	空欄の場合は変更なし
 unexpected answer: {}	予期しない応答: {}
+you	あなた
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	SHA256SUMS に {} のチェックサムがありません
 {} parts in {} catalogs, revision {}	部品 {} 個 (カタログ {} 個)、リビジョン {}
 {} parts, {} catalogs, {}	部品 {} 個、カタログ {} 個、{}
 {} – save to upload it	{} – 保存するとアップロードされます
 {}: the part is no longer open	{}: 部品はもう開いていません
+{}: {} parts added, {} updated, {} kept	{}: {} 件の部品を追加、{} 件を更新、{} 件を維持
 ⎘ Copy	⎘ コピー
 ✔ Save	✔ 保存
 ➕ New	➕ 新規

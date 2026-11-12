@@ -1,19 +1,34 @@
 # English<TAB>Українська – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(перейменовано з {})
 19-inch module technology	19-дюймова конструктивна система
+A catalog id must not be empty or contain blanks	Ідентифікатор каталогу не може бути порожнім або містити пробіли
+A manufacturer user needs a manufacturer	Користувачу-виробнику потрібен виробник
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Роль — це набір прав. Призначення надають користувачу або групі роль для виробів виробника (* і ? як символи підстановки, * для всіх); забороняльне призначення забирає права ролі, незалежно від інших призначень.
+A user name must not be empty or contain blanks	Ім’я користувача не може бути порожнім або містити пробіли
+Access rights	Права доступу
+Access settings saved	Параметри доступу збережено
 Accumulator blocks	Блоки акумуляторів
 Accumulators	Акумулятори
 Actuators, general	Виконавчі механізми, загальні
 Adapter	Адаптер
 Adapter plates	Перехідні плити
+Add grant	Додати призначення
 Adds new parts and replaces existing ones on the server	Додає нові вироби та замінює наявні на сервері
+Administration	Адміністрування
+All manufacturers	Усі виробники
 All parts	Усі вироби
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Усі вироби з їхніми даними — для електронних таблиць або імпорту на інший сервер. Їхні файли є лише в резервній копії бази даних.
 Amplifiers, controllers	Підсилювачі, регулятори
 Analog sensor	Аналоговий датчик
+Approval of new accounts	Схвалення нових облікових записів
+Approved user {}	Користувача {} схвалено
+At least {} characters	Щонайменше {} символів
 Attachment nut	Насадка
 Auxiliary block	Блок допоміжних контактів
 Auxiliary contact block	Блок допоміжних контактів
 Auxiliary switch	Допоміжний вимикач
+Awaiting approval	Очікує схвалення
+Awaiting approval: {}	Очікують схвалення: {}
 Back to the results	Назад до результатів
 Ball valve pneumatic	Кульовий кран пневматичний
 Ball valves	Кульові крани
@@ -23,22 +38,28 @@ Block ball valves	Блокові кульові крани
 Body	Корпус-основа
 Brake motor	Двигун із гальмом
 Built into the part	Вбудовано у виріб
+Built-in	Вбудована
+Bundled catalogs	Вбудовані каталоги
 Bunker	Бункер
 Busbar cover	Кожух збірних шин
 Busbars	Збірні шини
 C horizontal rails	Горизонтальні C-профілі
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (з назвами стовпців експорту), JSON, BMEcat або EPLAN XML. Вироби з тим самим номером замінюються; їхні файли зберігаються.
 Cable / tubing clamp	Кріплення кабелів / шлангів
 Cable / tubing protection	Захист кабелів / шлангів
 Cable / tubing tie	Стяжка для кабелів / шлангів
 Cable clamp rails	Рейки для кріплення кабелів
 Cable ducts	Кабельні канали
 Capacitors	Конденсатори
+Catalog {} exists already. Change it?	Каталог {} уже існує. Змінити його?
 Catalogs	Каталоги
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Каталоги, що постачаються із сервером. Встановлення додає їхні вироби й оновлює ті, які ніхто не змінював на цьому сервері.
 Central lubrication power units	Агрегати централізованого змащування
 Centrifugal pumps	Відцентрові насоси
 Centrifuge	Центрифуга
 Certificate	Сертифікат
 Changed	Змінено
+Changes allowed	Зміни дозволено
 Check control valve	Зворотна арматура
 Check flap	Зворотна заслінка
 Chimney	Димова труба
@@ -66,6 +87,7 @@ Coupling motor pumps	Мотор-насоси з муфтою
 Couplings	Муфти
 Cover plates	Кришки
 Create / update the part on the server (Ctrl+S)	Створити / оновити виріб на сервері (Ctrl+S)
+Create an account on this server	Створити обліковий запис на цьому сервері
 Created	Створено
 Crimp contact	Обтискний контакт
 Cross-connector	Поперечна перемичка
@@ -74,8 +96,11 @@ Cylinders	Циліндри
 DC motor	Двигун постійного струму
 DC-DC converter	Перетворювач DC-DC
 Data recorder	Реєстратор даних
+Database backup	Резервна копія бази даних
 Datasheet	Технічний паспорт
+Defined roles	Визначені ролі
 Delete catalog {} from the server?	Видалити каталог {} із сервера?
+Delete catalog {}?	Видалити каталог {}?
 Delete part {} from the server? This cannot be undone.	Видалити виріб {} із сервера? Цю дію не можна скасувати.
 Delete parts	Видаляти вироби
 Delete user {}? Their sessions and favorites are removed.	Видалити користувача {}? Його сеанси та вибране буде вилучено.
@@ -83,6 +108,8 @@ Deleted	Видалено
 Digital sensor, general	Цифровий датчик, загальний
 Directional control valves	Розподільники
 Directional control valves, coaxial	Розподільники коаксіальні
+Directories	Служби каталогів
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Служби каталогів (Active Directory, LDAP) налаштовуються у файлі параметрів доступу сервера.
 Directory	Служба каталогів
 Dirt trap	Грязьовик
 Discard the changes	Відхилити зміни
@@ -91,13 +118,16 @@ Discontinued	Знято з виробництва
 Display device	Пристрій індикації
 Document holder	Кишеня для документації
 Door handle	Дверна ручка
+Download	Завантажити
 Drawings box	Кишеня для документації
 Dryer	Сушарка
 Dummy plate	Заглушка
 Duplex switch filters	Здвоєні перемикні фільтри
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Редагувати каталог {}
 Edit catalogs	Редагувати каталоги
 Edit parts	Редагувати вироби
+Edit user {}	Редагувати користувача {}
 Electrical engineering - special items	Електротехніка – спеціальні вироби
 Electrically-operated mechanical devices	Механічні пристрої з електричним приводом
 Electrolysis cell	Електролізна комірка
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Введіт�
 Evaporator	Випарник
 Exhaust valves	Клапани для випуску повітря
 Export (CSV)	Експорт (CSV)
+Export and backup	Експорт і резервна копія
+Export the parts, catalogs and settings, or download a backup of the whole database.	Експортуйте вироби, каталоги й параметри або завантажте резервну копію всієї бази даних.
 Exported {} parts to {}	Експортовано виробів: {} до {}
 Extraction hood	Витяжний зонт
 Feed-through terminal	Прохідна клема
@@ -133,6 +165,7 @@ Front view (2D)	Фронтальний вигляд (2D)
 Funnel	Лійка
 Furnace	Піч
 Generator	Генератор
+Grants	Призначення
 Grants of the server's access settings can refer to them	На них можуть посилатися призначення в параметрах доступу сервера
 Ground fault current circuit breaker	Пристрій захисного вимкнення
 Ground fault voltage circuit-breaker	Вимикач захисту від напруги замикання на землю
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Аксесуари корпусу, вн�
 Hydraulic motors	Гідромотори
 Hydraulic tanks	Гідравлічні баки
 Import / export	Імпорт / експорт
+Import parts	Імпорт виробів
+Imported {} parts (revision {})	Імпортовано виробів: {} (ревізія {})
 Inductors	Котушки індуктивності
+Install	Встановити
+Install again	Встановити знову
 Intermediate plates	Проміжні плити
 Isolating valves	Запірні клапани
 KNX actuator	Виконавчий пристрій KNX
 KNX system device	Системний пристрій KNX
 Key switch	Перемикач із ключем
 Kneader	Місильна машина
+Last sign-in	Останній вхід
 Legend plate	Табличка з написом
 Level detector	Граничний сигналізатор
 Level switches	Сигналізатори рівня
@@ -165,6 +203,7 @@ Line return filters	Зливні фільтри
 Lines / conduits	Лінії / пакети
 Load all parts from the server again	Завантажити всі вироби із сервера повторно
 Loading…	Завантаження…
+Local	Локальний
 Lock systems	Системи замків
 Locking couplings	Запірні муфти
 Logic item	Логічний елемент
@@ -183,17 +222,28 @@ Modulators	Модулятори
 Motor overload switch	Автоматичний вимикач захисту двигуна
 Mounting chassis	Монтажне шасі
 Mounting panels	Монтажні панелі
+New accounts need the approval of an administrator	Новим обліковим записам потрібне схвалення адміністратора
+New catalog	Новий каталог
 New part based on the open one	Новий виріб на основі відкритого
 New password	Новий пароль
+New role	Нова роль
+New user	Новий користувач
 Newer version	Новіша версія
 Next	Далі
+No grants: users have the rights of their role	Немає призначень: користувачі мають права своєї ролі
+No users	Немає користувачів
 Non-return valves	Зворотні клапани
 Not mounted	Не монтується
 Nut	Гайка
 On the front	Спереду
 On the left side	Ліворуч
 On the right side	Праворуч
+On this server	На цьому сервері
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Один файл SQLite з усіма виробами, їхньою історією та файлами, каталогами, користувачами та їхнім вибраним. Він містить хеші паролів користувачів: зберігайте його в надійному місці.
 Only catalogs without parts can be deleted	Видаляти можна лише каталоги без виробів
+Only empty catalogs can be deleted	Видаляти можна лише порожні каталоги
+Only local accounts	Лише локальні облікові записи
+Open sessions: {}	Відкриті сеанси: {}
 OpenECraft data portal	Портал даних OpenECraft
 OpenECraft parts manager	Керування виробами OpenECraft
 OpenECraft parts server	Сервер виробів OpenECraft
@@ -253,6 +303,7 @@ Pushbutton	Кнопка
 Rail standoff	Дистанційна стійка шини
 Rails	Рейки
 Reactor	Реактор
+Read only	Лише читання
 Read only: sign in with a user who may change parts of this manufacturer	Лише читання: увійдіть як користувач, якому дозволено змінювати вироби цього виробника
 Read parts	Читати вироби
 Reader	Читач
@@ -262,12 +313,20 @@ Rear / side panel	Задня / бічна стінка
 Rectifier	Випрямляч
 Reducer	Перехідник
 Reducing plates	Редукційні плити
+Register	Зареєструватися
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Зареєстровані користувачі стають читачами: вони зберігають вибране й читають вироби, навіть якщо для читання потрібен вхід. Додаткові права надаються в розділі «Користувачі».
+Registration	Реєстрація
+Reject the registration of {}? The account is deleted.	Відхилити реєстрацію {}? Обліковий запис буде видалено.
 Remove the file from the part	Вилучити файл із виробу
 Removed from the server	Вилучено із сервера
+Repeat password	Повторіть пароль
+Replace the roles and grants with those of the file?	Замінити ролі та призначення даними з файлу?
 Replaced by {}	Замінено на {}
 Resistors	Резистори
+Restore from a file	Відновити з файлу
 Return flushing filters, all-autom.	Фільтри зворотного промивання, повністю автомат.
 Ribbon cables	Плоскі шлейфові кабелі
+Roles	Ролі
 Roof hook	Покрівельний гак
 Routing accessories	Аксесуари для прокладання
 Routing path (topology)	Ділянка прокладання (топологія)
@@ -281,6 +340,7 @@ Screw connections	Різьбові з’єднання
 Screw pumps	Гвинтові насоси
 Screw spindle compressors	Гвинтові компресори
 Scroll compressors	Спіральні компресори
+Search users	Пошук користувачів
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Виберіть каталог або створіть новий. Вироби належать до каталогу через свій ідентифікатор каталогу (редактор виробів, вкладка «Портал даних»).
 Select a user or create a new one.	Виберіть користувача або створіть нового.
 Selector switch	Перемикач режимів
@@ -289,6 +349,7 @@ Sensor NC	Датчик, розмикальний
 Sensor, switch, and pushbutton	Датчики, перемикачі та кнопки
 Sensors - pressure gauges	Датчики – манометри
 Serial sub-plates	Плити послідовного приєднання
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Задано параметрами запуску сервера (--registration або OPENECRAFT_REGISTRATION).
 Show parts	Показати вироби
 Shut-off accumulators	Запірні акумулятори
 Shut-off control valve	Запірна арматура
@@ -296,12 +357,19 @@ Shut-off flap	Запірна заслінка
 Side panel	Бічна стінка
 Sifter	Класифікатор
 Sight glass	Оглядове скло
+Sign in as an administrator to manage the server	Увійдіть як адміністратор, щоб керувати сервером
 Sign in or connect with the access token to change parts	Увійдіть або підключіться з токеном доступу, щоб змінювати вироби
 Sign in to keep favorites	Увійдіть, щоб зберігати вибране
+Sign in with a user account	Увійти з обліковим записом
+Sign in with the access token of the server	Увійти з токеном доступу сервера
+Sign out everywhere	Вийти всюди
+Sign out {} on all devices?	Завершити сеанси {} на всіх пристроях?
+Sign-in needed to read	Для читання потрібен вхід
 Signal device	Сигнальний пристрій
 Signal device, acoustic	Сигнальний пристрій, звуковий
 Signal device, optical	Сигнальний пристрій, світловий
 Signal lamp	Сигнальна лампа
+Signed in	Увійшли
 Silencers	Глушники
 Silo	Силос
 Single-phase motor	Однофазний двигун
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Запустіт�
 Start openecraft-parts-server with --token to allow changes	Запустіть openecraft-parts-server із --token, щоб дозволити зміни
 Steam boiler	Паровий котел
 Stirrer	Мішалка
+Storage	Сховище
 Strainer	Сито
 Strip label	Табличка клемної колодки
 Sub-plates	Приєднувальні плити
@@ -332,22 +401,36 @@ Terminator	Кінцева кришка
 Terminators, filters	Кінцеві пристрої, фільтри
 Test accessories	Аксесуари для випробувань
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal пропонує лише пошук і читання виробів
+The access settings would leave nobody who manages users	З такими параметрами доступу ніхто не зможе керувати користувачами
 The access token is only needed for changes; it is not stored.	Токен доступу потрібен лише для змін; він не зберігається.
+The catalogs with their manufacturer, version and description.	Каталоги з виробником, версією та описом.
 The checksum of {} does not match: the download is damaged	Контрольна сума {} не збігається: завантаження пошкоджене
 The directory checks the password and sets the groups at every sign-in	Служба каталогів перевіряє пароль і встановлює групи під час кожного входу
+The file holds no access settings	Файл не містить параметрів доступу
+The last administrator cannot lose the right to manage users	Останній адміністратор не може втратити право керувати користувачами
+The password needs at least {} characters	Пароль має містити щонайменше {} символів
+The passwords do not match	Паролі не збігаються
 The project has no parts	Проєкт не має виробів
+The registration is closed	Реєстрацію закрито
+The registration is open	Реєстрацію відкрито
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Ролі, призначення та доступ без входу. Відновлення замінює їх; служби каталогів залишаються такими, як налаштовано на сервері.
 The server cannot be reached	Сервер недоступний
 The server sent no text	Сервер не надіслав тексту
 The upload is finished	Передавання завершено
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Користувачі з роллю, виробником, групами та останнім входом, без паролів.
 Thermometers	Термометри
 Thermostat valves	Термостатичні клапани
+This user name cannot be used	Це ім’я користувача не можна використати
+This user name is taken	Це ім’я користувача зайняте
 Three-phase motor	Трифазний двигун
 Three-way control valve	Триходова арматура
 Three-way flap	Триходова заслінка
 Three-way valve	Триходовий клапан
 Throttle plate	Дросельна шайба
 Timer relay	Реле часу
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Щоб відновити її, запустіть сервер із --data <файл> або скопіюйте її в нову базу даних за допомогою --migrate-from <файл>.
 Too many failed sign-ins, try again later	Забагато невдалих спроб входу, спробуйте пізніше
+Too many registrations from this address, try again later	Забагато реєстрацій із цієї адреси, спробуйте пізніше
 Top cover	Дах
 Transformers	Трансформатори
 Transmission paths	Лінії передачі
@@ -357,7 +440,11 @@ Undefined	Не визначено
 Under the part (base)	Під виробом (основа)
 Uploading {} to Vault ({} %)…	Передавання {} у Vault ({} %)…
 Uploading {} to Vault…	Передавання {} у Vault…
+User account	Обліковий запис
+User or group	Користувач або група
+User {} exists already. Change it?	Користувач {} уже існує. Змінити його?
 User-defined rail	Користувацька рейка
+Users may register themselves (as readers)	Користувачі можуть реєструватися самі (як читачі)
 Vacuum pump	Вакуумний насос
 Valve / distributor	Клапан / розподільник
 Valve coil	Котушка клапана
@@ -368,15 +455,21 @@ Ventilation filters	Сапуни
 Ventilator	Вентилятор
 Voltage source	Джерело напруги
 Voltage source and generator	Джерело напруги та генератор
+Waiting accounts cannot sign in; approve or reject them in Users.	Облікові записи в очікуванні не можуть увійти; схваліть або відхиліть їх у розділі «Користувачі».
 Washer	Шайба
 Water traps	Водовідокремлювачі
 Wind deflector	Вітровий дефлектор
 Wiring material	Монтажний матеріал
+Without sign-in	Без входу
+Wrong access token	Неправильний токен доступу
 Wrong user name or password	Неправильне ім'я користувача або пароль
+Your account awaits the approval of an administrator	Обліковий запис очікує схвалення адміністратора
+Your account was created. An administrator has to approve it before you can sign in.	Обліковий запис створено. Адміністратор має схвалити його, перш ніж ви зможете увійти.
 access denied – check the personal access token	доступ заборонено – перевірте персональний маркер доступу
 by file name	за назвою файлу
 changed, not saved	змінено, не збережено
 connection failed: {}	помилка підключення: {}
+directory:group	каталог:група
 from the name	з назви
 needed for changes	потрібен для змін
 new part, not saved	новий виріб, не збережено
@@ -389,12 +482,14 @@ the server name is unknown	ім'я сервера невідоме
 the server refuses the connection (not started, or another port)	сервер відхиляє підключення (не запущено або інший порт)
 unchanged if empty	без змін, якщо порожньо
 unexpected answer: {}	неочікувана відповідь: {}
+you	ви
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	Для {} немає контрольної суми в SHA256SUMS
 {} parts in {} catalogs, revision {}	Виробів: {}, каталогів: {}, ревізія {}
 {} parts, {} catalogs, {}	Виробів: {}, каталогів: {}, {}
 {} – save to upload it	{} – збережіть, щоб вивантажити
 {}: the part is no longer open	{}: виріб більше не відкрито
+{}: {} parts added, {} updated, {} kept	{}: додано виробів: {}, оновлено: {}, збережено: {}
 ⎘ Copy	⎘ Копіювати
 ✔ Save	✔ Зберегти
 ➕ New	➕ Створити

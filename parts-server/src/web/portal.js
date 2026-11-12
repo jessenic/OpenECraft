@@ -4,17 +4,29 @@ const LIMIT = 25;
 const FIXED = ["top_group", "group", "subgroup", "manufacturer", "catalog", "lifecycle"];
 const TITLES = { top_group: "Product top group", group: "Product group", subgroup: "Product subgroup", manufacturer: "Manufacturer", catalog: "Catalog", lifecycle: "Lifecycle" };
 const KEYED = { top_group: "top_group", lifecycle: "lifecycle" };
-let T = { texts: {}, keys: {}, languages: [], lang: "en" };
+let T = { texts: {}, keys: {}, languages: [], lang: "en", rights: [], roles: [] };
 let query = blank();
 let view = "parts";
 let favorites = [];
 let catalogNames = {};
+let catalogManufacturers = {};
 let expanded = {};
-let session = load("session");
+let session = load("session") || loadTemporary("session");
+/// The sign-in form: "user" (name and password), "token" (administrator token) or
+/// "register" (a new account, when the server lets users register).
+let loginMode = "user";
+let registrationOpen = false;
 
 function blank() { return { q: null, top_group: null, group: null, subgroup: null, manufacturer: null, catalog: null, lifecycle: null, attributes: [], numbers: [], sort: "Number", descending: false, brief: true, offset: 0, limit: LIMIT }; }
 function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
 function save(k, v) { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function loadTemporary(k) { try { return JSON.parse(sessionStorage.getItem(k)); } catch (e) { return null; } }
+/// Keeps the session for the next visit; one with the access token only for this tab.
+function keepSession() {
+  const temporary = !!session && session.kind === "token";
+  try { temporary ? sessionStorage.setItem("session", JSON.stringify(session)) : sessionStorage.removeItem("session"); } catch (e) {}
+  save("session", session && !temporary ? session : null);
+}
 function esc(s) { return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 function t(s) { return T.texts[s] || s; }
 function tf(s, ...args) { let i = 0; return t(s).replace(/\{(\d*)\}/g, (_, n) => esc(args[n === "" ? i++ : +n])); }
@@ -41,6 +53,7 @@ function exportUrl() {
 /// Back, Forward and bookmarks work.
 function stateHash() {
   if (view === "catalogs") return "catalogs";
+  if (view === "admin") return "admin/" + adminTab;
   const p = new URLSearchParams();
   if (view === "favorites") p.set("view", "favorites");
   for (const k of ["q"].concat(FIXED)) if (query[k]) p.set(k, query[k]);
@@ -53,6 +66,7 @@ function stateHash() {
 function readHash() {
   const h = location.hash.replace(/^#/, "");
   if (h === "catalogs") { view = "catalogs"; return; }
+  if (h === "admin" || h.startsWith("admin/")) { view = "admin"; adminTab = h.slice(6) || "overview"; return; }
   const p = new URLSearchParams(h);
   view = p.get("view") === "favorites" ? "favorites" : "parts";
   const q = blank();
@@ -82,7 +96,7 @@ async function api(path, options = {}) {
   const r = await fetch(API + path, Object.assign({}, options, { headers }));
   // A session the server no longer knows: sign out and read anonymously.
   if (r.status === 401 && session && !options.retried && path !== "/login") {
-    session = null; favorites = []; save("session", null); renderAccount();
+    session = null; favorites = []; keepSession(); renderAccount();
     return api(path, Object.assign({}, options, { retried: true }));
   }
   if (!r.ok) {
@@ -90,7 +104,7 @@ async function api(path, options = {}) {
     try { msg = (await r.json()).error || msg; } catch (e) {}
     const err = new Error(msg); err.status = r.status; throw err;
   }
-  return r.status === 204 ? null : r.json();
+  return r.status === 204 ? null : options.raw ? r.blob() : r.json();
 }
 
 function translatePage() {
@@ -112,32 +126,93 @@ async function setLanguage(code) {
 
 function renderAccount() {
   const box = document.getElementById("account");
+  document.getElementById("nav-admin").hidden = !adminAllowed();
   if (session) {
     box.innerHTML = '<span class="muted">' + tf("Signed in as {}", session.user.name) + " (" + esc(key("role", session.user.role)) + ')</span><button id="logout">' + esc(t("Sign out")) + "</button>";
     document.getElementById("logout").onclick = logout;
   } else {
-    box.innerHTML = '<form id="login" style="display:flex;gap:6px;flex-wrap:wrap"><input id="user" autocomplete="username" placeholder="' + esc(t("User name")) + '"><input id="pw" type="password" autocomplete="current-password" placeholder="' + esc(t("Password")) + '"><button>' + esc(t("Sign in")) + '</button></form><span id="login-error" class="error"></span>';
+    if (loginMode === "register" && !registrationOpen) loginMode = "user";
+    const input = (id, type, auto, hint) => '<input id="' + id + '"' + (type ? ' type="' + type + '"' : "") + ' autocomplete="' + auto + '" placeholder="' + esc(hint) + '" aria-label="' + esc(hint) + '">';
+    const link = (mode, label, title) => '<button type="button" class="link" data-mode="' + mode + '"' + (title ? ' title="' + esc(title) + '"' : "") + ">" + esc(label) + "</button>";
+    let fields, submit, links;
+    if (loginMode === "token") {
+      fields = input("token", "password", "off", t("Access token"));
+      submit = t("Sign in");
+      links = link("user", t("User account"), t("Sign in with a user account"));
+    } else if (loginMode === "register") {
+      fields = input("user", "", "username", t("User name")) + input("pw", "password", "new-password", t("Password")) + input("pw2", "password", "new-password", t("Repeat password"));
+      submit = t("Register");
+      links = link("user", t("Cancel"));
+    } else {
+      fields = input("user", "", "username", t("User name")) + input("pw", "password", "current-password", t("Password"));
+      submit = t("Sign in");
+      links = (registrationOpen ? link("register", t("Register"), t("Create an account on this server")) : "") + link("token", t("Access token"), t("Sign in with the access token of the server"));
+    }
+    box.innerHTML = '<form id="login" style="display:flex;gap:6px;flex-wrap:wrap">' + fields + '<button class="' + (loginMode === "register" ? "primary" : "") + '">' + esc(submit) + "</button>" + links +
+      '</form><span id="login-error" class="error"></span>';
+    box.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { loginMode = b.dataset.mode; renderAccount(); document.querySelector("#login input").focus(); });
+    const fail = msg => { document.getElementById("login-error").textContent = msg; };
     document.getElementById("login").onsubmit = async e => {
       e.preventDefault();
+      const value = id => document.getElementById(id).value;
       try {
-        session = await api("/login", { method: "POST", json: { name: document.getElementById("user").value, password: document.getElementById("pw").value } });
-        save("session", session);
+        if (loginMode === "token") {
+          const token = value("token").trim();
+          const info = await api("/info", { headers: { Authorization: "Bearer " + token } });
+          if (!info.user) throw Object.assign(new Error(t("Wrong access token")), { status: 0 });
+          session = { token, user: info.user, access: info.access, kind: "token" };
+        } else if (loginMode === "register") {
+          const name = value("user").trim();
+          if (!name || /\s/.test(name)) { fail(t("A user name must not be empty or contain blanks")); return; }
+          if (value("pw") !== value("pw2")) { fail(t("The passwords do not match")); return; }
+          if (value("pw").trim().length < 8) { fail(tf("The password needs at least {} characters", 8).replace(/&[^;]+;/g, "")); return; }
+          const created = await api("/register", { method: "POST", json: { name, password: value("pw") } });
+          loginMode = "user";
+          // Waiting for an administrator: no session yet.
+          if (!created.token) {
+            renderAccount();
+            const note = document.getElementById("login-error");
+            note.className = "ok";
+            note.textContent = t("Your account was created. An administrator has to approve it before you can sign in.");
+            return;
+          }
+          session = created;
+        } else {
+          session = await api("/login", { method: "POST", json: { name: value("user"), password: value("pw") } });
+        }
+        keepSession();
         await loadFavorites();
         renderAccount();
         route();
       } catch (err) {
-        const msg = err.status === 401 ? t("Wrong user name or password") : err.status === 429 ? t("Too many failed sign-ins, try again later") : err.message;
-        document.getElementById("login-error").textContent = msg;
+        const register = loginMode === "register";
+        if (register && err.status === 409) fail(t("This user name is taken"));
+        else if (register && err.status === 403) { registrationOpen = false; renderAccount(); fail(t("The registration is closed")); }
+        else if (register && err.status === 429) fail(t("Too many registrations from this address, try again later"));
+        else if (register && err.status === 400) fail(t("This user name cannot be used"));
+        else if (loginMode === "user" && err.status === 403) fail(t("Your account awaits the approval of an administrator"));
+        else fail(err.status === 401 ? (loginMode === "token" ? t("Wrong access token") : t("Wrong user name or password")) : err.status === 429 ? t("Too many failed sign-ins, try again later") : err.message);
       }
     };
   }
 }
 
+/// The user and the rights of the session as the server sees them now (roles and
+/// grants may have changed since the sign-in).
+async function refreshSession() {
+  if (!session) return;
+  try {
+    const info = await api("/info");
+    if (info.user && session) { session.user = info.user; session.access = info.access; keepSession(); }
+  } catch (e) {}
+  renderAccount();
+}
+
 async function logout() {
   try { await api("/logout", { method: "POST" }); } catch (e) {}
-  session = null; favorites = []; save("session", null);
+  session = null; favorites = []; keepSession();
   renderAccount();
-  if (view === "favorites") view = "parts";
+  if (view === "favorites" || view === "admin") view = "parts";
   go();
 }
 
@@ -145,7 +220,7 @@ async function loadFavorites() {
   favorites = [];
   if (!session) return;
   try { favorites = await api("/favorites"); }
-  catch (e) { if (e.status === 401) { session = null; save("session", null); } }
+  catch (e) { if (e.status === 401) { session = null; keepSession(); } }
 }
 
 async function toggleFavorite(number) {
@@ -155,7 +230,7 @@ async function toggleFavorite(number) {
 }
 
 function setNav() {
-  for (const v of ["parts", "favorites", "catalogs"]) document.getElementById("nav-" + v).classList.toggle("active", view === v);
+  for (const v of ["parts", "favorites", "catalogs", "admin"]) document.getElementById("nav-" + v).classList.toggle("active", view === v);
 }
 
 function content(html) { document.getElementById("content").innerHTML = html; }
@@ -484,12 +559,16 @@ function route() {
   const m = location.hash.match(/^#part=(.+)$/);
   if (m) { showPart(decodeURIComponent(m[1])); return; }
   readHash();
-  if (view === "catalogs") showCatalogs(); else search();
+  if (view === "catalogs") showCatalogs(); else if (view === "admin") showAdmin(); else search();
 }
 
 async function footer() {
   try {
     const info = await api("/info");
+    if (registrationOpen !== !!info.registration) {
+      registrationOpen = !!info.registration;
+      if (!session) renderAccount();
+    }
     document.getElementById("footer").textContent = info.name + " " + info.version + " · " + tf("{} parts in {} catalogs, revision {}", info.parts, info.catalogs, info.revision).replace(/&[^;]+;/g, "");
   } catch (e) {}
 }
@@ -499,7 +578,8 @@ async function start() {
   const asked = new URLSearchParams(location.search).get("lang");
   const stored = load("lang");
   try { await setLanguage(asked || stored || navigator.language || "en"); } catch (e) {}
-  try { (await api("/catalogs")).forEach(c => catalogNames[c.id.toLowerCase()] = c.name); } catch (e) {}
+  try { (await api("/catalogs")).forEach(c => { catalogNames[c.id.toLowerCase()] = c.name; catalogManufacturers[c.id.toLowerCase()] = c.manufacturer; }); } catch (e) {}
+  await refreshSession();
   await loadFavorites();
   renderAccount();
   document.getElementById("lang").onchange = async e => { await setLanguage(e.target.value); route(); footer(); };
@@ -507,12 +587,13 @@ async function start() {
     e.preventDefault();
     query.q = document.getElementById("q").value.trim() || null;
     query.offset = 0;
-    if (view === "catalogs") view = "parts";
+    if (view === "catalogs" || view === "admin") view = "parts";
     go();
   };
   document.getElementById("nav-parts").onclick = () => { view = "parts"; query.numbers = []; query.offset = 0; go(); };
   document.getElementById("nav-favorites").onclick = async () => { view = "favorites"; query.offset = 0; await loadFavorites(); go(); };
   document.getElementById("nav-catalogs").onclick = () => { view = "catalogs"; go(); };
+  document.getElementById("nav-admin").onclick = () => { view = "admin"; go(); };
   window.onhashchange = route;
   route();
   footer();

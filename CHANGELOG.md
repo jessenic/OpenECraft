@@ -5,6 +5,25 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.2] - unreleased
 
+- **Administration of the parts server on its web page:** *Administration* shows an
+  overview of the server and manages the users (create, change, delete, last sign-in,
+  sign out everywhere), the access rights (sign-in for reading, roles, grants), the
+  catalogs (also installing the bundled ones), the import of parts, and exports and
+  backups: the parts as CSV or JSON, catalogs, users, access settings (also restored)
+  and the whole database as one SQLite file. On a new server an administrator signs in
+  with the access token. New API: `GET /export.json`, `GET /backup`, `GET /bundled`,
+  `POST /bundled/{id}`, `DELETE /users/{name}/sessions`; `GET /users` also returns the
+  open sessions and the last sign-in ([parts server](docs/parts-server.md)).
+- **Registration on the parts server:** users can create an account themselves
+  (*Register* next to the sign-in) and become readers, when it is switched on in
+  *Administration › Access rights* or with `--registration`, `OPENECRAFT_REGISTRATION`
+  or `registration` in the configuration file; it is closed by default. New accounts
+  wait for the approval of an administrator (*Administration › Users*: approve or
+  reject) unless approval is switched off. Registrations are throttled per client,
+  names that grants refer to cannot be taken. Command line / MCP:
+  `parts_registration` (`enabled`, `approval`), `parts_user_approve`. New API:
+  `POST /register`, `GET|PUT /registration`, `POST /users/{name}/approval`; `/info`
+  tells whether the registration is open.
 - **EPLAN Data Portal downloads:** DXF and commercial-data downloads use the current
   POST API, and the connection test checks the protected file-provider service without
   downloading commercial data. On Windows, an explicit Remember token option lets

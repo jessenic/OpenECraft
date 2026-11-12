@@ -1,19 +1,34 @@
 # English<TAB>Türkçe – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(önceki adı: {})
 19-inch module technology	19 inç modül teknolojisi
+A catalog id must not be empty or contain blanks	Katalog kimliği boş olamaz veya boşluk içeremez
+A manufacturer user needs a manufacturer	Üretici kullanıcısı için bir üretici gerekir
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Rol, bir haklar kümesidir. Yetki atamaları bir kullanıcıya veya gruba bir üreticinin parçaları üzerinde bir rol verir (joker karakter olarak * ve ?, tümü için *); reddeden bir atama, diğer atamalar ne verirse versin rolün haklarını geri alır.
+A user name must not be empty or contain blanks	Kullanıcı adı boş olamaz veya boşluk içeremez
+Access rights	Erişim hakları
+Access settings saved	Erişim ayarları kaydedildi
 Accumulator blocks	Akümülatör blokları
 Accumulators	Akümülatörler
 Actuators, general	Aktüatörler, genel
 Adapter	Adaptör
 Adapter plates	Adaptör plakaları
+Add grant	Yetki ataması ekle
 Adds new parts and replaces existing ones on the server	Sunucuya yeni parçalar ekler ve mevcut olanları değiştirir
+Administration	Yönetim
+All manufacturers	Tüm üreticiler
 All parts	Tüm parçalar
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Tüm parçalar verileriyle birlikte; elektronik tablolar için veya başka bir sunucuya aktarmak için. Dosyaları yalnızca veritabanı yedeğindedir.
 Amplifiers, controllers	Yükselteçler, kontrolörler
 Analog sensor	Analog sensör
+Approval of new accounts	Yeni hesapların onayı
+Approved user {}	{} kullanıcısı onaylandı
+At least {} characters	En az {} karakter
 Attachment nut	Geçme başlık
 Auxiliary block	Yardımcı blok
 Auxiliary contact block	Yardımcı kontak bloğu
 Auxiliary switch	Yardımcı şalter
+Awaiting approval	Onay bekliyor
+Awaiting approval: {}	Onay bekleyen: {}
 Back to the results	Sonuçlara dön
 Ball valve pneumatic	Pnömatik küresel vana
 Ball valves	Küresel vanalar
@@ -23,22 +38,28 @@ Block ball valves	Blok küresel vanalar
 Body	Gövde
 Brake motor	Frenli motor
 Built into the part	Parçaya yerleşik
+Built-in	Yerleşik
+Bundled catalogs	Birlikte gelen kataloglar
 Bunker	Bunker
 Busbar cover	Bara kapağı
 Busbars	Baralar
 C horizontal rails	C profil rayları
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (dışa aktarmanın sütun adlarıyla), JSON, BMEcat veya EPLAN XML. Aynı numaralı parçalar değiştirilir; dosyaları korunur.
 Cable / tubing clamp	Kablo / hortum sabitleme
 Cable / tubing protection	Kablo / hortum koruması
 Cable / tubing tie	Kablo / hortum bağı
 Cable clamp rails	Kablo tutma rayları
 Cable ducts	Kablo kanalları
 Capacitors	Kondansatörler
+Catalog {} exists already. Change it?	{} kataloğu zaten var. Değiştirilsin mi?
 Catalogs	Kataloglar
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Sunucuyla birlikte gelen kataloglar. Yükleme, bunların parçalarını ekler ve bu sunucuda kimsenin değiştirmediklerini günceller.
 Central lubrication power units	Merkezi yağlama üniteleri
 Centrifugal pumps	Santrifüj pompalar
 Centrifuge	Santrifüj
 Certificate	Sertifika
 Changed	Değiştirildi
+Changes allowed	Değişikliklere izin verilir
 Check control valve	Çek valf
 Check flap	Çek klape
 Chimney	Baca
@@ -66,6 +87,7 @@ Coupling motor pumps	Kaplinli motor pompalar
 Couplings	Kaplinler
 Cover plates	Kapak plakaları
 Create / update the part on the server (Ctrl+S)	Parçayı sunucuda oluştur / güncelle (Ctrl+S)
+Create an account on this server	Bu sunucuda bir hesap oluştur
 Created	Oluşturuldu
 Crimp contact	Krimp kontak
 Cross-connector	Köprü
@@ -74,8 +96,11 @@ Cylinders	Silindirler
 DC motor	DC motor
 DC-DC converter	DC-DC dönüştürücü
 Data recorder	Veri kaydedici
+Database backup	Veritabanı yedeği
 Datasheet	Veri sayfası
+Defined roles	Tanımlı roller
 Delete catalog {} from the server?	{} kataloğu sunucudan silinsin mi?
+Delete catalog {}?	{} kataloğu silinsin mi?
 Delete part {} from the server? This cannot be undone.	{} parçası sunucudan silinsin mi? Bu işlem geri alınamaz.
 Delete parts	Parçaları sil
 Delete user {}? Their sessions and favorites are removed.	{} kullanıcısı silinsin mi? Oturumları ve sık kullanılanları kaldırılır.
@@ -83,6 +108,8 @@ Deleted	Silindi
 Digital sensor, general	Dijital sensör, genel
 Directional control valves	Yön kontrol valfleri
 Directional control valves, coaxial	Yön kontrol valfleri, koaksiyel
+Directories	Dizin hizmetleri
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Dizin hizmetleri (Active Directory, LDAP) sunucunun erişim ayarları dosyasında yapılandırılır.
 Directory	Dizin hizmeti
 Dirt trap	Pislik tutucu
 Discard the changes	Değişiklikleri at
@@ -91,13 +118,16 @@ Discontinued	Üretimi durduruldu
 Display device	Gösterge cihazı
 Document holder	Doküman cebi
 Door handle	Kapı kolu
+Download	İndir
 Drawings box	Çizim kutusu
 Dryer	Kurutucu
 Dummy plate	Kör flanş
 Duplex switch filters	Çift değiştirmeli filtreler
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	{} kataloğunu düzenle
 Edit catalogs	Katalogları düzenle
 Edit parts	Parçaları düzenle
+Edit user {}	{} kullanıcısını düzenle
 Electrical engineering - special items	Elektrik mühendisliği - özel öğeler
 Electrically-operated mechanical devices	Elektrikle çalıştırılan mekanik cihazlar
 Electrolysis cell	Elektroliz hücresi
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Bir openecraf
 Evaporator	Evaporatör
 Exhaust valves	Tahliye valfleri
 Export (CSV)	Dışa aktar (CSV)
+Export and backup	Dışa aktarma ve yedekleme
+Export the parts, catalogs and settings, or download a backup of the whole database.	Parçaları, katalogları ve ayarları dışa aktarın veya tüm veritabanının yedeğini indirin.
 Exported {} parts to {}	{} parça {} konumuna aktarıldı
 Extraction hood	Davlumbaz
 Feed-through terminal	Geçiş klemensi
@@ -133,6 +165,7 @@ Front view (2D)	Ön görünüm (2D)
 Funnel	Huni
 Furnace	Fırın
 Generator	Jeneratör
+Grants	Yetki atamaları
 Grants of the server's access settings can refer to them	Sunucunun erişim ayarlarındaki yetki atamaları bunlara başvurabilir
 Ground fault current circuit breaker	Kaçak akım koruma şalteri
 Ground fault voltage circuit-breaker	Hata gerilimi koruma şalteri
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Gövde aksesuarları, iç eklenti
 Hydraulic motors	Hidrolik motorlar
 Hydraulic tanks	Hidrolik tanklar
 Import / export	İçe / dışa aktarma
+Import parts	Parçaları içe aktar
+Imported {} parts (revision {})	{} parça içe aktarıldı (revizyon {})
 Inductors	Endüktanslar
+Install	Yükle
+Install again	Yeniden yükle
 Intermediate plates	Ara plakalar
 Isolating valves	Kesme valfleri
 KNX actuator	KNX aktüatörü
 KNX system device	KNX sistem cihazı
 Key switch	Anahtarlı şalter
 Kneader	Yoğurucu
+Last sign-in	Son oturum açma
 Legend plate	Etiket plakası
 Level detector	Seviye dedektörü
 Level switches	Seviye şalterleri
@@ -165,6 +203,7 @@ Line return filters	Dönüş hattı filtreleri
 Lines / conduits	Hatlar / borular
 Load all parts from the server again	Tüm parçaları sunucudan yeniden yükle
 Loading…	Yükleniyor…
+Local	Yerel
 Lock systems	Kilit sistemleri
 Locking couplings	Kilitleme kaplinleri
 Logic item	Lojik öğe
@@ -183,17 +222,28 @@ Modulators	Modülatörler
 Motor overload switch	Motor koruma şalteri
 Mounting chassis	Montaj şasisi
 Mounting panels	Montaj plakaları
+New accounts need the approval of an administrator	Yeni hesaplar bir yöneticinin onayını gerektirir
+New catalog	Yeni katalog
 New part based on the open one	Açık olanı temel alan yeni parça
 New password	Yeni parola
+New role	Yeni rol
+New user	Yeni kullanıcı
 Newer version	Daha yeni sürüm
 Next	İleri
+No grants: users have the rights of their role	Yetki ataması yok: kullanıcılar rollerinin haklarına sahiptir
+No users	Kullanıcı yok
 Non-return valves	Çek valfler
 Not mounted	Monte edilmez
 Nut	Somun
 On the front	Önde
 On the left side	Sol tarafta
 On the right side	Sağ tarafta
+On this server	Bu sunucuda
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Tüm parçaları, geçmişlerini ve dosyalarını, katalogları, kullanıcıları ve sık kullanılanlarını içeren tek bir SQLite dosyası. Kullanıcıların parola karmalarını içerir: güvenli bir yerde saklayın.
 Only catalogs without parts can be deleted	Yalnızca parça içermeyen kataloglar silinebilir
+Only empty catalogs can be deleted	Yalnızca boş kataloglar silinebilir
+Only local accounts	Yalnızca yerel hesaplar
+Open sessions: {}	Açık oturumlar: {}
 OpenECraft data portal	OpenECraft veri portalı
 OpenECraft parts manager	OpenECraft parça yöneticisi
 OpenECraft parts server	OpenECraft parça sunucusu
@@ -253,6 +303,7 @@ Pushbutton	Buton
 Rail standoff	Ray mesafe parçası
 Rails	Raylar
 Reactor	Reaktör
+Read only	Salt okunur
 Read only: sign in with a user who may change parts of this manufacturer	Salt okunur: bu üreticinin parçalarını değiştirebilen bir kullanıcıyla oturum açın
 Read parts	Parçaları oku
 Reader	Okuyucu
@@ -262,12 +313,20 @@ Rear / side panel	Arka / yan panel
 Rectifier	Doğrultucu
 Reducer	Redüksiyon
 Reducing plates	Redüksiyon plakaları
+Register	Kayıt ol
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Kayıtlı kullanıcılar okuyucu olur: sık kullanılanları saklar ve okuma oturum açmayı gerektirse bile parçaları okurlar. Onlara Kullanıcılar bölümünde daha fazla hak verin.
+Registration	Kayıt
+Reject the registration of {}? The account is deleted.	{} kaydı reddedilsin mi? Hesap silinir.
 Remove the file from the part	Dosyayı parçadan kaldır
 Removed from the server	Sunucudan kaldırıldı
+Repeat password	Parolayı yinele
+Replace the roles and grants with those of the file?	Roller ve yetki atamaları dosyadakilerle değiştirilsin mi?
 Replaced by {}	{} ile değiştirildi
 Resistors	Dirençler
+Restore from a file	Bir dosyadan geri yükle
 Return flushing filters, all-autom.	Geri yıkamalı filtreler, tam otomatik
 Ribbon cables	Yassı kablolar
+Roles	Roller
 Roof hook	Çatı kancası
 Routing accessories	Döşeme aksesuarları
 Routing path (topology)	Güzergâh yolu (topoloji)
@@ -281,6 +340,7 @@ Screw connections	Vidalı bağlantılar
 Screw pumps	Vidalı pompalar
 Screw spindle compressors	Vidalı kompresörler
 Scroll compressors	Scroll kompresörler
+Search users	Kullanıcı ara
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Bir katalog seçin veya yeni bir katalog oluşturun. Parçalar katalog kimlikleri aracılığıyla bir kataloğa aittir (parça düzenleyicisi, Veri portalı sekmesi).
 Select a user or create a new one.	Bir kullanıcı seçin veya yeni bir kullanıcı oluşturun.
 Selector switch	Seçici şalter
@@ -289,6 +349,7 @@ Sensor NC	Sensör NK
 Sensor, switch, and pushbutton	Sensör, şalter ve buton
 Sensors - pressure gauges	Sensörler - manometreler
 Serial sub-plates	Seri alt plakalar
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Sunucunun başlatma seçenekleriyle ayarlanmıştır (--registration veya OPENECRAFT_REGISTRATION).
 Show parts	Parçaları göster
 Shut-off accumulators	Kapatmalı akümülatörler
 Shut-off control valve	Kapatma vanası
@@ -296,12 +357,19 @@ Shut-off flap	Kapatma klapesi
 Side panel	Yan panel
 Sifter	Eleme makinesi
 Sight glass	Gözetleme camı
+Sign in as an administrator to manage the server	Sunucuyu yönetmek için yönetici olarak oturum açın
 Sign in or connect with the access token to change parts	Parçaları değiştirmek için oturum açın veya erişim belirteciyle bağlanın
 Sign in to keep favorites	Sık kullanılanları saklamak için oturum açın
+Sign in with a user account	Kullanıcı hesabıyla oturum aç
+Sign in with the access token of the server	Sunucunun erişim belirteciyle oturum aç
+Sign out everywhere	Her yerde oturumu kapat
+Sign out {} on all devices?	{} kullanıcısının tüm cihazlardaki oturumu kapatılsın mı?
+Sign-in needed to read	Okumak için oturum açmak gerekir
 Signal device	Sinyal cihazı
 Signal device, acoustic	Sinyal cihazı, akustik
 Signal device, optical	Sinyal cihazı, optik
 Signal lamp	Sinyal lambası
+Signed in	Oturum açmış
 Silencers	Susturucular
 Silo	Silo
 Single-phase motor	Tek fazlı motor
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Şununla bir sunu
 Start openecraft-parts-server with --token to allow changes	Değişikliklere izin vermek için openecraft-parts-server'ı --token ile başlatın
 Steam boiler	Buhar kazanı
 Stirrer	Çalkalayıcı
+Storage	Depolama
 Strainer	Süzgeç
 Strip label	Şerit etiketi
 Sub-plates	Alt plakalar
@@ -332,22 +401,36 @@ Terminator	Sonlandırıcı
 Terminators, filters	Sonlandırıcılar, filtreler
 Test accessories	Test aksesuarları
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal yalnızca parça arama ve okuma sunar
+The access settings would leave nobody who manages users	Bu erişim ayarlarıyla kullanıcıları yönetebilecek kimse kalmaz
 The access token is only needed for changes; it is not stored.	Erişim belirteci yalnızca değişiklikler için gereklidir; saklanmaz.
+The catalogs with their manufacturer, version and description.	Üreticisi, sürümü ve açıklamasıyla kataloglar.
 The checksum of {} does not match: the download is damaged	{} sağlama toplamı eşleşmiyor: indirilen dosya bozuk
 The directory checks the password and sets the groups at every sign-in	Dizin hizmeti her oturum açmada parolayı denetler ve grupları ayarlar
+The file holds no access settings	Dosya erişim ayarı içermiyor
+The last administrator cannot lose the right to manage users	Son yönetici, kullanıcıları yönetme hakkını kaybedemez
+The password needs at least {} characters	Parola en az {} karakter olmalıdır
+The passwords do not match	Parolalar eşleşmiyor
 The project has no parts	Projede parça yok
+The registration is closed	Kayıt kapalı
+The registration is open	Kayıt açık
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Roller, yetki atamaları ve oturum açmadan erişim. Geri yükleme bunların yerini alır; dizin hizmetleri sunucuda yapılandırıldığı gibi kalır.
 The server cannot be reached	Sunucuya ulaşılamıyor
 The server sent no text	Sunucu metin göndermedi
 The upload is finished	Karşıya yükleme tamamlandı
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Rolü, üreticisi, grupları ve son oturum açmasıyla kullanıcılar; parolalar olmadan.
 Thermometers	Termometreler
 Thermostat valves	Termostatik valfler
+This user name cannot be used	Bu kullanıcı adı kullanılamaz
+This user name is taken	Bu kullanıcı adı alınmış
 Three-phase motor	Üç fazlı motor
 Three-way control valve	Üç yollu vana
 Three-way flap	Üç yollu klape
 Three-way valve	Üç yollu valf
 Throttle plate	Kısma diski
 Timer relay	Zaman rölesi
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Geri yüklemek için sunucuyu --data <dosya> ile başlatın veya --migrate-from <dosya> ile yeni bir veritabanına kopyalayın.
 Too many failed sign-ins, try again later	Çok fazla başarısız oturum açma, daha sonra yeniden deneyin
+Too many registrations from this address, try again later	Bu adresten çok fazla kayıt yapıldı, daha sonra tekrar deneyin
 Top cover	Üst kapak
 Transformers	Transformatörler
 Transmission paths	İletim yolları
@@ -357,7 +440,11 @@ Undefined	Tanımsız
 Under the part (base)	Parçanın altında (taban)
 Uploading {} to Vault ({} %)…	{} Vault'a yükleniyor ({} %)…
 Uploading {} to Vault…	{} Vault'a yükleniyor…
+User account	Kullanıcı hesabı
+User or group	Kullanıcı veya grup
+User {} exists already. Change it?	{} kullanıcısı zaten var. Değiştirilsin mi?
 User-defined rail	Kullanıcı tanımlı ray
+Users may register themselves (as readers)	Kullanıcılar kendileri kayıt olabilir (okuyucu olarak)
 Vacuum pump	Vakum pompası
 Valve / distributor	Valf / dağıtıcı
 Valve coil	Valf bobini
@@ -368,15 +455,21 @@ Ventilation filters	Havalandırma filtreleri
 Ventilator	Vantilatör
 Voltage source	Gerilim kaynağı
 Voltage source and generator	Gerilim kaynağı ve jeneratör
+Waiting accounts cannot sign in; approve or reject them in Users.	Bekleyen hesaplar oturum açamaz; onları Kullanıcılar bölümünde onaylayın veya reddedin.
 Washer	Pul
 Water traps	Su tutucular
 Wind deflector	Rüzgar saptırıcı
 Wiring material	Kablolama malzemesi
+Without sign-in	Oturum açmadan
+Wrong access token	Yanlış erişim belirteci
 Wrong user name or password	Yanlış kullanıcı adı veya parola
+Your account awaits the approval of an administrator	Hesabınız bir yöneticinin onayını bekliyor
+Your account was created. An administrator has to approve it before you can sign in.	Hesabınız oluşturuldu. Oturum açabilmeniz için bir yöneticinin onaylaması gerekir.
 access denied – check the personal access token	erişim reddedildi – kişisel erişim belirtecini kontrol edin
 by file name	dosya adına göre
 changed, not saved	değiştirildi, kaydedilmedi
 connection failed: {}	bağlantı başarısız oldu: {}
+directory:group	dizin:grup
 from the name	addan
 needed for changes	değişiklikler için gerekli
 new part, not saved	yeni parça, kaydedilmedi
@@ -389,12 +482,14 @@ the server name is unknown	sunucu adı bilinmiyor
 the server refuses the connection (not started, or another port)	sunucu bağlantıyı reddediyor (başlatılmamış veya başka bir bağlantı noktası)
 unchanged if empty	boşsa değişmez
 unexpected answer: {}	beklenmeyen yanıt: {}
+you	siz
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} için SHA256SUMS içinde sağlama toplamı yok
 {} parts in {} catalogs, revision {}	{} katalogda {} parça, revizyon {}
 {} parts, {} catalogs, {}	{} parça, {} katalog, {}
 {} – save to upload it	{} – karşıya yüklemek için kaydedin
 {}: the part is no longer open	{}: parça artık açık değil
+{}: {} parts added, {} updated, {} kept	{}: {} parça eklendi, {} güncellendi, {} korundu
 ⎘ Copy	⎘ Kopyala
 ✔ Save	✔ Kaydet
 ➕ New	➕ Yeni

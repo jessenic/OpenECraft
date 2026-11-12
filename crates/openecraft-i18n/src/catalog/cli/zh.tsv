@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	同时采用�
 Also verify each project (slower)	同时校验每个项目（较慢）
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	应用通过 table_get 导出（并在电子表格中更改）的 CSV：设置已更改的单元格
 Applies a structure template: the aspects of the pages and its identifiers	应用结构模板：页的方面及其标识符
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	批准在部件服务器上注册的用户，使其可以登录（仅限管理员）
 Archive file (.oecz)	归档文件 (.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	将部件分配给设备（来自项目、内置目录或部件服务器）
 Author of comments without one (default: the user name)	无作者批注的作者（默认：用户名）
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	制造商用户所维护�
 Maximum number of hits (default 50)	最大命中数（默认 50）
 Name of a built-in template (list_structure_templates)	内置模板的名称 (list_structure_templates)
 Name of the knowledge vault (default Vault)	知识库名称（默认 Vault）
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	新帐户等待管理员批准 (true) 或立即登录 (false)
 New file name (save as)	新文件名（另存为）
 New pages for every value of the group column (default true)	为分组列的每个值新建页（默认 true）
 New part number	新部件编号
@@ -147,6 +149,7 @@ Only show the changes, write nothing	仅显示更改，不写入
 Only the pages of this report block; default all report pages	仅限此报表块的页；默认为所有报表页
 Only the projects that match these search terms	仅限与这些搜索条件匹配的项目
 Only this block	仅此块
+Open (true) or close (false) the registration	开放 (true) 或关闭 (false) 注册
 Opens a project file or archive (files of older versions are converted)	打开项目文件或归档（旧版本的文件将被转换）
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	从 Vault 打开项目文件或归档；不带目标的 vault_upload 会签入其新版本
 Option {} needs the form name=value	选项 {} 需要 name=value 形式
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	显示项目归档的清单
 Shows the project properties, file, number of pages and devices and the check result	显示项目属性、文件、页数和设备数以及检查结果
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	显示部件服务器的角色、授权和目录服务，可选择设置匿名请求的角色（仅限管理员）
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	显示用户是否可以在部件服务器上自行注册（作为读者），并可选择开放或关闭注册（仅限管理员）
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	从项目模板开始：内置模板（Machine、Distribution board (IEC 61439)、Empty (IEC 60204-1)）或项目文件
 Start from an example project (names: list_examples)	从示例项目开始（名称：list_examples）
 Start from the demo project	从演示项目开始

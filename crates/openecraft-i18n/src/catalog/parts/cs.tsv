@@ -1,19 +1,34 @@
 # English<TAB>Čeština – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(přejmenováno z {})
 19-inch module technology	19palcová modulová technika
+A catalog id must not be empty or contain blanks	Identifikátor katalogu nesmí být prázdný ani obsahovat mezery
+A manufacturer user needs a manufacturer	Uživatel výrobce potřebuje výrobce
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Role je sada práv. Přidělení dávají uživateli nebo skupině roli pro artikly výrobce (* a ? jako zástupné znaky, * pro všechny); odepírající přidělení práva role odebere bez ohledu na jiná přidělení.
+A user name must not be empty or contain blanks	Uživatelské jméno nesmí být prázdné ani obsahovat mezery
+Access rights	Přístupová práva
+Access settings saved	Nastavení přístupu uloženo
 Accumulator blocks	Bloky akumulátorů
 Accumulators	Akumulátory
 Actuators, general	Akční členy, obecně
 Adapter	Adaptér
 Adapter plates	Adaptérové desky
+Add grant	Přidat přidělení
 Adds new parts and replaces existing ones on the server	Přidá nové artikly a nahradí existující na serveru
+Administration	Správa
+All manufacturers	Všichni výrobci
 All parts	Všechny artikly
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Všechny artikly s jejich daty, pro tabulkové procesory nebo k importu do jiného serveru. Jejich soubory jsou jen v záloze databáze.
 Amplifiers, controllers	Zesilovače, regulátory
 Analog sensor	Analogový senzor
+Approval of new accounts	Schvalování nových účtů
+Approved user {}	Uživatel {} schválen
+At least {} characters	Alespoň {} znaků
 Attachment nut	Nástrčný nástavec
 Auxiliary block	Pomocný blok
 Auxiliary contact block	Blok pomocných kontaktů
 Auxiliary switch	Pomocný spínač
+Awaiting approval	Čeká na schválení
+Awaiting approval: {}	Čeká na schválení: {}
 Back to the results	Zpět na výsledky
 Ball valve pneumatic	Kulový kohout pneumatický
 Ball valves	Kulové kohouty
@@ -23,22 +38,28 @@ Block ball valves	Blokové kulové kohouty
 Body	Korpus
 Brake motor	Motor s brzdou
 Built into the part	Vestavěné do dílu
+Built-in	Vestavěná
+Bundled catalogs	Dodávané katalogy
 Bunker	Bunkr
 Busbar cover	Kryt přípojnic
 Busbars	Přípojnice
 C horizontal rails	Vodorovné lišty C
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (s názvy sloupců exportu), JSON, BMEcat nebo EPLAN XML. Artikly se stejným číslem se nahradí; jejich soubory zůstanou zachovány.
 Cable / tubing clamp	Upevnění kabelů / hadic
 Cable / tubing protection	Ochrana kabelů / hadic
 Cable / tubing tie	Vázací pásek kabelů / hadic
 Cable clamp rails	Lišty pro uchycení kabelů
 Cable ducts	Kabelové kanály
 Capacitors	Kondenzátory
+Catalog {} exists already. Change it?	Katalog {} již existuje. Změnit ho?
 Catalogs	Katalogy
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Katalogy dodávané se serverem. Instalace přidá jejich artikly a aktualizuje ty, které na tomto serveru nikdo nezměnil.
 Central lubrication power units	Agregáty centrálního mazání
 Centrifugal pumps	Odstředivá čerpadla
 Centrifuge	Odstředivka
 Certificate	Certifikát
 Changed	Změněno
+Changes allowed	Změny povoleny
 Check control valve	Zpětná armatura
 Check flap	Zpětná klapka
 Chimney	Komín
@@ -66,6 +87,7 @@ Coupling motor pumps	Spojková motorová čerpadla
 Couplings	Spojky
 Cover plates	Krycí desky
 Create / update the part on the server (Ctrl+S)	Vytvořit / aktualizovat artikl na serveru (Ctrl+S)
+Create an account on this server	Vytvořit účet na tomto serveru
 Created	Vytvořeno
 Crimp contact	Krimpovací kontakt
 Cross-connector	Příčná propojka
@@ -74,8 +96,11 @@ Cylinders	Válce
 DC motor	Stejnosměrný motor
 DC-DC converter	Měnič DC-DC
 Data recorder	Zapisovač naměřených hodnot
+Database backup	Záloha databáze
 Datasheet	Katalogový list
+Defined roles	Definované role
 Delete catalog {} from the server?	Odstranit katalog {} ze serveru?
+Delete catalog {}?	Odstranit katalog {}?
 Delete part {} from the server? This cannot be undone.	Odstranit artikl {} ze serveru? Tuto akci nelze vrátit zpět.
 Delete parts	Odstraňovat artikly
 Delete user {}? Their sessions and favorites are removed.	Odstranit uživatele {}? Jeho relace a oblíbené položky budou odebrány.
@@ -83,6 +108,8 @@ Deleted	Odstraněno
 Digital sensor, general	Digitální senzor, obecně
 Directional control valves	Rozváděcí ventily
 Directional control valves, coaxial	Rozváděcí ventily, koaxiální
+Directories	Adresářové služby
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Adresářové služby (Active Directory, LDAP) se nastavují v souboru nastavení přístupu serveru.
 Directory	Adresářová služba
 Dirt trap	Lapač nečistot
 Discard the changes	Zahodit změny
@@ -91,13 +118,16 @@ Discontinued	Ukončená výroba
 Display device	Zobrazovací přístroj
 Document holder	Kapsa na dokumentaci
 Door handle	Klika dveří
+Download	Stáhnout
 Drawings box	Kapsa na výkresy
 Dryer	Sušárna
 Dummy plate	Zaslepovací deska
 Duplex switch filters	Zdvojené přepínatelné filtry
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Upravit katalog {}
 Edit catalogs	Upravovat katalogy
 Edit parts	Upravovat artikly
+Edit user {}	Upravit uživatele {}
 Electrical engineering - special items	Elektrotechnika – speciální součásti
 Electrically-operated mechanical devices	Elektricky ovládaná mechanická zařízení
 Electrolysis cell	Elektrolyzér
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Zadejte adres
 Evaporator	Odparka
 Exhaust valves	Odvzdušňovací ventily
 Export (CSV)	Export (CSV)
+Export and backup	Export a záloha
+Export the parts, catalogs and settings, or download a backup of the whole database.	Exportujte artikly, katalogy a nastavení, nebo stáhněte zálohu celé databáze.
 Exported {} parts to {}	{} artiklů exportováno do {}
 Extraction hood	Odsávací digestoř
 Feed-through terminal	Průchozí svorka
@@ -133,6 +165,7 @@ Front view (2D)	Čelní pohled (2D)
 Funnel	Násypka
 Furnace	Pec
 Generator	Generátor
+Grants	Přidělení
 Grants of the server's access settings can refer to them	Mohou na ně odkazovat přidělení v nastavení přístupu serveru
 Ground fault current circuit breaker	Proudový chránič
 Ground fault voltage circuit-breaker	Chránič při poruchovém napětí
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Příslušenství skříní, vnitřní v
 Hydraulic motors	Hydromotory
 Hydraulic tanks	Hydraulické nádrže
 Import / export	Import / export
+Import parts	Importovat artikly
+Imported {} parts (revision {})	Importováno artiklů: {} (revize {})
 Inductors	Induktory
+Install	Nainstalovat
+Install again	Znovu nainstalovat
 Intermediate plates	Mezidesky
 Isolating valves	Uzavírací ventily
 KNX actuator	Akční člen KNX
 KNX system device	Systémové zařízení KNX
 Key switch	Spínač na klíč
 Kneader	Hnětač
+Last sign-in	Poslední přihlášení
 Legend plate	Popisný štítek
 Level detector	Snímač mezní hodnoty
 Level switches	Hladinové spínače
@@ -165,6 +203,7 @@ Line return filters	Zpětné filtry
 Lines / conduits	Vedení / svazky
 Load all parts from the server again	Znovu načíst všechny artikly ze serveru
 Loading…	Načítání…
+Local	Místní
 Lock systems	Uzavírací systémy
 Locking couplings	Uzavírací spojky
 Logic item	Logický prvek
@@ -183,17 +222,28 @@ Modulators	Modulátory
 Motor overload switch	Motorový spouštěč
 Mounting chassis	Montážní šasi
 Mounting panels	Montážní desky
+New accounts need the approval of an administrator	Nové účty potřebují schválení správcem
+New catalog	Nový katalog
 New part based on the open one	Nový artikl na základě otevřeného
 New password	Nové heslo
+New role	Nová role
+New user	Nový uživatel
 Newer version	Novější verze
 Next	Další
+No grants: users have the rights of their role	Žádná přidělení: uživatelé mají práva své role
+No users	Žádní uživatelé
 Non-return valves	Zpětné ventily
 Not mounted	Nemontováno
 Nut	Matice
 On the front	Vpředu
 On the left side	Na levé straně
 On the right side	Na pravé straně
+On this server	Na tomto serveru
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Jeden soubor SQLite se všemi artikly, jejich historií a soubory, katalogy, uživateli a jejich oblíbenými položkami. Obsahuje hashe hesel uživatelů: uchovávejte jej v bezpečí.
 Only catalogs without parts can be deleted	Odstranit lze pouze katalogy bez artiklů
+Only empty catalogs can be deleted	Odstranit lze jen prázdné katalogy
+Only local accounts	Pouze místní účty
+Open sessions: {}	Otevřené relace: {}
 OpenECraft data portal	Datový portál OpenECraft
 OpenECraft parts manager	Správce artiklů OpenECraft
 OpenECraft parts server	Server artiklů OpenECraft
@@ -253,6 +303,7 @@ Pushbutton	Tlačítko
 Rail standoff	Distanční držák lišty
 Rails	Lišty
 Reactor	Reaktor
+Read only	Jen pro čtení
 Read only: sign in with a user who may change parts of this manufacturer	Jen pro čtení: přihlaste se jako uživatel, který smí měnit díly tohoto výrobce
 Read parts	Číst artikly
 Reader	Čtenář
@@ -262,12 +313,20 @@ Rear / side panel	Zadní / boční stěna
 Rectifier	Usměrňovač
 Reducer	Redukce
 Reducing plates	Redukční desky
+Register	Zaregistrovat se
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Registrovaní uživatelé se stanou čtenáři: ukládají oblíbené a čtou artikly i tehdy, když čtení vyžaduje přihlášení. Další práva jim dáte v části Uživatelé.
+Registration	Registrace
+Reject the registration of {}? The account is deleted.	Odmítnout registraci {}? Účet bude odstraněn.
 Remove the file from the part	Odebrat soubor z artiklu
 Removed from the server	Odebráno ze serveru
+Repeat password	Zopakovat heslo
+Replace the roles and grants with those of the file?	Nahradit role a přidělení těmi ze souboru?
 Replaced by {}	Nahrazeno artiklem {}
 Resistors	Rezistory
+Restore from a file	Obnovit ze souboru
 Return flushing filters, all-autom.	Samočisticí filtry se zpětným proplachem, plně automatické
 Ribbon cables	Plochý kabel
+Roles	Role
 Roof hook	Střešní hák
 Routing accessories	Příslušenství pro uložení
 Routing path (topology)	Úsek trasy (topologie)
@@ -281,6 +340,7 @@ Screw connections	Šroubení
 Screw pumps	Šroubová čerpadla
 Screw spindle compressors	Šroubové kompresory
 Scroll compressors	Spirálové kompresory
+Search users	Hledat uživatele
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Vyberte katalog nebo vytvořte nový. Artikly patří ke katalogu podle svého ID katalogu (editor artiklů, karta Datový portál).
 Select a user or create a new one.	Vyberte uživatele nebo vytvořte nového.
 Selector switch	Přepínač
@@ -289,6 +349,7 @@ Sensor NC	Snímač rozpínací
 Sensor, switch, and pushbutton	Senzory, spínače a tlačítka
 Sensors - pressure gauges	Snímače – manometry
 Serial sub-plates	Řadové připojovací desky
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Nastaveno spouštěcími volbami serveru (--registration nebo OPENECRAFT_REGISTRATION).
 Show parts	Zobrazit artikly
 Shut-off accumulators	Uzavírací akumulátory
 Shut-off control valve	Uzavírací armatura
@@ -296,12 +357,19 @@ Shut-off flap	Uzavírací klapka
 Side panel	Bočnice
 Sifter	Třídič vzduchový
 Sight glass	Průhledítko
+Sign in as an administrator to manage the server	Přihlaste se jako správce, abyste mohli spravovat server
 Sign in or connect with the access token to change parts	Přihlaste se nebo se připojte pomocí přístupového tokenu, abyste mohli měnit díly
 Sign in to keep favorites	Chcete-li ukládat oblíbené, přihlaste se
+Sign in with a user account	Přihlásit se uživatelským účtem
+Sign in with the access token of the server	Přihlásit se přístupovým tokenem serveru
+Sign out everywhere	Odhlásit všude
+Sign out {} on all devices?	Odhlásit {} na všech zařízeních?
+Sign-in needed to read	Čtení vyžaduje přihlášení
 Signal device	Signalizační přístroj
 Signal device, acoustic	Signalizační zařízení, akustické
 Signal device, optical	Signalizační zařízení, optické
 Signal lamp	Signálka
+Signed in	Přihlášeni
 Silencers	Tlumiče hluku
 Silo	Silo
 Single-phase motor	Jednofázový motor
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Spusťte server p
 Start openecraft-parts-server with --token to allow changes	Chcete-li povolit změny, spusťte openecraft-parts-server s parametrem --token
 Steam boiler	Parní kotel
 Stirrer	Míchadlo
+Storage	Úložiště
 Strainer	Sítko
 Strip label	Štítek svorkovnice
 Sub-plates	Připojovací desky
@@ -332,22 +401,36 @@ Terminator	Zakončení
 Terminators, filters	Zakončení, filtry
 Test accessories	Zkušební příslušenství
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal nabízí pouze vyhledávání a čtení artiklů
+The access settings would leave nobody who manages users	S tímto nastavením přístupu by nikdo nemohl spravovat uživatele
 The access token is only needed for changes; it is not stored.	Přístupový token je potřeba jen pro změny; neukládá se.
+The catalogs with their manufacturer, version and description.	Katalogy s výrobcem, verzí a popisem.
 The checksum of {} does not match: the download is damaged	Kontrolní součet {} nesouhlasí: stažený soubor je poškozený
 The directory checks the password and sets the groups at every sign-in	Adresářová služba ověřuje heslo a nastavuje skupiny při každém přihlášení
+The file holds no access settings	Soubor neobsahuje nastavení přístupu
+The last administrator cannot lose the right to manage users	Poslední správce nemůže přijít o právo spravovat uživatele
+The password needs at least {} characters	Heslo musí mít alespoň {} znaků
+The passwords do not match	Hesla se neshodují
 The project has no parts	Projekt nemá žádné artikly
+The registration is closed	Registrace je uzavřená
+The registration is open	Registrace je otevřená
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Role, přidělení a přístup bez přihlášení. Obnovení je nahradí; adresářové služby zůstanou, jak jsou nastaveny na serveru.
 The server cannot be reached	Server není dostupný
 The server sent no text	Server neposlal žádný text
 The upload is finished	Nahrávání je dokončeno
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Uživatelé s rolí, výrobcem, skupinami a posledním přihlášením, bez hesel.
 Thermometers	Teploměry
 Thermostat valves	Termostatické ventily
+This user name cannot be used	Toto uživatelské jméno nelze použít
+This user name is taken	Toto uživatelské jméno je obsazené
 Three-phase motor	Třífázový motor
 Three-way control valve	Trojcestná armatura
 Three-way flap	Trojcestná klapka
 Three-way valve	Trojcestný ventil
 Throttle plate	Škrticí clona
 Timer relay	Časové relé
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Chcete-li ji obnovit, spusťte server s --data <soubor> nebo ji zkopírujte do nové databáze pomocí --migrate-from <soubor>.
 Too many failed sign-ins, try again later	Příliš mnoho neúspěšných přihlášení, zkuste to později
+Too many registrations from this address, try again later	Příliš mnoho registrací z této adresy, zkuste to později
 Top cover	Střecha
 Transformers	Transformátory
 Transmission paths	Přenosové cesty
@@ -357,7 +440,11 @@ Undefined	Nedefinováno
 Under the part (base)	Pod dílem (základna)
 Uploading {} to Vault ({} %)…	Nahrávání {} do Vault ({} %)…
 Uploading {} to Vault…	Nahrávání {} do Vault…
+User account	Uživatelský účet
+User or group	Uživatel nebo skupina
+User {} exists already. Change it?	Uživatel {} již existuje. Změnit ho?
 User-defined rail	Uživatelsky definovaná lišta
+Users may register themselves (as readers)	Uživatelé se mohou sami registrovat (jako čtenáři)
 Vacuum pump	Vývěva
 Valve / distributor	Ventil / rozdělovač
 Valve coil	Cívka ventilu
@@ -368,15 +455,21 @@ Ventilation filters	Odvzdušňovací filtry
 Ventilator	Ventilátor
 Voltage source	Zdroj napětí
 Voltage source and generator	Zdroj napětí a generátor
+Waiting accounts cannot sign in; approve or reject them in Users.	Čekající účty se nemohou přihlásit; schvalte je nebo odmítněte v části Uživatelé.
 Washer	Podložka
 Water traps	Odlučovače vody
 Wind deflector	Větrný deflektor
 Wiring material	Materiál pro zapojení
+Without sign-in	Bez přihlášení
+Wrong access token	Nesprávný přístupový token
 Wrong user name or password	Nesprávné uživatelské jméno nebo heslo
+Your account awaits the approval of an administrator	Váš účet čeká na schválení správcem
+Your account was created. An administrator has to approve it before you can sign in.	Váš účet byl vytvořen. Než se budete moci přihlásit, musí jej schválit správce.
 access denied – check the personal access token	přístup odepřen – zkontrolujte osobní přístupový token
 by file name	podle názvu souboru
 changed, not saved	změněno, neuloženo
 connection failed: {}	připojení se nezdařilo: {}
+directory:group	adresář:skupina
 from the name	z názvu
 needed for changes	potřebné pro změny
 new part, not saved	nový artikl, neuložen
@@ -389,12 +482,14 @@ the server name is unknown	název serveru je neznámý
 the server refuses the connection (not started, or another port)	server odmítá připojení (není spuštěn nebo jiný port)
 unchanged if empty	beze změny, pokud je prázdné
 unexpected answer: {}	neočekávaná odpověď: {}
+you	vy
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} nemá kontrolní součet v SHA256SUMS
 {} parts in {} catalogs, revision {}	Artikly: {}, katalogy: {}, revize {}
 {} parts, {} catalogs, {}	Artikly: {}, katalogy: {}, {}
 {} – save to upload it	{} – uložením jej nahrajete
 {}: the part is no longer open	{}: artikl již není otevřen
+{}: {} parts added, {} updated, {} kept	{}: přidáno artiklů: {}, aktualizováno: {}, zachováno: {}
 ⎘ Copy	⎘ Kopírovat
 ✔ Save	✔ Uložit
 ➕ New	➕ Nový

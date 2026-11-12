@@ -144,7 +144,6 @@ Apply to the connection	Käytä yhteyteen
 Apply to {} projects	Käytä {} projektiin
 Approval workflow	Hyväksyntätyönkulku
 Approvals needed	Tarvittavat hyväksynnät
-Approve	Hyväksy
 Approving needs an approver; you are \"{}\".	Hyväksyminen edellyttää hyväksyjää; olet \"{}\".
 Arc	Kaari
 Archive and version	Arkisto ja versio
@@ -453,7 +452,6 @@ Define	Määritä
 Define all used	Määritä kaikki käytetyt
 Defined potentials	Määritetyt potentiaalit
 Del	Del
-Delete	Poista
 Delete PV array	Poista aurinkopaneelikenttä
 Delete cable (its wires are removed from it)	Poista kaapeli (sen johdot poistetaan siitä)
 Delete comment	Poista kommentti
@@ -483,7 +481,6 @@ Delete the property and all its values	Poista ominaisuus ja kaikki sen arvot
 Delete this workspace	Poista tämä työtila
 Delete variant	Poista muunnelma
 Delete zone	Poista vyöhyke
-Deny	Estä
 Depth / mounted at	Syvyys / asennettu kohtaan
 Depth from / to	Syvyys mistä / mihin
 Depth in the floor	Syvyys lattiassa
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Suunnattu risteys: yhdistää siinä risteävät kaksi johdinta; linjan kumpikin pää johdotetaan ensin suoraan ja sitten poikittain
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Karttapohjoisen suunta vastapäivään ylhäältä katsottuna laitoksen takaosasta (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Suunta, johon moduulit osoittavat, vastapäivään ylhäältä katsottuna (0: eteenpäin)
-Discard changes	Hylkää muutokset
 Discard draft	Hylkää luonnos
 Disconnection of distribution circuits	Jakelupiirien poiskytkentä
 Disconnection of final circuits	Ryhmäjohtojen poiskytkentä
@@ -611,7 +607,6 @@ Earthing system	Maadoitusjärjestelmä
 Easting, northing	Itäkoordinaatti, pohjoiskoordinaatti
 Eaves	Räystäs
 Edge length of the routing grid: smaller is finer and slower	Reititysruudukon sivun pituus: pienempi on tarkempi ja hitaampi
-Edit	Muokkaa
 Edit in table	Muokkaa taulukossa
 Edit in table…	Muokkaa taulukossa…
 Editable copy of this plot frame	Tämän piirustuskehyksen muokattava kopio
@@ -824,7 +819,6 @@ Identifiers of the structure management	Rakennetunnusten hallinnan tunnukset
 Identifying letters	Tunnuskirjaimet
 Images (PNG, JPEG)	Kuvat (PNG, JPEG)
 Image…	Kuva…
-Import	Tuonti
 Import AutomationML…	Tuo AutomationML…
 Import CSV / Excel…	Tuo CSV / Excel…
 Import CSV…	Tuo CSV…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Nimi; ti
 Named copy of this form, for report blocks	Tämän lomakkeen nimetty kopio raporttilohkoja varten
 Navigators	Navigaattorit
 Neutral exchange file…	Neutraali siirtotiedosto…
-Never	Ei koskaan
 New	Uusi
 New block	Uusi lohko
 New building	Uusi rakennus
@@ -1506,7 +1499,6 @@ Reference point	Vertailupiste
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Vertailupiste sijoitettu kohtaan x {} m, z {} m; anna sen koordinaatit Rakennukset-paneelissa
 Refresh	Päivitä
 Refresh example catalog parts (GEN.*)	Päivitä esimerkkiluettelon osat (GEN.*)
-Reject	Hylkää
 Rejected and closed ones too	Myös hylätyt ja suljetut
 Relative column width	Suhteellinen sarakeleveys
 Release	Vapauta
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Suorita
 SVG drawing	SVG-piirustus
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	ISO 13849-1:n turvatoiminnot: jokainen osajärjestelmä (tulo, logiikka, lähtö) kanavan laitteineen, luokkineen, diagnostiikan kattavuuksineen ja vuotuisine kytkentäkertoineen. Laitteet lasketaan niiden osien PL / PFHd-, MTTFd- tai B10d-arvoilla.
-Save	Tallenna
 Save a selection under this name with another variant to add one.	Lisää muunnelma tallentamalla valinta tällä nimellä toisena muunnelmana.
 Save access	Tallenna käyttöoikeudet
 Save and release	Tallenna ja vapauta
@@ -2018,7 +2009,6 @@ Ungroup	Pura ryhmittely
 Unlock all	Avaa kaikkien lukitus
 Unplaced	Sijoittamattomat
 Unplaced ({})	Sijoittamattomat ({})
-Update	Päivitä
 Update all	Päivitä kaikki
 Update part links from Vault items	Päivitä osalinkit Vault-nimikkeistä
 Update report blocks	Päivitä raporttilohkot
@@ -2037,7 +2027,6 @@ Use for all pages	Käytä kaikille sivuille
 Used	Käytetty
 Used by {} pages	Käytössä {} sivulla
 Used on {} of {} pages	Käytössä {} sivulla {} sivusta
-User	Käyttäjä
 User / group	Käyttäjä / ryhmä
 User defined property	Käyttäjän määrittämä ominaisuus
 User names, separated by commas	Käyttäjänimet pilkuin erotettuina

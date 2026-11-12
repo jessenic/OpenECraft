@@ -17,6 +17,14 @@ fn without_options_the_defaults_apply() {
     assert_eq!(s.access, PathBuf::from("parts-db.access.json"));
     assert_eq!(s.token, None, "an empty token is no token");
     assert!(s.install_catalogs.is_empty());
+    assert_eq!(s.registration, None, "administrators decide");
+}
+
+#[test]
+fn registration_is_fixed_by_the_options() {
+    assert_eq!(Settings::merge(args(&[]), file("registration = true\n")).registration, Some(true));
+    assert_eq!(Settings::merge(args(&["--registration", "off"]), file("registration = true\n")).registration, Some(false));
+    assert_eq!(Settings::merge(args(&["--registration", "yes"]), File::default()).registration, Some(true));
 }
 
 #[test]

@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	마지막 내�
 Also verify each project (slower)	각 프로젝트도 검증(더 느림)
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	table_get으로 내보낸(그리고 스프레드시트에서 변경한) CSV를 적용합니다: 변경된 셀이 설정됩니다
 Applies a structure template: the aspects of the pages and its identifiers	구조 템플릿을 적용합니다: 페이지의 측면과 템플릿의 식별자
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	부품 서버에 가입한 사용자를 승인하여 로그인할 수 있게 합니다(관리자만)
 Archive file (.oecz)	아카이브 파일(.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	장치에 부품을 지정합니다(프로젝트, 기본 제공 카탈로그 또는 부품 서버에서)
 Author of comments without one (default: the user name)	작성자가 없는 주석의 작성자(기본값: 사용자 이름)
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	제조업체 사용자가
 Maximum number of hits (default 50)	최대 결과 수(기본값 50)
 Name of a built-in template (list_structure_templates)	기본 제공 템플릿의 이름(list_structure_templates)
 Name of the knowledge vault (default Vault)	지식 Vault 이름(기본값 Vault)
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	새 계정은 관리자의 승인을 기다리거나(true) 바로 로그인합니다(false)
 New file name (save as)	새 파일 이름(다른 이름으로 저장)
 New pages for every value of the group column (default true)	그룹 열의 각 값마다 새 페이지(기본값 true)
 New part number	새 부품 번호
@@ -147,6 +149,7 @@ Only show the changes, write nothing	변경 내용만 표시하고 아무것도 
 Only the pages of this report block; default all report pages	이 보고서 블록의 페이지만. 기본값은 모든 보고서 페이지
 Only the projects that match these search terms	이 검색어와 일치하는 프로젝트만
 Only this block	이 블록만
+Open (true) or close (false) the registration	가입 열기(true) 또는 닫기(false)
 Opens a project file or archive (files of older versions are converted)	프로젝트 파일 또는 아카이브를 엽니다(이전 버전의 파일은 변환됨)
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	Vault에서 프로젝트 파일 또는 아카이브를 엽니다. 대상 없이 vault_upload를 실행하면 해당 파일의 새 버전을 체크 인합니다
 Option {} needs the form name=value	옵션 {}에는 name=value 형식이 필요합니다
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	프로젝트 아카이브의 매니페스트를 표시합니다
 Shows the project properties, file, number of pages and devices and the check result	프로젝트 속성, 파일, 페이지 및 장치 수와 검사 결과를 표시합니다
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	부품 서버의 역할, 권한 부여 및 디렉터리 서비스를 표시하고, 선택적으로 익명 요청의 역할을 설정합니다(관리자 전용)
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	사용자가 부품 서버에 직접 가입할 수 있는지(읽기 사용자로) 표시하고 필요하면 가입을 열거나 닫습니다(관리자만)
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	프로젝트 템플릿으로 시작: 기본 제공 템플릿(Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) 또는 프로젝트 파일
 Start from an example project (names: list_examples)	예제 프로젝트에서 시작 (이름: list_examples)
 Start from the demo project	데모 프로젝트에서 시작

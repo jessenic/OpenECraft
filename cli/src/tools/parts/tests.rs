@@ -141,6 +141,10 @@ fn sign_in_favorites_and_users() {
     assert_eq!(u["role"], "Manufacturer");
     assert!(run(&mut s, "parts_user_save", json!({ "name": "max", "role": "boss" })).is_err());
     assert_eq!(run(&mut s, "parts_users", json!({})).unwrap()[0]["name"], "max");
+    srv.users.borrow_mut()[0].pending = true;
+    assert_eq!(run(&mut s, "parts_user_approve", json!({ "name": "max" })).unwrap()["name"], "max");
+    assert!(!srv.users.borrow()[0].pending);
+    assert!(run(&mut s, "parts_user_approve", json!({ "name": "nobody" })).is_err());
     run(&mut s, "parts_user_delete", json!({ "name": "max" })).unwrap();
     assert!(srv.users.borrow().is_empty());
 }
@@ -165,6 +169,11 @@ fn roles_and_grants() {
     assert!(run(&mut s, "parts_grant", json!({ "subject": "group", "name": "corp:Purchasing", "revoke": true })).is_err());
     run(&mut s, "parts_role", json!({ "name": "buyer", "delete": true })).unwrap();
     assert!(run(&mut s, "parts_role", json!({ "name": "buyer", "delete": true })).is_err());
+    let shown = run(&mut s, "parts_registration", json!({})).unwrap();
+    assert_eq!((shown["enabled"].clone(), shown["approval"].clone()), (json!(false), json!(true)));
+    assert_eq!(run(&mut s, "parts_registration", json!({ "enabled": true })).unwrap()["approval"], true, "kept");
+    assert_eq!(run(&mut s, "parts_registration", json!({ "approval": false })).unwrap()["enabled"], true, "kept");
+    assert!(srv.registration.borrow().enabled && !srv.registration.borrow().approval);
     run(&mut s, "parts_access", json!({ "anonymous": "none" })).unwrap();
     let shown = run(&mut s, "parts_access", json!({})).unwrap();
     assert_eq!(shown["policy"]["grants"].as_array().unwrap().len(), 1);

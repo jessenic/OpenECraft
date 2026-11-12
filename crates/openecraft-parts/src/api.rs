@@ -16,15 +16,23 @@
 //! | GET | `/api/v1/files/{id}` | file of an attachment |
 //! | POST | `/api/v1/import` | CSV, JSON or BMEcat body, upserts parts (editor) → [`ImportResult`] |
 //! | GET | `/api/v1/export.csv` | all parts as CSV |
+//! | GET | `/api/v1/export.json` | all parts as a JSON part list (with models), as `/import` reads it |
+//! | GET | `/api/v1/backup` | the whole database as a SQLite file (administrator) |
 //! | GET | `/api/v1/catalogs` | [`Catalog`] list |
 //! | PUT / DELETE | `/api/v1/catalogs/{id}` | create, change, delete a catalog (editor) |
 //! | POST | `/api/v1/login` | [`Login`] → [`Session`] |
+//! | POST | `/api/v1/register` | [`Login`] → [`Session`]: a new reader account, if [`ServerInfo::registration`]; `202` and a session without token while it awaits approval |
+//! | GET / PUT | `/api/v1/registration` | [`Registration`]: whether users may register themselves (administrator) |
 //! | POST | `/api/v1/logout` | ends the session of the token |
 //! | GET / PUT | `/api/v1/favorites` | part numbers of the caller (signed in) |
-//! | GET | `/api/v1/users` | [`User`] list (administrator) |
+//! | GET | `/api/v1/users` | [`UserEntry`] list: users with their sessions (administrator) |
 //! | PUT / DELETE | `/api/v1/users/{name}` | [`UserUpdate`] (administrator) |
+//! | POST | `/api/v1/users/{name}/approval` | approves a registered user → [`User`] (administrator) |
+//! | DELETE | `/api/v1/users/{name}/sessions` | signs the user out everywhere (administrator) |
 //! | GET | `/api/v1/access` | [`Settings`](crate::access::Settings) of [`PartsRight`] (administrator) |
 //! | PUT | `/api/v1/access` | [`Policy`](crate::access::Policy) of [`PartsRight`] (administrator) |
+//! | GET | `/api/v1/bundled` | [`BundledCatalog`] list: catalogs shipped with the server (administrator) |
+//! | POST | `/api/v1/bundled/{id}` | installs or updates a bundled catalog (administrator) → [`Installed`] |
 //! | GET | `/api/v1/texts?lang=de` | translations of the web portal |
 //!
 //! Requests of a user carry `Authorization: Bearer <token>`: the token of a
@@ -61,6 +69,8 @@ pub struct ServerInfo {
     pub user: Option<User>,
     /// What the caller may do (role and grants of the server's policy).
     pub access: Access<PartsRight>,
+    /// Anybody may create an account (`POST /api/v1/register`).
+    pub registration: bool,
 }
 
 impl ServerInfo {
@@ -168,6 +178,61 @@ pub struct UserUpdate {
     /// from the directory.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub groups: Option<Vec<String>>,
+}
+
+/// Whether users may register themselves (`GET|PUT /api/v1/registration`; `PUT`
+/// sets `enabled` and `approval`).
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct Registration {
+    pub enabled: bool,
+    /// `enabled` is set by the start options of the server (`--registration`): not
+    /// changeable here.
+    pub fixed: bool,
+    /// New accounts wait for the approval of an administrator before they can sign in.
+    pub approval: bool,
+}
+
+impl Default for Registration {
+    fn default() -> Self {
+        Registration { enabled: false, fixed: false, approval: true }
+    }
+}
+
+/// A user as administrators see it (`GET /api/v1/users`): the [`User`] fields and its
+/// sessions. Clients that only know [`User`] read the list as users.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct UserEntry {
+    #[serde(flatten)]
+    pub user: User,
+    /// Sessions that have not expired.
+    pub sessions: usize,
+    /// Unix time of the newest sign-in (0: none kept).
+    pub signed_in: u64,
+}
+
+/// A manufacturer catalog shipped with the server (`GET /api/v1/bundled`).
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct BundledCatalog {
+    pub id: String,
+    pub name: String,
+    pub manufacturer: String,
+    pub version: String,
+    pub parts: usize,
+    /// Version of the catalog on the server; empty if it is not installed.
+    pub installed: String,
+}
+
+/// What installing a bundled catalog did (`POST /api/v1/bundled/{id}`).
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct Installed {
+    pub added: usize,
+    pub updated: usize,
+    /// Numbers of the parts left as they are (changed by users).
+    pub kept: Vec<String>,
 }
 
 /// Query parameters of `GET /api/v1/parts`, body of `POST /api/v1/search`.

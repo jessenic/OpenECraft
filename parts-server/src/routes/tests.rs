@@ -373,6 +373,10 @@ async fn web_page_and_texts() {
     assert_eq!(status, StatusCode::OK);
     assert!(headers[header::CONTENT_TYPE].to_str().unwrap().starts_with("text/javascript"));
     assert!(String::from_utf8(script).unwrap().contains("/api/v1"));
+    let (status, headers, script) = send(&app, "GET", "/admin.js", None, Vec::new()).await;
+    assert_eq!(status, StatusCode::OK);
+    assert!(headers[header::CONTENT_TYPE].to_str().unwrap().starts_with("text/javascript"));
+    assert!(String::from_utf8(script).unwrap().contains("function showAdmin"));
     let texts: web::WebTexts = json(&app, "GET", "/api/v1/texts?lang=fr-CA", None, "").await;
     assert_eq!(texts.lang, "fr");
     let texts: web::WebTexts = json(&app, "GET", "/api/v1/texts?lang=xx", None, "").await;
@@ -637,4 +641,184 @@ async fn unknown_names_take_as_long_as_wrong_passwords() {
     let known = time("anna").await;
     let unknown = time("nobody").await;
     assert!(unknown * 4 > known, "unknown {unknown:?}, known {known:?}");
+}
+
+#[tokio::test]
+async fn administrators_see_sessions_and_sign_users_out() {
+    let app = app(Some(TOKEN));
+    let eve = sign_up(&app, "eve", "Editor", "").await;
+    sign_up(&app, "rita", "Reader", "").await;
+    let second: Session = json(&app, "POST", "/api/v1/login", None, r#"{"name": "eve", "password": "password-eve"}"#).await;
+    let users: Vec<UserEntry> = json(&app, "GET", "/api/v1/users", Some(TOKEN), "").await;
+    let of = |name: &str| users.iter().find(|u| u.user.name == name).unwrap().clone();
+    assert_eq!(of("eve").sessions, 2);
+    assert!(of("eve").signed_in > 0);
+    assert_eq!(of("eve").user.role, Role::Editor);
+    // Clients that only know users read the same list.
+    let plain: Vec<User> = json(&app, "GET", "/api/v1/users", Some(TOKEN), "").await;
+    assert_eq!(plain.len(), 2);
+
+    assert_eq!(call(&app, "DELETE", "/api/v1/users/rita/sessions", Some(&eve), "").await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "DELETE", "/api/v1/users/nobody/sessions", Some(TOKEN), "").await.0, StatusCode::NOT_FOUND);
+    assert_eq!(call(&app, "DELETE", "/api/v1/users/EVE/sessions", Some(TOKEN), "").await.0, StatusCode::NO_CONTENT);
+    for token in [&eve, &second.token] {
+        assert_eq!(call(&app, "GET", "/api/v1/favorites", Some(token), "").await.0, StatusCode::UNAUTHORIZED);
+    }
+    let users: Vec<UserEntry> = json(&app, "GET", "/api/v1/users", Some(TOKEN), "").await;
+    assert_eq!(users.iter().find(|u| u.user.name == "eve").unwrap().sessions, 0);
+    // The password stays.
+    assert_eq!(call(&app, "POST", "/api/v1/login", None, r#"{"name": "eve", "password": "password-eve"}"#).await.0, StatusCode::OK);
+}
+
+#[tokio::test]
+async fn bundled_catalogs_are_installed_by_administrators() {
+    let app = app(Some(TOKEN));
+    let eve = sign_up(&app, "eve", "Editor", "").await;
+    assert_eq!(call(&app, "GET", "/api/v1/bundled", Some(&eve), "").await.0, StatusCode::FORBIDDEN);
+    let list: Vec<BundledCatalog> = json(&app, "GET", "/api/v1/bundled", Some(TOKEN), "").await;
+    assert_eq!(list.len(), bundled::ids().len());
+    let first = list[0].clone();
+    assert!(first.parts > 0 && first.installed.is_empty(), "{first:?}");
+
+    let id = format!("/api/v1/bundled/{}", first.id.to_uppercase());
+    assert_eq!(call(&app, "POST", &id, Some(&eve), "").await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "POST", "/api/v1/bundled/nope", Some(TOKEN), "").await.0, StatusCode::NOT_FOUND);
+    let installed: Installed = json(&app, "POST", &id, Some(TOKEN), "").await;
+    assert_eq!(installed.added, first.parts);
+    let list: Vec<BundledCatalog> = json(&app, "GET", "/api/v1/bundled", Some(TOKEN), "").await;
+    assert_eq!(list[0].installed, first.version);
+    let catalogs: Vec<Catalog> = json(&app, "GET", "/api/v1/catalogs", None, "").await;
+    assert!(catalogs.iter().any(|c| c.id == first.id && c.parts == first.parts));
+    // Installing again changes nothing.
+    let again: Installed = json(&app, "POST", &id, Some(TOKEN), "").await;
+    assert_eq!(again, Installed::default());
+}
+
+#[tokio::test]
+async fn exports_and_backups() {
+    let app = app(Some(TOKEN));
+    let eve = sign_up(&app, "eve", "Editor", "").await;
+    call(&app, "PUT", "/api/v1/parts/X.1", Some(&eve), r#"{"manufacturer": "X", "description": "First"}"#).await;
+    let parts: Vec<Part> = json(&app, "GET", "/api/v1/export.json?manufacturer=X", None, "").await;
+    assert_eq!(parts.len(), 1);
+    assert_eq!(parts[0].description, "First");
+    // The export imports again.
+    let all = call(&app, "GET", "/api/v1/export.json", None, "").await.1;
+    let imported: ImportResult = json(&app, "POST", "/api/v1/import", Some(&eve), &all).await;
+    assert_eq!(imported.imported, default_catalog().len() + 1);
+
+    assert_eq!(call(&app, "GET", "/api/v1/backup", Some(&eve), "").await.0, StatusCode::FORBIDDEN);
+    let (status, headers, data) = send(&app, "GET", "/api/v1/backup", Some(TOKEN), Vec::new()).await;
+    assert_eq!(status, StatusCode::OK);
+    assert!(headers[header::CONTENT_DISPOSITION].to_str().unwrap().contains(".sqlite"));
+    // The backup is a database the server opens: parts, accounts and all.
+    let nanos = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos();
+    let path = std::env::temp_dir().join(format!("openecraft-test-{}-{nanos}", std::process::id())).join("backup.sqlite");
+    std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+    std::fs::write(&path, data).unwrap();
+    let restored = Store::open(crate::storage::StorageKind::Sqlite, &path).unwrap();
+    assert_eq!(restored.get("X.1").unwrap().unwrap().description, "First");
+    assert!(restored.account("eve").is_some());
+    assert_eq!(restored.count().unwrap(), default_catalog().len() + 1);
+}
+
+#[tokio::test]
+async fn users_register_themselves_when_the_registration_is_open() {
+    let app = app(Some(TOKEN));
+    let login = |name: &str| format!(r#"{{"name": "{name}", "password": "password-{name}"}}"#);
+    let info: ServerInfo = json(&app, "GET", "/api/v1/info", None, "").await;
+    assert!(!info.registration, "closed unless switched on");
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, &login("nina")).await.0, StatusCode::FORBIDDEN);
+
+    let eve = sign_up(&app, "eve", "Editor", "").await;
+    assert_eq!(call(&app, "PUT", "/api/v1/registration", Some(&eve), r#"{"enabled": true}"#).await.0, StatusCode::FORBIDDEN);
+    let r: Registration = json(&app, "PUT", "/api/v1/registration", Some(TOKEN), r#"{"enabled": true, "approval": false}"#).await;
+    assert!(r.enabled && !r.fixed && !r.approval);
+    let info: ServerInfo = json(&app, "GET", "/api/v1/info", None, "").await;
+    assert!(info.registration);
+
+    let s: Session = json(&app, "POST", "/api/v1/register", None, &login("nina")).await;
+    assert_eq!((s.user.name.as_str(), s.user.role), ("nina", Role::Reader));
+    assert_eq!(call(&app, "GET", "/api/v1/favorites", Some(&s.token), "").await.0, StatusCode::OK);
+    assert_eq!(call(&app, "PUT", "/api/v1/parts/N.1", Some(&s.token), "{}").await.0, StatusCode::FORBIDDEN, "readers only");
+    let again: Session = json(&app, "POST", "/api/v1/login", None, &login("nina")).await;
+    assert_eq!(again.user.name, "nina");
+
+    // Names that are taken, refer to grants or are not names; short passwords.
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, &login("NINA")).await.0, StatusCode::CONFLICT);
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, &login("eve")).await.0, StatusCode::CONFLICT);
+    let policy = r#"{"anonymous": "reader", "grants": [{"subject": {"user": "boss*"}, "role": "admin", "scope": "*"}]}"#;
+    assert_eq!(call(&app, "PUT", "/api/v1/access", Some(TOKEN), policy).await.0, StatusCode::OK);
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, &login("boss2")).await.0, StatusCode::CONFLICT);
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, &login("admin")).await.0, StatusCode::BAD_REQUEST);
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, &login("a b")).await.0, StatusCode::BAD_REQUEST);
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, r#"{"name": "kim", "password": "short"}"#).await.0, StatusCode::BAD_REQUEST);
+
+    // Many registrations from one client are slowed down.
+    let mut statuses = Vec::new();
+    for i in 0..4 {
+        statuses.push(call(&app, "POST", "/api/v1/register", None, &login(&format!("user{i}"))).await.0);
+    }
+    assert!(statuses.contains(&StatusCode::TOO_MANY_REQUESTS), "{statuses:?}");
+
+    let r: Registration = json(&app, "PUT", "/api/v1/registration", Some(TOKEN), r#"{"enabled": false, "approval": false}"#).await;
+    assert!(!r.enabled);
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, &login("late")).await.0, StatusCode::FORBIDDEN);
+}
+
+#[tokio::test]
+async fn start_options_fix_the_registration() {
+    let app = router(state(Some(TOKEN)).with_registration(Some(true)));
+    let r: Registration = json(&app, "GET", "/api/v1/registration", Some(TOKEN), "").await;
+    assert!(r.enabled && r.fixed && r.approval);
+    assert_eq!(call(&app, "PUT", "/api/v1/registration", Some(TOKEN), r#"{"enabled": false}"#).await.0, StatusCode::CONFLICT);
+    // The approval stays changeable.
+    let r: Registration = json(&app, "PUT", "/api/v1/registration", Some(TOKEN), r#"{"enabled": true, "approval": false}"#).await;
+    assert!(r.enabled && r.fixed && !r.approval);
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, r#"{"name": "nina", "password": "password-nina"}"#).await.0, StatusCode::OK);
+    let app = router(state(Some(TOKEN)).with_registration(Some(false)));
+    assert_eq!(call(&app, "POST", "/api/v1/register", None, r#"{"name": "nina", "password": "password-nina"}"#).await.0, StatusCode::FORBIDDEN);
+}
+
+#[tokio::test]
+async fn registered_users_wait_for_approval_by_default() {
+    let app = app(Some(TOKEN));
+    let r: Registration = json(&app, "PUT", "/api/v1/registration", Some(TOKEN), r#"{"enabled": true}"#).await;
+    assert!(r.approval, "approval unless switched off");
+    let login = r#"{"name": "nina", "password": "password-nina"}"#;
+    let (status, body) = call(&app, "POST", "/api/v1/register", None, login).await;
+    assert_eq!(status, StatusCode::ACCEPTED);
+    let s: Session = serde_json::from_str(&body).unwrap();
+    assert!(s.token.is_empty() && s.user.pending);
+    // Waiting: the right password is refused, a wrong one as usual.
+    let (status, body) = call(&app, "POST", "/api/v1/login", None, login).await;
+    assert_eq!(status, StatusCode::FORBIDDEN, "{body}");
+    assert!(body.contains("approval"));
+    assert_eq!(call(&app, "POST", "/api/v1/login", None, r#"{"name": "nina", "password": "wrong-password"}"#).await.0, StatusCode::UNAUTHORIZED);
+    let users: Vec<UserEntry> = json(&app, "GET", "/api/v1/users", Some(TOKEN), "").await;
+    assert!(users[0].user.pending);
+
+    let eve = sign_up(&app, "eve", "Editor", "").await;
+    assert_eq!(call(&app, "POST", "/api/v1/users/nina/approval", Some(&eve), "").await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "POST", "/api/v1/users/nobody/approval", Some(TOKEN), "").await.0, StatusCode::NOT_FOUND);
+    let approved: User = json(&app, "POST", "/api/v1/users/NINA/approval", Some(TOKEN), "").await;
+    assert!(!approved.pending);
+    let s: Session = json(&app, "POST", "/api/v1/login", None, login).await;
+    assert_eq!(s.user.role, Role::Reader);
+}
+
+#[tokio::test]
+async fn waiting_administrators_do_not_count() {
+    let state = state(None);
+    {
+        let mut store = state.store.lock().unwrap();
+        let mut root = Account { user: User { name: "root".into(), role: Role::Admin, ..Default::default() }, ..Default::default() };
+        root.password = hash_password("root-password").unwrap();
+        store.put_account(root).unwrap();
+        let waiting = Account { user: User { name: "wait".into(), role: Role::Admin, pending: true, ..Default::default() }, ..Default::default() };
+        store.put_account(waiting).unwrap();
+    }
+    let app = router(state);
+    let s: Session = json(&app, "POST", "/api/v1/login", None, r#"{"name": "root", "password": "root-password"}"#).await;
+    assert_eq!(call(&app, "DELETE", "/api/v1/users/root", Some(&s.token), "").await.0, StatusCode::CONFLICT);
 }

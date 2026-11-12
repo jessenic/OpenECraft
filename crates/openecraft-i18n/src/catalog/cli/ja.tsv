@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	前回のエ�
 Also verify each project (slower)	各プロジェクトも検証する (低速)
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	table_get でエクスポートし (スプレッドシートで変更した) CSV を適用します: 変更されたセルが設定されます
 Applies a structure template: the aspects of the pages and its identifiers	構造テンプレートを適用します: ページのアスペクトとテンプレートの識別子
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	部品サーバーに登録したユーザーを承認し、サインインできるようにします (管理者のみ)
 Archive file (.oecz)	アーカイブファイル (.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	デバイスに部品を割り当てます (プロジェクト、組み込みカタログ、または部品サーバーから)
 Author of comments without one (default: the user name)	作成者のないコメントの作成者 (既定: ユーザー名)
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	メーカーユーザー�
 Maximum number of hits (default 50)	最大ヒット数 (既定値 50)
 Name of a built-in template (list_structure_templates)	組み込みテンプレートの名前 (list_structure_templates)
 Name of the knowledge vault (default Vault)	ナレッジ Vault の名前 (既定 Vault)
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	新しいアカウントは管理者の承認を待つ (true) か、そのままサインインする (false)
 New file name (save as)	新しいファイル名 (名前を付けて保存)
 New pages for every value of the group column (default true)	グループ列の値ごとに新しいページ (既定値 true)
 New part number	新しい部品番号
@@ -147,6 +149,7 @@ Only show the changes, write nothing	変更内容を表示するだけで書き�
 Only the pages of this report block; default all report pages	このレポートブロックのページのみ。既定はすべてのレポートページ
 Only the projects that match these search terms	これらの検索条件に一致するプロジェクトのみ
 Only this block	このブロックのみ
+Open (true) or close (false) the registration	登録の受け付けを開始 (true) または停止 (false)
 Opens a project file or archive (files of older versions are converted)	プロジェクトファイルまたはアーカイブを開きます (旧バージョンのファイルは変換されます)
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	Vault からプロジェクトファイルまたはアーカイブを開きます。ターゲットを指定しない vault_upload では、その新しいバージョンがチェックインされます
 Option {} needs the form name=value	オプション {} は 名前=値 の形式で指定する必要があります
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	プロジェクトアーカイブのマニフェストを表示します
 Shows the project properties, file, number of pages and devices and the check result	プロジェクトプロパティ、ファイル、ページ数、デバイス数、チェック結果を表示します
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	部品サーバーのロール、付与、ディレクトリを表示し、必要に応じて匿名リクエストのロールを設定します (管理者のみ)
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	ユーザーが部品サーバーに自分で登録できるか (閲覧者として) を表示し、必要に応じて登録の受け付けを開始または停止します (管理者のみ)
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	プロジェクトテンプレートから開始します: 組み込みテンプレート (Machine、Distribution board (IEC 61439)、Empty (IEC 60204-1)) またはプロジェクトファイル
 Start from an example project (names: list_examples)	サンプルプロジェクトから開始（名前：list_examples）
 Start from the demo project	デモプロジェクトから開始

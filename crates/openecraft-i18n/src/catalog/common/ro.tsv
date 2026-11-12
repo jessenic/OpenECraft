@@ -17,6 +17,7 @@ Add to favorites	Adăugare la favorite
 Address	Adresă
 Angle	Unghi
 Apply	Aplicare
+Approve	Avizare
 Approvers	Avizatori
 Automatic	Automat
 Below	Dedesubt
@@ -92,6 +93,8 @@ Dark	Întunecat
 Data portal	Portal de date
 Data type	Tip de date
 Date	Dată
+Delete	Ștergere
+Deny	Refuzare
 Depth	Adâncime
 Descending	Descrescător
 Description	Descriere
@@ -105,6 +108,7 @@ Device {}	Dispozitiv {}
 Devices	Dispozitive
 Direction	Direcție
 Discard	Renunțare
+Discard changes	Renunță la modificări
 Display	Afișare
 Done	Terminat
 Door	Ușă
@@ -112,6 +116,7 @@ Door cutout	Decupaj în ușă
 Downloading {}…	Se descarcă {}…
 Drag to turn the model	Trageți pentru a roti modelul
 EMC clearance	Distanță CEM
+Edit	Editare
 Electro-fluid cross reference	Referințe încrucișate electro-fluid
 Enclosure	Carcasă
 Enclosures	Carcase
@@ -164,6 +169,7 @@ Hose no.	Nr. furtun
 Identifier	Identificator
 Identifying letter	Literă de identificare
 Image	Imagine
+Import	Import
 Input	Intrare
 Integration	Integrare
 Internal (bottom)	Intern (jos)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Numele terenului, de ex. parcela cad
 Name of the point, e.g. a survey point	Numele punctului, de ex. un punct geodezic
 Name of the scheme	Numele schemei
 Net	Rețea
+Never	Niciodată
 New name	Nume nou
 No	Nu
 No Vault item matches a part of the project	Niciun element Vault nu corespunde unui articol al proiectului
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Opțiunea {}: {} nu este una dintre opț
 Order number	Număr de comandă
 Outer diameter	Diametru exterior
 Output	Ieșire
+Overview	Prezentare generală
 PCT loop	Buclă AMC
 PCT loop overview	Prezentare bucle AMC
 PL	PL
@@ -335,6 +343,7 @@ Range	Domeniu
 Rated current	Curent nominal
 Rated power	Putere nominală
 Rectangle	Dreptunghi
+Reject	Respingere
 Relative humidity	Umiditate relativă
 Relay	Releu
 Released pages cannot be moved	Paginile aprobate nu pot fi mutate
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Rânduri de module (est-vest: rândur
 Rule	Regulă
 Rule set	Set de reguli
 Safety function	Funcție de siguranță
+Save	Salvare
+Saved catalog {}	Catalogul {} a fost salvat
+Saved user {}	Utilizatorul {} a fost salvat
 Saved {}	S-a salvat {}
 Scale	Scară
 Schematic	Schemă
@@ -442,7 +454,9 @@ Unknown property: {}	Proprietate necunoscută: {}
 Unknown scheme: {}	Schemă necunoscută: {}
 Unknown segment	Segment necunoscut
 Unknown symbol {}	Simbol necunoscut {}
+Update	Actualizare
 Uploading {}…	Se încarcă {}…
+User	Utilizator
 User name	Nume de utilizator
 Users	Utilizatori
 Version	Versiune

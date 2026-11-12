@@ -144,7 +144,6 @@ Apply to the connection	Aplicare la conexiune
 Apply to {} projects	Aplicare la {} proiecte
 Approval workflow	Flux de avizare
 Approvals needed	Avize necesare
-Approve	Avizare
 Approving needs an approver; you are \"{}\".	Doar un avizator poate aviza; sunteți \"{}\".
 Arc	Arc
 Archive and version	Arhivă și versiune
@@ -453,7 +452,6 @@ Define	Definire
 Define all used	Definire toți cei utilizați
 Defined potentials	Potențiale definite
 Del	Del
-Delete	Ștergere
 Delete PV array	Ștergeți câmpul fotovoltaic
 Delete cable (its wires are removed from it)	Ștergere cablu (conductoarele sale sunt eliminate din el)
 Delete comment	Ștergere comentariu
@@ -483,7 +481,6 @@ Delete the property and all its values	Ștergerea proprietății și a tuturor v
 Delete this workspace	Ștergerea acestui spațiu de lucru
 Delete variant	Ștergere variantă
 Delete zone	Ștergeți zona
-Deny	Refuzare
 Depth / mounted at	Adâncime / montat la
 Depth from / to	Adâncime de la / până la
 Depth in the floor	Adâncime în pardoseală
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Încrucișare direcționată: leagă cele două fire care se încrucișează acolo; fiecare capăt al liniei sale este cablat întâi drept înainte, apoi transversal
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Direcția nordului rețelei, în sens antiorar văzut de sus, de la spatele instalației (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Direcția spre care sunt orientate modulele, în sens antiorar văzut de sus (0: spre față)
-Discard changes	Renunță la modificări
 Discard draft	Renunțare la ciornă
 Disconnection of distribution circuits	Deconectarea circuitelor de distribuție
 Disconnection of final circuits	Deconectarea circuitelor finale
@@ -611,7 +607,6 @@ Earthing system	Sistem de legare la pământ
 Easting, northing	Coordonată est, nord
 Eaves	Streașină
 Edge length of the routing grid: smaller is finer and slower	Lungimea laturii grilei de pozare: mai mică înseamnă mai fină și mai lentă
-Edit	Editare
 Edit in table	Editare în tabel
 Edit in table…	Editare în tabel…
 Editable copy of this plot frame	Copie editabilă a acestui chenar
@@ -824,7 +819,6 @@ Identifiers of the structure management	Identificatori ai gestionării structuri
 Identifying letters	Litere de identificare
 Images (PNG, JPEG)	Imagini (PNG, JPEG)
 Image…	Imagine…
-Import	Import
 Import AutomationML…	Import AutomationML…
 Import CSV / Excel…	Import CSV / Excel…
 Import CSV…	Import CSV…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Name; Da
 Named copy of this form, for report blocks	Copie denumită a acestui formular, pentru blocuri de raport
 Navigators	Navigatoare
 Neutral exchange file…	Fișier de schimb neutru…
-Never	Niciodată
 New	Nou
 New block	Bloc nou
 New building	Clădire nouă
@@ -1506,7 +1499,6 @@ Reference point	Punct de referință
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Punct de referință plasat la x {} m, z {} m; introduceți coordonatele lui în panoul Clădiri
 Refresh	Reîmprospătare
 Refresh example catalog parts (GEN.*)	Reîmprospătare articole din catalogul exemplu (GEN.*)
-Reject	Respingere
 Rejected and closed ones too	Și cele respinse și închise
 Relative column width	Lățime relativă a coloanei
 Release	Aprobare
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Executare
 SVG drawing	Desen SVG
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Funcții de securitate conform ISO 13849-1: fiecare subsistem (intrare, logică, ieșire) cu dispozitivele unui canal, categoria sa, acoperirea diagnosticului și manevrele pe an. Dispozitivele contează cu PL / PFHd, MTTFd sau B10d ale articolelor lor.
-Save	Salvare
 Save a selection under this name with another variant to add one.	Salvați o selecție sub acest nume cu altă variantă pentru a adăuga una.
 Save access	Salvare acces
 Save and release	Salvare și eliberare
@@ -2018,7 +2009,6 @@ Ungroup	Anulare grupare
 Unlock all	Deblocare toate
 Unplaced	Neplasate
 Unplaced ({})	Neplasate ({})
-Update	Actualizare
 Update all	Actualizare totală
 Update part links from Vault items	Actualizare legături de articole din elementele Vault
 Update report blocks	Actualizare blocuri de raport
@@ -2037,7 +2027,6 @@ Use for all pages	Utilizare pentru toate paginile
 Used	Utilizat
 Used by {} pages	Utilizat de {} pagini
 Used on {} of {} pages	Utilizat pe {} din {} pagini
-User	Utilizator
 User / group	Utilizator / grup
 User defined property	Proprietate definită de utilizator
 User names, separated by commas	Nume de utilizator, separate prin virgule

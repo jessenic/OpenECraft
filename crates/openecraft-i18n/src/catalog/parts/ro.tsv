@@ -1,19 +1,34 @@
 # English<TAB>Română – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(redenumit din {})
 19-inch module technology	Tehnică modulară de 19 inci
+A catalog id must not be empty or contain blanks	Un identificator de catalog nu poate fi gol sau conține spații
+A manufacturer user needs a manufacturer	Un utilizator producător are nevoie de un producător
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Un rol este un set de drepturi. Atribuirile dau unui utilizator sau unui grup un rol pentru articolele unui producător (* și ? ca metacaractere, * pentru toți); o atribuire de refuz retrage drepturile rolului, indiferent ce dau alte atribuiri.
+A user name must not be empty or contain blanks	Un nume de utilizator nu poate fi gol sau conține spații
+Access rights	Drepturi de acces
+Access settings saved	Setările de acces au fost salvate
 Accumulator blocks	Blocuri de acumulatoare
 Accumulators	Acumulatoare
 Actuators, general	Actuatoare, generalități
 Adapter	Adaptor
 Adapter plates	Plăci adaptoare
+Add grant	Adăugare atribuire
 Adds new parts and replaces existing ones on the server	Adaugă articole noi și le înlocuiește pe cele existente pe server
+Administration	Administrare
+All manufacturers	Toți producătorii
 All parts	Toate articolele
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Toate articolele cu datele lor, pentru foi de calcul sau pentru import pe alt server. Fișierele lor sunt doar în copia de rezervă a bazei de date.
 Amplifiers, controllers	Amplificatoare, regulatoare
 Analog sensor	Senzor analogic
+Approval of new accounts	Aprobarea conturilor noi
+Approved user {}	Utilizatorul {} a fost aprobat
+At least {} characters	Cel puțin {} caractere
 Attachment nut	Piuliță de atașare
 Auxiliary block	Bloc auxiliar
 Auxiliary contact block	Bloc de contacte auxiliare
 Auxiliary switch	Comutator auxiliar
+Awaiting approval	Așteaptă aprobarea
+Awaiting approval: {}	Așteaptă aprobarea: {}
 Back to the results	Înapoi la rezultate
 Ball valve pneumatic	Robinet cu bilă pneumatic
 Ball valves	Robinete cu bilă
@@ -23,22 +38,28 @@ Block ball valves	Robinete cu bilă bloc
 Body	Corp
 Brake motor	Motor cu frână
 Built into the part	Integrat în articol
+Built-in	Încorporat
+Bundled catalogs	Cataloage incluse
 Bunker	Buncăr
 Busbar cover	Capac pentru bare colectoare
 Busbars	Bare colectoare
 C horizontal rails	Șine profil C orizontale
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (cu numele de coloane ale exportului), JSON, BMEcat sau EPLAN XML. Articolele cu același număr sunt înlocuite; fișierele lor sunt păstrate.
 Cable / tubing clamp	Fixare cablu / furtun
 Cable / tubing protection	Protecție cablu / furtun
 Cable / tubing tie	Colier cablu / furtun
 Cable clamp rails	Șine de fixare a cablurilor
 Cable ducts	Canale de cablu
 Capacitors	Condensatoare
+Catalog {} exists already. Change it?	Catalogul {} există deja. Îl modificați?
 Catalogs	Cataloage
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Cataloage livrate cu serverul. Instalarea adaugă articolele lor și le actualizează pe cele pe care nimeni nu le-a modificat pe acest server.
 Central lubrication power units	Agregate de ungere centralizată
 Centrifugal pumps	Pompe centrifuge
 Centrifuge	Centrifugă
 Certificate	Certificat
 Changed	Modificat
+Changes allowed	Modificări permise
 Check control valve	Armătură de reținere
 Check flap	Clapetă de reținere
 Chimney	Coș de fum
@@ -66,6 +87,7 @@ Coupling motor pumps	Motopompe cu cuplaj
 Couplings	Cuplaje
 Cover plates	Plăci de acoperire
 Create / update the part on the server (Ctrl+S)	Creare / actualizare articol pe server (Ctrl+S)
+Create an account on this server	Creați un cont pe acest server
 Created	Creat
 Crimp contact	Contact de sertizare
 Cross-connector	Conector transversal
@@ -74,8 +96,11 @@ Cylinders	Cilindri
 DC motor	Motor de curent continuu
 DC-DC converter	Convertor c.c.-c.c.
 Data recorder	Înregistrator de date
+Database backup	Copie de rezervă a bazei de date
 Datasheet	Fișă tehnică
+Defined roles	Roluri definite
 Delete catalog {} from the server?	Ștergeți catalogul {} de pe server?
+Delete catalog {}?	Ștergeți catalogul {}?
 Delete part {} from the server? This cannot be undone.	Ștergeți articolul {} de pe server? Această acțiune nu poate fi anulată.
 Delete parts	Ștergere articole
 Delete user {}? Their sessions and favorites are removed.	Ștergeți utilizatorul {}? Sesiunile și favoritele sale sunt eliminate.
@@ -83,6 +108,8 @@ Deleted	Șters
 Digital sensor, general	Senzor digital, general
 Directional control valves	Distribuitoare
 Directional control valves, coaxial	Distribuitoare coaxiale
+Directories	Servicii de director
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Serviciile de director (Active Directory, LDAP) se configurează în fișierul cu setările de acces ale serverului.
 Directory	Serviciu de director
 Dirt trap	Filtru de impurități
 Discard the changes	Renunțare la modificări
@@ -91,13 +118,16 @@ Discontinued	Scos din fabricație
 Display device	Aparat de afișare
 Document holder	Suport pentru documente
 Door handle	Mâner de ușă
+Download	Descărcare
 Drawings box	Suport pentru desene
 Dryer	Uscător
 Dummy plate	Flanșă oarbă
 Duplex switch filters	Filtre duble comutabile
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Editare catalog {}
 Edit catalogs	Editare cataloage
 Edit parts	Editare articole
+Edit user {}	Editare utilizator {}
 Electrical engineering - special items	Electrotehnică - componente speciale
 Electrically-operated mechanical devices	Dispozitive mecanice acționate electric
 Electrolysis cell	Celulă de electroliză
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Introduceți 
 Evaporator	Evaporator
 Exhaust valves	Supape de evacuare
 Export (CSV)	Export (CSV)
+Export and backup	Export și copie de rezervă
+Export the parts, catalogs and settings, or download a backup of the whole database.	Exportați articolele, cataloagele și setările sau descărcați o copie de rezervă a întregii baze de date.
 Exported {} parts to {}	S-au exportat {} articole în {}
 Extraction hood	Hotă de evacuare
 Feed-through terminal	Bornă de trecere
@@ -133,6 +165,7 @@ Front view (2D)	Vedere frontală (2D)
 Funnel	Pâlnie
 Furnace	Cuptor
 Generator	Generator
+Grants	Atribuiri
 Grants of the server's access settings can refer to them	Atribuirile din setările de acces ale serverului pot face referire la acestea
 Ground fault current circuit breaker	Întrerupător de protecție la curent rezidual
 Ground fault voltage circuit-breaker	Întrerupător de protecție la tensiune de defect
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Accesorii de carcasă, montaj interior
 Hydraulic motors	Motoare hidraulice
 Hydraulic tanks	Rezervoare hidraulice
 Import / export	Import / export
+Import parts	Importare articole
+Imported {} parts (revision {})	{} articole importate (revizia {})
 Inductors	Inductoare
+Install	Instalare
+Install again	Reinstalare
 Intermediate plates	Plăci intermediare
 Isolating valves	Supape de izolare
 KNX actuator	Actuator KNX
 KNX system device	Dispozitiv de sistem KNX
 Key switch	Comutator cu cheie
 Kneader	Malaxor
+Last sign-in	Ultima conectare
 Legend plate	Plăcuță de marcare
 Level detector	Detector de nivel
 Level switches	Comutatoare de nivel
@@ -165,6 +203,7 @@ Line return filters	Filtre de retur
 Lines / conduits	Linii / pachete
 Load all parts from the server again	Reîncărcare toate articolele de pe server
 Loading…	Se încarcă…
+Local	Local
 Lock systems	Sisteme de închidere
 Locking couplings	Cuplaje cu închidere
 Logic item	Element logic
@@ -183,17 +222,28 @@ Modulators	Modulatoare
 Motor overload switch	Întrerupător de protecție a motorului
 Mounting chassis	Șasiu de montaj
 Mounting panels	Plăci de montaj
+New accounts need the approval of an administrator	Conturile noi necesită aprobarea unui administrator
+New catalog	Catalog nou
 New part based on the open one	Articol nou pe baza celui deschis
 New password	Parolă nouă
+New role	Rol nou
+New user	Utilizator nou
 Newer version	Versiune mai nouă
 Next	Următorul
+No grants: users have the rights of their role	Nicio atribuire: utilizatorii au drepturile rolului lor
+No users	Niciun utilizator
 Non-return valves	Supape de reținere
 Not mounted	Nemontat
 Nut	Piuliță
 On the front	Pe față
 On the left side	Pe partea stângă
 On the right side	Pe partea dreaptă
+On this server	Pe acest server
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Un singur fișier SQLite cu toate articolele, istoricul și fișierele lor, cataloagele, utilizatorii și favoritele lor. Conține hash-urile parolelor utilizatorilor: păstrați-l în siguranță.
 Only catalogs without parts can be deleted	Pot fi șterse numai cataloagele fără articole
+Only empty catalogs can be deleted	Doar cataloagele goale pot fi șterse
+Only local accounts	Doar conturi locale
+Open sessions: {}	Sesiuni deschise: {}
 OpenECraft data portal	Portal de date OpenECraft
 OpenECraft parts manager	Gestionar de articole OpenECraft
 OpenECraft parts server	Server de articole OpenECraft
@@ -253,6 +303,7 @@ Pushbutton	Buton
 Rail standoff	Distanțier pentru șină
 Rails	Șine
 Reactor	Reactor
+Read only	Doar citire
 Read only: sign in with a user who may change parts of this manufacturer	Doar citire: autentificați-vă cu un utilizator care poate modifica articolele acestui producător
 Read parts	Citire articole
 Reader	Cititor
@@ -262,12 +313,20 @@ Rear / side panel	Panou spate / lateral
 Rectifier	Redresor
 Reducer	Reducție
 Reducing plates	Plăci de reducție
+Register	Înregistrare
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Utilizatorii înregistrați devin cititori: păstrează favorite și citesc articolele chiar și atunci când citirea necesită conectare. Dați-le mai multe drepturi în Utilizatori.
+Registration	Înregistrare
+Reject the registration of {}? The account is deleted.	Respingeți înregistrarea lui {}? Contul este șters.
 Remove the file from the part	Eliminarea fișierului din articol
 Removed from the server	Eliminat de pe server
+Repeat password	Repetați parola
+Replace the roles and grants with those of the file?	Înlocuiți rolurile și atribuirile cu cele din fișier?
 Replaced by {}	Înlocuit de {}
 Resistors	Rezistoare
+Restore from a file	Restaurare dintr-un fișier
 Return flushing filters, all-autom.	Filtre cu spălare inversă, complet automate
 Ribbon cables	Cabluri panglică
+Roles	Roluri
 Roof hook	Cârlig de acoperiș
 Routing accessories	Accesorii de pozare
 Routing path (topology)	Traseu (topologie)
@@ -281,6 +340,7 @@ Screw connections	Racorduri filetate
 Screw pumps	Pompe cu șurub
 Screw spindle compressors	Compresoare cu șurub
 Scroll compressors	Compresoare scroll
+Search users	Căutare utilizatori
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Selectați un catalog sau creați unul nou. Articolele aparțin unui catalog prin ID-ul lor de catalog (editorul de articole, fila Portal de date).
 Select a user or create a new one.	Selectați un utilizator sau creați unul nou.
 Selector switch	Comutator selector
@@ -289,6 +349,7 @@ Sensor NC	Senzor NÎ
 Sensor, switch, and pushbutton	Senzori, comutatoare și butoane
 Sensors - pressure gauges	Senzori - manometre
 Serial sub-plates	Plăci de bază în serie
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Stabilit de opțiunile de pornire ale serverului (--registration sau OPENECRAFT_REGISTRATION).
 Show parts	Afișare articole
 Shut-off accumulators	Acumulatoare cu închidere
 Shut-off control valve	Armătură de închidere
@@ -296,12 +357,19 @@ Shut-off flap	Clapetă de închidere
 Side panel	Perete lateral
 Sifter	Separator pneumatic
 Sight glass	Vizor
+Sign in as an administrator to manage the server	Conectați-vă ca administrator pentru a gestiona serverul
 Sign in or connect with the access token to change parts	Autentificați-vă sau conectați-vă cu tokenul de acces pentru a modifica articole
 Sign in to keep favorites	Conectați-vă pentru a păstra favoritele
+Sign in with a user account	Conectare cu un cont de utilizator
+Sign in with the access token of the server	Conectare cu tokenul de acces al serverului
+Sign out everywhere	Deconectare peste tot
+Sign out {} on all devices?	Deconectați {} pe toate dispozitivele?
+Sign-in needed to read	Citirea necesită conectare
 Signal device	Dispozitiv de semnalizare
 Signal device, acoustic	Dispozitiv de semnalizare, acustic
 Signal device, optical	Dispozitiv de semnalizare, optic
 Signal lamp	Lampă de semnalizare
+Signed in	Conectați
 Silencers	Amortizoare de zgomot
 Silo	Siloz
 Single-phase motor	Motor monofazat
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Porniți un serve
 Start openecraft-parts-server with --token to allow changes	Porniți openecraft-parts-server cu --token pentru a permite modificări
 Steam boiler	Cazan de abur
 Stirrer	Agitator
+Storage	Stocare
 Strainer	Sită
 Strip label	Etichetă de șir de borne
 Sub-plates	Plăci de bază
@@ -332,22 +401,36 @@ Terminator	Terminator
 Terminators, filters	Terminatoare, filtre
 Test accessories	Accesorii de testare
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal oferă numai căutarea și citirea articolelor
+The access settings would leave nobody who manages users	Cu aceste setări de acces nimeni nu ar mai putea gestiona utilizatorii
 The access token is only needed for changes; it is not stored.	Tokenul de acces este necesar doar pentru modificări; nu se stochează.
+The catalogs with their manufacturer, version and description.	Cataloagele cu producătorul, versiunea și descrierea lor.
 The checksum of {} does not match: the download is damaged	Suma de control a {} nu corespunde: descărcarea este deteriorată
 The directory checks the password and sets the groups at every sign-in	Serviciul de director verifică parola și setează grupurile la fiecare conectare
+The file holds no access settings	Fișierul nu conține setări de acces
+The last administrator cannot lose the right to manage users	Ultimul administrator nu poate pierde dreptul de a gestiona utilizatorii
+The password needs at least {} characters	Parola trebuie să aibă cel puțin {} caractere
+The passwords do not match	Parolele nu se potrivesc
 The project has no parts	Proiectul nu are articole
+The registration is closed	Înregistrarea este închisă
+The registration is open	Înregistrarea este deschisă
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Rolurile, atribuirile și accesul fără conectare. Restaurarea le înlocuiește; serviciile de director rămân așa cum sunt configurate pe server.
 The server cannot be reached	Serverul nu poate fi accesat
 The server sent no text	Serverul nu a trimis niciun text
 The upload is finished	Încărcarea s-a încheiat
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Utilizatorii cu rolul, producătorul, grupurile și ultima conectare, fără parole.
 Thermometers	Termometre
 Thermostat valves	Supape termostatice
+This user name cannot be used	Acest nume de utilizator nu poate fi folosit
+This user name is taken	Acest nume de utilizator este ocupat
 Three-phase motor	Motor trifazat
 Three-way control valve	Armătură cu trei căi
 Three-way flap	Clapetă cu trei căi
 Three-way valve	Supapă cu trei căi
 Throttle plate	Diafragmă de strangulare
 Timer relay	Releu de timp
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Pentru restaurare, porniți serverul cu --data <fișier> sau copiați-o într-o bază de date nouă cu --migrate-from <fișier>.
 Too many failed sign-ins, try again later	Prea multe autentificări eșuate, încercați mai târziu
+Too many registrations from this address, try again later	Prea multe înregistrări de la această adresă, încercați din nou mai târziu
 Top cover	Capac superior
 Transformers	Transformatoare
 Transmission paths	Căi de transmisie
@@ -357,7 +440,11 @@ Undefined	Nedefinit
 Under the part (base)	Sub articol (bază)
 Uploading {} to Vault ({} %)…	Se încarcă {} în Vault ({} %)…
 Uploading {} to Vault…	Se încarcă {} în Vault…
+User account	Cont de utilizator
+User or group	Utilizator sau grup
+User {} exists already. Change it?	Utilizatorul {} există deja. Îl modificați?
 User-defined rail	Șină definită de utilizator
+Users may register themselves (as readers)	Utilizatorii se pot înregistra singuri (ca cititori)
 Vacuum pump	Pompă de vid
 Valve / distributor	Supapă / distribuitor
 Valve coil	Bobină de supapă
@@ -368,15 +455,21 @@ Ventilation filters	Filtre de aerisire
 Ventilator	Ventilator
 Voltage source	Sursă de tensiune
 Voltage source and generator	Sursă de tensiune și generator
+Waiting accounts cannot sign in; approve or reject them in Users.	Conturile în așteptare nu se pot conecta; aprobați-le sau respingeți-le în Utilizatori.
 Washer	Șaibă
 Water traps	Separatoare de apă
 Wind deflector	Deflector de vânt
 Wiring material	Material de cablare
+Without sign-in	Fără conectare
+Wrong access token	Token de acces greșit
 Wrong user name or password	Nume de utilizator sau parolă greșită
+Your account awaits the approval of an administrator	Contul așteaptă aprobarea unui administrator
+Your account was created. An administrator has to approve it before you can sign in.	Contul a fost creat. Un administrator trebuie să-l aprobe înainte să vă puteți conecta.
 access denied – check the personal access token	acces refuzat – verificați tokenul de acces personal
 by file name	după numele fișierului
 changed, not saved	modificat, nesalvat
 connection failed: {}	conexiunea nu a reușit: {}
+directory:group	director:grup
 from the name	din nume
 needed for changes	necesar pentru modificări
 new part, not saved	articol nou, nesalvat
@@ -389,12 +482,14 @@ the server name is unknown	numele serverului este necunoscut
 the server refuses the connection (not started, or another port)	serverul refuză conexiunea (nepornit sau alt port)
 unchanged if empty	neschimbat dacă este gol
 unexpected answer: {}	răspuns neașteptat: {}
+you	tu
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} nu are sumă de control în SHA256SUMS
 {} parts in {} catalogs, revision {}	{} articole în {} cataloage, revizia {}
 {} parts, {} catalogs, {}	{} articole, {} cataloage, {}
 {} – save to upload it	{} – salvați pentru a-l încărca
 {}: the part is no longer open	{}: articolul nu mai este deschis
+{}: {} parts added, {} updated, {} kept	{}: {} articole adăugate, {} actualizate, {} păstrate
 ⎘ Copy	⎘ Copiere
 ✔ Save	✔ Salvare
 ➕ New	➕ Nou

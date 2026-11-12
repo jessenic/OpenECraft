@@ -77,6 +77,25 @@ ghcr.io/nilres/openecraft-parts-server` (see [installation](installation.md)).
   local accounts (also the one of `--admin-user`) have at least 8 characters; after 5 failed sign-ins of a user name every further attempt waits
   (1 s, doubling up to 5 minutes, answer `429`). Without token, accounts and directories the server
   is read-only.
+- Registration: when it is open, anybody creates a local reader account on the web
+  page (*Register* next to the sign-in, `POST /register` with `name` and `password`);
+  administrators give more rights. By default the new account waits for the approval
+  of an administrator (`202`, no session): it cannot sign in until an administrator
+  approves it in *Administration › Users* (`POST /users/{name}/approval`) or rejects
+  (deletes) it; waiting accounts are listed first and counted in the overview. Without
+  approval (switched off in *Administration › Access rights*, stored as
+  `"registration_approval": false`) the new user is signed in at once. Approving stays
+  an administrator's choice even when the start options fix the registration. Accounts
+  that wait when approval is switched off keep waiting until approved. It is closed unless
+  switched on: by administrators in *Administration › Access rights* (stored as
+  `"registration": true` in the access settings file), or fixed by the start options
+  `--registration true|false`, `OPENECRAFT_REGISTRATION` or `registration` in the
+  configuration file, which win over the switch. Registered users read the parts even
+  where reading needs a sign-in. A client may register 5 accounts, then every further
+  attempt waits (1 s, doubling up to 5 minutes); names that grants refer to (also with
+  wildcards) and `admin` are not available, so that nobody registers into the rights
+  of a grant. A registered name also stands before a directory user of the same name
+  who has not signed in yet: on servers with directories, grant by groups.
 - Access control (`<data>.access.json`, `--access`): sign-in with Active Directory or
   LDAP directories next to the local accounts, roles defined by administrators and
   grants of roles to users and groups per manufacturer, with deny grants; anonymous
@@ -100,6 +119,25 @@ ghcr.io/nilres/openecraft-parts-server` (see [installation](installation.md)).
   history, catalogs, sign-in and favorites, in English, German, French and Spanish. The
   address keeps the search and the open part (bookmarks, the browser's back button);
   `?lang=de` chooses the language.
+- Administration on the web page (*Administration*, shown to administrators and to
+  users who may change catalogs or parts; sign in with a user or, on a new server,
+  with the administrator token): an overview of the server (storage, revision, users
+  per role, access settings, the caller's rights); *Users* – create, change and delete
+  local users (role, manufacturer, groups, new password), see their last sign-in and
+  open sessions and sign them out everywhere; *Access rights* – the role of requests
+  without sign-in, defined roles with their rights and the grants to users and groups
+  per manufacturer, the directories of the server; *Catalogs* – create, change and
+  delete catalogs and install or update the bundled catalogs; *Import parts* (CSV,
+  JSON, BMEcat, EPLAN XML); *Export and backup* – the parts as CSV or JSON, the
+  catalogs, the users (CSV, without passwords) and the access settings (JSON, which
+  restore again), and a backup of the whole database. The page only offers what the
+  user may do; the server checks every change.
+- Backup (`GET /backup`, administrators): one SQLite file with the parts, their
+  history and files, the catalogs, the users with their password hashes and the
+  favorites, whatever the storage of the server. Restore it by starting a server with
+  `--data <backup>.sqlite`, or copy it into a new database with `--migrate-from`. The
+  access settings file (directories, roles, grants) is not part of it: keep a copy of
+  `<data>.access.json` too.
 - REST API (`/api/v1`, see `openecraft_parts::api`): `GET /info`, `GET /parts`,
   `POST /search`, `GET|PUT|DELETE /parts/{number}`, `GET /parts/{number}/accessories` (its accessories
   and, for an accessory, the parts it fits), `GET /parts/{number}/history[/{revision}]`,
@@ -107,8 +145,13 @@ ghcr.io/nilres/openecraft-parts-server` (see [installation](installation.md)).
   text are shown in the browser, other files such as SVG and XML are downloaded, so
   that no file runs a script on the server's address), `POST /import` (CSV,
   JSON or BMEcat), `GET /export.csv` (all parts, or those of the query in the address:
-  `q`, groups, manufacturer, catalog, lifecycle, sort), `GET|PUT|DELETE /catalogs/{id}`, `POST /login`,
-  `POST /logout`, `GET|PUT /favorites`, `GET|PUT|DELETE /users/{name}`, `GET|PUT /access`.
+  `q`, groups, manufacturer, catalog, lifecycle, sort), `GET /export.json` (the same as a
+  JSON part list that `/import` reads), `GET /backup`, `GET|PUT|DELETE /catalogs/{id}`,
+  `GET /bundled`, `POST /bundled/{id}` (install a bundled catalog), `POST /login`,
+  `POST /register`, `GET|PUT /registration`, `POST /users/{name}/approval`,
+  `POST /logout`, `GET|PUT /favorites`, `GET /users` (with their open sessions and last
+  sign-in), `PUT|DELETE /users/{name}`, `DELETE /users/{name}/sessions` (sign out
+  everywhere), `GET|PUT /access`.
 - In the editor: *Master data › Data portal* – search the server, see the details with
   the front view and the 3D model, add parts to the local database, save their files, add their macros to the macro library and check the
   database for newer versions, phased out and discontinued parts. *Devices › Parts

@@ -24,6 +24,16 @@ fn missing_files_give_the_default_and_changes_are_stored() {
     let bad = Policy { grants: vec![Grant::new(Subject::User("x".into()), "nobody", "*")], ..Default::default() };
     assert!(file.set_policy(bad).is_err());
     assert_eq!(file.config.policy, policy, "unchanged");
+    assert!(!std::fs::read_to_string(&path).unwrap().contains("registration"), "closed is not written");
+    assert!(file.config.registration_approval, "approval by default");
+    file.set_registration(true, true).unwrap();
+    let back = AccessFile::<PartsRight>::open(&path, AccessConfig::default()).unwrap();
+    assert!(back.config.registration && back.config.registration_approval);
+    assert!(!std::fs::read_to_string(&path).unwrap().contains("approval"), "the default is not written");
+    file.set_registration(true, false).unwrap();
+    let back = AccessFile::<PartsRight>::open(&path, AccessConfig::default()).unwrap();
+    assert!(!back.config.registration_approval);
+    assert_eq!(back.config.policy, policy, "the policy stays");
     let _ = std::fs::remove_dir_all(&dir);
 }
 

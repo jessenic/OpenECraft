@@ -17,6 +17,7 @@ Add to favorites	Přidat k oblíbeným
 Address	Adresa
 Angle	Úhel
 Apply	Použít
+Approve	Schválit
 Approvers	Schvalovatelé
 Automatic	Automaticky
 Below	Pod
@@ -92,6 +93,8 @@ Dark	Tmavý
 Data portal	Datový portál
 Data type	Datový typ
 Date	Datum
+Delete	Odstranit
+Deny	Odepřít
 Depth	Hloubka
 Descending	Sestupně
 Description	Popis
@@ -105,6 +108,7 @@ Device {}	Přístroj {}
 Devices	Přístroje
 Direction	Směr
 Discard	Zahodit
+Discard changes	Zahodit změny
 Display	Zobrazení
 Done	Hotovo
 Door	Dveře
@@ -112,6 +116,7 @@ Door cutout	Výřez ve dveřích
 Downloading {}…	Stahování {}…
 Drag to turn the model	Tažením model otočíte
 EMC clearance	Odstup EMC
+Edit	Úpravy
 Electro-fluid cross reference	Elektro-tekutinové křížové odkazy
 Enclosure	Skříň
 Enclosures	Skříně
@@ -164,6 +169,7 @@ Hose no.	Č. hadice
 Identifier	Identifikátor
 Identifying letter	Kódové písmeno
 Image	Obrázek
+Import	Import
 Input	Vstup
 Integration	Integrace
 Internal (bottom)	Interní (dole)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Název pozemku, např. katastrální
 Name of the point, e.g. a survey point	Název bodu, např. geodetický bod
 Name of the scheme	Název schématu
 Net	Síť
+Never	Nikdy
 New name	Nový název
 No	Ne
 No Vault item matches a part of the project	Žádná položka Vault neodpovídá artiklu projektu
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Volba {}: {} není jednou z jejích mož
 Order number	Objednací číslo
 Outer diameter	Vnější průměr
 Output	Výstup
+Overview	Přehled
 PCT loop	Smyčka MaR
 PCT loop overview	Přehled smyček MaR
 PL	PL
@@ -335,6 +343,7 @@ Range	Rozsah
 Rated current	Jmenovitý proud
 Rated power	Jmenovitý výkon
 Rectangle	Obdélník
+Reject	Zamítnout
 Relative humidity	Relativní vlhkost vzduchu
 Relay	Relé
 Released pages cannot be moved	Uvolněné stránky nelze přesouvat
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Řady modulů (východ-západ: řady 
 Rule	Pravidlo
 Rule set	Sada pravidel
 Safety function	Bezpečnostní funkce
+Save	Uložit
+Saved catalog {}	Katalog {} uložen
+Saved user {}	Uživatel {} uložen
 Saved {}	Uloženo: {}
 Scale	Měřítko
 Schematic	Schéma
@@ -442,7 +454,9 @@ Unknown property: {}	Neznámá vlastnost: {}
 Unknown scheme: {}	Neznámé schéma: {}
 Unknown segment	Neznámý segment
 Unknown symbol {}	Neznámý symbol {}
+Update	Aktualizovat
 Uploading {}…	Nahrávání {}…
+User	Uživatel
 User name	Uživatelské jméno
 Users	Uživatelé
 Version	Verze

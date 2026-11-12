@@ -1,19 +1,34 @@
 # English<TAB>Svenska – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(namnbytt från {})
 19-inch module technology	19-tums modulteknik
+A catalog id must not be empty or contain blanks	Ett katalog-id får inte vara tomt eller innehålla blanksteg
+A manufacturer user needs a manufacturer	En tillverkaranvändare behöver en tillverkare
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	En roll är en uppsättning rättigheter. Tilldelningar ger en användare eller grupp en roll för en tillverkares artiklar (* och ? som jokertecken, * för alla); en nekande tilldelning tar bort rollens rättigheter, oavsett vad andra tilldelningar ger.
+A user name must not be empty or contain blanks	Ett användarnamn får inte vara tomt eller innehålla blanksteg
+Access rights	Åtkomsträttigheter
+Access settings saved	Åtkomstinställningarna har sparats
 Accumulator blocks	Ackumulatorblock
 Accumulators	Ackumulatorer
 Actuators, general	Ställdon, allmänt
 Adapter	Adapter
 Adapter plates	Adapterplattor
+Add grant	Lägg till tilldelning
 Adds new parts and replaces existing ones on the server	Lägger till nya artiklar och ersätter befintliga på servern
+Administration	Administration
+All manufacturers	Alla tillverkare
 All parts	Alla artiklar
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Alla artiklar med sina data, för kalkylblad eller för import till en annan server. Deras filer finns bara i databasens säkerhetskopia.
 Amplifiers, controllers	Förstärkare, regulatorer
 Analog sensor	Analog givare
+Approval of new accounts	Godkännande av nya konton
+Approved user {}	Användaren {} har godkänts
+At least {} characters	Minst {} tecken
 Attachment nut	Instickstillsats
 Auxiliary block	Hjälpkontaktblock
 Auxiliary contact block	Hjälpkontaktblock
 Auxiliary switch	Hjälpbrytare
+Awaiting approval	Väntar på godkännande
+Awaiting approval: {}	Väntar på godkännande: {}
 Back to the results	Tillbaka till resultaten
 Ball valve pneumatic	Kulventil, pneumatisk
 Ball valves	Kulventiler
@@ -23,22 +38,28 @@ Block ball valves	Blockkulventiler
 Body	Stomme
 Brake motor	Bromsmotor
 Built into the part	Inbyggd i artikeln
+Built-in	Inbyggd
+Bundled catalogs	Medföljande kataloger
 Bunker	Bunker
 Busbar cover	Samlingsskenskydd
 Busbars	Samlingsskenor
 C horizontal rails	C-profilskenor
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (med exportens kolumnnamn), JSON, BMEcat eller EPLAN-XML. Artiklar med samma nummer ersätts; deras filer behålls.
 Cable / tubing clamp	Kabel- / slangfäste
 Cable / tubing protection	Kabel- / slangskydd
 Cable / tubing tie	Kabel- / slangbindare
 Cable clamp rails	Kabelavlastningsskenor
 Cable ducts	Kabelkanaler
 Capacitors	Kondensatorer
+Catalog {} exists already. Change it?	Katalogen {} finns redan. Vill du ändra den?
 Catalogs	Kataloger
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Kataloger som följer med servern. Installationen lägger till deras artiklar och uppdaterar dem som ingen har ändrat på den här servern.
 Central lubrication power units	Centralsmörjaggregat
 Centrifugal pumps	Centrifugalpumpar
 Centrifuge	Centrifug
 Certificate	Certifikat
 Changed	Ändrad
+Changes allowed	Ändringar tillåtna
 Check control valve	Backventil
 Check flap	Backspjäll
 Chimney	Skorsten
@@ -66,6 +87,7 @@ Coupling motor pumps	Motorpumpar med koppling
 Couplings	Kopplingar
 Cover plates	Täckplattor
 Create / update the part on the server (Ctrl+S)	Skapa / uppdatera artikeln på servern (Ctrl+S)
+Create an account on this server	Skapa ett konto på den här servern
 Created	Skapad
 Crimp contact	Krympkontakt
 Cross-connector	Tvärbygel
@@ -74,8 +96,11 @@ Cylinders	Cylindrar
 DC motor	Likströmsmotor
 DC-DC converter	DC/DC-omvandlare
 Data recorder	Mätvärdesskrivare
+Database backup	Databasens säkerhetskopia
 Datasheet	Datablad
+Defined roles	Definierade roller
 Delete catalog {} from the server?	Vill du ta bort katalogen {} från servern?
+Delete catalog {}?	Vill du ta bort katalogen {}?
 Delete part {} from the server? This cannot be undone.	Vill du ta bort artikeln {} från servern? Det går inte att ångra.
 Delete parts	Ta bort artiklar
 Delete user {}? Their sessions and favorites are removed.	Vill du ta bort användaren {}? Användarens sessioner och favoriter tas bort.
@@ -83,6 +108,8 @@ Deleted	Borttagen
 Digital sensor, general	Digital givare, allmän
 Directional control valves	Riktningsventiler
 Directional control valves, coaxial	Riktningsventiler, koaxiala
+Directories	Katalogtjänster
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Katalogtjänster (Active Directory, LDAP) konfigureras i serverns fil med åtkomstinställningar.
 Directory	Katalogtjänst
 Dirt trap	Smutsfälla
 Discard the changes	Ignorera ändringarna
@@ -91,13 +118,16 @@ Discontinued	Utgått
 Display device	Indikeringsenhet
 Document holder	Dokumentficka
 Door handle	Dörrhandtag
+Download	Ladda ned
 Drawings box	Ritningsfack
 Dryer	Tork
 Dummy plate	Blindbricka
 Duplex switch filters	Dubbla omkopplingsfilter
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Redigera katalogen {}
 Edit catalogs	Redigera kataloger
 Edit parts	Redigera artiklar
+Edit user {}	Redigera användaren {}
 Electrical engineering - special items	Elektroteknik – specialkomponenter
 Electrically-operated mechanical devices	Elektriskt manövrerade mekaniska anordningar
 Electrolysis cell	Elektrolyscell
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Ange adressen
 Evaporator	Förångare
 Exhaust valves	Avluftningsventiler
 Export (CSV)	Export (CSV)
+Export and backup	Export och säkerhetskopia
+Export the parts, catalogs and settings, or download a backup of the whole database.	Exportera artiklarna, katalogerna och inställningarna, eller ladda ned en säkerhetskopia av hela databasen.
 Exported {} parts to {}	{} artiklar exporterade till {}
 Extraction hood	Utsugningshuv
 Feed-through terminal	Genomgångsplint
@@ -133,6 +165,7 @@ Front view (2D)	Frontvy (2D)
 Funnel	Tratt
 Furnace	Ugn
 Generator	Generator
+Grants	Tilldelningar
 Grants of the server's access settings can refer to them	Tilldelningar i serverns åtkomstinställningar kan hänvisa till dem
 Ground fault current circuit breaker	Jordfelsbrytare
 Ground fault voltage circuit-breaker	Felspänningsbrytare
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Kapslingstillbehör, invändig montering
 Hydraulic motors	Hydraulmotorer
 Hydraulic tanks	Hydraultankar
 Import / export	Import / export
+Import parts	Importera artiklar
+Imported {} parts (revision {})	{} artiklar importerade (revision {})
 Inductors	Induktorer
+Install	Installera
+Install again	Installera igen
 Intermediate plates	Mellanplattor
 Isolating valves	Spärrventiler
 KNX actuator	KNX-aktor
 KNX system device	KNX-systemenhet
 Key switch	Nyckelbrytare
 Kneader	Knådare
+Last sign-in	Senaste inloggning
 Legend plate	Skylt
 Level detector	Gränsvärdesgivare
 Level switches	Nivåvakter
@@ -165,6 +203,7 @@ Line return filters	Returfilter
 Lines / conduits	Ledningar / ledningspaket
 Load all parts from the server again	Läs in alla artiklar från servern igen
 Loading…	Läser in…
+Local	Lokal
 Lock systems	Låssystem
 Locking couplings	Låskopplingar
 Logic item	Logikkomponent
@@ -183,17 +222,28 @@ Modulators	Modulatorer
 Motor overload switch	Motorskyddsbrytare
 Mounting chassis	Monteringschassi
 Mounting panels	Monteringsplåtar
+New accounts need the approval of an administrator	Nya konton behöver godkännas av en administratör
+New catalog	Ny katalog
 New part based on the open one	Ny artikel baserad på den öppna
 New password	Nytt lösenord
+New role	Ny roll
+New user	Ny användare
 Newer version	Nyare version
 Next	Nästa
+No grants: users have the rights of their role	Inga tilldelningar: användarna har sin rolls rättigheter
+No users	Inga användare
 Non-return valves	Backventiler
 Not mounted	Inte monterat
 Nut	Mutter
 On the front	På framsidan
 On the left side	På vänster sida
 On the right side	På höger sida
+On this server	På den här servern
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	En SQLite-fil med alla artiklar, deras historik och filer, katalogerna, användarna och deras favoriter. Den innehåller användarnas lösenordshashar: förvara den säkert.
 Only catalogs without parts can be deleted	Endast kataloger utan artiklar kan tas bort
+Only empty catalogs can be deleted	Endast tomma kataloger kan tas bort
+Only local accounts	Endast lokala konton
+Open sessions: {}	Öppna sessioner: {}
 OpenECraft data portal	OpenECraft-dataportal
 OpenECraft parts manager	OpenECraft artikelhanterare
 OpenECraft parts server	OpenECraft-artikelserver
@@ -253,6 +303,7 @@ Pushbutton	Tryckknapp
 Rail standoff	Skendistans
 Rails	Skenor
 Reactor	Reaktor
+Read only	Skrivskyddad
 Read only: sign in with a user who may change parts of this manufacturer	Skrivskyddat: logga in med en användare som får ändra artiklar från den här tillverkaren
 Read parts	Läsa artiklar
 Reader	Läsare
@@ -262,12 +313,20 @@ Rear / side panel	Bak-/sidovägg
 Rectifier	Likriktare
 Reducer	Reducering
 Reducing plates	Reducerplattor
+Register	Registrera dig
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Registrerade användare blir läsare: de sparar favoriter och läser artiklarna även när läsning kräver inloggning. Ge dem fler rättigheter under Användare.
+Registration	Registrering
+Reject the registration of {}? The account is deleted.	Vill du avvisa registreringen av {}? Kontot tas bort.
 Remove the file from the part	Ta bort filen från artikeln
 Removed from the server	Borttagen från servern
+Repeat password	Upprepa lösenordet
+Replace the roles and grants with those of the file?	Vill du ersätta rollerna och tilldelningarna med dem i filen?
 Replaced by {}	Ersatt av {}
 Resistors	Resistorer
+Restore from a file	Återställ från en fil
 Return flushing filters, all-autom.	Backspolningsfilter, helautomatiska
 Ribbon cables	Flatkablar
+Roles	Roller
 Roof hook	Takkrok
 Routing accessories	Förläggningstillbehör
 Routing path (topology)	Förläggningssträcka (topologi)
@@ -281,6 +340,7 @@ Screw connections	Förskruvningar
 Screw pumps	Skruvpumpar
 Screw spindle compressors	Skruvkompressorer
 Scroll compressors	Scrollkompressorer
+Search users	Sök användare
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Välj en katalog eller skapa en ny. Artiklar hör till en katalog genom sitt katalog-ID (artikelredigeraren, fliken Dataportal).
 Select a user or create a new one.	Välj en användare eller skapa en ny.
 Selector switch	Väljarbrytare
@@ -289,6 +349,7 @@ Sensor NC	Givare brytande
 Sensor, switch, and pushbutton	Givare, brytare och tryckknappar
 Sensors - pressure gauges	Givare – manometrar
 Serial sub-plates	Seriella anslutningsplattor
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Anges av serverns startalternativ (--registration eller OPENECRAFT_REGISTRATION).
 Show parts	Visa artiklar
 Shut-off accumulators	Avstängningsackumulatorer
 Shut-off control valve	Avstängningsventil
@@ -296,12 +357,19 @@ Shut-off flap	Avstängningsspjäll
 Side panel	Sidovägg
 Sifter	Siktare
 Sight glass	Synglas
+Sign in as an administrator to manage the server	Logga in som administratör för att hantera servern
 Sign in or connect with the access token to change parts	Logga in eller anslut med åtkomsttoken för att ändra artiklar
 Sign in to keep favorites	Logga in för att spara favoriter
+Sign in with a user account	Logga in med ett användarkonto
+Sign in with the access token of the server	Logga in med serverns åtkomsttoken
+Sign out everywhere	Logga ut överallt
+Sign out {} on all devices?	Logga ut {} på alla enheter?
+Sign-in needed to read	Inloggning krävs för att läsa
 Signal device	Signalapparat
 Signal device, acoustic	Signaldon, akustiskt
 Signal device, optical	Signaldon, optiskt
 Signal lamp	Signallampa
+Signed in	Inloggade
 Silencers	Ljuddämpare
 Silo	Silo
 Single-phase motor	Enfasmotor
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Starta en server 
 Start openecraft-parts-server with --token to allow changes	Starta openecraft-parts-server med --token för att tillåta ändringar
 Steam boiler	Ångpanna
 Stirrer	Omrörare
+Storage	Lagring
 Strainer	Sil
 Strip label	Plintradsskylt
 Sub-plates	Anslutningsplattor
@@ -332,22 +401,36 @@ Terminator	Avslutning
 Terminators, filters	Avslutningar, filter
 Test accessories	Testtillbehör
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal erbjuder endast sökning och läsning av artiklar
+The access settings would leave nobody who manages users	Med dessa åtkomstinställningar skulle ingen kunna hantera användare
 The access token is only needed for changes; it is not stored.	Åtkomsttoken behövs bara för ändringar; den lagras inte.
+The catalogs with their manufacturer, version and description.	Katalogerna med tillverkare, version och beskrivning.
 The checksum of {} does not match: the download is damaged	Kontrollsumman för {} stämmer inte: nedladdningen är skadad
 The directory checks the password and sets the groups at every sign-in	Katalogtjänsten kontrollerar lösenordet och anger grupperna vid varje inloggning
+The file holds no access settings	Filen innehåller inga åtkomstinställningar
+The last administrator cannot lose the right to manage users	Den sista administratören kan inte förlora rätten att hantera användare
+The password needs at least {} characters	Lösenordet måste ha minst {} tecken
+The passwords do not match	Lösenorden matchar inte
 The project has no parts	Projektet har inga artiklar
+The registration is closed	Registreringen är stängd
+The registration is open	Registreringen är öppen
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Rollerna, tilldelningarna och åtkomsten utan inloggning. Återställningen ersätter dem; katalogtjänsterna förblir som de är konfigurerade på servern.
 The server cannot be reached	Servern kan inte nås
 The server sent no text	Servern skickade ingen text
 The upload is finished	Uppladdningen är klar
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Användarna med roll, tillverkare, grupper och senaste inloggning, utan lösenord.
 Thermometers	Termometrar
 Thermostat valves	Termostatventiler
+This user name cannot be used	Användarnamnet kan inte användas
+This user name is taken	Användarnamnet är upptaget
 Three-phase motor	Trefasmotor
 Three-way control valve	Trevägsventil
 Three-way flap	Trevägsspjäll
 Three-way valve	Trevägsventil
 Throttle plate	Strypbricka
 Timer relay	Tidrelä
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Starta servern med --data <fil> för att återställa den, eller kopiera den till en ny databas med --migrate-from <fil>.
 Too many failed sign-ins, try again later	För många misslyckade inloggningar, försök igen senare
+Too many registrations from this address, try again later	För många registreringar från den här adressen, försök igen senare
 Top cover	Tak
 Transformers	Transformatorer
 Transmission paths	Överföringsvägar
@@ -357,7 +440,11 @@ Undefined	Odefinierad
 Under the part (base)	Under artikeln (sockel)
 Uploading {} to Vault ({} %)…	Laddar upp {} till Vault ({} %)…
 Uploading {} to Vault…	Laddar upp {} till Vault…
+User account	Användarkonto
+User or group	Användare eller grupp
+User {} exists already. Change it?	Användaren {} finns redan. Vill du ändra den?
 User-defined rail	Användardefinierad skena
+Users may register themselves (as readers)	Användare får registrera sig själva (som läsare)
 Vacuum pump	Vakuumpump
 Valve / distributor	Ventil / fördelare
 Valve coil	Ventilspole
@@ -368,15 +455,21 @@ Ventilation filters	Ventilationsfilter
 Ventilator	Fläkt
 Voltage source	Spänningskälla
 Voltage source and generator	Spänningskälla och generator
+Waiting accounts cannot sign in; approve or reject them in Users.	Väntande konton kan inte logga in; godkänn eller avvisa dem under Användare.
 Washer	Bricka
 Water traps	Vattenavskiljare
 Wind deflector	Vindavvisare
 Wiring material	Kopplingsmaterial
+Without sign-in	Utan inloggning
+Wrong access token	Fel åtkomsttoken
 Wrong user name or password	Fel användarnamn eller lösenord
+Your account awaits the approval of an administrator	Ditt konto väntar på godkännande av en administratör
+Your account was created. An administrator has to approve it before you can sign in.	Ditt konto har skapats. En administratör måste godkänna det innan du kan logga in.
 access denied – check the personal access token	åtkomst nekad – kontrollera den personliga åtkomsttoken
 by file name	efter filnamn
 changed, not saved	ändrad, inte sparad
 connection failed: {}	anslutningen misslyckades: {}
+directory:group	katalog:grupp
 from the name	från namnet
 needed for changes	krävs för ändringar
 new part, not saved	ny artikel, inte sparad
@@ -389,12 +482,14 @@ the server name is unknown	servernamnet är okänt
 the server refuses the connection (not started, or another port)	servern vägrar anslutningen (inte startad eller en annan port)
 unchanged if empty	oförändrat om tomt
 unexpected answer: {}	oväntat svar: {}
+you	du
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} har ingen kontrollsumma i SHA256SUMS
 {} parts in {} catalogs, revision {}	{} artiklar i {} kataloger, revision {}
 {} parts, {} catalogs, {}	{} artiklar, {} kataloger, {}
 {} – save to upload it	{} – spara för att ladda upp den
 {}: the part is no longer open	{}: artikeln är inte längre öppen
+{}: {} parts added, {} updated, {} kept	{}: {} artiklar tillagda, {} uppdaterade, {} behållna
 ⎘ Copy	⎘ Kopiera
 ✔ Save	✔ Spara
 ➕ New	➕ Ny

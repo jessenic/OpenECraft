@@ -1,19 +1,34 @@
 # English<TAB>Deutsch<TAB>Français<TAB>Español – parts library, parts server, parts manager and clients. Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(umbenannt von {})	(renommé depuis {})	(renombrado desde {})
 19-inch module technology	19 Zoll-Ausbautechnik	Concept 19 pouces	Diseño de 19 pulgadas
+A catalog id must not be empty or contain blanks	Eine Katalogkennung darf nicht leer sein oder Leerzeichen enthalten	Un identifiant de catalogue ne doit pas être vide ni contenir d'espaces	Un identificador de catálogo no puede estar vacío ni contener espacios
+A manufacturer user needs a manufacturer	Ein Herstellerbenutzer braucht einen Hersteller	Un utilisateur fabricant a besoin d'un fabricant	Un usuario fabricante necesita un fabricante
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Eine Rolle ist eine Menge von Rechten. Zuweisungen geben einem Benutzer oder einer Gruppe eine Rolle für die Artikel eines Herstellers (* und ? als Platzhalter, * für alle); eine verweigernde Zuweisung nimmt die Rechte der Rolle wieder weg, was andere Zuweisungen auch geben.	Un rôle est un ensemble de droits. Les attributions donnent à un utilisateur ou à un groupe un rôle sur les articles d'un fabricant (* et ? comme caractères génériques, * pour tous) ; une attribution de refus retire les droits du rôle, quoi que donnent les autres attributions.	Un rol es un conjunto de derechos. Las asignaciones dan a un usuario o a un grupo un rol sobre los artículos de un fabricante (* y ? como comodines, * para todos); una asignación de denegación quita los derechos del rol, den lo que den otras asignaciones.
+A user name must not be empty or contain blanks	Ein Benutzername darf nicht leer sein oder Leerzeichen enthalten	Un nom d'utilisateur ne doit pas être vide ni contenir d'espaces	Un nombre de usuario no puede estar vacío ni contener espacios
+Access rights	Zugriffsrechte	Droits d'accès	Derechos de acceso
+Access settings saved	Zugriffseinstellungen gespeichert	Paramètres d'accès enregistrés	Configuración de acceso guardada
 Accumulator blocks	Speicherblöcke	Blocs d'accumulateurs	Bloques de acumulador
 Accumulators	Speicher	Accumulateurs	Acumuladores
 Actuators, general	Aktoren, allgemein	Actionneurs, général	Activadores, general
 Adapter	Adapter	Adaptateurs	Adaptador
 Adapter plates	Adapterplatten	Plaques adaptatrices	Placas de adaptador
+Add grant	Zuweisung hinzufügen	Ajouter une attribution	Añadir asignación
 Adds new parts and replaces existing ones on the server	Fügt neue Artikel hinzu und ersetzt vorhandene auf dem Server	Ajoute de nouveaux articles et remplace ceux qui existent sur le serveur	Añade artículos nuevos y reemplaza los existentes en el servidor
+Administration	Verwaltung	Administration	Administración
+All manufacturers	Alle Hersteller	Tous les fabricants	Todos los fabricantes
 All parts	Alle Artikel	Tous les articles	Todos los artículos
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Alle Artikel mit ihren Daten, für Tabellenkalkulationen oder zum Import in einen anderen Server. Ihre Dateien sind nur in der Datenbanksicherung enthalten.	Tous les articles avec leurs données, pour un tableur ou pour les importer dans un autre serveur. Leurs fichiers ne figurent que dans la sauvegarde de la base de données.	Todos los artículos con sus datos, para hojas de cálculo o para importarlos en otro servidor. Sus archivos solo están en la copia de seguridad de la base de datos.
 Amplifiers, controllers	Verstärker, Regler	Amplificateurs, régulateurs	Amplificadores, reguladores
 Analog sensor	Analoger Sensor	Capteur analogique	Sensor analógico
+Approval of new accounts	Freigabe neuer Konten	Approbation des nouveaux comptes	Aprobación de cuentas nuevas
+Approved user {}	Benutzer {} freigegeben	Utilisateur {} approuvé	Usuario {} aprobado
+At least {} characters	Mindestens {} Zeichen	Au moins {} caractères	Al menos {} caracteres
 Attachment nut	Steckaufsatz	Embout	Artículo de conexión
 Auxiliary block	Hilfsblock	Bloc auxiliaire	Bloque auxiliar
 Auxiliary contact block	Hilfsschalterblock	Bloc de contacts auxiliaires	Bloque de contactos auxiliares
 Auxiliary switch	Hilfsschalter	Contact auxiliaire	Interruptor auxiliar
+Awaiting approval	Wartet auf Freigabe	En attente d'approbation	Pendiente de aprobación
+Awaiting approval: {}	Warten auf Freigabe: {}	En attente d'approbation : {}	Pendientes de aprobación: {}
 Back to the results	Zurück zu den Ergebnissen	Retour aux résultats	Volver a los resultados
 Ball valve pneumatic	Kugelhahn pneumatisch	Robinet à boisseau pneumatique	Válvulas de bola neumática
 Ball valves	Kugelhähne	Robinets à boisseaux	Válvulas de bola
@@ -23,22 +38,28 @@ Block ball valves	Blockkugelhähne	Robinets blocs à boisseaux sphériques	Válv
 Body	Korpus	Corps	Carcasa
 Brake motor	Bremsmotor	Moteur-frein	Motor freno
 Built into the part	In den Artikel eingebaut	Intégré dans l'article	Integrado en el artículo
+Built-in	Eingebaut	Intégré	Integrado
+Bundled catalogs	Mitgelieferte Kataloge	Catalogues fournis	Catálogos incluidos
 Bunker	Bunker	Réservoir	Tolva
 Busbar cover	Sammelschienen-Abdeckung	Couverture de barres de bus	Protector de barra de distribución
 Busbars	Sammelschienen	Barres de bus	Barras de distribución
 C horizontal rails	C-Profilschienen	Rails profilés en C	Guías horizontales C
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (mit den Spaltennamen des Exports), JSON, BMEcat oder EPLAN-XML. Artikel mit derselben Nummer werden ersetzt; ihre Dateien bleiben erhalten.	CSV (avec les noms de colonnes de l'export), JSON, BMEcat ou XML EPLAN. Les articles de même numéro sont remplacés ; leurs fichiers sont conservés.	CSV (con los nombres de columna de la exportación), JSON, BMEcat o XML de EPLAN. Los artículos con el mismo número se sustituyen; sus archivos se conservan.
 Cable / tubing clamp	Kabel- / Schlauchbefestigung	Fixation de câble / tuyau flexible	Sujeción de cables / tubos flexibles
 Cable / tubing protection	Kabel- / Schlauchschutz	Protection de câble / tuyau	Protección para cables / tubos
 Cable / tubing tie	Kabel- / Schlauchbinder	Collier de serrage de câble / tuyau	Brida de sujeción
 Cable clamp rails	Kabelabfangschienen	Rails serre-câbles	Carriles de fijación de cables
 Cable ducts	Kabelkanäle	Goulottes	Conductos de cable
 Capacitors	Kondensatoren	Condensateurs	Condensadores
+Catalog {} exists already. Change it?	Katalog {} gibt es schon. Ändern?	Le catalogue {} existe déjà. Le modifier ?	El catálogo {} ya existe. ¿Modificarlo?
 Catalogs	Kataloge	Catalogues	Catálogos
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Mit dem Server mitgelieferte Kataloge. Die Installation fügt ihre Artikel hinzu und aktualisiert die, die auf diesem Server niemand geändert hat.	Catalogues fournis avec le serveur. L'installation ajoute leurs articles et met à jour ceux que personne n'a modifiés sur ce serveur.	Catálogos incluidos con el servidor. La instalación añade sus artículos y actualiza los que nadie ha modificado en este servidor.
 Central lubrication power units	Zentralschmieraggregate	Unités centrales de lubrification	Unidades de motor de lubricación central
 Centrifugal pumps	Kreiselpumpen	Pompes centrifuges	Bombas centrífugas
 Centrifuge	Zentrifuge	Centrifugeuse	Máquina centrifugadora
 Certificate	Zertifikat	Certificat	Certificado
 Changed	Geändert	Modifié	Modificado
+Changes allowed	Änderungen erlaubt	Modifications autorisées	Cambios permitidos
 Check control valve	Rückschlagarmatur	Armature anti-retour	Dispositivo de retención
 Check flap	Rückschlagklappe	Clapet anti-retour	Mariposa de retención
 Chimney	Schornstein	Cheminée	Chimenea
@@ -69,6 +90,7 @@ Coupling motor pumps	Kupplung-Motorpumpen	Accouplement de moteurs hydrauliques	B
 Couplings	Kupplungen	Accouplements	Acoplamientos
 Cover plates	Abdeckplatten	Plaques de couverture	Placas de protección
 Create / update the part on the server (Ctrl+S)	Artikel auf dem Server anlegen / aktualisieren (Strg+S)	Créer / mettre à jour l'article sur le serveur (Ctrl+S)	Crear / actualizar el artículo en el servidor (Ctrl+S)
+Create an account on this server	Ein Konto auf diesem Server anlegen	Créer un compte sur ce serveur	Crear una cuenta en este servidor
 Created	Erstellt	Créé	Creado
 Crimp contact	Crimpkontakt	Contact à sertir	Contacto de crimpado
 Cross-connector	Querverbinder	Section de connecteur	Conexiones transversales
@@ -77,8 +99,11 @@ Cylinders	Zylinder	Cylindres	Cilindros
 DC motor	Gleichstrommotor	Moteur à courant continu	Motor de corriente continua
 DC-DC converter	DC/DC-Wandler	Convertisseur CC-CC	Convertidor CC-CC
 Data recorder	Messwertschreiber	Enregistreur de données	Registro de valor medido
+Database backup	Datenbanksicherung	Sauvegarde de la base de données	Copia de seguridad de la base de datos
 Datasheet	Datenblatt	Fiche technique	Hoja de datos
+Defined roles	Definierte Rollen	Rôles définis	Roles definidos
 Delete catalog {} from the server?	Katalog {} vom Server löschen?	Supprimer le catalogue {} du serveur ?	¿Eliminar el catálogo {} del servidor?
+Delete catalog {}?	Katalog {} löschen?	Supprimer le catalogue {} ?	¿Eliminar el catálogo {}?
 Delete part {} from the server? This cannot be undone.	Artikel {} vom Server löschen? Das kann nicht rückgängig gemacht werden.	Supprimer l'article {} du serveur ? Cette action est irréversible.	¿Eliminar el artículo {} del servidor? Esta acción no se puede deshacer.
 Delete parts	Artikel löschen	Supprimer des articles	Eliminar artículos
 Delete user {}? Their sessions and favorites are removed.	Benutzer {} löschen? Seine Sitzungen und Favoriten werden entfernt.	Supprimer l'utilisateur {} ? Ses sessions et favoris seront supprimés.	¿Eliminar el usuario {}? Se eliminarán sus sesiones y favoritos.
@@ -86,6 +111,8 @@ Deleted	Gelöscht	Supprimé	Eliminado
 Digital sensor, general	Digitaler Sensor, allgemein	Capteur numérique, général	Sensor digital, general
 Directional control valves	Wegeventile	Distributeurs	Válvulas de distribución
 Directional control valves, coaxial	Wegekoaxialventile	Distributeurs coaxiaux	Válvulas coaxiales de vías
+Directories	Verzeichnisdienste	Annuaires	Directorios
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Verzeichnisdienste (Active Directory, LDAP) werden in der Datei mit den Zugriffseinstellungen des Servers eingerichtet.	Les annuaires (Active Directory, LDAP) se configurent dans le fichier des paramètres d'accès du serveur.	Los directorios (Active Directory, LDAP) se configuran en el archivo de configuración de acceso del servidor.
 Directory	Verzeichnisdienst	Annuaire	Directorio
 Dirt trap	Schmutzfänger	Filtre anti-impuretés	Colector de suciedad
 Discard the changes	Änderungen verwerfen	Abandonner les modifications	Descartar los cambios
@@ -94,13 +121,16 @@ Discontinued	Abgekündigt	Arrêté	Descatalogado
 Display device	Anzeigegerät	Afficheur	Indicador
 Document holder	Schaltplantasche	Porte-documents	Portadocumentos
 Door handle	Türgriff	Poignée de porte	Manija de puerta
+Download	Herunterladen	Télécharger	Descargar
 Drawings box	Zeichnungsbehälter	Boîtes graphiques	Cajas de diseño
 Dryer	Trockner	Dessicateur	Secador
 Dummy plate	Blindscheibe	Joint plein	Disco ciego
 Duplex switch filters	Doppelumschaltfilter	Filtres à deux étages	Filtros de distribución doble
 EPLAN Data Portal	EPLAN Data Portal	EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Katalog {} bearbeiten	Modifier le catalogue {}	Editar el catálogo {}
 Edit catalogs	Kataloge bearbeiten	Modifier les catalogues	Editar catálogos
 Edit parts	Artikel bearbeiten	Modifier les articles	Editar artículos
+Edit user {}	Benutzer {} bearbeiten	Modifier l'utilisateur {}	Editar el usuario {}
 Electrical engineering - special items	Elektrotechnik Sonderbauteile	Eléments spéciaux électroniques	Componentes especiales de electrotecnia
 Electrically-operated mechanical devices	Elektrisch betätigte mechanische Einrichtungen	Dispositifs mécaniques à actionnement électrique	Dispositivos mecánicos accionados eléctricamente
 Electrolysis cell	Elektrolysezelle	Cellule électrolytique	Célula de electrólisis
@@ -113,6 +143,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Geben Sie die
 Evaporator	Verdampfer	Evaporateur	Evaporador
 Exhaust valves	Entlüftungsventile	Soupapes de décharge	Válvulas de ventilación
 Export (CSV)	Export (CSV)	Exporter (CSV)	Exportar (CSV)
+Export and backup	Export und Sicherung	Export et sauvegarde	Exportación y copia de seguridad
+Export the parts, catalogs and settings, or download a backup of the whole database.	Exportieren Sie die Artikel, Kataloge und Einstellungen oder laden Sie eine Sicherung der ganzen Datenbank herunter.	Exportez les articles, les catalogues et les paramètres, ou téléchargez une sauvegarde de toute la base de données.	Exporte los artículos, los catálogos y la configuración, o descargue una copia de seguridad de toda la base de datos.
 Exported {} parts to {}	{} Artikel nach {} exportiert	{} articles exportés vers {}	{} artículos exportados a {}
 Extraction hood	Abzugshaube	Hotte d'extraction	Campana de salida
 Feed-through terminal	Durchgangsklemme	Borne de passage	Borne de paso
@@ -136,6 +168,7 @@ Front view (2D)	Frontansicht (2D)	Vue de face (2D)	Vista frontal (2D)
 Funnel	Trichter	Trémie	Embudo
 Furnace	Ofen	Four	Horno
 Generator	Generator	Générateur	Generador
+Grants	Zuweisungen	Attributions	Asignaciones
 Grants of the server's access settings can refer to them	Zuweisungen der Zugriffseinstellungen des Servers können sich darauf beziehen	Les attributions des paramètres d'accès du serveur peuvent s'y référer	Las asignaciones de la configuración de acceso del servidor pueden referirse a ellos
 Ground fault current circuit breaker	Fehlerstrom-Schutzschalter	Disjoncteur protecteur de défaut de courant	Interruptor de protección fallo de corriente
 Ground fault voltage circuit-breaker	Fehlerspannungs-Schutzschalter	Disjoncteur protecteur de défaut de tension	Interruptor de protección fallo de tensión
@@ -150,13 +183,18 @@ Housing accessories, internal extension	Gehäusezubehör Innenanbau	Accessoires 
 Hydraulic motors	Hydromotoren	Moteurs hydrauliques	Motores hidráulicos
 Hydraulic tanks	Hydrauliktanks	Réservoirs hydrauliques	Depósitos hidráulicos
 Import / export	Import / Export	Import / export	Importar / exportar
+Import parts	Artikel importieren	Importer des articles	Importar artículos
+Imported {} parts (revision {})	{} Artikel importiert (Revision {})	{} articles importés (révision {})	{} artículos importados (revisión {})
 Inductors	Induktivitäten	Inductances	Inductividades
+Install	Installieren	Installer	Instalar
+Install again	Erneut installieren	Réinstaller	Volver a instalar
 Intermediate plates	Zwischenplatten	Plaques intermédiaires	Placas intermedias
 Isolating valves	Sperrventile	Soupapes d'arrêt	Válvulas de bloqueo
 KNX actuator	KNX-Aktor	Actionneur KNX	Actuador KNX
 KNX system device	KNX-Systemgerät	Appareil système KNX	Dispositivo de sistema KNX
 Key switch	Schlüsselschalter	Interrupteur à clé	Interruptor de llave
 Kneader	Kneter	Pétrisseur	Amasadora
+Last sign-in	Letzte Anmeldung	Dernière connexion	Último inicio de sesión
 Legend plate	Bezeichnungsschild	Porte-étiquette	Placa de identificación
 Level detector	Grenzwertgeber	Détecteur de niveau	Detector de nivel
 Level switches	Füllstandsschalter	Interrupteurs de niveau	Interruptor de nivel
@@ -168,6 +206,7 @@ Line return filters	Rücklauffilter	Filtres anti-retour	Filtros de retorno
 Lines / conduits	Leitungen / Pakete	Conduites / Conduits	Líneas / paquetes
 Load all parts from the server again	Alle Artikel erneut vom Server laden	Recharger tous les articles depuis le serveur	Volver a cargar todos los artículos del servidor
 Loading…	Wird geladen…	Chargement…	Cargando…
+Local	Lokal	Local	Local
 Lock systems	Verschlusssysteme	Systèmes d'obturation	Sistemas de cierre
 Locking couplings	Verschlusskupplungen	Obturateurs express	Acoplamientos de bloqueo
 Logic item	Logikbauteil	Elément logique	Componente lógico
@@ -186,17 +225,28 @@ Modulators	Modulatoren	Modulateurs	Moduladores
 Motor overload switch	Motorschutzschalter	Disjoncteur-protecteur moteur	Interruptor guardamotor
 Mounting chassis	Montage-Chassis	Châssis de montage	Chasis de montaje
 Mounting panels	Montageplatten	Plaques de montage	Placas de montaje
+New accounts need the approval of an administrator	Neue Konten brauchen die Freigabe eines Administrators	Les nouveaux comptes doivent être approuvés par un administrateur	Las cuentas nuevas necesitan la aprobación de un administrador
+New catalog	Neuer Katalog	Nouveau catalogue	Nuevo catálogo
 New part based on the open one	Neuer Artikel auf Basis des geöffneten	Nouvel article basé sur celui qui est ouvert	Nuevo artículo basado en el abierto
 New password	Neues Passwort	Nouveau mot de passe	Nueva contraseña
+New role	Neue Rolle	Nouveau rôle	Nuevo rol
+New user	Neuer Benutzer	Nouvel utilisateur	Nuevo usuario
 Newer version	Neuere Version	Version plus récente	Versión más reciente
 Next	Weiter	Suivant	Siguiente
+No grants: users have the rights of their role	Keine Zuweisungen: Benutzer haben die Rechte ihrer Rolle	Aucune attribution : les utilisateurs ont les droits de leur rôle	Sin asignaciones: los usuarios tienen los derechos de su rol
+No users	Keine Benutzer	Aucun utilisateur	Ningún usuario
 Non-return valves	Rückschlagventile	Clapets anti-retour	Válvulas de retención
 Not mounted	Nicht montiert	Non monté	No montado
 Nut	Mutter	Écrou	Tuerca
 On the front	Vorne	Sur la face avant	En el frente
 On the left side	Links daneben	Sur le côté gauche	En el lado izquierdo
 On the right side	Rechts daneben	Sur le côté droit	En el lado derecho
+On this server	Auf diesem Server	Sur ce serveur	En este servidor
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Eine SQLite-Datei mit allen Artikeln, ihrem Verlauf und ihren Dateien, den Katalogen, den Benutzern und ihren Favoriten. Sie enthält die Passwort-Hashes der Benutzer: Bewahren Sie sie sicher auf.	Un fichier SQLite avec tous les articles, leur historique et leurs fichiers, les catalogues, les utilisateurs et leurs favoris. Il contient les hachages des mots de passe des utilisateurs : conservez-le en lieu sûr.	Un archivo SQLite con todos los artículos, su historial y sus archivos, los catálogos, los usuarios y sus favoritos. Contiene los hashes de las contraseñas de los usuarios: guárdelo en un lugar seguro.
 Only catalogs without parts can be deleted	Nur Kataloge ohne Artikel können gelöscht werden	Seuls les catalogues sans articles peuvent être supprimés	Solo se pueden eliminar catálogos sin artículos
+Only empty catalogs can be deleted	Nur leere Kataloge können gelöscht werden	Seuls les catalogues vides peuvent être supprimés	Solo se pueden eliminar catálogos vacíos
+Only local accounts	Nur lokale Konten	Comptes locaux uniquement	Solo cuentas locales
+Open sessions: {}	Offene Sitzungen: {}	Sessions ouvertes : {}	Sesiones abiertas: {}
 OpenECraft data portal	OpenECraft Data Portal	Portail de données OpenECraft	Portal de datos de OpenECraft
 OpenECraft parts manager	OpenECraft-Artikelverwaltung	Gestionnaire d'articles OpenECraft	Gestor de artículos de OpenECraft
 OpenECraft parts server	OpenECraft-Artikelserver	Serveur d'articles OpenECraft	Servidor de artículos OpenECraft
@@ -256,6 +306,7 @@ Pushbutton	Taster	Bouton-poussoir	Pulsador
 Rail standoff	Schienenabstandshalter	Entretoise de rail	Separador de riel
 Rails	Schienen	Rails	Guías
 Reactor	Reaktor	Réacteur	Reactor
+Read only	Nur lesen	Lecture seule	Solo lectura
 Read only: sign in with a user who may change parts of this manufacturer	Nur lesen: melden Sie sich mit einem Benutzer an, der Artikel dieses Herstellers ändern darf	Lecture seule : connectez-vous avec un utilisateur autorisé à modifier les articles de ce fabricant	Solo lectura: inicie sesión con un usuario que pueda modificar artículos de este fabricante
 Read parts	Artikel lesen	Lire les articles	Leer artículos
 Reader	Leser	Lecteur	Lector
@@ -265,12 +316,20 @@ Rear / side panel	Rück- / Seitenwand	Plaque arrière / paroi latérale	Pared po
 Rectifier	Gleichrichter	Redresseur	Rectificador
 Reducer	Reduzierung	Réduction	Reducción
 Reducing plates	Reduzierplatten	Plaques de réduction	Placas de reducción
+Register	Registrieren	S'inscrire	Registrarse
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Registrierte Benutzer werden Leser: Sie speichern Favoriten und lesen die Artikel auch dann, wenn das Lesen eine Anmeldung braucht. Weitere Rechte geben Sie ihnen unter Benutzer.	Les utilisateurs inscrits deviennent lecteurs : ils gardent des favoris et lisent les articles même si la lecture demande une connexion. Donnez-leur d'autres droits dans Utilisateurs.	Los usuarios registrados pasan a ser lectores: guardan favoritos y leen los artículos aunque la lectura requiera iniciar sesión. Deles más derechos en Usuarios.
+Registration	Registrierung	Inscription	Registro
+Reject the registration of {}? The account is deleted.	Registrierung von {} ablehnen? Das Konto wird gelöscht.	Refuser l'inscription de {} ? Le compte est supprimé.	¿Rechazar el registro de {}? La cuenta se elimina.
 Remove the file from the part	Datei vom Artikel entfernen	Retirer le fichier de l'article	Quitar el archivo del artículo
 Removed from the server	Vom Server entfernt	Supprimé du serveur	Eliminado del servidor
+Repeat password	Passwort wiederholen	Répéter le mot de passe	Repetir la contraseña
+Replace the roles and grants with those of the file?	Rollen und Zuweisungen durch die der Datei ersetzen?	Remplacer les rôles et les attributions par ceux du fichier ?	¿Sustituir los roles y las asignaciones por los del archivo?
 Replaced by {}	Ersetzt durch {}	Remplacé par {}	Sustituido por {}
 Resistors	Widerstände	Résistances	Resistencias
+Restore from a file	Aus einer Datei wiederherstellen	Restaurer depuis un fichier	Restaurar desde un archivo
 Return flushing filters, all-autom.	Rückspülfilter vollautomatisch	Filtres à lavage à contre-courant automatiques	Filtros de relavado totalmente automático
 Ribbon cables	Flachbandkabel	Câbles plats	Cables planos
+Roles	Rollen	Rôles	Roles
 Roof hook	Dachhaken	Crochet de toit	Gancho de tejado
 Routing accessories	Verlegezubehör	Accessoires de circuit	Accesorios de enrutamiento
 Routing path (topology)	Strecke (Topologie)	Tracé du circuit (topologie)	Ruta (topología)
@@ -284,6 +343,7 @@ Screw connections	Verschraubungen	Vissages	Uniones roscadas
 Screw pumps	Schraubenspindelpumpen	Pompes à vis	Bombas de husillo roscado
 Screw spindle compressors	Schraubenspindelkompressoren	Compresseurs à vis	Compresores de husillo roscado
 Scroll compressors	Scrollkompressoren	Compresseurs à spirale	Compresores de deslizamiento
+Search users	Benutzer suchen	Rechercher des utilisateurs	Buscar usuarios
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Wählen Sie einen Katalog oder legen Sie einen neuen an. Artikel gehören über ihre Katalog-ID zu einem Katalog (Artikeleditor, Registerkarte Data Portal).	Sélectionnez un catalogue ou créez-en un. Les articles appartiennent à un catalogue par leur identifiant de catalogue (éditeur d'articles, onglet Portail de données).	Seleccione un catálogo o cree uno nuevo. Los artículos pertenecen a un catálogo mediante su ID de catálogo (editor de artículos, pestaña Portal de datos).
 Select a user or create a new one.	Wählen Sie einen Benutzer oder legen Sie einen neuen an.	Sélectionnez un utilisateur ou créez-en un.	Seleccione un usuario o cree uno nuevo.
 Selector switch	Wahlschalter	Commutateur de sélection	Selector
@@ -292,6 +352,7 @@ Sensor NC	Sensor Öffner	Capteur NF	Sensor NC
 Sensor, switch, and pushbutton	Sensorik, Schalter und Taster	Technologie des capteurs, interrupteur, bouton-poussoir	Sensores, conmutadores y pulsadores
 Sensors - pressure gauges	Signalaufnehmer-Manometer	Manomètres de capteur	Manómetros-captadores de señal
 Serial sub-plates	Reihenanschlussplatten	Sous-plaques de raccordement	Placas de conexión en serie
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Durch die Startoptionen des Servers festgelegt (--registration oder OPENECRAFT_REGISTRATION).	Défini par les options de démarrage du serveur (--registration ou OPENECRAFT_REGISTRATION).	Establecido por las opciones de inicio del servidor (--registration u OPENECRAFT_REGISTRATION).
 Show parts	Artikel anzeigen	Afficher les articles	Mostrar artículos
 Shut-off accumulators	Absperrspeicher	Accumulateurs d'arrêt	Acumuladores de cierre
 Shut-off control valve	Absperrarmatur	Armature d'arrêt	Dispositivo de cierre
@@ -299,12 +360,19 @@ Shut-off flap	Absperrklappe	Clapet d'arrêt	Mariposa de cierre
 Side panel	Seitenwand	Paroi latérale	Panel lateral
 Sifter	Sichter	Cribleuse	Separador
 Sight glass	Schauglas	Voyant (indicateur de niveau)	Mirilla
+Sign in as an administrator to manage the server	Melden Sie sich als Administrator an, um den Server zu verwalten	Connectez-vous en tant qu'administrateur pour gérer le serveur	Inicie sesión como administrador para gestionar el servidor
 Sign in or connect with the access token to change parts	Melden Sie sich an oder verbinden Sie sich mit dem Zugriffstoken, um Artikel zu ändern	Connectez-vous ou utilisez le jeton d'accès pour modifier des articles	Inicie sesión o conéctese con el token de acceso para modificar artículos
 Sign in to keep favorites	Melden Sie sich an, um Favoriten zu speichern	Connectez-vous pour enregistrer des favoris	Inicie sesión para guardar favoritos
+Sign in with a user account	Mit einem Benutzerkonto anmelden	Se connecter avec un compte utilisateur	Iniciar sesión con una cuenta de usuario
+Sign in with the access token of the server	Mit dem Zugriffstoken des Servers anmelden	Se connecter avec le jeton d'accès du serveur	Iniciar sesión con el token de acceso del servidor
+Sign out everywhere	Überall abmelden	Déconnecter partout	Cerrar todas las sesiones
+Sign out {} on all devices?	{} auf allen Geräten abmelden?	Déconnecter {} sur tous les appareils ?	¿Cerrar la sesión de {} en todos los dispositivos?
+Sign-in needed to read	Lesen nur nach Anmeldung	Connexion requise pour lire	Se requiere iniciar sesión para leer
 Signal device	Meldegerät	Appareil de signalisation	Dispositivo de señalización
 Signal device, acoustic	Meldeeinrichtung, akustisch	Unité d'alarme, acoustique	Dispositivo de avisos acústicos
 Signal device, optical	Meldeeinrichtung, optisch	Unité d'alarme, optique	Dispositivo de avisos ópticos
 Signal lamp	Meldeleuchte	Témoin d'avertissement	Luz de aviso
+Signed in	Angemeldet	Connectés	Con sesión abierta
 Silencers	Schalldämpfer	Amortisseurs	Silenciadores
 Silo	Silo	Silo	Silo
 Single-phase motor	Wechselstrommotor	Moteur monophasé	Motor monofásico
@@ -316,6 +384,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Starten Sie einen
 Start openecraft-parts-server with --token to allow changes	Starten Sie openecraft-parts-server mit --token, um Änderungen zu erlauben	Démarrez openecraft-parts-server avec --token pour autoriser les modifications	Inicia openecraft-parts-server con --token para permitir cambios
 Steam boiler	Dampfkessel	Générateur de vapeur	Caldera de vapor
 Stirrer	Rührer	Agitateur	Agitador
+Storage	Speicher	Stockage	Almacenamiento
 Strainer	Sieb	Crible	Criba
 Strip label	Leistenschild	Plaque de borniers	Rótulo de regletas
 Sub-plates	Anschlussplatten	Plaques de raccordement	Placas de conexión
@@ -335,22 +404,36 @@ Terminator	Abschluss	Fin	Terminación
 Terminators, filters	Abschlüsse, Filter	Fins, filtres	Terminaciones, filtro
 Test accessories	Testzubehör	Accessoires de test	Accesorios de prueba
 The EPLAN Data Portal only offers searching and reading parts	Das EPLAN Data Portal bietet nur das Suchen und Lesen von Artikeln	L'EPLAN Data Portal permet seulement de rechercher et de lire des articles	El EPLAN Data Portal solo permite buscar y leer artículos
+The access settings would leave nobody who manages users	Mit diesen Zugriffseinstellungen könnte niemand mehr Benutzer verwalten	Avec ces paramètres d'accès, plus personne ne pourrait gérer les utilisateurs	Con esta configuración de acceso nadie podría gestionar los usuarios
 The access token is only needed for changes; it is not stored.	Das Zugriffstoken wird nur für Änderungen benötigt; es wird nicht gespeichert.	Le jeton d'accès n'est nécessaire que pour les modifications ; il n'est pas enregistré.	El token de acceso solo se necesita para los cambios; no se guarda.
+The catalogs with their manufacturer, version and description.	Die Kataloge mit Hersteller, Version und Beschreibung.	Les catalogues avec leur fabricant, leur version et leur description.	Los catálogos con su fabricante, versión y descripción.
 The checksum of {} does not match: the download is damaged	Die Prüfsumme von {} stimmt nicht: der Download ist beschädigt	La somme de contrôle de {} ne correspond pas : le téléchargement est endommagé	La suma de comprobación de {} no coincide: la descarga está dañada
 The directory checks the password and sets the groups at every sign-in	Der Verzeichnisdienst prüft das Passwort und setzt die Gruppen bei jeder Anmeldung	L'annuaire vérifie le mot de passe et définit les groupes à chaque connexion	El directorio comprueba la contraseña y establece los grupos en cada inicio de sesión
+The file holds no access settings	Die Datei enthält keine Zugriffseinstellungen	Le fichier ne contient pas de paramètres d'accès	El archivo no contiene configuración de acceso
+The last administrator cannot lose the right to manage users	Der letzte Administrator kann das Recht, Benutzer zu verwalten, nicht verlieren	Le dernier administrateur ne peut pas perdre le droit de gérer les utilisateurs	El último administrador no puede perder el derecho a gestionar usuarios
+The password needs at least {} characters	Das Passwort braucht mindestens {} Zeichen	Le mot de passe doit comporter au moins {} caractères	La contraseña necesita al menos {} caracteres
+The passwords do not match	Die Passwörter stimmen nicht überein	Les mots de passe ne correspondent pas	Las contraseñas no coinciden
 The project has no parts	Das Projekt hat keine Artikel	Le projet n'a pas d'articles	El proyecto no tiene artículos
+The registration is closed	Die Registrierung ist geschlossen	L'inscription est fermée	El registro está cerrado
+The registration is open	Die Registrierung ist offen	L'inscription est ouverte	El registro está abierto
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Die Rollen, die Zuweisungen und der Zugriff ohne Anmeldung. Die Wiederherstellung ersetzt sie; die Verzeichnisdienste bleiben, wie sie auf dem Server eingerichtet sind.	Les rôles, les attributions et l'accès sans connexion. La restauration les remplace ; les annuaires restent tels que configurés sur le serveur.	Los roles, las asignaciones y el acceso sin iniciar sesión. La restauración los sustituye; los directorios se mantienen como están configurados en el servidor.
 The server cannot be reached	Der Server ist nicht erreichbar	Le serveur est injoignable	No se puede acceder al servidor
 The server sent no text	Der Server hat keinen Text gesendet	Le serveur n'a pas envoyé de texte	El servidor no ha enviado texto
 The upload is finished	Das Hochladen ist abgeschlossen	L'envoi est terminé	La subida ha terminado
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Die Benutzer mit Rolle, Hersteller, Gruppen und letzter Anmeldung, ohne Passwörter.	Les utilisateurs avec leur rôle, leur fabricant, leurs groupes et leur dernière connexion, sans mots de passe.	Los usuarios con su rol, fabricante, grupos y último inicio de sesión, sin contraseñas.
 Thermometers	Thermometer	Thermomètres	Termómetros
 Thermostat valves	Thermostatventile	Soupapes à thermostat	Válvulas de termostato
+This user name cannot be used	Dieser Benutzername kann nicht verwendet werden	Ce nom d'utilisateur ne peut pas être utilisé	Este nombre de usuario no se puede usar
+This user name is taken	Dieser Benutzername ist vergeben	Ce nom d'utilisateur est déjà pris	Este nombre de usuario ya está en uso
 Three-phase motor	Drehstrommotor	Moteur triphasé	Motor trifásico
 Three-way control valve	Dreiwegearmatur	Armature trois voies	Dispositivo de tres vías
 Three-way flap	Dreiwegeklappe	Clapet à trois voies	Válvula de tres vías
 Three-way valve	Dreiwegeventil	Soupape à trois voies	Válvula de distribución de tres vías
 Throttle plate	Drosselscheibe	Diaphragme	Estrangulador
 Timer relay	Zeitrelais	Relais temporisé	Relé temporizador
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Zum Wiederherstellen starten Sie den Server mit --data <Datei> oder kopieren sie mit --migrate-from <Datei> in eine neue Datenbank.	Pour la restaurer, démarrez le serveur avec --data <fichier>, ou copiez-la dans une nouvelle base de données avec --migrate-from <fichier>.	Para restaurarla, inicie el servidor con --data <archivo> o cópiela en una base de datos nueva con --migrate-from <archivo>.
 Too many failed sign-ins, try again later	Zu viele fehlgeschlagene Anmeldungen, bitte später erneut versuchen	Trop d'échecs de connexion, réessayez plus tard	Demasiados inicios de sesión fallidos, inténtelo más tarde
+Too many registrations from this address, try again later	Zu viele Registrierungen von dieser Adresse, versuchen Sie es später erneut	Trop d'inscriptions depuis cette adresse, réessayez plus tard	Demasiados registros desde esta dirección, inténtelo más tarde
 Top cover	Dach	Toit	Techo
 Transformers	Transformatoren	Transformateurs	Transformadores
 Transmission paths	Übertragungswege	Trajets de transmission	Rutas de transmisión
@@ -361,7 +444,11 @@ Under the part (base)	Unter dem Artikel (Sockel)	Sous l'article (embase)	Debajo 
 Unexpected Data Portal response	Unerwartete Data-Portal-Antwort	Réponse inattendue du Data Portal	Respuesta inesperada del Data Portal
 Uploading {} to Vault ({} %)…	{} wird in Vault hochgeladen ({} %)…	Envoi de {} vers Vault ({} %)…	Subiendo {} a Vault ({} %)…
 Uploading {} to Vault…	{} wird in Vault hochgeladen…	Envoi de {} vers Vault…	Subiendo {} a Vault…
+User account	Benutzerkonto	Compte utilisateur	Cuenta de usuario
+User or group	Benutzer oder Gruppe	Utilisateur ou groupe	Usuario o grupo
+User {} exists already. Change it?	Benutzer {} gibt es schon. Ändern?	L'utilisateur {} existe déjà. Le modifier ?	El usuario {} ya existe. ¿Modificarlo?
 User-defined rail	Benutzerdefinierte Schiene	Rail défini par l'utilisateur	Carril definido por el usuario
+Users may register themselves (as readers)	Benutzer dürfen sich selbst registrieren (als Leser)	Les utilisateurs peuvent s'inscrire eux-mêmes (comme lecteurs)	Los usuarios pueden registrarse por sí mismos (como lectores)
 Vacuum pump	Vakuumpumpe	Pompe à vide	Bomba de vacío
 Valve / distributor	Ventil / Verteiler	Vanne / répartiteur	Válvula / Distribuidor
 Valve coil	Ventilspule	Bobine de distributeur	Bobina de válvula
@@ -372,15 +459,21 @@ Ventilation filters	Belüftungsfilter	Filtres d'aération	Filtros de ventilació
 Ventilator	Ventilator	Ventilateur	Ventilador
 Voltage source	Spannungsquelle	Source de tension	Fuente de voltaje
 Voltage source and generator	Spannungsquelle und Generator	Source de tension et générateur	Fuente de voltaje y generador
+Waiting accounts cannot sign in; approve or reject them in Users.	Wartende Konten können sich nicht anmelden; geben Sie sie unter Benutzer frei oder lehnen Sie sie ab.	Les comptes en attente ne peuvent pas se connecter ; approuvez-les ou refusez-les dans Utilisateurs.	Las cuentas pendientes no pueden iniciar sesión; apruébelas o rechácelas en Usuarios.
 Washer	Unterlegscheibe	Rondelle	Arandela
 Water traps	Wasserabscheider	Séparateurs d'eau	Colectores de agua
 Wind deflector	Windleitblech	Déflecteur de vent	Deflector de viento
 Wiring material	Verdrahtungsmaterial	Matériel de câblage	Material de cableado
+Without sign-in	Ohne Anmeldung	Sans connexion	Sin iniciar sesión
+Wrong access token	Falsches Zugriffstoken	Jeton d'accès incorrect	Token de acceso incorrecto
 Wrong user name or password	Falscher Benutzername oder falsches Passwort	Nom d'utilisateur ou mot de passe incorrect	Nombre de usuario o contraseña incorrectos
+Your account awaits the approval of an administrator	Ihr Konto wartet auf die Freigabe durch einen Administrator	Votre compte attend l'approbation d'un administrateur	Su cuenta está pendiente de la aprobación de un administrador
+Your account was created. An administrator has to approve it before you can sign in.	Ihr Konto wurde angelegt. Ein Administrator muss es freigeben, bevor Sie sich anmelden können.	Votre compte a été créé. Un administrateur doit l'approuver avant que vous puissiez vous connecter.	Se ha creado su cuenta. Un administrador tiene que aprobarla antes de que pueda iniciar sesión.
 access denied – check the personal access token	Zugriff verweigert – prüfen Sie das persönliche Zugriffstoken	accès refusé – vérifiez le jeton d'accès personnel	acceso denegado – compruebe el token de acceso personal
 by file name	nach Dateiname	d'après le nom de fichier	según el nombre del archivo
 changed, not saved	geändert, nicht gespeichert	modifié, non enregistré	modificado, sin guardar
 connection failed: {}	Verbindung fehlgeschlagen: {}	échec de la connexion : {}	conexión fallida: {}
+directory:group	verzeichnis:gruppe	annuaire:groupe	directorio:grupo
 from the name	aus dem Namen	d'après le nom	a partir del nombre
 needed for changes	für Änderungen erforderlich	nécessaire pour les modifications	necesario para los cambios
 new part, not saved	neuer Artikel, nicht gespeichert	nouvel article, non enregistré	artículo nuevo, sin guardar
@@ -393,12 +486,14 @@ the server name is unknown	der Servername ist unbekannt	le nom du serveur est in
 the server refuses the connection (not started, or another port)	der Server lehnt die Verbindung ab (nicht gestartet oder ein anderer Port)	le serveur refuse la connexion (non démarré ou autre port)	el servidor rechaza la conexión (no iniciado u otro puerto)
 unchanged if empty	unverändert, wenn leer	inchangé si vide	sin cambios si está vacío
 unexpected answer: {}	unerwartete Antwort: {}	réponse inattendue : {}	respuesta inesperada: {}
+you	Sie	vous	usted
 {} ({}, {})	{} ({}, {})	{} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} hat keine Prüfsumme in SHA256SUMS	{} n'a pas de somme de contrôle dans SHA256SUMS	{} no tiene suma de comprobación en SHA256SUMS
 {} parts in {} catalogs, revision {}	{} Artikel in {} Katalogen, Revision {}	{} articles dans {} catalogues, révision {}	{} artículos en {} catálogos, revisión {}
 {} parts, {} catalogs, {}	{} Artikel, {} Kataloge, {}	{} articles, {} catalogues, {}	{} artículos, {} catálogos, {}
 {} – save to upload it	{} – zum Hochladen speichern	{} – enregistrer pour l'envoyer	{} – guardar para subirlo
 {}: the part is no longer open	{}: der Artikel ist nicht mehr geöffnet	{} : l'article n'est plus ouvert	{}: el artículo ya no está abierto
+{}: {} parts added, {} updated, {} kept	{}: {} Artikel hinzugefügt, {} aktualisiert, {} behalten	{} : {} articles ajoutés, {} mis à jour, {} conservés	{}: {} artículos añadidos, {} actualizados, {} conservados
 ⎘ Copy	⎘ Kopieren	⎘ Copier	⎘ Copiar
 ✔ Save	✔ Speichern	✔ Enregistrer	✔ Guardar
 ➕ New	➕ Neu	➕ Nouveau	➕ Nuevo

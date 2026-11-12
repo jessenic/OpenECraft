@@ -1,6 +1,7 @@
 //! HTTP routes of the parts server (see `openecraft_parts::api` for the API).
 
 use crate::auth::{hash_password, verify_account_password, Account};
+use crate::bundled;
 use crate::storage::Store;
 use crate::web;
 use axum::body::Bytes;
@@ -13,7 +14,8 @@ use axum::{Json, Router};
 use openecraft_auth::{AccessFile, ClientIp, SignInError, Throttle};
 use openecraft_parts::access::{Access, Policy, Right, Settings, SERVER};
 use openecraft_parts::api::{
-    bearer_token, token_matches, Accessories, ApiError, ImportResult, Login, PartList, PartQuery, ServerInfo, Session, UserUpdate, API_PREFIX,
+    bearer_token, token_matches, Accessories, ApiError, BundledCatalog, ImportResult, Installed, Login, PartList, PartQuery, Registration, ServerInfo, Session,
+    UserEntry, UserUpdate, API_PREFIX,
 };
 use openecraft_parts::portal::{content_type, AttachmentKind, Catalog, HistoryEntry, PartsRight, Role, SearchResult, User};
 use openecraft_parts::{import, to_csv, Part};
@@ -35,11 +37,32 @@ pub struct AppState {
     pub access: Arc<Mutex<AccessFile<PartsRight>>>,
     /// Failed sign-ins per user name.
     pub throttle: Arc<Mutex<Throttle>>,
+    /// Registration of users fixed by the start options (`--registration`); `None`: as
+    /// the access settings say.
+    pub registration: Option<bool>,
+    /// Registrations per client.
+    pub registrations: Arc<Mutex<Throttle>>,
 }
 
 impl AppState {
     pub fn new(store: Store, token: Option<String>, access: AccessFile<PartsRight>) -> AppState {
-        AppState { store: Arc::new(Mutex::new(store)), token, access: Arc::new(Mutex::new(access)), throttle: Arc::default() }
+        AppState {
+            store: Arc::new(Mutex::new(store)),
+            token,
+            access: Arc::new(Mutex::new(access)),
+            throttle: Arc::default(),
+            registration: None,
+            registrations: Arc::default(),
+        }
+    }
+
+    pub fn with_registration(self, fixed: Option<bool>) -> AppState {
+        AppState { registration: fixed, ..self }
+    }
+
+    /// True if users may register themselves now.
+    fn registration_open(&self) -> bool {
+        self.registration.unwrap_or_else(|| access_file(self).config.registration)
     }
 }
 
@@ -85,6 +108,7 @@ pub fn router(state: AppState) -> Router {
     Router::new()
         .route("/", get(web::index))
         .route("/portal.js", get(web::script))
+        .route("/admin.js", get(web::admin_script))
         .route(&api("/texts"), get(web::texts))
         .route(&api("/info"), get(info))
         .route(&api("/parts"), get(list))
@@ -98,13 +122,21 @@ pub fn router(state: AppState) -> Router {
         .route(&api("/files/{id}"), get(file))
         .route(&api("/import"), post(import_parts))
         .route(&api("/export.csv"), get(export_csv))
+        .route(&api("/export.json"), get(export_json))
+        .route(&api("/backup"), get(backup))
         .route(&api("/catalogs"), get(catalogs))
         .route(&api("/catalogs/{id}"), get(get_catalog).put(put_catalog).delete(delete_catalog))
         .route(&api("/login"), post(login).layer(DefaultBodyLimit::max(SMALL_BODY)))
         .route(&api("/logout"), post(logout))
+        .route(&api("/register"), post(register).layer(DefaultBodyLimit::max(SMALL_BODY)))
+        .route(&api("/registration"), get(registration).put(set_registration))
         .route(&api("/favorites"), get(favorites).put(set_favorites))
         .route(&api("/users"), get(users))
         .route(&api("/users/{name}"), axum::routing::put(put_user).delete(delete_user))
+        .route(&api("/users/{name}/sessions"), delete(end_sessions))
+        .route(&api("/users/{name}/approval"), post(approve_user))
+        .route(&api("/bundled"), get(bundled_catalogs))
+        .route(&api("/bundled/{id}"), post(install_bundled))
         .route(&api("/access"), get(access).put(save_access))
         .layer(DefaultBodyLimit::max(32 * 1024 * 1024))
         .layer(axum::middleware::from_fn_with_state(state.clone(), signed_in_changes))
@@ -118,7 +150,7 @@ pub fn router(state: AppState) -> Router {
 /// makes the server read and parse large bodies.
 async fn signed_in_changes(State(state): State<AppState>, req: Request, next: Next) -> Response {
     let open = [Method::GET, Method::HEAD, Method::OPTIONS].contains(req.method())
-        || ["/login", "/logout", "/search"].iter().any(|p| req.uri().path() == format!("{API_PREFIX}{p}"));
+        || ["/login", "/logout", "/search", "/register"].iter().any(|p| req.uri().path() == format!("{API_PREFIX}{p}"));
     if !open {
         if let Err(e) = user(&state, req.headers()) {
             return e.into_response();
@@ -251,6 +283,7 @@ async fn info(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<
         storage: store.kind().into(),
         user,
         access,
+        registration: state.registration_open(),
     }))
 }
 
@@ -533,6 +566,30 @@ async fn export_csv(State(state): State<AppState>, headers: HeaderMap, Query(mut
     Ok(([(header::CONTENT_TYPE, "text/csv; charset=utf-8"), (header::CONTENT_DISPOSITION, "attachment; filename=\"parts.csv\"")], to_csv(&parts)))
 }
 
+/// The parts of [`export_csv`] as a JSON part list (with models), as `/import` reads it.
+async fn export_json(State(state): State<AppState>, headers: HeaderMap, Query(mut query): Query<PartQuery>) -> Result<impl IntoResponse> {
+    reader(&state, &headers)?;
+    query.brief = false;
+    let parts = store(&state).list(&query)?.1;
+    let json = serde_json::to_vec(&parts).map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    Ok(([(header::CONTENT_TYPE, "application/json"), (header::CONTENT_DISPOSITION, "attachment; filename=\"parts.json\"")], json))
+}
+
+/// The whole database as a SQLite file ([`Store::backup`]).
+async fn backup(State(state): State<AppState>, headers: HeaderMap) -> Result<Response> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let copy = state.clone();
+    let (revision, data) = tokio::task::spawn_blocking(move || {
+        let store = store(&copy);
+        store.backup().map(|data| (store.revision, data))
+    })
+    .await
+    .map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))??;
+    log::info!("database backup of revision {revision} downloaded ({})", admin.name);
+    let disposition = format!("attachment; filename=\"parts-db-backup-r{revision}.sqlite\"");
+    Ok(([(header::CONTENT_TYPE, "application/vnd.sqlite3".to_string()), (header::CONTENT_DISPOSITION, disposition)], data).into_response())
+}
+
 async fn catalogs(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<Catalog>>> {
     reader(&state, &headers)?;
     Ok(Json(store(&state).catalogs()?))
@@ -643,6 +700,9 @@ async fn login(State(state): State<AppState>, ClientIp(client): ClientIp, Json(l
             return Err(refused());
         }
     };
+    if account.user.pending {
+        return Err(forbidden("the account awaits the approval of an administrator"));
+    }
     throttle(&state).succeeded(&login.name, client);
     let token = account.start_session();
     let user = account.user.clone();
@@ -659,6 +719,104 @@ async fn login(State(state): State<AppState>, ClientIp(client): ClientIp, Json(l
 async fn password_matches(password: &str, hash: Option<&str>) -> bool {
     let (password, hash) = (password.to_string(), hash.map(String::from));
     tokio::task::spawn_blocking(move || verify_account_password(&password, hash.as_deref())).await.unwrap_or(false)
+}
+
+/// Name in the throttle of the registrations (per client).
+const REGISTRATIONS: &str = "\u{0}register";
+/// Longest user name a registration may choose.
+const MAX_USER_NAME_LEN: usize = 64;
+
+/// Creates a local reader account, if the registration is open, and signs it in;
+/// with approval the account waits for an administrator instead (`202`, no token).
+/// Registrations are throttled per client; names that grants of the policy refer to
+/// (with wildcards) cannot be taken, so that nobody registers into their rights.
+async fn register(State(state): State<AppState>, ClientIp(client): ClientIp, Json(login): Json<Login>) -> Result<(StatusCode, Json<Session>)> {
+    if !state.registration_open() {
+        return Err(forbidden("registration is not open on this server"));
+    }
+    let name = login.name.trim().to_string();
+    let bad_name = name.is_empty() || name.chars().count() > MAX_USER_NAME_LEN || name.chars().any(|c| c.is_whitespace() || c.is_control());
+    if bad_name || name.eq_ignore_ascii_case(ADMIN) {
+        return Err(bad(format!("'{name}' cannot be used as a user name")));
+    }
+    openecraft_auth::check_password(&login.password).map_err(bad)?;
+    let throttle = || state.registrations.lock().unwrap_or_else(|e| e.into_inner());
+    if let Some(wait) = throttle().wait(REGISTRATIONS, client, Instant::now()) {
+        return Err(AppError(StatusCode::TOO_MANY_REQUESTS, format!("too many registrations, try again in {wait} s")));
+    }
+    throttle().failed(REGISTRATIONS, client, Instant::now());
+    let taken = || AppError(StatusCode::CONFLICT, format!("the name '{name}' is taken"));
+    let identity = openecraft_parts::access::Identity { name: name.clone(), ..Default::default() };
+    if access_file(&state).config.policy.grants.iter().any(|g| identity.is(&g.subject)) {
+        return Err(taken());
+    }
+    if store(&state).account(&name).is_some() {
+        return Err(taken());
+    }
+    let password = login.password.clone();
+    let hash = tokio::task::spawn_blocking(move || hash_password(&password))
+        .await
+        .map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?
+        .map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e))?;
+    let pending = access_file(&state).config.registration_approval;
+    let mut account = Account { user: User { name: name.clone(), role: Role::Reader, pending, ..Default::default() }, password: hash, ..Default::default() };
+    let token = if pending { String::new() } else { account.start_session() };
+    let user = account.user.clone();
+    {
+        let mut store = store(&state);
+        // Registered meanwhile by somebody else.
+        if store.account(&name).is_some() {
+            return Err(taken());
+        }
+        store.put_account(account)?;
+    }
+    if pending {
+        log::info!("user {name} registered, awaiting approval");
+        return Ok((StatusCode::ACCEPTED, Json(Session { token, user, access: Default::default() })));
+    }
+    log::info!("user {name} registered");
+    let file = access_file(&state);
+    let policy = &file.config.policy;
+    let access = policy.access(&user.identity(), &user.grants()).with(policy.anonymous_access());
+    Ok((StatusCode::OK, Json(Session { token, user, access })))
+}
+
+/// Lets a registered user sign in.
+async fn approve_user(State(state): State<AppState>, headers: HeaderMap, Path(name): Path<String>) -> Result<Json<User>> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let mut store = store(&state);
+    let mut account = store.account(&name).cloned().ok_or_else(|| not_found(format!("user '{name}' not found")))?;
+    if account.user.pending {
+        account.user.pending = false;
+        store.put_account(account.clone())?;
+        log::info!("approved user {} ({})", account.user.name, admin.name);
+    }
+    Ok(Json(account.user))
+}
+
+async fn registration(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Registration>> {
+    with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    Ok(Json(registration_settings(&state)))
+}
+
+fn registration_settings(state: &AppState) -> Registration {
+    let approval = access_file(state).config.registration_approval;
+    Registration { enabled: state.registration_open(), fixed: state.registration.is_some(), approval }
+}
+
+async fn set_registration(State(state): State<AppState>, headers: HeaderMap, Json(r): Json<Registration>) -> Result<Json<Registration>> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    if state.registration.is_some_and(|fixed| fixed != r.enabled) {
+        return Err(AppError(StatusCode::CONFLICT, "the registration is set by the start options of the server (--registration)".into()));
+    }
+    {
+        let mut file = access_file(&state);
+        // Fixed by the start options: the stored switch stays as it was.
+        let open = if state.registration.is_some() { file.config.registration } else { r.enabled };
+        file.set_registration(open, r.approval).map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e))?;
+    }
+    log::info!("registration {}, {} approval ({})", if r.enabled { "open" } else { "closed" }, if r.approval { "with" } else { "without" }, admin.name);
+    Ok(Json(registration_settings(&state)))
 }
 
 async fn logout(State(state): State<AppState>, headers: HeaderMap) -> Result<StatusCode> {
@@ -689,16 +847,21 @@ async fn set_favorites(State(state): State<AppState>, headers: HeaderMap, Json(m
     Ok(Json(kept))
 }
 
-async fn users(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<User>>> {
+async fn users(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<UserEntry>>> {
     with_right(&state, &headers, PartsRight::Administer, SERVER)?;
-    Ok(Json(store(&state).accounts().iter().map(|a| a.user.clone()).collect()))
+    let now = openecraft_auth::unix_now();
+    let entry = |a: &Account| {
+        let alive = || a.sessions.iter().filter(|s| s.alive(now));
+        UserEntry { user: a.user.clone(), sessions: alive().count(), signed_in: alive().map(|s| s.started).max().unwrap_or(0) }
+    };
+    Ok(Json(store(&state).accounts().iter().map(entry).collect()))
 }
 
 /// True if a change (the users `after` under `policy`) would leave nobody who can
 /// manage users where somebody can now (without server token, nobody else could).
 /// Administrators by role, grant or group count.
 fn loses_admin(state: &AppState, store: &Store, policy: &Policy<PartsRight>, after: &[User]) -> bool {
-    let admin = |policy: &Policy<PartsRight>, u: &User| policy.access(&u.identity(), &u.grants()).allows(SERVER, PartsRight::Administer);
+    let admin = |policy: &Policy<PartsRight>, u: &User| !u.pending && policy.access(&u.identity(), &u.grants()).allows(SERVER, PartsRight::Administer);
     let file = access_file(state);
     let now = &file.config.policy;
     state.token.is_none() && store.accounts().iter().any(|a| admin(now, &a.user)) && !after.iter().any(|u| admin(policy, u))
@@ -760,6 +923,46 @@ async fn delete_user(State(state): State<AppState>, headers: HeaderMap, Path(nam
     store.delete_account(&account.user.name)?;
     log::info!("deleted user {} ({})", account.user.name, admin.name);
     Ok(StatusCode::NO_CONTENT)
+}
+
+/// Signs a user out everywhere: ends all their sessions.
+async fn end_sessions(State(state): State<AppState>, headers: HeaderMap, Path(name): Path<String>) -> Result<StatusCode> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let mut store = store(&state);
+    let mut account = store.account(&name).cloned().ok_or_else(|| not_found(format!("user '{name}' not found")))?;
+    account.sessions.clear();
+    let name = account.user.name.clone();
+    store.put_account(account)?;
+    log::info!("signed out user {name} everywhere ({})", admin.name);
+    Ok(StatusCode::NO_CONTENT)
+}
+
+/// The catalogs shipped with the server and the version of each on the server.
+async fn bundled_catalogs(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<BundledCatalog>>> {
+    with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let bundles = bundled::all().map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e))?;
+    let store = store(&state);
+    let mut list = Vec::new();
+    for b in bundles {
+        let installed = store.catalog(&b.catalog.id)?.map(|c| c.version).unwrap_or_default();
+        let c = b.catalog;
+        list.push(BundledCatalog { id: c.id, name: c.name, manufacturer: c.manufacturer, version: c.version, parts: b.parts.len(), installed });
+    }
+    Ok(Json(list))
+}
+
+/// Installs or updates a bundled catalog, as `--install-catalogs` does: parts users
+/// changed are kept.
+async fn install_bundled(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>) -> Result<Json<Installed>> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    if !bundled::ids().iter().any(|i| i.eq_ignore_ascii_case(id.trim())) {
+        return Err(not_found(format!("no bundled catalog '{id}'")));
+    }
+    let bundle = bundled::load(id.trim()).map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e))?;
+    let name = bundle.catalog.name.clone();
+    let result = store(&state).install(bundle)?;
+    log::info!("installed catalog {name}: {} parts added, {} updated, {} kept ({})", result.added, result.updated, result.kept.len(), admin.name);
+    Ok(Json(result))
 }
 
 async fn access(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Settings<PartsRight>>> {

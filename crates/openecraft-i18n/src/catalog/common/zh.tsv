@@ -17,6 +17,7 @@ Add to favorites	添加到收藏夹
 Address	地址
 Angle	角度
 Apply	应用
+Approve	批准
 Approvers	审批人
 Automatic	自动
 Below	下方
@@ -90,6 +91,8 @@ Dark	深色
 Data portal	数据门户
 Data type	数据类型
 Date	日期
+Delete	删除
+Deny	拒绝
 Depth	深度
 Descending	降序
 Description	描述
@@ -103,6 +106,7 @@ Device {}	设备 {}
 Devices	设备
 Direction	方向
 Discard	放弃
+Discard changes	放弃更改
 Display	显示
 Done	完成
 Door	柜门
@@ -110,6 +114,7 @@ Door cutout	柜门开孔
 Downloading {}…	正在下载 {}…
 Drag to turn the model	拖动以旋转模型
 EMC clearance	EMC 间距
+Edit	编辑
 Electro-fluid cross reference	电气-流体交叉引用
 Enclosure	机柜
 Enclosures	机柜
@@ -162,6 +167,7 @@ Hose no.	软管编号
 Identifier	标识
 Identifying letter	标识字母
 Image	图像
+Import	导入
 Input	输入
 Integration	集成
 Internal (bottom)	内部（下）
@@ -218,6 +224,7 @@ Name of the plot, e.g. the cadastral parcel	场地名称，例如地籍宗地
 Name of the point, e.g. a survey point	点的名称，例如测量点
 Name of the scheme	方案名称
 Net	网络
+Never	从不
 New name	新名称
 No	否
 No Vault item matches a part of the project	没有与项目部件匹配的 Vault 项
@@ -258,6 +265,7 @@ Option {}: {} is not one of its choices	选项 {}：{} 不是其选项值之一
 Order number	订货号
 Outer diameter	外径
 Output	输出
+Overview	概览
 PCT loop	PCT 回路
 PCT loop overview	PCT 回路概览
 PL	PL
@@ -333,6 +341,7 @@ Range	范围
 Rated current	额定电流
 Rated power	额定功率
 Rectangle	矩形
+Reject	拒绝
 Relative humidity	相对湿度
 Relay	继电器
 Released pages cannot be moved	无法移动已发布页
@@ -357,6 +366,9 @@ Rows of modules (east-west: rows of pairs)	组件行数（东西向：成对的�
 Rule	规则
 Rule set	规则集
 Safety function	安全功能
+Save	保存
+Saved catalog {}	已保存目录 {}
+Saved user {}	已保存用户 {}
 Saved {}	已保存 {}
 Scale	比例
 Schematic	原理图
@@ -440,7 +452,9 @@ Unknown property: {}	未知属性：{}
 Unknown scheme: {}	未知方案：{}
 Unknown segment	未知规划段
 Unknown symbol {}	未知符号 {}
+Update	更新
 Uploading {}…	正在上传 {}…
+User	用户
 User name	用户名
 Users	用户
 Version	版本

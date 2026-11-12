@@ -133,6 +133,11 @@ impl Endpoint {
         self.json(ehttp::Method::PUT, &api::user_path(name), update)
     }
 
+    /// POST /api/v1/users/{name}/approval: lets a registered user sign in (administrator)
+    pub fn approve_user(&self, name: &str) -> ehttp::Request {
+        self.authorized(ehttp::Request::post(self.url(&format!("{}/approval", api::user_path(name))), Vec::new()))
+    }
+
     /// DELETE /api/v1/users/{name} (administrator)
     pub fn delete_user(&self, name: &str) -> ehttp::Request {
         self.authorized(ehttp::Request::delete(&self.url(&api::user_path(name))))
@@ -141,6 +146,17 @@ impl Endpoint {
     /// GET /api/v1/access: roles, grants and directories (administrator)
     pub fn access(&self) -> ehttp::Request {
         self.authorized(ehttp::Request::get(self.url(&format!("{API_PREFIX}/access"))))
+    }
+
+    /// GET /api/v1/registration: whether users may register themselves (administrator)
+    pub fn registration(&self) -> ehttp::Request {
+        self.authorized(ehttp::Request::get(self.url(&format!("{API_PREFIX}/registration"))))
+    }
+
+    /// PUT /api/v1/registration: opens or closes the registration, with or without
+    /// approval (administrator)
+    pub fn save_registration(&self, registration: &api::Registration) -> ehttp::Request {
+        self.json(ehttp::Method::PUT, &format!("{API_PREFIX}/registration"), registration)
     }
 
     /// PUT /api/v1/access: replaces roles and grants (administrator)

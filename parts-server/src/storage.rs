@@ -7,7 +7,7 @@ mod sqlite;
 
 use crate::auth::{sha256_hex, Account};
 use crate::bundled::{self, Bundle};
-use openecraft_parts::api::PartQuery;
+use openecraft_parts::api::{Installed, PartQuery};
 use openecraft_parts::portal::{brief, content, Attachment, AttachmentKind, Catalog, ChangeKind, HistoryEntry, SearchResult};
 use openecraft_parts::{default_catalog, Part};
 use std::collections::HashMap;
@@ -49,15 +49,6 @@ pub struct StoredFile {
     pub id: String,
     pub name: String,
     pub data: Vec<u8>,
-}
-
-/// What [`Store::install`] did.
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct Installed {
-    pub added: usize,
-    pub updated: usize,
-    /// Numbers of the parts left as they are (changed by users).
-    pub kept: Vec<String>,
 }
 
 /// Everything a request changes, saved at once (all or nothing).
@@ -106,6 +97,10 @@ pub fn open_backend(kind: StorageKind, path: &Path) -> io::Result<Box<dyn Backen
         StorageKind::Sqlite => Box::new(SqliteBackend::open(path)?),
         StorageKind::Json => Box::new(JsonBackend::open(path)?),
     })
+}
+
+fn now_nanos() -> u128 {
+    std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0)
 }
 
 pub fn now() -> u64 {
@@ -370,6 +365,28 @@ impl Store {
 
     pub fn accounts(&self) -> &[Account] {
         &self.accounts
+    }
+
+    /// A copy of the whole database (parts with history and files, catalogs, accounts,
+    /// favorites) as one SQLite file, which the server opens with `--data` or copies
+    /// with `--migrate-from`.
+    pub fn backup(&self) -> io::Result<Vec<u8>> {
+        let dir = std::env::temp_dir().join(format!("openecraft-backup-{}-{}", std::process::id(), now_nanos()));
+        // The copy holds the password hashes: only this user may read it.
+        #[cfg(unix)]
+        std::os::unix::fs::DirBuilderExt::mode(&mut std::fs::DirBuilder::new(), 0o700).create(&dir)?;
+        #[cfg(not(unix))]
+        std::fs::create_dir(&dir)?;
+        let path = dir.join("backup.sqlite");
+        let copy = || {
+            let mut target = SqliteBackend::open(&path)?;
+            migrate(self.backend.as_ref(), &mut target)?;
+            drop(target);
+            std::fs::read(&path)
+        };
+        let result = copy();
+        std::fs::remove_dir_all(&dir).ok();
+        result
     }
 
     pub fn account(&self, name: &str) -> Option<&Account> {

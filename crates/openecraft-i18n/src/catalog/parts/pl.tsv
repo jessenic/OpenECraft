@@ -1,19 +1,34 @@
 # English<TAB>Polski – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(zmieniono nazwę z {})
 19-inch module technology	Technika zabudowy 19-calowej
+A catalog id must not be empty or contain blanks	Identyfikator katalogu nie może być pusty ani zawierać spacji
+A manufacturer user needs a manufacturer	Użytkownik producenta wymaga podania producenta
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Rola to zestaw praw. Przydziały nadają użytkownikowi lub grupie rolę dla artykułów producenta (* i ? jako symbole wieloznaczne, * dla wszystkich); przydział odmowy odbiera prawa roli niezależnie od innych przydziałów.
+A user name must not be empty or contain blanks	Nazwa użytkownika nie może być pusta ani zawierać spacji
+Access rights	Prawa dostępu
+Access settings saved	Zapisano ustawienia dostępu
 Accumulator blocks	Bloki akumulatorów
 Accumulators	Akumulatory
 Actuators, general	Elementy wykonawcze, ogólne
 Adapter	Adapter
 Adapter plates	Płyty adaptacyjne
+Add grant	Dodaj przydział
 Adds new parts and replaces existing ones on the server	Dodaje nowe artykuły i zastępuje istniejące na serwerze
+Administration	Administracja
+All manufacturers	Wszyscy producenci
 All parts	Wszystkie artykuły
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Wszystkie artykuły z ich danymi, do arkuszy kalkulacyjnych lub do importu na inny serwer. Ich pliki są tylko w kopii zapasowej bazy danych.
 Amplifiers, controllers	Wzmacniacze, regulatory
 Analog sensor	Czujnik analogowy
+Approval of new accounts	Zatwierdzanie nowych kont
+Approved user {}	Zatwierdzono użytkownika {}
+At least {} characters	Co najmniej {} znaków
 Attachment nut	Nakładka wtykowa
 Auxiliary block	Blok pomocniczy
 Auxiliary contact block	Blok styków pomocniczych
 Auxiliary switch	Łącznik pomocniczy
+Awaiting approval	Oczekuje na zatwierdzenie
+Awaiting approval: {}	Oczekuje na zatwierdzenie: {}
 Back to the results	Powrót do wyników
 Ball valve pneumatic	Zawór kulowy pneumatyczny
 Ball valves	Zawory kulowe
@@ -23,22 +38,28 @@ Block ball valves	Blokowe zawory kulowe
 Body	Korpus
 Brake motor	Silnik z hamulcem
 Built into the part	Wbudowane w artykuł
+Built-in	Wbudowana
+Bundled catalogs	Dołączone katalogi
 Bunker	Bunkier
 Busbar cover	Osłona szyn zbiorczych
 Busbars	Szyny zbiorcze
 C horizontal rails	Szyny poziome C
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (z nazwami kolumn eksportu), JSON, BMEcat lub EPLAN XML. Artykuły o tym samym numerze są zastępowane; ich pliki zostają zachowane.
 Cable / tubing clamp	Mocowanie kabli / węży
 Cable / tubing protection	Ochrona kabli / węży
 Cable / tubing tie	Opaska do kabli / węży
 Cable clamp rails	Szyny do mocowania kabli
 Cable ducts	Kanały kablowe
 Capacitors	Kondensatory
+Catalog {} exists already. Change it?	Katalog {} już istnieje. Zmienić go?
 Catalogs	Katalogi
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Katalogi dostarczane z serwerem. Instalacja dodaje ich artykuły i aktualizuje te, których nikt nie zmienił na tym serwerze.
 Central lubrication power units	Agregaty smarowania centralnego
 Centrifugal pumps	Pompy wirowe
 Centrifuge	Wirówka
 Certificate	Certyfikat
 Changed	Zmieniono
+Changes allowed	Zmiany dozwolone
 Check control valve	Armatura zwrotna
 Check flap	Klapa zwrotna
 Chimney	Komin
@@ -66,6 +87,7 @@ Coupling motor pumps	Pompy z silnikiem i sprzęgłem
 Couplings	Sprzęgła
 Cover plates	Płyty zaślepiające
 Create / update the part on the server (Ctrl+S)	Utwórz / zaktualizuj artykuł na serwerze (Ctrl+S)
+Create an account on this server	Utwórz konto na tym serwerze
 Created	Utworzono
 Crimp contact	Styk zaciskany
 Cross-connector	Mostek poprzeczny
@@ -74,8 +96,11 @@ Cylinders	Siłowniki
 DC motor	Silnik prądu stałego
 DC-DC converter	Przetwornica DC-DC
 Data recorder	Rejestrator
+Database backup	Kopia zapasowa bazy danych
 Datasheet	Karta katalogowa
+Defined roles	Zdefiniowane role
 Delete catalog {} from the server?	Usunąć katalog {} z serwera?
+Delete catalog {}?	Usunąć katalog {}?
 Delete part {} from the server? This cannot be undone.	Usunąć artykuł {} z serwera? Tej operacji nie można cofnąć.
 Delete parts	Usuwanie artykułów
 Delete user {}? Their sessions and favorites are removed.	Usunąć użytkownika {}? Jego sesje i ulubione zostaną usunięte.
@@ -83,6 +108,8 @@ Deleted	Usunięto
 Digital sensor, general	Czujnik cyfrowy, ogólny
 Directional control valves	Zawory rozdzielające
 Directional control valves, coaxial	Zawory rozdzielające współosiowe
+Directories	Usługi katalogowe
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Usługi katalogowe (Active Directory, LDAP) konfiguruje się w pliku ustawień dostępu serwera.
 Directory	Usługa katalogowa
 Dirt trap	Odmulacz
 Discard the changes	Odrzuć zmiany
@@ -91,13 +118,16 @@ Discontinued	Wycofany
 Display device	Urządzenie wskazujące
 Document holder	Kieszeń na dokumentację
 Door handle	Uchwyt drzwi
+Download	Pobierz
 Drawings box	Kieszeń na dokumentację
 Dryer	Suszarka
 Dummy plate	Zaślepka
 Duplex switch filters	Filtry podwójne przełączalne
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Edytuj katalog {}
 Edit catalogs	Edycja katalogów
 Edit parts	Edycja artykułów
+Edit user {}	Edytuj użytkownika {}
 Electrical engineering - special items	Elektrotechnika – elementy specjalne
 Electrically-operated mechanical devices	Urządzenia mechaniczne z napędem elektrycznym
 Electrolysis cell	Elektrolizer
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Wprowadź adr
 Evaporator	Wyparka
 Exhaust valves	Zawory odpowietrzające
 Export (CSV)	Eksport (CSV)
+Export and backup	Eksport i kopia zapasowa
+Export the parts, catalogs and settings, or download a backup of the whole database.	Wyeksportuj artykuły, katalogi i ustawienia albo pobierz kopię zapasową całej bazy danych.
 Exported {} parts to {}	Wyeksportowano artykuły ({}) do {}
 Extraction hood	Okap wyciągowy
 Feed-through terminal	Zacisk przelotowy
@@ -133,6 +165,7 @@ Front view (2D)	Widok z przodu (2D)
 Funnel	Lej
 Furnace	Piec
 Generator	Generator
+Grants	Przydziały
 Grants of the server's access settings can refer to them	Mogą się do nich odwoływać przydziały w ustawieniach dostępu serwera
 Ground fault current circuit breaker	Wyłącznik różnicowoprądowy
 Ground fault voltage circuit-breaker	Wyłącznik napięciowy ochronny
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Akcesoria obudowy, zabudowa wewnętrzna
 Hydraulic motors	Silniki hydrauliczne
 Hydraulic tanks	Zbiorniki hydrauliczne
 Import / export	Import / eksport
+Import parts	Importuj artykuły
+Imported {} parts (revision {})	Zaimportowano artykuły: {} (rewizja {})
 Inductors	Cewki indukcyjne
+Install	Zainstaluj
+Install again	Zainstaluj ponownie
 Intermediate plates	Płyty pośrednie
 Isolating valves	Zawory odcinające
 KNX actuator	Aktor KNX
 KNX system device	Urządzenie systemowe KNX
 Key switch	Przełącznik kluczykowy
 Kneader	Ugniatarka
+Last sign-in	Ostatnie logowanie
 Legend plate	Tabliczka opisowa
 Level detector	Sygnalizator wartości granicznej
 Level switches	Łączniki poziomu
@@ -165,6 +203,7 @@ Line return filters	Filtry powrotne
 Lines / conduits	Przewody / wiązki
 Load all parts from the server again	Załaduj ponownie wszystkie artykuły z serwera
 Loading…	Ładowanie…
+Local	Lokalne
 Lock systems	Systemy zamknięć
 Locking couplings	Złącza zamykające
 Logic item	Element logiczny
@@ -183,17 +222,28 @@ Modulators	Modulatory
 Motor overload switch	Wyłącznik silnikowy
 Mounting chassis	Rama montażowa
 Mounting panels	Płyty montażowe
+New accounts need the approval of an administrator	Nowe konta wymagają zatwierdzenia przez administratora
+New catalog	Nowy katalog
 New part based on the open one	Nowy artykuł na podstawie otwartego
 New password	Nowe hasło
+New role	Nowa rola
+New user	Nowy użytkownik
 Newer version	Nowsza wersja
 Next	Dalej
+No grants: users have the rights of their role	Brak przydziałów: użytkownicy mają prawa swojej roli
+No users	Brak użytkowników
 Non-return valves	Zawory zwrotne
 Not mounted	Niezamontowane
 Nut	Nakrętka
 On the front	Z przodu
 On the left side	Z lewej strony
 On the right side	Z prawej strony
+On this server	Na tym serwerze
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Jeden plik SQLite ze wszystkimi artykułami, ich historią i plikami, katalogami, użytkownikami i ich ulubionymi. Zawiera skróty haseł użytkowników: przechowuj go w bezpiecznym miejscu.
 Only catalogs without parts can be deleted	Można usuwać tylko katalogi bez artykułów
+Only empty catalogs can be deleted	Można usuwać tylko puste katalogi
+Only local accounts	Tylko konta lokalne
+Open sessions: {}	Otwarte sesje: {}
 OpenECraft data portal	Portal danych OpenECraft
 OpenECraft parts manager	Menedżer artykułów OpenECraft
 OpenECraft parts server	Serwer artykułów OpenECraft
@@ -253,6 +303,7 @@ Pushbutton	Przycisk
 Rail standoff	Dystans szyny
 Rails	Szyny
 Reactor	Reaktor
+Read only	Tylko do odczytu
 Read only: sign in with a user who may change parts of this manufacturer	Tylko do odczytu: zaloguj się jako użytkownik, który może zmieniać części tego producenta
 Read parts	Odczyt artykułów
 Reader	Czytelnik
@@ -262,12 +313,20 @@ Rear / side panel	Ściana tylna / boczna
 Rectifier	Prostownik
 Reducer	Redukcja
 Reducing plates	Płyty redukcyjne
+Register	Zarejestruj się
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Zarejestrowani użytkownicy stają się czytelnikami: zapisują ulubione i czytają artykuły nawet wtedy, gdy odczyt wymaga zalogowania. Więcej praw nadasz im w sekcji Użytkownicy.
+Registration	Rejestracja
+Reject the registration of {}? The account is deleted.	Odrzucić rejestrację {}? Konto zostanie usunięte.
 Remove the file from the part	Usuń plik z artykułu
 Removed from the server	Usunięto z serwera
+Repeat password	Powtórz hasło
+Replace the roles and grants with those of the file?	Zastąpić role i przydziały tymi z pliku?
 Replaced by {}	Zastąpiony przez {}
 Resistors	Rezystory
+Restore from a file	Przywróć z pliku
 Return flushing filters, all-autom.	Filtry płukane wstecznie, w pełni automatyczne
 Ribbon cables	Kable taśmowe
+Roles	Role
 Roof hook	Hak dachowy
 Routing accessories	Akcesoria do układania
 Routing path (topology)	Odcinek trasy (topologia)
@@ -281,6 +340,7 @@ Screw connections	Złączki gwintowe
 Screw pumps	Pompy śrubowe
 Screw spindle compressors	Sprężarki śrubowe
 Scroll compressors	Sprężarki spiralne
+Search users	Szukaj użytkowników
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Wybierz katalog lub utwórz nowy. Artykuły należą do katalogu poprzez swój identyfikator katalogu (edytor artykułów, karta Portal danych).
 Select a user or create a new one.	Wybierz użytkownika lub utwórz nowego.
 Selector switch	Przełącznik wyboru
@@ -289,6 +349,7 @@ Sensor NC	Czujnik NC
 Sensor, switch, and pushbutton	Czujniki, łączniki i przyciski
 Sensors - pressure gauges	Czujniki – manometry
 Serial sub-plates	Płyty przyłączeniowe szeregowe
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Ustawione przez opcje uruchomienia serwera (--registration lub OPENECRAFT_REGISTRATION).
 Show parts	Pokaż artykuły
 Shut-off accumulators	Akumulatory odcinające
 Shut-off control valve	Armatura odcinająca
@@ -296,12 +357,19 @@ Shut-off flap	Klapa odcinająca
 Side panel	Ściana boczna
 Sifter	Odsiewacz
 Sight glass	Wziernik
+Sign in as an administrator to manage the server	Zaloguj się jako administrator, aby zarządzać serwerem
 Sign in or connect with the access token to change parts	Zaloguj się lub połącz z tokenem dostępu, aby zmieniać części
 Sign in to keep favorites	Zaloguj się, aby zapisywać ulubione
+Sign in with a user account	Zaloguj się kontem użytkownika
+Sign in with the access token of the server	Zaloguj się tokenem dostępu serwera
+Sign out everywhere	Wyloguj wszędzie
+Sign out {} on all devices?	Wylogować {} na wszystkich urządzeniach?
+Sign-in needed to read	Odczyt wymaga zalogowania
 Signal device	Urządzenie sygnalizacyjne
 Signal device, acoustic	Urządzenie sygnalizacyjne, akustyczne
 Signal device, optical	Urządzenie sygnalizacyjne, optyczne
 Signal lamp	Lampka sygnalizacyjna
+Signed in	Zalogowani
 Silencers	Tłumiki
 Silo	Silos
 Single-phase motor	Silnik jednofazowy
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Uruchom serwer po
 Start openecraft-parts-server with --token to allow changes	Uruchom openecraft-parts-server z opcją --token, aby zezwolić na zmiany
 Steam boiler	Kocioł parowy
 Stirrer	Mieszadło
+Storage	Magazyn danych
 Strainer	Sito
 Strip label	Oznacznik listwy
 Sub-plates	Płyty przyłączeniowe
@@ -332,22 +401,36 @@ Terminator	Element zakończeniowy
 Terminators, filters	Terminatory, filtry
 Test accessories	Akcesoria testowe
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal umożliwia tylko wyszukiwanie i odczyt artykułów
+The access settings would leave nobody who manages users	Przy tych ustawieniach dostępu nikt nie mógłby zarządzać użytkownikami
 The access token is only needed for changes; it is not stored.	Token dostępu jest potrzebny tylko do wprowadzania zmian; nie jest zapisywany.
+The catalogs with their manufacturer, version and description.	Katalogi wraz z producentem, wersją i opisem.
 The checksum of {} does not match: the download is damaged	Suma kontrolna {} się nie zgadza: pobrany plik jest uszkodzony
 The directory checks the password and sets the groups at every sign-in	Usługa katalogowa sprawdza hasło i ustawia grupy przy każdym logowaniu
+The file holds no access settings	Plik nie zawiera ustawień dostępu
+The last administrator cannot lose the right to manage users	Ostatni administrator nie może utracić prawa do zarządzania użytkownikami
+The password needs at least {} characters	Hasło musi mieć co najmniej {} znaków
+The passwords do not match	Hasła nie są zgodne
 The project has no parts	Projekt nie ma artykułów
+The registration is closed	Rejestracja jest zamknięta
+The registration is open	Rejestracja jest otwarta
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Role, przydziały i dostęp bez logowania. Przywrócenie je zastępuje; usługi katalogowe pozostają takie, jak skonfigurowano je na serwerze.
 The server cannot be reached	Serwer jest nieosiągalny
 The server sent no text	Serwer nie wysłał tekstu
 The upload is finished	Przekazywanie zostało zakończone
+The users with their role, manufacturer, groups and last sign-in, without passwords.	Użytkownicy z rolą, producentem, grupami i ostatnim logowaniem, bez haseł.
 Thermometers	Termometry
 Thermostat valves	Zawory termostatyczne
+This user name cannot be used	Tej nazwy użytkownika nie można użyć
+This user name is taken	Ta nazwa użytkownika jest zajęta
 Three-phase motor	Silnik trójfazowy
 Three-way control valve	Armatura trójdrogowa
 Three-way flap	Klapa trójdrogowa
 Three-way valve	Zawór trójdrogowy
 Throttle plate	Kryza dławiąca
 Timer relay	Przekaźnik czasowy
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Aby ją przywrócić, uruchom serwer z --data <plik> lub skopiuj ją do nowej bazy danych za pomocą --migrate-from <plik>.
 Too many failed sign-ins, try again later	Zbyt wiele nieudanych logowań, spróbuj później
+Too many registrations from this address, try again later	Zbyt wiele rejestracji z tego adresu, spróbuj ponownie później
 Top cover	Dach
 Transformers	Transformatory
 Transmission paths	Drogi transmisji
@@ -357,7 +440,11 @@ Undefined	Niezdefiniowane
 Under the part (base)	Pod artykułem (podstawa)
 Uploading {} to Vault ({} %)…	Przekazywanie {} do Vault ({} %)…
 Uploading {} to Vault…	Przekazywanie {} do Vault…
+User account	Konto użytkownika
+User or group	Użytkownik lub grupa
+User {} exists already. Change it?	Użytkownik {} już istnieje. Zmienić go?
 User-defined rail	Szyna zdefiniowana przez użytkownika
+Users may register themselves (as readers)	Użytkownicy mogą sami się rejestrować (jako czytelnicy)
 Vacuum pump	Pompa próżniowa
 Valve / distributor	Zawór / rozdzielacz
 Valve coil	Cewka zaworu
@@ -368,15 +455,21 @@ Ventilation filters	Filtry odpowietrzające
 Ventilator	Wentylator
 Voltage source	Źródło napięcia
 Voltage source and generator	Źródło napięcia i generator
+Waiting accounts cannot sign in; approve or reject them in Users.	Oczekujące konta nie mogą się logować; zatwierdź je lub odrzuć w sekcji Użytkownicy.
 Washer	Podkładka
 Water traps	Odwadniacze
 Wind deflector	Owiewka wiatrowa
 Wiring material	Materiał do okablowania
+Without sign-in	Bez logowania
+Wrong access token	Nieprawidłowy token dostępu
 Wrong user name or password	Nieprawidłowa nazwa użytkownika lub hasło
+Your account awaits the approval of an administrator	Konto oczekuje na zatwierdzenie przez administratora
+Your account was created. An administrator has to approve it before you can sign in.	Konto zostało utworzone. Administrator musi je zatwierdzić, zanim będzie można się zalogować.
 access denied – check the personal access token	odmowa dostępu – sprawdź osobisty token dostępu
 by file name	według nazwy pliku
 changed, not saved	zmieniono, nie zapisano
 connection failed: {}	połączenie nie powiodło się: {}
+directory:group	katalog:grupa
 from the name	z nazwy
 needed for changes	wymagany do zmian
 new part, not saved	nowy artykuł, nie zapisano
@@ -389,12 +482,14 @@ the server name is unknown	nazwa serwera jest nieznana
 the server refuses the connection (not started, or another port)	serwer odrzuca połączenie (nieuruchomiony lub inny port)
 unchanged if empty	bez zmian, jeśli puste
 unexpected answer: {}	nieoczekiwana odpowiedź: {}
+you	ty
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} nie ma sumy kontrolnej w SHA256SUMS
 {} parts in {} catalogs, revision {}	Artykuły: {} w katalogach: {}, rewizja {}
 {} parts, {} catalogs, {}	Artykuły: {}, katalogi: {}, {}
 {} – save to upload it	{} – zapisz, aby przesłać
 {}: the part is no longer open	{}: artykuł nie jest już otwarty
+{}: {} parts added, {} updated, {} kept	{}: dodano artykuły: {}, zaktualizowano: {}, zachowano: {}
 ⎘ Copy	⎘ Kopiuj
 ✔ Save	✔ Zapisz
 ➕ New	➕ Nowy

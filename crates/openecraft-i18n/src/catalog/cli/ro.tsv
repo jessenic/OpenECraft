@@ -13,6 +13,7 @@ Also take over values changed on both sides since the last export	Preia și valo
 Also verify each project (slower)	Validează și fiecare proiect (mai lent)
 Applies a CSV exported with table_get (and changed in a spreadsheet): the changed cells are set	Aplică un CSV exportat cu table_get (și modificat într-o foaie de calcul): se setează celulele modificate
 Applies a structure template: the aspects of the pages and its identifiers	Aplică un șablon de structură: aspectele paginilor și identificatorii săi
+Approves a user who registered on the parts server, so that they can sign in (administrators only)	Aprobă un utilizator înregistrat pe serverul de articole, ca să se poată conecta (doar administratori)
 Archive file (.oecz)	Fișier arhivă (.oecz)
 Assigns a part to a device (from the project, the built-in catalog or the parts server)	Atribuie un articol unui dispozitiv (din proiect, din catalogul integrat sau de pe serverul de articole)
 Author of comments without one (default: the user name)	Autorul comentariilor fără autor (implicit: numele de utilizator)
@@ -130,6 +131,7 @@ Manufacturer whose parts a manufacturer user maintains	Producătorul ale cărui 
 Maximum number of hits (default 50)	Număr maxim de rezultate (implicit 50)
 Name of a built-in template (list_structure_templates)	Numele unui șablon integrat (list_structure_templates)
 Name of the knowledge vault (default Vault)	Numele seifului de cunoștințe (implicit Vault)
+New accounts wait for the approval of an administrator (true) or sign in at once (false)	Conturile noi așteaptă aprobarea unui administrator (true) sau se conectează imediat (false)
 New file name (save as)	Nume de fișier nou (salvare ca)
 New pages for every value of the group column (default true)	Pagini noi pentru fiecare valoare a coloanei de grupare (implicit true)
 New part number	Număr de articol nou
@@ -147,6 +149,7 @@ Only show the changes, write nothing	Numai afișează modificările, nu scrie ni
 Only the pages of this report block; default all report pages	Doar paginile acestui bloc de raport; implicit toate paginile de raport
 Only the projects that match these search terms	Numai proiectele care corespund acestor termeni de căutare
 Only this block	Doar acest bloc
+Open (true) or close (false) the registration	Deschideți (true) sau închideți (false) înregistrarea
 Opens a project file or archive (files of older versions are converted)	Deschide un fișier de proiect sau o arhivă (fișierele versiunilor mai vechi sunt convertite)
 Opens a project file or archive from the vault; vault_upload without a target checks in a new version of it	Deschide un fișier de proiect sau o arhivă din vault; vault_upload fără țintă înregistrează (check-in) o versiune nouă a acestuia
 Option {} needs the form name=value	Opțiunea {} necesită forma nume=valoare
@@ -222,6 +225,7 @@ Shows the favorites of the signed in user, optionally adding or removing a part	
 Shows the manifest of a project archive	Afișează manifestul unei arhive de proiect
 Shows the project properties, file, number of pages and devices and the check result	Afișează proprietățile proiectului, fișierul, numărul de pagini și de dispozitive și rezultatul verificării
 Shows the roles, grants and directories of the parts server, optionally setting the role of anonymous requests (administrators only)	Afișează rolurile, atribuirile și serviciile de director ale serverului de articole și, opțional, setează rolul cererilor anonime (numai administratori)
+Shows whether users may register themselves on the parts server (as readers), optionally opening or closing the registration (administrators only)	Arată dacă utilizatorii se pot înregistra singuri pe serverul de articole (ca cititori) și, opțional, deschide sau închide înregistrarea (doar administratori)
 Start from a project template: a built-in one (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) or a project file	Pornire de la un șablon de proiect: unul integrat (Machine, Distribution board (IEC 61439), Empty (IEC 60204-1)) sau un fișier de proiect
 Start from an example project (names: list_examples)	Pornește de la un proiect exemplu (nume: list_examples)
 Start from the demo project	Pornire de la proiectul demonstrativ

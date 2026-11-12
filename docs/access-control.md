@@ -71,7 +71,8 @@ parts database (both changeable with `--access <file>`). A missing file means: n
 directories, no defined roles or grants; on the parts server anonymous requests may
 read (`"anonymous": "reader"`). Administrators change roles, grants and `anonymous`
 through the API (`GET|PUT /api/v1/access`), which rewrites the file; directories are
-only configured in the file.
+only configured in the file. On the parts server the web page does so too
+(*Administration › Access rights*, which also exports and restores them).
 
 ```json
 {
@@ -110,6 +111,11 @@ only configured in the file.
   ]
 }
 ```
+
+On the parts server `"registration": true` lets users register themselves as readers
+(switched in *Administration › Access rights*; the start option `--registration`
+overrides it, see [docs/parts-server.md](parts-server.md)); their accounts wait for the
+approval of an administrator unless `"registration_approval": false`.
 
 ### Directories
 
@@ -173,5 +179,6 @@ Values are escaped for LDAP filters and DNs. Keep the service account read-only.
 - Parts manager: the user editor shows the directory and groups of a user and edits the
   local groups.
 - Command line / MCP: `parts_access` (also sets `anonymous`), `parts_grant` (with
-  `deny`, or `revoke` to remove grants), `parts_role` (define, change, `delete`) and
+  `deny`, or `revoke` to remove grants), `parts_role` (define, change, `delete`),
+  `parts_registration` (`enabled`, `approval`), `parts_user_approve` and
   `parts_user_save` with `groups`.

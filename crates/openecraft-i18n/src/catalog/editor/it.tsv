@@ -144,7 +144,6 @@ Apply to the connection	Applica al collegamento
 Apply to {} projects	Applica a {} progetti
 Approval workflow	Flusso di approvazione
 Approvals needed	Approvazioni necessarie
-Approve	Approva
 Approving needs an approver; you are \"{}\".	Solo un approvatore può approvare; tu sei \"{}\".
 Arc	Arco
 Archive and version	Archivio e versione
@@ -453,7 +452,6 @@ Define	Definisci
 Define all used	Definisci tutti quelli usati
 Defined potentials	Potenziali definiti
 Del	Del
-Delete	Elimina
 Delete PV array	Elimina campo fotovoltaico
 Delete cable (its wires are removed from it)	Elimina cavo (i suoi conduttori vengono rimossi)
 Delete comment	Elimina commento
@@ -483,7 +481,6 @@ Delete the property and all its values	Elimina la proprietà e tutti i suoi valo
 Delete this workspace	Elimina questa area di lavoro
 Delete variant	Elimina variante
 Delete zone	Elimina zona
-Deny	Nega
 Depth / mounted at	Profondità / montato a
 Depth from / to	Profondità da / a
 Depth in the floor	Profondità nel pavimento
@@ -527,7 +524,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Incrocio direzionato: collega i due conduttori che vi si incrociano; ciascuna estremità della sua linea è cablata prima dritta e poi trasversalmente
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Direzione del nord della griglia, in senso antiorario visto dall'alto dal retro dell'impianto (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Direzione verso cui sono rivolti i moduli, in senso antiorario visto dall'alto (0: verso il davanti)
-Discard changes	Scarta le modifiche
 Discard draft	Ignora bozza
 Disconnection of distribution circuits	Interruzione dei circuiti di distribuzione
 Disconnection of final circuits	Interruzione dei circuiti terminali
@@ -611,7 +607,6 @@ Earthing system	Sistema di distribuzione
 Easting, northing	Coordinata est, nord
 Eaves	Gronda
 Edge length of the routing grid: smaller is finer and slower	Lato della griglia di instradamento: più piccolo è più fine e più lento
-Edit	Modifica
 Edit in table	Modifica in tabella
 Edit in table…	Modifica in tabella…
 Editable copy of this plot frame	Copia modificabile di questa cornice di stampa
@@ -824,7 +819,6 @@ Identifiers of the structure management	Identificatori della gestione strutture
 Identifying letters	Lettere identificative
 Images (PNG, JPEG)	Immagini (PNG, JPEG)
 Image…	Immagine…
-Import	Importazione
 Import AutomationML…	Importa AutomationML…
 Import CSV / Excel…	Importa CSV / Excel…
 Import CSV…	Importa CSV…
@@ -1096,7 +1090,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Nome; Ti
 Named copy of this form, for report blocks	Copia con nome di questo modulo, per i blocchi di report
 Navigators	Navigatori
 Neutral exchange file…	File di scambio neutro…
-Never	Mai
 New	Nuovo
 New block	Nuovo blocco
 New building	Nuovo edificio
@@ -1506,7 +1499,6 @@ Reference point	Punto di riferimento
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Punto di riferimento posizionato in x {} m, z {} m; inserisci le sue coordinate nel riquadro Edifici
 Refresh	Aggiorna
 Refresh example catalog parts (GEN.*)	Aggiorna articoli del catalogo di esempio (GEN.*)
-Reject	Rifiuta
 Rejected and closed ones too	Anche quelle rifiutate e chiuse
 Relative column width	Larghezza relativa della colonna
 Release	Rilascia
@@ -1652,7 +1644,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Esegui
 SVG drawing	Disegno SVG
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Funzioni di sicurezza della ISO 13849-1: ogni sottosistema (ingresso, logica, uscita) con i dispositivi di un canale, la sua categoria, la copertura diagnostica e le manovre all'anno. I dispositivi contano con PL / PFHd, MTTFd o B10d dei loro articoli.
-Save	Salva
 Save a selection under this name with another variant to add one.	Salva una selezione con questo nome e un'altra variante per aggiungerne una.
 Save access	Salva accesso
 Save and release	Salva e rilascia
@@ -2018,7 +2009,6 @@ Ungroup	Separa
 Unlock all	Sblocca tutto
 Unplaced	Non posizionati
 Unplaced ({})	Non posizionati ({})
-Update	Aggiorna
 Update all	Aggiorna tutto
 Update part links from Vault items	Aggiorna i collegamenti degli articoli dagli elementi di Vault
 Update report blocks	Aggiorna blocchi di report
@@ -2037,7 +2027,6 @@ Use for all pages	Usa per tutte le pagine
 Used	Utilizzato
 Used by {} pages	Utilizzata da {} pagine
 Used on {} of {} pages	Utilizzato in {} di {} pagine
-User	Utente
 User / group	Utente / gruppo
 User defined property	Proprietà definita dall'utente
 User names, separated by commas	Nomi utente, separati da virgole

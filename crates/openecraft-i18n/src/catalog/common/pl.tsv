@@ -17,6 +17,7 @@ Add to favorites	Dodaj do ulubionych
 Address	Adres
 Angle	Kąt
 Apply	Zastosuj
+Approve	Zatwierdź
 Approvers	Zatwierdzający
 Automatic	Automatycznie
 Below	Poniżej
@@ -92,6 +93,8 @@ Dark	Ciemny
 Data portal	Portal danych
 Data type	Typ danych
 Date	Data
+Delete	Usuń
+Deny	Odmów
 Depth	Głębokość
 Descending	Malejąco
 Description	Opis
@@ -105,6 +108,7 @@ Device {}	Urządzenie {}
 Devices	Urządzenia
 Direction	Kierunek
 Discard	Odrzuć
+Discard changes	Odrzuć zmiany
 Display	Wyświetlanie
 Done	Wykonano
 Door	Drzwi
@@ -112,6 +116,7 @@ Door cutout	Wycięcie w drzwiach
 Downloading {}…	Pobieranie {}…
 Drag to turn the model	Przeciągnij, aby obrócić model
 EMC clearance	Odstęp EMC
+Edit	Edycja
 Electro-fluid cross reference	Odsyłacze elektryczno-płynowe
 Enclosure	Obudowa
 Enclosures	Obudowy
@@ -164,6 +169,7 @@ Hose no.	Nr węża
 Identifier	Identyfikator
 Identifying letter	Litera kodu
 Image	Obraz
+Import	Import
 Input	Wejście
 Integration	Integracja
 Internal (bottom)	Wewnętrzny (dół)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Nazwa działki, np. działka ewidenc
 Name of the point, e.g. a survey point	Nazwa punktu, np. punkt osnowy
 Name of the scheme	Nazwa wzorca
 Net	Sieć
+Never	Nigdy
 New name	Nowa nazwa
 No	Nie
 No Vault item matches a part of the project	Żaden element Vault nie pasuje do artykułu projektu
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Opcja {}: {} nie jest jedną z jej warto
 Order number	Numer zamówieniowy
 Outer diameter	Średnica zewnętrzna
 Output	Wyjście
+Overview	Przegląd
 PCT loop	Pętla AKPiA
 PCT loop overview	Przegląd pętli AKPiA
 PL	PL
@@ -335,6 +343,7 @@ Range	Zakres
 Rated current	Prąd znamionowy
 Rated power	Moc znamionowa
 Rectangle	Prostokąt
+Reject	Odrzuć
 Relative humidity	Wilgotność względna
 Relay	Przekaźnik
 Released pages cannot be moved	Nie można przenosić wydanych stron
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Rzędy modułów (wschód-zachód: rz
 Rule	Reguła
 Rule set	Zestaw reguł
 Safety function	Funkcja bezpieczeństwa
+Save	Zapisz
+Saved catalog {}	Zapisano katalog {}
+Saved user {}	Zapisano użytkownika {}
 Saved {}	Zapisano {}
 Scale	Skala
 Schematic	Schemat
@@ -442,7 +454,9 @@ Unknown property: {}	Nieznana właściwość: {}
 Unknown scheme: {}	Nieznany schemat: {}
 Unknown segment	Nieznany segment
 Unknown symbol {}	Nieznany symbol {}
+Update	Aktualizuj
 Uploading {}…	Przesyłanie {}…
+User	Użytkownik
 User name	Nazwa użytkownika
 Users	Użytkownicy
 Version	Wersja

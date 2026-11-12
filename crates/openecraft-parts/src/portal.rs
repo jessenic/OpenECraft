@@ -269,6 +269,9 @@ pub struct User {
     /// Groups for the grants (directory groups as `directory:group`).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub groups: Vec<String>,
+    /// Registered and waiting for the approval of an administrator: cannot sign in yet.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub pending: bool,
 }
 
 impl User {

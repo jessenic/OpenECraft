@@ -17,6 +17,7 @@ Add to favorites	Добавить в избранное
 Address	Адрес
 Angle	Угол
 Apply	Применить
+Approve	Утвердить
 Approvers	Утверждающие
 Automatic	Автоматически
 Below	Снизу
@@ -92,6 +93,8 @@ Dark	Тёмная
 Data portal	Портал данных
 Data type	Тип данных
 Date	Дата
+Delete	Удалить
+Deny	Запретить
 Depth	Глубина
 Descending	По убыванию
 Description	Описание
@@ -105,6 +108,7 @@ Device {}	Устройство {}
 Devices	Устройства
 Direction	Направление
 Discard	Отменить
+Discard changes	Отменить изменения
 Display	Отображение
 Done	Выполнено
 Door	Дверь
@@ -112,6 +116,7 @@ Door cutout	Вырез в двери
 Downloading {}…	Скачивание {}…
 Drag to turn the model	Перетащите, чтобы повернуть модель
 EMC clearance	Зазор ЭМС
+Edit	Правка
 Electro-fluid cross reference	Перекрёстные ссылки электрика – гидропневматика
 Enclosure	Корпус
 Enclosures	Корпуса
@@ -164,6 +169,7 @@ Hose no.	№ шланга
 Identifier	Идентификатор
 Identifying letter	Буквенный код
 Image	Изображение
+Import	Импорт
 Input	Вход
 Integration	Интеграция
 Internal (bottom)	Внутренняя (снизу)
@@ -220,6 +226,7 @@ Name of the plot, e.g. the cadastral parcel	Название участка, н�
 Name of the point, e.g. a survey point	Название точки, напр. геодезический пункт
 Name of the scheme	Имя схемы
 Net	Цепь
+Never	Никогда
 New name	Новое имя
 No	Нет
 No Vault item matches a part of the project	Ни один элемент Vault не соответствует изделию проекта
@@ -260,6 +267,7 @@ Option {}: {} is not one of its choices	Параметр {}: {} не входи�
 Order number	Номер для заказа
 Outer diameter	Наружный диаметр
 Output	Выход
+Overview	Обзор
 PCT loop	Контур КИПиА
 PCT loop overview	Обзор контуров КИПиА
 PL	PL
@@ -335,6 +343,7 @@ Range	Диапазон
 Rated current	Номинальный ток
 Rated power	Номинальная мощность
 Rectangle	Прямоугольник
+Reject	Отклонить
 Relative humidity	Относительная влажность
 Relay	Реле
 Released pages cannot be moved	Выпущенные листы нельзя перемещать
@@ -359,6 +368,9 @@ Rows of modules (east-west: rows of pairs)	Ряды модулей (восток
 Rule	Правило
 Rule set	Набор правил
 Safety function	Функция безопасности
+Save	Сохранить
+Saved catalog {}	Каталог {} сохранён
+Saved user {}	Пользователь {} сохранён
 Saved {}	Сохранено: {}
 Scale	Масштаб
 Schematic	Схема
@@ -442,7 +454,9 @@ Unknown property: {}	Неизвестное свойство: {}
 Unknown scheme: {}	Неизвестная схема: {}
 Unknown segment	Неизвестный сегмент
 Unknown symbol {}	Неизвестный символ {}
+Update	Обновить
 Uploading {}…	Выгрузка {}…
+User	Пользователь
 User name	Имя пользователя
 Users	Пользователи
 Version	Версия

@@ -1,19 +1,34 @@
 # English<TAB>Nederlands – parts library, parts server, parts manager and clients (texts without a line are shown in English). Sorted by the English text: cargo run -p openecraft-i18n --example tidy
 (renamed from {})	(hernoemd van {})
 19-inch module technology	19-inch-inbouwtechniek
+A catalog id must not be empty or contain blanks	Een catalogus-id mag niet leeg zijn of spaties bevatten
+A manufacturer user needs a manufacturer	Een fabrikantgebruiker heeft een fabrikant nodig
+A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Een rol is een set rechten. Toekenningen geven een gebruiker of groep een rol op de artikelen van een fabrikant (* en ? als jokertekens, * voor alle); een weigerende toekenning neemt de rechten van de rol weer weg, wat andere toekenningen ook geven.
+A user name must not be empty or contain blanks	Een gebruikersnaam mag niet leeg zijn of spaties bevatten
+Access rights	Toegangsrechten
+Access settings saved	Toegangsinstellingen opgeslagen
 Accumulator blocks	Accumulatorblokken
 Accumulators	Accumulatoren
 Actuators, general	Actuatoren, algemeen
 Adapter	Adapter
 Adapter plates	Adapterplaten
+Add grant	Toekenning toevoegen
 Adds new parts and replaces existing ones on the server	Voegt nieuwe artikelen toe en vervangt bestaande op de server
+Administration	Beheer
+All manufacturers	Alle fabrikanten
 All parts	Alle artikelen
+All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Alle artikelen met hun gegevens, voor spreadsheets of om ze in een andere server te importeren. Hun bestanden staan alleen in de databaseback-up.
 Amplifiers, controllers	Versterkers, regelaars
 Analog sensor	Analoge sensor
+Approval of new accounts	Goedkeuring van nieuwe accounts
+Approved user {}	Gebruiker {} goedgekeurd
+At least {} characters	Minstens {} tekens
 Attachment nut	Opsteekmoer
 Auxiliary block	Hulpcontactblok
 Auxiliary contact block	Hulpcontactblok
 Auxiliary switch	Hulpschakelaar
+Awaiting approval	Wacht op goedkeuring
+Awaiting approval: {}	Wachten op goedkeuring: {}
 Back to the results	Terug naar de resultaten
 Ball valve pneumatic	Kogelkraan pneumatisch
 Ball valves	Kogelkranen
@@ -23,22 +38,28 @@ Block ball valves	Blokkogelkranen
 Body	Romp
 Brake motor	Remmotor
 Built into the part	In het artikel ingebouwd
+Built-in	Ingebouwd
+Bundled catalogs	Meegeleverde catalogi
 Bunker	Bunker
 Busbar cover	Stroomrailafdekking
 Busbars	Stroomrails
 C horizontal rails	C-profielrails
+CSV (with the column names of the export), JSON, BMEcat or EPLAN XML. Parts with the same number are replaced; their files are kept.	CSV (met de kolomnamen van de export), JSON, BMEcat of EPLAN-XML. Artikelen met hetzelfde nummer worden vervangen; hun bestanden blijven behouden.
 Cable / tubing clamp	Kabel- / slangbevestiging
 Cable / tubing protection	Kabel- / slangbescherming
 Cable / tubing tie	Kabel- / slangbinder
 Cable clamp rails	Kabelvangrails
 Cable ducts	Kabelgoten
 Capacitors	Condensatoren
+Catalog {} exists already. Change it?	Catalogus {} bestaat al. Wijzigen?
 Catalogs	Catalogi
+Catalogs shipped with the server. Installing adds their parts and updates those nobody changed on this server.	Catalogi die met de server worden meegeleverd. Installeren voegt hun artikelen toe en werkt de artikelen bij die niemand op deze server heeft gewijzigd.
 Central lubrication power units	Centrale smeeraggregaten
 Centrifugal pumps	Centrifugaalpompen
 Centrifuge	Centrifuge
 Certificate	Certificaat
 Changed	Gewijzigd
+Changes allowed	Wijzigingen toegestaan
 Check control valve	Terugslagarmatuur
 Check flap	Terugslagklep
 Chimney	Schoorsteen
@@ -66,6 +87,7 @@ Coupling motor pumps	Koppeling-motorpompen
 Couplings	Koppelingen
 Cover plates	Afdekplaten
 Create / update the part on the server (Ctrl+S)	Het artikel op de server maken / bijwerken (Ctrl+S)
+Create an account on this server	Een account op deze server aanmaken
 Created	Gemaakt
 Crimp contact	Krimpcontact
 Cross-connector	Dwarsverbinder
@@ -74,8 +96,11 @@ Cylinders	Cilinders
 DC motor	Gelijkstroommotor
 DC-DC converter	DC/DC-omvormer
 Data recorder	Meetwaardenschrijver
+Database backup	Databaseback-up
 Datasheet	Gegevensblad
+Defined roles	Gedefinieerde rollen
 Delete catalog {} from the server?	Catalogus {} van de server verwijderen?
+Delete catalog {}?	Catalogus {} verwijderen?
 Delete part {} from the server? This cannot be undone.	Artikel {} van de server verwijderen? Dit kan niet ongedaan worden gemaakt.
 Delete parts	Artikelen verwijderen
 Delete user {}? Their sessions and favorites are removed.	Gebruiker {} verwijderen? De sessies en favorieten van deze gebruiker worden verwijderd.
@@ -83,6 +108,8 @@ Deleted	Verwijderd
 Digital sensor, general	Digitale sensor, algemeen
 Directional control valves	Wegventielen
 Directional control valves, coaxial	Coaxiale wegventielen
+Directories	Directoryservices
+Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Directoryservices (Active Directory, LDAP) worden ingesteld in het bestand met de toegangsinstellingen van de server.
 Directory	Directoryservice
 Dirt trap	Vuilvanger
 Discard the changes	De wijzigingen negeren
@@ -91,13 +118,16 @@ Discontinued	Niet meer leverbaar
 Display device	Weergaveapparaat
 Document holder	Documentenhouder
 Door handle	Deurgreep
+Download	Downloaden
 Drawings box	Tekeningenhouder
 Dryer	Droger
 Dummy plate	Blindschijf
 Duplex switch filters	Dubbele omschakelfilters
 EPLAN Data Portal	EPLAN Data Portal
+Edit catalog {}	Catalogus {} bewerken
 Edit catalogs	Catalogi bewerken
 Edit parts	Artikelen bewerken
+Edit user {}	Gebruiker {} bewerken
 Electrical engineering - special items	Elektrotechniek - speciale onderdelen
 Electrically-operated mechanical devices	Elektrisch bediende mechanische apparaten
 Electrolysis cell	Elektrolysecel
@@ -110,6 +140,8 @@ Enter the address of an openecraft-parts-server and click Connect.	Voer het adre
 Evaporator	Verdamper
 Exhaust valves	Ontluchtingsventielen
 Export (CSV)	Exporteren (CSV)
+Export and backup	Export en back-up
+Export the parts, catalogs and settings, or download a backup of the whole database.	Exporteer de artikelen, catalogi en instellingen, of download een back-up van de hele database.
 Exported {} parts to {}	{} artikelen geëxporteerd naar {}
 Extraction hood	Afzuigkap
 Feed-through terminal	Doorgangsklem
@@ -133,6 +165,7 @@ Front view (2D)	Vooraanzicht (2D)
 Funnel	Trechter
 Furnace	Oven
 Generator	Generator
+Grants	Toekenningen
 Grants of the server's access settings can refer to them	Toekenningen in de toegangsinstellingen van de server kunnen ernaar verwijzen
 Ground fault current circuit breaker	Aardlekschakelaar
 Ground fault voltage circuit-breaker	Foutspanningsschakelaar
@@ -147,13 +180,18 @@ Housing accessories, internal extension	Behuizingtoebehoren, interne opbouw
 Hydraulic motors	Hydromotoren
 Hydraulic tanks	Hydraulische tanks
 Import / export	Importeren / exporteren
+Import parts	Artikelen importeren
+Imported {} parts (revision {})	{} artikelen geïmporteerd (revisie {})
 Inductors	Spoelen
+Install	Installeren
+Install again	Opnieuw installeren
 Intermediate plates	Tussenplaten
 Isolating valves	Afsluitventielen
 KNX actuator	KNX-actor
 KNX system device	KNX-systeemapparaat
 Key switch	Sleutelschakelaar
 Kneader	Kneder
+Last sign-in	Laatste aanmelding
 Legend plate	Tekstplaatje
 Level detector	Grenswaardesensor
 Level switches	Niveauschakelaars
@@ -165,6 +203,7 @@ Line return filters	Retourfilters
 Lines / conduits	Leidingen / buizen
 Load all parts from the server again	Alle artikelen opnieuw van de server laden
 Loading…	Laden…
+Local	Lokaal
 Lock systems	Sluitsystemen
 Locking couplings	Afsluitkoppelingen
 Logic item	Logische component
@@ -183,17 +222,28 @@ Modulators	Modulatoren
 Motor overload switch	Motorbeveiligingsschakelaar
 Mounting chassis	Montagechassis
 Mounting panels	Montageplaten
+New accounts need the approval of an administrator	Nieuwe accounts hebben de goedkeuring van een beheerder nodig
+New catalog	Nieuwe catalogus
 New part based on the open one	Nieuw artikel op basis van het geopende
 New password	Nieuw wachtwoord
+New role	Nieuwe rol
+New user	Nieuwe gebruiker
 Newer version	Nieuwere versie
 Next	Volgende
+No grants: users have the rights of their role	Geen toekenningen: gebruikers hebben de rechten van hun rol
+No users	Geen gebruikers
 Non-return valves	Terugslagkleppen
 Not mounted	Niet gemonteerd
 Nut	Moer
 On the front	Aan de voorkant
 On the left side	Aan de linkerkant
 On the right side	Aan de rechterkant
+On this server	Op deze server
+One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Eén SQLite-bestand met alle artikelen, hun geschiedenis en bestanden, de catalogi, de gebruikers en hun favorieten. Het bevat de wachtwoordhashes van de gebruikers: bewaar het veilig.
 Only catalogs without parts can be deleted	Alleen catalogi zonder artikelen kunnen worden verwijderd
+Only empty catalogs can be deleted	Alleen lege catalogi kunnen worden verwijderd
+Only local accounts	Alleen lokale accounts
+Open sessions: {}	Open sessies: {}
 OpenECraft data portal	OpenECraft-dataportaal
 OpenECraft parts manager	OpenECraft-artikelbeheer
 OpenECraft parts server	OpenECraft-artikelserver
@@ -253,6 +303,7 @@ Pushbutton	Drukknop
 Rail standoff	Railafstandhouder
 Rails	Rails
 Reactor	Reactor
+Read only	Alleen-lezen
 Read only: sign in with a user who may change parts of this manufacturer	Alleen lezen: meld u aan met een gebruiker die artikelen van deze fabrikant mag wijzigen
 Read parts	Artikelen lezen
 Reader	Lezer
@@ -262,12 +313,20 @@ Rear / side panel	Achter- / zijwand
 Rectifier	Gelijkrichter
 Reducer	Verloopstuk
 Reducing plates	Verloopplaten
+Register	Registreren
+Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Geregistreerde gebruikers worden lezers: ze bewaren favorieten en lezen de artikelen ook als lezen een aanmelding vereist. Geef ze meer rechten onder Gebruikers.
+Registration	Registratie
+Reject the registration of {}? The account is deleted.	De registratie van {} afwijzen? Het account wordt verwijderd.
 Remove the file from the part	Het bestand uit het artikel verwijderen
 Removed from the server	Verwijderd van de server
+Repeat password	Wachtwoord herhalen
+Replace the roles and grants with those of the file?	De rollen en toekenningen vervangen door die van het bestand?
 Replaced by {}	Vervangen door {}
 Resistors	Weerstanden
+Restore from a file	Herstellen uit een bestand
 Return flushing filters, all-autom.	Terugspoelfilters, volautomatisch
 Ribbon cables	Flatcables
+Roles	Rollen
 Roof hook	Dakhaak
 Routing accessories	Routeringstoebehoren
 Routing path (topology)	Traject (topologie)
@@ -281,6 +340,7 @@ Screw connections	Schroefverbindingen
 Screw pumps	Schroefpompen
 Screw spindle compressors	Schroefcompressoren
 Scroll compressors	Scrollcompressoren
+Search users	Gebruikers zoeken
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Selecteer een catalogus of maak een nieuwe. Artikelen horen bij een catalogus via hun catalogus-ID (artikeleditor, tabblad Dataportaal).
 Select a user or create a new one.	Selecteer een gebruiker of maak een nieuwe.
 Selector switch	Keuzeschakelaar
@@ -289,6 +349,7 @@ Sensor NC	Sensor verbreekcontact
 Sensor, switch, and pushbutton	Sensoren, schakelaars en drukknoppen
 Sensors - pressure gauges	Sensoren - manometers
 Serial sub-plates	Seriële aansluitplaten
+Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Ingesteld door de startopties van de server (--registration of OPENECRAFT_REGISTRATION).
 Show parts	Artikelen weergeven
 Shut-off accumulators	Afsluitaccumulatoren
 Shut-off control valve	Afsluitarmatuur
@@ -296,12 +357,19 @@ Shut-off flap	Afsluitklep
 Side panel	Zijwand
 Sifter	Sifter
 Sight glass	Kijkglas
+Sign in as an administrator to manage the server	Meld u aan als beheerder om de server te beheren
 Sign in or connect with the access token to change parts	Meld u aan of maak verbinding met het toegangstoken om artikelen te wijzigen
 Sign in to keep favorites	Meld je aan om favorieten te bewaren
+Sign in with a user account	Aanmelden met een gebruikersaccount
+Sign in with the access token of the server	Aanmelden met het toegangstoken van de server
+Sign out everywhere	Overal afmelden
+Sign out {} on all devices?	{} op alle apparaten afmelden?
+Sign-in needed to read	Aanmelden vereist om te lezen
 Signal device	Signaleringsapparaat
 Signal device, acoustic	Signaalapparaat, akoestisch
 Signal device, optical	Signaalapparaat, optisch
 Signal lamp	Signaallamp
+Signed in	Aangemeld
 Silencers	Geluiddempers
 Silo	Silo
 Single-phase motor	Eenfasemotor
@@ -313,6 +381,7 @@ Start a server with:  openecraft-parts-server --token <secret>	Start een server 
 Start openecraft-parts-server with --token to allow changes	Start openecraft-parts-server met --token om wijzigingen toe te staan
 Steam boiler	Stoomketel
 Stirrer	Roerder
+Storage	Opslag
 Strainer	Zeef
 Strip label	Strookmarkering
 Sub-plates	Aansluitplaten
@@ -332,22 +401,36 @@ Terminator	Afsluiting
 Terminators, filters	Afsluitingen, filters
 Test accessories	Testtoebehoren
 The EPLAN Data Portal only offers searching and reading parts	Het EPLAN Data Portal biedt alleen het zoeken en lezen van artikelen
+The access settings would leave nobody who manages users	Met deze toegangsinstellingen kan niemand meer gebruikers beheren
 The access token is only needed for changes; it is not stored.	Het toegangstoken is alleen nodig voor wijzigingen; het wordt niet opgeslagen.
+The catalogs with their manufacturer, version and description.	De catalogi met hun fabrikant, versie en beschrijving.
 The checksum of {} does not match: the download is damaged	De controlesom van {} klopt niet: de download is beschadigd
 The directory checks the password and sets the groups at every sign-in	De directoryservice controleert het wachtwoord en stelt bij elke aanmelding de groepen in
+The file holds no access settings	Het bestand bevat geen toegangsinstellingen
+The last administrator cannot lose the right to manage users	De laatste beheerder kan het recht om gebruikers te beheren niet verliezen
+The password needs at least {} characters	Het wachtwoord moet minstens {} tekens hebben
+The passwords do not match	De wachtwoorden komen niet overeen
 The project has no parts	Het project heeft geen artikelen
+The registration is closed	De registratie is gesloten
+The registration is open	De registratie is open
+The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	De rollen, de toekenningen en de toegang zonder aanmelding. Herstellen vervangt ze; de directoryservices blijven zoals ze op de server zijn ingesteld.
 The server cannot be reached	De server is niet bereikbaar
 The server sent no text	De server heeft geen tekst verzonden
 The upload is finished	Het uploaden is voltooid
+The users with their role, manufacturer, groups and last sign-in, without passwords.	De gebruikers met hun rol, fabrikant, groepen en laatste aanmelding, zonder wachtwoorden.
 Thermometers	Thermometers
 Thermostat valves	Thermostaatventielen
+This user name cannot be used	Deze gebruikersnaam kan niet worden gebruikt
+This user name is taken	Deze gebruikersnaam is al in gebruik
 Three-phase motor	Draaistroommotor
 Three-way control valve	Driewegarmatuur
 Three-way flap	Driewegklep
 Three-way valve	Driewegventiel
 Throttle plate	Smoorschijf
 Timer relay	Tijdrelais
+To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Om hem te herstellen, start u de server met --data <bestand> of kopieert u hem met --migrate-from <bestand> naar een nieuwe database.
 Too many failed sign-ins, try again later	Te veel mislukte aanmeldingen, probeer het later opnieuw
+Too many registrations from this address, try again later	Te veel registraties vanaf dit adres, probeer het later opnieuw
 Top cover	Dak
 Transformers	Transformatoren
 Transmission paths	Transmissiewegen
@@ -357,7 +440,11 @@ Undefined	Niet gedefinieerd
 Under the part (base)	Onder het artikel (sokkel)
 Uploading {} to Vault ({} %)…	{} uploaden naar Vault ({} %)…
 Uploading {} to Vault…	{} uploaden naar Vault…
+User account	Gebruikersaccount
+User or group	Gebruiker of groep
+User {} exists already. Change it?	Gebruiker {} bestaat al. Wijzigen?
 User-defined rail	Door de gebruiker gedefinieerde rail
+Users may register themselves (as readers)	Gebruikers mogen zich zelf registreren (als lezer)
 Vacuum pump	Vacuümpomp
 Valve / distributor	Ventiel / verdeler
 Valve coil	Ventielspoel
@@ -368,15 +455,21 @@ Ventilation filters	Beluchtingsfilters
 Ventilator	Ventilator
 Voltage source	Spanningsbron
 Voltage source and generator	Spanningsbron en generator
+Waiting accounts cannot sign in; approve or reject them in Users.	Wachtende accounts kunnen zich niet aanmelden; keur ze goed of wijs ze af onder Gebruikers.
 Washer	Ring
 Water traps	Waterafscheiders
 Wind deflector	Windgeleider
 Wiring material	Bedradingsmateriaal
+Without sign-in	Zonder aanmelding
+Wrong access token	Onjuist toegangstoken
 Wrong user name or password	Onjuiste gebruikersnaam of onjuist wachtwoord
+Your account awaits the approval of an administrator	Uw account wacht op goedkeuring door een beheerder
+Your account was created. An administrator has to approve it before you can sign in.	Uw account is aangemaakt. Een beheerder moet het goedkeuren voordat u zich kunt aanmelden.
 access denied – check the personal access token	toegang geweigerd – controleer het persoonlijke toegangstoken
 by file name	op bestandsnaam
 changed, not saved	gewijzigd, niet opgeslagen
 connection failed: {}	verbinding mislukt: {}
+directory:group	directory:groep
 from the name	uit de naam
 needed for changes	nodig voor wijzigingen
 new part, not saved	nieuw artikel, niet opgeslagen
@@ -389,12 +482,14 @@ the server name is unknown	de servernaam is onbekend
 the server refuses the connection (not started, or another port)	de server weigert de verbinding (niet gestart of een andere poort)
 unchanged if empty	ongewijzigd als leeg
 unexpected answer: {}	onverwacht antwoord: {}
+you	u
 {} ({}, {})	{} ({}, {})
 {} has no checksum in SHA256SUMS	{} heeft geen controlesom in SHA256SUMS
 {} parts in {} catalogs, revision {}	{} artikelen in {} catalogi, revisie {}
 {} parts, {} catalogs, {}	{} artikelen, {} catalogi, {}
 {} – save to upload it	{} – opslaan om te uploaden
 {}: the part is no longer open	{}: het artikel is niet meer geopend
+{}: {} parts added, {} updated, {} kept	{}: {} artikelen toegevoegd, {} bijgewerkt, {} behouden
 ⎘ Copy	⎘ Kopiëren
 ✔ Save	✔ Opslaan
 ➕ New	➕ Nieuw

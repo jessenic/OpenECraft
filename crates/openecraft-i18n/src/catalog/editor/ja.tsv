@@ -143,7 +143,6 @@ Apply to the connection	接続に適用
 Apply to {} projects	{} 個のプロジェクトに適用
 Approval workflow	承認ワークフロー
 Approvals needed	必要な承認数
-Approve	承認
 Approving needs an approver; you are \"{}\".	承認できるのは承認者のみです。あなたは \"{}\" です。
 Arc	円弧
 Archive and version	アーカイブとバージョン
@@ -449,7 +448,6 @@ Define	定義
 Define all used	使用中のものをすべて定義
 Defined potentials	定義済みの電位
 Del	Del
-Delete	削除
 Delete PV array	PVアレイを削除
 Delete cable (its wires are removed from it)	ケーブルを削除 (その電線はケーブルから外されます)
 Delete comment	コメントを削除
@@ -477,7 +475,6 @@ Delete the property and all its values	プロパティとそのすべての値�
 Delete this workspace	このワークスペースを削除
 Delete variant	バリアントを削除
 Delete zone	ゾーンを削除
-Deny	拒否
 Depth / mounted at	奥行き / 取付位置
 Depth from / to	奥行き 開始 / 終了
 Depth in the floor	床内の深さ
@@ -521,7 +518,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	方向付き交差：そこで交わる2本の接続線を接続します。線の各端はまず直進、次に横方向に配線されます
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	座標北の方向。上から見て設備の後方 (-z) から反時計回り
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	モジュールが向く方向、上から見て反時計回り（0：前方）
-Discard changes	変更を破棄
 Discard draft	ドラフトを破棄
 Disconnection of distribution circuits	分岐回路の遮断
 Disconnection of final circuits	最終回路の遮断
@@ -605,7 +601,6 @@ Earthing system	系統接地方式
 Easting, northing	東座標、北座標
 Eaves	軒
 Edge length of the routing grid: smaller is finer and slower	配線グリッドの辺の長さ: 小さいほど精細になり、処理は遅くなります
-Edit	編集
 Edit in table	表で編集
 Edit in table…	表で編集…
 Editable copy of this plot frame	この図枠の編集可能なコピー
@@ -816,7 +811,6 @@ Identifiers of the structure management	構造管理の識別子
 Identifying letters	識別文字
 Images (PNG, JPEG)	画像 (PNG、JPEG)
 Image…	画像…
-Import	インポート
 Import AutomationML…	AutomationML をインポート…
 Import CSV / Excel…	CSV / Excel のインポート…
 Import CSV…	CSV をインポート…
@@ -1084,7 +1078,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	名前; 
 Named copy of this form, for report blocks	このフォームの名前付きコピー (レポートブロック用)
 Navigators	ナビゲーター
 Neutral exchange file…	ニュートラル交換ファイル…
-Never	表示しない
 New	新規
 New block	新しいブロック
 New cable	新しいケーブル
@@ -1488,7 +1481,6 @@ Reference point	基準点
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	基準点を x {} m、z {} m に配置しました。建物ペインで座標を入力してください
 Refresh	最新の情報に更新
 Refresh example catalog parts (GEN.*)	サンプルカタログの部品 (GEN.*) を更新
-Reject	却下
 Rejected and closed ones too	却下済みとクローズ済みも表示
 Relative column width	相対列幅
 Release	リリース
@@ -1634,7 +1626,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	実行
 SVG drawing	SVG 図面
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	ISO 13849-1 の安全機能: 各サブシステム (入力、ロジック、出力) と、そのチャンネルのデバイス、カテゴリ、診断範囲、年間動作回数。デバイスは部品の PL / PFHd、MTTFd、または B10d で計算されます。
-Save	保存
 Save a selection under this name with another variant to add one.	別のバリアントを追加するには、この名前で別のバリアントとして選択範囲を保存してください。
 Save access	アクセスを保存
 Save and release	保存して解放
@@ -1998,7 +1989,6 @@ Ungroup	グループ解除
 Unlock all	すべてロック解除
 Unplaced	未配置
 Unplaced ({})	未配置 ({})
-Update	更新
 Update all	すべて更新
 Update part links from Vault items	Vault アイテムから部品リンクを更新
 Update report blocks	レポートブロックを更新
@@ -2016,7 +2006,6 @@ Use for all pages	すべてのページに使用
 Used	使用済み
 Used by {} pages	{} ページで使用
 Used on {} of {} pages	{} / {} ページで使用
-User	ユーザー
 User / group	ユーザー / グループ
 User defined property	ユーザー定義プロパティ
 User names, separated by commas	ユーザー名 (カンマ区切り)

@@ -144,7 +144,6 @@ Apply to the connection	Застосувати до з’єднання
 Apply to {} projects	Застосувати до проєктів: {}
 Approval workflow	Процес погодження
 Approvals needed	Потрібно погоджень
-Approve	Погодити
 Approving needs an approver; you are \"{}\".	Погоджувати може лише погоджувач; ви – «{}».
 Arc	Дуга
 Archive and version	Архів і версія
@@ -452,7 +451,6 @@ Define	Визначити
 Define all used	Визначити всі використані
 Defined potentials	Визначені потенціали
 Del	Del
-Delete	Видалити
 Delete PV array	Видалити фотоелектричне поле
 Delete cable (its wires are removed from it)	Видалити кабель (його проводи буде вилучено з нього)
 Delete comment	Видалити коментар
@@ -482,7 +480,6 @@ Delete the property and all its values	Видалити властивість �
 Delete this workspace	Видалити цей робочий простір
 Delete variant	Видалити варіант
 Delete zone	Видалити зону
-Deny	Заборонити
 Depth / mounted at	Глибина / монтаж на
 Depth from / to	Глибина від / до
 Depth in the floor	Глибина в підлозі
@@ -526,7 +523,6 @@ Directed T-junction: where three wires meet, names the device the two wires of t
 Directed crossing: connects the two wires crossing there; each end of its line is wired straight on first and across second	Спрямоване перехрестя: з'єднує два проводи, що там перехрещуються; кожен кінець його лінії з'єднується спочатку прямо, потім упоперек
 Direction of grid north, counter-clockwise seen from above from the rear of the plant (-z)	Напрямок півночі сітки, проти годинникової стрілки при погляді згори від задньої сторони установки (-z)
 Direction the modules face, counter-clockwise seen from above (0: towards the front)	Напрямок, у який спрямовані модулі, проти годинникової стрілки при погляді згори (0: вперед)
-Discard changes	Скасувати зміни
 Discard draft	Відхилити чернетку
 Disconnection of distribution circuits	Вимкнення розподільних кіл
 Disconnection of final circuits	Вимкнення кінцевих кіл
@@ -610,7 +606,6 @@ Earthing system	Тип системи заземлення
 Easting, northing	Східна, північна координата
 Eaves	Карниз
 Edge length of the routing grid: smaller is finer and slower	Довжина ребра сітки прокладання: менше – точніше й повільніше
-Edit	Редагувати
 Edit in table	Редагувати в таблиці
 Edit in table…	Редагувати в таблиці…
 Editable copy of this plot frame	Редагована копія цієї рамки аркуша
@@ -823,7 +818,6 @@ Identifiers of the structure management	Позначення керування 
 Identifying letters	Літерні коди
 Images (PNG, JPEG)	Зображення (PNG, JPEG)
 Image…	Зображення…
-Import	Імпорт
 Import AutomationML…	Імпортувати AutomationML…
 Import CSV / Excel…	Імпортувати CSV / Excel…
 Import CSV…	Імпортувати CSV…
@@ -1095,7 +1089,6 @@ Name; Data Type; Logical Address; Comment – for PLC programming tools	Ім’�
 Named copy of this form, for report blocks	Іменована копія цієї форми для блоків звітів
 Navigators	Навігатори
 Neutral exchange file…	Нейтральний файл обміну…
-Never	Ніколи
 New	Новий
 New block	Новий блок
 New building	Нова будівля
@@ -1505,7 +1498,6 @@ Reference point	Опорна точка
 Reference point placed at x {} m, z {} m; enter its coordinates in the Buildings pane	Опорну точку розміщено в x {} м, z {} м; введіть її координати на панелі Будівлі
 Refresh	Оновити
 Refresh example catalog parts (GEN.*)	Оновити вироби прикладу каталогу (GEN.*)
-Reject	Відхилити
 Rejected and closed ones too	Також відхилені та закриті
 Relative column width	Відносна ширина стовпця
 Release	Затвердити
@@ -1651,7 +1643,6 @@ Rules insert page macros when their condition holds. Generating replaces the pag
 Run	Виконати
 SVG drawing	Креслення SVG
 Safety functions of ISO 13849-1: each subsystem (input, logic, output) with the devices of a channel, its category, diagnostic coverage and operations per year. Devices count with PL / PFHd, MTTFd or B10d of their parts.	Функції безпеки за ISO 13849-1: кожна підсистема (вхід, логіка, вихід) з пристроями каналу, її категорією, охопленням діагностикою та кількістю циклів комутації на рік. Пристрої враховуються з PL / PFHd, MTTFd або B10d їхніх виробів.
-Save	Зберегти
 Save a selection under this name with another variant to add one.	Щоб додати варіант, збережіть виділене під цією назвою з іншим варіантом.
 Save access	Зберегти доступ
 Save and release	Зберегти та звільнити
@@ -2017,7 +2008,6 @@ Ungroup	Розгрупувати
 Unlock all	Розблокувати все
 Unplaced	Не розміщено
 Unplaced ({})	Не розміщено ({})
-Update	Оновити
 Update all	Оновити все
 Update part links from Vault items	Оновити зв’язки виробів з елементів Vault
 Update report blocks	Оновити блоки звітів
@@ -2036,7 +2026,6 @@ Use for all pages	Використовувати для всіх сторіно�
 Used	Використовується
 Used by {} pages	Використовується на {} сторінках
 Used on {} of {} pages	Використовується на {} з {} сторінок
-User	Користувач
 User / group	Користувач / група
 User defined property	Користувацька властивість
 User names, separated by commas	Імена користувачів через кому
