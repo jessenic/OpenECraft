@@ -9,6 +9,7 @@ Accessories of this part	Accessori di questo articolo
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Gli accessori funzionano solo insieme agli articoli con cui sono compatibili. Un articolo elenca i suoi accessori, un accessorio gli articoli con cui è compatibile; basta un lato.
 Accessory, mounted: {}	Accessorio, montato: {}
 Add connection point	Aggiungi punto di connessione
+Add cutout	Aggiungi apertura
 Add function	Aggiungi funzione
 Add marked parts to the parts database ({})	Aggiungi gli articoli contrassegnati al database articoli ({})
 Add to the parts database	Aggiungi al database articoli
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Connettiti a un server articoli e avvia la ricerca.
 Connected: {} {} – {} parts, revision {}, {}	Connesso: {} {} – {} articoli, revisione {}, {}
 Connection designations	Designazioni delle connessioni
+Corner radius	Raggio dell'angolo
 Datasheet (URL)	Scheda tecnica (URL)
 Deleted catalog {}	Catalogo {} eliminato
 Deleted part {}	Articolo {} eliminato
 Deleted user {}	Utente {} eliminato
 Deleting {}…	Eliminazione di {}…
 Dimensions	Dimensioni
+Door cutouts	Forature della porta
 Downloaded {} ({} bytes)	{} scaricato ({} byte)
 Downloading parts…	Download degli articoli in corso…
 Drag it onto a schematic page to place it	Trascinalo su una pagina di schema per posizionarlo
@@ -49,14 +52,19 @@ Group by	Raggruppa per
 Identifying letter of devices using this part (K, Q, S …)	Lettera identificativa dei dispositivi che usano questo articolo (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	Importa STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	Importa SVG…
+In the door, when they differ from the cutouts	Nella porta, quando differiscono dalle aperture
 Internal values of the EPLAN part exchange (0: undefined)	Valori interni dello scambio articoli EPLAN (0: non definito)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Funziona solo montato su uno degli articoli con cui è compatibile; la verifica del progetto lo segnala su un dispositivo senza tale articolo
+Largest conductor the clamp takes (0: not known)	Conduttore più grande accettato dal morsetto (0: sconosciuto)
 Loaded {} parts (revision {})	{} articoli caricati (revisione {})
 Loading catalogs…	Caricamento dei cataloghi…
 Loading favorites…	Caricamento dei preferiti…
 Loading the history…	Caricamento della cronologia…
 Loading users…	Caricamento degli utenti…
 Mark for adding to the parts database	Contrassegna per l'aggiunta al database articoli
+Max. mm²	Max. mm²
+Min. mm²	Min. mm²
+Most wires the clamp takes (0: not known)	Numero massimo di conduttori accettati dal morsetto (0: sconosciuto)
 Mounted directly on the wall or ceiling of a room	Montato direttamente sulla parete o sul soffitto di un locale
 Moves lines such as Power loss: 3 W into the typed fields	Sposta righe come Power loss: 3 W nei campi tipizzati
 No own connection points – the generated ones are shown.	Nessun punto di connessione proprio – vengono mostrati quelli generati.
@@ -73,9 +81,11 @@ Pans (trackpad)	Sposta la vista (trackpad)
 Parts server: {}	Server articoli: {}
 Parts this part is assembled from; the bill of materials lists them under it	Articoli che compongono questo articolo; la distinta base li elenca al di sotto
 Personal access token	Token di accesso personale
+Picture	Immagine
 Place by clicking into the view	Posiziona facendo clic nella vista
 Prices / other	Prezzi / altro
 Remove all	Rimuovi tutto
+Remove picture	Rimuovi immagine
 Removing the file…	Rimozione del file…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Sostituisce i punti di connessione secondo la convenzione IEC: designazioni dispari in alto, pari in basso
 Reset filter	Reimposta filtro
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Seleziona una riga, quindi f
 Server revision	Revisione del server
 Signed out	Disconnesso
 Signing out…	Disconnessione in corso…
+Smallest conductor the clamp takes (0: not known)	Conduttore più piccolo accettato dal morsetto (0: sconosciuto)
 Stands on the floor of a room	Poggia sul pavimento di un locale
 Stands on the floor of a room, like pumps, tanks and compressors	Poggia sul pavimento di un locale, come pompe, serbatoi e compressori
 Successor {}	Successore {}
@@ -112,7 +123,10 @@ Voltage / current	Tensione / corrente
 WALL	PARETE
 Wall mounting	Montaggio a parete
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Dove si trova l'accessorio sull'articolo compatibile, nel layout del quadro e nella vista 3D
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Posizione delle aperture: il centro dal centro della vista frontale (x verso destra, y verso il basso), la rotazione in senso antiorario.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Dove vengono collegati i conduttori nel layout quadro: la designazione come nel modello di funzione, la posizione nella vista frontale (x da sinistra, y dall'alto, z sopra la superficie di montaggio) e la direzione di uscita del conduttore. Gli articoli senza punti di connessione propri li ricevono dal modello di funzione.
+Width / Ø	Larghezza / Ø
+Wire connection	Collegamento dei conduttori
 Wire leaves	Uscita conduttore
 Zoom only	Solo zoom
 Zooms (mouse wheel)	Zoom (rotella del mouse)
@@ -120,6 +134,7 @@ changes with token	modifiche con token
 created in your EPLAN account (ePulse)	creato nel proprio account EPLAN (ePulse)
 down	verso il basso
 e.g. 25.4 for models in inch, 1000 for models in metres	ad es. 25,4 per modelli in pollici, 1000 per modelli in metri
+from {} mm²	da {} mm²
 no 2D model	nessun modello 2D
 no mounting data	nessun dato di montaggio
 none – a box of the mounting dimensions is drawn	nessuno – viene disegnato un parallelepipedo con le dimensioni di montaggio
@@ -129,17 +144,25 @@ read-only	sola lettura
 signed in as {} ({})	accesso eseguito come {} ({})
 to the front	in avanti
 up	verso l'alto
+up to {} mm²	fino a {} mm²
 {} (changed {})	{} (modificato {})
 {} catalogs	{} cataloghi
 {} changes of part {}	{} modifiche dell'articolo {}
 {} connection points	{} punti di connessione
 {} favorites	{} preferiti
+{} mm above	{} mm sopra
+{} mm below	{} mm sotto
+{} mm in front	{} mm davanti
+{} mm left	{} mm a sinistra
+{} mm right	{} mm a destra
 {} of {} parts	{} di {} articoli
 {} parts found	{} articoli trovati
 {} users	{} utenti
+{} wires per connection point	{} conduttori per punto di connessione
 {} × {} mm, {} elements	{} × {} mm, {} elementi
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} triangoli
+{}, {} wires per connection point	{}, {} conduttori per punto di connessione
 {}: 2D front view with {} elements assigned to {}	{}: vista frontale 2D con {} elementi assegnata a {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: modello 3D con {} triangoli ({} × {} × {} mm) assegnato a {}
 ★ Favorites	★ Preferiti

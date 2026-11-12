@@ -943,7 +943,7 @@ pub fn import_project(project: &mut crate::model::Project, variants: &[Variant])
         {
             continue;
         }
-        let used = project.pages.iter().any(|page| page.symbols.iter().any(|s| s.sym == new.key));
+        let used = project.pages.iter().any(|page| page.symbols.iter().any(|s| super::scale_of(&s.sym).0 == new.key));
         if used {
             let map: Option<Vec<_>> = old
                 .pins
@@ -963,7 +963,7 @@ pub fn import_project(project: &mut crate::model::Project, variants: &[Variant])
             {
                 continue;
             }
-            for inst in project.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|i| i.sym == new.key) {
+            for inst in project.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|i| super::scale_of(&i.sym).0 == new.key) {
                 let mut labels: Vec<_> = new.pins.iter().map(|p| p.label.clone()).collect();
                 for (&index, label) in map.iter().zip(&inst.pins) {
                     labels[index] = label.clone();
@@ -973,10 +973,10 @@ pub fn import_project(project: &mut crate::model::Project, variants: &[Variant])
         }
         *old = new.clone();
         if let Some(channel) = &new.plc_channel {
-            let tags: BTreeSet<_> = project.pages.iter().flat_map(|p| &p.symbols).filter(|s| s.sym == new.key).map(|s| s.tag.clone()).collect();
+            let tags: BTreeSet<_> = project.pages.iter().flat_map(|p| &p.symbols).filter(|s| super::scale_of(&s.sym).0 == new.key).map(|s| s.tag.clone()).collect();
             for tag in tags {
                 let address = channel.address_for(project, &tag);
-                for s in project.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|s| s.sym == new.key && s.tag == tag) {
+                for s in project.pages.iter_mut().flat_map(|p| &mut p.symbols).filter(|s| super::scale_of(&s.sym).0 == new.key && s.tag == tag) {
                     if s.label.is_empty() {
                         s.label = address.clone();
                     }

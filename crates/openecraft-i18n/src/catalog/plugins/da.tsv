@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Stikkets side
 Side the connection comes from: left, right, up or down (default up)	Siden forbindelsen kommer fra: left, right, up eller down (standard up)
 Single-line diagrams	Enstregsdiagrammer
 Single-line pages and their multi-line counterparts	Enstregede sider og deres flerstregede modstykker
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Størrelse på et symbol i symbolbiblioteket som faktor (1 = som tegnet); dets tekster beholder deres størrelse, og tilsluttede ledningsender følger med
 Slot number	Slotnummer
 Smallest bend radius in mm	Mindste bøjningsradius i mm
 Smallest distance in mm	Mindste afstand i mm
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Ukendt side {} (socket eller pin)
 Unknown side: {}	Ukendt side: {}
 Unknown state: {}	Ukendt tilstand: {}
 Unknown station kind: {}	Ukendt stationstype: {}
-Unknown symbol: {}	Ukendt symbol: {}
 Unknown table: {}	Ukendt tabel: {}
 Unknown termination: {}	Ukendt afslutning: {}
 Unknown vertical anchor: {}	Ukendt lodret anker: {}

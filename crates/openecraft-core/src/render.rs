@@ -1838,10 +1838,9 @@ pub fn draw_enclosure(
             if o.round {
                 d.circle(c, o.w / 2.0 * k, 0.15, Ink::Frame, false);
             } else {
-                let half = p(o.w / 2.0 * k, o.h / 2.0 * k);
-                let (a, b) = (c - half, c + half);
-                for (s, t) in [(a, p(b.x, a.y)), (p(b.x, a.y), b), (b, p(a.x, b.y)), (p(a.x, b.y), a)] {
-                    d.line(s, t, 0.15, Ink::Frame, true);
+                let pts: Vec<P> = o.outline().into_iter().map(|q| tf(q.x, q.y)).collect();
+                for (i, s) in pts.iter().enumerate() {
+                    d.line(*s, pts[(i + 1) % pts.len()], 0.15, Ink::Frame, true);
                 }
             }
         }

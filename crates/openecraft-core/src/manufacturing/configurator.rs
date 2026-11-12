@@ -35,7 +35,14 @@ pub fn export(prj: &Project, enc: usize) -> Value {
             machining.push(if o.round {
                 json!({ "face": face.key(), "kind": "cutout", "x": x, "y": y, "diameter": r(o.w) })
             } else {
-                json!({ "face": face.key(), "kind": "cutout", "x": x, "y": y, "w": r(o.w), "h": r(o.h) })
+                let mut c = json!({ "face": face.key(), "kind": "cutout", "x": x, "y": y, "w": r(o.w), "h": r(o.h) });
+                if o.angle != 0.0 {
+                    c["angle"] = json!(r(o.angle));
+                }
+                if o.radius > 0.0 {
+                    c["radius"] = json!(r(o.radius));
+                }
+                c
             });
         }
     }

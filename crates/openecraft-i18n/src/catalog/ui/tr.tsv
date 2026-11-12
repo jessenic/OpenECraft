@@ -9,6 +9,7 @@ Accessories of this part	Bu parçanın aksesuarları
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Aksesuarlar yalnızca uydukları parçalarla birlikte çalışır. Bir parça aksesuarlarını, bir aksesuar uyduğu parçaları listeler; tek taraf yeterlidir.
 Accessory, mounted: {}	Aksesuar, montaj: {}
 Add connection point	Bağlantı noktası ekle
+Add cutout	Kesim ekle
 Add function	Fonksiyon ekle
 Add marked parts to the parts database ({})	İşaretli parçaları parça veritabanına ekle ({})
 Add to the parts database	Parça veritabanına ekle
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Bir parça sunucusuna bağlanın ve arayın.
 Connected: {} {} – {} parts, revision {}, {}	Bağlandı: {} {} – {} parça, revizyon {}, {}
 Connection designations	Bağlantı tanımları
+Corner radius	Köşe yarıçapı
 Datasheet (URL)	Veri sayfası (URL)
 Deleted catalog {}	{} kataloğu silindi
 Deleted part {}	{} parçası silindi
 Deleted user {}	{} kullanıcısı silindi
 Deleting {}…	{} siliniyor…
 Dimensions	Boyutlar
+Door cutouts	Kapı kesimleri
 Downloaded {} ({} bytes)	{} indirildi ({} bayt)
 Downloading parts…	Parçalar indiriliyor…
 Drag it onto a schematic page to place it	Yerleştirmek için bir şema sayfasına sürükleyin
@@ -49,14 +52,19 @@ Group by	Gruplama ölçütü
 Identifying letter of devices using this part (K, Q, S …)	Bu parçayı kullanan cihazların tanıtıcı harfi (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	STL / OBJ / STEP / IGES / IFC / JT içe aktar…
 Import SVG…	SVG içe aktar…
+In the door, when they differ from the cutouts	Kapıda, kesimlerden farklı olduklarında
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN parça değişiminin dahili değerleri (0: tanımsız)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Yalnızca uyduğu parçalardan birine takılıyken çalışır; proje kontrolü böyle bir parçası olmayan cihazda bunu bildirir
+Largest conductor the clamp takes (0: not known)	Klemensin aldığı en büyük iletken (0: bilinmiyor)
 Loaded {} parts (revision {})	{} parça yüklendi (revizyon {})
 Loading catalogs…	Kataloglar yükleniyor…
 Loading favorites…	Sık kullanılanlar yükleniyor…
 Loading the history…	Geçmiş yükleniyor…
 Loading users…	Kullanıcılar yükleniyor…
 Mark for adding to the parts database	Parça veritabanına eklemek için işaretle
+Max. mm²	Maks. mm²
+Min. mm²	Min. mm²
+Most wires the clamp takes (0: not known)	Klemensin aldığı en fazla tel sayısı (0: bilinmiyor)
 Mounted directly on the wall or ceiling of a room	Doğrudan bir odanın duvarına veya tavanına monte edilir
 Moves lines such as Power loss: 3 W into the typed fields	Power loss: 3 W gibi satırları türü belirli alanlara taşır
 No own connection points – the generated ones are shown.	Kendi bağlantı noktası yok – oluşturulanlar gösteriliyor.
@@ -73,9 +81,11 @@ Pans (trackpad)	Kaydırır (dokunmatik yüzey)
 Parts server: {}	Parça sunucusu: {}
 Parts this part is assembled from; the bill of materials lists them under it	Bu parçanın oluşturulduğu parçalar; malzeme listesi bunları altında listeler
 Personal access token	Kişisel erişim belirteci
+Picture	Resim
 Place by clicking into the view	Görünüme tıklayarak yerleştir
 Prices / other	Fiyatlar / diğer
 Remove all	Tümünü kaldır
+Remove picture	Resmi kaldır
 Removing the file…	Dosya kaldırılıyor…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Bağlantı noktalarını IEC kuralına göre değiştirir: tek tanımlar üstte, çift olanlar altta
 Reset filter	Filtreyi sıfırla
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Bir satır seçin, ardından
 Server revision	Sunucu revizyonu
 Signed out	Oturum kapatıldı
 Signing out…	Oturum kapatılıyor…
+Smallest conductor the clamp takes (0: not known)	Klemensin aldığı en küçük iletken (0: bilinmiyor)
 Stands on the floor of a room	Bir odanın zemininde durur
 Stands on the floor of a room, like pumps, tanks and compressors	Pompalar, tanklar ve kompresörler gibi bir odanın zemininde durur
 Successor {}	Halef {}
@@ -112,7 +123,10 @@ Voltage / current	Gerilim / akım
 WALL	DUVAR
 Wall mounting	Duvara montaj
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Aksesuarın uyduğu parçada nerede durduğu, pano yerleşiminde ve 3D görünümde
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Kesimlerin konumu: ön görünüşün ortasından merkez (x sağa, y aşağı), dönüş saat yönünün tersine.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Pano yerleşiminde tellerin bağlandığı yer: fonksiyon şablonundaki tanım, ön görünümdeki konum (x soldan, y üstten, z montaj yüzeyinin üstünde) ve telin çıkış yönü. Kendi bağlantı noktası olmayan parçalar bunları fonksiyon şablonundan alır.
+Width / Ø	Genişlik / Ø
+Wire connection	Tel bağlantısı
 Wire leaves	Tel çıkışı
 Zoom only	Yalnızca yakınlaştır
 Zooms (mouse wheel)	Yakınlaştırır (fare tekerleği)
@@ -120,6 +134,7 @@ changes with token	belirteçle değişiklik
 created in your EPLAN account (ePulse)	EPLAN hesabınızda (ePulse) oluşturuldu
 down	aşağı
 e.g. 25.4 for models in inch, 1000 for models in metres	ör. inç cinsinden modeller için 25,4, metre cinsinden modeller için 1000
+from {} mm²	{} mm² ve üzeri
 no 2D model	2D model yok
 no mounting data	montaj verisi yok
 none – a box of the mounting dimensions is drawn	yok – montaj boyutlarında bir kutu çizilir
@@ -129,17 +144,25 @@ read-only	salt okunur
 signed in as {} ({})	{} ({}) olarak oturum açıldı
 to the front	öne
 up	yukarı
+up to {} mm²	en fazla {} mm²
 {} (changed {})	{} ({} değiştirildi)
 {} catalogs	{} katalog
 {} changes of part {}	{1} parçasında {0} değişiklik
 {} connection points	{} bağlantı noktası
 {} favorites	{} sık kullanılan
+{} mm above	{} mm üstte
+{} mm below	{} mm altta
+{} mm in front	{} mm önde
+{} mm left	{} mm solda
+{} mm right	{} mm sağda
 {} of {} parts	{} / {} parça
 {} parts found	{} parça bulundu
 {} users	{} kullanıcı
+{} wires per connection point	Bağlantı noktası başına {} tel
 {} × {} mm, {} elements	{} × {} mm, {} öğe
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} üçgen
+{}, {} wires per connection point	{}, bağlantı noktası başına {} tel
 {}: 2D front view with {} elements assigned to {}	{}: {} öğeli 2D ön görünüm {} öğesine atandı
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: {} üçgenli 3D model ({} × {} × {} mm) {} öğesine atandı
 ★ Favorites	★ Sık kullanılanlar

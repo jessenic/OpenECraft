@@ -55,6 +55,7 @@ Classes	Třídy
 Clear filters	Vymazat filtry
 Clearance bottom	Odstup dole
 Clearance top	Odstup nahoře
+Clearances	Odstupy
 Coding: {}	Kódování: {}
 Coil voltage	Napětí cívky
 Collision class	Třída kolize
@@ -86,6 +87,7 @@ Cross-section	Průřez
 Crossing	Křížení
 Current	Proud
 Cutout	Výřez
+Cutouts	Výřezy
 DCavg (%)	DCavg (%)
 DWG drawing	Výkres DWG
 DXF drawing	Výkres DXF
@@ -343,6 +345,7 @@ Range	Rozsah
 Rated current	Jmenovitý proud
 Rated power	Jmenovitý výkon
 Rectangle	Obdélník
+Rectangular	Obdélníkový
 Reject	Zamítnout
 Relative humidity	Relativní vlhkost vzduchu
 Relay	Relé
@@ -362,6 +365,7 @@ Rework	Přepracování
 Right	Vpravo
 Role	Role
 Rooms	Místnosti
+Round	Kruhový
 Route	Vést
 Routing	Vedení
 Rows of modules (east-west: rows of pairs)	Řady modulů (východ-západ: řady dvojic)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Senzory, spínače, tlačítka
 Server	Server
 Service space	Servisní prostor
 Settings	Nastavení
+Shape	Tvar
 Short-circuit voltage	Napětí nakrátko
 Show history	Zobrazit historii
 Show the row after the column	Zobrazit řádek za sloupcem
@@ -454,6 +459,7 @@ Unknown property: {}	Neznámá vlastnost: {}
 Unknown scheme: {}	Neznámé schéma: {}
 Unknown segment	Neznámý segment
 Unknown symbol {}	Neznámý symbol {}
+Unknown symbol: {}	Neznámý symbol: {}
 Update	Aktualizovat
 Uploading {}…	Nahrávání {}…
 User	Uživatel

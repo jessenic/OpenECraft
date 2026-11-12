@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Strona złąc
 Side the connection comes from: left, right, up or down (default up)	Strona, z której wchodzi połączenie: left, right, up lub down (domyślnie up)
 Single-line diagrams	Schematy jednokreskowe
 Single-line pages and their multi-line counterparts	Strony jednokreskowe i ich odpowiedniki wielokreskowe
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Rozmiar symbolu z biblioteki symboli jako współczynnik (1 = jak narysowano); jego teksty zachowują rozmiar, a końce podłączonych przewodów podążają za nim
 Slot number	Numer gniazda
 Smallest bend radius in mm	Najmniejszy promień gięcia w mm
 Smallest distance in mm	Najmniejszy odstęp w mm
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Nieznana strona {} (socket lub pin)
 Unknown side: {}	Nieznana strona: {}
 Unknown state: {}	Nieznany stan: {}
 Unknown station kind: {}	Nieznany rodzaj stacji: {}
-Unknown symbol: {}	Nieznany symbol: {}
 Unknown table: {}	Nieznana tabela: {}
 Unknown termination: {}	Nieznane zakończenie: {}
 Unknown vertical anchor: {}	Nieznane zakotwiczenie pionowe: {}

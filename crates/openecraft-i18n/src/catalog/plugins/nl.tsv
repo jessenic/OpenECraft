@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Zijde van de 
 Side the connection comes from: left, right, up or down (default up)	Zijde waar de verbinding vandaan komt: left, right, up of down (standaard up)
 Single-line diagrams	Eenlijnschema's
 Single-line pages and their multi-line counterparts	Eenlijnige pagina's en hun meerlijnige tegenhangers
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Grootte van een symbool uit de symboolbibliotheek als factor (1 = zoals getekend); de teksten behouden hun grootte en aangesloten draadeinden volgen
 Slot number	Slotnummer
 Smallest bend radius in mm	Kleinste buigradius in mm
 Smallest distance in mm	Kleinste afstand in mm
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Onbekende zijde {} (socket of pin)
 Unknown side: {}	Onbekende zijde: {}
 Unknown state: {}	Onbekende status: {}
 Unknown station kind: {}	Onbekend stationstype: {}
-Unknown symbol: {}	Onbekend symbool: {}
 Unknown table: {}	Onbekende tabel: {}
 Unknown termination: {}	Onbekende afwerking: {}
 Unknown vertical anchor: {}	Onbekend verticaal ankerpunt: {}

@@ -293,7 +293,7 @@ pub fn of_symbol<'a>(prj: &'a Project, s: &SymbolInst) -> Option<&'a FunctionDef
 /// ones of its symbol family and the project's ones with the same kind or symbol).
 pub fn fitting<'a>(prj: &'a Project, s: &SymbolInst) -> Vec<&'a FunctionDef> {
     let own = default_for_symbol(prj, &s.sym);
-    all(prj).filter(|d| d.key == own.key || d.symbol == s.sym || (d.kind == own.kind && (d.kind != FnKind::Generic || !d.builtin))).collect()
+    all(prj).filter(|d| d.key == own.key || d.symbol == s.library_key() || (d.kind == own.kind && (d.kind != FnKind::Generic || !d.builtin))).collect()
 }
 
 /// Adds or replaces a project definition.

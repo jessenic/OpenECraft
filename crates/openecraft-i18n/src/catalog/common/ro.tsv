@@ -55,6 +55,7 @@ Classes	Clase
 Clear filters	Ștergere filtre
 Clearance bottom	Distanță jos
 Clearance top	Distanță sus
+Clearances	Distanțe
 Coding: {}	Codificare: {}
 Coil voltage	Tensiunea bobinei
 Collision class	Clasă de coliziune
@@ -86,6 +87,7 @@ Cross-section	Secțiune
 Crossing	Încrucișare
 Current	Curent
 Cutout	Decupaj
+Cutouts	Decupaje
 DCavg (%)	DCavg (%)
 DWG drawing	Desen DWG
 DXF drawing	Desen DXF
@@ -343,6 +345,7 @@ Range	Domeniu
 Rated current	Curent nominal
 Rated power	Putere nominală
 Rectangle	Dreptunghi
+Rectangular	Dreptunghiular
 Reject	Respingere
 Relative humidity	Umiditate relativă
 Relay	Releu
@@ -362,6 +365,7 @@ Rework	Remaniere
 Right	Dreapta
 Role	Rol
 Rooms	Încăperi
+Round	Rotund
 Route	Traseu
 Routing	Pozare
 Rows of modules (east-west: rows of pairs)	Rânduri de module (est-vest: rânduri de perechi)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Senzori, comutatoare, butoane
 Server	Server
 Service space	Spațiu de service
 Settings	Setări
+Shape	Formă
 Short-circuit voltage	Tensiune de scurtcircuit
 Show history	Afișare istoric
 Show the row after the column	Afișare rând după coloană
@@ -454,6 +459,7 @@ Unknown property: {}	Proprietate necunoscută: {}
 Unknown scheme: {}	Schemă necunoscută: {}
 Unknown segment	Segment necunoscut
 Unknown symbol {}	Simbol necunoscut {}
+Unknown symbol: {}	Simbol necunoscut: {}
 Update	Actualizare
 Uploading {}…	Se încarcă {}…
 User	Utilizator

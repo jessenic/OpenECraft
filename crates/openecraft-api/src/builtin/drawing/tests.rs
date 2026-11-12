@@ -747,3 +747,40 @@ fn a_moved_wire_keeps_its_connection_unless_told_and_a_wire_end_leaves_it() {
     assert!(run(&mut s, "move_wire_end", json!({ "page": "1", "id": id, "end": "middle", "x": 0, "y": 0 })).unwrap_err().contains("middle"));
     assert!(run(&mut s, "move_wire_end", json!({ "page": "1", "id": 9999, "end": "from", "x": 20, "y": 20 })).is_err());
 }
+
+#[test]
+fn imported_symbols_are_scaled_with_their_wires_and_keep_their_texts() {
+    use openecraft_core::symbols::{Anchor, Prim};
+    use openecraft_core::symlib::{UserPin, UserSymbol};
+    let mut s = new_session();
+    s.project_mut().unwrap().symbols.push(UserSymbol {
+        key: "user:big".into(),
+        prims: vec![Prim::Line { a: p(0., -16.), b: p(0., 16.), dashed: false }, Prim::Text { pos: p(4., 0.), text: "BIG".into(), size: 2.5, anchor: Anchor::Left, angle: None, color: None }],
+        pins: vec![UserPin { pos: p(0., -16.), label: "1".into(), internal: false }, UserPin { pos: p(0., 16.), label: "2".into(), internal: false }],
+        ..Default::default()
+    });
+    let placed = run(&mut s, "place_symbol", json!({"page":"1","symbol":"user:big","x":80,"y":80,"tag":"-A1"})).unwrap();
+    run(&mut s, "place_symbol", json!({"page":"1","x":140,"y":80,"tag":"-K1","symbol":"coil"})).unwrap();
+    run(&mut s, "connect", json!({"page":"1","from":"-A1:1","to":"-K1:A1"})).unwrap();
+    let out = run(&mut s, "update_symbol", json!({"page":"1","id":placed["id"],"scale":0.5})).unwrap();
+    assert_eq!(out["scale"], 0.5);
+    assert_eq!((out["pins"][0]["y"].as_f64(), out["pins"][1]["y"].as_f64()), (Some(72.0), Some(88.0)));
+    let project = Project::from_json(&s.project().unwrap().to_json()).unwrap();
+    let net = openecraft_core::netlist::Netlist::build(&project, false);
+    let symbols = &project.pages[0].symbols;
+    assert_eq!(net.pin_net[&(symbols[0].id, 0)], net.pin_net[&(symbols[1].id, 0)], "the wire still ends at the connection point");
+    assert!(openecraft_core::svg::page_svg(&project, 0).contains("BIG"));
+    assert!(run(&mut s, "update_symbol", json!({"page":"1","id":placed["id"],"scale":50})).is_err(), "out of range");
+}
+
+#[test]
+fn built_in_symbols_take_their_own_scale_and_refuse_others_unchanged() {
+    let mut s = new_session();
+    let placed = run(&mut s, "place_symbol", json!({"page":"1","x":140,"y":80,"tag":"-K1","symbol":"coil"})).unwrap();
+    // The scale it reports, sent back with a move: it moves.
+    let moved = run(&mut s, "update_symbol", json!({"page":"1","id":placed["id"],"x":160,"scale":placed["scale"]})).unwrap();
+    assert_eq!((moved["x"].as_f64(), moved["scale"].as_f64()), (Some(160.0), Some(1.0)));
+    // Another scale is refused before anything changes.
+    assert!(run(&mut s, "update_symbol", json!({"page":"1","id":placed["id"],"x":200,"scale":2})).is_err());
+    assert_eq!(s.project().unwrap().pages[0].symbols[0].pos.x, 160.0);
+}

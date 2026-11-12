@@ -53,6 +53,7 @@ Classes	클래스
 Clear filters	필터 지우기
 Clearance bottom	아래쪽 이격 거리
 Clearance top	위쪽 이격 거리
+Clearances	이격 거리
 Coding: {}	코딩: {}
 Coil voltage	코일 전압
 Collision class	충돌 클래스
@@ -84,6 +85,7 @@ Cross-section	단면적
 Crossing	교차
 Current	전류
 Cutout	컷아웃
+Cutouts	컷아웃
 DCavg (%)	DCavg (%)
 DWG drawing	DWG 도면
 DXF drawing	DXF 도면
@@ -341,6 +343,7 @@ Range	범위
 Rated current	정격 전류
 Rated power	정격 전력
 Rectangle	사각형
+Rectangular	사각형
 Reject	거부
 Relative humidity	상대 습도
 Relay	릴레이
@@ -360,6 +363,7 @@ Rework	재작업
 Right	오른쪽
 Role	역할
 Rooms	방
+Round	원형
 Route	경로 설정
 Routing	배선 경로
 Rows of modules (east-west: rows of pairs)	모듈 열 (동서 방향: 쌍의 열)
@@ -384,6 +388,7 @@ Sensors, switches, pushbuttons	센서, 스위치, 푸시버튼
 Server	서버
 Service space	서비스 공간
 Settings	설정
+Shape	모양
 Short-circuit voltage	단락 전압
 Show history	기록 표시
 Show the row after the column	열 다음에 행 표시
@@ -452,6 +457,7 @@ Unknown property: {}	알 수 없는 속성: {}
 Unknown scheme: {}	알 수 없는 스키마: {}
 Unknown segment	알 수 없는 세그먼트
 Unknown symbol {}	알 수 없는 심볼 {}
+Unknown symbol: {}	알 수 없는 심볼: {}
 Update	업데이트
 Uploading {}…	{} 업로드 중…
 User	사용자

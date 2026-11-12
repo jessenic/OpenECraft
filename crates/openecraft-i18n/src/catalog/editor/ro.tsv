@@ -291,7 +291,6 @@ Circle	Cerc
 Circuits of a generic manifold	Circuitele unui distribuitor generic
 Clear	Golire
 Clearance	Distanță
-Clearances	Distanțe
 Click	Clic
 Click a text: open its link	Clic pe un text: deschiderea legăturii lui
 Click an element in the drawing to edit it.	Faceți clic pe un element din desen pentru a-l edita.
@@ -592,6 +591,7 @@ Drawing as new page	Desen ca pagină nouă
 Drawn as a connection dot; the routing stays	Desenată ca punct de conexiune; traseul rămâne
 Drawn form	Formular desenat
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Desenează șirul cu bornele și punțile sale sau cablurile cu firele lor, în locul unui tabel; coloanele formularului nu sunt folosite
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Desenează simbolul mai mare sau mai mic; textele lui își păstrează mărimea, iar conductoarele conectate îl urmează
 Drilling list (CSV)	Listă de găuri (CSV)
 Drilling list of this face (CSV)	Listă de găurire a acestei fețe (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Modelul de găurire al feței afișate ca DXF, DWG sau CSV
@@ -1492,7 +1492,6 @@ Recently used	Folosite recent
 Recommended height of manual actuators (10.1.2)	Înălțimea recomandată a elementelor de acționare manuală (10.1.2)
 Record	Înregistrare
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Înregistrare: faceți gestul în câmpul care apare, ținând apăsată o tastă modificatoare dacă doriți (Esc anulează). Adăugare păstrează gesturile existente. Clicul dreapta în instrumentul de selectare deschide meniul contextual.
-Rectangular	Dreptunghiular
 Redline: to be changed · Greenline: changed as built	Redline: de modificat · Greenline: modificat conform execuției
 Redo	Refacere
 Reference point	Punct de referință
@@ -1618,7 +1617,6 @@ Rotate	Rotire
 Rotate (selection or symbol being placed)	Rotire (selecția sau simbolul care se plasează)
 Rotate what is being moved	Rotirea a ceea ce se mută
 Rotate what is being moved counter-clockwise	Rotirea a ceea ce se mută în sens antiorar
-Round	Rotund
 Round cutouts facing each other in both side walls	Decupaje rotunde față în față în ambii pereți laterali
 Route definition of {}	Definiția traseului pentru {}
 Route network	Rețea de trasee
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Schemă de setări (JSON)
 Settings taken over: {}	Setări preluate: {}
 Settings…	Setări…
 Shafts	Puțuri
-Shape	Formă
 Share of the capacity kept free for later additions	Cota din capacitate păstrată liberă pentru extinderi ulterioare
 Shared project {} – revision {}, user {}	Proiect partajat {} – revizia {}, utilizator {}
 Shield	Ecran
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	Întoarcerea vederii 3D spre punct
 Tutorial	Tutorial
 Twin ferrules where two wires share a connection point	Manșoane duble unde două conductoare împart un punct de conexiune
 Two fingers	Două degete
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Două degete pe touchpad deplasează vederea, rotița mouse-ului mărește. Doar macOS le deosebește; în rest, derularea mărește ca rotița.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Aici trebuie să se întâlnească două fire în unghi drept. Cu conectarea automată activă, punctele de conexiune aflate în fața brațelor sale sunt cablate la el.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Introduceți un punct și apăsați Enter: x y în mm sau @dx dy relativ la ultimul punct; acționează ca un clic al instrumentului curent
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

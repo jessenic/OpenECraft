@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	케이블이 
 Side the connection comes from: left, right, up or down (default up)	연결이 들어오는 쪽: left, right, up 또는 down (기본 up)
 Single-line diagrams	단선도
 Single-line pages and their multi-line counterparts	단선 페이지 및 해당 복선 페이지
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	기호 라이브러리 기호의 크기 배율 (1 = 그린 대로). 텍스트 크기는 유지되고 연결된 전선 끝이 따라갑니다
 Slot number	슬롯 번호
 Smallest bend radius in mm	최소 굽힘 반경(mm)
 Smallest distance in mm	최소 거리(mm)
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	알 수 없는 측 {} (socket 또는 pin)
 Unknown side: {}	알 수 없는 위치: {}
 Unknown state: {}	알 수 없는 상태: {}
 Unknown station kind: {}	알 수 없는 스테이션 종류: {}
-Unknown symbol: {}	알 수 없는 심볼: {}
 Unknown table: {}	알 수 없는 표: {}
 Unknown termination: {}	알 수 없는 마감 방식: {}
 Unknown vertical anchor: {}	알 수 없는 세로 앵커: {}

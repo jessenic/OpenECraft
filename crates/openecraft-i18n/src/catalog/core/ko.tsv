@@ -323,7 +323,6 @@ Customer phone	고객 전화
 Customs tariff number	관세 번호
 Cut length (m)	절단 길이(m)
 Cut length (mm)	절단 길이(mm)
-Cutouts	컷아웃
 Cylinder	실린더
 Cylinder, double-acting	실린더, 복동식
 Cylinder, single-acting	실린더, 단동식
@@ -982,6 +981,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	회로도 페이지 한 개, IEC 60204-1의 전위
 One-way flow control valve	일방향 유량 제어 밸브
 Only revisions that are not released can be submitted	릴리스되지 않은 개정만 제출할 수 있습니다
+Only symbols of the symbol library can be scaled	기호 라이브러리의 기호만 배율을 바꿀 수 있습니다
 Only {}	{}만
 Open	미완료
 Open connection point {} ({})	열린 연결 지점 {}({})
@@ -1782,6 +1782,7 @@ Wire marker	전선 마커
 Wire no.	전선 번호
 Wire number {} is used for {} different potentials	전선 번호 {}이(가) 서로 다른 전위 {}개에 사용됨
 Wire {} – {} changed after it was wired	전선 {} – {}이(가) 배선 후 변경되었습니다
+Wires at connection points	연결 지점의 전선
 Wires, cables and tubes	전선, 케이블 및 튜브
 Wiring machine	전선 가공기
 Wiring machine job list (CSV)	전선 가공기 작업 목록(CSV)
@@ -1958,6 +1959,8 @@ yellow	노랑
 {}: PV arrays {} and {} lie over each other	{}: 태양광 어레이 {}와(과) {}이(가) 겹칩니다
 {}: \"{}\" is not one of {}	{}: \"{}\"은(는) {} 중 하나가 아닙니다
 {}: a TT system needs a residual current device	{}: TT 계통에는 누전 차단기가 필요합니다
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}: {} mm² 전선이 연결 지점이 받는 것보다 굵습니다 (최대 {} mm²)
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}: {} mm² 전선이 연결 지점이 받는 것보다 작습니다 (최소 {} mm²)
 {}: accessory {} fits none of the device's parts	{}: 액세서리 {}은(는) 장치의 어떤 부품에도 맞지 않습니다
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}: 조작부 {}이(가) 바닥에서 {} mm 높이에 있습니다. 권장 {} … {} mm
 {}: auxiliary function(s) without main function	{}: 주 기능 없는 보조 기능
@@ -1976,6 +1979,7 @@ yellow	노랑
 {}: cross-section {} below the {} mm² of power circuits	{0}: 단면적 {1}이(가) 전력 회로의 {2} mm²보다 작음
 {}: cross-section {} differs from the potential definition ({})	{0}: 단면적 {1}이(가) 전위 정의({2})와 다릅니다
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{0}: {2}에 있는 {1}의 컷아웃이 가장자리에서 {3} mm 떨어져 있습니다. 최소 {4} mm가 필요합니다
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}: {}의 {} 컷아웃이 앞면보다 {} mm 벗어납니다
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{0}: {3}에 있는 {1}과(와) {2}의 컷아웃이 너무 가깝습니다(웹 {4} mm, 최소 {5} mm)
 {}: designation '{}' used more than once	{}: 명칭 '{}'이(가) 두 번 이상 사용됨
 {}: device tag without device name	{}: 장치 이름 없는 장치 태그
@@ -2083,6 +2087,7 @@ yellow	노랑
 {}: {} stands where {} stands	{}: {}이(가) {}와(과) 같은 자리에 있습니다
 {}: {} threads on the {} are cut by hand	{0}: {2}의 나사 {1}개는 수동으로 가공합니다
 {}: {} values of undefined properties	{}: 정의되지 않은 속성의 값 {}개
+{}: {} wires end there, the connection point takes {}	{}: 이곳에 전선 {}개가 끝나지만 연결 지점은 {}개를 받습니다
 {}: {}× {} placed, assigned parts provide {}	{0}: {2} {1}× 배치됨, 지정된 부품이 {3} 제공
 {}{} has to be reworked: {}	{}{}을(를) 재작업해야 합니다: {}
 {}{} is {} mm off its position (tolerance {} mm)	{}{}이(가) 위치에서 {} mm 벗어났습니다(허용 오차 {} mm)

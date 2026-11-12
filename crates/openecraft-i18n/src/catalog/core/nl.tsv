@@ -330,7 +330,6 @@ Customer phone	Telefoon van de klant
 Customs tariff number	Douanetariefnummer
 Cut length (m)	Snijlengte (m)
 Cut length (mm)	Snijlengte (mm)
-Cutouts	Uitsparingen
 Cylinder	Cilinder
 Cylinder, double-acting	Cilinder, dubbelwerkend
 Cylinder, single-acting	Cilinder, enkelwerkend
@@ -991,6 +990,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	Eén schemapagina, de potentialen van IEC 60204-1
 One-way flow control valve	Smoorterugslagventiel
 Only revisions that are not released can be submitted	Alleen revisies die niet zijn vrijgegeven, kunnen worden ingediend
+Only symbols of the symbol library can be scaled	Alleen symbolen uit de symboolbibliotheek kunnen worden geschaald
 Only {}	Alleen {}
 Open	Open
 Open connection point {} ({})	Open aansluitpunt {} ({})
@@ -1794,6 +1794,7 @@ Wire marker	Draadmarkering
 Wire no.	Draadnr.
 Wire number {} is used for {} different potentials	Draadnummer {} wordt gebruikt voor {} verschillende potentialen
 Wire {} – {} changed after it was wired	Draad {} – {} is gewijzigd nadat deze is bedraad
+Wires at connection points	Draden op aansluitpunten
 Wires, cables and tubes	Draden, kabels en slangen
 Wiring machine	Draadbewerkingsmachine
 Wiring machine job list (CSV)	Opdrachtenlijst voor draadbewerkingsmachines (CSV)
@@ -1972,6 +1973,8 @@ yellow	geel
 {}: PV arrays {} and {} lie over each other	{}: PV-velden {} en {} liggen over elkaar
 {}: \"{}\" is not one of {}	{}: \"{}\" is niet een van {}
 {}: a TT system needs a residual current device	{}: een TT-stelsel heeft een aardlekbeveiliging nodig
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}: een draad van {} mm² is dikker dan het aansluitpunt opneemt (hoogstens {} mm²)
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}: een draad van {} mm² is dunner dan het aansluitpunt opneemt (minstens {} mm²)
 {}: accessory {} fits none of the device's parts	{}: toebehoren {} past op geen enkel artikel van het apparaat
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}: bedieningselement {} ligt {} mm boven de vloer, aanbevolen {} … {} mm
 {}: auxiliary function(s) without main function	{}: hulpfunctie(s) zonder hoofdfunctie
@@ -1990,6 +1993,7 @@ yellow	geel
 {}: cross-section {} below the {} mm² of power circuits	{}: doorsnede {} kleiner dan de {} mm² van hoofdstroomkringen
 {}: cross-section {} differs from the potential definition ({})	{}: doorsnede {} wijkt af van de potentiaaldefinitie ({})
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{}: uitsparing van {} op {} ligt {} mm van de rand, minimaal {} mm vereist
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}: uitsparing van {} op {} steekt {} mm buiten de voorkant uit
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{}: uitsparingen van {} en {} op {} liggen te dicht bij elkaar ({} mm brug, minimaal {} mm)
 {}: designation '{}' used more than once	{}: benaming '{}' meer dan eens gebruikt
 {}: device tag without device name	{}: apparaataanduiding zonder apparaatnaam
@@ -2099,6 +2103,7 @@ yellow	geel
 {}: {} stands where {} stands	{}: {} staat waar {} staat
 {}: {} threads on the {} are cut by hand	{}: {} schroefdraden op {} worden handmatig getapt
 {}: {} values of undefined properties	{}: {} waarden van niet-gedefinieerde eigenschappen
+{}: {} wires end there, the connection point takes {}	{}: daar eindigen {} draden, het aansluitpunt neemt er {} op
 {}: {}× {} placed, assigned parts provide {}	{}: {}× {} geplaatst, toegewezen artikelen bieden {}
 {}{} has to be reworked: {}	{}{} moet worden nabewerkt: {}
 {}{} is {} mm off its position (tolerance {} mm)	{}{} wijkt {} mm af van zijn positie (tolerantie {} mm)

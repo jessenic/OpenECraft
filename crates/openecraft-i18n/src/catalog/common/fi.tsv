@@ -55,6 +55,7 @@ Classes	Luokat
 Clear filters	Tyhjennä suodattimet
 Clearance bottom	Etäisyys alhaalla
 Clearance top	Etäisyys ylhäällä
+Clearances	Etäisyydet
 Coding: {}	Koodaus: {}
 Coil voltage	Kelan jännite
 Collision class	Törmäysluokka
@@ -86,6 +87,7 @@ Cross-section	Poikkipinta-ala
 Crossing	Risteys
 Current	Virta
 Cutout	Aukko
+Cutouts	Aukot
 DCavg (%)	DCavg (%)
 DWG drawing	DWG-piirustus
 DXF drawing	DXF-piirustus
@@ -343,6 +345,7 @@ Range	Alue
 Rated current	Mitoitusvirta
 Rated power	Mitoitusteho
 Rectangle	Suorakulmio
+Rectangular	Suorakulmainen
 Reject	Hylkää
 Relative humidity	Suhteellinen kosteus
 Relay	Rele
@@ -362,6 +365,7 @@ Rework	Jälkityö
 Right	Oikea
 Role	Rooli
 Rooms	Tilat
+Round	Pyöreä
 Route	Reititä
 Routing	Reititys
 Rows of modules (east-west: rows of pairs)	Moduulirivit (itä-länsi: paririvit)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Anturit, kytkimet, painikkeet
 Server	Palvelin
 Service space	Huoltotila
 Settings	Asetukset
+Shape	Muoto
 Short-circuit voltage	Oikosulkujännite
 Show history	Näytä historia
 Show the row after the column	Näytä rivi sarakkeen jälkeen
@@ -454,6 +459,7 @@ Unknown property: {}	Tuntematon ominaisuus: {}
 Unknown scheme: {}	Tuntematon skeema: {}
 Unknown segment	Tuntematon segmentti
 Unknown symbol {}	Tuntematon symboli {}
+Unknown symbol: {}	Tuntematon symboli: {}
 Update	Päivitä
 Uploading {}…	Ladataan {} palvelimelle…
 User	Käyttäjä

@@ -55,6 +55,7 @@ Classes	Klasser
 Clear filters	Ryd filtre
 Clearance bottom	Afstand nederst
 Clearance top	Afstand øverst
+Clearances	Afstande
 Coding: {}	Kodning: {}
 Coil voltage	Spolespænding
 Collision class	Kollisionsklasse
@@ -86,6 +87,7 @@ Cross-section	Tværsnit
 Crossing	Krydsning
 Current	Strøm
 Cutout	Udskæring
+Cutouts	Udskæringer
 DCavg (%)	DCavg (%)
 DWG drawing	DWG-tegning
 DXF drawing	DXF-tegning
@@ -343,6 +345,7 @@ Range	Område
 Rated current	Mærkestrøm
 Rated power	Mærkeeffekt
 Rectangle	Rektangel
+Rectangular	Rektangulær
 Reject	Afvis
 Relative humidity	Relativ luftfugtighed
 Relay	Relæ
@@ -362,6 +365,7 @@ Rework	Efterbearbejdning
 Right	Højre
 Role	Rolle
 Rooms	Rum
+Round	Rund
 Route	Før
 Routing	Føring
 Rows of modules (east-west: rows of pairs)	Modulrækker (øst-vest: rækker af par)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Sensorer, afbrydere, trykknapper
 Server	Server
 Service space	Serviceområde
 Settings	Indstillinger
+Shape	Form
 Short-circuit voltage	Kortslutningsspænding
 Show history	Vis historik
 Show the row after the column	Vis rækken efter kolonnen
@@ -454,6 +459,7 @@ Unknown property: {}	Ukendt egenskab: {}
 Unknown scheme: {}	Ukendt skema: {}
 Unknown segment	Ukendt segment
 Unknown symbol {}	Ukendt symbol {}
+Unknown symbol: {}	Ukendt symbol: {}
 Update	Opdater
 Uploading {}…	Uploader {}…
 User	Bruger

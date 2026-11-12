@@ -58,6 +58,7 @@ Classes	Klassen	Classes	Clases
 Clear filters	Filter zurücksetzen	Effacer les filtres	Borrar filtros
 Clearance bottom	Abstand unten	Dégagement en bas	Distancia inferior
 Clearance top	Abstand oben	Dégagement en haut	Distancia superior
+Clearances	Abstände	Distances	Distancias
 Coding: {}	Kodierung: {}	Codage : {}	Codificación: {}
 Coil voltage	Spulenspannung	Tension de bobine	Tensión de bobina
 Collision class	Kollisionsklasse	Classe de collision	Clase de colisión
@@ -90,6 +91,7 @@ Cross-section	Querschnitt	Section	Sección
 Crossing	Kreuzung	Croisement	Cruce
 Current	Strom	Courant	Corriente
 Cutout	Ausschnitt	Découpe	Recorte
+Cutouts	Ausschnitte	Découpes	Recortes
 DCavg (%)	DCavg (%)	DCavg (%)	DCavg (%)
 DWG drawing	DWG-Zeichnung	Dessin DWG	Dibujo DWG
 DXF drawing	DXF-Zeichnung	Dessin DXF	Dibujo DXF
@@ -357,6 +359,7 @@ Range	Bereich	Plage	Rango
 Rated current	Bemessungsstrom	Courant assigné	Corriente nominal
 Rated power	Bemessungsleistung	Puissance assignée	Potencia nominal
 Rectangle	Rechteck	Rectangle	Rectángulo
+Rectangular	Rechteckig	Rectangulaire	Rectangular
 Reject	Ablehnen	Refuser	Rechazar
 Relative humidity	Relative Luftfeuchte	Humidité relative	Humedad relativa
 Relay	Relais	Relais	Relé
@@ -376,6 +379,7 @@ Rework	Nacharbeit	Reprise	Retrabajo
 Right	Rechts	Droite	Derecha
 Role	Rolle	Rôle	Rol
 Rooms	Räume	Salles	Salas
+Round	Rund	Rond	Redondo
 Route	Führen	Router	Trazar
 Routing	Verlegung	Cheminement	Tendido
 Rows of modules (east-west: rows of pairs)	Modulreihen (Ost-West: Reihen von Paaren)	Rangées de modules (est-ouest : rangées de paires)	Filas de módulos (este-oeste: filas de pares)
@@ -400,6 +404,7 @@ Sensors, switches, pushbuttons	Sensorik, Schalter und Taster	Capteurs, interrupt
 Server	Server	Serveur	Servidor
 Service space	Serviceraum	Espace de service	Espacio de servicio
 Settings	Einstellungen	Paramètres	Ajustes
+Shape	Form	Forme	Forma
 Short-circuit voltage	Kurzschlussspannung	Tension de court-circuit	Tensión de cortocircuito
 Show history	Verlauf anzeigen	Afficher l'historique	Mostrar historial
 Show the row after the column	Zeile nach der Spalte anzeigen	Afficher la ligne après la colonne	Mostrar la fila después de la columna
@@ -469,6 +474,7 @@ Unknown property: {}	Unbekannte Eigenschaft: {}	Propriété inconnue : {}	Propie
 Unknown scheme: {}	Unbekanntes Schema: {}	Schéma inconnu : {}	Esquema desconocido: {}
 Unknown segment	Unbekanntes Segment	Segment inconnu	Segmento desconocido
 Unknown symbol {}	Unbekanntes Symbol {}	Symbole inconnu {}	Símbolo desconocido {}
+Unknown symbol: {}	Unbekanntes Symbol: {}	Symbole inconnu : {}	Símbolo desconocido: {}
 Update	Aktualisieren	Mettre à jour	Actualizar
 Uploading {}…	{} wird hochgeladen…	Envoi de {}…	Subiendo {}…
 User	Benutzer	Utilisateur	Usuario

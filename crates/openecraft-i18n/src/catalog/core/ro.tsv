@@ -330,7 +330,6 @@ Customer phone	Telefonul clientului
 Customs tariff number	Cod tarifar vamal
 Cut length (m)	Lungime de tăiere (m)
 Cut length (mm)	Lungime de tăiere (mm)
-Cutouts	Decupaje
 Cylinder	Cilindru
 Cylinder, double-acting	Cilindru cu dublu efect
 Cylinder, single-acting	Cilindru cu simplu efect
@@ -991,6 +990,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	O pagină de schemă, potențialele conform IEC 60204-1
 One-way flow control valve	Supapă de reglare a debitului unidirecțională
 Only revisions that are not released can be submitted	Pot fi trimise doar reviziile care nu sunt aprobate
+Only symbols of the symbol library can be scaled	Doar simbolurile din biblioteca de simboluri pot fi scalate
 Only {}	Doar {}
 Open	Deschis
 Open connection point {} ({})	Punct de conexiune deschis {} ({})
@@ -1794,6 +1794,7 @@ Wire marker	Marcaj de conductor
 Wire no.	Nr. conductor
 Wire number {} is used for {} different potentials	Numărul de conductor {} este folosit pentru {} potențiale diferite
 Wire {} – {} changed after it was wired	Conductorul {} – {} a fost modificat după cablare
+Wires at connection points	Conductoare la punctele de conexiune
 Wires, cables and tubes	Conductoare, cabluri și tuburi
 Wiring machine	Automat de prelucrare a conductoarelor
 Wiring machine job list (CSV)	Listă de lucrări pentru automatul de prelucrare a conductoarelor (CSV)
@@ -1972,6 +1973,8 @@ yellow	galben
 {}: PV arrays {} and {} lie over each other	{}: câmpurile fotovoltaice {} și {} se suprapun
 {}: \"{}\" is not one of {}	{}: \"{}\" nu este una dintre {}
 {}: a TT system needs a residual current device	{}: un sistem TT necesită un dispozitiv diferențial rezidual
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}: un conductor de {} mm² este mai gros decât primește punctul de conexiune (cel mult {} mm²)
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}: un conductor de {} mm² este mai subțire decât primește punctul de conexiune (cel puțin {} mm²)
 {}: accessory {} fits none of the device's parts	{}: accesoriul {} nu se potrivește cu niciun articol al aparatului
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}: elementul de acționare {} este la {} mm deasupra podelei, recomandat {} … {} mm
 {}: auxiliary function(s) without main function	{}: funcție (funcții) auxiliară (auxiliare) fără funcție principală
@@ -1990,6 +1993,7 @@ yellow	galben
 {}: cross-section {} below the {} mm² of power circuits	{}: secțiunea {} este sub cei {} mm² ai circuitelor de putere
 {}: cross-section {} differs from the potential definition ({})	{}: secțiunea {} diferă de definiția potențialului ({})
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{}: decupajul {} pe {} este la {} mm de margine, sunt necesari cel puțin {} mm
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}: decupajul pentru {} pe {} depășește fața sa cu {} mm
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{}: decupajele {} și {} pe {} sunt prea apropiate (punte de material de {} mm, cel puțin {} mm)
 {}: designation '{}' used more than once	{}: denumirea '{}' este folosită de mai multe ori
 {}: device tag without device name	{}: identificator de dispozitiv fără nume de dispozitiv
@@ -2099,6 +2103,7 @@ yellow	galben
 {}: {} stands where {} stands	{}: {} stă acolo unde stă {}
 {}: {} threads on the {} are cut by hand	{}: {} filete pe {} sunt executate manual
 {}: {} values of undefined properties	{}: {} valori ale unor proprietăți nedefinite
+{}: {} wires end there, the connection point takes {}	{}: acolo se termină {} conductoare, punctul de conexiune primește {}
 {}: {}× {} placed, assigned parts provide {}	{}: {}× {} plasate, articolele atribuite oferă {}
 {}{} has to be reworked: {}	{}{} trebuie remaniat: {}
 {}{} is {} mm off its position (tolerance {} mm)	{}{} se abate cu {} mm de la poziția sa (toleranță {} mm)

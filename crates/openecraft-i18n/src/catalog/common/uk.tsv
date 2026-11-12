@@ -55,6 +55,7 @@ Classes	Класи
 Clear filters	Скинути фільтри
 Clearance bottom	Відстань знизу
 Clearance top	Відстань згори
+Clearances	Відстані
 Coding: {}	Кодування: {}
 Coil voltage	Напруга котушки
 Collision class	Клас колізій
@@ -86,6 +87,7 @@ Cross-section	Переріз
 Crossing	Перехрестя
 Current	Струм
 Cutout	Виріз
+Cutouts	Вирізи
 DCavg (%)	DCavg (%)
 DWG drawing	Креслення DWG
 DXF drawing	Креслення DXF
@@ -343,6 +345,7 @@ Range	Діапазон
 Rated current	Номінальний струм
 Rated power	Номінальна потужність
 Rectangle	Прямокутник
+Rectangular	Прямокутний
 Reject	Відхилити
 Relative humidity	Відносна вологість
 Relay	Реле
@@ -362,6 +365,7 @@ Rework	Доопрацювання
 Right	Праворуч
 Role	Роль
 Rooms	Приміщення
+Round	Круглий
 Route	Обхід
 Routing	Прокладання
 Rows of modules (east-west: rows of pairs)	Ряди модулів (схід-захід: ряди пар)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Датчики, перемикачі, кнопк�
 Server	Сервер
 Service space	Простір для обслуговування
 Settings	Параметри
+Shape	Форма
 Short-circuit voltage	Напруга короткого замикання
 Show history	Показати журнал
 Show the row after the column	Показувати рядок після стовпця
@@ -454,6 +459,7 @@ Unknown property: {}	Невідома властивість: {}
 Unknown scheme: {}	Невідома схема: {}
 Unknown segment	Невідомий сегмент
 Unknown symbol {}	Невідомий символ {}
+Unknown symbol: {}	Невідомий символ: {}
 Update	Оновити
 Uploading {}…	Вивантаження {}…
 User	Користувач

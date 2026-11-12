@@ -291,7 +291,6 @@ Circle	Círculo
 Circuits of a generic manifold	Circuitos de um coletor genérico
 Clear	Limpar
 Clearance	Folga
-Clearances	Distâncias
 Click	Clique
 Click a text: open its link	Clique em um texto: abrir seu link
 Click an element in the drawing to edit it.	Clique em um elemento do desenho para editá-lo.
@@ -592,6 +591,7 @@ Drawing as new page	Desenho como nova página
 Drawn as a connection dot; the routing stays	Desenhada como ponto de conexão; o encaminhamento permanece
 Drawn form	Formulário desenhado
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Desenha a régua com seus bornes e pontes, ou os cabos com suas veias, em vez de uma tabela; as colunas do formulário não são usadas
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Desenha o símbolo maior ou menor; seus textos mantêm o tamanho e os fios conectados acompanham
 Drilling list (CSV)	Lista de furação (CSV)
 Drilling list of this face (CSV)	Lista de furação desta face (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Padrão de furação da face exibida como DXF, DWG ou CSV
@@ -1492,7 +1492,6 @@ Recently used	Usados recentemente
 Recommended height of manual actuators (10.1.2)	Altura recomendada de atuadores manuais (10.1.2)
 Record	Gravar
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Gravar: faça o gesto no campo que aparece, mantendo uma tecla modificadora se quiser (Esc cancela). Adicionar mantém os gestos existentes. O clique direito na ferramenta de seleção abre o menu de contexto.
-Rectangular	Retangular
 Redline: to be changed · Greenline: changed as built	Redline: a alterar · Greenline: alterado conforme construído
 Redo	Refazer
 Reference point	Ponto de referência
@@ -1618,7 +1617,6 @@ Rotate	Girar
 Rotate (selection or symbol being placed)	Girar (seleção ou símbolo sendo posicionado)
 Rotate what is being moved	Girar o que está sendo movido
 Rotate what is being moved counter-clockwise	Girar o que está sendo movido no sentido anti-horário
-Round	Redondo
 Round cutouts facing each other in both side walls	Recortes redondos frente a frente nas duas paredes laterais
 Route definition of {}	Definição de rota de {}
 Route network	Rede de rotas
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Esquema de configurações (JSON)
 Settings taken over: {}	Configurações adotadas: {}
 Settings…	Configurações…
 Shafts	Shafts
-Shape	Forma
 Share of the capacity kept free for later additions	Parcela da capacidade mantida livre para futuras ampliações
 Shared project {} – revision {}, user {}	Projeto compartilhado {} – revisão {}, usuário {}
 Shield	Blindagem
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	Girar a vista 3D para o ponto
 Tutorial	Tutorial
 Twin ferrules where two wires share a connection point	Terminais tubulares duplos onde dois fios compartilham um ponto de conexão
 Two fingers	Dois dedos
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dois dedos no trackpad movem a vista, a roda do mouse aplica zoom. Só o macOS distingue os dois; nos outros sistemas a rolagem aplica zoom como a roda.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Aqui devem encontrar-se dois fios em ângulo reto. Com a autoconexão ativa, os pontos de conexão voltados para os seus braços são ligados a ele.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Digite um ponto e pressione Enter: x y em mm ou @dx dy em relação ao último ponto; funciona como um clique da ferramenta atual
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

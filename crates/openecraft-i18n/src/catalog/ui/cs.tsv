@@ -9,6 +9,7 @@ Accessories of this part	Příslušenství tohoto dílu
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Příslušenství funguje jen s díly, ke kterým se hodí. Díl uvádí své příslušenství, příslušenství díly, ke kterým se hodí; stačí jedna strana.
 Accessory, mounted: {}	Příslušenství, montáž: {}
 Add connection point	Přidat přípojný bod
+Add cutout	Přidat výřez
 Add function	Přidat funkci
 Add marked parts to the parts database ({})	Přidat označené artikly do databáze artiklů ({})
 Add to the parts database	Přidat do databáze artiklů
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Připojte se k serveru artiklů a vyhledávejte.
 Connected: {} {} – {} parts, revision {}, {}	Připojeno: {} {} – artikly: {}, revize {}, {}
 Connection designations	Označení přípojů
+Corner radius	Poloměr rohu
 Datasheet (URL)	Katalogový list (URL)
 Deleted catalog {}	Katalog {} odstraněn
 Deleted part {}	Artikl {} odstraněn
 Deleted user {}	Uživatel {} odstraněn
 Deleting {}…	Odstraňování {}…
 Dimensions	Rozměry
+Door cutouts	Výřezy ve dveřích
 Downloaded {} ({} bytes)	Staženo {} ({} bajtů)
 Downloading parts…	Stahování artiklů…
 Drag it onto a schematic page to place it	Přetažením na stránku schématu jej umístíte
@@ -49,14 +52,19 @@ Group by	Seskupit podle
 Identifying letter of devices using this part (K, Q, S …)	Kódové písmeno přístrojů s tímto artiklem (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	Importovat STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	Importovat SVG…
+In the door, when they differ from the cutouts	Ve dveřích, pokud se liší od výřezů
 Internal values of the EPLAN part exchange (0: undefined)	Interní hodnoty výměny artiklů EPLAN (0: nedefinováno)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Funguje jen připevněné k jednomu z dílů, ke kterým se hodí; kontrola projektu je hlásí u přístroje bez takového dílu
+Largest conductor the clamp takes (0: not known)	Největší vodič, který svorka pojme (0: neznámý)
 Loaded {} parts (revision {})	Načteno artiklů: {} (revize {})
 Loading catalogs…	Načítání katalogů…
 Loading favorites…	Načítání oblíbených…
 Loading the history…	Načítání historie…
 Loading users…	Načítání uživatelů…
 Mark for adding to the parts database	Označit k přidání do databáze artiklů
+Max. mm²	Max. mm²
+Min. mm²	Min. mm²
+Most wires the clamp takes (0: not known)	Nejvyšší počet vodičů, které svorka pojme (0: neznámý)
 Mounted directly on the wall or ceiling of a room	Montováno přímo na stěnu nebo strop místnosti
 Moves lines such as Power loss: 3 W into the typed fields	Přesune řádky jako Power loss: 3 W do typovaných polí
 No own connection points – the generated ones are shown.	Žádné vlastní přípojné body – zobrazují se vygenerované.
@@ -73,9 +81,11 @@ Pans (trackpad)	Posouvá (touchpad)
 Parts server: {}	Server artiklů: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikly, ze kterých je tento artikl sestaven; kusovník je uvádí pod ním
 Personal access token	Osobní přístupový token
+Picture	Obrázek
 Place by clicking into the view	Umístit kliknutím do pohledu
 Prices / other	Ceny / ostatní
 Remove all	Odebrat vše
+Remove picture	Odebrat obrázek
 Removing the file…	Odebírání souboru…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Nahradí přípojné body podle konvence IEC: lichá označení nahoře, sudá dole
 Reset filter	Obnovit filtr
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Vyberte řádek a pak jej kl
 Server revision	Revize serveru
 Signed out	Odhlášeno
 Signing out…	Odhlašování…
+Smallest conductor the clamp takes (0: not known)	Nejmenší vodič, který svorka pojme (0: neznámý)
 Stands on the floor of a room	Stojí na podlaze místnosti
 Stands on the floor of a room, like pumps, tanks and compressors	Stojí na podlaze místnosti, jako čerpadla, nádrže a kompresory
 Successor {}	Nástupce {}
@@ -112,7 +123,10 @@ Voltage / current	Napětí / proud
 WALL	STĚNA
 Wall mounting	Montáž na stěnu
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Kde příslušenství sedí na dílu, ke kterému se hodí, v rozvržení rozváděče a ve 3D zobrazení
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Poloha výřezů: střed od středu čelního pohledu (x doprava, y dolů), natočení proti směru hodinových ručiček.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Kde se vodiče v rozvržení rozváděče připojují: označení jako v šabloně funkce, poloha v čelním pohledu (x zleva, y shora, z nad montážní plochou) a směr, kterým vodič odchází. Artikly bez vlastních přípojných bodů je dostanou ze šablony funkce.
+Width / Ø	Šířka / Ø
+Wire connection	Připojení vodičů
 Wire leaves	Vývod vodiče
 Zoom only	Jen přibližovat
 Zooms (mouse wheel)	Přibližuje (kolečko myši)
@@ -120,6 +134,7 @@ changes with token	změny s tokenem
 created in your EPLAN account (ePulse)	vytvořený ve vašem účtu EPLAN (ePulse)
 down	dolů
 e.g. 25.4 for models in inch, 1000 for models in metres	např. 25,4 pro modely v palcích, 1000 pro modely v metrech
+from {} mm²	od {} mm²
 no 2D model	žádný 2D model
 no mounting data	žádná montážní data
 none – a box of the mounting dimensions is drawn	žádný – vykreslí se kvádr s montážními rozměry
@@ -129,17 +144,25 @@ read-only	jen pro čtení
 signed in as {} ({})	přihlášen jako {} ({})
 to the front	dopředu
 up	nahoru
+up to {} mm²	do {} mm²
 {} (changed {})	{} (změněno {})
 {} catalogs	Katalogy: {}
 {} changes of part {}	Změny artiklu {1}: {0}
 {} connection points	Přípojné body: {}
 {} favorites	Oblíbené: {}
+{} mm above	{} mm nahoře
+{} mm below	{} mm dole
+{} mm in front	{} mm vpředu
+{} mm left	{} mm vlevo
+{} mm right	{} mm vpravo
 {} of {} parts	{} z {} artiklů
 {} parts found	Nalezené artikly: {}
 {} users	Uživatelé: {}
+{} wires per connection point	{} vodičů na přípojný bod
 {} × {} mm, {} elements	{} × {} mm, prvky: {}
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, trojúhelníky: {}
+{}, {} wires per connection point	{}, {} vodičů na přípojný bod
 {}: 2D front view with {} elements assigned to {}	{}: 2D čelní pohled s prvky ({}) přiřazen k {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: 3D model s trojúhelníky ({}, {} × {} × {} mm) přiřazen k {}
 ★ Favorites	★ Oblíbené

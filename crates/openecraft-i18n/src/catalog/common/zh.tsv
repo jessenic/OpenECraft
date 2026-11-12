@@ -53,6 +53,7 @@ Classes	类别
 Clear filters	清除筛选器
 Clearance bottom	底部间距
 Clearance top	顶部间距
+Clearances	间距
 Coding: {}	编码：{}
 Coil voltage	线圈电压
 Collision class	碰撞类别
@@ -84,6 +85,7 @@ Cross-section	截面积
 Crossing	交叉
 Current	电流
 Cutout	开孔
+Cutouts	开孔
 DCavg (%)	DCavg (%)
 DWG drawing	DWG 图纸
 DXF drawing	DXF 图纸
@@ -341,6 +343,7 @@ Range	范围
 Rated current	额定电流
 Rated power	额定功率
 Rectangle	矩形
+Rectangular	矩形
 Reject	拒绝
 Relative humidity	相对湿度
 Relay	继电器
@@ -360,6 +363,7 @@ Rework	返工
 Right	右
 Role	角色
 Rooms	房间
+Round	圆形
 Route	布线
 Routing	布线
 Rows of modules (east-west: rows of pairs)	组件行数（东西向：成对的行）
@@ -384,6 +388,7 @@ Sensors, switches, pushbuttons	传感器、开关、按钮
 Server	服务器
 Service space	维护空间
 Settings	设置
+Shape	形状
 Short-circuit voltage	短路电压
 Show history	显示历史记录
 Show the row after the column	在列后显示行
@@ -452,6 +457,7 @@ Unknown property: {}	未知属性：{}
 Unknown scheme: {}	未知方案：{}
 Unknown segment	未知规划段
 Unknown symbol {}	未知符号 {}
+Unknown symbol: {}	未知符号：{}
 Update	更新
 Uploading {}…	正在上传 {}…
 User	用户

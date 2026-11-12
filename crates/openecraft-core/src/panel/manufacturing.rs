@@ -16,8 +16,9 @@ fn opening_distance(o: &Opening, q: crate::geom::P) -> f32 {
     if o.round {
         return q.dist(o.center) - o.w / 2.0;
     }
-    let dx = (q.x - o.center.x).abs() - o.w / 2.0;
-    let dy = (q.y - o.center.y).abs() - o.h / 2.0;
+    let l = o.local(q);
+    let dx = l.x.abs() - o.w / 2.0;
+    let dy = l.y.abs() - o.h / 2.0;
     if dx > 0.0 && dy > 0.0 {
         (dx * dx + dy * dy).sqrt()
     } else {
@@ -26,13 +27,14 @@ fn opening_distance(o: &Opening, q: crate::geom::P) -> f32 {
 }
 
 /// Free web between two openings (approximated by their bounding boxes for round
-/// ones against rectangular ones).
+/// ones against rectangular ones, and for turned ones).
 fn opening_gap(a: &Opening, b: &Opening) -> f32 {
     if a.round && b.round {
         return a.center.dist(b.center) - (a.w + b.w) / 2.0;
     }
-    let dx = (a.center.x - b.center.x).abs() - (a.w + b.w) / 2.0;
-    let dy = (a.center.y - b.center.y).abs() - (a.h + b.h) / 2.0;
+    let (ra, rb) = (a.bounds(), b.bounds());
+    let dx = (ra.center().x - rb.center().x).abs() - (ra.width() + rb.width()) / 2.0;
+    let dy = (ra.center().y - rb.center().y).abs() - (ra.height() + rb.height()) / 2.0;
     if dx > 0.0 && dy > 0.0 {
         (dx * dx + dy * dy).sqrt()
     } else {
@@ -105,19 +107,36 @@ pub(super) fn check(prj: &Project, e: &Enclosure, push: &mut impl FnMut(CheckKin
                 }
             }
         }
+        // The free edge of the door and the walls (frame, reinforcement, hinges) takes no
+        // cutout either.
+        let edge_web = if matches!(face, Face::Plate | Face::Bottom | Face::Roof) { rules.cutout_web } else { rules.cutout_web.max(e.flange()) };
         for (i, o) in opens.iter().enumerate() {
             let d = if o.round {
                 edge(o.center) - o.w / 2.0
             } else {
-                (o.center.x - o.w / 2.0).min(o.center.y - o.h / 2.0).min(fw - o.center.x - o.w / 2.0).min(fh - o.center.y - o.h / 2.0)
+                let b = o.bounds();
+                b.min.x.min(b.min.y).min(fw - b.max.x).min(fh - b.max.y)
             };
-            if d < rules.cutout_web - 0.01 {
+            if d < edge_web - 0.01 {
                 push(
                     m,
                     Severity::Warning,
                     vec![o.item],
-                    tr_fmt!("{}: cutout of {} on the {} is {} mm from the edge, at least {} mm required", e.name, name(o.item), face.title(), mm(d.max(0.0)), mm(rules.cutout_web)),
+                    tr_fmt!("{}: cutout of {} on the {} is {} mm from the edge, at least {} mm required", e.name, name(o.item), face.title(), mm(d.max(0.0)), mm(edge_web)),
                 );
+            }
+            // The front of a device or accessory covers its cutout.
+            if let Some(it) = e.item(o.item).filter(|it| matches!(it.kind, ItemKind::Device | ItemKind::Accessory)) {
+                let b = o.bounds();
+                let beyond = (it.x - b.min.x).max(it.y - b.min.y).max(b.max.x - (it.x + it.w)).max(b.max.y - (it.y + it.h));
+                if beyond > 0.05 {
+                    push(
+                        m,
+                        Severity::Warning,
+                        vec![o.item],
+                        tr_fmt!("{}: cutout of {} on the {} reaches {} mm beyond its front", e.name, name(o.item), face.title(), mm(beyond)),
+                    );
+                }
             }
             for q in opens[i + 1..].iter().filter(|q| q.item != o.item) {
                 let web = opening_gap(o, q);

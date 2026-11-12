@@ -650,8 +650,8 @@ fn own_connection_points_make_exact_ends() {
     let before = Analysis::checked(&prj).wiring;
     let part = prj.parts.iter_mut().find(|p| p.number == "GEN.MCB-1P-C6").unwrap();
     part.connection_points = vec![
-        crate::parts::ConnectionPoint { pin: "1".into(), pos: [9.0, 0.0, 10.0], exit: Exit::Up },
-        crate::parts::ConnectionPoint { pin: "2".into(), pos: [9.0, 90.0, 10.0], exit: Exit::Down },
+        crate::parts::ConnectionPoint { pin: "1".into(), pos: [9.0, 0.0, 10.0], exit: Exit::Up, ..Default::default() },
+        crate::parts::ConnectionPoint { pin: "2".into(), pos: [9.0, 90.0, 10.0], exit: Exit::Down, ..Default::default() },
     ];
     let after = Analysis::checked(&prj).wiring;
     let f1 = |w: &&RoutedWire| w.from.starts_with("-F1:") || w.to.starts_with("-F1:");

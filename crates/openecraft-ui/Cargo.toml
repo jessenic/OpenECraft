@@ -18,6 +18,7 @@ openecraft-step = { path = "../openecraft-step" }
 openecraft-jt = { path = "../openecraft-jt" }
 openecraft-i18n = { path = "../openecraft-i18n" }
 openecraft-fonts = { path = "../openecraft-fonts" }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"

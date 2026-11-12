@@ -9,6 +9,7 @@ Accessories of this part	この部品のアクセサリ
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	アクセサリは適合する部品と組み合わせた場合にのみ機能します。部品はそのアクセサリを、アクセサリは適合する部品を示します。どちらか一方だけで足ります。
 Accessory, mounted: {}	アクセサリ、取付: {}
 Add connection point	接続ポイントを追加
+Add cutout	切り欠きを追加
 Add function	機能を追加
 Add marked parts to the parts database ({})	マークした部品を部品データベースに追加 ({})
 Add to the parts database	部品データベースに追加
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	部品サーバーに接続して検索してください。
 Connected: {} {} – {} parts, revision {}, {}	接続済み: {} {} – 部品 {} 個、リビジョン {}、{}
 Connection designations	接続名称
+Corner radius	角の半径
 Datasheet (URL)	データシート (URL)
 Deleted catalog {}	カタログ {} を削除しました
 Deleted part {}	部品 {} を削除しました
 Deleted user {}	ユーザー {} を削除しました
 Deleting {}…	{} を削除中…
 Dimensions	寸法
+Door cutouts	扉の切り欠き
 Downloaded {} ({} bytes)	{} をダウンロードしました ({} バイト)
 Downloading parts…	部品をダウンロード中…
 Drag it onto a schematic page to place it	回路図ページにドラッグして配置
@@ -49,14 +52,19 @@ Group by	グループ化
 Identifying letter of devices using this part (K, Q, S …)	この部品を使用するデバイスの識別文字 (K、Q、S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	STL / OBJ / STEP / IGES / IFC / JT をインポート…
 Import SVG…	SVG をインポート…
+In the door, when they differ from the cutouts	扉で、切り欠きと異なる場合
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN 部品交換の内部値 (0: 未定義)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	適合する部品のいずれかに取り付けた場合にのみ機能します。そのような部品のない機器ではプロジェクトチェックが報告します
+Largest conductor the clamp takes (0: not known)	端子が接続できる最大の導体（0：不明）
 Loaded {} parts (revision {})	{} 個の部品を読み込みました (リビジョン {})
 Loading catalogs…	カタログを読み込んでいます…
 Loading favorites…	お気に入りを読み込んでいます…
 Loading the history…	履歴を読み込んでいます…
 Loading users…	ユーザーを読み込んでいます…
 Mark for adding to the parts database	部品データベースへの追加対象としてマーク
+Max. mm²	最大 mm²
+Min. mm²	最小 mm²
+Most wires the clamp takes (0: not known)	端子が接続できる電線の最大数（0：不明）
 Mounted directly on the wall or ceiling of a room	部屋の壁または天井に直接取り付け
 Moves lines such as Power loss: 3 W into the typed fields	Power loss: 3 W のような行を型付きフィールドに移動します
 No own connection points – the generated ones are shown.	独自の接続ポイントはありません – 生成された接続ポイントを表示しています。
@@ -73,9 +81,11 @@ Pans (trackpad)	パン（トラックパッド）
 Parts server: {}	部品サーバー: {}
 Parts this part is assembled from; the bill of materials lists them under it	この部品を構成する部品。部品表ではその下に表示されます
 Personal access token	個人用アクセストークン
+Picture	画像
 Place by clicking into the view	ビュー内をクリックして配置
 Prices / other	価格 / その他
 Remove all	すべて削除
+Remove picture	画像を削除
 Removing the file…	ファイルを削除しています…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	IEC の規則で接続ポイントを置き換えます: 奇数の名称を上、偶数の名称を下に配置
 Reset filter	フィルターをリセット
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	行を選択し、ビュー�
 Server revision	サーバーのリビジョン
 Signed out	サインアウトしました
 Signing out…	サインアウトしています…
+Smallest conductor the clamp takes (0: not known)	端子が接続できる最小の導体（0：不明）
 Stands on the floor of a room	部屋の床に設置
 Stands on the floor of a room, like pumps, tanks and compressors	ポンプ、タンク、コンプレッサーなど、部屋の床に設置
 Successor {}	後継品 {}
@@ -112,7 +123,10 @@ Voltage / current	電圧 / 電流
 WALL	壁
 Wall mounting	壁取付
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	適合する部品上でのアクセサリの位置（盤レイアウトと 3D ビュー）
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	切り欠きの位置：正面図の中心からの中心点（x は右、y は下）、回転は反時計回り。
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	盤レイアウトで電線が接続される場所: 機能テンプレートと同じ名称、正面図での位置 (x は左から、y は上から、z は取付面からの高さ)、電線が出る方向。独自の接続ポイントを持たない部品は、機能テンプレートから接続ポイントを取得します。
+Width / Ø	幅 / Ø
+Wire connection	電線の接続
 Wire leaves	電線の出る方向
 Zoom only	ズームのみ
 Zooms (mouse wheel)	ズーム（マウスホイール）
@@ -120,6 +134,7 @@ changes with token	トークンで変更可能
 created in your EPLAN account (ePulse)	EPLAN アカウント (ePulse) で作成
 down	下
 e.g. 25.4 for models in inch, 1000 for models in metres	例: インチ単位のモデルは 25.4、メートル単位のモデルは 1000
+from {} mm²	{} mm² 以上
 no 2D model	2D モデルなし
 no mounting data	取付データなし
 none – a box of the mounting dimensions is drawn	なし – 取付寸法の直方体が描画されます
@@ -129,17 +144,25 @@ read-only	読み取り専用
 signed in as {} ({})	{} ({}) としてサインイン中
 to the front	前
 up	上
+up to {} mm²	{} mm² まで
 {} (changed {})	{} ({} に変更)
 {} catalogs	カタログ {} 個
 {} changes of part {}	部品 {1} の変更 {0} 件
 {} connection points	{} 個の接続ポイント
 {} favorites	お気に入り {} 件
+{} mm above	上 {} mm
+{} mm below	下 {} mm
+{} mm in front	前 {} mm
+{} mm left	左 {} mm
+{} mm right	右 {} mm
 {} of {} parts	{} / {} 個の部品
 {} parts found	{} 個の部品が見つかりました
 {} users	ユーザー {} 人
+{} wires per connection point	接続ポイントあたり {} 本の電線
 {} × {} mm, {} elements	{} × {} mm、{} 個の要素
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm、{} 個の三角形
+{}, {} wires per connection point	{}、接続ポイントあたり {} 本の電線
 {}: 2D front view with {} elements assigned to {}	{0}: {1} 個の要素を持つ 2D 正面図を {2} に割り当てました
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{0}: {1} 個の三角形 ({2} × {3} × {4} mm) を持つ 3D モデルを {5} に割り当てました
 ★ Favorites	★ お気に入り

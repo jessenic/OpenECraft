@@ -294,7 +294,7 @@ Breaking capacity: 10 kA".into();
         .enumerate()
         .map(|(i, pin)| {
             let (x, bottom) = (45.0 + 90.0 * (i % 3) as f32, i < 3);
-            crate::ConnectionPoint { pin: (*pin).into(), pos: [x, if bottom { 256.0 } else { 14.0 }, 60.0], exit: if bottom { crate::Exit::Down } else { crate::Exit::Up } }
+            crate::ConnectionPoint { pin: (*pin).into(), pos: [x, if bottom { 256.0 } else { 14.0 }, 60.0], exit: if bottom { crate::Exit::Down } else { crate::Exit::Up }, ..Default::default() }
         })
         .collect();
     p.tech_data = "Mounting holes: M8: 20,20; 250,20; 20,250; 250,250\nFuse size: NH2\nConnection: V-clamps 35 - 240 mm² Al / Cu\nPower loss: 25 W".into();
@@ -309,12 +309,12 @@ Breaking capacity: 10 kA".into();
     p.mounting_data.wall_mount = true;
     // Its terminal 1 is the clamp of the earth electrode at the left: the main bonding
     // conductor and the lug of the foundation earth electrode land there.
-    p.connection_points = vec![crate::ConnectionPoint { pin: "1".into(), pos: [42.0, 40.0, 49.0], exit: crate::Exit::Front }];
+    p.connection_points = vec![crate::ConnectionPoint { pin: "1".into(), pos: [42.0, 40.0, 49.0], exit: crate::Exit::Front, ..Default::default() }];
     p.tech_data = "Mounting holes: M6: 15,40; 285,40\nTerminals: 7 x 2.5 - 95 mm², 1 x flat strip / round wire".into();
     let p = c.add("GEN.FE-LUG-V4A-10", "Connection lug of a foundation earth electrode, stainless steel V4A round wire Ø 10 mm, out of the wall with sealing collar, marked", "Terminals", "Earth electrode", "E", 18.0, (60.0, 480.0, 70.0, 0.8), &[(Generic, "1")]);
     p.mounting = "Wall".into();
     p.mounting_data.wall_mount = true;
-    p.connection_points = vec![crate::ConnectionPoint { pin: "1".into(), pos: [30.0, 0.0, 45.0], exit: crate::Exit::Up }];
+    p.connection_points = vec![crate::ConnectionPoint { pin: "1".into(), pos: [30.0, 0.0, 45.0], exit: crate::Exit::Up, ..Default::default() }];
     p.tech_data = "Material: stainless steel 1.4571 (V4A)\nDiameter: 10 mm".into();
     for (number, size, amps, price) in [("GEN.NH000-GG-63A", "NH000", 63, 6.8), ("GEN.NH00-GG-50A", "NH00", 50, 6.9), ("GEN.NH00-GG-80A", "NH00", 80, 7.4), ("GEN.NH1-GG-63A", "NH1", 63, 10.9), ("GEN.NH1-GG-100A", "NH1", 100, 11.4), ("GEN.NH1-GG-125A", "NH1", 125, 11.9), ("GEN.NH1-GG-160A", "NH1", 160, 12.9), ("GEN.NH2-GG-80A", "NH2", 80, 17.5), ("GEN.NH2-GG-250A", "NH2", 250, 24.0), ("GEN.NH2-GG-315A", "NH2", 315, 27.0)] {
         let p = c.add(number, &format!("NH fuse link size {size}, gG, {amps} A, 500 V AC"), sd, "Fuse link", "F", price, (0.0, 0.0, 0.0, 0.2), &[]);
@@ -970,7 +970,7 @@ fn rack_parts(c: &mut C) {
         let (w, h) = (RACK_WIDTH, u * RACK_UNIT);
         let pins: Vec<String> = p.functions.iter().flat_map(|f| f.pin_list()).collect();
         p.connection_points = (pins.iter().enumerate())
-            .map(|(i, pin)| crate::ConnectionPoint { pin: pin.clone(), pos: [w * 0.8 + 10.0 * i as f32, h / 2.0, 0.0], exit: crate::Exit::Up })
+            .map(|(i, pin)| crate::ConnectionPoint { pin: pin.clone(), pos: [w * 0.8 + 10.0 * i as f32, h / 2.0, 0.0], exit: crate::Exit::Up, ..Default::default() })
             .collect();
         p.voltage = if functions.is_empty() { String::new() } else { "230 V AC".into() };
         p.tech_data = if power > 0.0 { format!("Rack units: {u:.0}
@@ -1719,10 +1719,10 @@ fn transformer_set_points(w: f32, h: f32, d: f32) -> Vec<crate::ConnectionPoint>
     let mut points = Vec::new();
     for k in 0..3 {
         let (n, x) = (k + 1, w * (k as f32 + 0.5) / 3.0);
-        points.push(crate::ConnectionPoint { pin: format!("{n}P1"), pos: [x, h, d / 2.0], exit: crate::Exit::Down });
-        points.push(crate::ConnectionPoint { pin: format!("{n}P2"), pos: [x, 0.0, d / 2.0], exit: crate::Exit::Up });
+        points.push(crate::ConnectionPoint { pin: format!("{n}P1"), pos: [x, h, d / 2.0], exit: crate::Exit::Down, ..Default::default() });
+        points.push(crate::ConnectionPoint { pin: format!("{n}P2"), pos: [x, 0.0, d / 2.0], exit: crate::Exit::Up, ..Default::default() });
         for (j, s) in ["S1", "S2"].into_iter().enumerate() {
-            points.push(crate::ConnectionPoint { pin: format!("{n}{s}"), pos: [0.0, h * ((2 * k + j) as f32 + 0.5) / 6.0, d * 0.75], exit: crate::Exit::Left });
+            points.push(crate::ConnectionPoint { pin: format!("{n}{s}"), pos: [0.0, h * ((2 * k + j) as f32 + 0.5) / 6.0, d * 0.75], exit: crate::Exit::Left, ..Default::default() });
         }
     }
     points

@@ -196,3 +196,19 @@ fn assemblies_resolve_nested_components() {
     assert_eq!(c, vec![("ASM.SUB".to_string(), 4.0), ("P.A".to_string(), 14.0)], "nested quantities, the cycle back to the top is ignored");
     assert!(assembly_components(&prj, "P.A", 1.0).is_empty());
 }
+
+#[test]
+fn scaled_ema_channels_still_find_their_card() {
+    use crate::model::SymbolInst;
+    use crate::symbols::{Func, PlcChannel};
+    use crate::symlib::UserSymbol;
+    let mut prj = Project::new_default();
+    let key = "user:ema:test:1:0".to_string();
+    let channel = PlcChannel { family: "test".into(), input: true, index: 0, designation: "U1".into(), address: String::new(), function_text: String::new(), analog: None, digital_terminal: None };
+    prj.symbols.push(UserSymbol { key: key.clone(), func: Func::Plc, plc_channel: Some(channel), ..Default::default() });
+    prj.pages[0].symbols.push(SymbolInst { id: 2, sym: crate::symlib::scaled_key(&key, 0.5), tag: "-A3".into(), ..Default::default() });
+    let mut card = Part { number: "BEC.EL3174".into(), width: 12., height: 100., depth: 68., ..Default::default() };
+    card.eplan_variants.push(serde_json::json!({"symbol":{"key":key}}).into());
+    link_unassigned_plc_parts(&mut prj, &PartsDb { parts: vec![card] }, None);
+    assert_eq!(prj.devices["-A3"].parts[0].number, "BEC.EL3174");
+}

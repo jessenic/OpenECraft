@@ -48,6 +48,29 @@ pub struct ConnectionPoint {
     /// `[x, y, z]` in mm, see the module documentation.
     pub pos: [f32; 3],
     pub exit: Exit,
+    /// Smallest and largest conductor the clamp takes, mm² (0: not known).
+    #[serde(skip_serializing_if = "is_zero")]
+    pub min_cross_section: f32,
+    #[serde(skip_serializing_if = "is_zero")]
+    pub max_cross_section: f32,
+    /// Most wires the clamp takes (0: not known).
+    #[serde(skip_serializing_if = "is_zero_count")]
+    pub max_wires: u32,
+}
+
+fn is_zero(v: &f32) -> bool {
+    *v == 0.0
+}
+
+fn is_zero_count(v: &u32) -> bool {
+    *v == 0
+}
+
+impl ConnectionPoint {
+    /// The point has limits for the wires it takes.
+    pub fn has_wire_limits(&self) -> bool {
+        self.min_cross_section > 0.0 || self.max_cross_section > 0.0 || self.max_wires > 0
+    }
 }
 
 /// Screw terminals sit somewhat behind the front of a device.
@@ -115,7 +138,7 @@ pub fn default_connection_points(part: &Part) -> Vec<ConnectionPoint> {
     let Some([w, h, d]) = part.size() else { return Vec::new() };
     let depth = d * terminal_depth(part);
     if part.functions.iter().any(|f| f.kind == FnKind::Terminal) {
-        let pin = |pin: &str, y, exit| ConnectionPoint { pin: pin.into(), pos: [w / 2.0, y, depth], exit };
+        let pin = |pin: &str, y, exit| ConnectionPoint { pin: pin.into(), pos: [w / 2.0, y, depth], exit, ..Default::default() };
         return vec![pin("1", 0.0, Exit::Up), pin("2", h, Exit::Down)];
     }
     let door = !part.functions.is_empty() && part.functions.iter().all(|f| door_kind(f.kind));
@@ -146,7 +169,7 @@ pub fn default_connection_points(part: &Part) -> Vec<ConnectionPoint> {
                 (false, true) => ([x, 0.0, depth], Exit::Up),
                 (false, false) => ([x, h, depth], Exit::Down),
             };
-            out.push(ConnectionPoint { pin, pos, exit });
+            out.push(ConnectionPoint { pin, pos, exit, ..Default::default() });
         }
     }
     out
@@ -164,11 +187,15 @@ impl Part {
     }
 }
 
-/// CSV form: `A1:22.5/0/55/up|A2:22.5/74/55/down`.
+/// CSV form: `A1:22.5/0/55/up|A2:22.5/74/55/down`; a point with wire limits adds the
+/// smallest and largest cross-section and the most wires: `1:5/0/40/up/0.2/1.5/1`.
 pub fn points_to_text(points: &[ConnectionPoint]) -> String {
     points
         .iter()
-        .map(|c| format!("{}:{}/{}/{}/{}", c.pin, c.pos[0], c.pos[1], c.pos[2], c.exit.code()))
+        .map(|c| {
+            let limits = if c.has_wire_limits() { format!("/{}/{}/{}", c.min_cross_section, c.max_cross_section, c.max_wires) } else { String::new() };
+            format!("{}:{}/{}/{}/{}{limits}", c.pin, c.pos[0], c.pos[1], c.pos[2], c.exit.code())
+        })
         .collect::<Vec<_>>()
         .join("|")
 }
@@ -179,9 +206,20 @@ pub fn points_from_text(text: &str) -> Vec<ConnectionPoint> {
         .filter_map(|entry| {
             let (pin, rest) = entry.trim().rsplit_once(':')?;
             let fields: Vec<&str> = rest.split('/').map(str::trim).collect();
-            let [x, y, z, exit] = fields.as_slice() else { return None };
             let num = |s: &str| s.replace(',', ".").parse::<f32>().ok();
-            Some(ConnectionPoint { pin: pin.trim().into(), pos: [num(x)?, num(y)?, num(z)?], exit: Exit::from_code(exit)? })
+            let (place, limits) = fields.split_at(fields.len().min(4));
+            let [x, y, z, exit] = place else { return None };
+            let mut c = ConnectionPoint { pin: pin.trim().into(), pos: [num(x)?, num(y)?, num(z)?], exit: Exit::from_code(exit)?, ..Default::default() };
+            match limits {
+                [] => {}
+                [min, max, wires] => {
+                    c.min_cross_section = num(min)?.max(0.0);
+                    c.max_cross_section = num(max)?.max(0.0);
+                    c.max_wires = wires.parse().ok()?;
+                }
+                _ => return None,
+            }
+            Some(c)
         })
         .collect()
 }

@@ -53,6 +53,7 @@ Classes	クラス
 Clear filters	フィルターをクリア
 Clearance bottom	下のクリアランス
 Clearance top	上のクリアランス
+Clearances	クリアランス
 Coding: {}	コーディング: {}
 Coil voltage	コイル電圧
 Collision class	干渉クラス
@@ -84,6 +85,7 @@ Cross-section	断面積
 Crossing	交差
 Current	電流
 Cutout	切り欠き
+Cutouts	切り欠き
 DCavg (%)	DCavg (%)
 DWG drawing	DWG 図面
 DXF drawing	DXF 図面
@@ -341,6 +343,7 @@ Range	範囲
 Rated current	定格電流
 Rated power	定格出力
 Rectangle	四角形
+Rectangular	四角形
 Reject	却下
 Relative humidity	相対湿度
 Relay	リレー
@@ -360,6 +363,7 @@ Rework	手直し
 Right	右
 Role	ロール
 Rooms	部屋
+Round	円形
 Route	ルート
 Routing	配線ルート
 Rows of modules (east-west: rows of pairs)	モジュールの列（東西向き：ペアの列）
@@ -384,6 +388,7 @@ Sensors, switches, pushbuttons	センサー、スイッチ、押しボタン
 Server	サーバー
 Service space	サービススペース
 Settings	設定
+Shape	形状
 Short-circuit voltage	短絡インピーダンス電圧
 Show history	履歴を表示
 Show the row after the column	列の後に行を表示
@@ -452,6 +457,7 @@ Unknown property: {}	不明なプロパティ: {}
 Unknown scheme: {}	不明なスキーム: {}
 Unknown segment	不明なセグメント
 Unknown symbol {}	不明なシンボル {}
+Unknown symbol: {}	不明なシンボル: {}
 Update	更新
 Uploading {}…	{} をアップロードしています…
 User	ユーザー

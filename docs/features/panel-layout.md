@@ -118,8 +118,10 @@ penetration, not just their boxes.
 ## Enclosure door
 
 Command and signal devices (pushbuttons, lamps …) are placed on the door (front view
-*Door*); each gets its **door cutout** (Ø22.5 by default or from the part data
-`Door cutout: Ø30.5` / `92 x 68`), checked against the door frame and in 3D against the
+*Door*); each gets its **door cutouts** (Ø22.5 by default or from the part data
+`Door cutout: Ø30.5` / `92 x 68`, otherwise its cutouts), placed where the part has them
+and turned with the device, checked against the free edge of the door (frame, hinges)
+and the device front (a cutout reaching beyond it is reported) and in 3D against the
 equipment of the mounting plate; their wires are routed over the hinge; the mounting
 layout page shows the plate and every face with items (door, side walls, rear wall,
 roof, bottom) side by side.
@@ -129,7 +131,8 @@ roof, bottom) side by side.
 Rails, ducts and busbar holders get tapped holes along their length, devices screwed
 onto the plate get holes from their part data (`Mounting holes: M5: 9,12; 69,72`) or two
 default holes; **NC export** per enclosure and face as DXF or DWG (outline, one layer
-per hole diameter, cutouts) or CSV.
+per hole diameter, cutouts, turned or rounded ones as their outline) or CSV (with the
+turn and corner radius of each cutout).
 
 ## Virtual wiring and duct fill levels
 

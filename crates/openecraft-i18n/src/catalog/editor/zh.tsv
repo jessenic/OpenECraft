@@ -288,7 +288,6 @@ Circle	圆
 Circuits of a generic manifold	通用分配器的回路数
 Clear	清除
 Clearance	间距
-Clearances	间距
 Click	单击
 Click a text: open its link	单击文本：打开其链接
 Click an element in the drawing to edit it.	单击图形中的元素以对其进行编辑。
@@ -587,6 +586,7 @@ Drawing as new page	图纸作为新页
 Drawn as a connection dot; the routing stays	绘制为连接点；走向保持不变
 Drawn form	绘制的表格
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	以图形方式绘制端子排及其端子和跳线，或电缆及其芯线，而不是绘制成表；不使用表格的列
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	放大或缩小符号；其文字保持大小，连接的导线随之移动
 Drilling list (CSV)	钻孔列表 (CSV)
 Drilling list of this face (CSV)	此面的钻孔列表 (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	所示面的钻孔图，格式为 DXF、DWG 或 CSV
@@ -1475,7 +1475,6 @@ Recently used	最近使用
 Recommended height of manual actuators (10.1.2)	手动操作元件的建议高度 (10.1.2)
 Record	录制
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	录制：在出现的区域中做出动作，可按住组合键（Esc 取消）。添加会保留已有的动作。在选择工具中右键单击会打开上下文菜单。
-Rectangular	矩形
 Redline: to be changed · Greenline: changed as built	红线：待更改 · 绿线：已按竣工状态更改
 Redo	重做
 Reference point	参考点
@@ -1601,7 +1600,6 @@ Rotate	旋转
 Rotate (selection or symbol being placed)	旋转（所选内容或正在放置的符号）
 Rotate what is being moved	旋转正在移动的对象
 Rotate what is being moved counter-clockwise	逆时针旋转正在移动的对象
-Round	圆形
 Round cutouts facing each other in both side walls	两侧板上相对的圆形开孔
 Route definition of {}	{} 的路径定义
 Route network	布线网络
@@ -1729,7 +1727,6 @@ Settings scheme	设置方案
 Settings scheme (JSON)	设置方案 (JSON)
 Settings taken over: {}	已采用设置：{}
 Settings…	设置…
-Shape	形状
 Share of the capacity kept free for later additions	为日后扩展保留的容量比例
 Shared project {} – revision {}, user {}	共享项目 {} – 修订 {}，用户 {}
 Shield	屏蔽
@@ -1976,7 +1973,6 @@ Turn the 3D view to the point	将 3D 视图转向该点
 Tutorial	教程
 Twin ferrules where two wires share a connection point	两根导线共用一个连接点时使用双线管型端子
 Two fingers	双指
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	触控板上的双指平移视图，鼠标滚轮缩放。只有 macOS 能区分两者；在其他系统上，滚动与滚轮一样进行缩放。
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	此处必须有两条连接线直角相交。开启自动连接时，正对其分支的连接点会接到它上。
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	输入点并按 Enter：x y（单位 mm），或 @dx dy 表示相对于上一个点；其作用与当前工具的单击相同
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V，I {} A，{} kWp

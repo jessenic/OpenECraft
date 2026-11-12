@@ -50,6 +50,7 @@ pub fn builtin() -> Vec<Check> {
         }),
         entry("wiring_marks", tr_const!("Wiring marks"), |prj, an| check_wiring_marks(prj, &an.wiring)),
         entry("twin_ferrules", tr_const!("Twin ferrules"), |prj, an| check_twin_ferrules(prj, &an.ends)),
+        entry("clamp_wires", tr_const!("Wires at connection points"), |prj, an| check_clamp_wires(prj, &an.connections)),
         entry("mounting_marks", tr_const!("Mounting marks"), |prj, _| check_mounting_marks(prj)),
         entry("preplanning", tr_const!("Pre-planning"), |prj, an| crate::preplanning::issues(prj, &an.index)),
         entry("integration", tr_const!("Enterprise integration"), |prj, _| crate::integration::problems(prj)),
@@ -659,6 +660,69 @@ fn check_twin_ferrules(prj: &Project, ends: &crate::production::Ends) -> Vec<Iss
             v.push(crate::issue!(Severity::Warning, None, "Twin ferrule at {} is not shared with a second wire", at));
         } else if cross_section_mm2(&twins[0].1) != cross_section_mm2(&twins[1].1) {
             v.push(crate::issue!(Severity::Warning, None, "Twin ferrule at {} joins wires of {} and {}", at, twins[0].1, twins[1].1));
+        }
+    }
+    v
+}
+
+/// The connection point of a part at end `end` of a connection, if the part tells the
+/// wires its clamp takes: where it is (`-A1:X80.1`, `X1:5 (2)` for the second side of
+/// terminal 5) and the point.
+fn clamp_at(prj: &Project, end: PinRef) -> Option<(String, openecraft_parts::ConnectionPoint)> {
+    let s = &prj.pages[end.page].symbols[end.sym];
+    let def = prj.symbol(&s.sym)?;
+    if s.tag.is_empty() {
+        return None;
+    }
+    let (parts, pin, at) = match def.func {
+        Func::Potential | Func::Interruption => return None,
+        Func::Terminal => {
+            let side = (end.pin + 1).to_string();
+            let part = crate::strips::terminal_part(prj, &s.tag, s.sym == crate::strips::PE_SYMBOL)?;
+            let at = format!("{}:{} ({side})", s.tag, s.label);
+            (vec![part], side, at)
+        }
+        _ => {
+            let pin = s.pins.get(end.pin).filter(|p| !p.is_empty())?.clone();
+            (crate::parts::device_parts(prj, None, &s.tag), pin.clone(), format!("{}:{pin}", s.tag))
+        }
+    };
+    let point = parts.iter().flat_map(|p| &p.connection_points).find(|c| c.pin == pin && c.has_wire_limits())?;
+    Some((at, point.clone()))
+}
+
+/// Wires at the connection points of parts that tell the wires their clamps take (EPLAN
+/// parts data): more wires than the clamp takes, conductors too thin or too thick.
+fn check_clamp_wires(prj: &Project, conns: &[crate::netlist::Connection]) -> Vec<Issue> {
+    use crate::production::cross_section_mm2;
+    /// The point, the symbol showing it and the cross-sections of its wires.
+    type Clamp = (openecraft_parts::ConnectionPoint, (usize, u64), Vec<String>);
+    let mut points: BTreeMap<String, Clamp> = BTreeMap::new();
+    for c in conns {
+        for end in [c.a, c.b] {
+            if let Some((at, point)) = clamp_at(prj, end) {
+                let target = (end.page, prj.pages[end.page].symbols[end.sym].id);
+                points.entry(at).or_insert_with(|| (point, target, Vec::new())).2.push(c.cross_section.clone());
+            }
+        }
+    }
+    let mut v = Vec::new();
+    for (at, (point, target, wires)) in points {
+        let target = Some(target);
+        if point.max_wires > 0 && wires.len() > point.max_wires as usize {
+            v.push(crate::issue!(Severity::Warning, target, "{}: {} wires end there, the connection point takes {}", at, wires.len(), point.max_wires));
+        }
+        let mut seen = BTreeSet::new();
+        for cs in wires {
+            let Some(mm2) = cross_section_mm2(&cs) else { continue };
+            if !seen.insert(cs.clone()) {
+                continue;
+            }
+            if point.min_cross_section > 0.0 && mm2 < point.min_cross_section - 1e-4 {
+                v.push(crate::issue!(Severity::Warning, target, "{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)", at, mm2, point.min_cross_section));
+            } else if point.max_cross_section > 0.0 && mm2 > point.max_cross_section + 1e-4 {
+                v.push(crate::issue!(Severity::Warning, target, "{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)", at, mm2, point.max_cross_section));
+            }
         }
     }
     v

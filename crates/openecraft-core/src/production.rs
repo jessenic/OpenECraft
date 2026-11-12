@@ -5,9 +5,9 @@
 
 use crate::geom::{p, P, R};
 use crate::model::{natural_cmp, Project};
-use crate::panel::{Enclosure, Face, Fastening, ItemKind, PanelItem};
+use crate::panel::{Enclosure, Face, Fastening, ItemKind, PanelItem, PanelRotation};
 use crate::parts::vec3::{add, cross, dot, norm, scale, sub, Tri, V3};
-use crate::parts::Part;
+use crate::parts::{Cutout, Part, PlacedCutout};
 pub use crate::model::panel::{Termination, WireTermination};
 use openecraft_i18n::{tr, tr_const, tr_fmt};
 use std::collections::{HashMap, HashSet};
@@ -219,33 +219,83 @@ pub struct Opening {
     pub w: f32,
     pub h: f32,
     pub round: bool,
+    /// Turn of a rectangular opening, degrees counter-clockwise (quarter turns are in
+    /// `w` and `h`).
+    pub angle: f32,
+    /// Radius of the corners of a rectangular opening, mm.
+    pub radius: f32,
 }
 
-/// A cutout size: `Ø22.5` (round) or `92 x 92` (rectangular). Returns (round, width,
-/// height).
-pub fn parse_cutout(spec: &str) -> Option<(bool, f32, f32)> {
-    let s = spec.trim().trim_end_matches("mm").trim().replace(',', ".");
-    if let Some((w, h)) = s.split_once(['x', 'X', '×']) {
-        if let (Ok(w), Ok(h)) = (w.trim().parse::<f32>(), h.trim().parse::<f32>()) {
-            return Some((false, w, h));
-        }
+impl Opening {
+    fn axes(&self) -> (P, P) {
+        let (s, c) = self.angle.to_radians().sin_cos();
+        // Counter-clockwise on the face, whose y points down.
+        (p(c, -s), p(s, c))
     }
-    drill_diameter(&s).map(|d| (true, d, d))
+
+    /// A point in the frame of the opening: from its centre along its width and height.
+    pub fn local(&self, q: P) -> P {
+        let (u, v) = self.axes();
+        let d = q - self.center;
+        p(d.x * u.x + d.y * u.y, d.x * v.x + d.y * v.y)
+    }
+
+    /// The outline, round openings and rounded corners as polygons.
+    pub fn outline(&self) -> Vec<P> {
+        crate::parts::cutout_outline([self.center.x, self.center.y], [self.w, self.h], self.round, self.angle, self.radius).into_iter().map(|[x, y]| p(x, y)).collect()
+    }
+
+    /// The rectangle around the outline.
+    pub fn bounds(&self) -> R {
+        let mut r = R::nothing();
+        for q in self.outline() {
+            r.extend(q);
+        }
+        r
+    }
 }
 
-/// Door cutout of a device: part data `Door cutout: Ø22.5` (round) or `92 x 92`
-/// (rectangular); without data Ø22.5 for command and signal devices, otherwise the
-/// device outline less 2 mm on each side. Returns (round, width, height).
-pub fn door_cutout(part: Option<&Part>, it: &PanelItem) -> (bool, f32, f32) {
-    if let Some(c) = part.and_then(|p| p.data_value("Door cutout").or_else(|| p.data_value("Cutout"))).and_then(|v| parse_cutout(&v)) {
-        return c;
+/// The opening of cutout `c` of the part of item `it`: its centre moves and turns with
+/// the item (the turn of the item is that of its front view, clockwise for a quarter
+/// turn).
+pub fn place_cutout(it: &PanelItem, part: Option<&Part>, c: &PlacedCutout) -> Opening {
+    let rotation = part.and_then(|p| p.size()).map(|[_, h, _]| crate::panel::item_rotation(it, h)).unwrap_or(it.rotation.unwrap_or_default());
+    let [ox, oy] = c.offset;
+    let offset = match rotation {
+        PanelRotation::Deg0 => p(ox, oy),
+        PanelRotation::Deg90 => p(-oy, ox),
+        PanelRotation::Deg180 => p(-ox, -oy),
+        PanelRotation::Deg270 => p(oy, -ox),
+    };
+    let [w, h] = c.size();
+    let mut angle = (c.angle - rotation.degrees() as f32).rem_euclid(360.0);
+    let quarters = (angle / 90.0).round();
+    let (w, h) = if (angle - quarters * 90.0).abs() < 0.01 {
+        angle = 0.0;
+        if quarters as i32 % 2 == 1 { (h, w) } else { (w, h) }
+    } else {
+        (w, h)
+    };
+    let round = matches!(c.shape, Cutout::Round { .. });
+    Opening { item: it.id, center: it.center() + offset, w, h, round, angle: if round { 0.0 } else { angle }, radius: c.radius }
+}
+
+/// The cutouts of a device in the door: the part's door cutouts or cutouts; without
+/// data Ø22.5 for command and signal devices, otherwise the device outline less 2 mm
+/// on each side.
+pub fn door_cutouts(part: Option<&Part>, it: &PanelItem) -> Vec<PlacedCutout> {
+    let own = part.map(|p| p.cutouts(true)).unwrap_or_default();
+    if !own.is_empty() {
+        return own;
     }
     let command = part.map(|p| p.group == "Sensors, switches, pushbuttons" || p.group == "Signal devices").unwrap_or(false);
     if command {
-        (true, 22.5, 22.5)
-    } else {
-        (false, (it.w - 4.0).max(1.0), (it.h - 4.0).max(1.0))
+        return vec![PlacedCutout::centered(Cutout::Round { d: 22.5 })];
     }
+    // The outline of the front view: the part's, otherwise the item's turned back.
+    let quarter = it.rotation.is_some_and(|r| r.is_quarter());
+    let [w, h] = part.and_then(|p| p.size()).map(|[w, h, _]| [w, h]).unwrap_or(if quarter { [it.h, it.w] } else { [it.w, it.h] });
+    vec![PlacedCutout::centered(Cutout::Rect { w: (w - 4.0).max(1.0), h: (h - 4.0).max(1.0) })]
 }
 
 /// Openings of a face: cutout items, one per door device on the door, and the
@@ -254,22 +304,16 @@ pub fn door_cutout(part: Option<&Part>, it: &PanelItem) -> (bool, f32, f32) {
 pub fn openings(e: &Enclosure, parts: &[Part], face: Face) -> Vec<Opening> {
     let mut v = Vec::new();
     for it in e.items.iter().filter(|i| i.face == face) {
-        let part = || parts.iter().chain(crate::parts::catalog()).find(|p| p.number == it.part);
-        match it.kind {
-            ItemKind::Cutout => v.push(Opening { item: it.id, center: it.center(), w: it.w, h: it.h, round: it.round }),
-            ItemKind::Device if face == Face::Door => {
-                let (round, w, h) = door_cutout(part(), it);
-                v.push(Opening { item: it.id, center: it.center(), w, h, round });
-            }
-            ItemKind::Device | ItemKind::Accessory => {
-                if let Some((round, w, h)) = part().and_then(|p| p.data_value("Cutout")).and_then(|v| parse_cutout(&v)) {
-                    // Quarter-turned items turn their cutout.
-                    let (w, h) = if (it.w - it.h).abs() > 0.5 && part().is_some_and(|p| (p.width - it.h).abs() < 0.5) { (h, w) } else { (w, h) };
-                    v.push(Opening { item: it.id, center: it.center(), w, h, round });
-                }
-            }
-            _ => {}
+        if it.kind == ItemKind::Cutout {
+            v.push(Opening { item: it.id, center: it.center(), w: it.w, h: it.h, round: it.round, angle: 0.0, radius: 0.0 });
+            continue;
         }
+        if !matches!(it.kind, ItemKind::Device | ItemKind::Accessory) {
+            continue;
+        }
+        let part = parts.iter().chain(crate::parts::catalog()).find(|p| p.number == it.part);
+        let cutouts = if it.kind == ItemKind::Device && face == Face::Door { door_cutouts(part, it) } else { part.map(|p| p.cutouts(false)).unwrap_or_default() };
+        v.extend(cutouts.iter().map(|c| place_cutout(it, part, c)));
     }
     v
 }
@@ -286,15 +330,16 @@ pub fn nc_csv(prj: &Project, enc: usize, face: Face) -> String {
     let e = &prj.layout.enclosures[enc];
     let (_, fh) = e.face_size(face);
     let name = |id: u64| e.item(id).map(|i| if i.kind == ItemKind::Device { i.tag.clone() } else { i.kind.title().to_string() }).unwrap_or_default();
-    let mut out = String::from("Enclosure;Face;Item;Operation;X;Y;Diameter;Thread;Width;Height\n");
+    let mut out = String::from("Enclosure;Face;Item;Operation;X;Y;Diameter;Thread;Width;Height;Angle;Radius\n");
     for h in holes_on(e, &prj.parts, face) {
         let op = h.fastening.operation();
         let thread = if h.fastening == Fastening::Tapped { &h.thread } else { &h.thread_size };
-        let _ = writeln!(out, "{};{};{};{op};{};{};{};{};;", e.name, face.title(), name(h.item), csv_num(h.pos.x), csv_num(fh - h.pos.y), csv_num(h.diameter), thread);
+        let _ = writeln!(out, "{};{};{};{op};{};{};{};{};;;;", e.name, face.title(), name(h.item), csv_num(h.pos.x), csv_num(fh - h.pos.y), csv_num(h.diameter), thread);
     }
     for o in openings(e, &prj.parts, face) {
         let (op, dia) = if o.round { ("Cutout round", csv_num(o.w)) } else { ("Cutout rectangular", String::new()) };
-        let _ = writeln!(out, "{};{};{};{op};{};{};{dia};;{};{}", e.name, face.title(), name(o.item), csv_num(o.center.x), csv_num(fh - o.center.y), csv_num(o.w), csv_num(o.h));
+        let (angle, radius) = (if o.angle != 0.0 { csv_num(o.angle) } else { String::new() }, if o.radius > 0.0 { csv_num(o.radius) } else { String::new() });
+        let _ = writeln!(out, "{};{};{};{op};{};{};{dia};;{};{};{angle};{radius}", e.name, face.title(), name(o.item), csv_num(o.center.x), csv_num(fh - o.center.y), csv_num(o.w), csv_num(o.h));
     }
     out
 }
@@ -358,9 +403,16 @@ pub fn nc_dxf(prj: &Project, enc: usize, face: Face) -> String {
     for o in openings(e, &prj.parts, face) {
         if o.round {
             circle(&mut out, "CUTOUT", o.center, o.w / 2.0);
-        } else {
+        } else if o.angle == 0.0 && o.radius == 0.0 {
             let half = p(o.w / 2.0, o.h / 2.0);
             rect(&mut out, "CUTOUT", R::from_points(o.center - half, o.center + half));
+        } else {
+            let _ = write!(out, "0\nPOLYLINE\n8\nCUTOUT\n66\n1\n70\n1\n10\n0.0\n20\n0.0\n30\n0.0\n");
+            for q in o.outline() {
+                let _ = write!(out, "0\nVERTEX\n8\nCUTOUT\n");
+                pt(&mut out, 10, q);
+            }
+            let _ = write!(out, "0\nSEQEND\n8\nCUTOUT\n");
         }
     }
     out.push_str("0\nENDSEC\n0\nEOF\n");

@@ -330,7 +330,6 @@ Customer phone	Kundens telefon
 Customs tariff number	Toldtarifnummer
 Cut length (m)	Skærelængde (m)
 Cut length (mm)	Afkortningslængde (mm)
-Cutouts	Udskæringer
 Cylinder	Cylinder
 Cylinder, double-acting	Cylinder, dobbeltvirkende
 Cylinder, single-acting	Cylinder, enkeltvirkende
@@ -991,6 +990,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	Én diagramside, potentialerne i IEC 60204-1
 One-way flow control valve	Envejs-strømningsventil
 Only revisions that are not released can be submitted	Kun revisioner, der ikke er frigivet, kan sendes
+Only symbols of the symbol library can be scaled	Kun symboler i symbolbiblioteket kan skaleres
 Only {}	Kun {}
 Open	Åben
 Open connection point {} ({})	Åbent tilslutningspunkt {} ({})
@@ -1794,6 +1794,7 @@ Wire marker	Ledningsmærkat
 Wire no.	Ledningsnr.
 Wire number {} is used for {} different potentials	Ledningsnummeret {} bruges til {} forskellige potentialer
 Wire {} – {} changed after it was wired	Ledningen {} – {} blev ændret, efter at den blev trukket
+Wires at connection points	Ledninger ved tilslutningspunkter
 Wires, cables and tubes	Ledninger, kabler og slanger
 Wiring machine	Ledningsbearbejdningsmaskine
 Wiring machine job list (CSV)	Ordreliste til ledningsbearbejdningsmaskine (CSV)
@@ -1972,6 +1973,8 @@ yellow	gul
 {}: PV arrays {} and {} lie over each other	{}: solcelleanlæg {} og {} ligger over hinanden
 {}: \"{}\" is not one of {}	{}: \"{}\" er ikke en af {}
 {}: a TT system needs a residual current device	{}: Et TT-system kræver en fejlstrømsafbryder
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}: en ledning på {} mm² er tykkere, end tilslutningspunktet tager (højst {} mm²)
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}: en ledning på {} mm² er tyndere, end tilslutningspunktet tager (mindst {} mm²)
 {}: accessory {} fits none of the device's parts	{}: tilbehøret {} passer ikke til nogen af enhedens artikler
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}: betjeningselement {} er {} mm over gulvet, anbefalet {} … {} mm
 {}: auxiliary function(s) without main function	{}: hjælpefunktion(er) uden hovedfunktion
@@ -1990,6 +1993,7 @@ yellow	gul
 {}: cross-section {} below the {} mm² of power circuits	{}: Tværsnittet {} er under de {} mm² for kraftkredse
 {}: cross-section {} differs from the potential definition ({})	{}: Tværsnittet {} afviger fra potentialedefinitionen ({})
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{}: udskæring for {} på {} er {} mm fra kanten, mindst {} mm påkrævet
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}: udskæringen for {} på {} rækker {} mm ud over dens front
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{}: udskæringer for {} og {} på {} er for tæt på hinanden ({} mm materiale, mindst {} mm)
 {}: designation '{}' used more than once	{}: Betegnelsen '{}' bruges mere end én gang
 {}: device tag without device name	{}: enhedsmærkning uden enhedsnavn
@@ -2099,6 +2103,7 @@ yellow	gul
 {}: {} stands where {} stands	{}: {} står, hvor {} står
 {}: {} threads on the {} are cut by hand	{}: {} gevind på {} skæres manuelt
 {}: {} values of undefined properties	{}: {} værdier for udefinerede egenskaber
+{}: {} wires end there, the connection point takes {}	{}: {} ledninger ender der, tilslutningspunktet tager {}
 {}: {}× {} placed, assigned parts provide {}	{}: {}× {} placeret, tildelte artikler leverer {}
 {}{} has to be reworked: {}	{}{} skal efterbearbejdes: {}
 {}{} is {} mm off its position (tolerance {} mm)	{}{} afviger {} mm fra sin position (tolerance {} mm)

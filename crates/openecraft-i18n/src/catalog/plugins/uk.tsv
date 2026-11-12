@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Бік роз
 Side the connection comes from: left, right, up or down (default up)	Бік, з якого надходить з'єднання: left, right, up або down (типово up)
 Single-line diagrams	Однолінійні схеми
 Single-line pages and their multi-line counterparts	Однолінійні сторінки та їхні багатолінійні відповідники
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Розмір символу з бібліотеки символів як коефіцієнт (1 = як намальовано); його тексти зберігають розмір, кінці під'єднаних проводів слідують за ним
 Slot number	Номер слота
 Smallest bend radius in mm	Найменший радіус згину в мм
 Smallest distance in mm	Найменша відстань у мм
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Невідомий бік {} (socket або pin)
 Unknown side: {}	Невідома сторона: {}
 Unknown state: {}	Невідомий стан: {}
 Unknown station kind: {}	Невідомий вид станції: {}
-Unknown symbol: {}	Невідомий символ: {}
 Unknown table: {}	Невідома таблиця: {}
 Unknown termination: {}	Невідоме оконцювання: {}
 Unknown vertical anchor: {}	Невідома вертикальна прив’язка: {}

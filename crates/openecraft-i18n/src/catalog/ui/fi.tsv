@@ -9,6 +9,7 @@ Accessories of this part	Tämän osan lisävarusteet
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Lisävarusteet toimivat vain niiden osien kanssa, joihin ne sopivat. Osa luettelee lisävarusteensa, lisävaruste osat, joihin se sopii; toinen puoli riittää.
 Accessory, mounted: {}	Lisävaruste, asennus: {}
 Add connection point	Lisää liitäntäpiste
+Add cutout	Lisää aukko
 Add function	Lisää toiminto
 Add marked parts to the parts database ({})	Lisää merkityt osat osatietokantaan ({})
 Add to the parts database	Lisää osatietokantaan
@@ -27,12 +28,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Muodosta yhteys osapalvelimeen ja hae.
 Connected: {} {} – {} parts, revision {}, {}	Yhdistetty: {} {} – {} osaa, revisio {}, {}
 Connection designations	Yhteysmerkinnät
+Corner radius	Kulman säde
 Datasheet (URL)	Tietolehti (URL)
 Deleted catalog {}	Luettelo {} poistettiin
 Deleted part {}	Osa {} poistettu
 Deleted user {}	Käyttäjä {} poistettiin
 Deleting {}…	Poistetaan {}…
 Dimensions	Mitat
+Door cutouts	Oven aukot
 Downloaded {} ({} bytes)	{} ladattiin ({} tavua)
 Downloading parts…	Ladataan osia…
 Drag it onto a schematic page to place it	Sijoita vetämällä kaaviosivulle
@@ -51,8 +54,10 @@ Group by	Ryhmittelyperuste
 Identifying letter of devices using this part (K, Q, S …)	Tätä osaa käyttävien laitteiden tunnuskirjain (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	Tuo STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	Tuo SVG…
+In the door, when they differ from the cutouts	Ovessa, kun ne poikkeavat aukoista
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN-osasiirron sisäiset arvot (0: määrittelemätön)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Se toimii vain kiinnitettynä johonkin osaan, johon se sopii; projektin tarkistus ilmoittaa siitä laitteessa, jossa tällaista osaa ei ole
+Largest conductor the clamp takes (0: not known)	Suurin johdin, jonka liitin ottaa (0: ei tiedossa)
 Leave blank to use the saved token automatically. Saving a replacement requires Remember token.	Jätä tyhjäksi käyttääksesi tallennettua tunnistetta automaattisesti. Korvaavan tunnisteen tallennus edellyttää Muista tunniste -valintaa.
 Loaded {} parts (revision {})	Ladattu {} osaa (revisio {})
 Loading catalogs…	Ladataan luetteloita…
@@ -60,6 +65,9 @@ Loading favorites…	Ladataan suosikkeja…
 Loading the history…	Ladataan historiaa…
 Loading users…	Ladataan käyttäjiä…
 Mark for adding to the parts database	Merkitse lisättäväksi osatietokantaan
+Max. mm²	Enint. mm²
+Min. mm²	Väh. mm²
+Most wires the clamp takes (0: not known)	Suurin johtomäärä, jonka liitin ottaa (0: ei tiedossa)
 Mounted directly on the wall or ceiling of a room	Asennetaan suoraan tilan seinään tai kattoon
 Moves lines such as Power loss: 3 W into the typed fields	Siirtää rivit, kuten Power loss: 3 W, tyypitettyihin kenttiin
 No own connection points – the generated ones are shown.	Ei omia liitäntäpisteitä – luodut näytetään.
@@ -77,10 +85,12 @@ Pans (trackpad)	Panoroi (kosketuslevy)
 Parts server: {}	Osapalvelin: {}
 Parts this part is assembled from; the bill of materials lists them under it	Osat, joista tämä osa on koottu; osaluettelo luettelee ne sen alla
 Personal access token	Henkilökohtainen käyttöoikeustokeni
+Picture	Kuva
 Place by clicking into the view	Sijoita napsauttamalla näkymää
 Prices / other	Hinnat / muut
 Remember token on this computer	Muista tunniste tällä tietokoneella
 Remove all	Poista kaikki
+Remove picture	Poista kuva
 Removing the file…	Poistetaan tiedostoa…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Korvaa liitäntäpisteet IEC-käytännön mukaan: parittomat merkinnät ylhäällä, parilliset alhaalla
 Reset filter	Nollaa suodatin
@@ -96,6 +106,7 @@ Select a row, then click into the view to place it.	Valitse rivi ja napsauta sit
 Server revision	Palvelimen revisio
 Signed out	Kirjauduttu ulos
 Signing out…	Kirjaudutaan ulos…
+Smallest conductor the clamp takes (0: not known)	Pienin johdin, jonka liitin ottaa (0: ei tiedossa)
 Stands on the floor of a room	Seisoo huoneen lattialla
 Stands on the floor of a room, like pumps, tanks and compressors	Seisoo huoneen lattialla, kuten pumput, säiliöt ja kompressorit
 Successor {}	Seuraaja {}
@@ -118,7 +129,10 @@ Voltage / current	Jännite / virta
 WALL	SEINÄ
 Wall mounting	Seinäasennus
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Missä lisävaruste on siinä osassa, johon se sopii, kaappiasettelussa ja 3D-näkymässä
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Aukkojen sijainti: keskipiste etunäkymän keskeltä (x oikealle, y alas), kierto vastapäivään.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Missä johdot liitetään kaappiasennuksessa: nimitys kuten toimintomallissa, sijainti etunäkymässä (x vasemmalta, y ylhäältä, z asennuspinnan yläpuolella) ja suunta, johon johto lähtee. Osat, joilla ei ole omia liitäntäpisteitä, saavat ne toimintomallista.
+Width / Ø	Leveys / Ø
+Wire connection	Johtoliitäntä
 Wire leaves	Johdon lähtösuunta
 Zoom only	Vain zoomaus
 Zooms (mouse wheel)	Zoomaa (hiiren rulla)
@@ -126,6 +140,7 @@ changes with token	muutokset tokenilla
 created in your EPLAN account (ePulse)	luotu EPLAN-tililläsi (ePulse)
 down	alas
 e.g. 25.4 for models in inch, 1000 for models in metres	esim. 25,4 tuumamalleille, 1000 metrimalleille
+from {} mm²	alkaen {} mm²
 no 2D model	ei 2D-mallia
 no mounting data	ei asennustietoja
 none – a box of the mounting dimensions is drawn	ei mitään – piirretään asennusmittojen mukainen laatikko
@@ -135,17 +150,25 @@ read-only	vain luku
 signed in as {} ({})	kirjautunut käyttäjänä {} ({})
 to the front	eteenpäin
 up	ylös
+up to {} mm²	enintään {} mm²
 {} (changed {})	{} (muutettu {})
 {} catalogs	{} luetteloa
 {} changes of part {}	Osan {1} {0} muutosta
 {} connection points	{} liitäntäpistettä
 {} favorites	{} suosikkia
+{} mm above	{} mm yläpuolella
+{} mm below	{} mm alapuolella
+{} mm in front	{} mm edessä
+{} mm left	{} mm vasemmalla
+{} mm right	{} mm oikealla
 {} of {} parts	{}/{} osaa
 {} parts found	{} osaa löytyi
 {} users	{} käyttäjää
+{} wires per connection point	{} johtoa liitäntäpistettä kohti
 {} × {} mm, {} elements	{} × {} mm, {} elementtiä
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} kolmiota
+{}, {} wires per connection point	{}, {} johtoa liitäntäpistettä kohti
 {}: 2D front view with {} elements assigned to {}	{}: 2D-etunäkymä, jossa {} elementtiä, määritetty kohteeseen {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: 3D-malli, jossa {} kolmiota ({} × {} × {} mm), määritetty kohteeseen {}
 ★ Favorites	★ Suosikit

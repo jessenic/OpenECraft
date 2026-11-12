@@ -829,6 +829,12 @@ pub struct PinLabel {
 }
 
 impl SymbolInst {
+    /// The key of the symbol this one places, without its scale factor
+    /// ([`crate::symlib::scaled_key`]).
+    pub fn library_key(&self) -> &str {
+        crate::symlib::scale_of(&self.sym).0
+    }
+
     /// Area of the symbol graphics in its own coordinates: the outline of a device box,
     /// else the symbol's.
     pub fn local_bounds(&self, def: &crate::symbols::SymbolDef) -> crate::geom::R {

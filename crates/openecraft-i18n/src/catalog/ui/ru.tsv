@@ -9,6 +9,7 @@ Accessories of this part	Принадлежности этого изделия
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Принадлежности работают только вместе с изделиями, к которым они подходят. Изделие перечисляет свои принадлежности, принадлежность — изделия, к которым подходит; достаточно одной стороны.
 Accessory, mounted: {}	Принадлежность, монтаж: {}
 Add connection point	Добавить точку подключения
+Add cutout	Добавить вырез
 Add function	Добавить функцию
 Add marked parts to the parts database ({})	Добавить отмеченные изделия в базу данных изделий ({})
 Add to the parts database	Добавить в базу данных изделий
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Подключитесь к серверу изделий и выполните поиск.
 Connected: {} {} – {} parts, revision {}, {}	Подключено: {} {} – изделий: {}, ревизия {}, {}
 Connection designations	Обозначения соединений
+Corner radius	Радиус угла
 Datasheet (URL)	Технический паспорт (URL)
 Deleted catalog {}	Каталог {} удалён
 Deleted part {}	Изделие {} удалено
 Deleted user {}	Пользователь {} удалён
 Deleting {}…	Удаление {}…
 Dimensions	Размеры
+Door cutouts	Вырезы в двери
 Downloaded {} ({} bytes)	{} скачан ({} байт)
 Downloading parts…	Скачивание изделий…
 Drag it onto a schematic page to place it	Перетащите на страницу схемы, чтобы разместить
@@ -49,14 +52,19 @@ Group by	Группировать по
 Identifying letter of devices using this part (K, Q, S …)	Буквенный код устройств с этим изделием (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	Импортировать STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	Импортировать SVG…
+In the door, when they differ from the cutouts	В двери, если они отличаются от вырезов
 Internal values of the EPLAN part exchange (0: undefined)	Внутренние значения обмена изделиями EPLAN (0: не определено)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Работает только на одном из изделий, к которым подходит; проверка проекта сообщает о нём в устройстве без такого изделия
+Largest conductor the clamp takes (0: not known)	Наибольший проводник, который принимает клемма (0: неизвестно)
 Loaded {} parts (revision {})	Загружено изделий: {} (ревизия {})
 Loading catalogs…	Загрузка каталогов…
 Loading favorites…	Загрузка избранного…
 Loading the history…	Загрузка истории…
 Loading users…	Загрузка пользователей…
 Mark for adding to the parts database	Отметить для добавления в базу данных изделий
+Max. mm²	Макс. мм²
+Min. mm²	Мин. мм²
+Most wires the clamp takes (0: not known)	Наибольшее число проводов, которое принимает клемма (0: неизвестно)
 Mounted directly on the wall or ceiling of a room	Монтируется непосредственно на стену или потолок помещения
 Moves lines such as Power loss: 3 W into the typed fields	Переносит строки вида Power loss: 3 W в типизированные поля
 No own connection points – the generated ones are shown.	Собственных точек подключения нет – показаны созданные автоматически.
@@ -73,9 +81,11 @@ Pans (trackpad)	Сдвигает (тачпад)
 Parts server: {}	Сервер изделий: {}
 Parts this part is assembled from; the bill of materials lists them under it	Изделия, из которых собрано это изделие; спецификация перечисляет их под ним
 Personal access token	Персональный маркер доступа
+Picture	Изображение
 Place by clicking into the view	Разместите щелчком в виде
 Prices / other	Цены / прочее
 Remove all	Удалить все
+Remove picture	Удалить изображение
 Removing the file…	Удаление файла…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Заменяет точки подключения по правилу IEC: нечётные обозначения сверху, чётные снизу
 Reset filter	Сбросить фильтр
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Выберите строк�
 Server revision	Ревизия сервера
 Signed out	Выход выполнен
 Signing out…	Выход…
+Smallest conductor the clamp takes (0: not known)	Наименьший проводник, который принимает клемма (0: неизвестно)
 Stands on the floor of a room	Стоит на полу помещения
 Stands on the floor of a room, like pumps, tanks and compressors	Стоит на полу помещения, как насосы, баки и компрессоры
 Successor {}	Преемник {}
@@ -112,7 +123,10 @@ Voltage / current	Напряжение / ток
 WALL	СТЕНА
 Wall mounting	Настенный монтаж
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Где принадлежность располагается на подходящем изделии, в компоновке шкафа и в 3D-виде
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Положение вырезов: центр от середины вида спереди (x вправо, y вниз), поворот против часовой стрелки.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Где провода подключаются в компоновке шкафа: обозначение как в шаблоне функций, положение на виде спереди (x слева, y сверху, z над монтажной поверхностью) и направление выхода провода. Изделия без собственных точек подключения получают их из шаблона функций.
+Width / Ø	Ширина / Ø
+Wire connection	Подключение проводов
 Wire leaves	Выход провода
 Zoom only	Только масштабирование
 Zooms (mouse wheel)	Масштабирует (колесо мыши)
@@ -120,6 +134,7 @@ changes with token	изменения с маркером
 created in your EPLAN account (ePulse)	создаётся в вашей учётной записи EPLAN (ePulse)
 down	вниз
 e.g. 25.4 for models in inch, 1000 for models in metres	например, 25,4 для моделей в дюймах, 1000 для моделей в метрах
+from {} mm²	от {} мм²
 no 2D model	нет 2D-модели
 no mounting data	нет монтажных данных
 none – a box of the mounting dimensions is drawn	нет – рисуется параллелепипед по монтажным размерам
@@ -129,17 +144,25 @@ read-only	только чтение
 signed in as {} ({})	вход выполнен как {} ({})
 to the front	вперёд
 up	вверх
+up to {} mm²	до {} мм²
 {} (changed {})	{} (изменено {})
 {} catalogs	Каталогов: {}
 {} changes of part {}	Изменений изделия {1}: {0}
 {} connection points	Точек подключения: {}
 {} favorites	В избранном: {}
+{} mm above	{} мм сверху
+{} mm below	{} мм снизу
+{} mm in front	{} мм спереди
+{} mm left	{} мм слева
+{} mm right	{} мм справа
 {} of {} parts	{} из {} изделий
 {} parts found	Найдено изделий: {}
 {} users	Пользователей: {}
+{} wires per connection point	{} проводов на точку подключения
 {} × {} mm, {} elements	{} × {} мм, элементов: {}
 {} × {} × {} mm	{} × {} × {} мм
 {} × {} × {} mm, {} triangles	{} × {} × {} мм, треугольников: {}
+{}, {} wires per connection point	{}, {} проводов на точку подключения
 {}: 2D front view with {} elements assigned to {}	{}: вид спереди 2D с элементами ({}) назначен {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: 3D-модель с треугольниками ({}) ({} × {} × {} мм) назначена {}
 ★ Favorites	★ Избранное

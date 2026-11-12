@@ -7,7 +7,7 @@ use crate::sample::demo_project;
 fn explicit_rotations_transform_exact_pin_positions_and_exit_directions() {
     let mut prj=Project::default();
     prj.parts.push(Part {number:"ASYMMETRIC".into(),width:20.,height:40.,depth:10.,
-        connection_points:vec![ConnectionPoint {pin:"A1".into(),pos:[3.,7.,4.],exit:Exit::Up}],..Default::default()});
+        connection_points:vec![ConnectionPoint {pin:"A1".into(),pos:[3.,7.,4.],exit:Exit::Up, ..Default::default()}],..Default::default()});
     for (angle,expected,exit) in [(0,[103.,207.,4.],Exit::Up),(90,[133.,203.,4.],Exit::Right),
         (180,[117.,233.,4.],Exit::Down),(270,[107.,217.,4.],Exit::Left)] {
         let rotation=crate::panel::PanelRotation::from_degrees(angle).unwrap();
@@ -28,7 +28,7 @@ fn individually_placed_terminals_use_their_own_parts_and_never_expand_the_strip(
     let source=prj.pages[terminals[0].page].symbols[terminals[0].sym].clone();
     let mut part=super::super::part_by_number(&prj,&whole.part).unwrap().clone();
     part.number="INDIVIDUAL".into();part.width=8.;part.height=50.;part.depth=30.;
-    part.connection_points=vec![ConnectionPoint {pin:"1".into(),pos:[4.,7.,20.],exit:Exit::Up}];
+    part.connection_points=vec![ConnectionPoint {pin:"1".into(),pos:[4.,7.,20.],exit:Exit::Up, ..Default::default()}];
     prj.parts.push(part);
     let ei=prj.layout.find_device("-X1").unwrap().0;
     let single=PanelItem {id:prj.new_id(),tag:whole.tag.clone(),part:"INDIVIDUAL".into(),terminal:source.label.clone(),
@@ -157,7 +157,7 @@ fn door_devices_are_wired_from_behind() {
 fn own_points_are_placed_exactly() {
     let mut prj = demo_project();
     let part = prj.parts.iter_mut().find(|p| p.number == "GEN.MCB-1P-C6").unwrap();
-    part.connection_points = vec![ConnectionPoint { pin: "1".into(), pos: [9.0, 10.0, 50.0], exit: Exit::Left }];
+    part.connection_points = vec![ConnectionPoint { pin: "1".into(), pos: [9.0, 10.0, 50.0], exit: Exit::Left, ..Default::default() }];
     let it = item(&prj, "-F1");
     let points = device_points(&prj, &it);
     assert_eq!(points.len(), 1);
@@ -202,8 +202,8 @@ fn terminals_use_the_points_of_their_own_part() {
     let mut prj = demo_project();
     let pe = prj.parts.iter_mut().find(|p| p.number == "GEN.TB-PE-2.5").unwrap();
     pe.connection_points = vec![
-        ConnectionPoint { pin: "1".into(), pos: [2.6, 4.0, 30.0], exit: Exit::Up },
-        ConnectionPoint { pin: "2".into(), pos: [2.6, 44.0, 30.0], exit: Exit::Down },
+        ConnectionPoint { pin: "1".into(), pos: [2.6, 4.0, 30.0], exit: Exit::Up, ..Default::default() },
+        ConnectionPoint { pin: "2".into(), pos: [2.6, 44.0, 30.0], exit: Exit::Down, ..Default::default() },
     ];
     let it = item(&prj, "-X1");
     let points = device_points(&prj, &it);

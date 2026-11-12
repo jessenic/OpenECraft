@@ -51,7 +51,10 @@ texts are added and dragged.
 
 Aux functions without main function, duplicate main functions,
 open connection points, unpaired interruption points, short circuits between
-potentials, duplicate terminal numbers / PLC addresses, devices without part.
+potentials, duplicate terminal numbers / PLC addresses, devices without part, more wires
+at a connection point than its clamp takes or wires too thin or too thick for it (check
+*Wires at connection points*, by the connection point data of the parts, e.g. from EDZ
+files).
 **Message management** (in the spirit of EPLAN's check schemes): every message has
 a code per kind (`wires.3f9a1c`, the same in every language) and a fingerprint per
 occurrence. Right click a message in the Messages pane to accept it as checked (hidden

@@ -39,8 +39,8 @@ fn json_import() {
 fn connection_points_in_csv() {
     let mut part = Part { number: "OWN.K1".into(), ..Default::default() };
     part.connection_points = vec![
-        ConnectionPoint { pin: "A1".into(), pos: [5.5, 0.0, 60.0], exit: Exit::Up },
-        ConnectionPoint { pin: "14".into(), pos: [40.0, 74.0, 55.25], exit: Exit::Down },
+        ConnectionPoint { pin: "A1".into(), pos: [5.5, 0.0, 60.0], exit: Exit::Up, ..Default::default() },
+        ConnectionPoint { pin: "14".into(), pos: [40.0, 74.0, 55.25], exit: Exit::Down, ..Default::default() },
     ];
     let csv = to_csv(std::slice::from_ref(&part));
     let header = csv.lines().next().unwrap();
@@ -67,7 +67,7 @@ fn typed_mounting_data_in_csv() {
     // Values that cannot be read stay in the technical data.
     let text = "Part number;Power loss;Door cutout\nY.1;a lot;Ø22.5\n";
     let y = &from_csv(text).unwrap()[0];
-    assert_eq!(y.mounting_data.door_cutout, Some(crate::Cutout::Round { d: 22.5 }));
+    assert_eq!(y.mounting_data.door_cutouts, [crate::PlacedCutout::centered(crate::Cutout::Round { d: 22.5 })]);
     assert_eq!(y.tech_data, "Power loss: a lot");
 }
 

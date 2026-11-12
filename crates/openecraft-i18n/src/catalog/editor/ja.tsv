@@ -288,7 +288,6 @@ Circle	円
 Circuits of a generic manifold	汎用ヘッダーの回路数
 Clear	クリア
 Clearance	クリアランス
-Clearances	クリアランス
 Click	クリック
 Click a text: open its link	テキストをクリック：リンクを開く
 Click an element in the drawing to edit it.	図面内の要素をクリックして編集します。
@@ -586,6 +585,7 @@ Drawing as new page	図面を新しいページとして
 Drawn as a connection dot; the routing stays	接続点として描かれます。経路は保たれます
 Drawn form	描画フォーム
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	テーブルの代わりに、端子とジャンパーを含む端子台、または心線を含むケーブルを図として描画します。フォームの列は使用されません
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	シンボルを拡大または縮小します。テキストのサイズは変わらず、接続された電線が追従します
 Drilling list (CSV)	穴あけリスト (CSV)
 Drilling list of this face (CSV)	この面の穴あけリスト (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	表示中の面の穴あけパターンを DXF、DWG、CSV で
@@ -1474,7 +1474,6 @@ Recently used	最近使用したもの
 Recommended height of manual actuators (10.1.2)	手動操作部の推奨高さ (10.1.2)
 Record	記録
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	記録：表示される領域でジェスチャーを行います。必要ならモディファイアキーを押したままにします（Esc でキャンセル）。追加は既存のジェスチャーを残します。選択ツールでの右クリックはコンテキストメニューを開きます。
-Rectangular	四角形
 Redline: to be changed · Greenline: changed as built	レッドライン: 変更予定 · グリーンライン: 施工どおりに変更済み
 Redo	やり直し
 Reference point	基準点
@@ -1600,7 +1599,6 @@ Rotate	回転
 Rotate (selection or symbol being placed)	回転 (選択内容または配置中のシンボル)
 Rotate what is being moved	移動中のものを回転
 Rotate what is being moved counter-clockwise	移動中のものを反時計回りに回転
-Round	円形
 Round cutouts facing each other in both side walls	両側板に向かい合う円形の切り欠き
 Route definition of {}	{} のルート定義
 Route network	ルートネットワーク
@@ -1729,7 +1727,6 @@ Settings scheme	設定スキーム
 Settings scheme (JSON)	設定スキーム (JSON)
 Settings taken over: {}	設定を取り込みました: {}
 Settings…	設定…
-Shape	形状
 Share of the capacity kept free for later additions	将来の追加用に空けておく容量の割合
 Shared project {} – revision {}, user {}	共有プロジェクト {} – リビジョン {}、ユーザー {}
 Shield	シールド
@@ -1976,7 +1973,6 @@ Turn the 3D view to the point	3D ビューをその点に向ける
 Tutorial	チュートリアル
 Twin ferrules where two wires share a connection point	2本の電線が接続ポイントを共有する場合はツインフェルール
 Two fingers	2 本指
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	トラックパッドの 2 本指でパン、マウスホイールでズームします。両者を区別できるのは macOS だけで、その他ではスクロールはホイールと同じくズームします。
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	ここで2本の接続線が直角に交わる必要があります。自動接続が有効なとき、その側に向き合う接続点がここへ配線されます。
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	点を入力して Enter キーを押します: x y (mm)、または最後の点からの相対位置 @dx dy。現在のツールでのクリックと同じように動作します
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V、I {} A、{} kWp

@@ -114,22 +114,22 @@ fn own_points_win_over_generated_ones() {
     let (generated, exact) = part.connection_points_or_default();
     assert!(!exact);
     assert_eq!(generated.len(), 2);
-    part.connection_points = vec![ConnectionPoint { pin: "1".into(), pos: [9.0, 10.0, 50.0], exit: Exit::Left }];
+    part.connection_points = vec![ConnectionPoint { pin: "1".into(), pos: [9.0, 10.0, 50.0], exit: Exit::Left, ..Default::default() }];
     assert_eq!(part.connection_points_or_default(), (part.connection_points.clone(), true));
 }
 
 #[test]
 fn text_form() {
     let points = vec![
-        ConnectionPoint { pin: "A1".into(), pos: [5.5, 0.0, 60.0], exit: Exit::Up },
-        ConnectionPoint { pin: "1.1".into(), pos: [1.0, 2.0, 3.0], exit: Exit::Front },
+        ConnectionPoint { pin: "A1".into(), pos: [5.5, 0.0, 60.0], exit: Exit::Up, ..Default::default() },
+        ConnectionPoint { pin: "1.1".into(), pos: [1.0, 2.0, 3.0], exit: Exit::Front, ..Default::default() },
     ];
     let text = points_to_text(&points);
     assert_eq!(text, "A1:5.5/0/60/up|1.1:1/2/3/front");
     assert_eq!(points_from_text(&text), points);
     // Decimal commas, blanks, broken entries.
     let read = points_from_text(" 13 : 2,5 / 0 / 10 / DOWN | broken | X:1/2/up ");
-    assert_eq!(read, vec![ConnectionPoint { pin: "13".into(), pos: [2.5, 0.0, 10.0], exit: Exit::Down }]);
+    assert_eq!(read, vec![ConnectionPoint { pin: "13".into(), pos: [2.5, 0.0, 10.0], exit: Exit::Down, ..Default::default() }]);
     assert!(points_from_text("").is_empty());
 }
 
@@ -141,7 +141,21 @@ fn json_keeps_old_files_valid() {
     let back: Part = serde_json::from_str(&json).unwrap();
     assert_eq!(back, part);
     let mut own = part.clone();
-    own.connection_points = vec![ConnectionPoint { pin: "1".into(), pos: [1.0, 2.0, 3.0], exit: Exit::Right }];
+    own.connection_points = vec![ConnectionPoint { pin: "1".into(), pos: [1.0, 2.0, 3.0], exit: Exit::Right, ..Default::default() }];
     let back: Part = serde_json::from_str(&serde_json::to_string(&own).unwrap()).unwrap();
     assert_eq!(back.connection_points, own.connection_points);
+}
+
+#[test]
+fn text_form_keeps_wire_limits() {
+    let points = vec![
+        ConnectionPoint { pin: "1".into(), pos: [5.0, 0.0, 40.0], exit: Exit::Up, min_cross_section: 0.2, max_cross_section: 1.5, max_wires: 1 },
+        ConnectionPoint { pin: "2".into(), pos: [5.0, 90.0, 40.0], exit: Exit::Down, ..Default::default() },
+    ];
+    let text = points_to_text(&points);
+    assert_eq!(text, "1:5/0/40/up/0.2/1.5/1|2:5/90/40/down");
+    assert_eq!(points_from_text(&text), points);
+    assert!(points[0].has_wire_limits() && !points[1].has_wire_limits());
+    // Five or six fields are broken.
+    assert!(points_from_text("1:5/0/40/up/0.2|2:5/0/40/up/0.2/1.5").is_empty());
 }

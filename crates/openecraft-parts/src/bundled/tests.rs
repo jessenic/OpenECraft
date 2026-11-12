@@ -58,7 +58,7 @@ fn victron_devices_are_wall_mountable() {
     assert!(wall.contains(&"VIC.PMP482305012") && wall.contains(&"VIC.SCC115035210"), "{wall:?}");
     // The BMV-712 display goes into a front panel.
     let bmv = victron.parts.iter().find(|p| p.number == "VIC.BAM030712000").unwrap();
-    assert!(!bmv.wall_mountable() && bmv.mounting_data.door_cutout.is_some());
+    assert!(!bmv.wall_mountable() && !bmv.mounting_data.door_cutouts.is_empty());
     assert!(victron.parts.iter().all(|p| p.model_3d.is_some()));
 }
 

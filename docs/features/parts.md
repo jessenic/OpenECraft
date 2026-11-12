@@ -40,8 +40,10 @@ in the app storage (desktop) / local storage (browser).
   *Accessories*, CSV column `Components`: `NUM:2|NUM2`); the bill of materials lists
   them under the assembly (nested assemblies resolved, priced as included).
 - **Typed mounting data** per part (tab *Mounting*): clearances (top, bottom, left,
-  right, front, EMC, service space), mounting holes with thread, door and face cutouts,
-  power loss, how far an accessory sticks out, fastening, faces, collision class and
+  right, front, EMC, service space), mounting holes with thread, door and face cutouts
+  (several per part, each round or rectangular with its centre from the middle of the
+  front view, a turn and a corner radius: table and preview in the tab, text form
+  `197 x 141 @ 0/-6.5 R3 15°; Ø16 @ 80/60`), power loss, how far an accessory sticks out, fastening, faces, collision class and
   terminal type. They drive the panel checks, drilling, cutouts and the climate
   calculation; CSV has a column per value (`Power loss`, `Mounting holes`, …). Older
   parts with these values as `Key: value` lines in the technical data still work;
@@ -113,12 +115,25 @@ the device. Floor-standing parts stand upright on the floor of a room.
   XML for the way back (parts management, `parts_export --format eplan_xml`). Function
   templates become function templates (PLC inputs and outputs as PLC functions),
   connection point definitions connection points (connection points on plugs as
-  `X10.1`), drilling patterns mounting holes.
+  `X10.1`) with the wires their clamps take (smallest and largest cross-section in mm²,
+  converted from AWG where only that is given, and the most wires), drilling patterns
+  mounting holes: through holes (`Ø3.3`) or tapped ones (`M4`), while a rectangular
+  position or a hole larger than a screw is a cutout of the part, with its place and
+  turn (an HMI panel's `197 x 141`, 6.5 mm above the middle of its front); the drilling
+  records are kept with the part as they are (their subtype and third dimension are not
+  interpreted yet). EPLAN's rail data (snap height, centre offset) or a text naming the rail
+  (*DIN rail*, *Hutschiene*, *TS 35*, *TS 15*, *35 x 15*, *G 32*) make the part one for
+  a mounting rail of that size (*Mounting rail 35 mm*).
 - **EDZ** (EPLAN Data Portal archives, 7-Zip): the parts XML inside is read as above,
   together with clearances, power loss and the datasheet link. Embedded 2D window
-  macros become project symbols. Parts Manager and `parts_import` also store the
-  original files as attachments. The project and server part records carry the
-  converted definitions and diagnostics.
+  macros become project symbols. The product picture is kept with the part as a small
+  JPEG (at most 192 px) and shown in the part details with its mounting data
+  (mounting, holes, cutout, clearances) and the wires its connection points take.
+  Parts Manager and `parts_import` also store the original files as attachments. The
+  project and server part records carry the converted definitions and diagnostics.
+  The part XML of an unpacked EDZ file (`items/partxml/…part.xml`) is read the same
+  way: with the connection point and drilling pattern files next to it and the macros
+  and pictures below `items/`.
 
 ### Placing an EPLAN symbol
 

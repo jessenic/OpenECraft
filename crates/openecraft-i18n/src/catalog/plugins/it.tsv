@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Lato del conn
 Side the connection comes from: left, right, up or down (default up)	Lato da cui arriva il collegamento: left, right, up o down (predefinito up)
 Single-line diagrams	Schemi unifilari
 Single-line pages and their multi-line counterparts	Pagine unifilari e le loro controparti multifilari
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Dimensione di un simbolo della libreria dei simboli come fattore (1 = come disegnato); i suoi testi mantengono la dimensione e le estremità dei conduttori collegati lo seguono
 Slot number	Numero slot
 Smallest bend radius in mm	Raggio di curvatura minimo in mm
 Smallest distance in mm	Distanza minima in mm
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Lato sconosciuto {} (socket o pin)
 Unknown side: {}	Lato sconosciuto: {}
 Unknown state: {}	Stato sconosciuto: {}
 Unknown station kind: {}	Tipo di stazione sconosciuto: {}
-Unknown symbol: {}	Simbolo sconosciuto: {}
 Unknown table: {}	Tabella sconosciuta: {}
 Unknown termination: {}	Terminazione sconosciuta: {}
 Unknown vertical anchor: {}	Ancoraggio verticale sconosciuto: {}

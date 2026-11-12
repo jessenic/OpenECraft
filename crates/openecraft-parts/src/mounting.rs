@@ -1,11 +1,11 @@
 //! Typed mounting and placement data of a part (EPLAN: mounting data, drilling
-//! pattern): clearances, mounting holes, cutouts, power loss, fastening and the faces
-//! accessories fit on. Older parts keep these values as `Key: value` lines in the
+//! pattern): clearances, mounting holes, cutouts (with their place, turn and corner
+//! radius, [`PlacedCutout`]), power loss, fastening and the faces accessories fit on. Older parts keep these values as `Key: value` lines in the
 //! technical data; [`Part::data_value`] reads either, [`Part::migrate_tech_data`]
 //! moves such lines into the typed fields.
 
 use crate::Part;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 
 /// Keys of the typed values (also the column names of the CSV export and the keys of
 /// the technical data they replace).
@@ -59,7 +59,170 @@ impl Cutout {
 
 fn fmt(v: f32) -> String {
     let s = format!("{v:.2}");
-    s.trim_end_matches('0').trim_end_matches('.').to_string()
+    let s = s.trim_end_matches('0').trim_end_matches('.');
+    if s == "-0" { "0".into() } else { s.to_string() }
+}
+
+fn is_origin(v: &[f32; 2]) -> bool {
+    *v == [0.0, 0.0]
+}
+
+/// A cutout of a part in the face it is mounted on: its shape, its centre relative to
+/// the centre of the part's front view (mm, x to the right, y down), its turn (degrees
+/// counter-clockwise, seen from the front) and the radius of the corners of a
+/// rectangular one.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct PlacedCutout {
+    pub shape: Cutout,
+    #[serde(default, skip_serializing_if = "is_origin")]
+    pub offset: [f32; 2],
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub angle: f32,
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub radius: f32,
+}
+
+impl PlacedCutout {
+    /// A cutout in the middle of the part.
+    pub fn centered(shape: Cutout) -> PlacedCutout {
+        PlacedCutout { shape, offset: [0.0, 0.0], angle: 0.0, radius: 0.0 }
+    }
+
+    /// `197 x 141`, `197 x 141 @ 0/-6.5 R3 15°`, `Ø22.5 @ -40/0`: the shape
+    /// ([`Cutout::parse`]), then optionally `@ x/y` (offset of the centre), `R` and the
+    /// corner radius and the turn in degrees.
+    pub fn parse(text: &str) -> Option<PlacedCutout> {
+        let num = |t: &str| t.trim().replace(',', ".").parse::<f32>().ok().filter(|v| v.is_finite());
+        let (shape, place) = match text.split_once('@') {
+            Some((shape, place)) => (shape, place),
+            None => (text, ""),
+        };
+        let mut tokens: Vec<&str> = shape.split_whitespace().collect();
+        let mut place: Vec<&str> = place.split_whitespace().collect();
+        let mut c = PlacedCutout::centered(Cutout::Rect { w: 1.0, h: 1.0 });
+        // Radius and angle stand after the shape or after the offset.
+        for list in [&mut place, &mut tokens] {
+            while let Some(last) = list.last().copied() {
+                if let Some(a) = last.strip_suffix('°') {
+                    c.angle = num(a)?;
+                } else if let Some(r) = last.strip_prefix(['R', 'r']).filter(|r| num(r).is_some()) {
+                    c.radius = num(r)?.max(0.0);
+                } else {
+                    break;
+                }
+                list.pop();
+            }
+        }
+        c.shape = Cutout::parse(&tokens.join(" "))?;
+        if !place.is_empty() {
+            let (x, y) = place.join("").split_once('/').map(|(x, y)| (x.to_string(), y.to_string()))?;
+            c.offset = [num(&x)?, num(&y)?];
+        }
+        Some(c)
+    }
+
+    pub fn text(&self) -> String {
+        let mut t = self.shape.text();
+        if self.offset != [0.0, 0.0] {
+            t += &format!(" @ {}/{}", fmt(self.offset[0]), fmt(self.offset[1]));
+        }
+        if self.radius > 0.0 {
+            t += &format!(" R{}", fmt(self.radius));
+        }
+        if self.angle != 0.0 {
+            t += &format!(" {}°", fmt(self.angle));
+        }
+        t
+    }
+
+    /// Width and height of the shape (the diameter twice for round ones).
+    pub fn size(&self) -> [f32; 2] {
+        match self.shape {
+            Cutout::Round { d } => [d, d],
+            Cutout::Rect { w, h } => [w, h],
+        }
+    }
+}
+
+/// The outline of a cutout around `center` (y down): `size` wide and high, turned by
+/// `angle` degrees counter-clockwise, with rounded corners of `radius`; round ones (and
+/// the corners) as polygons.
+pub fn cutout_outline(center: [f32; 2], size: [f32; 2], round: bool, angle: f32, radius: f32) -> Vec<[f32; 2]> {
+    let [cx, cy] = center;
+    if round {
+        let r = size[0] / 2.0;
+        return (0..48).map(|i| (std::f32::consts::TAU * i as f32 / 48.0).sin_cos()).map(|(s, c)| [cx + c * r, cy + s * r]).collect();
+    }
+    let (s, c) = angle.to_radians().sin_cos();
+    // Counter-clockwise on a face whose y points down.
+    let (u, v) = ([c, -s], [s, c]);
+    let r = radius.clamp(0.0, size[0].min(size[1]) / 2.0);
+    let (hw, hh) = (size[0] / 2.0 - r, size[1] / 2.0 - r);
+    let steps = if r > 0.0 { 6 } else { 0 };
+    let mut pts = Vec::new();
+    // The corners from the lower right on, each with its quarter of the radius.
+    for (k, [sx, sy]) in [[1.0, 1.0], [-1.0, 1.0], [-1.0, -1.0], [1.0, -1.0]].into_iter().enumerate() {
+        for i in 0..=steps {
+            let a = std::f32::consts::FRAC_PI_2 * (k as f32 + i as f32 / steps.max(1) as f32);
+            let (x, y) = (sx * hw + r * a.cos(), sy * hh + r * a.sin());
+            pts.push([cx + u[0] * x + v[0] * y, cy + u[1] * x + v[1] * y]);
+        }
+    }
+    pts
+}
+
+impl PlacedCutout {
+    /// The outline in the front view of a part `w` wide and `h` high.
+    pub fn outline(&self, w: f32, h: f32) -> Vec<[f32; 2]> {
+        cutout_outline([w / 2.0 + self.offset[0], h / 2.0 + self.offset[1]], self.size(), matches!(self.shape, Cutout::Round { .. }), self.angle, self.radius)
+    }
+}
+
+/// Several cutouts in their text form, separated by `;`.
+pub fn cutouts_text(list: &[PlacedCutout]) -> String {
+    list.iter().map(PlacedCutout::text).collect::<Vec<_>>().join("; ")
+}
+
+/// Reads [`cutouts_text`]; `None` if one of them cannot be read.
+pub fn parse_cutouts(text: &str) -> Option<Vec<PlacedCutout>> {
+    text.split(';').filter(|t| !t.trim().is_empty()).map(PlacedCutout::parse).collect()
+}
+
+/// Cutouts as stored: a list of placed cutouts, or (older parts) one cutout without a
+/// place, in JSON or as an option in RON (the app's storage).
+fn cutout_list<'de, D: Deserializer<'de>>(d: D) -> Result<Vec<PlacedCutout>, D::Error> {
+    use serde::de::value::{EnumAccessDeserializer, MapAccessDeserializer};
+    use serde::de::{EnumAccess, MapAccess, SeqAccess, Visitor};
+    struct List;
+    impl<'de> Visitor<'de> for List {
+        type Value = Vec<PlacedCutout>;
+        fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+            f.write_str("a list of cutouts or one cutout")
+        }
+        fn visit_unit<E>(self) -> Result<Self::Value, E> {
+            Ok(Vec::new())
+        }
+        fn visit_none<E>(self) -> Result<Self::Value, E> {
+            Ok(Vec::new())
+        }
+        fn visit_some<D: Deserializer<'de>>(self, d: D) -> Result<Self::Value, D::Error> {
+            Cutout::deserialize(d).map(|c| vec![PlacedCutout::centered(c)])
+        }
+        fn visit_seq<A: SeqAccess<'de>>(self, mut seq: A) -> Result<Self::Value, A::Error> {
+            let mut list = Vec::new();
+            while let Some(c) = seq.next_element::<PlacedCutout>()? {
+                list.push(c);
+            }
+            Ok(list)
+        }
+        fn visit_map<A: MapAccess<'de>>(self, map: A) -> Result<Self::Value, A::Error> {
+            Cutout::deserialize(MapAccessDeserializer::new(map)).map(|c| vec![PlacedCutout::centered(c)])
+        }
+        fn visit_enum<A: EnumAccess<'de>>(self, data: A) -> Result<Self::Value, A::Error> {
+            Cutout::deserialize(EnumAccessDeserializer::new(data)).map(|c| vec![PlacedCutout::centered(c)])
+        }
+    }
+    d.deserialize_any(List)
 }
 
 /// The leading number of a value (`7.5 W` → 7.5).
@@ -119,11 +282,12 @@ pub struct MountingData {
     /// Mounting holes relative to the top left corner of the front view, mm.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub holes: Vec<[f32; 2]>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub door_cutout: Option<Cutout>,
-    /// Cutout in the face the part is mounted on (fans, glands, lights).
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub cutout: Option<Cutout>,
+    /// Cutouts in the door for a door device, when they differ from [`Self::cutouts`].
+    #[serde(alias = "door_cutout", deserialize_with = "cutout_list", skip_serializing_if = "Vec::is_empty")]
+    pub door_cutouts: Vec<PlacedCutout>,
+    /// Cutouts in the face the part is mounted on (fans, glands, lights, panels).
+    #[serde(alias = "cutout", deserialize_with = "cutout_list", skip_serializing_if = "Vec::is_empty")]
+    pub cutouts: Vec<PlacedCutout>,
     /// Fastening key (`tapped`, `through`, `rail`, …).
     #[serde(skip_serializing_if = "String::is_empty")]
     pub fastening: String,
@@ -210,8 +374,8 @@ impl MountingData {
                 let pts: Vec<String> = self.holes.iter().map(|[x, y]| format!("{},{}", fmt(*x), fmt(*y))).collect();
                 Some(format!("{}: {}", self.hole_thread, pts.join("; ")))
             }
-            "door cutout" => self.door_cutout.map(|c| c.text()),
-            "cutout" => self.cutout.map(|c| c.text()),
+            "door cutout" if !self.door_cutouts.is_empty() => Some(cutouts_text(&self.door_cutouts)),
+            "cutout" if !self.cutouts.is_empty() => Some(cutouts_text(&self.cutouts)),
             "wall mounting" => self.wall_mount.then(|| "yes".to_string()),
             "floor mounting" => self.floor_mount.then(|| "yes".to_string()),
             _ => None,
@@ -270,19 +434,8 @@ impl MountingData {
                 }
             }
             "door cutout" | "cutout" => {
-                let c = if value.is_empty() {
-                    None
-                } else {
-                    match Cutout::parse(value) {
-                        Some(c) => Some(c),
-                        None => return false,
-                    }
-                };
-                if key == "cutout" {
-                    self.cutout = c;
-                } else {
-                    self.door_cutout = c;
-                }
+                let Some(list) = parse_cutouts(value) else { return false };
+                *if key == "cutout" { &mut self.cutouts } else { &mut self.door_cutouts } = list;
                 true
             }
             "wall mounting" | "floor mounting" => match parse_flag(value) {
@@ -314,6 +467,26 @@ impl Part {
         self.mounting_data.floor_mount
             || self.tech_value("Floor mounting").and_then(parse_flag).unwrap_or(false)
             || self.mounting.to_lowercase().contains("floor")
+    }
+
+    /// The cutouts of the part in the face it is mounted on; `door` for the door, which
+    /// takes the door cutouts where the part has them (typed data, otherwise the
+    /// technical data of older parts).
+    pub fn cutouts(&self, door: bool) -> Vec<PlacedCutout> {
+        let md = &self.mounting_data;
+        let keys: &[&str] = if door { &["Door cutout", "Cutout"] } else { &["Cutout"] };
+        keys.iter()
+            .find_map(|k| {
+                let typed = match *k {
+                    "Door cutout" => &md.door_cutouts,
+                    _ => &md.cutouts,
+                };
+                if !typed.is_empty() {
+                    return Some(typed.clone());
+                }
+                self.tech_value(k).and_then(parse_cutouts).filter(|l| !l.is_empty())
+            })
+            .unwrap_or_default()
     }
 
     /// A mounting / placement value: the typed one, otherwise the line of the technical

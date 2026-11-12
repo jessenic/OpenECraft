@@ -429,6 +429,11 @@ impl App {
                             old.mounting_data.rail = p.mounting_data.rail;
                         }
                     }
+                    if !p.picture.is_empty() {
+                        if let Some(old) = self.session.prj.parts.iter_mut().find(|old| old.number == p.number) {
+                            old.picture.clone_from(&p.picture);
+                        }
+                    }
                     self.parts_db.upsert(p);
                 }
                 self.parts_db.sort();

@@ -81,3 +81,27 @@ fn plate_load() {
     let f = findings(&prj);
     assert!(f.iter().any(|f| f.message.contains("12.0 kg")), "{f:#?}");
 }
+
+#[test]
+fn cutouts_beyond_the_front_or_in_the_door_edge() {
+    use crate::parts::{Cutout, PlacedCutout};
+    let mut prj = project(Vec::new());
+    let mut part = Part { number: "HMI".into(), width: 214.0, height: 158.0, depth: 36.0, ..Default::default() };
+    part.mounting_data.cutouts = vec![PlacedCutout { offset: [0.0, -6.5], ..PlacedCutout::centered(Cutout::Rect { w: 197.0, h: 141.0 }) }];
+    prj.parts.push(part);
+    let e = &mut prj.layout.enclosures[0];
+    (e.width, e.height) = (800.0, 1000.0);
+    e.items.push(PanelItem { part: "HMI".into(), face: Face::Door, ..item(1, ItemKind::Device, 200.0, 300.0, 214.0, 158.0) });
+    let messages = |prj: &Project| findings(prj).iter().map(|f| f.message.clone()).collect::<Vec<_>>();
+    assert!(messages(&prj).is_empty(), "{:?}", messages(&prj));
+    // Moved further off the middle, the cutout leaves the front of the panel.
+    prj.parts[1].mounting_data.cutouts[0].offset = [0.0, -12.0];
+    let m = messages(&prj);
+    assert_eq!(m.len(), 1, "{m:?}");
+    assert!(m[0].contains("reaches 3.5 mm beyond its front"), "{m:?}");
+    prj.parts[1].mounting_data.cutouts[0].offset = [0.0, -6.5];
+    // Near the hinge side the door's free edge takes no cutout.
+    prj.layout.enclosures[0].items[0].x = 0.0;
+    let m = messages(&prj);
+    assert!(m.iter().any(|m| m.contains("from the edge, at least 20.0 mm required")), "{m:?}");
+}

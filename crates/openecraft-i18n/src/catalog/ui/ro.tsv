@@ -9,6 +9,7 @@ Accessories of this part	Accesoriile acestui articol
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Accesoriile funcționează doar împreună cu articolele cu care se potrivesc. Un articol își enumeră accesoriile, un accesoriu articolele cu care se potrivește; este suficientă o parte.
 Accessory, mounted: {}	Accesoriu, montat: {}
 Add connection point	Adăugare punct de conexiune
+Add cutout	Adăugare decupaj
 Add function	Adăugare funcție
 Add marked parts to the parts database ({})	Adăugare articole marcate în baza de date de articole ({})
 Add to the parts database	Adăugare în baza de date de articole
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Conectați-vă la un server de articole și căutați.
 Connected: {} {} – {} parts, revision {}, {}	Conectat: {} {} – {} articole, revizia {}, {}
 Connection designations	Denumiri de conexiuni
+Corner radius	Rază de colț
 Datasheet (URL)	Fișă tehnică (URL)
 Deleted catalog {}	Catalogul {} a fost șters
 Deleted part {}	Articolul {} a fost șters
 Deleted user {}	Utilizatorul {} a fost șters
 Deleting {}…	Se șterge {}…
 Dimensions	Dimensiuni
+Door cutouts	Decupaje în ușă
 Downloaded {} ({} bytes)	{} descărcat ({} octeți)
 Downloading parts…	Se descarcă articolele…
 Drag it onto a schematic page to place it	Trageți pe o pagină de schemă pentru a plasa
@@ -49,14 +52,19 @@ Group by	Grupare după
 Identifying letter of devices using this part (K, Q, S …)	Litera de identificare a dispozitivelor care folosesc acest articol (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	Import STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	Import SVG…
+In the door, when they differ from the cutouts	În ușă, când diferă de decupaje
 Internal values of the EPLAN part exchange (0: undefined)	Valori interne ale schimbului de articole EPLAN (0: nedefinit)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Funcționează doar montat pe unul dintre articolele cu care se potrivește; verificarea proiectului îl semnalează la un aparat fără un astfel de articol
+Largest conductor the clamp takes (0: not known)	Cel mai mare conductor pe care îl primește clema (0: necunoscut)
 Loaded {} parts (revision {})	S-au încărcat {} articole (revizia {})
 Loading catalogs…	Se încarcă cataloagele…
 Loading favorites…	Se încarcă favoritele…
 Loading the history…	Se încarcă istoricul…
 Loading users…	Se încarcă utilizatorii…
 Mark for adding to the parts database	Marcare pentru adăugare în baza de date de articole
+Max. mm²	Max. mm²
+Min. mm²	Min. mm²
+Most wires the clamp takes (0: not known)	Numărul maxim de conductoare pe care le primește clema (0: necunoscut)
 Mounted directly on the wall or ceiling of a room	Montat direct pe peretele sau tavanul unei încăperi
 Moves lines such as Power loss: 3 W into the typed fields	Mută rânduri precum Power loss: 3 W în câmpurile tipizate
 No own connection points – the generated ones are shown.	Fără puncte de conexiune proprii – se afișează cele generate.
@@ -73,9 +81,11 @@ Pans (trackpad)	Deplasează (touchpad)
 Parts server: {}	Server de articole: {}
 Parts this part is assembled from; the bill of materials lists them under it	Articolele din care este asamblat acest articol; lista de materiale le listează sub el
 Personal access token	Token de acces personal
+Picture	Imagine
 Place by clicking into the view	Plasare prin clic în vedere
 Prices / other	Prețuri / altele
 Remove all	Eliminare toate
+Remove picture	Eliminare imagine
 Removing the file…	Se elimină fișierul…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Înlocuiește punctele de conexiune conform convenției IEC: denumirile impare sus, cele pare jos
 Reset filter	Resetare filtru
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Selectați un rând, apoi fa
 Server revision	Revizie server
 Signed out	Deconectat
 Signing out…	Se deconectează…
+Smallest conductor the clamp takes (0: not known)	Cel mai mic conductor pe care îl primește clema (0: necunoscut)
 Stands on the floor of a room	Stă pe pardoseala unei încăperi
 Stands on the floor of a room, like pumps, tanks and compressors	Stă pe pardoseala unei încăperi, ca pompele, rezervoarele și compresoarele
 Successor {}	Succesor {}
@@ -112,7 +123,10 @@ Voltage / current	Tensiune / curent
 WALL	PERETE
 Wall mounting	Montaj pe perete
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Unde se află accesoriul pe articolul cu care se potrivește, în schema de montaj și în vederea 3D
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Poziția decupajelor: centrul de la mijlocul vederii din față (x spre dreapta, y în jos), rotirea în sens antiorar.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Unde se conectează conductoarele în amplasarea în tablou: denumirea ca în șablonul de funcție, poziția în vederea frontală (x de la stânga, y de sus, z deasupra suprafeței de montaj) și direcția în care iese conductorul. Articolele fără puncte de conexiune proprii le primesc din șablonul de funcție.
+Width / Ø	Lățime / Ø
+Wire connection	Conectarea conductoarelor
 Wire leaves	Ieșire conductor
 Zoom only	Doar mărire
 Zooms (mouse wheel)	Mărește (rotița mouse-ului)
@@ -120,6 +134,7 @@ changes with token	modificări cu token
 created in your EPLAN account (ePulse)	creat în contul dumneavoastră EPLAN (ePulse)
 down	în jos
 e.g. 25.4 for models in inch, 1000 for models in metres	de ex. 25,4 pentru modele în inci, 1000 pentru modele în metri
+from {} mm²	de la {} mm²
 no 2D model	fără model 2D
 no mounting data	fără date de montaj
 none – a box of the mounting dimensions is drawn	niciunul – se desenează un paralelipiped cu dimensiunile de montaj
@@ -129,17 +144,25 @@ read-only	doar în citire
 signed in as {} ({})	conectat ca {} ({})
 to the front	spre față
 up	în sus
+up to {} mm²	până la {} mm²
 {} (changed {})	{} (modificat {})
 {} catalogs	{} cataloage
 {} changes of part {}	{} modificări ale articolului {}
 {} connection points	{} puncte de conexiune
 {} favorites	{} favorite
+{} mm above	{} mm deasupra
+{} mm below	{} mm dedesubt
+{} mm in front	{} mm în față
+{} mm left	{} mm la stânga
+{} mm right	{} mm la dreapta
 {} of {} parts	{} din {} articole
 {} parts found	{} articole găsite
 {} users	{} utilizatori
+{} wires per connection point	{} conductoare pe punct de conexiune
 {} × {} mm, {} elements	{} × {} mm, {} elemente
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} triunghiuri
+{}, {} wires per connection point	{}, {} conductoare pe punct de conexiune
 {}: 2D front view with {} elements assigned to {}	{}: vedere frontală 2D cu {} elemente atribuită lui {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: model 3D cu {} triunghiuri ({} × {} × {} mm) atribuit lui {}
 ★ Favorites	★ Favorite

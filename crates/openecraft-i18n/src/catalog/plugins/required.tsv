@@ -1072,6 +1072,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Seite des Ste
 Side the connection comes from: left, right, up or down (default up)	Seite, von der die Verbindung kommt: left, right, up oder down (Standard up)	Côté d'où vient la liaison : left, right, up ou down (up par défaut)	Lado por el que entra la conexión: left, right, up o down (up por defecto)
 Single-line diagrams	Übersichtsschaltpläne	Schémas unifilaires	Diagramas unifilares
 Single-line pages and their multi-line counterparts	Übersichtsseiten und ihre mehrpoligen Gegenstücke	Pages unifilaires et leurs équivalents multifilaires	Páginas unifilares y sus equivalentes multifilares
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Größe eines Symbols der Symbolbibliothek als Faktor (1 = wie gezeichnet); seine Texte behalten ihre Größe, angeschlossene Leiterenden folgen	Taille d'un symbole de la bibliothèque de symboles sous forme de facteur (1 = tel que dessiné) ; ses textes gardent leur taille et les extrémités de fils raccordées suivent	Tamaño de un símbolo de la biblioteca de símbolos como factor (1 = tal como está dibujado); sus textos conservan su tamaño y los extremos de cable conectados lo siguen
 Slot number	Steckplatznummer	Numéro d'emplacement	Número de slot
 Smallest bend radius in mm	Kleinster Biegeradius in mm	Plus petit rayon de courbure en mm	Radio de curvatura mínimo en mm
 Smallest distance in mm	Kleinster Abstand in mm	Distance minimale en mm	Distancia mínima en mm
@@ -1259,7 +1260,6 @@ Unknown side {} (socket or pin)	Unbekannte Seite {} (socket oder pin)	Côté inc
 Unknown side: {}	Unbekannte Lage: {}	Côté inconnu : {}	Lado desconocido: {}
 Unknown state: {}	Unbekannter Zustand: {}	État inconnu : {}	Estado desconocido: {}
 Unknown station kind: {}	Unbekannte Stationsart: {}	Type de station inconnu : {}	Tipo de estación desconocido: {}
-Unknown symbol: {}	Unbekanntes Symbol: {}	Symbole inconnu : {}	Símbolo desconocido: {}
 Unknown table: {}	Unbekannte Tabelle: {}	Tableau inconnu : {}	Tabla desconocida: {}
 Unknown termination: {}	Unbekannter Abschluss: {}	Terminaison inconnue : {}	Terminación desconocida: {}
 Unknown turn: {}	Unbekannte Drehrichtung: {}	Sens de rotation inconnu : {}	Sentido de giro desconocido: {}

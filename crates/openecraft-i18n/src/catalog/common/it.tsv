@@ -55,6 +55,7 @@ Classes	Classi
 Clear filters	Cancella filtri
 Clearance bottom	Distanza in basso
 Clearance top	Distanza in alto
+Clearances	Distanze
 Coding: {}	Codifica: {}
 Coil voltage	Tensione della bobina
 Collision class	Classe di collisione
@@ -86,6 +87,7 @@ Cross-section	Sezione
 Crossing	Incrocio
 Current	Corrente
 Cutout	Apertura
+Cutouts	Forature
 DCavg (%)	DCavg (%)
 DWG drawing	Disegno DWG
 DXF drawing	Disegno DXF
@@ -343,6 +345,7 @@ Range	Campo
 Rated current	Corrente nominale
 Rated power	Potenza nominale
 Rectangle	Rettangolo
+Rectangular	Rettangolare
 Reject	Rifiuta
 Relative humidity	Umidità relativa
 Relay	Relè
@@ -362,6 +365,7 @@ Rework	Rilavorazione
 Right	Destra
 Role	Ruolo
 Rooms	Locali
+Round	Rotondo
 Route	Instrada
 Routing	Instradamento
 Rows of modules (east-west: rows of pairs)	File di moduli (est-ovest: file di coppie)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Sensori, interruttori, pulsanti
 Server	Server
 Service space	Spazio di servizio
 Settings	Impostazioni
+Shape	Forma
 Short-circuit voltage	Tensione di cortocircuito
 Show history	Mostra cronologia
 Show the row after the column	Mostra la riga dopo la colonna
@@ -454,6 +459,7 @@ Unknown property: {}	Proprietà sconosciuta: {}
 Unknown scheme: {}	Schema sconosciuto: {}
 Unknown segment	Segmento sconosciuto
 Unknown symbol {}	Simbolo sconosciuto {}
+Unknown symbol: {}	Simbolo sconosciuto: {}
 Update	Aggiorna
 Uploading {}…	Caricamento di {}…
 User	Utente

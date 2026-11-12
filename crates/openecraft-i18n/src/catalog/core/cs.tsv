@@ -330,7 +330,6 @@ Customer phone	Telefon zákazníka
 Customs tariff number	Celní sazebníkové číslo
 Cut length (m)	Délka řezu (m)
 Cut length (mm)	Délka řezu (mm)
-Cutouts	Výřezy
 Cylinder	Válec
 Cylinder, double-acting	Válec, dvojčinný
 Cylinder, single-acting	Válec, jednočinný
@@ -991,6 +990,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	Jedna stránka schématu, potenciály podle IEC 60204-1
 One-way flow control valve	Jednosměrný škrticí ventil
 Only revisions that are not released can be submitted	Předložit lze jen revize, které nejsou uvolněny
+Only symbols of the symbol library can be scaled	Měnit měřítko lze jen u symbolů z knihovny symbolů
 Only {}	Jen {}
 Open	Otevřené
 Open connection point {} ({})	Otevřený přípojný bod {} ({})
@@ -1794,6 +1794,7 @@ Wire marker	Štítek vodiče
 Wire no.	Č. vodiče
 Wire number {} is used for {} different potentials	Číslo vodiče {} se používá pro {} různé potenciály
 Wire {} – {} changed after it was wired	Vodič {} – {} byl po zapojení změněn
+Wires at connection points	Vodiče na přípojných bodech
 Wires, cables and tubes	Vodiče, kabely a trubky
 Wiring machine	Automat na zpracování vodičů
 Wiring machine job list (CSV)	Seznam zakázek pro automat na zpracování vodičů (CSV)
@@ -1972,6 +1973,8 @@ yellow	žlutá
 {}: PV arrays {} and {} lie over each other	{}: FV pole {} a {} se překrývají
 {}: \"{}\" is not one of {}	{}: \"{}\" není jednou z hodnot {}
 {}: a TT system needs a residual current device	{}: soustava TT vyžaduje proudový chránič
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}: vodič {} mm² je silnější, než přípojný bod pojme (nejvýše {} mm²)
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}: vodič {} mm² je slabší, než přípojný bod pojme (nejméně {} mm²)
 {}: accessory {} fits none of the device's parts	{}: příslušenství {} se nehodí k žádnému dílu přístroje
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}: ovládací prvek {} je {} mm nad podlahou, doporučeno {} … {} mm
 {}: auxiliary function(s) without main function	{}: pomocné funkce bez hlavní funkce
@@ -1990,6 +1993,7 @@ yellow	žlutá
 {}: cross-section {} below the {} mm² of power circuits	{}: průřez {} pod {} mm² silových obvodů
 {}: cross-section {} differs from the potential definition ({})	{}: průřez {} se liší od definice potenciálu ({})
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{}: výřez {} na {} je {} mm od okraje, vyžaduje se alespoň {} mm
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}: výřez {} na {} přesahuje jeho čelo o {} mm
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{}: výřezy {} a {} na {} jsou příliš blízko ({} mm můstek, alespoň {} mm)
 {}: designation '{}' used more than once	{}: označení '{}' použito vícekrát
 {}: device tag without device name	{}: označení přístroje bez názvu přístroje
@@ -2099,6 +2103,7 @@ yellow	žlutá
 {}: {} stands where {} stands	{}: {} stojí tam, kde stojí {}
 {}: {} threads on the {} are cut by hand	{}: {} závitů na {} se řeže ručně
 {}: {} values of undefined properties	{}: {} hodnot nedefinovaných vlastností
+{}: {} wires end there, the connection point takes {}	{}: končí tam {} vodičů, přípojný bod pojme {}
 {}: {}× {} placed, assigned parts provide {}	{}: {}× {} umístěno, přiřazené artikly poskytují {}
 {}{} has to be reworked: {}	{}{} je nutné přepracovat: {}
 {}{} is {} mm off its position (tolerance {} mm)	{}{} se odchyluje o {} mm od své polohy (tolerance {} mm)

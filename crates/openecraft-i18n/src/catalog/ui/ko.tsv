@@ -9,6 +9,7 @@ Accessories of this part	이 부품의 액세서리
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	액세서리는 호환되는 부품과 함께일 때만 작동합니다. 부품은 액세서리를, 액세서리는 호환되는 부품을 나열하며, 어느 한쪽이면 충분합니다.
 Accessory, mounted: {}	액세서리, 장착: {}
 Add connection point	연결 지점 추가
+Add cutout	컷아웃 추가
 Add function	기능 추가
 Add marked parts to the parts database ({})	표시한 부품을 부품 데이터베이스에 추가({})
 Add to the parts database	부품 데이터베이스에 추가
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	부품 서버에 연결하여 검색하세요.
 Connected: {} {} – {} parts, revision {}, {}	연결됨: {} {} – 부품 {}개, 개정 {}, {}
 Connection designations	연결 명칭
+Corner radius	모서리 반경
 Datasheet (URL)	데이터시트(URL)
 Deleted catalog {}	카탈로그 {}을(를) 삭제했습니다
 Deleted part {}	부품 {} 삭제됨
 Deleted user {}	사용자 {}을(를) 삭제했습니다
 Deleting {}…	{} 삭제 중…
 Dimensions	치수
+Door cutouts	도어 컷아웃
 Downloaded {} ({} bytes)	{}을(를) 다운로드했습니다({}바이트)
 Downloading parts…	부품 다운로드 중…
 Drag it onto a schematic page to place it	회로도 페이지로 드래그하여 배치
@@ -49,14 +52,19 @@ Group by	그룹화 기준
 Identifying letter of devices using this part (K, Q, S …)	이 부품을 사용하는 장치의 식별 문자(K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	STL / OBJ / STEP / IGES / IFC / JT 가져오기…
 Import SVG…	SVG 가져오기…
+In the door, when they differ from the cutouts	도어에서, 컷아웃과 다를 때
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN 부품 교환의 내부 값(0: 정의되지 않음)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	호환되는 부품 중 하나에 장착된 경우에만 작동합니다. 해당 부품이 없는 장치에서는 프로젝트 검사가 보고합니다
+Largest conductor the clamp takes (0: not known)	단자가 받는 가장 큰 도체 (0: 알 수 없음)
 Loaded {} parts (revision {})	부품 {}개 로드됨(개정 {})
 Loading catalogs…	카탈로그를 로드하는 중…
 Loading favorites…	즐겨찾기를 로드하는 중…
 Loading the history…	기록을 로드하는 중…
 Loading users…	사용자를 로드하는 중…
 Mark for adding to the parts database	부품 데이터베이스에 추가하도록 표시
+Max. mm²	최대 mm²
+Min. mm²	최소 mm²
+Most wires the clamp takes (0: not known)	단자가 받는 최대 전선 수 (0: 알 수 없음)
 Mounted directly on the wall or ceiling of a room	방의 벽이나 천장에 직접 설치
 Moves lines such as Power loss: 3 W into the typed fields	Power loss: 3 W 같은 줄을 형식이 지정된 필드로 이동합니다
 No own connection points – the generated ones are shown.	고유 연결 지점 없음 – 생성된 연결 지점이 표시됩니다.
@@ -73,9 +81,11 @@ Pans (trackpad)	이동(트랙패드)
 Parts server: {}	부품 서버: {}
 Parts this part is assembled from; the bill of materials lists them under it	이 부품을 구성하는 부품. 부품 목록에는 이 부품 아래에 나열됩니다
 Personal access token	개인 액세스 토큰
+Picture	이미지
 Place by clicking into the view	보기를 클릭하여 배치
 Prices / other	가격 / 기타
 Remove all	모두 제거
+Remove picture	이미지 제거
 Removing the file…	파일을 제거하는 중…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	IEC 규칙에 따라 연결 지점을 교체합니다: 홀수 명칭은 위쪽, 짝수 명칭은 아래쪽
 Reset filter	필터 재설정
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	행을 선택한 후 보기�
 Server revision	서버 개정
 Signed out	로그아웃됨
 Signing out…	로그아웃 중…
+Smallest conductor the clamp takes (0: not known)	단자가 받는 가장 작은 도체 (0: 알 수 없음)
 Stands on the floor of a room	방 바닥에 설치
 Stands on the floor of a room, like pumps, tanks and compressors	펌프, 탱크, 압축기처럼 방 바닥에 설치
 Successor {}	후속 제품 {}
@@ -112,7 +123,10 @@ Voltage / current	전압 / 전류
 WALL	벽
 Wall mounting	벽 설치
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	호환 부품에서 액세서리가 위치하는 곳(패널 레이아웃과 3D 보기)
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	컷아웃 위치: 정면도 가운데에서 중심 (x는 오른쪽, y는 아래), 회전은 시계 반대 방향.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	패널 레이아웃에서 전선이 연결되는 곳: 기능 템플릿과 같은 명칭, 정면도에서의 위치(x는 왼쪽부터, y는 위쪽부터, z는 장착면 위) 및 전선이 나가는 방향. 고유 연결 지점이 없는 부품은 기능 템플릿에서 연결 지점을 받습니다.
+Width / Ø	너비 / Ø
+Wire connection	전선 연결
 Wire leaves	전선 인출 방향
 Zoom only	확대/축소만
 Zooms (mouse wheel)	확대/축소(마우스 휠)
@@ -120,6 +134,7 @@ changes with token	토큰으로 변경
 created in your EPLAN account (ePulse)	EPLAN 계정(ePulse)에서 생성
 down	아래
 e.g. 25.4 for models in inch, 1000 for models in metres	예: 인치 단위 모델은 25.4, 미터 단위 모델은 1000
+from {} mm²	{} mm² 이상
 no 2D model	2D 모델 없음
 no mounting data	장착 데이터 없음
 none – a box of the mounting dimensions is drawn	없음 – 장착 치수의 상자가 그려짐
@@ -129,17 +144,25 @@ read-only	읽기 전용
 signed in as {} ({})	{}({})(으)로 로그인됨
 to the front	앞쪽
 up	위
+up to {} mm²	최대 {} mm²
 {} (changed {})	{}({} 변경됨)
 {} catalogs	카탈로그 {}개
 {} changes of part {}	부품 {1}의 변경 {0}개
 {} connection points	연결 지점 {}개
 {} favorites	즐겨찾기 {}개
+{} mm above	위 {} mm
+{} mm below	아래 {} mm
+{} mm in front	앞 {} mm
+{} mm left	왼쪽 {} mm
+{} mm right	오른쪽 {} mm
 {} of {} parts	부품 {1}개 중 {0}개
 {} parts found	부품 {}개를 찾았습니다
 {} users	사용자 {}개
+{} wires per connection point	연결 지점당 전선 {}개
 {} × {} mm, {} elements	{} × {} mm, 요소 {}개
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, 삼각형 {}개
+{}, {} wires per connection point	{}, 연결 지점당 전선 {}개
 {}: 2D front view with {} elements assigned to {}	{0}: 요소 {1}개의 2D 정면도가 {2}에 지정됨
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{0}: 삼각형 {1}개({2} × {3} × {4} mm)의 3D 모델이 {5}에 지정됨
 ★ Favorites	★ 즐겨찾기

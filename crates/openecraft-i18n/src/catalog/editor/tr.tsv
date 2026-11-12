@@ -291,7 +291,6 @@ Circle	Daire
 Circuits of a generic manifold	Genel bir kollektörün devreleri
 Clear	Temizle
 Clearance	Açıklık mesafesi
-Clearances	Mesafeler
 Click	Tıklama
 Click a text: open its link	Bir metne tıklama: bağlantısını aç
 Click an element in the drawing to edit it.	Düzenlemek için çizimdeki bir öğeye tıklayın.
@@ -592,6 +591,7 @@ Drawing as new page	Yeni sayfa olarak çizim
 Drawn as a connection dot; the routing stays	Bağlantı noktası olarak çizilir; yönlendirme kalır
 Drawn form	Çizilmiş form
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Tablo yerine şeridi klemensleri ve köprüleriyle veya kabloları damarlarıyla birlikte çizer; formun sütunları kullanılmaz
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Sembolü daha büyük veya küçük çizer; metinleri boyutunu korur ve bağlı teller onu izler
 Drilling list (CSV)	Delik listesi (CSV)
 Drilling list of this face (CSV)	Bu yüzeyin delik listesi (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Gösterilen yüzün delik deseni DXF, DWG veya CSV olarak
@@ -1492,7 +1492,6 @@ Recently used	Son kullanılanlar
 Recommended height of manual actuators (10.1.2)	Elle kumanda elemanlarının önerilen yüksekliği (10.1.2)
 Record	Kaydet
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Kaydet: beliren alanda hareketi yapın, isterseniz bir değiştirici tuşu basılı tutun (Esc iptal eder). Ekle mevcut hareketleri korur. Seçim aracında sağ tıklama bağlam menüsünü açar.
-Rectangular	Dikdörtgen
 Redline: to be changed · Greenline: changed as built	Redline: değiştirilecek · Greenline: uygulandığı gibi değiştirildi
 Redo	Yinele
 Reference point	Referans noktası
@@ -1618,7 +1617,6 @@ Rotate	Döndür
 Rotate (selection or symbol being placed)	Döndür (seçim veya yerleştirilen sembol)
 Rotate what is being moved	Taşınanı döndür
 Rotate what is being moved counter-clockwise	Taşınanı saat yönünün tersine döndür
-Round	Yuvarlak
 Round cutouts facing each other in both side walls	Her iki yan duvarda karşılıklı yuvarlak kesimler
 Route definition of {}	{} güzergâh tanımı
 Route network	Güzergâh ağı
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Ayar şeması (JSON)
 Settings taken over: {}	Devralınan ayarlar: {}
 Settings…	Ayarlar…
 Shafts	Şaftlar
-Shape	Şekil
 Share of the capacity kept free for later additions	Sonraki eklemeler için boş bırakılan kapasite oranı
 Shared project {} – revision {}, user {}	Paylaşılan proje {} – revizyon {}, kullanıcı {}
 Shield	Ekran
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	3B görünümü noktaya çevir
 Tutorial	Eğitim
 Twin ferrules where two wires share a connection point	İki telin bir bağlantı noktasını paylaştığı yerlerde ikiz yüksükler
 Two fingers	İki parmak
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dokunmatik yüzeyde iki parmak görünümü kaydırır, fare tekerleği yakınlaştırır. Bunları yalnızca macOS ayırt eder; diğer sistemlerde kaydırma tekerlek gibi yakınlaştırır.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Burada iki tel dik açıyla birleşmeli. Otomatik bağlama açıkken kollarına bakan bağlantı noktaları ona bağlanır.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Bir nokta yazın ve Enter'a basın: mm cinsinden x y veya son noktaya göre @dx dy; geçerli aracın tıklaması gibi davranır
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

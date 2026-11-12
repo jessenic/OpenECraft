@@ -291,7 +291,6 @@ Circle	Cerchio
 Circuits of a generic manifold	Circuiti di un collettore generico
 Clear	Cancella
 Clearance	Distanza minima
-Clearances	Distanze
 Click	Clic
 Click a text: open its link	Clic su un testo: aprire il suo link
 Click an element in the drawing to edit it.	Fai clic su un elemento del disegno per modificarlo.
@@ -592,6 +591,7 @@ Drawing as new page	Disegno come nuova pagina
 Drawn as a connection dot; the routing stays	Disegnato come punto di collegamento; l'instradamento resta
 Drawn form	Modulo disegnato
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Disegna la morsettiera con i morsetti e i ponticelli, o i cavi con le loro anime, invece di una tabella; le colonne del modulo non vengono utilizzate
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Disegna il simbolo più grande o più piccolo; i suoi testi mantengono la dimensione e i conduttori collegati lo seguono
 Drilling list (CSV)	Elenco forature (CSV)
 Drilling list of this face (CSV)	Lista fori di questa faccia (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Schema di foratura della faccia mostrata come DXF, DWG o CSV
@@ -1492,7 +1492,6 @@ Recently used	Usati di recente
 Recommended height of manual actuators (10.1.2)	Altezza consigliata degli attuatori manuali (10.1.2)
 Record	Registra
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Registra: eseguire il gesto nel campo che appare, tenendo premuto un modificatore se si desidera (Esc annulla). Aggiungi mantiene i gesti esistenti. Il clic destro nello strumento di selezione apre il menu contestuale.
-Rectangular	Rettangolare
 Redline: to be changed · Greenline: changed as built	Redline: da modificare · Greenline: modificato come costruito
 Redo	Ripeti
 Reference point	Punto di riferimento
@@ -1618,7 +1617,6 @@ Rotate	Ruota
 Rotate (selection or symbol being placed)	Ruota (selezione o simbolo in fase di posizionamento)
 Rotate what is being moved	Ruotare ciò che si sta spostando
 Rotate what is being moved counter-clockwise	Ruotare ciò che si sta spostando in senso antiorario
-Round	Rotondo
 Round cutouts facing each other in both side walls	Aperture rotonde affacciate in entrambe le pareti laterali
 Route definition of {}	Definizione del percorso di {}
 Route network	Rete dei percorsi cavi
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Schema delle impostazioni (JSON)
 Settings taken over: {}	Impostazioni applicate: {}
 Settings…	Impostazioni…
 Shafts	Cavedi
-Shape	Forma
 Share of the capacity kept free for later additions	Quota della capacità lasciata libera per future aggiunte
 Shared project {} – revision {}, user {}	Progetto condiviso {} – revisione {}, utente {}
 Shield	Schermo
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	Orientare la vista 3D verso il punto
 Tutorial	Tutorial
 Twin ferrules where two wires share a connection point	Puntalini doppi dove due conduttori condividono un punto di connessione
 Two fingers	Due dita
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Due dita sul trackpad spostano la vista, la rotella del mouse esegue lo zoom. Solo macOS li distingue; altrove lo scorrimento esegue lo zoom come la rotella.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Qui devono incontrarsi due conduttori ad angolo retto. Con la connessione automatica attiva, i punti di collegamento rivolti ai suoi bracci vi vengono cablati.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Digita un punto e premi Enter: x y in mm o @dx dy rispetto all'ultimo punto; agisce come un clic dello strumento corrente
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

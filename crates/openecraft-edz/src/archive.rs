@@ -166,6 +166,9 @@ pub(crate) fn read_with_library(bytes: &[u8], mappings: &[openecraft_core::symli
     }
     for part in &mut parts {
         part.mounting_data.rail = part.effective_rail_mount();
+        if let Some(picture) = out.iter().filter(|f| f.part == part.number && f.kind == AttachmentKind::Image).find_map(|f| crate::picture::thumbnail(&f.data)) {
+            part.picture = picture;
+        }
     }
     Ok(Edz { parts, files: out })
 }

@@ -291,7 +291,6 @@ Circle	Kör
 Circuits of a generic manifold	Általános osztó körei
 Clear	Törlés
 Clearance	Szabad tér
-Clearances	Szabad terek
 Click	Kattintás
 Click a text: open its link	Kattintás egy szövegre: hivatkozásának megnyitása
 Click an element in the drawing to edit it.	Kattintson a rajz egy elemére a szerkesztéséhez.
@@ -592,6 +591,7 @@ Drawing as new page	Rajz új oldalként
 Drawn as a connection dot; the routing stays	Csatlakozási pontként rajzolva; az útvonal megmarad
 Drawn form	Rajzolt űrlap
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Táblázat helyett megrajzolja a lécet a sorkapcsokkal és áthidalásokkal, illetve a kábeleket az ereikkel; az űrlap oszlopai nem használatosak
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Nagyobbra vagy kisebbre rajzolja a szimbólumot; szövegei megtartják méretüket, a csatlakozó vezetékek követik
 Drilling list (CSV)	Furatlista (CSV)
 Drilling list of this face (CSV)	A felület furatlistája (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	A megjelenített felület furatképe DXF, DWG vagy CSV formátumban
@@ -1492,7 +1492,6 @@ Recently used	Legutóbb használt
 Recommended height of manual actuators (10.1.2)	Kézi kezelőelemek ajánlott magassága (10.1.2)
 Record	Rögzítés
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Rögzítés: végezze el a kézmozdulatot a megjelenő mezőben, igény szerint módosítóbillentyűt nyomva tartva (Esc megszakítja). A Hozzáadás megtartja a meglévő kézmozdulatokat. A kijelölőeszközben a jobb kattintás a helyi menüt nyitja meg.
-Rectangular	Téglalap alakú
 Redline: to be changed · Greenline: changed as built	Redline: módosítandó · Greenline: kivitelezés szerint módosítva
 Redo	Mégis
 Reference point	Referenciapont
@@ -1618,7 +1617,6 @@ Rotate	Elforgatás
 Rotate (selection or symbol being placed)	Elforgatás (kijelölés vagy az elhelyezés alatt álló szimbólum)
 Rotate what is being moved	A mozgatott elem forgatása
 Rotate what is being moved counter-clockwise	A mozgatott elem forgatása az óramutatóval ellentétesen
-Round	Kerek
 Round cutouts facing each other in both side walls	Egymással szemben lévő kerek kivágások mindkét oldalfalban
 Route definition of {}	{} nyomvonal-definíciója
 Route network	Nyomvonalhálózat
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Beállításséma (JSON)
 Settings taken over: {}	Beállítások átvéve: {}
 Settings…	Beállítások…
 Shafts	Aknák
-Shape	Alak
 Share of the capacity kept free for later additions	A kapacitás későbbi bővítésre szabadon hagyott része
 Shared project {} – revision {}, user {}	{} megosztott projekt – {}. revízió, felhasználó: {}
 Shield	Árnyékolás
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	A 3D nézet ráfordítása a pontra
 Tutorial	Oktatóanyag
 Twin ferrules where two wires share a connection point	Iker érvéghüvelyek, ahol két vezeték osztozik egy csatlakozási ponton
 Two fingers	Két ujj
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Az érintőpadon két ujj mozgatja a nézetet, az egérgörgő nagyít. Csak a macOS különbözteti meg őket; máshol a görgetés a görgőhöz hasonlóan nagyít.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Itt két vezetéknek kell derékszögben találkoznia. Bekapcsolt automatikus csatlakoztatással a karjaival szemközti csatlakozási pontok hozzá vezetékeződnek.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Írjon be egy pontot, és nyomja le az Enter billentyűt: x y mm-ben, vagy @dx dy az utolsó ponthoz képest; úgy működik, mint az aktuális eszközzel végzett kattintás
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

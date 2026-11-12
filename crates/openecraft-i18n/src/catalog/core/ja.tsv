@@ -323,7 +323,6 @@ Customer phone	顧客の電話番号
 Customs tariff number	関税番号
 Cut length (m)	切断長 (m)
 Cut length (mm)	切断長 (mm)
-Cutouts	切り欠き
 Cylinder	シリンダー
 Cylinder, double-acting	シリンダー、複動
 Cylinder, single-acting	シリンダー、単動
@@ -982,6 +981,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	回路図ページ 1 枚、IEC 60204-1 の電位
 One-way flow control valve	ワンウェイ流量制御弁
 Only revisions that are not released can be submitted	提出できるのはリリースされていないリビジョンのみです
+Only symbols of the symbol library can be scaled	シンボルライブラリのシンボルだけを拡大縮小できます
 Only {}	{} のみ
 Open	未完了
 Open connection point {} ({})	未接続の接続ポイント {} ({})
@@ -1782,6 +1782,7 @@ Wire marker	電線マーカー
 Wire no.	電線番号
 Wire number {} is used for {} different potentials	電線番号 {} が {} 個の異なる電位に使用されています
 Wire {} – {} changed after it was wired	電線 {} – {} は配線後に変更されました
+Wires at connection points	接続ポイントの電線
 Wires, cables and tubes	電線、ケーブル、チューブ
 Wiring machine	電線加工機
 Wiring machine job list (CSV)	電線加工機用ジョブリスト (CSV)
@@ -1958,6 +1959,8 @@ yellow	黄
 {}: PV arrays {} and {} lie over each other	{}：PVアレイ {} と {} が重なっています
 {}: \"{}\" is not one of {}	{}: 「{}」は {} のいずれでもありません
 {}: a TT system needs a residual current device	{}: TT 系統には漏電遮断器が必要です
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}：{} mm² の電線は太すぎます（接続ポイントは最大 {} mm²）
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}：{} mm² の電線は細すぎます（接続ポイントは最小 {} mm²）
 {}: accessory {} fits none of the device's parts	{}: アクセサリ {} は機器のどの部品にも適合しません
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}: 操作部 {} は床面から {} mm です (推奨 {} … {} mm)
 {}: auxiliary function(s) without main function	{}: 主機能のない補助機能
@@ -1976,6 +1979,7 @@ yellow	黄
 {}: cross-section {} below the {} mm² of power circuits	{}: 断面積 {} が動力回路の {} mm² を下回っています
 {}: cross-section {} differs from the potential definition ({})	{}: 断面積 {} が電位定義 ({}) と異なります
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{0}: {2} 上の {1} の切り欠きは端から {3} mm です。{4} mm 以上必要です
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}：{} の {} 上の切り欠きが正面から {} mm はみ出しています
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{0}: {3} 上の {1} と {2} の切り欠きが近すぎます (残し幅 {4} mm、最小 {5} mm)
 {}: designation '{}' used more than once	{}: 名称 '{}' が複数回使用されています
 {}: device tag without device name	{}: デバイス名のないデバイスタグ
@@ -2084,6 +2088,7 @@ yellow	黄
 {}: {} stands where {} stands	{}: {} は {} と同じ場所にあります
 {}: {} threads on the {} are cut by hand	{0}: {2} のねじ {1} 個は手作業で加工します
 {}: {} values of undefined properties	{}: 未定義のプロパティの値 {} 件
+{}: {} wires end there, the connection point takes {}	{}：{} 本の電線がここで終わりますが、接続ポイントは {} 本までです
 {}: {}× {} placed, assigned parts provide {}	{}: {}× {} を配置、割り当てられた部品が提供: {}
 {}{} has to be reworked: {}	{}{} は手直しが必要です: {}
 {}{} is {} mm off its position (tolerance {} mm)	{}{} は位置から {} mm ずれています (許容差 {} mm)

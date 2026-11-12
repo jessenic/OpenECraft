@@ -55,6 +55,7 @@ Classes	Osztályok
 Clear filters	Szűrők törlése
 Clearance bottom	Szabad tér alul
 Clearance top	Szabad tér felül
+Clearances	Szabad terek
 Coding: {}	Kódolás: {}
 Coil voltage	Tekercsfeszültség
 Collision class	Ütközési osztály
@@ -86,6 +87,7 @@ Cross-section	Keresztmetszet
 Crossing	Kereszteződés
 Current	Áram
 Cutout	Kivágás
+Cutouts	Kivágások
 DCavg (%)	DCavg (%)
 DWG drawing	DWG-rajz
 DXF drawing	DXF-rajz
@@ -343,6 +345,7 @@ Range	Tartomány
 Rated current	Névleges áram
 Rated power	Névleges teljesítmény
 Rectangle	Téglalap
+Rectangular	Téglalap alakú
 Reject	Elutasítás
 Relative humidity	Relatív páratartalom
 Relay	Relé
@@ -362,6 +365,7 @@ Rework	Utómunka
 Right	Jobb
 Role	Szerepkör
 Rooms	Helyiségek
+Round	Kerek
 Route	Elvezetés
 Routing	Nyomvonalvezetés
 Rows of modules (east-west: rows of pairs)	Modulsorok (kelet-nyugat: párok sorai)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Érzékelők, kapcsolók, nyomógombok
 Server	Szerver
 Service space	Szervizterület
 Settings	Beállítások
+Shape	Alak
 Short-circuit voltage	Rövidzárási feszültség
 Show history	Előzmények megjelenítése
 Show the row after the column	A sor megjelenítése az oszlop után
@@ -454,6 +459,7 @@ Unknown property: {}	Ismeretlen tulajdonság: {}
 Unknown scheme: {}	Ismeretlen séma: {}
 Unknown segment	Ismeretlen szegmens
 Unknown symbol {}	Ismeretlen szimbólum: {}
+Unknown symbol: {}	Ismeretlen szimbólum: {}
 Update	Frissítés
 Uploading {}…	{} feltöltése…
 User	Felhasználó

@@ -9,6 +9,7 @@ Accessories of this part	Zubehör dieses Artikels	Accessoires de cet article	Acc
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Zubehör funktioniert nur zusammen mit den Artikeln, zu denen es passt. Ein Artikel nennt sein Zubehör, ein Zubehör die Artikel, zu denen es passt; eine Seite genügt.	Les accessoires ne fonctionnent qu'avec les articles auxquels ils conviennent. Un article indique ses accessoires, un accessoire les articles auxquels il convient ; un seul côté suffit.	Los accesorios solo funcionan junto con los artículos con los que son compatibles. Un artículo indica sus accesorios, un accesorio los artículos con los que es compatible; basta con un lado.
 Accessory, mounted: {}	Zubehör, montiert: {}	Accessoire, monté : {}	Accesorio, montado: {}
 Add connection point	Anschluss hinzufügen	Ajouter un point de connexion	Añadir punto de conexión
+Add cutout	Ausschnitt hinzufügen	Ajouter une découpe	Añadir recorte
 Add function	Funktion hinzufügen	Ajouter une fonction	Añadir función
 Add marked parts to the parts database ({})	Markierte Artikel in die Artikeldatenbank übernehmen ({})	Ajouter les articles marqués à la base d'articles ({})	Añadir los artículos marcados a la base de datos de artículos ({})
 Add to the parts database	In die Artikeldatenbank übernehmen	Ajouter à la base d'articles	Añadir a la base de datos de artículos
@@ -29,12 +30,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Verbinden Sie sich mit einem Artikelserver und suchen Sie.	Connectez-vous à un serveur d'articles et lancez une recherche.	Conéctese a un servidor de artículos y busque.
 Connected: {} {} – {} parts, revision {}, {}	Verbunden: {} {} – {} Artikel, Revision {}, {}	Connecté : {} {} – {} articles, révision {}, {}	Conectado: {} {} – {} artículos, revisión {}, {}
 Connection designations	Verbindungsbezeichnungen	Désignations des liaisons	Designaciones de conexión
+Corner radius	Eckenradius	Rayon d'angle	Radio de esquina
 Datasheet (URL)	Datenblatt (URL)	Fiche technique (URL)	Hoja de datos (URL)
 Deleted catalog {}	Katalog {} gelöscht	Catalogue {} supprimé	Catálogo {} eliminado
 Deleted part {}	Artikel {} gelöscht	Article {} supprimé	Artículo {} eliminado
 Deleted user {}	Benutzer {} gelöscht	Utilisateur {} supprimé	Usuario {} eliminado
 Deleting {}…	Lösche {} …	Suppression de {}…	Eliminando {}…
 Dimensions	Abmessungen	Dimensions	Dimensiones
+Door cutouts	Türausschnitte	Découpes de porte	Recortes de puerta
 Downloaded {} ({} bytes)	{} heruntergeladen ({} Bytes)	{} téléchargé ({} octets)	{} descargado ({} bytes)
 Downloading parts…	Artikel werden heruntergeladen …	Téléchargement des articles…	Descargando artículos…
 Drag it onto a schematic page to place it	Auf eine Schaltplanseite ziehen, um ihn zu platzieren	Faites-le glisser sur une page de schéma pour le placer	Arrástrelo a una página de esquema para colocarlo
@@ -53,8 +56,10 @@ Group by	Gruppieren nach	Grouper par	Agrupar por
 Identifying letter of devices using this part (K, Q, S …)	Kennbuchstabe von Betriebsmitteln mit diesem Artikel (K, Q, S …)	Lettre d'identification des appareils utilisant cet article (K, Q, S …)	Letra identificativa de los dispositivos que usan este artículo (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	STL / OBJ / STEP / IGES / IFC / JT importieren…	Importer STL / OBJ / STEP / IGES / IFC / JT…	Importar STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	SVG importieren…	Importer SVG…	Importar SVG…
+In the door, when they differ from the cutouts	In der Tür, wenn sie von den Ausschnitten abweichen	Dans la porte, lorsqu'elles diffèrent des découpes	En la puerta, cuando difieren de los recortes
 Internal values of the EPLAN part exchange (0: undefined)	Interne Werte des EPLAN-Artikelaustauschs (0: undefiniert)	Valeurs internes de l'échange d'articles EPLAN (0 : non défini)	Valores internos del intercambio de artículos de EPLAN (0: indefinido)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Es funktioniert nur an einem der Artikel, zu denen es passt; die Projektprüfung meldet es an einem Gerät ohne solchen Artikel	Il ne fonctionne que fixé à l'un des articles auxquels il convient ; la vérification du projet le signale sur un appareil sans tel article	Solo funciona montado en uno de los artículos con los que es compatible; la verificación del proyecto lo indica en un equipo sin dicho artículo
+Largest conductor the clamp takes (0: not known)	Größter Leiter, den die Klemmstelle aufnimmt (0: unbekannt)	Plus gros conducteur accepté par la borne (0 : inconnu)	Conductor más grande que admite el borne (0: desconocido)
 Leave blank to use the saved token automatically. Saving a replacement requires Remember token.	Leer lassen, um das gespeicherte Token automatisch zu verwenden. Zum Ersetzen muss das Speichern aktiviert sein.	Laisser vide pour utiliser automatiquement le jeton enregistré. Activer la mémorisation pour le remplacer.	Dejar vacío para usar automáticamente el token guardado. Para sustituirlo, activar Recordar token.
 Loaded {} parts (revision {})	{} Artikel geladen (Revision {})	{} articles chargés (révision {})	{} artículos cargados (revisión {})
 Loading catalogs…	Kataloge werden geladen…	Chargement des catalogues…	Cargando catálogos…
@@ -62,6 +67,9 @@ Loading favorites…	Favoriten werden geladen…	Chargement des favoris…	Carga
 Loading the history…	Verlauf wird geladen…	Chargement de l'historique…	Cargando el historial…
 Loading users…	Benutzer werden geladen…	Chargement des utilisateurs…	Cargando usuarios…
 Mark for adding to the parts database	Zum Übernehmen in die Artikeldatenbank markieren	Marquer pour l'ajout à la base d'articles	Marcar para añadir a la base de datos de artículos
+Max. mm²	Max. mm²	Max. mm²	Máx. mm²
+Min. mm²	Min. mm²	Min. mm²	Mín. mm²
+Most wires the clamp takes (0: not known)	Höchste Anzahl Leiter, die die Klemmstelle aufnimmt (0: unbekannt)	Nombre maximal de fils acceptés par la borne (0 : inconnu)	Número máximo de cables que admite el borne (0: desconocido)
 Mounted directly on the wall or ceiling of a room	Direkt an Wand oder Decke eines Raums montiert	Monté directement sur le mur ou le plafond d'une salle	Montado directamente en la pared o el techo de una sala
 Moves lines such as Power loss: 3 W into the typed fields	Verschiebt Zeilen wie Power loss: 3 W in die typisierten Felder	Déplace les lignes telles que Power loss: 3 W dans les champs typés	Mueve líneas como Power loss: 3 W a los campos tipados
 No own connection points – the generated ones are shown.	Keine eigenen Anschlüsse – die erzeugten werden angezeigt.	Aucun point de connexion propre – ceux générés sont affichés.	Sin puntos de conexión propios: se muestran los generados.
@@ -79,10 +87,12 @@ Pans (trackpad)	Verschiebt (Trackpad)	Déplace (pavé tactile)	Desplaza (panel t
 Parts server: {}	Artikelserver: {}	Serveur d'articles : {}	Servidor de artículos: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikel, aus denen dieser Artikel zusammengesetzt ist; die Stückliste führt sie darunter auf	Articles dont cet article est composé ; la nomenclature les liste en dessous	Artículos de los que se compone este artículo; la lista de materiales los muestra debajo
 Personal access token	Persönliches Zugriffstoken	Jeton d'accès personnel	Token de acceso personal
+Picture	Bild	Image	Imagen
 Place by clicking into the view	Durch Klick in die Ansicht platzieren	Placer en cliquant dans la vue	Colocar haciendo clic en la vista
 Prices / other	Preise / Sonstiges	Prix / divers	Precios / otros
 Remember token on this computer	Token auf diesem Computer speichern	Mémoriser le jeton sur cet ordinateur	Recordar el token en este equipo
 Remove all	Alle entfernen	Tout supprimer	Quitar todos
+Remove picture	Bild entfernen	Supprimer l'image	Quitar la imagen
 Removing the file…	Datei wird entfernt…	Suppression du fichier…	Quitando el archivo…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Ersetzt die Anschlüsse nach IEC-Konvention: ungerade Bezeichnungen oben, gerade unten	Remplace les points de connexion selon la convention CEI : désignations impaires en haut, paires en bas	Sustituye los puntos de conexión según la convención IEC: designaciones impares arriba, pares abajo
 Reset filter	Filter zurücksetzen	Réinitialiser le filtre	Restablecer el filtro
@@ -98,6 +108,7 @@ Select a row, then click into the view to place it.	Zeile wählen, dann in die A
 Server revision	Server-Revision	Révision du serveur	Revisión del servidor
 Signed out	Abgemeldet	Déconnecté	Sesión cerrada
 Signing out…	Abmeldung…	Déconnexion…	Cerrando sesión…
+Smallest conductor the clamp takes (0: not known)	Kleinster Leiter, den die Klemmstelle aufnimmt (0: unbekannt)	Plus petit conducteur accepté par la borne (0 : inconnu)	Conductor más pequeño que admite el borne (0: desconocido)
 Stands on the floor of a room	Steht auf dem Boden eines Raums	Posé au sol d'une salle	Se apoya en el suelo de una sala
 Stands on the floor of a room, like pumps, tanks and compressors	Steht auf dem Boden eines Raums, wie Pumpen, Behälter und Kompressoren	Posé au sol d'une salle, comme les pompes, réservoirs et compresseurs	Se apoya en el suelo de una sala, como bombas, depósitos y compresores
 Strict	Streng	Strict	Estricto
@@ -121,7 +132,10 @@ Voltage / current	Spannung / Strom	Tension / courant	Tensión / corriente
 WALL	WAND	MUR	PARED
 Wall mounting	Wandmontage	Montage mural	Montaje mural
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Wo das Zubehör am passenden Artikel sitzt, im Aufbauplan und in der 3D-Ansicht	Emplacement de l'accessoire sur l'article auquel il convient, dans l'implantation et la vue 3D	Dónde se sitúa el accesorio en el artículo compatible, en el esquema de montaje y en la vista 3D
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Lage der Ausschnitte: der Mittelpunkt von der Mitte der Frontansicht aus (x nach rechts, y nach unten), die Drehung gegen den Uhrzeigersinn.	Position des découpes : le centre à partir du milieu de la vue de face (x vers la droite, y vers le bas), la rotation dans le sens antihoraire.	Posición de los recortes: el centro desde el medio de la vista frontal (x hacia la derecha, y hacia abajo), el giro en sentido antihorario.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Wo im Aufbau verdrahtet wird: die Bezeichnung wie in der Funktionsschablone, die Lage in der Frontansicht (x von links, y von oben, z über der Montagefläche) und die Richtung, in der die Leitung abgeht. Artikel ohne eigene Anschlüsse erhalten sie aus der Funktionsschablone.	Où les fils sont raccordés dans l'implantation : la désignation comme dans le modèle de fonctions, la position dans la vue de face (x depuis la gauche, y depuis le haut, z au-dessus de la surface de montage) et la direction de départ du fil. Les articles sans points propres les reçoivent du modèle de fonctions.	Dónde se conectan los cables en el montaje: la designación como en la plantilla de funciones, la posición en la vista frontal (x desde la izquierda, y desde arriba, z sobre la superficie de montaje) y la dirección en la que sale el cable. Los artículos sin puntos propios los obtienen de la plantilla de funciones.
+Width / Ø	Breite / Ø	Largeur / Ø	Ancho / Ø
+Wire connection	Leiteranschluss	Raccordement des fils	Conexión de cables
 Wire leaves	Abgang	Départ du fil	Salida del cable
 Zoom only	Nur zoomen	Zoomer seulement	Solo zoom
 Zooms (mouse wheel)	Zoomt (Mausrad)	Zoome (molette)	Hace zoom (rueda del ratón)
@@ -129,6 +143,7 @@ changes with token	Änderungen mit Token	modifications avec jeton	cambios con to
 created in your EPLAN account (ePulse)	in Ihrem EPLAN-Konto (ePulse) erstellt	créé dans votre compte EPLAN (ePulse)	creado en su cuenta EPLAN (ePulse)
 down	nach unten	vers le bas	hacia abajo
 e.g. 25.4 for models in inch, 1000 for models in metres	z. B. 25,4 für Modelle in Zoll, 1000 für Modelle in Metern	p. ex. 25,4 pour des modèles en pouces, 1000 pour des modèles en mètres	p. ej. 25,4 para modelos en pulgadas, 1000 para modelos en metros
+from {} mm²	ab {} mm²	à partir de {} mm²	desde {} mm²
 no 2D model	kein 2D-Modell	pas de modèle 2D	sin modelo 2D
 no mounting data	keine Montagedaten	pas de données de montage	sin datos de montaje
 none – a box of the mounting dimensions is drawn	keines – ein Quader der Montageabmessungen wird gezeichnet	aucun – un parallélépipède aux dimensions de montage est dessiné	ninguno – se dibuja una caja con las dimensiones de montaje
@@ -138,17 +153,26 @@ read-only	schreibgeschützt	lecture seule	solo lectura
 signed in as {} ({})	angemeldet als {} ({})	connecté en tant que {} ({})	sesión iniciada como {} ({})
 to the front	nach vorn	vers l'avant	hacia delante
 up	nach oben	vers le haut	hacia arriba
+up to {} mm²	bis {} mm²	jusqu'à {} mm²	hasta {} mm²
 {} (changed {})	{} (geändert {})	{} (modifié le {})	{} (modificado {})
 {} catalogs	{} Kataloge	{} catalogues	{} catálogos
 {} changes of part {}	{} Änderungen von Artikel {}	{} modifications de l'article {}	{} cambios del artículo {}
 {} connection points	{} Anschlüsse	{} points de connexion	{} puntos de conexión
 {} favorites	{} Favoriten	{} favoris	{} favoritos
+{} mm above	{} mm oben	{} mm au-dessus	{} mm arriba
+{} mm below	{} mm unten	{} mm en dessous	{} mm abajo
+{} mm in front	{} mm vorne	{} mm devant	{} mm delante
+{} mm left	{} mm links	{} mm à gauche	{} mm a la izquierda
+{} mm right	{} mm rechts	{} mm à droite	{} mm a la derecha
 {} of {} parts	{} von {} Artikeln	{} sur {} articles	{} de {} artículos
 {} parts found	{} Artikel gefunden	{} articles trouvés	{} artículos encontrados
 {} users	{} Benutzer	{} utilisateurs	{} usuarios
+{} wires per connection point	{} Leiter je Anschluss	{} fils par point de connexion	{} cables por punto de conexión
 {} × {} mm, {} elements	{} × {} mm, {} Elemente	{} × {} mm, {} éléments	{} × {} mm, {} elementos
 {} × {} × {} mm	{} × {} × {} mm	{} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} Dreiecke	{} × {} × {} mm, {} triangles	{} × {} × {} mm, {} triángulos
+{} – {} mm²	{} – {} mm²	{} – {} mm²	{} – {} mm²
+{}, {} wires per connection point	{}, {} Leiter je Anschluss	{}, {} fils par point de connexion	{}, {} cables por punto de conexión
 {}: 2D front view with {} elements assigned to {}	{}: 2D-Frontansicht mit {} Elementen {} zugewiesen	{} : vue de face 2D avec {} éléments affectée à {}	{}: vista frontal 2D con {} elementos asignada a {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: 3D-Modell mit {} Dreiecken ({} × {} × {} mm) {} zugewiesen	{} : modèle 3D avec {} triangles ({} × {} × {} mm) affecté à {}	{}: modelo 3D con {} triángulos ({} × {} × {} mm) asignado a {}
 ★ Favorites	★ Favoriten	★ Favoris	★ Favoritos

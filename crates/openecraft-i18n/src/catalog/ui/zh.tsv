@@ -9,6 +9,7 @@ Accessories of this part	此部件的附件
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	附件只能与其适配的部件配合使用。部件列出其附件，附件列出其适配的部件；任一侧即可。
 Accessory, mounted: {}	附件，安装：{}
 Add connection point	添加连接点
+Add cutout	添加开孔
 Add function	添加功能
 Add marked parts to the parts database ({})	将标记的部件添加到部件数据库 ({})
 Add to the parts database	添加到部件数据库
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	请连接到部件服务器并进行搜索。
 Connected: {} {} – {} parts, revision {}, {}	已连接：{} {} – {} 个部件，修订 {}，{}
 Connection designations	连接标识
+Corner radius	圆角半径
 Datasheet (URL)	数据表 (URL)
 Deleted catalog {}	已删除目录 {}
 Deleted part {}	已删除部件 {}
 Deleted user {}	已删除用户 {}
 Deleting {}…	正在删除 {}…
 Dimensions	尺寸
+Door cutouts	柜门开孔
 Downloaded {} ({} bytes)	已下载 {}（{} 字节）
 Downloading parts…	正在下载部件…
 Drag it onto a schematic page to place it	拖到原理图页面上即可放置
@@ -49,14 +52,19 @@ Group by	分组依据
 Identifying letter of devices using this part (K, Q, S …)	使用此部件的设备的标识字母（K、Q、S …）
 Import STL / OBJ / STEP / IGES / IFC / JT…	导入 STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	导入 SVG…
+In the door, when they differ from the cutouts	在柜门上，当与开孔不同时
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN 部件交换的内部值（0：未定义）
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	它只有安装在其适配的部件上才能工作；项目检查会在没有此类部件的设备上报告它
+Largest conductor the clamp takes (0: not known)	端子可接的最大导线（0：未知）
 Loaded {} parts (revision {})	已加载 {} 个部件（修订 {}）
 Loading catalogs…	正在加载目录…
 Loading favorites…	正在加载收藏夹…
 Loading the history…	正在加载历史记录…
 Loading users…	正在加载用户…
 Mark for adding to the parts database	标记以添加到部件数据库
+Max. mm²	最大 mm²
+Min. mm²	最小 mm²
+Most wires the clamp takes (0: not known)	端子可接的最多导线数（0：未知）
 Moves lines such as Power loss: 3 W into the typed fields	将 Power loss: 3 W 等行移到相应类型的字段中
 No own connection points – the generated ones are shown.	无自有连接点 – 显示生成的连接点。
 No part of the database comes from the EPLAN Data Portal	数据库中没有来自 EPLAN Data Portal 的部件
@@ -72,9 +80,11 @@ Pans (trackpad)	平移（触控板）
 Parts server: {}	部件服务器：{}
 Parts this part is assembled from; the bill of materials lists them under it	组成此部件的部件；物料清单将其列在此部件下
 Personal access token	个人访问令牌
+Picture	图片
 Place by clicking into the view	在视图中单击以放置
 Prices / other	价格 / 其他
 Remove all	全部移除
+Remove picture	删除图片
 Removing the file…	正在删除文件…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	按 IEC 惯例替换连接点：奇数标识在上，偶数标识在下
 Reset filter	重置筛选
@@ -89,6 +99,7 @@ Select a row, then click into the view to place it.	选择一行，然后在视�
 Server revision	服务器修订
 Signed out	已注销
 Signing out…	正在注销…
+Smallest conductor the clamp takes (0: not known)	端子可接的最小导线（0：未知）
 Stands on the floor of a room	立于房间地面
 Stands on the floor of a room, like pumps, tanks and compressors	立于房间地面，如泵、储罐和压缩机
 Successor {}	后续产品 {}
@@ -111,7 +122,10 @@ Voltage / current	电压 / 电流
 WALL	墙
 Wall mounting	墙面安装
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	附件在其适配部件上的位置（在柜体布局和 3D 视图中）
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	开孔位置：中心相对于正视图中心（x 向右，y 向下），旋转为逆时针。
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	导线在安装板布局中的连接位置：功能模板中的标识、正视图中的位置（x 从左侧算起，y 从顶部算起，z 为安装面以上高度）以及导线引出方向。没有自有连接点的部件从功能模板获取连接点。
+Width / Ø	宽度 / Ø
+Wire connection	导线连接
 Wire leaves	导线引出方向
 Zoom only	仅缩放
 Zooms (mouse wheel)	缩放（鼠标滚轮）
@@ -119,6 +133,7 @@ changes with token	使用令牌进行更改
 created in your EPLAN account (ePulse)	在您的 EPLAN 帐户 (ePulse) 中创建
 down	向下
 e.g. 25.4 for models in inch, 1000 for models in metres	例如 25.4 表示以英寸为单位的模型，1000 表示以米为单位的模型
+from {} mm²	从 {} mm²
 no 2D model	无 2D 模型
 no mounting data	无安装数据
 none – a box of the mounting dimensions is drawn	无 – 绘制一个安装尺寸的长方体
@@ -128,17 +143,25 @@ read-only	只读
 signed in as {} ({})	已作为 {} ({}) 登录
 to the front	向前
 up	向上
+up to {} mm²	最多 {} mm²
 {} (changed {})	{}（更改于 {}）
 {} catalogs	{} 个目录
 {} changes of part {}	部件 {1} 的 {0} 处更改
 {} connection points	{} 个连接点
 {} favorites	{} 个收藏
+{} mm above	上方 {} mm
+{} mm below	下方 {} mm
+{} mm in front	前方 {} mm
+{} mm left	左侧 {} mm
+{} mm right	右侧 {} mm
 {} of {} parts	{} / {} 个部件
 {} parts found	找到 {} 个部件
 {} users	{} 个用户
+{} wires per connection point	每个连接点 {} 根导线
 {} × {} mm, {} elements	{} × {} mm，{} 个元素
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm，{} 个三角形
+{}, {} wires per connection point	{}，每个连接点 {} 根导线
 {}: 2D front view with {} elements assigned to {}	{0}：包含 {1} 个元素的 2D 正视图已分配给 {2}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{0}：包含 {1} 个三角形（{2} × {3} × {4} mm）的 3D 模型已分配给 {5}
 ★ Favorites	★ 收藏夹

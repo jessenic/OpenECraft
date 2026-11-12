@@ -9,6 +9,7 @@ Accessories of this part	Приладдя цього виробу
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Приладдя працює лише разом із виробами, до яких воно підходить. Виріб перелічує своє приладдя, приладдя — вироби, до яких підходить; достатньо одного боку.
 Accessory, mounted: {}	Приладдя, монтаж: {}
 Add connection point	Додати точку підключення
+Add cutout	Додати виріз
 Add function	Додати функцію
 Add marked parts to the parts database ({})	Додати позначені вироби до бази даних виробів ({})
 Add to the parts database	Додати до бази даних виробів
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Підключіться до сервера виробів і виконайте пошук.
 Connected: {} {} – {} parts, revision {}, {}	Підключено: {} {} – виробів: {}, ревізія {}, {}
 Connection designations	Позначення підключень
+Corner radius	Радіус кута
 Datasheet (URL)	Технічний паспорт (URL)
 Deleted catalog {}	Каталог {} видалено
 Deleted part {}	Виріб {} видалено
 Deleted user {}	Користувача {} видалено
 Deleting {}…	Видалення {}…
 Dimensions	Розміри
+Door cutouts	Вирізи у дверцятах
 Downloaded {} ({} bytes)	{} завантажено ({} байтів)
 Downloading parts…	Завантаження виробів…
 Drag it onto a schematic page to place it	Перетягніть на сторінку схеми, щоб розмістити
@@ -49,14 +52,19 @@ Group by	Групувати за
 Identifying letter of devices using this part (K, Q, S …)	Літерний код пристроїв із цим виробом (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	Імпортувати STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	Імпортувати SVG…
+In the door, when they differ from the cutouts	У дверцятах, якщо вони відрізняються від вирізів
 Internal values of the EPLAN part exchange (0: undefined)	Внутрішні значення обміну виробами EPLAN (0: не визначено)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Працює лише на одному з виробів, до яких підходить; перевірка проєкту повідомляє про нього в пристрої без такого виробу
+Largest conductor the clamp takes (0: not known)	Найбільший провідник, який приймає клема (0: невідомо)
 Loaded {} parts (revision {})	Завантажено виробів: {} (ревізія {})
 Loading catalogs…	Завантаження каталогів…
 Loading favorites…	Завантаження вибраного…
 Loading the history…	Завантаження журналу…
 Loading users…	Завантаження користувачів…
 Mark for adding to the parts database	Позначити для додавання до бази даних виробів
+Max. mm²	Макс. мм²
+Min. mm²	Мін. мм²
+Most wires the clamp takes (0: not known)	Найбільша кількість проводів, яку приймає клема (0: невідомо)
 Mounted directly on the wall or ceiling of a room	Монтується безпосередньо на стіну або стелю приміщення
 Moves lines such as Power loss: 3 W into the typed fields	Переносить рядки на зразок Power loss: 3 W у типізовані поля
 No own connection points – the generated ones are shown.	Немає власних точок підключення – показано згенеровані.
@@ -73,9 +81,11 @@ Pans (trackpad)	Зсуває (тачпад)
 Parts server: {}	Сервер виробів: {}
 Parts this part is assembled from; the bill of materials lists them under it	Вироби, з яких складається цей виріб; специфікація перелічує їх під ним
 Personal access token	Персональний маркер доступу
+Picture	Зображення
 Place by clicking into the view	Розмістіть клацанням у вигляді
 Prices / other	Ціни / інше
 Remove all	Вилучити все
+Remove picture	Вилучити зображення
 Removing the file…	Вилучення файлу…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Замінює точки підключення за правилом IEC: непарні позначення вгорі, парні внизу
 Reset filter	Скинути фільтр
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Виберіть рядок,
 Server revision	Ревізія сервера
 Signed out	Ви вийшли
 Signing out…	Вихід…
+Smallest conductor the clamp takes (0: not known)	Найменший провідник, який приймає клема (0: невідомо)
 Stands on the floor of a room	Стоїть на підлозі приміщення
 Stands on the floor of a room, like pumps, tanks and compressors	Стоїть на підлозі приміщення, як насоси, баки та компресори
 Successor {}	Наступник {}
@@ -112,7 +123,10 @@ Voltage / current	Напруга / струм
 WALL	СТІНА
 Wall mounting	Настінний монтаж
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Де приладдя розташоване на відповідному виробі, у компонуванні шафи та в 3D-вигляді
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Положення вирізів: центр від середини вигляду спереду (x праворуч, y донизу), поворот проти годинникової стрілки.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Де виконуються підключення проводів у компонуванні шафи: позначення як у шаблоні функцій, положення у фронтальному вигляді (x зліва, y згори, z над монтажною поверхнею) і напрямок виходу проводу. Вироби без власних точок підключення отримують їх із шаблону функцій.
+Width / Ø	Ширина / Ø
+Wire connection	Під'єднання проводів
 Wire leaves	Вихід проводу
 Zoom only	Лише масштабування
 Zooms (mouse wheel)	Масштабує (коліщатко миші)
@@ -120,6 +134,7 @@ changes with token	зміни з токеном
 created in your EPLAN account (ePulse)	створено у вашому обліковому записі EPLAN (ePulse)
 down	донизу
 e.g. 25.4 for models in inch, 1000 for models in metres	напр. 25,4 для моделей у дюймах, 1000 для моделей у метрах
+from {} mm²	від {} мм²
 no 2D model	немає 2D-моделі
 no mounting data	немає даних монтажу
 none – a box of the mounting dimensions is drawn	немає – малюється паралелепіпед за монтажними розмірами
@@ -129,17 +144,25 @@ read-only	лише для читання
 signed in as {} ({})	ви ввійшли як {} ({})
 to the front	уперед
 up	угору
+up to {} mm²	до {} мм²
 {} (changed {})	{} (змінено {})
 {} catalogs	Каталогів: {}
 {} changes of part {}	Змін виробу {1}: {0}
 {} connection points	Точок підключення: {}
 {} favorites	Вибраних: {}
+{} mm above	{} мм зверху
+{} mm below	{} мм знизу
+{} mm in front	{} мм спереду
+{} mm left	{} мм ліворуч
+{} mm right	{} мм праворуч
 {} of {} parts	{} з {} виробів
 {} parts found	Знайдено виробів: {}
 {} users	Користувачів: {}
+{} wires per connection point	{} проводів на точку підключення
 {} × {} mm, {} elements	{} × {} мм, елементів: {}
 {} × {} × {} mm	{} × {} × {} мм
 {} × {} × {} mm, {} triangles	{} × {} × {} мм, трикутників: {}
+{}, {} wires per connection point	{}, {} проводів на точку підключення
 {}: 2D front view with {} elements assigned to {}	{}: 2D-фронтальний вигляд з {} елементами призначено {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: 3D-модель з {} трикутниками ({} × {} × {} мм) призначено {}
 ★ Favorites	★ Вибране

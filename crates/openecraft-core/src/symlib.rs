@@ -2,6 +2,12 @@
 //! the project, shared as library files and placed like built-in symbols; placed
 //! instances refer to them by key; a project's [`SymbolCache`] resolves them for
 //! [`Project::symbol`](crate::model::Project::symbol).
+//!
+//! A placed user symbol can be drawn larger or smaller: its key then carries the
+//! factor (`user:ema:x@0.5`, [`scaled_key`]), and the table resolves it to the symbol
+//! with its graphics and connection points scaled and its texts at their size
+//! ([`scale_def`]), so that imported symbols fit the drawing and their texts stay as
+//! large as all others.
 
 use openecraft_i18n::{tr, tr_fmt};
 use crate::geom::{dist_to_segment, p, P, GRID};
@@ -19,6 +25,60 @@ mod front_view;
 pub const PREFIX: &str = "user:";
 /// Snap of graphics in the symbol editor (pins snap to the 4 mm grid).
 pub const DRAW_SNAP: f32 = 0.5;
+/// Separates the scale factor of a placed user symbol from its key.
+const SCALE_MARK: char = '@';
+/// Smallest and largest scale factor of a placed symbol.
+pub const SCALE_RANGE: (f32, f32) = (0.1, 10.0);
+
+/// The key of user symbol `key` drawn `factor` times its size (`user:x@0.5`): the key
+/// itself for the factor 1 and for built-in symbols. The factor is limited to
+/// [`SCALE_RANGE`] and kept to three decimals.
+pub fn scaled_key(key: &str, factor: f32) -> String {
+    let (base, _) = scale_of(key);
+    let factor = if factor.is_finite() { factor.clamp(SCALE_RANGE.0, SCALE_RANGE.1) } else { 1.0 };
+    let text = format!("{factor:.3}");
+    let text = text.trim_end_matches('0').trim_end_matches('.');
+    if !base.starts_with(PREFIX) || text == "1" {
+        base.to_string()
+    } else {
+        format!("{base}{SCALE_MARK}{text}")
+    }
+}
+
+/// The symbol a key refers to and its scale factor (1 for keys without one).
+pub fn scale_of(key: &str) -> (&str, f32) {
+    match key.rsplit_once(SCALE_MARK) {
+        Some((base, f)) if base.starts_with(PREFIX) => match f.parse::<f32>() {
+            Ok(f) if f.is_finite() && f > 0.0 => (base, f),
+            _ => (key, 1.0),
+        },
+        _ => (key, 1.0),
+    }
+}
+
+/// A symbol drawn `factor` times its size under the key `key`: the graphics, the
+/// connection points and the places of its texts scale, the texts keep their size.
+pub fn scale_def(def: &SymbolDef, factor: f32, key: &str) -> SymbolDef {
+    let q = |v: P| v * factor;
+    let prims: Vec<Prim> = def
+        .prims
+        .iter()
+        .map(|prim| match prim {
+            Prim::Image { name, data, corners } => Prim::Image { name: name.clone(), data: data.clone(), corners: corners.map(q) },
+            Prim::Line { a, b, dashed } => Prim::Line { a: q(*a), b: q(*b), dashed: *dashed },
+            Prim::Poly { pts, closed, fill } => Prim::Poly { pts: pts.iter().copied().map(q).collect(), closed: *closed, fill: *fill },
+            Prim::Path { pts, closed, fill, color, width, dashed } => {
+                Prim::Path { pts: pts.iter().copied().map(q).collect(), closed: *closed, fill: *fill, color: *color, width: *width, dashed: *dashed }
+            }
+            Prim::Circle { c, r, fill, color } => Prim::Circle { c: q(*c), r: r * factor, fill: *fill, color: *color },
+            Prim::Text { pos, text, size, anchor, angle, color } => Prim::Text { pos: q(*pos), text: text.clone(), size: *size, anchor: *anchor, angle: *angle, color: *color },
+            Prim::Field { kind, pos, size, anchor, angle } => Prim::Field { kind: *kind, pos: q(*pos), size: *size, anchor: *anchor, angle: *angle },
+            Prim::PropertyBlock(block) => Prim::PropertyBlock(symbols::PropertyBlock { pos: q(block.pos), ..block.clone() }),
+        })
+        .collect();
+    let pins: Vec<PinDef> = def.pins.iter().map(|x| PinDef { pos: q(x.pos), ..x.clone() }).collect();
+    SymbolDef { key: intern(key), bounds: symbols::bounds_of(&prims, pins.iter().map(|x| x.pos)), prims, pins, ..def.clone() }
+}
 
 impl Default for UserSymbol {
     fn default() -> Self {
@@ -234,7 +294,13 @@ type Defs = Arc<HashMap<String, Arc<SymbolDef>>>;
 /// The user symbols of one project by key, rebuilt when the list changes. A
 /// [`Project`] carries one; clones of a project share it until their symbols differ.
 #[derive(Clone, Default)]
-pub struct SymbolCache(Arc<Mutex<Option<(crate::model::symlib::SymbolList, Defs)>>>, front_view::FrontCache);
+pub struct SymbolCache(Arc<Mutex<Option<(crate::model::symlib::SymbolList, Defs, Scaled)>>>, front_view::FrontCache);
+
+/// Most scaled symbols kept: dragging a factor looks up a new one in every frame.
+const MAX_SCALED: usize = 64;
+
+/// Scaled user symbols by their key, made when they are first looked up.
+type Scaled = Arc<Mutex<HashMap<String, Arc<SymbolDef>>>>;
 
 impl SymbolCache {
     pub(crate) fn front_view(&self, part: &openecraft_parts::Part) -> Option<openecraft_parts::Shared<openecraft_parts::Model2d>> {
@@ -246,11 +312,11 @@ impl SymbolCache {
             return Symbols::default();
         }
         let mut cache = self.0.lock().unwrap_or_else(|e| e.into_inner());
-        if cache.as_ref().is_none_or(|(have, _)| !have.same_snapshot(list)) {
+        if cache.as_ref().is_none_or(|(have, _, _)| !have.same_snapshot(list)) {
             let defs = list.iter().map(|u| (u.key.clone(), Arc::new(to_def(u)))).collect();
-            *cache = Some((list.clone(), Arc::new(defs)));
+            *cache = Some((list.clone(), Arc::new(defs), Scaled::default()));
         }
-        Symbols { user: cache.as_ref().map(|(_, defs)| defs.clone()) }
+        Symbols { user: cache.as_ref().map(|(_, defs, _)| defs.clone()), scaled: cache.as_ref().map(|(_, _, s)| s.clone()).unwrap_or_default() }
     }
 }
 
@@ -259,6 +325,7 @@ impl SymbolCache {
 #[derive(Clone, Default)]
 pub struct Symbols {
     user: Option<Defs>,
+    scaled: Scaled,
 }
 
 impl Symbols {
@@ -278,7 +345,18 @@ impl Symbols {
         if !key.starts_with(PREFIX) {
             return None;
         }
-        self.user.as_ref()?.get(key).cloned().map(SymbolRef::User)
+        let user = self.user.as_ref()?;
+        if let Some(d) = user.get(key) {
+            return Some(SymbolRef::User(d.clone()));
+        }
+        let (base, factor) = scale_of(key);
+        let def = user.get(base)?;
+        let mut scaled = self.scaled.lock().unwrap_or_else(|e| e.into_inner());
+        if scaled.len() >= MAX_SCALED && !scaled.contains_key(key) {
+            scaled.clear();
+        }
+        let d = scaled.entry(key.to_string()).or_insert_with(|| Arc::new(scale_def(def, factor, key)));
+        Some(SymbolRef::User(d.clone()))
     }
 }
 
@@ -349,9 +427,9 @@ pub fn from_def(def: &SymbolDef, existing: &[UserSymbol]) -> UserSymbol {
     }
 }
 
-/// Number of placed instances of a symbol.
+/// Number of placed instances of a symbol, at any scale.
 pub fn usage(prj: &Project, key: &str) -> usize {
-    prj.pages.iter().flat_map(|pg| pg.symbols.iter()).filter(|s| s.sym == key).count()
+    prj.pages.iter().flat_map(|pg| pg.symbols.iter()).filter(|s| scale_of(&s.sym).0 == key).count()
 }
 
 /// Adds or replaces symbols of a library file; returns (added, replaced).

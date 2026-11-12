@@ -366,7 +366,6 @@ Customs tariff number	Zolltarifnummer	Numéro de tarif douanier	Número de aranc
 Cut length (m)	Schnittlänge (m)	Longueur de coupe (m)	Longitud de corte (m)
 Cut length (mm)	Ablänglänge (mm)	Longueur de coupe (mm)	Longitud de corte (mm)
 Cut length {} mm	Ablänglänge {} mm	Longueur de coupe {} mm	Longitud de corte {} mm
-Cutouts	Ausschnitte	Découpes	Recortes
 Cylinder	Zylinder	Vérin	Cilindro
 Cylinder, double-acting	Zylinder, doppeltwirkend	Vérin double effet	Cilindro de doble efecto
 Cylinder, single-acting	Zylinder, einfachwirkend	Vérin simple effet	Cilindro de simple efecto
@@ -1081,6 +1080,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	Eine Schaltplanseite, die Potenziale nach IEC 60204-1	Une page de schéma, les potentiels de l'IEC 60204-1	Una página de esquema, los potenciales de IEC 60204-1
 One-way flow control valve	Drosselrückschlagventil	Réducteur de débit unidirectionnel	Válvula reguladora de caudal unidireccional
 Only revisions that are not released can be submitted	Nur nicht freigegebene Revisionen können eingereicht werden	Seules les révisions non diffusées peuvent être soumises	Solo se pueden enviar revisiones no liberadas
+Only symbols of the symbol library can be scaled	Nur Symbole der Symbolbibliothek können skaliert werden	Seuls les symboles de la bibliothèque de symboles peuvent être mis à l'échelle	Solo se pueden escalar los símbolos de la biblioteca de símbolos
 Only {}	Nur {}	Seulement {}	Solo {}
 Open	Offen	Ouvert	Pendiente
 Open connection point {} ({})	Offener Anschlusspunkt {} ({})	Point de connexion ouvert {} ({})	Punto de conexión abierto {} ({})
@@ -1932,6 +1932,7 @@ Wire no.	Leitungsnr.	N° de fil	N.º de hilo
 Wire number {} is used for {} different potentials	Leitungsnummer {} wird für {} verschiedene Potenziale verwendet	Le numéro de fil {} est utilisé pour {} potentiels différents	El número de hilo {} se usa para {} potenciales distintos
 Wire processing list for cutting and crimping machines (CSV)	Leitungsfertigungsliste für Schneide- und Crimpautomaten (CSV)	Liste de fabrication des fils pour machines de coupe et de sertissage (CSV)	Lista de procesado de cables para máquinas de corte y crimpado (CSV)
 Wire {} – {} changed after it was wired	Draht {} – {} wurde nach dem Verdrahten geändert	Le fil {} – {} a été modifié après le câblage	El cable {} – {} se modificó después de cablearlo
+Wires at connection points	Leiter an Anschlüssen	Fils aux points de connexion	Cables en los puntos de conexión
 Wires, cables and tubes	Drähte, Kabel und Schläuche	Fils, câbles et tuyaux	Cables, mangueras y tubos
 Wiring machine	Drahtkonfektionierautomat	Machine de câblage	Máquina de cableado
 Wiring machine job list (CSV)	Auftragsliste für Drahtkonfektionierautomaten (CSV)	Liste d'ordres pour machine de câblage (CSV)	Lista de trabajos para máquina de cableado (CSV)
@@ -2122,6 +2123,8 @@ yellow	gelb	jaune	amarillo
 {}: a TT system needs a residual current device	{}: ein TT-System braucht eine Fehlerstrom-Schutzeinrichtung	{} : un schéma TT nécessite un dispositif différentiel	{}: un sistema TT necesita un dispositivo diferencial
 {}: a roof window of roof {} lies across a ridge, a hip or the edge of the roof	{}: ein Dachfenster von Dach {} liegt über einem First, einem Grat oder dem Dachrand	{} : une fenêtre du toit {} chevauche un faîtage, une arête ou le bord du toit	{}: una ventana de la cubierta {} cruza una cumbrera, una lima o el borde de la cubierta
 {}: a roof window of roof {} lies outside the roof	{}: ein Dachfenster von Dach {} liegt außerhalb des Dachs	{} : une fenêtre du toit {} se trouve hors du toit	{}: una ventana de la cubierta {} queda fuera de la cubierta
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}: Ein Leiter mit {} mm² ist dicker, als der Anschluss aufnimmt (höchstens {} mm²)	{} : un fil de {} mm² est plus gros que ce qu'accepte le point de connexion (au plus {} mm²)	{}: un cable de {} mm² es más grueso de lo que admite el punto de conexión (como máximo {} mm²)
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}: Ein Leiter mit {} mm² ist dünner, als der Anschluss aufnimmt (mindestens {} mm²)	{} : un fil de {} mm² est plus fin que ce qu'accepte le point de connexion (au moins {} mm²)	{}: un cable de {} mm² es más fino de lo que admite el punto de conexión (al menos {} mm²)
 {}: accessory {} fits none of the device's parts	{}: Zubehör {} passt zu keinem Artikel des Geräts	{} : l'accessoire {} ne convient à aucun article de l'appareil	{}: el accesorio {} no es compatible con ningún artículo del equipo
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}: Bedienteil {} liegt {} mm über dem Boden, empfohlen {} … {} mm	{} : l'organe de commande {} est à {} mm au-dessus du sol, recommandé {} … {} mm	{}: el actuador {} está a {} mm sobre el suelo, recomendado {} … {} mm
 {}: auxiliary function(s) without main function	{}: Hilfsfunktion(en) ohne Hauptfunktion	{} : fonction(s) auxiliaire(s) sans fonction principale	{}: función(es) auxiliar(es) sin función principal
@@ -2141,6 +2144,7 @@ yellow	gelb	jaune	amarillo
 {}: cross-section {} below the {} mm² of power circuits	{}: Querschnitt {} unter den {} mm² von Hauptstromkreisen	{} : section {} inférieure aux {} mm² des circuits de puissance	{}: sección {} inferior a los {} mm² de los circuitos de potencia
 {}: cross-section {} differs from the potential definition ({})	{}: Querschnitt {} weicht von der Potenzialdefinition ab ({})	{} : la section {} diffère de la définition du potentiel ({})	{}: la sección {} difiere de la definición del potencial ({})
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{}: Ausschnitt von {} auf {} ist {} mm vom Rand entfernt, mindestens {} mm erforderlich	{} : la découpe de {} sur {} est à {} mm du bord, au moins {} mm requis	{}: el recorte de {} en {} está a {} mm del borde, se requieren al menos {} mm
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}: Ausschnitt von {} auf {} ragt {} mm über seine Front hinaus	{} : la découpe de {} sur {} dépasse sa face avant de {} mm	{}: el recorte de {} en {} sobresale {} mm de su frente
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{}: Ausschnitte von {} und {} auf {} liegen zu nah beieinander ({} mm Steg, mindestens {} mm)	{} : les découpes de {} et {} sur {} sont trop proches ({} mm d'âme, au moins {} mm)	{}: los recortes de {} y {} en {} están demasiado cerca ({} mm de alma, al menos {} mm)
 {}: designation '{}' used more than once	{}: Bezeichnung '{}' mehrfach verwendet	{} : désignation '{}' utilisée plusieurs fois	{}: designación '{}' usada más de una vez
 {}: device box extends or shows a device that is not placed	{}: Gerätebox erweitert oder zeigt ein Betriebsmittel, das nicht platziert ist	{} : la boîte d'appareil étend ou montre un appareil qui n'est pas placé	{}: la caja de dispositivo amplía o muestra un dispositivo que no está colocado
@@ -2268,6 +2272,7 @@ yellow	gelb	jaune	amarillo
 {}: {} stands where {} stands	{}: {} steht, wo {} steht	{} : {} se trouve à l'emplacement de {}	{}: {} está donde está {}
 {}: {} threads on the {} are cut by hand	{}: {} Gewinde auf {} werden von Hand geschnitten	{} : {} filetages sur {} sont taraudés à la main	{}: {} roscas en {} se hacen a mano
 {}: {} values of undefined properties	{}: {} Werte nicht definierter Eigenschaften	{} : {} valeurs de propriétés non définies	{}: {} valores de propiedades no definidas
+{}: {} wires end there, the connection point takes {}	{}: Dort enden {} Leiter, der Anschluss nimmt {} auf	{} : {} fils y aboutissent, le point de connexion en accepte {}	{}: terminan ahí {} cables, el punto de conexión admite {}
 {}: {}× {} placed, assigned parts provide {}	{}: {}× {} platziert, zugewiesene Artikel stellen {} bereit	{} : {}× {} placé, les articles affectés en fournissent {}	{}: {}× {} colocado, los artículos asignados proporcionan {}
 {}{} has to be reworked: {}	{}{} muss nachgearbeitet werden: {}	{}{} doit être repris : {}	{}{} debe retrabajarse: {}
 {}{} is {} mm off its position (tolerance {} mm)	{}{} weicht {} mm von seiner Position ab (Toleranz {} mm)	{}{} est décalé de {} mm de sa position (tolérance {} mm)	{}{} está desviado {} mm de su posición (tolerancia {} mm)

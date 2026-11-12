@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Partea conect
 Side the connection comes from: left, right, up or down (default up)	Latura de pe care vine conexiunea: left, right, up sau down (implicit up)
 Single-line diagrams	Scheme monofilare
 Single-line pages and their multi-line counterparts	Pagini monofilare și corespondentele lor multifilare
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Mărimea unui simbol din biblioteca de simboluri ca factor (1 = cum este desenat); textele lui își păstrează mărimea, iar capetele conductoarelor conectate îl urmează
 Slot number	Număr slot
 Smallest bend radius in mm	Raza de curbură minimă în mm
 Smallest distance in mm	Cea mai mică distanță în mm
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Parte necunoscută {} (socket sau pin)
 Unknown side: {}	Latură necunoscută: {}
 Unknown state: {}	Stare necunoscută: {}
 Unknown station kind: {}	Tip de stație necunoscut: {}
-Unknown symbol: {}	Simbol necunoscut: {}
 Unknown table: {}	Tabel necunoscut: {}
 Unknown termination: {}	Terminație necunoscută: {}
 Unknown vertical anchor: {}	Ancoră verticală necunoscută: {}

@@ -291,7 +291,6 @@ Circle	Cirkel
 Circuits of a generic manifold	Kretsar för en generisk fördelare
 Clear	Rensa
 Clearance	Frigång
-Clearances	Avstånd
 Click	Klick
 Click a text: open its link	Klick på en text: öppna dess länk
 Click an element in the drawing to edit it.	Klicka på ett element i ritningen för att redigera det.
@@ -592,6 +591,7 @@ Drawing as new page	Ritning som ny sida
 Drawn as a connection dot; the routing stays	Ritas som en förbindelsepunkt; dragningen behålls
 Drawn form	Ritat formulär
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Ritar plintraden med dess plintar och byglar, eller kablarna med deras ledare, i stället för en tabell; formulärets kolumner används inte
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Ritar symbolen större eller mindre; dess texter behåller sin storlek och anslutna ledningar följer med
 Drilling list (CSV)	Borrlista (CSV)
 Drilling list of this face (CSV)	Borrlista för den här ytan (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Borrmönster för den visade sidan som DXF, DWG eller CSV
@@ -1492,7 +1492,6 @@ Recently used	Senast använda
 Recommended height of manual actuators (10.1.2)	Rekommenderad höjd för manuella manöverdon (10.1.2)
 Record	Spela in
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Spela in: gör gesten i fältet som visas, med en modifieringstangent nedtryckt om du vill (Esc avbryter). Lägg till behåller befintliga gester. Högerklick i markeringsverktyget öppnar snabbmenyn.
-Rectangular	Rektangulär
 Redline: to be changed · Greenline: changed as built	Redline: ska ändras · Greenline: ändrat enligt utförande
 Redo	Gör om
 Reference point	Referenspunkt
@@ -1618,7 +1617,6 @@ Rotate	Rotera
 Rotate (selection or symbol being placed)	Rotera (markering eller symbol som placeras)
 Rotate what is being moved	Rotera det som flyttas
 Rotate what is being moved counter-clockwise	Rotera det som flyttas moturs
-Round	Rund
 Round cutouts facing each other in both side walls	Runda urtag mitt emot varandra i båda sidoväggarna
 Route definition of {}	Kabelvägsdefinition för {}
 Route network	Kabelvägsnät
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Inställningsschema (JSON)
 Settings taken over: {}	Inställningar överförda: {}
 Settings…	Inställningar…
 Shafts	Schakt
-Shape	Form
 Share of the capacity kept free for later additions	Andel av kapaciteten som hålls ledig för senare tillägg
 Shared project {} – revision {}, user {}	Delat projekt {} – revision {}, användare {}
 Shield	Skärm
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	Vänd 3D-vyn mot punkten
 Tutorial	Handledning
 Twin ferrules where two wires share a connection point	Dubbla ändhylsor där två ledare delar en anslutningspunkt
 Two fingers	Två fingrar
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Två fingrar på en styrplatta panorerar, mushjulet zoomar. Bara macOS skiljer dem åt; annars zoomar rullning som hjulet.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Här måste två ledare mötas i rät vinkel. Med automatisk anslutning på kopplas anslutningspunkter som är vända mot dess armar till det.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Skriv en punkt och tryck på Retur: x y i mm, eller @dx dy relativt till den senaste punkten; det fungerar som ett klick med det aktuella verktyget
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

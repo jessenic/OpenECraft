@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Strana konekt
 Side the connection comes from: left, right, up or down (default up)	Strana, odkud spojení přichází: left, right, up nebo down (výchozí up)
 Single-line diagrams	Jednopólová schémata
 Single-line pages and their multi-line counterparts	Jednopólové stránky a jejich vícepólové protějšky
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Velikost symbolu z knihovny symbolů jako činitel (1 = jak je nakreslen); jeho texty si zachovají velikost a konce připojených vodičů se přizpůsobí
 Slot number	Číslo slotu
 Smallest bend radius in mm	Nejmenší poloměr ohybu v mm
 Smallest distance in mm	Nejmenší vzdálenost v mm
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Neznámá strana {} (socket nebo pin)
 Unknown side: {}	Neznámá strana: {}
 Unknown state: {}	Neznámý stav: {}
 Unknown station kind: {}	Neznámý druh stanice: {}
-Unknown symbol: {}	Neznámý symbol: {}
 Unknown table: {}	Neznámá tabulka: {}
 Unknown termination: {}	Neznámé zakončení: {}
 Unknown vertical anchor: {}	Neznámé svislé ukotvení: {}

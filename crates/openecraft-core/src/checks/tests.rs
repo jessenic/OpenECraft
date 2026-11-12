@@ -125,3 +125,42 @@ fn a_duct_too_small_for_its_wires_is_an_error() {
     assert!(issues[0].message().starts_with("+A: cable duct at ") && issues[0].message().contains("its 2 wires cannot be routed"), "{}", issues[0].message());
     assert!(check_duct_fill(&prj, &[fill(vec![28.7])]).is_empty());
 }
+
+#[test]
+fn wires_a_clamp_does_not_take_are_reported() {
+    let mut prj = demo_project();
+    let an = Analysis::checked(&prj);
+    assert!(builtin().iter().any(|c| c.name == "clamp_wires"));
+    assert!(check_clamp_wires(&prj, &an.connections).is_empty(), "the catalog parts give no limits");
+    // A device end of a connection whose device has a part.
+    let end = an
+        .connections
+        .iter()
+        .flat_map(|c| [c.a, c.b])
+        .find(|e| {
+            let s = &prj.pages[e.page].symbols[e.sym];
+            let named = s.pins.get(e.pin).is_some_and(|p| !p.is_empty());
+            named && prj.symbol(&s.sym).is_some_and(|d| d.func.has_tag() && d.func != Func::Terminal) && !crate::parts::device_parts(&prj, None, &s.tag).is_empty()
+        })
+        .unwrap();
+    let s = prj.pages[end.page].symbols[end.sym].clone();
+    let pin = s.pins[end.pin].clone();
+    let mut part = crate::parts::device_parts(&prj, None, &s.tag)[0].clone();
+    part.connection_points = vec![openecraft_parts::ConnectionPoint { pin: pin.clone(), min_cross_section: 0.5, max_cross_section: 2.5, max_wires: 1, ..Default::default() }];
+    prj.parts.retain(|p| p.number != part.number);
+    prj.parts.push(part);
+    // Three wires at the point: one fits, one too thick, one too thin.
+    let far = an.connections.iter().flat_map(|c| [c.a, c.b]).find(|e| clamp_at(&prj, *e).is_none()).unwrap();
+    let wire = |cs: &str| crate::netlist::Connection { a: end, b: far, cross_section: cs.into(), ..an.connections[0].clone() };
+    let issues: Vec<String> = check_clamp_wires(&prj, &[wire("1.5"), wire("4 mm²"), wire("0,25")]).iter().map(|i| i.message()).collect();
+    let at = format!("{}:{pin}", s.tag);
+    assert_eq!(
+        issues,
+        [
+            format!("{at}: 3 wires end there, the connection point takes 1"),
+            format!("{at}: a wire of 4 mm² is thicker than the connection point takes (at most 2.5 mm²)"),
+            format!("{at}: a wire of 0.25 mm² is thinner than the connection point takes (at least 0.5 mm²)"),
+        ]
+    );
+    assert!(check_clamp_wires(&prj, &[wire("1.5")]).is_empty());
+}

@@ -10,3 +10,7 @@ serde = { version = "1", features = ["derive", "rc"] }
 # Keep native coordinates byte-for-byte stable when variant payloads pass through
 # catalog JSON, SQLite model storage, and the project file.
 serde_json = { version = "1", features = ["float_roundtrip"] }
+
+[dev-dependencies]
+# The app keeps the parts database in RON (eframe storage).
+ron = "0.12"

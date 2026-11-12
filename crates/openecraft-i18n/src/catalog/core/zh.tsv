@@ -321,7 +321,6 @@ Customer phone	客户电话
 Customs tariff number	海关税则号
 Cut length (m)	下料长度 (m)
 Cut length (mm)	下料长度 (mm)
-Cutouts	开孔
 Cylinder	气缸
 Cylinder, double-acting	气缸，双作用
 Cylinder, single-acting	气缸，单作用
@@ -980,6 +979,7 @@ One schematic page with +24V / 0V potentials, push buttons, a selector switch, l
 One schematic page, the potentials of IEC 60204-1	一个原理图页，IEC 60204-1 的电位
 One-way flow control valve	单向节流阀
 Only revisions that are not released can be submitted	只能提交尚未发布的修订
+Only symbols of the symbol library can be scaled	只能缩放符号库中的符号
 Only {}	仅 {}
 Open	待完成
 Open connection point {} ({})	开放的连接点 {}（{}）
@@ -1780,6 +1780,7 @@ Wire marker	导线标记
 Wire no.	线号
 Wire number {} is used for {} different potentials	线号 {} 用于 {} 个不同的电位
 Wire {} – {} changed after it was wired	导线 {} – {} 在接线后已更改
+Wires at connection points	连接点处的导线
 Wires, cables and tubes	导线、电缆和管子
 Wiring machine	导线加工机
 Wiring machine job list (CSV)	导线加工机作业清单 (CSV)
@@ -1956,6 +1957,8 @@ yellow	黄色
 {}: PV arrays {} and {} lie over each other	{}：光伏阵列 {} 与 {} 相互重叠
 {}: \"{}\" is not one of {}	{}：\"{}\" 不是 {} 之一
 {}: a TT system needs a residual current device	{}：TT 系统需要剩余电流保护装置
+{}: a wire of {} mm² is thicker than the connection point takes (at most {} mm²)	{}：{} mm² 的导线比连接点可接的粗（最多 {} mm²）
+{}: a wire of {} mm² is thinner than the connection point takes (at least {} mm²)	{}：{} mm² 的导线比连接点可接的细（至少 {} mm²）
 {}: accessory {} fits none of the device's parts	{}：附件 {} 不适配设备的任何部件
 {}: actuator {} is {} mm above the floor, recommended {} … {} mm	{}：操作元件 {} 离地 {} mm，建议 {} … {} mm
 {}: auxiliary function(s) without main function	{}：辅助功能没有主功能
@@ -1974,6 +1977,7 @@ yellow	黄色
 {}: cross-section {} below the {} mm² of power circuits	{}：截面积 {} 小于主电路的 {} mm²
 {}: cross-section {} differs from the potential definition ({})	{}：截面积 {} 与电位定义不同（{}）
 {}: cutout of {} on the {} is {} mm from the edge, at least {} mm required	{0}：{2} 上 {1} 的开孔距边缘 {3} mm，至少需要 {4} mm
+{}: cutout of {} on the {} reaches {} mm beyond its front	{}：{} 在 {} 上的开孔超出其正面 {} mm
 {}: cutouts of {} and {} on the {} are too close ({} mm web, at least {} mm)	{0}：{3} 上 {1} 和 {2} 的开孔距离太近（筋宽 {4} mm，至少 {5} mm）
 {}: designation '{}' used more than once	{}：标识“{}”被多次使用
 {}: device tag without device name	{}：设备标识符没有设备名称
@@ -2081,6 +2085,7 @@ yellow	黄色
 {}: {} stands where {} stands	{}：{} 与 {} 位置重叠
 {}: {} threads on the {} are cut by hand	{0}：{2} 上的 {1} 个螺纹需手动攻丝
 {}: {} values of undefined properties	{}：{} 个未定义属性的值
+{}: {} wires end there, the connection point takes {}	{}：有 {} 根导线接在此处，连接点可接 {} 根
 {}: {}× {} placed, assigned parts provide {}	{}：已放置 {}× {}，分配的部件提供 {}
 {}{} has to be reworked: {}	{}{} 需要返工：{}
 {}{} is {} mm off its position (tolerance {} mm)	{}{} 偏离其位置 {} mm（公差 {} mm）

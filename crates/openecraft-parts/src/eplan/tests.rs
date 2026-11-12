@@ -140,3 +140,84 @@ fn a_semicolon_ends_an_entry_only_before_a_language_code() {
     assert_eq!(language_text("en_US@a;;"), "a;");
     assert_eq!(language_text("//??_??@{{LOGO!}};"), "LOGO!");
 }
+
+const PANEL: &str = r#"<partsmanagement>
+ <part P_ARTICLE_PARTNR="SIE.HMI" P_ARTICLE_HEIGHT="158" P_ARTICLE_WIDTH="214" P_ARTICLE_DEPTH="36"
+       P_ARTICLE_REF_TERMINAL_NAME="SIE.HMI" P_ARTICLE_REF_CONSTRUCTION_NAME="SIE.HMI">
+  <constructionPosition offsetx="0" offsety="0" pos="1"/>
+ </part>
+ <terminal P_PART_TERMINAL_NAME="SIE.HMI">
+  <terminalPosition devicetag="X80" maxcrosssection="1.5" maxcrosssectionawg="16" maxwirecount="1" mincrosssection="0.2" mincrosssectionawg="24" name="1" xpos="147.49" ydir="-1" ypos="8.02" zpos="19.71"/>
+  <terminalPosition maxcrosssection="0" maxcrosssectionawg="12" maxwirecount="0" mincrosssection="0" mincrosssectionawg="0" name="FE" xpos="160" ydir="-1" ypos="16.4" zpos="12.68"/>
+ </terminal>
+ <construction P_PART_CONSTRUCTION_NAME="SIE.HMI" P_PART_CONSTRUCTION_DESCRIPTION="en_US@Rectangular;">
+  <drillingPosition angle="0" dimension1="141" dimension2="197" subtype="1" type="3" xpos="107" ypos="85.5"/>
+ </construction>
+</partsmanagement>"#;
+
+#[test]
+fn wire_limits_and_cutouts_are_read() {
+    let p = &from_eplan_xml(PANEL).unwrap()[0];
+    let x80 = p.connection_points.iter().find(|c| c.pin == "X80.1").unwrap();
+    assert_eq!((x80.min_cross_section, x80.max_cross_section, x80.max_wires), (0.2, 1.5, 1));
+    // Without metric sizes the AWG size is converted: AWG 12 is 3.31 mm².
+    let fe = p.connection_points.iter().find(|c| c.pin == "FE").unwrap();
+    assert_eq!((fe.min_cross_section, fe.max_cross_section, fe.max_wires), (0.0, 3.31, 0));
+    // The rectangular drilling position is the cutout of the panel, not a hole: 6.5 mm
+    // above the middle of the front.
+    let md = &p.mounting_data;
+    assert_eq!(md.cutouts, [crate::PlacedCutout { shape: crate::Cutout::Rect { w: 197.0, h: 141.0 }, offset: [0.0, -6.5], angle: 0.0, radius: 0.0 }]);
+    // The records stay as they are.
+    let records = &p.source_data.as_ref().unwrap()["eplan_drilling"];
+    assert_eq!((records[0]["subtype"].as_str(), records[0]["dimension2"].as_str()), (Some("1"), Some("197")));
+    assert!(md.holes.is_empty() && md.hole_thread.is_empty());
+    assert!(p.mounting.is_empty(), "not on a rail");
+}
+
+#[test]
+fn tapped_and_through_holes() {
+    let pattern = |kind: u32| {
+        format!(
+            r#"<r><part P_ARTICLE_PARTNR="X.1" P_ARTICLE_HEIGHT="268" P_ARTICLE_REF_CONSTRUCTION_NAME="C"/>
+            <construction P_PART_CONSTRUCTION_NAME="C"><drillingPosition dimension1="4" type="{kind}" xpos="5.35" ypos="-12.3"/>
+            <drillingPosition dimension1="4" type="{kind}" xpos="36.5" ypos="173.7"/><drillingPosition dimension1="22.5" type="1" xpos="36" ypos="100"/></construction></r>"#
+        )
+    };
+    let tapped = from_eplan_xml(&pattern(2)).unwrap().remove(0).mounting_data;
+    assert_eq!(tapped.hole_thread, "M4");
+    assert_eq!(tapped.holes, vec![[5.35, 280.3], [36.5, 94.3]]);
+    // A hole too large for a screw is the opening of the device.
+    assert_eq!(tapped.cutouts, [crate::PlacedCutout { shape: crate::Cutout::Round { d: 22.5 }, offset: [36.0, 34.0], angle: 0.0, radius: 0.0 }], "the part has no width: from its left edge");
+    let through = from_eplan_xml(&pattern(1)).unwrap().remove(0).mounting_data;
+    assert_eq!((through.hole_thread.as_str(), through.holes.len()), ("Ø4", 2));
+}
+
+#[test]
+fn rail_mounting_from_rail_data_and_texts() {
+    let rail = |snap, offset, description: &str, other: &str| rail_mounting(snap, offset, description, &[other]);
+    assert_eq!(rail(0.0, 0.0, "SIMATIC HMI MTP700", ""), None);
+    assert_eq!(rail(7.5, 0.0, "", "").as_deref(), Some("Mounting rail 35 mm"));
+    assert_eq!(rail(0.0, -4.0, "", "").as_deref(), Some("Mounting rail 35 mm"));
+    assert_eq!(rail(0.0, 0.0, "Relay", "Snaps onto DIN rail TS 35 x 15").as_deref(), Some("Mounting rail 35 x 15 mm"));
+    assert_eq!(rail(0.0, 0.0, "Relay", "Montage auf Hutschiene").as_deref(), Some("Mounting rail 35 mm"));
+    assert_eq!(rail(0.0, 0.0, "Relay for mounting rail TS15", "").as_deref(), Some("Mounting rail 15 mm"));
+    assert_eq!(rail(0.0, 0.0, "Junction box", "for G 32 rail, TS32").as_deref(), Some("Mounting rail G 32"));
+    // Numbers that only look like rails, and rails themselves.
+    assert_eq!(rail(0.0, 0.0, "Fuse holder for DIN rail, gG 32 A", "").as_deref(), Some("Mounting rail 35 mm"));
+    assert_eq!(rail(0.0, 0.0, "Terminal for DIN rail", "Dimensions 35x150 mm").as_deref(), Some("Mounting rail 35 mm"));
+    assert_eq!(rail(0.0, 0.0, "Mounting rail 35 x 7.5, 2 m", ""), None);
+    assert_eq!(rail(0.0, 0.0, "TS 35 rail, perforated", ""), None);
+    assert_eq!(rail_text("Mounting rail TS 35 x 15, G 32"), "mounting rail ts35x15, g32");
+    // EPLAN's snap height makes an imported part one for the rail.
+    let xml = r#"<r><part P_ARTICLE_PARTNR="X.2" P_ARTICLE_DESCR1="en_US@Relay;" P_ARTICLE_SNAPHEIGHT="7.5" P_ARTICLE_MOUNTINGSITE="0"/></r>"#;
+    assert_eq!(from_eplan_xml(xml).unwrap()[0].mounting, "Mounting rail 35 mm");
+}
+
+#[test]
+fn clearance_holes_of_large_screws_stay_holes() {
+    let xml = r#"<r><part P_ARTICLE_PARTNR="X.3" P_ARTICLE_HEIGHT="200" P_ARTICLE_WIDTH="150" P_ARTICLE_REF_CONSTRUCTION_NAME="C"/>
+        <construction P_PART_CONSTRUCTION_NAME="C"><drillingPosition dimension1="13.5" type="1" xpos="10" ypos="10"/><drillingPosition dimension1="13.5" type="1" xpos="140" ypos="190"/></construction></r>"#;
+    let md = from_eplan_xml(xml).unwrap().remove(0).mounting_data;
+    assert_eq!((md.holes.len(), md.hole_thread.as_str()), (2, "Ø13.5"), "M12 clearance holes");
+    assert!(md.cutouts.is_empty());
+}

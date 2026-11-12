@@ -391,6 +391,50 @@ pub fn selection_points(symbols: &Symbols, page: &Page, sel: &BTreeSet<u64>) -> 
     pts
 }
 
+/// Draws placed symbol `id` of page `page` `factor` times the size of its symbol of the
+/// symbol library ([`crate::symlib::scaled_key`]; texts keep their size): the wire ends
+/// and junctions at its connection points move with them.
+pub fn set_symbol_scale(prj: &mut Project, page: usize, id: u64, factor: f32) -> Result<(), String> {
+    let symbols = prj.symbol_table();
+    let pg = prj.pages.get(page).ok_or_else(|| tr_fmt!("No page {}", page + 1))?;
+    let s = pg.symbols.iter().find(|s| s.id == id).ok_or_else(|| tr_fmt!("No symbol with id {}", id))?;
+    let (base, _) = crate::symlib::scale_of(&s.sym);
+    if !base.starts_with(crate::symlib::PREFIX) {
+        // Built-in symbols have their own size only.
+        let unchanged = crate::symlib::scaled_key("user:", factor) == "user:";
+        return if unchanged { Ok(()) } else { Err(tr("Only symbols of the symbol library can be scaled").to_string()) };
+    }
+    let key = crate::symlib::scaled_key(base, factor);
+    if key == s.sym {
+        return Ok(());
+    }
+    let unknown = || tr_fmt!("Unknown symbol: {}", s.sym);
+    let (old, new) = (symbols.get(&s.sym).ok_or_else(unknown)?, symbols.get(&key).ok_or_else(unknown)?);
+    let moves: Vec<(P, P)> = (0..old.pins.len().min(new.pins.len()))
+        .map(|i| (old.pin_world(i, s.pos, s.rot, s.mirror), new.pin_world(i, s.pos, s.rot, s.mirror)))
+        .filter(|(a, b)| !a.same(*b))
+        .collect();
+    let pg = &mut prj.pages[page];
+    let to = |q: P| moves.iter().find(|(a, _)| a.same(q)).map(|(_, b)| *b);
+    for w in &mut pg.wires {
+        if let Some(b) = to(w.a) {
+            w.a = b;
+        }
+        if let Some(b) = to(w.b) {
+            w.b = b;
+        }
+    }
+    for j in &mut pg.junctions {
+        if let Some(b) = to(j.pos) {
+            j.pos = b;
+        }
+    }
+    if let Some(s) = pg.symbols.iter_mut().find(|s| s.id == id) {
+        s.sym = key;
+    }
+    Ok(())
+}
+
 /// Wire ends (wire id, is end `a`) of unselected wires touching the selection, so they
 /// can be stretched ("rubber band") while moving: at its connection points and wire
 /// ends, and branching off a selected wire (a drop from a rail).
@@ -601,8 +645,9 @@ impl Clip {
     /// Carry the definitions and catalog records used by these copied instances.
     pub fn include_project_data(&mut self, project: &Project) {
         for instance in &self.symbols {
-            if !self.symbol_defs.iter().any(|s| s.key == instance.sym) {
-                if let Some(definition) = project.symbols.iter().find(|s| s.key == instance.sym) {
+            let key = crate::symlib::scale_of(&instance.sym).0;
+            if !self.symbol_defs.iter().any(|s| s.key == key) {
+                if let Some(definition) = project.symbols.iter().find(|s| s.key == key) {
                     self.symbol_defs.push(definition.clone());
                 }
             }
@@ -833,8 +878,9 @@ pub fn paste(prj: &mut Project, page_i: usize, clip: &Clip, at: P) -> BTreeSet<u
     let mut symbols_out = Vec::new();
     for s in &clip.symbols {
         let mut s = s.clone();
-        if let Some(key) = library_keys.get(s.sym.as_str()) {
-            s.sym = key.clone();
+        let (base, factor) = crate::symlib::scale_of(&s.sym);
+        if let Some(key) = library_keys.get(base) {
+            s.sym = crate::symlib::scaled_key(key, factor);
         }
         s.id = prj.new_id();
         s.pos = s.pos + d;

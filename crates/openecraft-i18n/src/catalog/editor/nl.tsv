@@ -291,7 +291,6 @@ Circle	Cirkel
 Circuits of a generic manifold	Groepen van een generieke verdeler
 Clear	Wissen
 Clearance	Vrije ruimte
-Clearances	Afstanden
 Click	Klik
 Click a text: open its link	Klik op een tekst: de koppeling openen
 Click an element in the drawing to edit it.	Klik op een element in de tekening om het te bewerken.
@@ -592,6 +591,7 @@ Drawing as new page	Tekening als nieuwe pagina
 Drawn as a connection dot; the routing stays	Getekend als verbindingspunt; de routering blijft
 Drawn form	Getekend formulier
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Tekent de strook met de klemmen en bruggen, of de kabels met hun aders, in plaats van een tabel; de kolommen van het formulier worden niet gebruikt
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Tekent het symbool groter of kleiner; de teksten behouden hun grootte en aangesloten draden volgen
 Drilling list (CSV)	Boorlijst (CSV)
 Drilling list of this face (CSV)	Boorlijst van dit vlak (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Boorpatroon van het getoonde vlak als DXF, DWG of CSV
@@ -1492,7 +1492,6 @@ Recently used	Recent gebruikt
 Recommended height of manual actuators (10.1.2)	Aanbevolen hoogte van handbedieningselementen (10.1.2)
 Record	Opnemen
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Opnemen: maak het gebaar in het veld dat verschijnt, desgewenst met een combinatietoets ingedrukt (Esc annuleert). Toevoegen houdt de bestaande gebaren. Rechtsklikken in het selectiegereedschap opent het contextmenu.
-Rectangular	Rechthoekig
 Redline: to be changed · Greenline: changed as built	Redline: te wijzigen · Greenline: gewijzigd zoals gebouwd
 Redo	Opnieuw
 Reference point	Referentiepunt
@@ -1618,7 +1617,6 @@ Rotate	Draaien
 Rotate (selection or symbol being placed)	Draaien (selectie of symbool dat wordt geplaatst)
 Rotate what is being moved	Draaien wat verplaatst wordt
 Rotate what is being moved counter-clockwise	Draaien wat verplaatst wordt, linksom
-Round	Rond
 Round cutouts facing each other in both side walls	Ronde uitsparingen tegenover elkaar in beide zijwanden
 Route definition of {}	Tracédefinitie van {}
 Route network	Tracénetwerk
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Instellingenschema (JSON)
 Settings taken over: {}	Instellingen overgenomen: {}
 Settings…	Instellingen…
 Shafts	Schachten
-Shape	Vorm
 Share of the capacity kept free for later additions	Deel van de capaciteit dat vrij blijft voor latere uitbreidingen
 Shared project {} – revision {}, user {}	Gedeeld project {} – revisie {}, gebruiker {}
 Shield	Afscherming
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	De 3D-weergave naar het punt draaien
 Tutorial	Tutorial
 Twin ferrules where two wires share a connection point	Dubbele adereindhulzen waar twee draden een aansluitpunt delen
 Two fingers	Twee vingers
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Twee vingers op een trackpad verschuiven, het muiswiel zoomt. Alleen macOS onderscheidt ze; elders zoomt scrollen zoals het wiel.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Hier moeten twee draden in een rechte hoek samenkomen. Met Auto-connect aan worden aansluitpunten tegenover zijn armen ermee verbonden.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Typ een punt en druk op Enter: x y in mm, of @dx dy ten opzichte van het laatste punt; dit werkt als een klik met het huidige gereedschap
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

@@ -434,6 +434,10 @@ pub struct Part {
     /// Portable EPLAN representations including the native graphics and conversion diagnostics.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub eplan_variants: Vec<Shared<serde_json::Value>>,
+    /// Product picture: a small JPEG in base64 ([`crate::base64`]), shown with the
+    /// part's data (imported from the picture of an EDZ file).
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub picture: String,
     /// Part numbers of accessories.
     pub accessories: Vec<String>,
     /// The part is an accessory: it only works attached to one of the parts it fits
@@ -527,6 +531,7 @@ impl Default for Part {
             source_data: None,
             eplan_macro: String::new(),
             eplan_variants: Vec::new(),
+            picture: String::new(),
             accessories: Vec::new(),
             accessory: false,
             accessory_mount: AccessoryMount::Auto,

@@ -174,7 +174,7 @@ pub fn link_unassigned_plc_parts(prj: &mut Project, db: &PartsDb, only_tag: Opti
             continue;
         }
         if prj.symbol(&s.sym).is_some_and(|d| d.plc_channel.is_some()) {
-            channels.entry(&s.tag).or_default().insert(&s.sym);
+            channels.entry(&s.tag).or_default().insert(s.library_key());
         }
     }
     if channels.is_empty() {

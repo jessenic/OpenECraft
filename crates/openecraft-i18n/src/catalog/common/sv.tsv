@@ -55,6 +55,7 @@ Classes	Klasser
 Clear filters	Rensa filter
 Clearance bottom	Avstånd nedåt
 Clearance top	Avstånd uppåt
+Clearances	Avstånd
 Coding: {}	Kodning: {}
 Coil voltage	Spolspänning
 Collision class	Kollisionsklass
@@ -86,6 +87,7 @@ Cross-section	Tvärsnitt
 Crossing	Korsning
 Current	Ström
 Cutout	Urtag
+Cutouts	Urtag
 DCavg (%)	DCavg (%)
 DWG drawing	DWG-ritning
 DXF drawing	DXF-ritning
@@ -343,6 +345,7 @@ Range	Område
 Rated current	Märkström
 Rated power	Märkeffekt
 Rectangle	Rektangel
+Rectangular	Rektangulär
 Reject	Avvisa
 Relative humidity	Relativ luftfuktighet
 Relay	Relä
@@ -362,6 +365,7 @@ Rework	Omarbetning
 Right	Höger
 Role	Roll
 Rooms	Rum
+Round	Rund
 Route	Dra runt
 Routing	Dragning
 Rows of modules (east-west: rows of pairs)	Modulrader (öst-väst: rader av par)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Givare, brytare, tryckknappar
 Server	Server
 Service space	Serviceutrymme
 Settings	Inställningar
+Shape	Form
 Short-circuit voltage	Kortslutningsspänning
 Show history	Visa historik
 Show the row after the column	Visa raden efter kolumnen
@@ -454,6 +459,7 @@ Unknown property: {}	Okänd egenskap: {}
 Unknown scheme: {}	Okänt schema: {}
 Unknown segment	Okänt segment
 Unknown symbol {}	Okänd symbol {}
+Unknown symbol: {}	Okänd symbol: {}
 Update	Uppdatera
 Uploading {}…	Laddar upp {}…
 User	Användare

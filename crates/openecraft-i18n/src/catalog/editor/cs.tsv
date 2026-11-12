@@ -291,7 +291,6 @@ Circle	Kružnice
 Circuits of a generic manifold	Okruhy obecného rozdělovače
 Clear	Vymazat
 Clearance	Odstup
-Clearances	Odstupy
 Click	Klepnutí
 Click a text: open its link	Klepnutí na text: otevřít jeho odkaz
 Click an element in the drawing to edit it.	Klikněte na prvek ve výkresu, chcete-li jej upravit.
@@ -592,6 +591,7 @@ Drawing as new page	Výkres jako nová stránka
 Drawn as a connection dot; the routing stays	Kreslen jako spojovací bod; vedení zůstává
 Drawn form	Kreslený formulář
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Místo tabulky nakreslí svorkovnici se svorkami a propojkami nebo kabely s jejich žílami; sloupce formuláře se nepoužijí
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Vykreslí symbol větší nebo menší; jeho texty si zachovají velikost a připojené vodiče se přizpůsobí
 Drilling list (CSV)	Seznam vrtání (CSV)
 Drilling list of this face (CSV)	Seznam otvorů této plochy (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Vrtací obrazec zobrazené plochy jako DXF, DWG nebo CSV
@@ -1492,7 +1492,6 @@ Recently used	Naposledy použité
 Recommended height of manual actuators (10.1.2)	Doporučená výška ručních ovládacích prvků (10.1.2)
 Record	Zaznamenat
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Nahrát: proveďte gesto v poli, které se objeví, případně s podrženou modifikační klávesou (Esc ruší). Přidat zachová stávající gesta. Pravé tlačítko v nástroji výběru otevře místní nabídku.
-Rectangular	Obdélníkový
 Redline: to be changed · Greenline: changed as built	Redline: ke změně · Greenline: změněno podle skutečného provedení
 Redo	Znovu
 Reference point	Referenční bod
@@ -1618,7 +1617,6 @@ Rotate	Otočit
 Rotate (selection or symbol being placed)	Otočit (výběr nebo umísťovaný symbol)
 Rotate what is being moved	Otočit to, co se přesouvá
 Rotate what is being moved counter-clockwise	Otočit to, co se přesouvá, proti směru hodinových ručiček
-Round	Kruhový
 Round cutouts facing each other in both side walls	Kruhové výřezy proti sobě v obou bočních stěnách
 Route definition of {}	Definice trasy kabelu {}
 Route network	Síť tras
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Schéma nastavení (JSON)
 Settings taken over: {}	Nastavení převzata: {}
 Settings…	Nastavení…
 Shafts	Šachty
-Shape	Tvar
 Share of the capacity kept free for later additions	Podíl kapacity ponechaný volný pro pozdější rozšíření
 Shared project {} – revision {}, user {}	Sdílený projekt {} – revize {}, uživatel {}
 Shield	Stínění
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	Natočit 3D pohled na bod
 Tutorial	Výukový kurz
 Twin ferrules where two wires share a connection point	Dvojité dutinky tam, kde dva vodiče sdílejí přípojný bod
 Two fingers	Dva prsty
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dva prsty na touchpadu posouvají pohled, kolečko myši přibližuje. Rozlišit je umí jen macOS; jinde posouvání přibližuje jako kolečko.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Zde se musí stýkat dva vodiče v pravém úhlu. Při zapnutém automatickém spojování se k němu připojí připojovací body naproti jeho ramenům.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Zadejte bod a stiskněte Enter: x y v mm nebo @dx dy relativně k poslednímu bodu; působí jako kliknutí aktuálním nástrojem
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

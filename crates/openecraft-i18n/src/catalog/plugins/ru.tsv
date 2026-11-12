@@ -743,6 +743,7 @@ Side of the plug the cable leaves: socket or pin (default: socket)	Сторон�
 Side the connection comes from: left, right, up or down (default up)	Сторона, с которой приходит соединение: left, right, up или down (по умолчанию up)
 Single-line diagrams	Однолинейные схемы
 Single-line pages and their multi-line counterparts	Однолинейные листы и соответствующие им многолинейные
+Size of a symbol of the symbol library as a factor (1 = as drawn); its texts keep their size and connected wire ends follow	Размер символа из библиотеки символов как коэффициент (1 = как нарисован); его тексты сохраняют размер, концы подключенных проводов следуют за ним
 Slot number	Номер слота
 Smallest bend radius in mm	Наименьший радиус изгиба в мм
 Smallest distance in mm	Минимальное расстояние в мм
@@ -891,7 +892,6 @@ Unknown side {} (socket or pin)	Неизвестная сторона {} (socket
 Unknown side: {}	Неизвестная сторона: {}
 Unknown state: {}	Неизвестное состояние: {}
 Unknown station kind: {}	Неизвестный вид станции: {}
-Unknown symbol: {}	Неизвестный символ: {}
 Unknown table: {}	Неизвестная таблица: {}
 Unknown termination: {}	Неизвестное оконцевание: {}
 Unknown vertical anchor: {}	Неизвестная вертикальная привязка: {}

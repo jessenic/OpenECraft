@@ -3509,6 +3509,7 @@ dependencies = [
 name = "openecraft-edz"
 version = "0.1.1"
 dependencies = [
+ "image",
  "openecraft-core",
  "openecraft-parts",
  "serde_json",
@@ -3535,6 +3536,7 @@ dependencies = [
 name = "openecraft-parts"
 version = "0.1.1"
 dependencies = [
+ "ron",
  "serde",
  "serde_json",
 ]
@@ -3617,6 +3619,7 @@ name = "openecraft-ui"
 version = "0.1.1"
 dependencies = [
  "egui",
+ "image",
  "js-sys",
  "log",
  "openecraft-client",

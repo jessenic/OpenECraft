@@ -666,6 +666,7 @@ impl App {
         let intr = def.func == Func::Interruption;
         let tab = self.props_tab_bar(ui, device, !def.pins.is_empty(), def.show_tag || intr);
         let mut edited = s.clone();
+        let mut scale = None;
         // The structure in effect where the symbol is: the page's or a structure box's.
         let page = &self.session.prj.pages[pi];
         let here = openecraft_core::structure::scope(page, s.pos);
@@ -803,6 +804,16 @@ impl App {
                 ui.checkbox(&mut edited.mirror, tr("Mirror"));
             });
             ui.end_row();
+            let (base, mut factor) = openecraft_core::symlib::scale_of(&s.sym);
+            if base.starts_with(openecraft_core::symlib::PREFIX) {
+                ui.label(tr("Scale"));
+                let (lo, hi) = openecraft_core::symlib::SCALE_RANGE;
+                let r = ui.add(egui::DragValue::new(&mut factor).range(lo..=hi).speed(0.01).max_decimals(3).prefix("× "));
+                if r.on_hover_text(tr("Draws the symbol larger or smaller; its texts keep their size and connected wires follow")).changed() {
+                    scale = Some(factor);
+                }
+                ui.end_row();
+            }
             ui.label(tr("Position"));
             ui.label(tr_fmt!("{} / {} mm  (column {})", format!("{:.0}", s.pos.x), format!("{:.0}", s.pos.y), openecraft_core::frame::of_page(&self.session.prj, pi).column_of(s.pos)));
             ui.end_row();
@@ -821,6 +832,11 @@ impl App {
                 for p in self.session.prj.pages[pi].symbols.iter_mut().filter(|p| box_points.contains(&p.id)) {
                     p.tag.clone_from(&edited.tag);
                 }
+            }
+        }
+        if let Some(factor) = scale {
+            if let Err(e) = ops::set_symbol_scale(&mut self.session.prj, pi, s.id, factor) {
+                log::warn!("{e}");
             }
         }
         if tab == PropTab::Device {

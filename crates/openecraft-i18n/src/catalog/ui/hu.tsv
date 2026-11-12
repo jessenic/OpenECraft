@@ -9,6 +9,7 @@ Accessories of this part	A cikk tartozékai
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	A tartozékok csak azokkal a cikkekkel működnek, amelyekhez illeszkednek. A cikk felsorolja a tartozékait, a tartozék azokat a cikkeket, amelyekhez illeszkedik; elég az egyik oldal.
 Accessory, mounted: {}	Tartozék, szerelés: {}
 Add connection point	Csatlakozási pont hozzáadása
+Add cutout	Kivágás hozzáadása
 Add function	Funkció hozzáadása
 Add marked parts to the parts database ({})	Megjelölt alkatrészek felvétele az alkatrész-adatbázisba ({})
 Add to the parts database	Felvétel az alkatrész-adatbázisba
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Csatlakozzon egy alkatrészszerverhez, és keressen.
 Connected: {} {} – {} parts, revision {}, {}	Csatlakozva: {} {} – {} alkatrész, {}. revízió, {}
 Connection designations	Összeköttetés-megnevezések
+Corner radius	Sarokrádiusz
 Datasheet (URL)	Adatlap (URL)
 Deleted catalog {}	A(z) {} katalógus törölve
 Deleted part {}	A(z) {} alkatrész törölve
 Deleted user {}	A(z) {} felhasználó törölve
 Deleting {}…	{} törlése…
 Dimensions	Méretek
+Door cutouts	Ajtókivágások
 Downloaded {} ({} bytes)	{} letöltve ({} bájt)
 Downloading parts…	Alkatrészek letöltése…
 Drag it onto a schematic page to place it	Húzza egy kapcsolási rajz oldalra az elhelyezéshez
@@ -49,14 +52,19 @@ Group by	Csoportosítás e szerint
 Identifying letter of devices using this part (K, Q, S …)	Az ezt az alkatrészt használó készülékek kódbetűje (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	STL / OBJ / STEP / IGES / IFC / JT importálása…
 Import SVG…	SVG importálása…
+In the door, when they differ from the cutouts	Az ajtóban, ha eltérnek a kivágásoktól
 Internal values of the EPLAN part exchange (0: undefined)	Az EPLAN-alkatrészcsere belső értékei (0: nem definiált)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Csak az egyik illeszkedő cikkre szerelve működik; a projektellenőrzés jelzi az ilyen cikk nélküli készüléknél
+Largest conductor the clamp takes (0: not known)	A kapocs által befogadott legnagyobb vezető (0: ismeretlen)
 Loaded {} parts (revision {})	{} alkatrész betöltve ({}. revízió)
 Loading catalogs…	Katalógusok betöltése…
 Loading favorites…	Kedvencek betöltése…
 Loading the history…	Előzmények betöltése…
 Loading users…	Felhasználók betöltése…
 Mark for adding to the parts database	Megjelölés az alkatrész-adatbázisba való felvételhez
+Max. mm²	Max. mm²
+Min. mm²	Min. mm²
+Most wires the clamp takes (0: not known)	A kapocs által befogadott vezetékek legnagyobb száma (0: ismeretlen)
 Mounted directly on the wall or ceiling of a room	Közvetlenül egy helyiség falára vagy mennyezetére szerelve
 Moves lines such as Power loss: 3 W into the typed fields	Az olyan sorokat, mint a Power loss: 3 W, a típusos mezőkbe helyezi át
 No own connection points – the generated ones are shown.	Nincsenek saját csatlakozási pontok – a generáltak láthatók.
@@ -73,9 +81,11 @@ Pans (trackpad)	Mozgat (érintőpad)
 Parts server: {}	Alkatrészszerver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Alkatrészek, amelyekből ez az alkatrész össze van állítva; az anyagjegyzék alatta sorolja fel őket
 Personal access token	Személyes hozzáférési token
+Picture	Kép
 Place by clicking into the view	Elhelyezés a nézetbe kattintással
 Prices / other	Árak / egyéb
 Remove all	Összes eltávolítása
+Remove picture	Kép eltávolítása
 Removing the file…	A fájl eltávolítása…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	A csatlakozási pontokat az IEC-konvenció szerint cseréli le: páratlan megnevezések felül, párosak alul
 Reset filter	Szűrő alaphelyzetbe állítása
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Jelöljön ki egy sort, majd
 Server revision	Szerverrevízió
 Signed out	Kijelentkezve
 Signing out…	Kijelentkezés…
+Smallest conductor the clamp takes (0: not known)	A kapocs által befogadott legkisebb vezető (0: ismeretlen)
 Stands on the floor of a room	Egy helyiség padlóján áll
 Stands on the floor of a room, like pumps, tanks and compressors	Egy helyiség padlóján áll, mint a szivattyúk, tartályok és kompresszorok
 Successor {}	Utód: {}
@@ -112,7 +123,10 @@ Voltage / current	Feszültség / áram
 WALL	FAL
 Wall mounting	Falra szerelés
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Hol helyezkedik el a tartozék az illeszkedő cikken, a szekrényelrendezésben és a 3D-nézetben
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	A kivágások helye: a középpont az elölnézet közepétől (x jobbra, y lefelé), az elforgatás az óramutatóval ellentétesen.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	A vezetékek bekötési helye a szekrényelrendezésben: a megnevezés a funkciósablon szerint, a pozíció az elölnézetben (x balról, y felülről, z a szerelőfelület fölött) és a vezeték kilépési iránya. A saját csatlakozási pontok nélküli alkatrészek a funkciósablonból kapják meg azokat.
+Width / Ø	Szélesség / Ø
+Wire connection	Vezetékcsatlakozás
 Wire leaves	Vezeték kilépése
 Zoom only	Csak nagyítás
 Zooms (mouse wheel)	Nagyít (egérgörgő)
@@ -120,6 +134,7 @@ changes with token	módosítás tokennel
 created in your EPLAN account (ePulse)	az EPLAN-fiókjában (ePulse) létrehozva
 down	lefelé
 e.g. 25.4 for models in inch, 1000 for models in metres	pl. 25.4 a hüvelykben, 1000 a méterben megadott modelleknél
+from {} mm²	{} mm²-től
 no 2D model	nincs 2D-modell
 no mounting data	nincsenek szerelési adatok
 none – a box of the mounting dimensions is drawn	nincs – a szerelési méretekből egy téglatest rajzolódik
@@ -129,17 +144,25 @@ read-only	csak olvasható
 signed in as {} ({})	bejelentkezve mint {} ({})
 to the front	előre
 up	felfelé
+up to {} mm²	legfeljebb {} mm²
 {} (changed {})	{} (módosítva: {})
 {} catalogs	{} katalógus
 {} changes of part {}	A(z) {1} alkatrész {0} módosítása
 {} connection points	{} csatlakozási pont
 {} favorites	{} kedvenc
+{} mm above	{} mm felül
+{} mm below	{} mm alul
+{} mm in front	{} mm elöl
+{} mm left	{} mm balra
+{} mm right	{} mm jobbra
 {} of {} parts	{} / {} alkatrész
 {} parts found	{} alkatrész található
 {} users	{} felhasználó
+{} wires per connection point	{} vezeték csatlakozási pontonként
 {} × {} mm, {} elements	{} × {} mm, {} elem
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} háromszög
+{}, {} wires per connection point	{}, {} vezeték csatlakozási pontonként
 {}: 2D front view with {} elements assigned to {}	{0}: 2D elölnézet {1} elemmel, hozzárendelve ehhez: {2}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{0}: 3D-modell {1} háromszöggel ({2} × {3} × {4} mm), hozzárendelve ehhez: {5}
 ★ Favorites	★ Kedvencek

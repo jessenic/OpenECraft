@@ -203,10 +203,66 @@ fn door_cutouts_and_nc_data() {
     // Part data overrides the default: rectangular cutout.
     let part = Part { number: "D".into(), tech_data: "Door cutout: 92 x 68 mm".into(), ..Default::default() };
     let it = item(1, ItemKind::Device, 0.0, 0.0, 96.0, 72.0);
-    assert_eq!(door_cutout(Some(&part), &it), (false, 92.0, 68.0));
+    let shapes = |part: Option<&Part>| door_cutouts(part, &it).iter().map(|c| c.shape).collect::<Vec<_>>();
+    assert_eq!(shapes(Some(&part)), [Cutout::Rect { w: 92.0, h: 68.0 }]);
     let part = Part { number: "D".into(), tech_data: "Door cutout: Ø30.5".into(), ..Default::default() };
-    assert_eq!(door_cutout(Some(&part), &it), (true, 30.5, 30.5));
-    assert_eq!(door_cutout(None, &it), (false, 92.0, 68.0));
+    assert_eq!(shapes(Some(&part)), [Cutout::Round { d: 30.5 }]);
+    assert_eq!(shapes(None), [Cutout::Rect { w: 92.0, h: 68.0 }]);
+}
+
+#[test]
+fn cutouts_sit_where_the_part_has_them_and_turn_with_the_item() {
+    // A panel 214 x 158 with its cutout 6.5 mm above the middle, and a second round one.
+    let mut part = Part { number: "HMI".into(), width: 214.0, height: 158.0, depth: 36.0, ..Default::default() };
+    part.mounting_data.cutouts = vec![
+        PlacedCutout { shape: Cutout::Rect { w: 197.0, h: 141.0 }, offset: [0.0, -6.5], angle: 0.0, radius: 3.0 },
+        PlacedCutout { offset: [80.0, 60.0], ..PlacedCutout::centered(Cutout::Round { d: 16.0 }) },
+    ];
+    let mut e = Enclosure { width: 800.0, height: 1000.0, ..Default::default() };
+    e.items.push(PanelItem { part: "HMI".into(), face: Face::Door, ..item(1, ItemKind::Device, 100.0, 100.0, 214.0, 158.0) });
+    let parts = std::slice::from_ref(&part);
+    let o = openings(&e, parts, Face::Door);
+    assert_eq!(o.len(), 2, "both cutouts of the part");
+    assert_eq!((o[0].center, o[0].w, o[0].h, o[0].radius), (p(207.0, 172.5), 197.0, 141.0, 3.0));
+    assert_eq!((o[1].center, o[1].round), (p(287.0, 239.0), true));
+    // Turned a quarter (clockwise): the panel stands, its cutout 6.5 mm to the right.
+    e.items[0] = PanelItem { rotation: Some(PanelRotation::Deg90), ..e.items[0].clone() };
+    e.items[0].w = 158.0;
+    e.items[0].h = 214.0;
+    let o = openings(&e, parts, Face::Door);
+    assert_eq!((o[0].center, o[0].w, o[0].h, o[0].angle), (p(185.5, 207.0), 141.0, 197.0, 0.0));
+    // A cutout turned by its own angle keeps it on the face.
+    part.mounting_data.cutouts[0].angle = 30.0;
+    e.items[0] = PanelItem { rotation: None, w: 214.0, h: 158.0, ..e.items[0].clone() };
+    let o = openings(&e, std::slice::from_ref(&part), Face::Door);
+    assert_eq!((o[0].w, o[0].h, o[0].angle), (197.0, 141.0, 30.0));
+    let b = o[0].bounds();
+    assert!(b.width() > 197.0 && b.height() > 141.0, "the turned outline is wider: {b:?}");
+    // The NC data carry the turn and the corner radius, the DXF the outline.
+    let mut prj = Project::new_default();
+    prj.parts.push(part.clone());
+    prj.layout.enclosures = vec![e];
+    let csv = nc_csv(&prj, 0, Face::Door);
+    assert!(csv.lines().next().unwrap().ends_with(";Angle;Radius"));
+    assert!(csv.lines().any(|l| l.contains("Cutout rectangular") && l.ends_with(";30.0;3.0")), "{csv}");
+    assert!(nc_dxf(&prj, 0, Face::Door).contains("
+CUTOUT
+66
+1
+"), "a polyline");
+}
+
+#[test]
+fn rounded_outlines_stay_inside_their_rectangle() {
+    let o = Opening { item: 1, center: p(0.0, 0.0), w: 40.0, h: 20.0, round: false, angle: 0.0, radius: 5.0 };
+    let pts = o.outline();
+    assert_eq!(pts.len(), 4 * 7);
+    assert!(pts.iter().all(|q| q.x.abs() <= 20.0 + 1e-4 && q.y.abs() <= 10.0 + 1e-4));
+    assert!(!pts.iter().any(|q| (q.x.abs() - 20.0).abs() < 1e-4 && (q.y.abs() - 10.0).abs() < 1e-4), "no sharp corner");
+    let turned = Opening { angle: 90.0, radius: 0.0, ..o };
+    let b = turned.bounds();
+    assert!((b.width() - 20.0).abs() < 1e-3 && (b.height() - 40.0).abs() < 1e-3);
+    assert!((turned.local(p(0.0, -15.0)).x - 15.0).abs() < 1e-4, "along the width, which now points up");
 }
 
 #[test]

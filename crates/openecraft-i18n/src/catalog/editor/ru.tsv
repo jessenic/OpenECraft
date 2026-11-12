@@ -291,7 +291,6 @@ Circle	Окружность
 Circuits of a generic manifold	Контуры типового распределителя
 Clear	Очистить
 Clearance	Зазор
-Clearances	Зазоры
 Click	Щелчок
 Click a text: open its link	Щелчок по тексту: открыть его ссылку
 Click an element in the drawing to edit it.	Щёлкните элемент на чертеже, чтобы изменить его.
@@ -591,6 +590,7 @@ Drawing as new page	Чертёж как новый лист
 Drawn as a connection dot; the routing stays	Рисуется как точка соединения; маршрут сохраняется
 Drawn form	Нарисованная форма
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Рисует клеммную колодку с клеммами и перемычками или кабели с их жилами вместо таблицы; столбцы формы не используются
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Рисует символ крупнее или мельче; его тексты сохраняют размер, подключенные провода следуют за ним
 Drilling list (CSV)	Список отверстий (CSV)
 Drilling list of this face (CSV)	Список сверления этой поверхности (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Схема сверления показанной стороны в DXF, DWG или CSV
@@ -1491,7 +1491,6 @@ Recently used	Недавно использованные
 Recommended height of manual actuators (10.1.2)	Рекомендуемая высота органов ручного управления (10.1.2)
 Record	Записать
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Записать: выполните жест в появившемся поле, при желании удерживая модификатор (Esc отменяет). «Добавить» сохраняет имеющиеся жесты. Правый щелчок в инструменте выбора открывает контекстное меню.
-Rectangular	Прямоугольный
 Redline: to be changed · Greenline: changed as built	Красная правка: требуется изменить · Зелёная правка: изменено по факту монтажа
 Redo	Повторить
 Reference point	Опорная точка
@@ -1617,7 +1616,6 @@ Rotate	Повернуть
 Rotate (selection or symbol being placed)	Повернуть (выделенное или размещаемый символ)
 Rotate what is being moved	Повернуть перемещаемое
 Rotate what is being moved counter-clockwise	Повернуть перемещаемое против часовой стрелки
-Round	Круглый
 Round cutouts facing each other in both side walls	Круглые вырезы друг напротив друга в обеих боковых стенках
 Route definition of {}	Определение трассы {}
 Route network	Сеть трасс
@@ -1747,7 +1745,6 @@ Settings scheme (JSON)	Схема настроек (JSON)
 Settings taken over: {}	Приняты настройки: {}
 Settings…	Настройки…
 Shafts	Шахты
-Shape	Форма
 Share of the capacity kept free for later additions	Доля ёмкости, оставляемая свободной для последующих дополнений
 Shared project {} – revision {}, user {}	Общий проект {} – ревизия {}, пользователь {}
 Shield	Экран
@@ -1995,7 +1992,6 @@ Turn the 3D view to the point	Повернуть 3D-вид к точке
 Tutorial	Учебник
 Twin ferrules where two wires share a connection point	Двойные наконечники там, где два провода подключены к одной точке
 Two fingers	Два пальца
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Два пальца на тачпаде сдвигают вид, колесо мыши масштабирует. Различать их умеет только macOS; в других системах прокрутка масштабирует, как колесо.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Здесь должны сходиться два провода под прямым углом. При включённом автосоединении точки подключения напротив его плеч соединяются с ним.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Введите точку и нажмите Enter: x y в мм или @dx dy относительно последней точки; действует как щелчок текущим инструментом
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} В, I {} А, {} кВт пик

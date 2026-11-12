@@ -164,6 +164,7 @@ pub fn symbol_json(symbols: &Symbols, s: &SymbolInst) -> Value {
         "y": s.pos.y,
         "rotation": s.rot as u32 * 90,
         "mirror": s.mirror,
+        "scale": openecraft_core::symlib::scale_of(&s.sym).1,
         "pins": pins,
     })
 }

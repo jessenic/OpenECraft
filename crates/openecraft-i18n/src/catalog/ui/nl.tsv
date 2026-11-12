@@ -9,6 +9,7 @@ Accessories of this part	Toebehoren van dit artikel
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Toebehoren werkt alleen samen met de artikelen waarop het past. Een artikel noemt zijn toebehoren, een toebehoren de artikelen waarop het past; één kant is genoeg.
 Accessory, mounted: {}	Toebehoren, gemonteerd: {}
 Add connection point	Aansluitpunt toevoegen
+Add cutout	Uitsparing toevoegen
 Add function	Functie toevoegen
 Add marked parts to the parts database ({})	Gemarkeerde artikelen toevoegen aan de artikeldatabase ({})
 Add to the parts database	Toevoegen aan de artikeldatabase
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Maak verbinding met een artikelserver en zoek.
 Connected: {} {} – {} parts, revision {}, {}	Verbonden: {} {} – {} artikelen, revisie {}, {}
 Connection designations	Aansluitbenamingen
+Corner radius	Hoekradius
 Datasheet (URL)	Gegevensblad (URL)
 Deleted catalog {}	Catalogus {} verwijderd
 Deleted part {}	Artikel {} verwijderd
 Deleted user {}	Gebruiker {} verwijderd
 Deleting {}…	{} verwijderen…
 Dimensions	Afmetingen
+Door cutouts	Deuruitsparingen
 Downloaded {} ({} bytes)	{} gedownload ({} bytes)
 Downloading parts…	Artikelen downloaden…
 Drag it onto a schematic page to place it	Sleep naar een schemapagina om te plaatsen
@@ -49,14 +52,19 @@ Group by	Groeperen op
 Identifying letter of devices using this part (K, Q, S …)	Kenletter van apparaten met dit artikel (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	STL / OBJ / STEP / IGES / IFC / JT importeren…
 Import SVG…	SVG importeren…
+In the door, when they differ from the cutouts	In de deur, als ze afwijken van de uitsparingen
 Internal values of the EPLAN part exchange (0: undefined)	Interne waarden van de EPLAN-artikeluitwisseling (0: niet gedefinieerd)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Het werkt alleen bevestigd aan een van de artikelen waarop het past; de projectcontrole meldt het bij een apparaat zonder zo'n artikel
+Largest conductor the clamp takes (0: not known)	Grootste geleider die de klem opneemt (0: onbekend)
 Loaded {} parts (revision {})	{} artikelen geladen (revisie {})
 Loading catalogs…	Catalogi laden…
 Loading favorites…	Favorieten laden…
 Loading the history…	Geschiedenis laden…
 Loading users…	Gebruikers laden…
 Mark for adding to the parts database	Markeren om toe te voegen aan de artikeldatabase
+Max. mm²	Max. mm²
+Min. mm²	Min. mm²
+Most wires the clamp takes (0: not known)	Maximaal aantal draden dat de klem opneemt (0: onbekend)
 Mounted directly on the wall or ceiling of a room	Direct op de wand of het plafond van een ruimte gemonteerd
 Moves lines such as Power loss: 3 W into the typed fields	Verplaatst regels zoals Power loss: 3 W naar de getypeerde velden
 No own connection points – the generated ones are shown.	Geen eigen aansluitpunten – de gegenereerde worden weergegeven.
@@ -73,9 +81,11 @@ Pans (trackpad)	Verschuift (trackpad)
 Parts server: {}	Artikelserver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikelen waaruit dit artikel is samengesteld; de stuklijst vermeldt ze eronder
 Personal access token	Persoonlijk toegangstoken
+Picture	Afbeelding
 Place by clicking into the view	Plaatsen door in de weergave te klikken
 Prices / other	Prijzen / overig
 Remove all	Alles verwijderen
+Remove picture	Afbeelding verwijderen
 Removing the file…	Bestand verwijderen…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Vervangt de aansluitpunten volgens de IEC-conventie: oneven benamingen boven, even benamingen onder
 Reset filter	Filter herstellen
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Selecteer een rij en klik da
 Server revision	Serverrevisie
 Signed out	Afgemeld
 Signing out…	Afmelden…
+Smallest conductor the clamp takes (0: not known)	Kleinste geleider die de klem opneemt (0: onbekend)
 Stands on the floor of a room	Staat op de vloer van een ruimte
 Stands on the floor of a room, like pumps, tanks and compressors	Staat op de vloer van een ruimte, zoals pompen, tanks en compressoren
 Successor {}	Opvolger {}
@@ -112,7 +123,10 @@ Voltage / current	Spanning / stroom
 WALL	WAND
 Wall mounting	Wandmontage
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Waar het toebehoren op het passende artikel zit, in de kastopbouw en de 3D-weergave
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Positie van de uitsparingen: het middelpunt vanaf het midden van het vooraanzicht (x naar rechts, y omlaag), de draaiing tegen de klok in.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Waar de draden in de kastlay-out worden aangesloten: de benaming zoals in de functiesjabloon, de positie in het vooraanzicht (x vanaf links, y vanaf boven, z boven het montagevlak) en de richting waarin de draad vertrekt. Artikelen zonder eigen aansluitpunten krijgen ze uit de functiesjabloon.
+Width / Ø	Breedte / Ø
+Wire connection	Draadaansluiting
 Wire leaves	Draadvertrek
 Zoom only	Alleen zoomen
 Zooms (mouse wheel)	Zoomt (muiswiel)
@@ -120,6 +134,7 @@ changes with token	wijzigingen met token
 created in your EPLAN account (ePulse)	gemaakt in je EPLAN-account (ePulse)
 down	naar beneden
 e.g. 25.4 for models in inch, 1000 for models in metres	bijv. 25,4 voor modellen in inch, 1000 voor modellen in meter
+from {} mm²	vanaf {} mm²
 no 2D model	geen 2D-model
 no mounting data	geen montagegegevens
 none – a box of the mounting dimensions is drawn	geen – er wordt een blok met de montageafmetingen getekend
@@ -129,17 +144,25 @@ read-only	alleen-lezen
 signed in as {} ({})	aangemeld als {} ({})
 to the front	naar voren
 up	naar boven
+up to {} mm²	tot {} mm²
 {} (changed {})	{} (gewijzigd {})
 {} catalogs	{} catalogi
 {} changes of part {}	{} wijzigingen van artikel {}
 {} connection points	{} aansluitpunten
 {} favorites	{} favorieten
+{} mm above	{} mm boven
+{} mm below	{} mm onder
+{} mm in front	{} mm voor
+{} mm left	{} mm links
+{} mm right	{} mm rechts
 {} of {} parts	{} van {} artikelen
 {} parts found	{} artikelen gevonden
 {} users	{} gebruikers
+{} wires per connection point	{} draden per aansluitpunt
 {} × {} mm, {} elements	{} × {} mm, {} elementen
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} driehoeken
+{}, {} wires per connection point	{}, {} draden per aansluitpunt
 {}: 2D front view with {} elements assigned to {}	{}: 2D-vooraanzicht met {} elementen toegewezen aan {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: 3D-model met {} driehoeken ({} × {} × {} mm) toegewezen aan {}
 ★ Favorites	★ Favorieten

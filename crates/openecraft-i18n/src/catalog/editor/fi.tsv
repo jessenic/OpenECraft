@@ -291,7 +291,6 @@ Circle	Ympyrä
 Circuits of a generic manifold	Yleisen jakotukin piirit
 Clear	Tyhjennä
 Clearance	Vapaa etäisyys
-Clearances	Etäisyydet
 Click	Napsautus
 Click a text: open its link	Tekstin napsautus: avaa sen linkki
 Click an element in the drawing to edit it.	Napsauta piirustuksen elementtiä muokataksesi sitä.
@@ -592,6 +591,7 @@ Drawing as new page	Piirustus uutena sivuna
 Drawn as a connection dot; the routing stays	Piirretään liitospisteenä; reititys säilyy
 Drawn form	Piirretty lomake
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Piirtää riman riviliittimineen ja siltoineen tai kaapelit johtimineen taulukon sijaan; lomakkeen sarakkeita ei käytetä
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Piirtää symbolin suurempana tai pienempänä; sen tekstit säilyttävät kokonsa ja liitetyt johdot seuraavat
 Drilling list (CSV)	Porausluettelo (CSV)
 Drilling list of this face (CSV)	Tämän pinnan porausluettelo (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Näytetyn pinnan porauskuvio DXF-, DWG- tai CSV-muodossa
@@ -1492,7 +1492,6 @@ Recently used	Viimeksi käytetyt
 Recommended height of manual actuators (10.1.2)	Käsikäyttöisten käyttöelinten suositeltu korkeus (10.1.2)
 Record	Tallenna näppäin
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Tallenna: tee ele näkyviin tulevassa kentässä, halutessasi muokkausnäppäin painettuna (Esc peruuttaa). Lisää säilyttää nykyiset eleet. Hiiren oikea painike valintatyökalussa avaa pikavalikon.
-Rectangular	Suorakulmainen
 Redline: to be changed · Greenline: changed as built	Redline: muutettava · Greenline: muutettu toteutuksen mukaan
 Redo	Tee uudelleen
 Reference point	Vertailupiste
@@ -1618,7 +1617,6 @@ Rotate	Kierrä
 Rotate (selection or symbol being placed)	Kierrä (valinta tai sijoitettava symboli)
 Rotate what is being moved	Kierrä siirrettävää
 Rotate what is being moved counter-clockwise	Kierrä siirrettävää vastapäivään
-Round	Pyöreä
 Round cutouts facing each other in both side walls	Pyöreät aukot vastakkain molemmissa sivuseinissä
 Route definition of {}	Kaapelin {} reitin määrittely
 Route network	Reittiverkko
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Asetusskeema (JSON)
 Settings taken over: {}	Asetukset otettiin käyttöön: {}
 Settings…	Asetukset…
 Shafts	Kuilut
-Shape	Muoto
 Share of the capacity kept free for later additions	Kapasiteetin osuus, joka jätetään vapaaksi myöhempiä lisäyksiä varten
 Shared project {} – revision {}, user {}	Jaettu projekti {} – revisio {}, käyttäjä {}
 Shield	Suojavaippa
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	Käännä 3D-näkymä pisteeseen
 Tutorial	Opetusohjelma
 Twin ferrules where two wires share a connection point	Kaksoispääteholkit, kun kaksi johdinta jakaa liitäntäpisteen
 Two fingers	Kaksi sormea
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Kaksi sormea kosketuslevyllä panoroi, hiiren rulla zoomaa. Vain macOS erottaa ne; muualla vieritys zoomaa kuten rulla.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Tässä on kohdattava kaksi johdinta suorassa kulmassa. Automaattisen kytkennän ollessa päällä sen haaroja vastapäätä olevat liitäntäpisteet johdotetaan siihen.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Kirjoita piste ja paina Enter: x y millimetreinä tai @dx dy suhteessa edelliseen pisteeseen; toimii kuin nykyisen työkalun napsautus
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

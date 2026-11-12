@@ -55,6 +55,7 @@ Classes	Klasy
 Clear filters	Wyczyść filtry
 Clearance bottom	Odstęp dolny
 Clearance top	Odstęp górny
+Clearances	Odstępy
 Coding: {}	Kodowanie: {}
 Coil voltage	Napięcie cewki
 Collision class	Klasa kolizji
@@ -86,6 +87,7 @@ Cross-section	Przekrój
 Crossing	Skrzyżowanie
 Current	Prąd
 Cutout	Wycięcie
+Cutouts	Wycięcia
 DCavg (%)	DCavg (%)
 DWG drawing	Rysunek DWG
 DXF drawing	Rysunek DXF
@@ -343,6 +345,7 @@ Range	Zakres
 Rated current	Prąd znamionowy
 Rated power	Moc znamionowa
 Rectangle	Prostokąt
+Rectangular	Prostokątny
 Reject	Odrzuć
 Relative humidity	Wilgotność względna
 Relay	Przekaźnik
@@ -362,6 +365,7 @@ Rework	Poprawka
 Right	Prawo
 Role	Rola
 Rooms	Pomieszczenia
+Round	Okrągły
 Route	Prowadź
 Routing	Prowadzenie
 Rows of modules (east-west: rows of pairs)	Rzędy modułów (wschód-zachód: rzędy par)
@@ -386,6 +390,7 @@ Sensors, switches, pushbuttons	Czujniki, łączniki, przyciski
 Server	Serwer
 Service space	Przestrzeń serwisowa
 Settings	Ustawienia
+Shape	Kształt
 Short-circuit voltage	Napięcie zwarcia
 Show history	Pokaż historię
 Show the row after the column	Pokaż wiersz po kolumnie
@@ -454,6 +459,7 @@ Unknown property: {}	Nieznana właściwość: {}
 Unknown scheme: {}	Nieznany schemat: {}
 Unknown segment	Nieznany segment
 Unknown symbol {}	Nieznany symbol {}
+Unknown symbol: {}	Nieznany symbol: {}
 Update	Aktualizuj
 Uploading {}…	Przesyłanie {}…
 User	Użytkownik

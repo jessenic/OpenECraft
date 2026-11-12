@@ -126,3 +126,64 @@ fn floor_mounting_is_a_typed_flag() {
     assert!(Part { mounting: "Floor".into(), ..Default::default() }.floor_standing());
     assert!(!Part::default().floor_standing());
 }
+
+#[test]
+fn placed_cutouts_in_their_text_form() {
+    let c = PlacedCutout::parse("197 x 141 @ 0/-6,5 R3 15°").unwrap();
+    assert_eq!(c, PlacedCutout { shape: Cutout::Rect { w: 197.0, h: 141.0 }, offset: [0.0, -6.5], angle: 15.0, radius: 3.0 });
+    assert_eq!(c.text(), "197 x 141 @ 0/-6.5 R3 15°");
+    assert_eq!(PlacedCutout::parse("92 x 92 R2").unwrap().radius, 2.0, "radius without a place");
+    assert_eq!(PlacedCutout::parse("22,5 mm").unwrap(), PlacedCutout::centered(Cutout::Round { d: 22.5 }));
+    assert!(PlacedCutout::parse("92 x 92 @ 10").is_none(), "x and y");
+    let list = parse_cutouts("197 x 141 @ 0/-6.5; Ø16 @ 80/60").unwrap();
+    assert_eq!(list.len(), 2);
+    assert_eq!(cutouts_text(&list), "197 x 141 @ 0/-6.5; Ø16 @ 80/60");
+    let mut m = MountingData::default();
+    assert!(m.set("Cutout", "197 x 141 @ 0/-6.5; Ø16 @ 80/60"));
+    assert_eq!(m.cutouts, list);
+    assert!(m.set("Cutout", ""));
+    assert!(m.cutouts.is_empty());
+    assert!(!m.set("Cutout", "92 x 92; oval"), "all or nothing");
+}
+
+#[test]
+fn single_cutouts_of_older_files_are_read_as_a_centred_one() {
+    let old: MountingData = serde_json::from_str(r#"{"cutout": {"rect": {"w": 177.0, "h": 177.0}}, "door_cutout": {"round": {"d": 22.5}}}"#).unwrap();
+    assert_eq!(old.cutouts, [PlacedCutout::centered(Cutout::Rect { w: 177.0, h: 177.0 })]);
+    assert_eq!(old.door_cutouts, [PlacedCutout::centered(Cutout::Round { d: 22.5 })]);
+    let mut new = old.clone();
+    new.cutouts[0].offset = [0.0, 5.0];
+    let text = serde_json::to_string(&new).unwrap();
+    assert!(text.contains(r#""cutouts":[{"shape":{"rect""#), "{text}");
+    assert_eq!(serde_json::from_str::<MountingData>(&text).unwrap(), new);
+    assert!(serde_json::from_str::<MountingData>(r#"{"cutout": null}"#).unwrap().cutouts.is_empty());
+}
+
+#[test]
+fn cutouts_of_a_part_and_their_outline() {
+    let mut p = Part { width: 100.0, height: 50.0, tech_data: "Cutout: 40 x 20 @ 10/0".into(), ..Default::default() };
+    assert_eq!(p.cutouts(false)[0].offset, [10.0, 0.0], "from the technical data of older parts");
+    assert_eq!(p.cutouts(true), p.cutouts(false), "the door takes the cutouts without door cutouts");
+    p.mounting_data.door_cutouts = vec![PlacedCutout::centered(Cutout::Round { d: 22.5 })];
+    assert_eq!(p.cutouts(true).len(), 1);
+    assert!(matches!(p.cutouts(true)[0].shape, Cutout::Round { .. }));
+    let outline = p.cutouts(false)[0].outline(p.width, p.height);
+    assert_eq!(outline, [[80.0, 35.0], [40.0, 35.0], [40.0, 15.0], [80.0, 15.0]]);
+    let turned = PlacedCutout { angle: 90.0, ..p.cutouts(false)[0] }.outline(p.width, p.height);
+    assert!(turned.iter().all(|[x, y]| (x - 60.0).abs() <= 10.0 + 1e-4 && (y - 25.0).abs() <= 20.0 + 1e-4), "{turned:?}");
+}
+
+#[test]
+fn cutouts_survive_the_app_storage() {
+    let m = MountingData {
+        cutouts: vec![PlacedCutout { offset: [0.0, -6.5], angle: 15.0, ..PlacedCutout::centered(Cutout::Rect { w: 197.0, h: 141.0 }) }],
+        door_cutouts: vec![PlacedCutout::centered(Cutout::Round { d: 22.5 })],
+        ..Default::default()
+    };
+    let text = ron::to_string(&m).unwrap();
+    assert_eq!(ron::from_str::<MountingData>(&text).unwrap(), m);
+    // Stored by older versions: one optional cutout.
+    let old: MountingData = ron::from_str("(cutout: Some(rect(w: 177.0, h: 177.0)), door_cutout: None)").unwrap();
+    assert_eq!(old.cutouts, [PlacedCutout::centered(Cutout::Rect { w: 177.0, h: 177.0 })]);
+    assert!(old.door_cutouts.is_empty());
+}

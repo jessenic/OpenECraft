@@ -291,7 +291,6 @@ Circle	Okrąg
 Circuits of a generic manifold	Obiegi rozdzielacza ogólnego
 Clear	Wyczyść
 Clearance	Odstęp
-Clearances	Odstępy
 Click	Kliknięcie
 Click a text: open its link	Kliknięcie tekstu: otwarcie jego łącza
 Click an element in the drawing to edit it.	Kliknij element na rysunku, aby go edytować.
@@ -592,6 +591,7 @@ Drawing as new page	Rysunek jako nowa strona
 Drawn as a connection dot; the routing stays	Rysowany jako punkt połączenia; prowadzenie pozostaje
 Drawn form	Formularz rysowany
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Rysuje listwę z zaciskami i mostkami lub kable z ich żyłami zamiast tabeli; kolumny formularza nie są używane
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Rysuje symbol większy lub mniejszy; jego teksty zachowują rozmiar, a podłączone przewody podążają za nim
 Drilling list (CSV)	Lista otworów (CSV)
 Drilling list of this face (CSV)	Lista otworów tej ściany (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Wzór wierceń pokazanej ściany jako DXF, DWG lub CSV
@@ -1492,7 +1492,6 @@ Recently used	Ostatnio używane
 Recommended height of manual actuators (10.1.2)	Zalecana wysokość ręcznych elementów sterowniczych (10.1.2)
 Record	Nagraj
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Nagraj: wykonaj gest w polu, które się pojawi, w razie potrzeby z przytrzymanym klawiszem modyfikującym (Esc anuluje). Dodaj zachowuje istniejące gesty. Prawy przycisk w narzędziu zaznaczania otwiera menu kontekstowe.
-Rectangular	Prostokątny
 Redline: to be changed · Greenline: changed as built	Redline: do zmiany · Greenline: zmienione zgodnie z wykonaniem
 Redo	Ponów
 Reference point	Punkt odniesienia
@@ -1618,7 +1617,6 @@ Rotate	Obróć
 Rotate (selection or symbol being placed)	Obróć (zaznaczenie lub umieszczany symbol)
 Rotate what is being moved	Obracanie przesuwanych elementów
 Rotate what is being moved counter-clockwise	Obracanie przesuwanych elementów przeciwnie do ruchu wskazówek zegara
-Round	Okrągły
 Round cutouts facing each other in both side walls	Okrągłe wycięcia naprzeciw siebie w obu ścianach bocznych
 Route definition of {}	Definicja trasy kabla {}
 Route network	Sieć tras
@@ -1748,7 +1746,6 @@ Settings scheme (JSON)	Schemat ustawień (JSON)
 Settings taken over: {}	Przejęto ustawienia: {}
 Settings…	Ustawienia…
 Shafts	Szyby
-Shape	Kształt
 Share of the capacity kept free for later additions	Część pojemności pozostawiona wolna na późniejsze rozbudowy
 Shared project {} – revision {}, user {}	Projekt współdzielony {} – rewizja {}, użytkownik {}
 Shield	Ekran
@@ -1996,7 +1993,6 @@ Turn the 3D view to the point	Obrócenie widoku 3D w stronę punktu
 Tutorial	Samouczek
 Twin ferrules where two wires share a connection point	Tulejki podwójne tam, gdzie dwa przewody dzielą punkt połączenia
 Two fingers	Dwa palce
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Dwa palce na gładziku przesuwają widok, kółko myszy powiększa. Tylko macOS je rozróżnia; w innych systemach przewijanie powiększa jak kółko.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Tutaj muszą spotkać się dwa przewody pod kątem prostym. Przy włączonym automatycznym łączeniu punkty przyłączenia naprzeciw jego ramion są z nim łączone.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Wpisz punkt i naciśnij Enter: x y w mm lub @dx dy względem ostatniego punktu; działa jak kliknięcie bieżącym narzędziem
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} V, I {} A, {} kWp

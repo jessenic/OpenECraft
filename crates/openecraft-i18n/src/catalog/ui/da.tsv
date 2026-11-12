@@ -9,6 +9,7 @@ Accessories of this part	Tilbehør til denne artikel
 Accessories only work together with the parts they fit. A part lists its accessories, an accessory the parts it fits; either side is enough.	Tilbehør virker kun sammen med de artikler, det passer til. En artikel angiver sit tilbehør, et tilbehør de artikler, det passer til; én side er nok.
 Accessory, mounted: {}	Tilbehør, monteret: {}
 Add connection point	Tilføj tilslutningspunkt
+Add cutout	Tilføj udskæring
 Add function	Tilføj funktion
 Add marked parts to the parts database ({})	Føj markerede artikler til artikeldatabasen ({})
 Add to the parts database	Føj til artikeldatabasen
@@ -26,12 +27,14 @@ Compares the local parts with the parts server: newer versions, phase-out, disco
 Connect to a parts server and search.	Opret forbindelse til en artikelserver, og søg.
 Connected: {} {} – {} parts, revision {}, {}	Forbundet: {} {} – {} artikler, revision {}, {}
 Connection designations	Forbindelsesbetegnelser
+Corner radius	Hjørneradius
 Datasheet (URL)	Datablad (URL)
 Deleted catalog {}	Kataloget {} er slettet
 Deleted part {}	Artiklen {} er slettet
 Deleted user {}	Brugeren {} er slettet
 Deleting {}…	Sletter {}…
 Dimensions	Dimensioner
+Door cutouts	Dørudskæringer
 Downloaded {} ({} bytes)	{} er downloadet ({} byte)
 Downloading parts…	Downloader artikler…
 Drag it onto a schematic page to place it	Træk til en diagramside for at placere
@@ -49,14 +52,19 @@ Group by	Gruppér efter
 Identifying letter of devices using this part (K, Q, S …)	Kendebogstav for enheder, der bruger denne artikel (K, Q, S …)
 Import STL / OBJ / STEP / IGES / IFC / JT…	Importér STL / OBJ / STEP / IGES / IFC / JT…
 Import SVG…	Importér SVG…
+In the door, when they differ from the cutouts	I døren, når de afviger fra udskæringerne
 Internal values of the EPLAN part exchange (0: undefined)	Interne værdier for EPLAN-artikeludvekslingen (0: udefineret)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Det virker kun monteret på en af de artikler, det passer til; projektkontrollen melder det på en enhed uden en sådan artikel
+Largest conductor the clamp takes (0: not known)	Største leder, klemmen tager (0: ukendt)
 Loaded {} parts (revision {})	{} artikler indlæst (revision {})
 Loading catalogs…	Indlæser kataloger…
 Loading favorites…	Indlæser favoritter…
 Loading the history…	Indlæser historikken…
 Loading users…	Indlæser brugere…
 Mark for adding to the parts database	Markér til tilføjelse i artikeldatabasen
+Max. mm²	Maks. mm²
+Min. mm²	Min. mm²
+Most wires the clamp takes (0: not known)	Flest ledninger, klemmen tager (0: ukendt)
 Mounted directly on the wall or ceiling of a room	Monteres direkte på væggen eller i loftet i et rum
 Moves lines such as Power loss: 3 W into the typed fields	Flytter linjer som Power loss: 3 W til de typede felter
 No own connection points – the generated ones are shown.	Ingen egne tilslutningspunkter – de genererede vises.
@@ -73,9 +81,11 @@ Pans (trackpad)	Panorerer (pegefelt)
 Parts server: {}	Artikelserver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikler, som denne artikel er sammensat af; styklisten viser dem under den
 Personal access token	Personligt adgangstoken
+Picture	Billede
 Place by clicking into the view	Placer ved at klikke i visningen
 Prices / other	Priser / andet
 Remove all	Fjern alle
+Remove picture	Fjern billede
 Removing the file…	Fjerner filen…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Erstatter tilslutningspunkterne efter IEC-konventionen: ulige betegnelser øverst, lige nederst
 Reset filter	Nulstil filter
@@ -90,6 +100,7 @@ Select a row, then click into the view to place it.	Vælg en række, og klik der
 Server revision	Serverrevision
 Signed out	Logget af
 Signing out…	Logger af…
+Smallest conductor the clamp takes (0: not known)	Mindste leder, klemmen tager (0: ukendt)
 Stands on the floor of a room	Står på gulvet i et rum
 Stands on the floor of a room, like pumps, tanks and compressors	Står på gulvet i et rum, som pumper, tanke og kompressorer
 Successor {}	Efterfølger {}
@@ -112,7 +123,10 @@ Voltage / current	Spænding / strøm
 WALL	VÆG
 Wall mounting	Vægmontage
 Where the accessory sits on the part it fits, in the panel layout and the 3D view	Hvor tilbehøret sidder på den artikel, det passer til, i tavlelayoutet og 3D-visningen
+Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise.	Hvor udskæringerne sidder: midtpunktet fra midten af forsiden (x til højre, y nedad), drejningen mod uret.
 Where the wires are connected in the panel layout: the designation as in the function template, the position in the front view (x from the left, y from the top, z above the mounting surface) and the direction the wire leaves in. Parts without own connection points get them from the function template.	Hvor ledningerne tilsluttes i tavlelayoutet: betegnelsen som i funktionsskabelonen, positionen i frontvisningen (x fra venstre, y fra toppen, z over monteringsfladen) og den retning, ledningen forlader i. Artikler uden egne tilslutningspunkter får dem fra funktionsskabelonen.
+Width / Ø	Bredde / Ø
+Wire connection	Ledningstilslutning
 Wire leaves	Ledningsudgang
 Zoom only	Kun zoom
 Zooms (mouse wheel)	Zoomer (musehjul)
@@ -120,6 +134,7 @@ changes with token	ændringer med token
 created in your EPLAN account (ePulse)	oprettet i din EPLAN-konto (ePulse)
 down	ned
 e.g. 25.4 for models in inch, 1000 for models in metres	f.eks. 25,4 for modeller i tommer, 1000 for modeller i meter
+from {} mm²	fra {} mm²
 no 2D model	ingen 2D-model
 no mounting data	ingen monteringsdata
 none – a box of the mounting dimensions is drawn	ingen – der tegnes en kasse med monteringsdimensionerne
@@ -129,17 +144,25 @@ read-only	skrivebeskyttet
 signed in as {} ({})	logget på som {} ({})
 to the front	fremad
 up	op
+up to {} mm²	op til {} mm²
 {} (changed {})	{} (ændret {})
 {} catalogs	{} kataloger
 {} changes of part {}	{} ændringer af artikel {}
 {} connection points	{} tilslutningspunkter
 {} favorites	{} favoritter
+{} mm above	{} mm over
+{} mm below	{} mm under
+{} mm in front	{} mm foran
+{} mm left	{} mm til venstre
+{} mm right	{} mm til højre
 {} of {} parts	{} af {} artikler
 {} parts found	{} artikler fundet
 {} users	{} brugere
+{} wires per connection point	{} ledninger pr. tilslutningspunkt
 {} × {} mm, {} elements	{} × {} mm, {} elementer
 {} × {} × {} mm	{} × {} × {} mm
 {} × {} × {} mm, {} triangles	{} × {} × {} mm, {} trekanter
+{}, {} wires per connection point	{}, {} ledninger pr. tilslutningspunkt
 {}: 2D front view with {} elements assigned to {}	{}: 2D-frontvisning med {} elementer tildelt {}
 {}: 3D model with {} triangles ({} × {} × {} mm) assigned to {}	{}: 3D-model med {} trekanter ({} × {} × {} mm) tildelt {}
 ★ Favorites	★ Favoritter

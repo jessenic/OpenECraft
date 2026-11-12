@@ -291,7 +291,6 @@ Circle	Коло
 Circuits of a generic manifold	Контури типового розподільника
 Clear	Очистити
 Clearance	Відступ
-Clearances	Відстані
 Click	Клацання
 Click a text: open its link	Клацання по тексту: відкрити його посилання
 Click an element in the drawing to edit it.	Клацніть елемент на кресленні, щоб редагувати його.
@@ -591,6 +590,7 @@ Drawing as new page	Креслення як нова сторінка
 Drawn as a connection dot; the routing stays	Малюється як точка з'єднання; маршрут зберігається
 Drawn form	Накреслена форма
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Відображає колодку з клемами та перемичками або кабелі з жилами замість таблиці; стовпці форми не використовуються
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Малює символ більшим або меншим; його тексти зберігають розмір, під'єднані проводи слідують за ним
 Drilling list (CSV)	Список отворів (CSV)
 Drilling list of this face (CSV)	Перелік отворів цієї грані (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Схема свердління показаної сторони у DXF, DWG або CSV
@@ -1491,7 +1491,6 @@ Recently used	Нещодавно використані
 Recommended height of manual actuators (10.1.2)	Рекомендована висота ручних органів керування (10.1.2)
 Record	Записати
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Записати: виконайте жест у полі, що з’явиться, за бажання утримуючи модифікатор (Esc скасовує). «Додати» зберігає наявні жести. Клацання правою кнопкою в інструменті вибору відкриває контекстне меню.
-Rectangular	Прямокутний
 Redline: to be changed · Greenline: changed as built	Червона розмітка: слід змінити · Зелена розмітка: змінено за фактом виконання
 Redo	Повторити
 Reference point	Опорна точка
@@ -1617,7 +1616,6 @@ Rotate	Повернути
 Rotate (selection or symbol being placed)	Повернути (вибране або символ, що розміщується)
 Rotate what is being moved	Повернути те, що переміщується
 Rotate what is being moved counter-clockwise	Повернути те, що переміщується, проти годинникової стрілки
-Round	Круглий
 Round cutouts facing each other in both side walls	Круглі вирізи один навпроти одного в обох бічних стінках
 Route definition of {}	Визначення траси {}
 Route network	Мережа трас
@@ -1747,7 +1745,6 @@ Settings scheme (JSON)	Схема параметрів (JSON)
 Settings taken over: {}	Параметри перенесено: {}
 Settings…	Параметри…
 Shafts	Шахти
-Shape	Форма
 Share of the capacity kept free for later additions	Частка місткості, що залишається вільною для подальших доповнень
 Shared project {} – revision {}, user {}	Спільний проєкт {} – ревізія {}, користувач {}
 Shield	Екран
@@ -1995,7 +1992,6 @@ Turn the 3D view to the point	Повернути 3D-вигляд до точки
 Tutorial	Навчальний посібник
 Twin ferrules where two wires share a connection point	Подвійні наконечники там, де два проводи підключені до однієї точки
 Two fingers	Два пальці
-Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel.	Два пальці на тачпаді зсувають вигляд, коліщатко миші масштабує. Розрізняє їх лише macOS; в інших системах прокручування масштабує, як коліщатко.
 Two wires must meet here at a right angle. With Auto-connect on, connection points facing its arms are wired to it.	Тут мають сходитися два проводи під прямим кутом. За ввімкненого автоз'єднання точки підключення навпроти його плечей з'єднуються з ним.
 Type a point and press Enter: x y in mm, or @dx dy relative to the last point; it acts like a click of the current tool	Введіть точку й натисніть Enter: x y у мм або @dx dy відносно останньої точки; діє як клацання поточним інструментом
 U {} / {} / {} V, I {} A, {} kWp	U {} / {} / {} В, I {} А, {} кВт пік

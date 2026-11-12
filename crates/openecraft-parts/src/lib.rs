@@ -19,6 +19,7 @@
 pub mod access;
 pub mod accessory;
 pub mod api;
+pub mod base64;
 mod bmecat;
 pub mod bundled;
 mod catalog;
@@ -47,7 +48,7 @@ pub use csv::{csv_escape, from_csv, import, parse_csv, to_csv};
 pub use eplan::{from_eplan_documents, from_eplan_xml, is_eplan_xml, language_text, to_eplan_xml};
 pub use filter::{distinct_values, Grouping, PartFilter};
 pub use ifc::parse_ifc;
-pub use mounting::{Cutout, MountingData, RailMount, MOUNTING_KEYS};
+pub use mounting::{cutout_outline, cutouts_text, parse_cutouts, Cutout, MountingData, PlacedCutout, RailMount, MOUNTING_KEYS};
 pub use graphics::{parse_mesh, parse_obj, parse_stl, parse_svg, Mesh3d, MeshBuilder, Model2d, Prim2d, MAX_TRIANGLES};
 pub use part::*;
 pub use shared::Shared;

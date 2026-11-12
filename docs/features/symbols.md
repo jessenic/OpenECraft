@@ -44,3 +44,7 @@ the CIS (GOST) and Japan (JIS) carry the device letters of GB/T 7159 (`KM`, `KA`
 (lines, rectangles, circles, texts, tag / label fields, connection points on the 4 mm
 grid, function such as main function, contact, terminal, PLC point), or copied from a
 built-in symbol; they are stored in the project and exchanged as library files.
+A placed symbol of the library (an own or an imported EPLAN symbol) can be drawn larger
+or smaller: **Scale** in its properties (or `update_symbol` with `scale`, 0.1 to 10)
+scales its graphics and connection points, while its texts keep their size, so that
+imported symbols fit the drawing; the wires at its connection points follow.

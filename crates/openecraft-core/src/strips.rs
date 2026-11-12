@@ -157,7 +157,7 @@ pub const END_BRACKET_WIDTH: f32 = 9.0;
 pub const END_PLATE_WIDTH: f32 = 1.5;
 
 /// Symbol of protective earth terminals.
-const PE_SYMBOL: &str = "term_pe";
+pub(crate) const PE_SYMBOL: &str = "term_pe";
 
 /// A protective earth terminal part (tech data `Terminal type: PE`).
 pub fn is_pe_part(part: &Part) -> bool {

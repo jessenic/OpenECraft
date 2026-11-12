@@ -350,7 +350,6 @@ Circle	Kreis	Cercle	Círculo
 Circuits of a generic manifold	Heizkreise eines generischen Verteilers	Circuits d'un collecteur générique	Circuitos de un colector genérico
 Clear	Leeren	Effacer	Borrar
 Clearance	Abstand	Distance	Distancia
-Clearances	Abstände	Distances	Distancias
 Click	Klicken	Clic	Clic
 Click a text: open its link	Klick auf einen Text: seinen Link öffnen	Clic sur un texte : ouvrir son lien	Clic en un texto: abrir su enlace
 Click an element in the drawing to edit it.	Klicken Sie auf ein Element in der Zeichnung, um es zu bearbeiten.	Cliquez sur un élément du dessin pour le modifier.	Haz clic en un elemento del dibujo para editarlo.
@@ -707,6 +706,7 @@ Drawn as a connection dot; the routing stays	Als Verbindungspunkt gezeichnet; di
 Drawn form	Gezeichnetes Formular	Formulaire dessiné	Formulario dibujado
 Draws the 3D view of the panel layout with OpenGL 3 / WebGL 2, much faster for large rooms; off: drawn by the processor	Zeichnet die 3D-Ansicht des Schaltschrankaufbaus mit OpenGL 3 / WebGL 2, bei großen Räumen viel schneller; aus: Zeichnen durch den Prozessor	Dessine la vue 3D de l'implantation d'armoire avec OpenGL 3 / WebGL 2, beaucoup plus rapide pour les grandes salles ; désactivé : dessinée par le processeur	Dibuja la vista 3D del diseño del armario con OpenGL 3 / WebGL 2, mucho más rápido en salas grandes; desactivado: la dibuja el procesador
 Draws the strip with its terminals and jumpers, or the cables with their cores, instead of a table; the columns of the form are not used	Zeichnet die Leiste mit Klemmen und Brücken bzw. die Kabel mit ihren Adern statt einer Tabelle; die Spalten des Formulars werden nicht verwendet	Dessine le bornier avec ses bornes et ponts, ou les câbles avec leurs conducteurs, au lieu d'un tableau ; les colonnes du formulaire ne sont pas utilisées	Dibuja la regleta con sus bornes y puentes, o los cables con sus conductores, en lugar de una tabla; las columnas del formulario no se usan
+Draws the symbol larger or smaller; its texts keep their size and connected wires follow	Zeichnet das Symbol größer oder kleiner; seine Texte behalten ihre Größe, angeschlossene Leiter folgen	Dessine le symbole plus grand ou plus petit ; ses textes gardent leur taille et les fils raccordés suivent	Dibuja el símbolo más grande o más pequeño; sus textos conservan su tamaño y los cables conectados lo siguen
 Drilling list (CSV)	Bohrliste (CSV)	Liste de perçage (CSV)	Lista de taladros (CSV)
 Drilling list of this face (CSV)	Bohrliste dieser Fläche (CSV)	Liste de perçage de cette face (CSV)	Lista de taladros de esta cara (CSV)
 Drilling pattern of the face shown as DXF, DWG or CSV	Bohrbild der angezeigten Fläche als DXF, DWG oder CSV	Plan de perçage de la face affichée en DXF, DWG ou CSV	Patrón de taladrado de la cara mostrada como DXF, DWG o CSV
@@ -1693,7 +1693,6 @@ Recommended height of manual actuators (10.1.2)	Empfohlene Höhe von Bedienteile
 Record	Aufnehmen	Enregistrer	Grabar
 Record: do the gesture in the field that appears, holding a modifier if wanted (Esc cancels). Add keeps the gestures there are. Right click in the select tool opens the context menu.	Aufnehmen: die Geste im erscheinenden Feld ausführen, auf Wunsch mit gedrückter Zusatztaste (Esc bricht ab). Hinzufügen behält die vorhandenen Gesten. Rechtsklick im Auswahlwerkzeug öffnet das Kontextmenü.	Enregistrer : faites le geste dans le champ qui apparaît, en maintenant une touche de modification si souhaité (Échap annule). Ajouter conserve les gestes existants. Le clic droit dans l'outil de sélection ouvre le menu contextuel.	Grabar: haga el gesto en el campo que aparece, con una tecla modificadora pulsada si lo desea (Esc cancela). Añadir conserva los gestos existentes. El clic derecho en la herramienta de selección abre el menú contextual.
 Record: press the new key with its modifiers (Esc cancels). Esc and copy / cut / paste stay fixed.	Aufnehmen: die neue Taste mit ihren Zusatztasten drücken (Esc bricht ab). Esc und Kopieren / Ausschneiden / Einfügen bleiben fest.	Enregistrer : appuyez sur la nouvelle touche avec ses modificateurs (Échap annule). Échap et copier / couper / coller restent fixes.	Grabar: pulse la nueva tecla con sus modificadores (Esc cancela). Esc y copiar / cortar / pegar no cambian.
-Rectangular	Rechteckig	Rectangulaire	Rectangular
 Redline: to be changed · Greenline: changed as built	Redline: zu ändern · Greenline: wie gebaut geändert	Redline : à modifier · Greenline : modifié tel que construit	Redline: a cambiar · Greenline: cambiado según construcción
 Redo	Wiederholen	Rétablir	Rehacer
 Reference artwork without pin anchors	Referenzgrafik ohne Anschlusspunkte	Dessin de référence sans points de raccordement	Dibujo de referencia sin puntos de conexión
@@ -1829,7 +1828,6 @@ Rotate left	Nach links drehen	Tourner à gauche	Girar a la izquierda
 Rotate right	Nach rechts drehen	Tourner à droite	Girar a la derecha
 Rotate what is being moved	Das Verschobene drehen	Tourner ce qui est déplacé	Girar lo que se está moviendo
 Rotate what is being moved counter-clockwise	Das Verschobene gegen den Uhrzeigersinn drehen	Tourner ce qui est déplacé dans le sens antihoraire	Girar lo que se mueve en sentido antihorario
-Round	Rund	Rond	Redondo
 Round cutouts facing each other in both side walls	Runde Ausschnitte gegenüber in beiden Seitenwänden	Découpes rondes face à face dans les deux parois latérales	Recortes redondos enfrentados en ambas paredes laterales
 Route definition of {}	Trassendefinition von {}	Définition du cheminement de {}	Definición del recorrido de {}
 Route network	Trassennetz	Réseau de cheminement	Red de recorridos
@@ -1967,7 +1965,6 @@ Settings scheme (JSON)	Einstellungsschema (JSON)	Schéma de paramètres (JSON)	E
 Settings taken over: {}	Einstellungen übernommen: {}	Paramètres repris : {}	Ajustes aplicados: {}
 Settings…	Einstellungen…	Paramètres…	Ajustes…
 Shafts	Schächte	Gaines	Patinillos
-Shape	Form	Forme	Forma
 Share of the capacity kept free for later additions	Anteil der Kapazität, der für spätere Erweiterungen frei bleibt	Part de la capacité gardée libre pour des ajouts ultérieurs	Parte de la capacidad reservada para ampliaciones posteriores
 Shared project {} – revision {}, user {}	Gemeinsames Projekt {} – Revision {}, Benutzer {}	Projet partagé {} – révision {}, utilisateur {}	Proyecto compartido {} – revisión {}, usuario {}
 Shield	Schirm	Blindage	Pantalla

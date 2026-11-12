@@ -234,3 +234,85 @@ fn library_files_hold_one_or_many_symbols() {
     assert_eq!(SymbolLibrary::from_json(&serde_json::to_string(&u).unwrap()).unwrap().symbols, lib.symbols);
     assert!(SymbolLibrary::from_json("42").is_err());
 }
+
+#[test]
+fn scaled_keys_carry_the_factor_of_library_symbols_only() {
+    assert_eq!(scaled_key("user:ema:x", 0.5), "user:ema:x@0.5");
+    assert_eq!(scaled_key("user:ema:x@0.5", 2.0), "user:ema:x@2", "the factor is replaced");
+    assert_eq!(scaled_key("user:ema:x@0.5", 1.0), "user:ema:x");
+    assert_eq!(scaled_key("user:x", 0.333333), "user:x@0.333");
+    assert_eq!(scaled_key("user:x", 100.0), "user:x@10", "limited to the range");
+    assert_eq!(scaled_key("coil", 2.0), "coil", "built-in symbols keep their size");
+    assert_eq!(scale_of("user:x@0.5"), ("user:x", 0.5));
+    assert_eq!(scale_of("user:x"), ("user:x", 1.0));
+    assert_eq!(scale_of("user:x@abc"), ("user:x@abc", 1.0));
+    assert_eq!(scale_of("coil@2"), ("coil@2", 1.0));
+}
+
+/// A project with a library symbol (connection points 16 mm apart, a text of 2.5 mm)
+/// placed at (100, 100) with a wire at each connection point.
+fn scaled_project() -> Project {
+    let mut prj = Project::default();
+    prj.symbols.push(UserSymbol {
+        key: "user:imported".into(),
+        func: Func::Main { mirror: false },
+        prims: vec![
+            Prim::Line { a: p(0.0, -8.0), b: p(0.0, 8.0), dashed: false },
+            Prim::Circle { c: p(0.0, 0.0), r: 4.0, fill: false, color: None },
+            Prim::Text { pos: p(6.0, 0.0), text: "M".into(), size: 2.5, anchor: Anchor::Left, angle: None, color: None },
+        ],
+        pins: vec![UserPin { pos: p(0.0, -8.0), label: "1".into(), internal: false }, UserPin { pos: p(0.0, 8.0), label: "2".into(), internal: false }],
+        ..Default::default()
+    });
+    let pg = &mut prj.pages[0];
+    pg.symbols.push(crate::model::SymbolInst { id: 1, sym: "user:imported".into(), tag: "-M1".into(), pos: p(100.0, 100.0), pins: vec!["1".into(), "2".into()], ..Default::default() });
+    pg.wires.push(crate::model::Wire { id: 2, a: p(100.0, 60.0), b: p(100.0, 92.0), ..Default::default() });
+    pg.wires.push(crate::model::Wire { id: 3, a: p(100.0, 108.0), b: p(100.0, 140.0), ..Default::default() });
+    prj.next_id = 10;
+    prj
+}
+
+#[test]
+fn a_scaled_symbol_keeps_the_size_of_its_texts() {
+    let prj = scaled_project();
+    let half = prj.symbol("user:imported@0.5").unwrap();
+    assert_eq!(half.key, "user:imported@0.5");
+    assert_eq!(half.pins.iter().map(|x| x.pos).collect::<Vec<_>>(), [p(0.0, -4.0), p(0.0, 4.0)]);
+    assert!(matches!(half.prims[1], Prim::Circle { r, .. } if r == 2.0));
+    assert!(matches!(&half.prims[2], Prim::Text { pos, size, .. } if *pos == p(3.0, 0.0) && *size == 2.5), "the text moves but keeps its size");
+    assert!(half.bounds.height() < prj.symbol("user:imported").unwrap().bounds.height());
+    assert!(prj.symbol("user:missing@0.5").is_none());
+    assert!(prj.symbol("coil@0.5").is_none());
+}
+
+#[test]
+fn wires_follow_the_connection_points_of_a_scaled_symbol() {
+    let mut prj = scaled_project();
+    crate::ops::set_symbol_scale(&mut prj, 0, 1, 2.0).unwrap();
+    let pg = &prj.pages[0];
+    assert_eq!(pg.symbols[0].sym, "user:imported@2");
+    assert_eq!((pg.wires[0].a, pg.wires[0].b), (p(100.0, 60.0), p(100.0, 84.0)));
+    assert_eq!((pg.wires[1].a, pg.wires[1].b), (p(100.0, 116.0), p(100.0, 140.0)));
+    // Still one placed instance of the library symbol; back to its own size.
+    assert_eq!(usage(&prj, "user:imported"), 1);
+    crate::ops::set_symbol_scale(&mut prj, 0, 1, 1.0).unwrap();
+    assert_eq!(prj.pages[0].symbols[0].sym, "user:imported");
+    assert_eq!(prj.pages[0].wires[0].b, p(100.0, 92.0));
+    // The netlist still connects both wires to the motor.
+    crate::ops::set_symbol_scale(&mut prj, 0, 1, 0.5).unwrap();
+    let nl = crate::netlist::Netlist::build(&prj, true);
+    assert_eq!(nl.nets.iter().filter(|n| n.pins.iter().any(|x| x.sym == 0)).count(), 2);
+    // Built-in symbols are not scaled.
+    prj.pages[0].symbols.push(crate::model::SymbolInst { id: 4, sym: "coil".into(), ..Default::default() });
+    assert!(crate::ops::set_symbol_scale(&mut prj, 0, 4, 2.0).is_err());
+}
+
+#[test]
+fn dragging_a_factor_keeps_few_scaled_symbols() {
+    let prj = scaled_project();
+    let table = prj.symbol_table();
+    for i in 0..200 {
+        assert!(table.get(&scaled_key("user:imported", 1.0 + i as f32 / 100.0)).is_some());
+    }
+    assert!(table.scaled.lock().unwrap().len() <= MAX_SCALED);
+}

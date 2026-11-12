@@ -245,6 +245,9 @@ pub fn plan(prj: &Project, enc: usize, face: Face, m: &Machine, s: &Strategy) ->
         let n = name(o.item);
         if o.round {
             b.round(o.item, o.center, o.w, &n, true);
+        } else if o.angle != 0.0 {
+            // Tools and contours run along the axes of the sheet.
+            b.manual(o.item, o.center, format!("{} x {} {}°", super::num(o.w), super::num(o.h), super::num(o.angle)), &n);
         } else {
             b.rect(o.item, o.center, o.w, o.h, &n);
         }

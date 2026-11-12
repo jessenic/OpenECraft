@@ -1,5 +1,5 @@
-//! Part widgets: product group tree, tabbed part editor, read only summary and
-//! previews of the 2D front view and the 3D model.
+//! Part widgets: product group tree, tabbed part editor, read only summary with the
+//! product picture and previews of the 2D front view and the 3D model.
 
 use openecraft_i18n::{tr, tr_fmt};
 use crate::icons::{self, Icon};
@@ -8,7 +8,7 @@ use egui::{vec2, Color32, Pos2, RichText, Sense, Shape, Stroke};
 use openecraft_parts::vec3::{cross, dot, norm, sub, Orbit};
 use openecraft_parts::{
     default_connection_points, distinct_values, parse_mesh, parse_svg, natural_cmp, ConnectionPoint, Exit, FnKind, FunctionTemplate, Grouping,
-    Component, Mesh3d, Model2d, MountingData, Part, PartFilter, Prim2d, TopGroup, MOUNTING_KEYS, PRODUCT_GROUPS,
+    Component, Cutout, Mesh3d, Model2d, MountingData, Part, PartFilter, PlacedCutout, Prim2d, TopGroup, MOUNTING_KEYS, PRODUCT_GROUPS,
 };
 use openecraft_parts::portal::{Attachment, Lifecycle};
 use openecraft_parts::{date_from_unix, productgroups};
@@ -258,7 +258,7 @@ fn typed_text_row(ui: &mut egui::Ui, part: &str, label: &str, data: &mut Mountin
 }
 
 const HOLES_HINT: &str = "M4: 6,8; 42,8";
-const CUTOUT_HINT: &str = "Ø22.5 / 92 x 92";
+const CUTOUT_HINT: &str = "Ø22.5; 92 x 92 @ 0/-6.5 R3 15°";
 
 /// Typed mounting data: clearances, holes, cutouts, power loss, fastening.
 fn mounting_data(ui: &mut egui::Ui, part: &mut Part) {
@@ -302,6 +302,126 @@ fn mounting_data(ui: &mut egui::Ui, part: &mut Part) {
         });
         ui.end_row();
     });
+    // The preview above the tables: side by side they are wider than the window.
+    ui.add_space(6.0);
+    mounting_preview(ui, part, vec2(240.0, 200.0));
+    ui.weak(tr("Where the cutouts are: the centre from the middle of the front view (x to the right, y down), the turn counter-clockwise."));
+    ui.label(RichText::new(tr("Cutouts")).strong());
+    cutout_table(ui, "pcut", &mut part.mounting_data.cutouts);
+    ui.label(RichText::new(tr("Door cutouts")).strong().color(DOOR_CUTOUT)).on_hover_text(tr("In the door, when they differ from the cutouts"));
+    cutout_table(ui, "pdcut", &mut part.mounting_data.door_cutouts);
+}
+
+fn cutout_size(v: &mut f32) -> egui::DragValue<'_> {
+    egui::DragValue::new(v).speed(0.5).range(0.1..=5000.0).suffix(" mm")
+}
+
+/// The cutouts of a list with their shape, size, place, turn and corner radius.
+fn cutout_table(ui: &mut egui::Ui, id: &str, list: &mut Vec<PlacedCutout>) {
+    let mut remove = None;
+    if !list.is_empty() {
+        egui::Grid::new(id).num_columns(8).striped(true).spacing([6.0, 4.0]).show(ui, |ui| {
+            for h in [tr("Shape"), tr("Width / Ø"), tr("Height"), "X", "Y", tr("Angle"), tr("Corner radius"), ""] {
+                ui.label(RichText::new(h).strong());
+            }
+            ui.end_row();
+            for (i, c) in list.iter_mut().enumerate() {
+                let mut round = matches!(c.shape, Cutout::Round { .. });
+                let was = round;
+                egui::ComboBox::from_id_salt((id, "shape", i)).selected_text(if round { tr("Round") } else { tr("Rectangular") }).width(90.0).show_ui(ui, |ui| {
+                    ui.selectable_value(&mut round, true, tr("Round"));
+                    ui.selectable_value(&mut round, false, tr("Rectangular"));
+                });
+                if round != was {
+                    let [w, h] = c.size();
+                    c.shape = if round { Cutout::Round { d: w.min(h) } } else { Cutout::Rect { w, h } };
+                }
+                match &mut c.shape {
+                    Cutout::Round { d } => {
+                        ui.add(cutout_size(d));
+                        ui.label("");
+                    }
+                    Cutout::Rect { w, h } => {
+                        ui.add(cutout_size(w));
+                        ui.add(cutout_size(h));
+                    }
+                }
+                for v in &mut c.offset {
+                    ui.add(egui::DragValue::new(v).speed(0.5).range(-5000.0..=5000.0).suffix(" mm"));
+                }
+                if round {
+                    ui.label("");
+                    ui.label("");
+                } else {
+                    ui.add(egui::DragValue::new(&mut c.angle).speed(1.0).range(-360.0..=360.0).suffix("°"));
+                    ui.add(egui::DragValue::new(&mut c.radius).speed(0.25).range(0.0..=1000.0).suffix(" mm"));
+                }
+                if icons::button(ui, Icon::Delete, tr("Remove")).clicked() {
+                    remove = Some(i);
+                }
+                ui.end_row();
+            }
+        });
+    }
+    if let Some(i) = remove {
+        list.remove(i);
+    }
+    if icons::text_button(ui, Icon::Plus, tr("Add cutout")).clicked() {
+        list.push(PlacedCutout::centered(Cutout::Rect { w: 50.0, h: 50.0 }));
+    }
+}
+
+/// Colour of the door cutouts in the previews.
+const DOOR_CUTOUT: Color32 = Color32::from_rgb(220, 120, 30);
+
+/// The cutouts of a part (dashed) and its own door cutouts (dotted, orange) in a front
+/// view drawn with `map` (part mm to screen).
+fn paint_cutouts(painter: &egui::Painter, part: &Part, map: &dyn Fn([f32; 2]) -> Pos2, color: Color32) {
+    let (w, h) = (part.width, part.height);
+    let lists = [(part.cutouts(false), color, 5.0), (part.mounting_data.door_cutouts.clone(), DOOR_CUTOUT, 2.0)];
+    for (list, color, dash) in lists {
+        for c in list {
+            let mut pts: Vec<Pos2> = c.outline(w, h).into_iter().map(map).collect();
+            if let Some(first) = pts.first().copied() {
+                pts.push(first);
+            }
+            painter.extend(Shape::dashed_line(&pts, Stroke::new(1.2, color), dash, 3.0));
+        }
+    }
+}
+
+/// Front view of a part with its mounting holes and cutouts.
+fn mounting_preview(ui: &mut egui::Ui, part: &Part, size: egui::Vec2) {
+    let (resp, painter) = ui.allocate_painter(size, Sense::hover());
+    let visuals = ui.visuals();
+    painter.rect_filled(resp.rect, 4.0, visuals.extreme_bg_color);
+    let Some([w, h, _]) = part.size() else {
+        painter.text(resp.rect.center(), egui::Align2::CENTER_CENTER, tr("no mounting data"), egui::FontId::proportional(12.0), visuals.weak_text_color());
+        return;
+    };
+    // Holes and cutouts may lie beyond the outline (lugs of rail devices).
+    let mut lo = [0.0f32, 0.0f32];
+    let mut hi = [w, h];
+    let mut include = |q: [f32; 2]| {
+        for k in 0..2 {
+            lo[k] = lo[k].min(q[k]);
+            hi[k] = hi[k].max(q[k]);
+        }
+    };
+    part.mounting_data.holes.iter().for_each(|q| include(*q));
+    part.cutouts(false).iter().chain(&part.mounting_data.door_cutouts).flat_map(|c| c.outline(w, h)).for_each(&mut include);
+    let zoom = ((size.x - 24.0) / (hi[0] - lo[0])).min((size.y - 24.0) / (hi[1] - lo[1]));
+    let origin = resp.rect.center() - vec2(lo[0] + hi[0], lo[1] + hi[1]) * zoom / 2.0;
+    let map = |q: [f32; 2]| origin + vec2(q[0], q[1]) * zoom;
+    let ink = visuals.text_color();
+    painter.rect_filled(egui::Rect::from_two_pos(map([0.0, 0.0]), map([w, h])), 0.0, visuals.widgets.inactive.bg_fill);
+    painter.rect_stroke(egui::Rect::from_two_pos(map([0.0, 0.0]), map([w, h])), 0.0, Stroke::new(1.0, ink), egui::StrokeKind::Middle);
+    let accent = Color32::from_rgb(40, 110, 230);
+    paint_cutouts(&painter, part, &map, accent);
+    let hole: f32 = part.mounting_data.hole_thread.trim_start_matches(['Ø', 'M']).replace(',', ".").parse().unwrap_or(4.0);
+    for q in &part.mounting_data.holes {
+        painter.circle_stroke(map(*q), (hole / 2.0 * zoom).max(2.0), Stroke::new(1.2, ink));
+    }
 }
 
 /// Marking of parts that stand on the floor of a room (part trees, editor, summary).
@@ -391,6 +511,16 @@ pub fn part_editor(ui: &mut egui::Ui, part: &mut Part, state: &mut EditorState, 
                 ui.label(tr("Note"));
                 ui.add(egui::TextEdit::multiline(&mut part.note).desired_rows(2).desired_width(f32::INFINITY));
                 ui.end_row();
+                if !part.picture.is_empty() {
+                    ui.label(tr("Picture"));
+                    ui.horizontal(|ui| {
+                        part_picture(ui, part, 120.0);
+                        if icons::button(ui, Icon::Delete, tr("Remove picture")).clicked() {
+                            part.picture.clear();
+                        }
+                    });
+                    ui.end_row();
+                }
             });
         }
         PartTab::Commercial => {
@@ -709,11 +839,15 @@ fn connections_tab(ui: &mut egui::Ui, part: &mut Part, selected: &mut Option<usi
     });
     if own {
         let mut remove = None;
-        egui::Grid::new("pcp").num_columns(7).striped(true).spacing([8.0, 4.0]).show(ui, |ui| {
+        egui::Grid::new("pcp").num_columns(10).striped(true).spacing([8.0, 4.0]).show(ui, |ui| {
             ui.label("");
-            for h in [tr("Designation"), "X", "Y", "Z", tr("Wire leaves"), ""] {
+            for h in [tr("Designation"), "X", "Y", "Z", tr("Wire leaves")] {
                 ui.label(RichText::new(h).strong());
             }
+            ui.label(RichText::new(tr("Min. mm²")).strong()).on_hover_text(tr("Smallest conductor the clamp takes (0: not known)"));
+            ui.label(RichText::new(tr("Max. mm²")).strong()).on_hover_text(tr("Largest conductor the clamp takes (0: not known)"));
+            ui.label(RichText::new(tr("Wires")).strong()).on_hover_text(tr("Most wires the clamp takes (0: not known)"));
+            ui.label("");
             ui.end_row();
             for (i, c) in part.connection_points.iter_mut().enumerate() {
                 if ui.radio(*selected == Some(i), "").on_hover_text(tr("Place by clicking into the view")).clicked() {
@@ -728,6 +862,9 @@ fn connections_tab(ui: &mut egui::Ui, part: &mut Part, selected: &mut Option<usi
                         ui.selectable_value(&mut c.exit, e, exit_title(e));
                     }
                 });
+                ui.add(egui::DragValue::new(&mut c.min_cross_section).speed(0.05).range(0.0..=1000.0).max_decimals(2));
+                ui.add(egui::DragValue::new(&mut c.max_cross_section).speed(0.05).range(0.0..=1000.0).max_decimals(2));
+                ui.add(egui::DragValue::new(&mut c.max_wires).range(0..=99));
                 if icons::button(ui, Icon::Delete, tr("Remove")).clicked() {
                     remove = Some(i);
                 }
@@ -741,7 +878,7 @@ fn connections_tab(ui: &mut egui::Ui, part: &mut Part, selected: &mut Option<usi
     }
     if icons::text_button(ui, Icon::Plus, tr("Add connection point")).clicked() {
         let [w, _, d] = part.size().unwrap_or_default();
-        part.connection_points.push(ConnectionPoint { pin: String::new(), pos: [w / 2.0, 0.0, d * 0.75], exit: Exit::Up });
+        part.connection_points.push(ConnectionPoint { pin: String::new(), pos: [w / 2.0, 0.0, d * 0.75], exit: Exit::Up, ..Default::default() });
         *selected = Some(part.connection_points.len() - 1);
     }
 }
@@ -767,6 +904,7 @@ fn connection_preview(ui: &mut egui::Ui, part: &Part, points: &[ConnectionPoint]
         paint_model_2d(&painter, m, &|q| map([q[0] * sx, q[1] * sy]), zoom * sx.min(sy), Stroke::new(1.0, ink.gamma_multiply(0.6)));
     }
     painter.rect_stroke(egui::Rect::from_two_pos(map([0.0, 0.0]), map([w, h])), 0.0, Stroke::new(1.0, ink), egui::StrokeKind::Middle);
+    paint_cutouts(&painter, part, &map, ink.gamma_multiply(0.5));
     let accent = Color32::from_rgb(40, 110, 230);
     let highlight = Color32::from_rgb(230, 40, 200);
     for (i, c) in points.iter().enumerate() {
@@ -1133,10 +1271,101 @@ pub fn quantity_unit(unit: &str) -> &str {
     if unit == "pcs" { tr("pcs") } else { unit }
 }
 
+/// Most product pictures kept as textures; the ones shown longest ago are freed.
+const PICTURES_KEPT: usize = 16;
+
+/// The decoded product picture of a part as a texture, kept while it is among the last
+/// [`PICTURES_KEPT`] shown.
+fn picture_texture(ctx: &egui::Context, picture: &str) -> Option<egui::TextureHandle> {
+    use std::hash::{Hash, Hasher};
+    type Kept = Vec<(u64, Option<egui::TextureHandle>)>;
+    let mut h = std::hash::DefaultHasher::new();
+    picture.hash(&mut h);
+    let key = h.finish();
+    let id = egui::Id::unique("openecraft_part_pictures");
+    let mut kept: Kept = ctx.data(|d| d.get_temp(id)).unwrap_or_default();
+    let texture = match kept.iter().position(|(k, _)| *k == key) {
+        Some(i) => kept.remove(i).1,
+        None => {
+            let image = openecraft_parts::base64::decode(picture).and_then(|bytes| image::load_from_memory(&bytes).ok()).map(|img| {
+                let rgba = img.to_rgba8();
+                egui::ColorImage::from_rgba_unmultiplied([rgba.width() as usize, rgba.height() as usize], rgba.as_raw())
+            });
+            image.map(|img| ctx.load_texture("part_picture", img, egui::TextureOptions::LINEAR))
+        }
+    };
+    kept.push((key, texture.clone()));
+    if kept.len() > PICTURES_KEPT {
+        kept.remove(0);
+    }
+    ctx.data_mut(|d| d.insert_temp(id, kept));
+    texture
+}
+
+/// The product picture of a part ([`Part::picture`]), at most `max` points wide and
+/// high; nothing for parts without one.
+pub fn part_picture(ui: &mut egui::Ui, part: &Part, max: f32) {
+    if part.picture.is_empty() {
+        return;
+    }
+    if let Some(texture) = picture_texture(ui.ctx(), &part.picture) {
+        let size = texture.size_vec2();
+        let scale = (max / size.x.max(size.y)).min(1.0);
+        ui.add(egui::Image::new((texture.id(), size * scale)));
+    }
+}
+
+/// The wires the connection points of a part take, e.g. `0.2 – 1.5 mm², 1 wire per
+/// connection point`; empty without such data.
+pub fn wire_summary(p: &Part) -> String {
+    let limited: Vec<&ConnectionPoint> = p.connection_points.iter().filter(|c| c.has_wire_limits()).collect();
+    if limited.is_empty() {
+        return String::new();
+    }
+    let smallest = limited.iter().map(|c| c.min_cross_section).filter(|v| *v > 0.0).fold(f32::INFINITY, f32::min);
+    let largest = limited.iter().map(|c| c.max_cross_section).fold(0.0, f32::max);
+    let wires = limited.iter().map(|c| c.max_wires).max().unwrap_or(0);
+    let mm2 = |v: f32| openecraft_i18n::decimal(v.into(), 2).trim_end_matches('0').trim_end_matches(['.', ',']).to_string();
+    let range = match (smallest.is_finite(), largest > 0.0) {
+        (true, true) => tr_fmt!("{} – {} mm²", mm2(smallest), mm2(largest)),
+        (true, false) => tr_fmt!("from {} mm²", mm2(smallest)),
+        (false, true) => tr_fmt!("up to {} mm²", mm2(largest)),
+        (false, false) => String::new(),
+    };
+    match (range.is_empty(), wires) {
+        (_, 0) => range,
+        (true, n) => tr_fmt!("{} wires per connection point", n),
+        (false, n) => tr_fmt!("{}, {} wires per connection point", range, n),
+    }
+}
+
+/// The clearances of a part, e.g. `25 mm above, 25 mm below`; empty without any.
+fn clearance_summary(md: &MountingData) -> String {
+    let n = |v: f32| openecraft_i18n::decimal(v.into(), 1).trim_end_matches('0').trim_end_matches(['.', ',']).to_string();
+    let mut sides = Vec::new();
+    if md.clearance_top > 0.0 {
+        sides.push(tr_fmt!("{} mm above", n(md.clearance_top)));
+    }
+    if md.clearance_bottom > 0.0 {
+        sides.push(tr_fmt!("{} mm below", n(md.clearance_bottom)));
+    }
+    if md.clearance_left > 0.0 {
+        sides.push(tr_fmt!("{} mm left", n(md.clearance_left)));
+    }
+    if md.clearance_right > 0.0 {
+        sides.push(tr_fmt!("{} mm right", n(md.clearance_right)));
+    }
+    if md.clearance_front > 0.0 {
+        sides.push(tr_fmt!("{} mm in front", n(md.clearance_front)));
+    }
+    sides.join(", ")
+}
+
 /// Read only summary of a part.
 pub fn part_summary(ui: &mut egui::Ui, p: &Part) {
     ui.label(RichText::new(&p.number).monospace().strong());
     ui.label(&p.description);
+    part_picture(ui, p, 200.0);
     egui::Grid::new("sum").num_columns(2).show(ui, |ui| {
         for (k, v) in [
             (tr("Manufacturer"), p.manufacturer.clone()),
@@ -1153,6 +1382,12 @@ pub fn part_summary(ui: &mut egui::Ui, p: &Part) {
             (tr("Successor"), p.successor.clone()),
             (tr("Wall mounting"), if p.wall_mountable() { tr("yes").to_string() } else { String::new() }),
             (tr("Floor mounting"), if p.floor_standing() { tr("yes").to_string() } else { String::new() }),
+            (tr("Mounting"), p.mounting.clone()),
+            (tr("Mounting holes"), p.data_value("Mounting holes").unwrap_or_default()),
+            (tr("Cutout"), p.data_value("Cutout").unwrap_or_default()),
+            (tr("Door cutout"), p.data_value("Door cutout").unwrap_or_default()),
+            (tr("Clearances"), clearance_summary(&p.mounting_data)),
+            (tr("Wire connection"), wire_summary(p)),
         ] {
             if !v.trim().is_empty() && v.trim() != "/" {
                 ui.label(RichText::new(k).weak());
