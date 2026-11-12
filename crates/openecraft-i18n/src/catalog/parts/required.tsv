@@ -62,6 +62,9 @@ Control cable	Steuerleitung	Câble de commande	Cable de control
 Converters	Umformer	Convertisseurs	Convertidores
 Conveyor	Förderer	Convoyeur	Transportador
 Cooling units	Kühlaggregate	Unités de refroidissement	Unidades de refrigeración
+Could not read the shared Data Portal token (Windows error {})	Das gemeinsame Data-Portal-Token konnte nicht gelesen werden (Windows-Fehler {})	Impossible de lire le jeton Data Portal partagé (erreur Windows {})	No se pudo leer el token compartido de Data Portal (error de Windows {})
+Could not remove the shared Data Portal token (Windows error {})	Das gemeinsame Data-Portal-Token konnte nicht entfernt werden (Windows-Fehler {})	Impossible de supprimer le jeton Data Portal partagé (erreur Windows {})	No se pudo eliminar el token compartido de Data Portal (error de Windows {})
+Could not save the shared Data Portal token (Windows error {})	Das gemeinsame Data-Portal-Token konnte nicht gespeichert werden (Windows-Fehler {})	Impossible d'enregistrer le jeton Data Portal partagé (erreur Windows {})	No se pudo guardar el token compartido de Data Portal (error de Windows {})
 Coupling motor pumps	Kupplung-Motorpumpen	Accouplement de moteurs hydrauliques	Bombas de motor de acoplamiento
 Couplings	Kupplungen	Accouplements	Acoplamientos
 Cover plates	Abdeckplatten	Plaques de couverture	Placas de protección
@@ -355,6 +358,7 @@ Transmitter	Messumformer	Transmetteur	Transmisor
 Transporter	Transporter	Transporteur	Medio de transporte
 Undefined	Undefiniert	Non défini	Indefinido
 Under the part (base)	Unter dem Artikel (Sockel)	Sous l'article (embase)	Debajo del artículo (base)
+Unexpected Data Portal response	Unerwartete Data-Portal-Antwort	Réponse inattendue du Data Portal	Respuesta inesperada del Data Portal
 Uploading {} to Vault ({} %)…	{} wird in Vault hochgeladen ({} %)…	Envoi de {} vers Vault ({} %)…	Subiendo {} a Vault ({} %)…
 Uploading {} to Vault…	{} wird in Vault hochgeladen…	Envoi de {} vers Vault…	Subiendo {} a Vault…
 User-defined rail	Benutzerdefinierte Schiene	Rail défini par l'utilisateur	Carril definido por el usuario

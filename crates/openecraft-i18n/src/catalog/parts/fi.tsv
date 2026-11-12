@@ -62,6 +62,9 @@ Control cable	Ohjauskaapeli
 Converters	Muuttajat
 Conveyor	Kuljetin
 Cooling units	Jäähdytyskoneikot
+Could not read the shared Data Portal token (Windows error {})	Yhteisen Data Portal -tunnisteen lukeminen epäonnistui (Windows-virhe {})
+Could not remove the shared Data Portal token (Windows error {})	Yhteisen Data Portal -tunnisteen poistaminen epäonnistui (Windows-virhe {})
+Could not save the shared Data Portal token (Windows error {})	Yhteisen Data Portal -tunnisteen tallentaminen epäonnistui (Windows-virhe {})
 Coupling motor pumps	Kytkinmoottoripumput
 Couplings	Pikaliittimet
 Cover plates	Peitelevyt
@@ -355,6 +358,7 @@ Transmitter	Mittausmuunnin
 Transporter	Siirtolaite
 Undefined	Määrittelemätön
 Under the part (base)	Osan alla (alusta)
+Unexpected Data Portal response	Odottamaton Data Portal -vastaus
 Uploading {} to Vault ({} %)…	Ladataan {} Vaultiin ({} %)…
 Uploading {} to Vault…	Ladataan {} Vaultiin…
 User-defined rail	Käyttäjän määrittämä kisko

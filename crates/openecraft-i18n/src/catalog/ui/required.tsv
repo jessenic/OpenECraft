@@ -13,6 +13,7 @@ Add function	Funktion hinzufügen	Ajouter une fonction	Añadir función
 Add marked parts to the parts database ({})	Markierte Artikel in die Artikeldatenbank übernehmen ({})	Ajouter les articles marqués à la base d'articles ({})	Añadir los artículos marcados a la base de datos de artículos ({})
 Add to the parts database	In die Artikeldatenbank übernehmen	Ajouter à la base d'articles	Añadir a la base de datos de artículos
 Adds the macros of the file to the macro library	Fügt die Makros der Datei der Makrobibliothek hinzu	Ajoute les macros du fichier à la bibliothèque de macros	Añade las macros del archivo a la biblioteca de macros
+After a successful connection test, save the token securely for OpenECraft and MCP under this Windows user.	Nach erfolgreichem Verbindungstest den Token für OpenECraft und MCP unter diesem Windows-Benutzer sicher speichern.	Après un test de connexion réussi, enregistrer le jeton en toute sécurité pour OpenECraft et MCP sous cet utilisateur Windows.	Tras una prueba de conexión correcta, guardar el token de forma segura para OpenECraft y MCP con este usuario de Windows.
 All parts are up to date	Alle Artikel sind aktuell	Tous les articles sont à jour	Todos los artículos están actualizados
 Already in the parts database	Bereits in der Artikeldatenbank	Déjà dans la base d'articles	Ya está en la base de datos de artículos
 Apply {} updates	{} Aktualisierungen übernehmen	Appliquer {} mises à jour	Aplicar {} actualizaciones
@@ -44,6 +45,7 @@ Filter (number, type, manufacturer, text …)	Filter (Nummer, Typ, Hersteller, T
 Filter criteria	Filterkriterien	Critères de filtre	Criterios de filtro
 Fits these parts	Passt zu diesen Artikeln	Compatible avec ces articles	Compatible con estos artículos
 Floor mounting	Bodenmontage	Montage au sol	Montaje en suelo
+Forget saved token	Gespeichertes Token entfernen	Supprimer le jeton enregistré	Eliminar token guardado
 Functions the part provides. Used for device selection, the contact image (reserve contacts), the project check and to assign connection designations. Designations are listed in symbol connection order, separated by blanks.	Funktionen, die der Artikel bietet. Verwendet für die Gerätewahl, das Kontaktbild (Reservekontakte), die Projektprüfung und die Vergabe von Anschlussbezeichnungen. Bezeichnungen werden in der Anschlussreihenfolge des Symbols aufgeführt, durch Leerzeichen getrennt.	Fonctions fournies par l'article. Utilisées pour la sélection d'appareil, l'image des contacts (contacts de réserve), le contrôle du projet et l'attribution des désignations de connexion. Les désignations sont listées dans l'ordre des connexions du symbole, séparées par des espaces.	Funciones que ofrece el artículo. Se usan para la selección de dispositivos, la imagen de contactos (contactos de reserva), la comprobación del proyecto y la asignación de designaciones de conexión. Las designaciones se enumeran en el orden de conexión del símbolo, separadas por espacios.
 Generate from function template	Aus Funktionsschablone erzeugen	Générer à partir du modèle de fonctions	Generar a partir de la plantilla de funciones
 Group by	Gruppieren nach	Grouper par	Agrupar por
@@ -52,6 +54,7 @@ Import STL / OBJ / STEP / IGES / IFC / JT…	STL / OBJ / STEP / IGES / IFC / JT 
 Import SVG…	SVG importieren…	Importer SVG…	Importar SVG…
 Internal values of the EPLAN part exchange (0: undefined)	Interne Werte des EPLAN-Artikelaustauschs (0: undefiniert)	Valeurs internes de l'échange d'articles EPLAN (0 : non défini)	Valores internos del intercambio de artículos de EPLAN (0: indefinido)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Es funktioniert nur an einem der Artikel, zu denen es passt; die Projektprüfung meldet es an einem Gerät ohne solchen Artikel	Il ne fonctionne que fixé à l'un des articles auxquels il convient ; la vérification du projet le signale sur un appareil sans tel article	Solo funciona montado en uno de los artículos con los que es compatible; la verificación del proyecto lo indica en un equipo sin dicho artículo
+Leave blank to use the saved token automatically. Saving a replacement requires Remember token.	Leer lassen, um das gespeicherte Token automatisch zu verwenden. Zum Ersetzen muss das Speichern aktiviert sein.	Laisser vide pour utiliser automatiquement le jeton enregistré. Activer la mémorisation pour le remplacer.	Dejar vacío para usar automáticamente el token guardado. Para sustituirlo, activar Recordar token.
 Loaded {} parts (revision {})	{} Artikel geladen (Revision {})	{} articles chargés (révision {})	{} artículos cargados (revisión {})
 Loading catalogs…	Kataloge werden geladen…	Chargement des catalogues…	Cargando catálogos…
 Loading favorites…	Favoriten werden geladen…	Chargement des favoris…	Cargando favoritos…
@@ -63,6 +66,7 @@ Moves lines such as Power loss: 3 W into the typed fields	Verschiebt Zeilen wie 
 No own connection points – the generated ones are shown.	Keine eigenen Anschlüsse – die erzeugten werden angezeigt.	Aucun point de connexion propre – ceux générés sont affichés.	Sin puntos de conexión propios: se muestran los generados.
 No part of the database comes from the EPLAN Data Portal	Kein Artikel der Datenbank stammt aus dem EPLAN Data Portal	Aucun article de la base ne provient de l'EPLAN Data Portal	Ningún artículo de la base de datos procede del EPLAN Data Portal
 No parts found.	Keine Artikel gefunden.	Aucun article trouvé.	No se encontraron artículos.
+No saved Data Portal token for this endpoint	Kein gespeicherter Data-Portal-Token für diesen Endpunkt	Aucun jeton Data Portal enregistré pour ce point de terminaison	No hay un token de Data Portal guardado para este destino
 Only floor-standing parts	Nur bodenstehende Artikel	Seulement les articles posés au sol	Solo artículos de pie sobre el suelo
 Only parts for direct wall mounting	Nur Artikel für direkte Wandmontage	Seulement les articles pour montage mural direct	Solo artículos para montaje mural directo
 Open datasheet	Datenblatt öffnen	Ouvrir la fiche technique	Abrir hoja de datos
@@ -76,12 +80,14 @@ Parts this part is assembled from; the bill of materials lists them under it	Art
 Personal access token	Persönliches Zugriffstoken	Jeton d'accès personnel	Token de acceso personal
 Place by clicking into the view	Durch Klick in die Ansicht platzieren	Placer en cliquant dans la vue	Colocar haciendo clic en la vista
 Prices / other	Preise / Sonstiges	Prix / divers	Precios / otros
+Remember token on this computer	Token auf diesem Computer speichern	Mémoriser le jeton sur cet ordinateur	Recordar el token en este equipo
 Remove all	Alle entfernen	Tout supprimer	Quitar todos
 Removing the file…	Datei wird entfernt…	Suppression du fichier…	Quitando el archivo…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Ersetzt die Anschlüsse nach IEC-Konvention: ungerade Bezeichnungen oben, gerade unten	Remplace les points de connexion selon la convention CEI : désignations impaires en haut, paires en bas	Sustituye los puntos de conexión según la convención IEC: designaciones impares arriba, pares abajo
 Reset filter	Filter zurücksetzen	Réinitialiser le filtre	Restablecer el filtro
 Rotate 90°:	Um 90° drehen:	Pivoter de 90° :	Girar 90°:
 Save the file	Datei speichern	Enregistrer le fichier	Guardar el archivo
+Saved Data Portal token removed	Gespeichertes Data-Portal-Token entfernt	Jeton Data Portal enregistré supprimé	Token de Data Portal guardado eliminado
 Saved catalog {}	Katalog {} gespeichert	Catalogue {} enregistré	Catálogo {} guardado
 Saved part {}	Artikel {} gespeichert	Article {} enregistré	Artículo {} guardado
 Saved user {}	Benutzer {} gespeichert	Utilisateur {} enregistré	Usuario {} guardado

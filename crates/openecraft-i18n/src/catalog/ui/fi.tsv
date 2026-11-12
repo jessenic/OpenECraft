@@ -13,6 +13,7 @@ Add function	Lisää toiminto
 Add marked parts to the parts database ({})	Lisää merkityt osat osatietokantaan ({})
 Add to the parts database	Lisää osatietokantaan
 Adds the macros of the file to the macro library	Lisää tiedoston makrot makrokirjastoon
+After a successful connection test, save the token securely for OpenECraft and MCP under this Windows user.	Tallenna tunniste onnistuneen yhteystestin jälkeen turvallisesti OpenECraftille ja MCP:lle tämän Windows-käyttäjän tietoihin.
 All parts are up to date	Kaikki osat ovat ajan tasalla
 Already in the parts database	On jo osatietokannassa
 Apply {} updates	Ota käyttöön {} päivitystä
@@ -43,6 +44,7 @@ Filter (number, type, manufacturer, text …)	Suodatin (numero, tyyppi, valmista
 Filter criteria	Suodatusehdot
 Fits these parts	Sopii näihin osiin
 Floor mounting	Lattia-asennus
+Forget saved token	Poista tallennettu tunniste
 Functions the part provides. Used for device selection, the contact image (reserve contacts), the project check and to assign connection designations. Designations are listed in symbol connection order, separated by blanks.	Osan tarjoamat toiminnot. Käytetään laitevalintaan, kosketinkuvaan (varakoskettimet), projektin tarkistukseen ja liitäntämerkintöjen määrittämiseen. Merkinnät luetellaan symbolin liitäntäjärjestyksessä välilyönneillä erotettuina.
 Generate from function template	Luo toimintomallista
 Group by	Ryhmittelyperuste
@@ -51,6 +53,7 @@ Import STL / OBJ / STEP / IGES / IFC / JT…	Tuo STL / OBJ / STEP / IGES / IFC /
 Import SVG…	Tuo SVG…
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN-osasiirron sisäiset arvot (0: määrittelemätön)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Se toimii vain kiinnitettynä johonkin osaan, johon se sopii; projektin tarkistus ilmoittaa siitä laitteessa, jossa tällaista osaa ei ole
+Leave blank to use the saved token automatically. Saving a replacement requires Remember token.	Jätä tyhjäksi käyttääksesi tallennettua tunnistetta automaattisesti. Korvaavan tunnisteen tallennus edellyttää Muista tunniste -valintaa.
 Loaded {} parts (revision {})	Ladattu {} osaa (revisio {})
 Loading catalogs…	Ladataan luetteloita…
 Loading favorites…	Ladataan suosikkeja…
@@ -62,6 +65,7 @@ Moves lines such as Power loss: 3 W into the typed fields	Siirtää rivit, kuten
 No own connection points – the generated ones are shown.	Ei omia liitäntäpisteitä – luodut näytetään.
 No part of the database comes from the EPLAN Data Portal	Mikään tietokannan osa ei ole peräisin EPLAN Data Portalista
 No parts found.	Osia ei löytynyt.
+No saved Data Portal token for this endpoint	Tälle päätepisteelle ei ole tallennettua Data Portal -tunnistetta
 Only floor-standing parts	Vain lattialle sijoitettavat osat
 Only parts for direct wall mounting	Vain suoraan seinään asennettavat osat
 Open datasheet	Avaa tietolehti
@@ -75,12 +79,14 @@ Parts this part is assembled from; the bill of materials lists them under it	Osa
 Personal access token	Henkilökohtainen käyttöoikeustokeni
 Place by clicking into the view	Sijoita napsauttamalla näkymää
 Prices / other	Hinnat / muut
+Remember token on this computer	Muista tunniste tällä tietokoneella
 Remove all	Poista kaikki
 Removing the file…	Poistetaan tiedostoa…
 Replaces the connection points by the IEC convention: odd designations at the top, even ones at the bottom	Korvaa liitäntäpisteet IEC-käytännön mukaan: parittomat merkinnät ylhäällä, parilliset alhaalla
 Reset filter	Nollaa suodatin
 Rotate 90°:	Kierrä 90°:
 Save the file	Tallenna tiedosto
+Saved Data Portal token removed	Tallennettu Data Portal -tunniste poistettu
 Saved catalog {}	Luettelo {} tallennettiin
 Saved part {}	Osa {} tallennettu
 Saved user {}	Käyttäjä {} tallennettiin

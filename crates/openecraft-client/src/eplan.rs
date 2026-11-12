@@ -3,17 +3,16 @@
 //! the EPLAN Data Portal like a parts server: server info, faceted search, parts by
 //! number and the files of a part (commercial data as CSV, DXF drawings, pictures).
 //! The portal needs the personal access token of an EPLAN account (sent as
-//! `Authorization: Bearer PAT:…`), the access the portal provides for its API; the
-//! token of a browser session is not used. Its API offers no changes, so the
+//! `Authorization: Bearer PAT:…`). Its API offers no changes, so the
 //! connection is read-only.
 //!
 //! | Parts server | EPLAN Data Portal |
 //! | --- | --- |
-//! | `GET /info` | `GET /parts?page[limit]=1` (number of parts) |
+//! | `GET /info` | `GET /token/fileprovider`, then `GET /parts?page[limit]=1` |
 //! | `POST /search` | `GET /parts?search=&filter[manufacturer]=&filter[catalog_eplan]=&sort=&page[offset]=&page[limit]=` |
 //! | `POST /search` with numbers | `POST /parts` with the portal ids ([`Part::portal_id`]) separated by commas |
 //! | `GET /parts/{number}` | `GET /parts?search="{number}"` (the portal finds parts by id only) |
-//! | `GET /files/{id}` | `GET /download/commercial_data/part/{id}`, `GET /download/dxf_data/part/{id}`, picture previews |
+//! | `GET /files/{id}` | `POST /download/commercial_data/part`, `POST /download/dxf_data/part` (id in the body), picture previews |
 //!
 //! Manufacturers are filtered by their short name, product groups by the id of the
 //! EPLAN catalog entry: (generic product group + 1) · 10⁸ + (product group + 1) · 10⁴ +
@@ -41,10 +40,16 @@ const INCLUDE: &str = "manufacturer,product_top_group,product_group,product_sub_
 const FACETS: [&str; 4] = ["top_group", "group", "subgroup", "manufacturer"];
 
 /// Address of the portal's API and the user's token; builds the requests.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, PartialEq)]
 pub struct EplanEndpoint {
     pub url: String,
     pub token: String,
+}
+
+impl std::fmt::Debug for EplanEndpoint {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("EplanEndpoint").field("url", &self.url).field("token", &if self.token.is_empty() { "(empty)" } else { "(redacted)" }).finish()
+    }
 }
 
 impl Default for EplanEndpoint {
@@ -63,11 +68,12 @@ impl EplanEndpoint {
         api::url(&self.url, path)
     }
 
-    /// The personal access token is sent as `Bearer PAT:<token>` (also when written
-    /// with `PAT:`).
+    /// The download gateway accepts PAT credentials as `Bearer PAT:<token>`.
+    /// Accept pasted PAT or Bearer prefixes without duplicating them.
     fn authorized(&self, mut req: ehttp::Request) -> ehttp::Request {
         let token = self.token.trim();
         if !token.is_empty() {
+            let token = token.get(..7).filter(|p| p.eq_ignore_ascii_case("Bearer ")).map_or(token, |_| token[7..].trim());
             let value = format!("Bearer PAT:{}", token.strip_prefix("PAT:").unwrap_or(token));
             req.headers.insert("Authorization", value);
         }
@@ -78,9 +84,23 @@ impl EplanEndpoint {
         self.authorized(ehttp::Request::get(self.url(path)))
     }
 
-    /// The first part: checks address and token, the answer counts the parts.
+    /// Public metadata and catalog size. This alone does not check authentication.
     pub fn info(&self) -> ehttp::Request {
         self.get(&format!("/parts{}", params(&[("page[limit]", "1".into())])))
+    }
+
+    /// Check the protected file-provider service without downloading a part or
+    /// depending on the first catalog entry having commercial data. The returned
+    /// provider token is deliberately discarded, never exposed as server metadata.
+    pub fn connection_check(&self) -> crate::Call<ServerInfo> {
+        let endpoint = self.clone();
+        crate::Call::then(self.get("/token/fileprovider"), move |result| {
+            let doc = document(result)?;
+            if doc["data"]["attributes"]["token"].as_str().is_none_or(|t| t.trim().is_empty()) {
+                return Err(tr("Unexpected Data Portal response").to_string());
+            }
+            Ok(crate::Call::new(endpoint.info(), decode_info))
+        })
     }
 
     /// Search with text, manufacturer, product groups, order and page of the query.
@@ -118,22 +138,49 @@ impl EplanEndpoint {
         }
     }
 
+    /// Use the same parsed origin and case-sensitive API path for authorization
+    /// and protocol selection. Host case and an explicit default port are equivalent.
+    fn api_file(&self, url: &str) -> Option<(url::Url, String)> {
+        if url.contains('\\') || self.url.contains('\\') { return None; }
+        let base = url::Url::parse(self.url.trim()).ok()?;
+        let file = url::Url::parse(url).ok()?;
+        if !matches!(base.scheme(), "http" | "https") || base.origin() != file.origin()
+            || !base.username().is_empty() || base.password().is_some()
+            || !file.username().is_empty() || file.password().is_some()
+            || base.query().is_some() || base.fragment().is_some() { return None; }
+        let path = file.path().strip_prefix(base.path().trim_end_matches('/'))?;
+        let path = path.strip_prefix('/')?.to_string();
+        Some((file, path))
+    }
+
+    fn owns_file(&self, url: &str) -> bool {
+        self.api_file(url).is_some()
+    }
+
     /// The file; the token is only sent to the portal itself.
     pub fn file(&self, id: &str) -> ehttp::Request {
         let url = self.file_url(id);
-        let base = self.url.trim().trim_end_matches('/');
-        let own = crate::same_origin(&url, base) && url.get(..base.len()).is_some_and(|p| p.eq_ignore_ascii_case(base)) && url[base.len()..].starts_with(['/', '?']);
-        let req = ehttp::Request::get(url);
-        if own {
-            self.authorized(req)
-        } else {
-            req
-        }
+        let Some((mut parsed, path)) = self.api_file(&url) else { return ehttp::Request::get(url); };
+        // Old stored attachment ids include the part id in the path; the current
+        // gateway expects it in a text/plain POST body. Preserve query parameters.
+        let download = ["dxf_data", "commercial_data"].into_iter().find_map(|kind| {
+            let part = path.strip_prefix(&format!("download/{kind}/part/"))?;
+            (!part.is_empty() && part.bytes().all(|b| b.is_ascii_digit())).then(|| part.to_string())
+        });
+        let req = match download {
+            Some(part) => {
+                let path = parsed.path().rsplit_once('/').map(|(p, _)| p).unwrap_or_default().to_string();
+                parsed.set_path(&path);
+                with_content_type(ehttp::Request::post(parsed.to_string(), part.into_bytes()), "text/plain")
+            }
+            None => ehttp::Request::get(url),
+        };
+        self.authorized(req)
     }
 
     /// True if the file can only be loaded with the token (not in a web browser).
     pub fn needs_token(&self, id: &str) -> bool {
-        !id.contains("://")
+        self.owns_file(&self.file_url(id))
     }
 }
 
@@ -212,7 +259,11 @@ fn document(result: ehttp::Result<ehttp::Response>) -> Result<Value, String> {
 /// Answer of [`EplanEndpoint::info`]: the portal as a read-only parts server.
 pub fn decode_info(result: ehttp::Result<ehttp::Response>) -> Result<ServerInfo, String> {
     let doc = document(result)?;
-    let shown = doc["data"].as_array().map_or(0, Vec::len);
+    let data = doc["data"].as_array().ok_or_else(|| tr("Unexpected Data Portal response").to_string())?;
+    if data.iter().any(|part| part["id"].as_str().is_none_or(|id| id.trim().is_empty())) {
+        return Err(tr("Unexpected Data Portal response").to_string());
+    }
+    let shown = data.len();
     Ok(ServerInfo { name: EPLAN_NAME.into(), version: "API".into(), parts: total(&doc, shown), storage: "eplan".into(), ..Default::default() })
 }
 

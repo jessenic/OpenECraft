@@ -232,7 +232,7 @@ pub fn part(number: &str, group: &str) -> Part {
 
 /// Session connected to `server` (with the write token).
 pub fn session_with(server: &FakeServer) -> Session {
-    Session::new(Server { endpoint: Endpoint { url: URL.into(), token: TOKEN.into() }, kind: PortalKind::OpenECraft, transport: Box::new(server.clone()) })
+    Session::new(Server { endpoint: Endpoint { url: URL.into(), token: TOKEN.into() }, kind: PortalKind::OpenECraft, credentials: Box::new(NoCredentials), transport: Box::new(server.clone()) })
 }
 
 pub fn session() -> Session {
@@ -467,4 +467,12 @@ pub fn session_with_vault(vault: &FakeVault) -> Session {
     let mut s = session();
     s.vault = crate::vault::Vault::new(Box::new(vault.clone()));
     s
+}
+
+/// Isolates HTTP-only tests from the real user's credentials.
+pub struct NoCredentials;
+impl openecraft_client::credentials::CredentialStore for NoCredentials {
+    fn load(&self, _: &str) -> Result<Option<String>, openecraft_client::credentials::CredentialError> { Ok(None) }
+    fn save(&self, _: &str, _: &str) -> Result<bool, openecraft_client::credentials::CredentialError> { Ok(false) }
+    fn forget(&self, _: &str) -> Result<bool, openecraft_client::credentials::CredentialError> { Ok(false) }
 }

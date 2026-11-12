@@ -11,21 +11,49 @@ use openecraft_parts::Part;
 use serde::{Deserialize, Serialize};
 
 pub type Decoder<T> = Box<dyn FnOnce(ehttp::Result<ehttp::Response>) -> Result<T, String> + Send>;
+type Follow<T> = Box<dyn FnOnce(ehttp::Result<ehttp::Response>) -> Result<Call<T>, String> + Send>;
 
 /// A request and the decoding of its answer.
 pub struct Call<T> {
     pub request: ehttp::Request,
-    pub decode: Decoder<T>,
+    handler: Handler<T>,
+}
+
+enum Handler<T> {
+    Decode(Decoder<T>),
+    Follow(Follow<T>),
 }
 
 impl<T: 'static> Call<T> {
     pub fn new(request: ehttp::Request, decode: impl FnOnce(ehttp::Result<ehttp::Response>) -> Result<T, String> + Send + 'static) -> Call<T> {
-        Call { request, decode: Box::new(decode) }
+        Call { request, handler: Handler::Decode(Box::new(decode)) }
+    }
+
+    /// Choose a follow-up request from the answer (shared by blocking and GUI clients).
+    pub fn then(request: ehttp::Request, follow: impl FnOnce(ehttp::Result<ehttp::Response>) -> Result<Call<T>, String> + Send + 'static) -> Call<T> {
+        Call { request, handler: Handler::Follow(Box::new(follow)) }
     }
 
     /// Sends the request with `fetch` (blocking) and decodes the answer.
-    pub fn run(self, fetch: impl FnOnce(&ehttp::Request) -> ehttp::Result<ehttp::Response>) -> Result<T, String> {
-        (self.decode)(fetch(&self.request))
+    pub fn run(mut self, mut fetch: impl FnMut(&ehttp::Request) -> ehttp::Result<ehttp::Response>) -> Result<T, String> {
+        loop {
+            let response = fetch(&self.request);
+            match self.handler {
+                Handler::Decode(decode) => return decode(response),
+                Handler::Follow(follow) => self = follow(response)?,
+            }
+        }
+    }
+
+    /// Send asynchronously, including any dependent requests, and deliver one result.
+    pub fn fetch(self, done: impl FnOnce(Result<T, String>) + Send + 'static) {
+        ehttp::fetch(self.request, move |response| match self.handler {
+            Handler::Decode(decode) => done(decode(response)),
+            Handler::Follow(follow) => match follow(response) {
+                Ok(next) => next.fetch(done),
+                Err(error) => done(Err(error)),
+            },
+        });
     }
 }
 
@@ -103,7 +131,7 @@ impl Connection {
     pub fn info(&self) -> Call<ServerInfo> {
         match self {
             Connection::Parts(e) => Call::new(e.info(), decode),
-            Connection::Eplan(e) => Call::new(e.info(), eplan::decode_info),
+            Connection::Eplan(e) => e.connection_check(),
         }
     }
 

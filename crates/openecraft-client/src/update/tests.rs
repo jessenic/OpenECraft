@@ -41,13 +41,13 @@ fn the_release_answer_is_decoded() {
     let json = r#"{"tag_name":"v0.2.0","html_url":"https://github.com/nilres/OpenECraft/releases/tag/v0.2.0","draft":false,"prerelease":false,"body":"…",
         "assets":[{"name":"SHA256SUMS","browser_download_url":"https://example.org/SHA256SUMS","size":120,"content_type":"text/plain"}]}"#;
     let resp = ehttp::Response { url: String::new(), ok: true, status: 200, status_text: "OK".into(), headers: Default::default(), bytes: json.as_bytes().to_vec() };
-    let release = latest(REPOSITORY).run(|_| Ok(resp)).unwrap().unwrap();
+    let release = latest(REPOSITORY).run(|_| Ok(resp.clone())).unwrap().unwrap();
     assert_eq!(release.version(), Some(v("0.2.0")));
     assert_eq!(release.asset(SUMS).map(|a| a.size), Some(120));
     assert!(release.asset("missing").is_none());
     // No release yet: nothing to update to.
     let none = ehttp::Response { url: String::new(), ok: false, status: 404, status_text: "Not Found".into(), headers: Default::default(), bytes: Vec::new() };
-    assert_eq!(latest(REPOSITORY).run(|_| Ok(none)).unwrap(), None);
+    assert_eq!(latest(REPOSITORY).run(|_| Ok(none.clone())).unwrap(), None);
     // Without a connection the check fails with a reason.
     assert!(latest(REPOSITORY).run(|_| Err("io: Connection refused".into())).is_err());
 }

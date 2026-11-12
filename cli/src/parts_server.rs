@@ -4,6 +4,7 @@
 
 use crate::args::Options;
 use openecraft_client::{check, decode, decode_found, ehttp, text, Call, Connection, Endpoint, PortalKind};
+use openecraft_client::credentials::{CredentialStore, SystemCredentialStore};
 use openecraft_parts::access::{Policy, Settings};
 use openecraft_parts::api::{ImportResult, PartQuery, ServerInfo, Session, UserUpdate};
 use openecraft_parts::portal::{AttachmentKind, Catalog, HistoryEntry, PartsRight, SearchResult, User};
@@ -26,6 +27,7 @@ pub struct Server {
     pub endpoint: Endpoint,
     pub kind: PortalKind,
     pub transport: Box<dyn Transport>,
+    pub credentials: Box<dyn CredentialStore>,
 }
 
 impl Server {
@@ -38,15 +40,15 @@ impl Server {
             url: o.server.clone().or_else(|| env("OPENECRAFT_SERVER")).unwrap_or(default.url),
             token: o.token.clone().or_else(|| env("OPENECRAFT_TOKEN")).unwrap_or_default(),
         };
-        Server { endpoint, kind: PortalKind::OpenECraft, transport: Box::new(Http) }
+        Server { endpoint, kind: PortalKind::OpenECraft, transport: Box::new(Http), credentials: Box::new(SystemCredentialStore) }
     }
 
     fn fetch(&self, request: ehttp::Request) -> ehttp::Result<ehttp::Response> {
         self.transport.fetch(&request)
     }
 
-    pub fn connection(&self) -> Connection {
-        Connection::new(self.kind, &self.endpoint.url, &self.endpoint.token)
+    pub fn connection(&self) -> Result<Connection, String> {
+        openecraft_client::credentials::connection_with_store(self.kind, &self.endpoint.url, &self.endpoint.token, self.credentials.as_ref())
     }
 
     fn call<T: 'static>(&self, call: Call<T>) -> Result<T, String> {
@@ -55,17 +57,17 @@ impl Server {
 
     /// The parts server for the functions the EPLAN Data Portal does not offer.
     fn full(&self) -> Result<&Endpoint, String> {
-        self.connection().parts_server()?;
+        Connection::new(self.kind, &self.endpoint.url, &self.endpoint.token).parts_server()?;
         Ok(&self.endpoint)
     }
 
     pub fn info(&self) -> Result<ServerInfo, String> {
-        self.call(self.connection().info())
+        self.call(self.connection()?.info())
     }
 
     /// The part, `None` if the server does not know it.
     pub fn get(&self, number: &str) -> Result<Option<Part>, String> {
-        self.call(self.connection().part(number))
+        self.call(self.connection()?.part(number))
     }
 
     pub fn put(&self, part: &Part) -> Result<(), String> {
@@ -87,7 +89,7 @@ impl Server {
     }
 
     pub fn search(&self, query: &PartQuery) -> Result<SearchResult, String> {
-        self.call(self.connection().search(query))
+        self.call(self.connection()?.search(query))
     }
 
     /// The server versions of local parts (update check); the EPLAN Data Portal finds
@@ -99,7 +101,7 @@ impl Server {
         if numbers.is_empty() || (self.kind.read_only() && ids.is_empty()) {
             return Ok(Vec::new());
         }
-        Ok(self.call(self.connection().find(&numbers, &ids))?.parts)
+        Ok(self.call(self.connection()?.find(&numbers, &ids))?.parts)
     }
 
     pub fn history(&self, number: &str) -> Result<Vec<HistoryEntry>, String> {
@@ -119,7 +121,7 @@ impl Server {
     }
 
     pub fn file(&self, id: &str) -> Result<Vec<u8>, String> {
-        self.call(self.connection().file(id))
+        self.call(self.connection()?.file(id))
     }
 
     pub fn catalogs(&self) -> Result<Vec<Catalog>, String> {

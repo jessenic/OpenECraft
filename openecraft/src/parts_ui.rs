@@ -169,7 +169,8 @@ impl PartsUi {
                 if self.server.read_only() {
                     let (label, hint) = portal::token_texts(&self.server);
                     ui.label(label);
-                    ui.add(egui::TextEdit::singleline(&mut self.server.token).password(true).desired_width(160.0).hint_text(hint));
+                    ui.add(egui::TextEdit::singleline(&mut self.server.token).password(true).desired_width(160.0).hint_text(hint)).on_hover_text(hint);
+                    portal::shared_token_controls(ui, &mut self.server);
                 }
                 if ui.add_enabled(!self.server.busy(), egui::Button::new(tr("Test connection"))).clicked() {
                     self.server.check(ctx);
@@ -204,13 +205,14 @@ impl PartsUi {
             ui.end_row();
             let (label, hint) = portal::token_texts(&self.server);
             ui.label(label);
-            ui.add(egui::TextEdit::singleline(&mut self.server.token).password(true).desired_width(320.0).hint_text(hint));
+            ui.add(egui::TextEdit::singleline(&mut self.server.token).password(true).desired_width(320.0).hint_text(hint)).on_hover_text(hint);
             ui.end_row();
         });
         let busy = self.server.busy();
         // The EPLAN Data Portal is read in the data portal window.
         let full = !self.server.read_only();
         ui.horizontal_wrapped(|ui| {
+            portal::shared_token_controls(ui, &mut self.server);
             if ui.add_enabled(!busy, egui::Button::new(tr("Test connection"))).clicked() {
                 self.server.check(&ctx);
             }

@@ -17,8 +17,13 @@ fn both_kinds_answer_in_the_parts_server_types() {
     let eplan = Connection::new(PortalKind::Eplan, "https://portal.test/api", "pat");
     assert_eq!(eplan.kind(), PortalKind::Eplan);
     let info = eplan.info().run(|req| {
-        assert!(req.url.starts_with("https://portal.test/api/parts?"));
-        response(r#"{"data":[],"meta":{"total":7}}"#)
+        if req.url.contains("/parts?") {
+            assert!(req.url.starts_with("https://portal.test/api/parts?"));
+            response(r#"{"data":[{"id":"1"}],"meta":{"total":7}}"#)
+        } else {
+            assert_eq!(req.url, "https://portal.test/api/token/fileprovider");
+            response(r#"{"data":{"attributes":{"token":"provider-fixture"}}}"#)
+        }
     });
     assert_eq!(info.unwrap().parts, 7);
     let found = eplan.search(&PartQuery::default()).run(|_| response(r#"{"data":[{"type":"parts","id":"1","attributes":{"part_number":"A.1"}}]}"#));

@@ -53,7 +53,7 @@ fn changes_need_the_token() {
 
 #[test]
 fn unreachable_server() {
-    let mut s = Session::new(Server { endpoint: Endpoint { url: "http://elsewhere".into(), token: String::new() }, kind: PortalKind::OpenECraft, transport: Box::new(server()) });
+    let mut s = Session::new(Server { endpoint: Endpoint { url: "http://elsewhere".into(), token: String::new() }, kind: PortalKind::OpenECraft, credentials: Box::new(crate::testing::NoCredentials), transport: Box::new(server()) });
     let err = run(&mut s, "parts_search", json!({})).unwrap_err();
     assert!(err.starts_with("connection failed"), "{err}");
     run(&mut s, "parts_connect", json!({ "url": URL })).unwrap();
@@ -238,16 +238,22 @@ fn devices_get_parts_from_the_server() {
     assert_eq!(run(&mut s, "assign_part", json!({ "tag": "-K1", "number": "NOPE" })).unwrap_err(), "Unknown part: NOPE");
 }
 
-/// The EPLAN Data Portal: `/parts` answers one part, everything else is unknown.
+/// Public metadata accepts any credentials; the download gateway checks the PAT.
 struct Portal;
 
 impl crate::parts_server::Transport for Portal {
     fn fetch(&self, request: &ehttp::Request) -> ehttp::Result<ehttp::Response> {
-        let found = request.url.starts_with("https://dataportal.eplan.com/api/parts");
+        let public = request.url.starts_with("https://dataportal.eplan.com/api/parts");
+        let download = request.url == "https://dataportal.eplan.com/api/token/fileprovider";
         let authorized = request.headers.get("Authorization") == Some("Bearer PAT:secret");
-        let (status, body) = match (found, authorized) {
-            (true, true) => (200, r#"{"data":[{"type":"parts","id":"9","attributes":{"part_number":"RIT.1","designation":"Enclosure"}}],"meta":{"total":1}}"#),
-            (true, false) => (401, "{}"),
+        let (status, body) = match (public, download, authorized) {
+            (true, _, _) => (200, r#"{"data":[{"type":"parts","id":"9","attributes":{"part_number":"RIT.1","designation":"Enclosure"}}],"meta":{"total":1}}"#),
+            (_, true, true) => {
+                assert_eq!(request.method, ehttp::Method::GET);
+                assert!(request.body.is_empty());
+                (200, r#"{"data":{"attributes":{"token":"provider-fixture"}}}"#)
+            }
+            (_, true, false) => (401, "{}"),
             _ => (404, "{}"),
         };
         Ok(ehttp::Response { url: request.url.clone(), ok: status == 200, status, status_text: String::new(), headers: ehttp::Headers::default(), bytes: body.as_bytes().to_vec() })
@@ -256,7 +262,7 @@ impl crate::parts_server::Transport for Portal {
 
 #[test]
 fn eplan_data_portal() {
-    let mut s = Session::new(Server { endpoint: Endpoint { url: URL.into(), token: "admin".into() }, kind: PortalKind::OpenECraft, transport: Box::new(Portal) });
+    let mut s = Session::new(Server { endpoint: Endpoint { url: URL.into(), token: "admin".into() }, kind: PortalKind::OpenECraft, credentials: Box::new(crate::testing::NoCredentials), transport: Box::new(Portal) });
     assert!(run(&mut s, "parts_connect", json!({ "kind": "Eplan" })).is_err(), "no token");
     let v = run(&mut s, "parts_connect", json!({ "kind": "eplan", "token": "secret" })).unwrap();
     assert_eq!((v["kind"].as_str(), v["url"].as_str(), v["info"]["parts"].as_u64()), (Some("Eplan"), Some("https://dataportal.eplan.com/api"), Some(1)));
@@ -265,4 +271,30 @@ fn eplan_data_portal() {
     let v = run(&mut s, "parts_get", json!({ "number": "RIT.1" })).unwrap();
     assert_eq!(v["description"].as_str(), Some("Enclosure"));
     assert!(run(&mut s, "parts_catalogs", json!({})).unwrap_err().contains("EPLAN Data Portal"));
+}
+
+#[test]
+fn eplan_uses_shared_pat_without_caching_it_or_requiring_a_token_argument() {
+    struct SharedCredentials(std::sync::Arc<std::sync::Mutex<String>>);
+    impl openecraft_client::credentials::CredentialStore for SharedCredentials {
+        fn load(&self, url: &str) -> Result<Option<String>, openecraft_client::credentials::CredentialError> {
+            assert_eq!(url, "https://dataportal.eplan.com/api");
+            let token = self.0.lock().unwrap().clone();
+            Ok((!token.is_empty()).then_some(token))
+        }
+        fn save(&self, _: &str, _: &str) -> Result<bool, openecraft_client::credentials::CredentialError> { panic!("MCP must not save credentials") }
+        fn forget(&self, _: &str) -> Result<bool, openecraft_client::credentials::CredentialError> { panic!("MCP must not delete credentials") }
+    }
+    let saved = std::sync::Arc::new(std::sync::Mutex::new("secret".to_string()));
+    let mut s = Session::new(Server { endpoint: Endpoint { url: URL.into(), token: String::new() }, kind: PortalKind::OpenECraft, transport: Box::new(Portal), credentials: Box::new(SharedCredentials(saved.clone())) });
+    run(&mut s, "parts_connect", json!({ "kind": "Eplan" })).unwrap();
+    assert!(s.server.endpoint.token.is_empty(), "the shared PAT is not cached as an explicit override");
+    *saved.lock().unwrap() = "rotated-invalid-pat".into();
+    assert!(run(&mut s, "parts_connect", json!({})).is_err());
+    *saved.lock().unwrap() = "secret".into();
+    run(&mut s, "parts_connect", json!({})).unwrap();
+    saved.lock().unwrap().clear();
+    assert!(run(&mut s, "parts_connect", json!({})).is_err());
+    run(&mut s, "parts_connect", json!({ "token": "secret" })).unwrap();
+    assert!(saved.lock().unwrap().is_empty(), "MCP does not persist explicit session credentials");
 }
