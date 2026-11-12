@@ -522,7 +522,7 @@ impl App {
 
     /// What the wheel, a trackpad and a touch screen do in the 2D and 3D views.
     fn navigation_settings(&mut self, ui: &mut egui::Ui) {
-        use openecraft_ui::nav::{Fingers, Scroll};
+        use openecraft_ui::nav::{Fingers, Scroll, WheelSourcePolicy};
         let nav = &mut self.shell.nav;
         // One block per setting: its name, then its options indented, a line between.
         let block = |ui: &mut egui::Ui, title: &str, first: bool, body: &mut dyn FnMut(&mut egui::Ui)| {
@@ -538,10 +538,20 @@ impl App {
                 ui.radio_value(&mut nav.scroll, s, tr(s.title()));
             }
             ui.weak(match nav.scroll {
-                Scroll::Auto => tr("Two fingers on a trackpad pan, the mouse wheel zooms. Only macOS tells them apart; elsewhere scrolling zooms like the wheel."),
+                Scroll::Auto => tr("Automatic mode pans with identified trackpad input, zooms with mouse-wheel input, and uses the wheel-source policy below for unknown sources."),
                 Scroll::Zoom => tr("Scrolling up and down zooms at the pointer, sideways (horizontal wheel, Shift + wheel) pans."),
                 Scroll::Pan => tr("Scrolling pans in every direction; pinch or Ctrl + scroll to zoom."),
             });
+        });
+        block(ui, tr("Wheel source"), false, &mut |ui| {
+            for policy in WheelSourcePolicy::ALL {
+                ui.radio_value(
+                    &mut nav.wheel_source_policy,
+                    policy,
+                    tr(policy.title()),
+                );
+            }
+            ui.weak(tr("Assume Windows trackpad (default) pans unknown point-based or fractional-line scrolling; whole-line and page scrolling zoom. Strict treats every unknown source as a mouse wheel."));
         });
         block(ui, tr("Direction"), false, &mut |ui| {
             ui.checkbox(&mut nav.invert, tr("Invert the direction of panning by scrolling"));

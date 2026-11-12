@@ -130,6 +130,8 @@ struct ShellState {
     update_check: bool,
     /// What the wheel, trackpads and touch screens do in the views.
     nav: openecraft_ui::nav::Settings,
+    /// Whether the unknown wheel-source default has been migrated.
+    wheel_source_policy_migrated: bool,
     /// What the editor opens when it starts.
     startup: crate::startup::Startup,
 }
@@ -153,12 +155,21 @@ impl Default for ShellState {
             gpu_3d: true,
             update_check: true,
             nav: openecraft_ui::nav::Settings::default(),
+            wheel_source_policy_migrated: false,
             startup: crate::startup::Startup::default(),
         }
     }
 }
 
 impl ShellState {
+    fn migrate_wheel_source_policy(&mut self) {
+        if !self.wheel_source_policy_migrated {
+            self.nav.wheel_source_policy =
+                openecraft_ui::nav::WheelSourcePolicy::AssumeWindowsTrackpad;
+            self.wheel_source_policy_migrated = true;
+        }
+    }
+
     /// The touch sizes are shown: chosen in the settings or for this session.
     fn tablet(&self) -> bool {
         self.tablet || self.tablet_once
@@ -466,6 +477,7 @@ impl App {
                 vault.user = user;
             }
         }
+        shell.migrate_wheel_source_policy();
         openecraft_i18n::init(language.as_deref());
         openecraft_ui::fonts::follow_language(&cc.egui_ctx);
         let parts_db = parts_db.unwrap_or_default();

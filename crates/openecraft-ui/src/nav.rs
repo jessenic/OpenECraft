@@ -54,8 +54,8 @@ impl Mod {
 /// What scrolling (wheel, two fingers on a trackpad) does in a view.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum Scroll {
-    /// Trackpads pan, mouse wheels zoom; where the platform does not tell them apart
-    /// (everywhere but macOS) like [`Scroll::Zoom`].
+    /// Trackpads pan and mouse wheels zoom; unknown sources follow
+    /// [`Settings::wheel_source_policy`].
     #[default]
     Auto,
     /// Scrolling up and down zooms at the pointer, sideways pans (CAD style).
@@ -73,6 +73,50 @@ impl Scroll {
             Scroll::Auto => openecraft_i18n::tr_const!("Automatic"),
             Scroll::Zoom => openecraft_i18n::tr_const!("Zooms (mouse wheel)"),
             Scroll::Pan => openecraft_i18n::tr_const!("Pans (trackpad)"),
+        }
+    }
+}
+
+/// How wheel events with an unknown source are interpreted.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+pub enum WheelSourcePolicy {
+    /// Treat unknown-source wheel events as trackpad input (useful for Windows precision touchpads).
+    #[default]
+    AssumeWindowsTrackpad,
+    /// Only treat events explicitly identified by the platform as trackpad input.
+    Strict,
+}
+
+impl WheelSourcePolicy {
+    pub const ALL: [WheelSourcePolicy; 2] = [
+        WheelSourcePolicy::AssumeWindowsTrackpad,
+        WheelSourcePolicy::Strict,
+    ];
+
+    /// Name shown in settings (English, translate with `tr`).
+    pub fn title(self) -> &'static str {
+        match self {
+            WheelSourcePolicy::Strict => openecraft_i18n::tr_const!("Strict"),
+            WheelSourcePolicy::AssumeWindowsTrackpad => {
+                openecraft_i18n::tr_const!("Assume Windows trackpad")
+            }
+        }
+    }
+
+    fn is_trackpad(self, source: MouseWheelSource, unit: MouseWheelUnit, delta: Vec2) -> bool {
+        match source {
+            MouseWheelSource::Trackpad | MouseWheelSource::Momentum => true,
+            MouseWheelSource::Unknown if self == WheelSourcePolicy::AssumeWindowsTrackpad => {
+                match unit {
+                    MouseWheelUnit::Point => true,
+                    MouseWheelUnit::Line => {
+                        delta.x.fract().abs() > 1e-4 || delta.y.fract().abs() > 1e-4
+                    }
+                    MouseWheelUnit::Page => false,
+                }
+            }
+            MouseWheelSource::Unknown => false,
+            MouseWheelSource::Wheel => false,
         }
     }
 }
@@ -113,6 +157,8 @@ impl Fingers {
 #[serde(default)]
 pub struct Settings {
     pub scroll: Scroll,
+    /// How an event whose source the platform does not identify is classified.
+    pub wheel_source_policy: WheelSourcePolicy,
     /// Scrolling pans the other way round (the content moves against the fingers).
     pub invert: bool,
     /// Two fingers on a touch screen; on a trackpad pinching (not with [`Fingers::Pan`])
@@ -132,7 +178,15 @@ pub struct Settings {
 
 impl Default for Settings {
     fn default() -> Self {
-        Settings { scroll: Scroll::Auto, invert: false, two_fingers: Fingers::PanAndZoom, three_fingers: None, sideways: Some(Mod::Shift), zoom: Some(Mod::Ctrl) }
+        Settings {
+            scroll: Scroll::Auto,
+            wheel_source_policy: WheelSourcePolicy::AssumeWindowsTrackpad,
+            invert: false,
+            two_fingers: Fingers::PanAndZoom,
+            three_fingers: None,
+            sideways: Some(Mod::Shift),
+            zoom: Some(Mod::Ctrl),
+        }
     }
 }
 
@@ -238,8 +292,7 @@ fn wheel(events: &[Event], s: Settings) -> (f32, Vec2) {
         if sideways && d.x == 0.0 {
             d = Vec2::new(d.y, 0.0);
         }
-        // Two fingers chosen to zoom only: a trackpad the platform names zooms.
-        let trackpad = matches!(source, MouseWheelSource::Trackpad | MouseWheelSource::Momentum);
+        let trackpad = s.wheel_source_policy.is_trackpad(*source, *unit, *delta);
         let pans = match s.scroll {
             _ if trackpad && !s.two_fingers.pans() => false,
             Scroll::Pan => true,

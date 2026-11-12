@@ -13,10 +13,12 @@ fn setting(scroll: Scroll, invert: bool) -> Settings {
 fn a_mouse_wheel_zooms_and_pans_sideways() {
     let up = scroll(MouseWheelUnit::Line, vec2(0.0, 1.0), MouseWheelSource::Wheel, Modifiers::NONE);
     assert_eq!(wheel(std::slice::from_ref(&up), setting(Scroll::Zoom, false)), (40.0, Vec2::ZERO));
-    // Automatic: a wheel the platform names, or does not, zooms.
+    // Unknown line-based wheel events zoom, including on platforms that do not report the source.
     assert_eq!(wheel(&[up], setting(Scroll::Auto, false)), (40.0, Vec2::ZERO));
     let unknown = scroll(MouseWheelUnit::Line, vec2(0.0, -2.0), MouseWheelSource::Unknown, Modifiers::NONE);
-    assert_eq!(wheel(&[unknown], setting(Scroll::Auto, false)), (-80.0, Vec2::ZERO));
+    assert_eq!(wheel(std::slice::from_ref(&unknown), setting(Scroll::Auto, false)), (-80.0, Vec2::ZERO));
+    let strict = Settings { wheel_source_policy: WheelSourcePolicy::Strict, ..setting(Scroll::Auto, false) };
+    assert_eq!(wheel(&[unknown], strict), (-80.0, Vec2::ZERO));
     // The horizontal wheel pans, also when the vertical one zooms.
     let side = scroll(MouseWheelUnit::Line, vec2(1.0, 0.0), MouseWheelSource::Wheel, Modifiers::NONE);
     assert_eq!(wheel(&[side], setting(Scroll::Zoom, false)), (0.0, vec2(40.0, 0.0)));
@@ -31,13 +33,115 @@ fn trackpads_pan_in_both_directions() {
     assert_eq!(wheel(std::slice::from_ref(&fingers), setting(Scroll::Auto, false)), (0.0, vec2(3.0, -5.0)));
     let momentum = scroll(MouseWheelUnit::Point, vec2(0.0, 2.0), MouseWheelSource::Momentum, Modifiers::NONE);
     assert_eq!(wheel(&[fingers.clone(), momentum], setting(Scroll::Auto, false)), (0.0, vec2(3.0, -3.0)));
-    // Chosen: every scroll pans, also a wheel or a trackpad the platform does not name.
+    // Explicit Pan mode pans even when the source is unknown.
     let unknown = scroll(MouseWheelUnit::Line, vec2(0.0, 1.0), MouseWheelSource::Unknown, Modifiers::NONE);
     assert_eq!(wheel(&[unknown], setting(Scroll::Pan, false)), (0.0, vec2(0.0, 40.0)));
     // Chosen: trackpads zoom like a wheel.
     assert_eq!(wheel(std::slice::from_ref(&fingers), setting(Scroll::Zoom, false)), (-5.0, vec2(3.0, 0.0)));
     // Inverted: the content moves against the fingers.
     assert_eq!(wheel(&[fingers], setting(Scroll::Auto, true)), (0.0, vec2(-3.0, 5.0)));
+}
+
+#[test]
+fn wheel_source_policy_maps_unknown_events_only_when_enabled() {
+    let precise_unknown = scroll(
+        MouseWheelUnit::Point,
+        vec2(3.0, -5.0),
+        MouseWheelSource::Unknown,
+        Modifiers::NONE,
+    );
+    let line_unknown = scroll(
+        MouseWheelUnit::Line,
+        vec2(0.0, -1.0),
+        MouseWheelSource::Unknown,
+        Modifiers::NONE,
+    );
+    let smooth_line_unknown = scroll(
+        MouseWheelUnit::Line,
+        vec2(0.0, -0.5),
+        MouseWheelSource::Unknown,
+        Modifiers::NONE,
+    );
+    let page_unknown = scroll(
+        MouseWheelUnit::Page,
+        vec2(0.0, -0.5),
+        MouseWheelSource::Unknown,
+        Modifiers::NONE,
+    );
+    let strict = Settings {
+        wheel_source_policy: WheelSourcePolicy::Strict,
+        ..setting(Scroll::Auto, false)
+    };
+    assert_eq!(
+        wheel(std::slice::from_ref(&precise_unknown), strict),
+        (-5.0, vec2(3.0, 0.0)),
+        "strict policy keeps unknown vertical input as zoom"
+    );
+
+    let assume_touchpad = Settings {
+        wheel_source_policy: WheelSourcePolicy::AssumeWindowsTrackpad,
+        ..strict
+    };
+    assert_eq!(
+        wheel(std::slice::from_ref(&precise_unknown), assume_touchpad),
+        (0.0, vec2(3.0, -5.0)),
+        "assumed precise input pans both axes"
+    );
+    assert_eq!(
+        wheel(std::slice::from_ref(&line_unknown), assume_touchpad),
+        (-40.0, Vec2::ZERO),
+        "whole-line wheel steps still zoom"
+    );
+    assert_eq!(
+        wheel(std::slice::from_ref(&smooth_line_unknown), assume_touchpad),
+        (0.0, vec2(0.0, -20.0)),
+        "fractional line deltas are treated as smooth trackpad input"
+    );
+    assert_eq!(
+        wheel(std::slice::from_ref(&page_unknown), assume_touchpad),
+        (-200.0, Vec2::ZERO),
+        "page-based deltas are treated as wheel input"
+    );
+
+    let mouse = scroll(
+        MouseWheelUnit::Point,
+        vec2(3.0, -5.0),
+        MouseWheelSource::Wheel,
+        Modifiers::NONE,
+    );
+    assert_eq!(
+        wheel(&[mouse], assume_touchpad),
+        (-5.0, vec2(3.0, 0.0)),
+        "an explicitly identified mouse wheel is unchanged"
+    );
+
+    for source in [MouseWheelSource::Trackpad, MouseWheelSource::Momentum] {
+        let event = scroll(
+            MouseWheelUnit::Point,
+            vec2(3.0, -5.0),
+            source,
+            Modifiers::NONE,
+        );
+        assert_eq!(
+            wheel(&[event], strict),
+            (0.0, vec2(3.0, -5.0)),
+            "{source:?} behavior remains unchanged"
+        );
+    }
+}
+
+#[test]
+fn wheel_source_policy_defaults_and_round_trips() {
+    let old_settings: Settings = serde_json::from_str("{}").unwrap();
+    assert_eq!(old_settings.wheel_source_policy, WheelSourcePolicy::AssumeWindowsTrackpad);
+
+    let settings = Settings {
+        wheel_source_policy: WheelSourcePolicy::AssumeWindowsTrackpad,
+        ..Settings::default()
+    };
+    let stored = serde_json::to_string(&settings).unwrap();
+    let restored: Settings = serde_json::from_str(&stored).unwrap();
+    assert_eq!(restored, settings);
 }
 
 #[test]
