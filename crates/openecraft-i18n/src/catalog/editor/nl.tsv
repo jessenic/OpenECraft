@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Een kabel van het bustype voor elke verbinding zonder kabel
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Een uitsparing van dezelfde grootte op dezelfde plaats in de zijwand van de buur: samen vormen ze een kabeldoorvoer
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Een bestand met dezelfde naam in de map krijgt een nieuwe versie (uit- en ingecheckt), anders wordt het bestand toegevoegd
+A folder with one small file per page, device and part instead of one project file, for version control such as git	Een map met één klein bestand per pagina, apparaat en artikel in plaats van één projectbestand, voor versiebeheer zoals git
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Een grote tekst over elke pagina, bijv. CONCEPT terwijl een revisie wordt voorbereid; teksten nemen plaatshouders, leeg: geen stempel.
 A level on top of the highest one	Een verdieping boven de hoogste
 A local file opens locally, a server project is opened on the project server again	Een lokaal bestand opent lokaal, een serverproject wordt opnieuw op de projectserver geopend
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	Een referentiepunt in de oorsprong 
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Een rapportblok genereert de pagina's van een rapport, bijv. één klemmenplan per klemmenstrook, en werkt ze bij.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Een schemapagina 3.1, 3.2, … na de huidige pagina, die bij het opnieuw nummeren een subpagina blijft
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Een schemapagina per gepland apparaat met een paginamacro dat nog niet in het schema staat (geselecteerd segment, anders alle)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	Een gesplitst project (.oecp) is een map met één klein bestand per pagina, apparaat, artikel en ingesloten bestand, voor versiebeheer zoals git: Bestand › Opslaan als gesplitst project.
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	Een gesplitst project is een map met bestanden: de browser kan het niet openen. Converteer het eerst naar een projectbestand (.oec) of een archief (.oecz).
 A template of this name is replaced.	Een sjabloon met deze naam wordt vervangen.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Een sjabloon bepaalt het paginatype, het plotkader, het titelblok, de structuur en de beschrijving van een nieuwe pagina en plaatst de inhoud ervan.
 A way through free air costs this many times the way in a duct or routing path	Een weg vrij door de lucht kost zoveel keer de weg in een goot of routeringspad
@@ -1274,6 +1277,7 @@ OpenECraft property library	OpenECraft-eigenschappenbibliotheek
 OpenECraft property library (JSON)	OpenECraft-eigenschappenbibliotheek (JSON)
 OpenECraft rule sets	OpenECraft-regelsets
 OpenECraft rule sets (JSON)	OpenECraft-regelsets (JSON)
+OpenECraft split project	Gesplitst OpenECraft-project
 OpenECraft structure template	OpenECraft-structuursjabloon
 OpenECraft structure template (JSON)	OpenECraft-structuursjabloon (JSON)
 OpenECraft symbol library	OpenECraft-symboolbibliotheek
@@ -1674,6 +1678,7 @@ Save as local file	Opslaan als lokaal bestand
 Save as macro	Opslaan als macro
 Save as project template…	Opslaan als projectsjabloon…
 Save as scheme	Opslaan als schema
+Save as split project…	Opslaan als gesplitst project…
 Save as template	Opslaan als sjabloon
 Save as template…	Opslaan als sjabloon…
 Save asks for a file	Opslaan vraagt om een bestand

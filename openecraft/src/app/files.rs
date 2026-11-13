@@ -36,15 +36,45 @@ impl App {
             self.check_in_project();
             return;
         }
-        let json = self.session.prj.to_json();
-        let result = match (&self.session.file_name, save_as || !FileIo::can_save_in_place()) {
-            (Some(path), false) => self.io.save_to(path, &json).map(|_| Some(path.clone())),
-            _ => {
-                let name = self.session.file_name.as_deref().map(io::short_name).map(String::from);
-                let name = name.unwrap_or_else(|| self.suggested_name(PROJECT_EXT));
-                self.io.save_as(&name, (tr("OpenECraft project"), PROJECT_EXT), &json)
-            }
+        let filter = (tr("OpenECraft project"), PROJECT_EXT);
+        let result = match (&self.session.file_name, save_as) {
+            (Some(path), false) if FileIo::can_save_in_place() => io::write_project(&self.io, path, &self.session.prj).map(|_| Some(path.clone())),
+            // On the desktop the file name decides: an index file saves a split project.
+            _ if FileIo::can_save_in_place() => match self.io.pick_save(&self.save_name(PROJECT_EXT), filter) {
+                Some(path) => self.write_project_as(path).map(Some),
+                None => Ok(None),
+            },
+            _ => self.io.save_as(&self.save_name(PROJECT_EXT), filter, &self.session.prj.to_json()),
         };
+        self.saved(ctx, result);
+    }
+
+    /// Saves the project as a split project: a folder of small files for version
+    /// control (desktop only).
+    pub(super) fn save_split(&mut self, ctx: &egui::Context) {
+        let Some(path) = self.io.pick_save(&self.save_name(io::INDEX_EXT), (tr("OpenECraft split project"), io::INDEX_EXT)) else { return };
+        let result = self.write_project_as(std::path::Path::new(&path).with_extension(io::INDEX_EXT).display().to_string());
+        self.saved(ctx, result.map(Some));
+    }
+
+    /// File name suggested for saving with this extension: the one of the file, or
+    /// one made from the project name.
+    fn save_name(&self, ext: &str) -> String {
+        match self.session.file_name.as_deref().map(io::short_name) {
+            Some(name) => std::path::Path::new(name).with_extension(ext).display().to_string(),
+            None => self.suggested_name(ext),
+        }
+    }
+
+    /// Writes the project to a path the user chose; returns where it went (a split
+    /// project chosen among other files gets a folder of its own).
+    fn write_project_as(&self, path: String) -> Result<String, String> {
+        let path = if io::is_split(&path) { openecraft_core::storage::folder::place(std::path::Path::new(&path)).display().to_string() } else { path };
+        io::write_project(&self.io, &path, &self.session.prj).map(|_| path)
+    }
+
+    /// The project was saved to a file (none: the user cancelled).
+    fn saved(&mut self, ctx: &egui::Context, result: Result<Option<String>, String>) {
         match result {
             Ok(Some(path)) => {
                 self.notify_ok(ctx, tr_fmt!("Saved {}", io::short_name(&path)));
@@ -268,8 +298,8 @@ impl App {
         let Some(loaded) = self.io.poll() else { return };
         match loaded.purpose {
             Purpose::Project => self.open_loaded_project(ctx, &loaded),
-            Purpose::ProjectTemplate => match openecraft_core::archive::read_project(&loaded.bytes) {
-                Ok((t, _)) => {
+            Purpose::ProjectTemplate => match io::read_project(&loaded.name, &loaded.bytes) {
+                Ok((t, _, _)) => {
                     let prj = openecraft_core::project_templates::from_template(&t, tr("New project"), &openecraft_ui::io::today());
                     self.replace_project(prj, None);
                 }
@@ -358,8 +388,8 @@ impl App {
                 }
                 Err(e) => self.notify_error(ctx, tr_fmt!("Not a page template file: {}", e)),
             },
-            Purpose::Compare => match Project::from_json(&loaded.text()) {
-                Ok(prj) => self.compare_ui.set_file(io::short_name(&loaded.name), prj),
+            Purpose::Compare => match io::read_project(&loaded.name, &loaded.bytes) {
+                Ok((prj, _, _)) => self.compare_ui.set_file(io::short_name(&loaded.name), prj),
                 Err(e) => self.notify_error(ctx, e),
             },
             Purpose::ChangeRequests => match openecraft_core::review::import_requests(&mut self.session.prj, &loaded.text()) {
@@ -397,7 +427,7 @@ impl App {
             },
             Purpose::RuleSets => self.import_rule_sets(ctx, &loaded.text()),
             Purpose::PropertyLibrary => self.import_property_library(ctx, &loaded.text()),
-            Purpose::Subproject => self.insert_subproject(ctx, &loaded.bytes),
+            Purpose::Subproject => self.insert_subproject(ctx, &loaded),
             Purpose::Integration => self.integration_file_loaded(&loaded.name, loaded.text()),
             Purpose::Ribbon => self.import_ribbon(ctx, &loaded.text()),
             Purpose::Favorites => match self.insert_center.import_favorites(&loaded.text()) {
@@ -409,10 +439,10 @@ impl App {
 
     /// A project file or archive replaces the open project.
     pub(super) fn open_loaded_project(&mut self, ctx: &egui::Context, loaded: &Loaded) {
-        match openecraft_core::archive::read_project(&loaded.bytes) {
-            Ok((prj, conv)) => {
+        match io::read_project(&loaded.name, &loaded.bytes) {
+            Ok((prj, conv, is_archive)) => {
                 // An archive is opened like a new project: saving writes a project file.
-                let file = (!openecraft_core::archive::is_archive(&loaded.bytes)).then(|| loaded.name.clone());
+                let file = (!is_archive).then(|| loaded.name.clone());
                 self.replace_project(prj, file);
                 let note = conv.message().unwrap_or_else(|| tr_fmt!("Opened {}", io::short_name(&loaded.name)));
                 self.notify_ok(ctx, note);

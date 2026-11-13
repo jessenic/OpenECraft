@@ -18,4 +18,13 @@
     <generic-icon name="io.github.nilres.OpenECraft"/>
     <glob pattern="*.oecz"/>
   </mime-type>
+  <mime-type type="application/x-openecraft-split-project">
+    <comment>OpenECraft split project</comment>
+    <comment xml:lang="de">Geteiltes OpenECraft-Projekt</comment>
+    <comment xml:lang="fr">Projet fractionné OpenECraft</comment>
+    <comment xml:lang="es">Proyecto dividido de OpenECraft</comment>
+    <sub-class-of type="application/json"/>
+    <generic-icon name="io.github.nilres.OpenECraft"/>
+    <glob pattern="*.oecp"/>
+  </mime-type>
 </mime-info>

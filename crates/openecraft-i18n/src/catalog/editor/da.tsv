@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Et kabel af bustypen til hver forbindelse uden kabel
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	En udskæring af samme størrelse på samme sted i naboens sidevæg: Sammen udgør de en kabelgennemføring
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	En fil med samme navn i mappen får en ny version (tjekket ud og ind), ellers tilføjes filen
+A folder with one small file per page, device and part instead of one project file, for version control such as git	En mappe med en lille fil pr. side, komponent og artikel i stedet for en projektfil, til versionsstyring som git
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	En stor tekst hen over hver side, f.eks. UDKAST mens en revision forberedes; teksterne tager pladsholdere, tom: intet stempel.
 A level on top of the highest one	En etage over den øverste
 A local file opens locally, a server project is opened on the project server again	En lokal fil åbnes lokalt, et serverprojekt åbnes igen på projektserveren
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	Et referencepunkt i anlæggets orig
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	En rapportblok genererer siderne i en rapport, f.eks. ét klemdiagram pr. klemrække, og opdaterer dem.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	En diagramside 3.1, 3.2, … efter den aktuelle side, som bevares som underside ved omnummerering
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	En diagramside pr. planlagt enhed med en sidemakro, der endnu ikke er i diagrammet (valgt segment, ellers alle)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	Et opdelt projekt (.oecp) er en mappe med en lille fil pr. side, komponent, artikel og indlejret fil, til versionsstyring som git: Filer › Gem som opdelt projekt.
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	Et opdelt projekt er en mappe med filer: browseren kan ikke åbne det. Konverter det først til en projektfil (.oec) eller et arkiv (.oecz).
 A template of this name is replaced.	En skabelon med dette navn erstattes.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	En skabelon angiver sidetype, plotramme, tegningshoved, struktur og beskrivelse for en ny side og placerer dens indhold.
 A way through free air costs this many times the way in a duct or routing path	En vej gennem fri luft koster så mange gange mere end vejen i en kanal eller føringsvej
@@ -1274,6 +1277,7 @@ OpenECraft property library	OpenECraft-egenskabsbibliotek
 OpenECraft property library (JSON)	OpenECraft-egenskabsbibliotek (JSON)
 OpenECraft rule sets	OpenECraft-regelsæt
 OpenECraft rule sets (JSON)	OpenECraft-regelsæt (JSON)
+OpenECraft split project	Opdelt OpenECraft-projekt
 OpenECraft structure template	OpenECraft-strukturskabelon
 OpenECraft structure template (JSON)	OpenECraft-strukturskabelon (JSON)
 OpenECraft symbol library	OpenECraft-symbolbibliotek
@@ -1674,6 +1678,7 @@ Save as local file	Gem som lokal fil
 Save as macro	Gem som makro
 Save as project template…	Gem som projektskabelon…
 Save as scheme	Gem som skema
+Save as split project…	Gem som opdelt projekt…
 Save as template	Gem som skabelon
 Save as template…	Gem som skabelon…
 Save asks for a file	Gem spørger efter en fil

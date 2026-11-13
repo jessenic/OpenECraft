@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Un cavo del tipo di bus per ogni collegamento senza cavo
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Un'apertura delle stesse dimensioni nello stesso punto della parete laterale del vicino: insieme formano un passaggio cavi
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Un file con lo stesso nome nella cartella riceve una nuova versione (check-out e check-in), altrimenti il file viene aggiunto
+A folder with one small file per page, device and part instead of one project file, for version control such as git	Una cartella con un piccolo file per pagina, dispositivo e articolo invece di un unico file di progetto, per il controllo di versione come git
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Un grande testo su ogni pagina, ad es. BOZZA mentre si prepara una revisione; i testi accettano segnaposto, vuoto: nessun timbro.
 A level on top of the highest one	Un piano sopra il più alto
 A local file opens locally, a server project is opened on the project server again	Un file locale si apre in locale, un progetto del server viene riaperto sul server dei progetti
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	Un punto di riferimento nell'origin
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Un blocco di report genera le pagine di un report, ad es. uno schema morsetti per morsettiera, e le aggiorna.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Una pagina di schema 3.1, 3.2, … dopo la pagina corrente, mantenuta come sottopagina durante la rinumerazione
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Una pagina di schema per ogni dispositivo pianificato con una macro di pagina che non è ancora nello schema (segmento selezionato, altrimenti tutti)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	Un progetto suddiviso (.oecp) è una cartella con un piccolo file per pagina, dispositivo, articolo e file incorporato, per il controllo di versione come git: File › Salva come progetto suddiviso.
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	Un progetto suddiviso è una cartella di file: il browser non può aprirlo. Convertirlo prima in un file di progetto (.oec) o in un archivio (.oecz).
 A template of this name is replaced.	Un modello con questo nome verrà sostituito.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Un modello imposta il tipo di pagina, la cornice di stampa, il cartiglio, la struttura e la descrizione di una nuova pagina e ne posiziona il contenuto.
 A way through free air costs this many times the way in a duct or routing path	Un percorso in aria libera costa questo numero di volte il percorso in una canalina o in un percorso di instradamento
@@ -1274,6 +1277,7 @@ OpenECraft property library	Libreria delle proprietà OpenECraft
 OpenECraft property library (JSON)	Libreria delle proprietà OpenECraft (JSON)
 OpenECraft rule sets	Set di regole OpenECraft
 OpenECraft rule sets (JSON)	Set di regole OpenECraft (JSON)
+OpenECraft split project	Progetto suddiviso OpenECraft
 OpenECraft structure template	Modello di struttura OpenECraft
 OpenECraft structure template (JSON)	Modello di struttura OpenECraft (JSON)
 OpenECraft symbol library	Libreria simboli OpenECraft
@@ -1674,6 +1678,7 @@ Save as local file	Salva come file locale
 Save as macro	Salva come macro
 Save as project template…	Salva come modello di progetto…
 Save as scheme	Salva come schema
+Save as split project…	Salva come progetto suddiviso…
 Save as template	Salva come modello
 Save as template…	Salva come modello…
 Save asks for a file	Salva chiede un file

@@ -17,6 +17,6 @@ Exec=openecraft %f
 Icon=io.github.nilres.OpenECraft
 Terminal=false
 Categories=Graphics;Science;Engineering;Electronics;
-MimeType=application/x-openecraft-project;application/x-openecraft-archive;
+MimeType=application/x-openecraft-project;application/x-openecraft-archive;application/x-openecraft-split-project;
 StartupNotify=true
 StartupWMClass=OpenECraft

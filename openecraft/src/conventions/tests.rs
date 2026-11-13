@@ -253,7 +253,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("collab", &["model", "review", "report_blocks"]),
     ("archive", &["document", "model", "pdf", "zip"]),
     ("storage", &["archive", "document", "model"]),
-    ("projects", &["archive", "index", "issue", "model", "properties", "verify"]),
+    ("projects", &["archive", "index", "issue", "model", "properties", "storage", "verify"]),
     ("project_templates", &["model", "structure"]),
     ("verify", &["analysis", "issue", "model", "options", "properties", "structure", "symbols"]),
     ("sample", &["electrofluid", "geom", "harness", "model", "netlist", "ops", "panel", "parts", "pinout", "potentials", "review", "revision", "sections", "sizing", "structure", "symbols", "wirenum"]),

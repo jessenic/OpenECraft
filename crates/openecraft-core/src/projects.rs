@@ -1,17 +1,18 @@
 //! Project database: an index of project files (properties, size, check result) to
 //! find projects by text or property value, and batch operations that change
-//! project properties in many project files at once. Reading and writing the files
-//! is up to the caller (desktop app, command line).
+//! project properties in many project files at once, in memory ([`Entry::read`],
+//! [`Batch::apply_to_file`]) or on disk ([`Entry::load`], [`Batch::apply_on_disk`]).
 
 use openecraft_i18n::{tr, tr_fmt};
 use crate::archive;
 use crate::model::Project;
 use crate::properties::{self, Object};
+use crate::storage::folder;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
-/// File extensions of project files and archives.
-pub const EXTENSIONS: [&str; 2] = ["oec", archive::ARCHIVE_EXT];
+/// File extensions of project files, archives and the index files of split projects.
+pub const EXTENSIONS: [&str; 3] = ["oec", archive::ARCHIVE_EXT, crate::storage::INDEX_EXT];
 
 /// Fields of the project information that batch operations and queries know by name.
 pub const FIELDS: [&str; 6] = ["name", "description", "company", "creator", "date", "revision"];
@@ -57,6 +58,23 @@ impl Entry {
                 e
             }
             Err(error) => Entry { path: path.into(), error, ..Default::default() },
+        }
+    }
+
+    /// Index entry of a file found on disk: a project file or archive, or the index
+    /// of a split project (read with its folder).
+    pub fn load(path: &str, verify: bool) -> Entry {
+        let file = std::path::Path::new(path);
+        let failed = |error: String| Entry { path: path.into(), error, ..Default::default() };
+        if folder::is_index(file) {
+            return match folder::open(file) {
+                Ok((prj, conv)) => Entry { format: conv.from, ..Entry::of(path, &prj, verify) },
+                Err(error) => failed(error),
+            };
+        }
+        match std::fs::read(file) {
+            Ok(bytes) => Entry::read(path, &bytes, verify),
+            Err(e) => failed(tr_fmt!("Cannot read {}: {}", path, openecraft_i18n::io_error(&e))),
         }
     }
 
@@ -249,6 +267,30 @@ impl Batch {
 
     /// Applies the changes to a project file. Returns the changes and the new file
     /// content (none if nothing changed). Archives are written as archives again.
+    /// Applies the batch to a file on disk (a project file, an archive or the index
+    /// of a split project) and writes it back if something changed (`write`).
+    /// Returns the changes and the new index entry of a file that was written.
+    pub fn apply_on_disk(&self, path: &str, date: &str, write: bool) -> Result<(Vec<Change>, Option<Entry>), String> {
+        let file = std::path::Path::new(path);
+        if folder::is_index(file) {
+            let (mut prj, _) = folder::open(file)?;
+            let changes = self.apply(&mut prj)?;
+            if changes.is_empty() || !write {
+                return Ok((changes, None));
+            }
+            folder::save(file, &prj)?;
+            return Ok((changes, Some(Entry::of(path, &prj, false))));
+        }
+        let bytes = std::fs::read(file).map_err(|e| tr_fmt!("Cannot read {}: {}", path, openecraft_i18n::io_error(&e)))?;
+        match self.apply_to_file(&bytes, date)? {
+            (changes, Some(new)) if write => {
+                std::fs::write(file, &new).map_err(|e| tr_fmt!("Cannot write {}: {}", path, openecraft_i18n::io_error(&e)))?;
+                Ok((changes, Some(Entry::read(path, &new, false))))
+            }
+            (changes, _) => Ok((changes, None)),
+        }
+    }
+
     pub fn apply_to_file(&self, bytes: &[u8], date: &str) -> Result<(Vec<Change>, Option<Vec<u8>>), String> {
         let (mut prj, _) = archive::read_project(bytes)?;
         let changes = self.apply(&mut prj)?;

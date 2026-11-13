@@ -98,6 +98,21 @@ fn a_folder_holds_one_project() {
 }
 
 #[test]
+fn a_project_saved_among_other_files_gets_a_folder_of_its_own() {
+    let dir = temp_dir("folder-place");
+    // An empty or new folder is taken as it is.
+    assert_eq!(place(&dir.join("plant.oecp")), dir.join("plant.oecp"));
+    assert_eq!(place(&dir.join("new").join("plant.oecp")), dir.join("new").join("plant.oecp"));
+    assert_eq!(place(&dir.join("plant.v2")), dir.join("plant.v2.oecp"));
+    // So is the folder of the project itself.
+    save(&dir.join("plant.oecp"), &demo_project()).unwrap();
+    assert_eq!(place(&dir.join("plant.oecp")), dir.join("plant.oecp"));
+    // Next to other files the project goes into a folder named like it.
+    assert_eq!(place(&dir.join("other.oecp")), dir.join("other").join("other.oecp"));
+    assert_eq!(place(&dir.join("other")), dir.join("other").join("other.oecp"));
+}
+
+#[test]
 fn missing_and_broken_folders_are_reported() {
     let dir = temp_dir("folder-broken");
     assert!(open(&dir.join("none.oecp")).unwrap_err().contains("none.oecp"));

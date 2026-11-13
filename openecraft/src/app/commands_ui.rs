@@ -44,7 +44,7 @@ impl App {
             Cmd::Quit => FileIo::has_own_window(),
             Cmd::CheckForUpdates => crate::updater::supported() && !self.updater.busy(),
             Cmd::InstallUpdate => matches!(self.updater.state(), crate::updater::State::Ready { .. }),
-            Cmd::SaveAs => FileIo::can_save_in_place(),
+            Cmd::SaveAs | Cmd::SaveAsSplit => FileIo::can_save_in_place(),
             Cmd::NextPageTab | Cmd::PreviousPageTab | Cmd::ClosePageTab => self.page_tabs.len() > 1,
             Cmd::LayoutDoorInside | Cmd::LayoutDoor | Cmd::LayoutFront => self.panel_ui.view == crate::panel_ui::View::Front && !self.panel_ui.in_room,
             Cmd::LayoutWalls => self.panel_ui.view != crate::panel_ui::View::ThreeD,
@@ -219,6 +219,7 @@ impl App {
             Cmd::Open => self.io.open(ctx, Purpose::Project),
             Cmd::Save => self.save(ctx, false),
             Cmd::SaveAs => self.save(ctx, true),
+            Cmd::SaveAsSplit => self.save_split(ctx),
             Cmd::SaveAsProjectTemplate => {
                 let t = openecraft_core::project_templates::as_template(&self.session.prj);
                 let name = format!("{}_template.oec", self.session.prj.info.name.replace(' ', "_"));

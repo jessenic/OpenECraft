@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Kabel typu magistrali dla każdego połączenia bez kabla
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Wycięcie tej samej wielkości w tym samym miejscu ściany bocznej sąsiada: razem tworzą przepust kablowy
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Plik o tej samej nazwie w folderze otrzymuje nową wersję (wyewidencjonowanie i zaewidencjonowanie), w przeciwnym razie plik jest dodawany
+A folder with one small file per page, device and part instead of one project file, for version control such as git	Folder z jednym małym plikiem na stronę, urządzenie i artykuł zamiast jednego pliku projektu, dla kontroli wersji takiej jak git
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Duży tekst na każdej stronie, np. PROJEKT, gdy przygotowywana jest rewizja; teksty przyjmują symbole zastępcze, pusty: brak stempla.
 A level on top of the highest one	Kondygnacja nad najwyższą
 A local file opens locally, a server project is opened on the project server again	Plik lokalny otwiera się lokalnie, projekt z serwera jest ponownie otwierany na serwerze projektów
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	Punkt odniesienia w początku ukła
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Blok raportu generuje strony raportu, np. jeden schemat zacisków na listwę, i aktualizuje je.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Strona schematu 3.1, 3.2, … za bieżącą stroną, zachowywana jako podstrona przy przenumerowywaniu
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Strona schematu dla każdego zaplanowanego urządzenia z makrem strony, którego jeszcze nie ma na schemacie (wybrany segment, w przeciwnym razie wszystkie)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	Projekt podzielony (.oecp) to folder z jednym małym plikiem na stronę, urządzenie, artykuł i osadzony plik, dla kontroli wersji takiej jak git: Plik › Zapisz jako projekt podzielony.
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	Projekt podzielony to folder plików: przeglądarka nie może go otworzyć. Najpierw przekonwertuj go na plik projektu (.oec) lub archiwum (.oecz).
 A template of this name is replaced.	Szablon o tej nazwie zostanie zastąpiony.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Szablon ustawia typ strony, ramkę rysunku, tabliczkę rysunkową, strukturę i opis nowej strony oraz umieszcza jej zawartość.
 A way through free air costs this many times the way in a duct or routing path	Droga w wolnej przestrzeni kosztuje tyle razy więcej niż droga w kanale lub ścieżce prowadzenia
@@ -1274,6 +1277,7 @@ OpenECraft property library	Biblioteka właściwości OpenECraft
 OpenECraft property library (JSON)	Biblioteka właściwości OpenECraft (JSON)
 OpenECraft rule sets	Zestawy reguł OpenECraft
 OpenECraft rule sets (JSON)	Zestawy reguł OpenECraft (JSON)
+OpenECraft split project	Projekt podzielony OpenECraft
 OpenECraft structure template	Szablon struktury OpenECraft
 OpenECraft structure template (JSON)	Szablon struktury OpenECraft (JSON)
 OpenECraft symbol library	Biblioteka symboli OpenECraft
@@ -1674,6 +1678,7 @@ Save as local file	Zapisz jako plik lokalny
 Save as macro	Zapisz jako makro
 Save as project template…	Zapisz jako szablon projektu…
 Save as scheme	Zapisz jako schemat
+Save as split project…	Zapisz jako projekt podzielony…
 Save as template	Zapisz jako szablon
 Save as template…	Zapisz jako szablon…
 Save asks for a file	Zapisz pyta o plik

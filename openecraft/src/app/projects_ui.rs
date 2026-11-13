@@ -85,13 +85,7 @@ enum Action {
 }
 
 fn scan(folder: &str, verify: bool) -> Vec<Entry> {
-    fs::files_in(folder, projects::is_project_file)
-        .into_iter()
-        .map(|p| match fs::read_file(&p) {
-            Ok(bytes) => Entry::read(&p, &bytes, verify),
-            Err(error) => Entry { path: p, error, ..Default::default() },
-        })
-        .collect()
+    fs::files_in(folder, projects::is_project_file).into_iter().map(|p| Entry::load(&p, verify)).collect()
 }
 
 fn severity_icon(ui: &egui::Ui, s: Severity) -> RichText {
@@ -125,8 +119,8 @@ impl App {
             };
         });
         match action {
-            Some(Action::Open(path)) => match fs::read_file(&path).and_then(|b| archive::read_project(&b).map(|r| (r, archive::is_archive(&b)))) {
-                Ok(((prj, conv), is_archive)) => {
+            Some(Action::Open(path)) => match fs::read_file(&path).and_then(|b| io::read_project(&path, &b)) {
+                Ok((prj, conv, is_archive)) => {
                     let r = super::Replace::Project(Box::new(prj), (!is_archive).then(|| path.clone()));
                     if let Some(r) = self.discard.request(self.session.dirty(), r) {
                         self.perform(ctx, r);
@@ -338,15 +332,11 @@ impl App {
                 }
                 continue;
             }
-            let result = fs::read_file(&path).and_then(|bytes| b.apply_to_file(&bytes, &date));
-            match result {
-                Ok((c, Some(new))) => match fs::write_file(&path, &new) {
-                    Ok(()) => {
-                        log.push(tr_fmt!("{}: {} changes saved", name, c.len()));
-                        self.projects_ui.db.upsert(Entry::read(&path, &new, false));
-                    }
-                    Err(e) => log.push(format!("{name}: {e}")),
-                },
+            match b.apply_on_disk(&path, &date, true) {
+                Ok((c, Some(entry))) => {
+                    log.push(tr_fmt!("{}: {} changes saved", name, c.len()));
+                    self.projects_ui.db.upsert(entry);
+                }
                 Ok((_, None)) => log.push(tr_fmt!("{}: nothing to change", name)),
                 Err(e) => log.push(format!("{name}: {e}")),
             }
@@ -462,8 +452,8 @@ impl App {
         }
     }
 
-    pub(super) fn insert_subproject(&mut self, ctx: &egui::Context, bytes: &[u8]) {
-        let result = archive::read_project(bytes).and_then(|(sub, _)| subproject::insert(&mut self.session.prj, &sub, &fs::today()));
+    pub(super) fn insert_subproject(&mut self, ctx: &egui::Context, loaded: &io::Loaded) {
+        let result = io::read_project(&loaded.name, &loaded.bytes).and_then(|(sub, _, _)| subproject::insert(&mut self.session.prj, &sub, &fs::today()));
         match result {
             Ok(r) => {
                 self.editor.selection.clear();
@@ -574,6 +564,7 @@ impl App {
         ui.label(tr_fmt!("File format version {}. Files of older versions are converted when they are opened.", FORMAT));
         ui.separator();
         ui.label(tr("An archive (.oecz) is a ZIP file with the project, a manifest and the embedded documents and images as files of their own."));
+        ui.label(tr("A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project."));
         egui::Grid::new("archive_opts").num_columns(2).show(ui, |ui| {
             ui.label(tr("Comment"));
             ui.text_edit_singleline(&mut st.comment);

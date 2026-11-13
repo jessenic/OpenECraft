@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Bustípusú kábel minden kábel nélküli kapcsolathoz
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Azonos méretű kivágás ugyanott a szomszéd oldalfalában: együtt kábelátvezetést alkotnak
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	A mappában lévő azonos nevű fájl új verziót kap (kivétel és beadás), különben a fájl hozzáadódik
+A folder with one small file per page, device and part instead of one project file, for version control such as git	Mappa oldalanként, készülékenként és cikkenként egy kis fájllal egyetlen projektfájl helyett, verziókezeléshez, például githez
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Nagy szöveg minden oldalon keresztben, pl. TERVEZET, amíg egy revízió készül; a szövegek helyőrzőket fogadnak, üres: nincs bélyegző.
 A level on top of the highest one	Egy szint a legfelső fölé
 A local file opens locally, a server project is opened on the project server again	A helyi fájl helyben nyílik meg, a kiszolgálóprojekt újra a projektkiszolgálón nyílik meg
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	Referenciapont a létesítmény ori
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	A kimutatásblokk létrehozza egy kimutatás oldalait, pl. lécenként egy sorkapocstervet, és frissíti őket.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	Egy 3.1, 3.2, … kapcsolásirajz-oldal az aktuális oldal után, amely újraszámozáskor aloldal marad
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	Oldalmakróval rendelkező, a kapcsolási rajzon még nem szereplő tervezett készülékenként egy kapcsolásirajz-oldal (a kijelölt szegmens, különben mind)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	A felosztott projekt (.oecp) egy mappa, amely oldalanként, készülékenként, cikkenként és beágyazott fájlonként egy kis fájlt tartalmaz, verziókezeléshez, például githez: Fájl › Mentés felosztott projektként.
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	A felosztott projekt egy fájlokat tartalmazó mappa: a böngésző nem tudja megnyitni. Először alakítsa projektfájllá (.oec) vagy archívummá (.oecz).
 A template of this name is replaced.	Az ilyen nevű sablon lecserélődik.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	A sablon meghatározza egy új oldal típusát, rajzkeretét, szövegmezőjét, struktúráját és leírását, és elhelyezi a tartalmát.
 A way through free air costs this many times the way in a duct or routing path	A szabad téren át vezető út ennyiszer többe kerül, mint a csatornában vagy fektetési úton vezető
@@ -1274,6 +1277,7 @@ OpenECraft property library	OpenECraft tulajdonságkönyvtár
 OpenECraft property library (JSON)	OpenECraft tulajdonságkönyvtár (JSON)
 OpenECraft rule sets	OpenECraft-szabálykészletek
 OpenECraft rule sets (JSON)	OpenECraft-szabálykészletek (JSON)
+OpenECraft split project	Felosztott OpenECraft-projekt
 OpenECraft structure template	OpenECraft-struktúrasablon
 OpenECraft structure template (JSON)	OpenECraft-struktúrasablon (JSON)
 OpenECraft symbol library	OpenECraft szimbólumkönyvtár
@@ -1674,6 +1678,7 @@ Save as local file	Mentés helyi fájlként
 Save as macro	Mentés makróként
 Save as project template…	Mentés projektsablonként…
 Save as scheme	Mentés sémaként
+Save as split project…	Mentés felosztott projektként…
 Save as template	Mentés sablonként
 Save as template…	Mentés sablonként…
 Save asks for a file	A Mentés fájlt kér

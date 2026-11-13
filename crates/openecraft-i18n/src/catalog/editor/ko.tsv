@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	케이블이 없는 모든 연결에 버스 유형의 케이블
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	인접 외함 측벽의 같은 위치에 있는 같은 크기의 컷아웃: 함께 케이블 통로를 이룹니다
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	폴더에 같은 이름의 파일이 있으면 새 버전이 생성되고(체크 아웃 후 체크 인), 그렇지 않으면 파일이 추가됩니다
+A folder with one small file per page, device and part instead of one project file, for version control such as git	하나의 프로젝트 파일 대신 페이지, 장치 및 부품마다 작은 파일이 하나 있는 폴더, git과 같은 버전 관리용
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	모든 페이지에 걸친 큰 텍스트(예: 개정 준비 중 '초안'). 자리 표시자 사용 가능, 비어 있음 = 없음.
 A level on top of the highest one	가장 높은 층 위의 층
 A local file opens locally, a server project is opened on the project server again	로컬 파일은 로컬에서 열리고, 서버 프로젝트는 프로젝트 서버에서 다시 열립니다
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	설비 원점의 기준점
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	보고서 블록은 보고서의 페이지(예: 단자대별 단자 다이어그램 하나)를 생성하고 업데이트합니다.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	현재 페이지 다음의 회로도 페이지 3.1, 3.2, …(번호를 다시 매길 때 하위 페이지로 유지됨)
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	페이지 매크로가 있고 아직 회로도에 없는 계획된 장치마다 회로도 페이지 한 개(선택한 세그먼트, 없으면 모두)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	분할 프로젝트(.oecp)는 페이지, 장치, 부품 및 포함된 파일마다 작은 파일이 하나 있는 폴더로, git과 같은 버전 관리용입니다: 파일 › 분할 프로젝트로 저장.
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	분할 프로젝트는 파일이 들어 있는 폴더입니다. 브라우저에서는 열 수 없습니다. 먼저 프로젝트 파일(.oec) 또는 아카이브(.oecz)로 변환하세요.
 A template of this name is replaced.	이 이름의 템플릿이 교체됩니다.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	템플릿은 새 페이지의 페이지 유형, 플롯 프레임, 표제란, 구조 및 설명을 설정하고 내용을 배치합니다.
 A way through free air costs this many times the way in a duct or routing path	자유 공간을 지나는 경로의 비용이 덕트나 배선 경로를 지나는 경우의 몇 배인지
@@ -1258,6 +1261,7 @@ OpenECraft property library	OpenECraft 속성 라이브러리
 OpenECraft property library (JSON)	OpenECraft 속성 라이브러리(JSON)
 OpenECraft rule sets	OpenECraft 규칙 세트
 OpenECraft rule sets (JSON)	OpenECraft 규칙 세트(JSON)
+OpenECraft split project	OpenECraft 분할 프로젝트
 OpenECraft structure template	OpenECraft 구조 템플릿
 OpenECraft structure template (JSON)	OpenECraft 구조 템플릿(JSON)
 OpenECraft symbol library	OpenECraft 심볼 라이브러리
@@ -1653,6 +1657,7 @@ Save as local file	로컬 파일로 저장
 Save as macro	매크로로 저장
 Save as project template…	프로젝트 템플릿으로 저장…
 Save as scheme	스키마로 저장
+Save as split project…	분할 프로젝트로 저장…
 Save as template	템플릿으로 저장
 Save as template…	템플릿으로 저장…
 Save asks for a file	저장 시 파일을 선택합니다

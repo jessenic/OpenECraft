@@ -131,7 +131,7 @@ fn project_files(folder: &Path) -> Result<Vec<PathBuf>, String> {
             let path = e.path();
             if path.is_dir() {
                 dirs.push(path);
-            } else if projects::is_project_file(&path.to_string_lossy()) || folder::is_index(&path) {
+            } else if projects::is_project_file(&path.to_string_lossy()) {
                 out.push(path);
             }
         }
@@ -140,20 +140,8 @@ fn project_files(folder: &Path) -> Result<Vec<PathBuf>, String> {
     Ok(out)
 }
 
-/// Index entry of a project file, split project or archive.
-fn entry(path: &Path, verify: bool) -> Result<Entry, String> {
-    let name = path.display().to_string();
-    if !folder::is_index(path) {
-        return Ok(Entry::read(&name, &read(path)?, verify));
-    }
-    Ok(match folder::open(path) {
-        Ok((prj, conv)) => Entry { format: conv.from, ..Entry::of(&name, &prj, verify) },
-        Err(error) => Entry { path: name, error, ..Default::default() },
-    })
-}
-
 fn scan(folder: &str, verify: bool) -> Result<Vec<Entry>, String> {
-    project_files(Path::new(folder))?.iter().map(|p| entry(p, verify)).collect()
+    Ok(project_files(Path::new(folder))?.iter().map(|p| Entry::load(&p.display().to_string(), verify)).collect())
 }
 
 fn index_projects(_: &mut Session, a: &Args) -> Result<Value, String> {
@@ -214,35 +202,11 @@ fn batch_project_properties(_: &mut Session, a: &Args) -> Result<Value, String> 
     let mut out = Vec::new();
     for path in files {
         let name = path.display().to_string();
-        if folder::is_index(&path) {
-            if !query.is_empty() && !entry(&path, false)?.matches(query) {
-                continue;
-            }
-            let changed = folder::open(&path).and_then(|(mut prj, _)| Ok((b.apply(&mut prj)?, prj)));
-            match changed {
-                Ok((changes, prj)) => {
-                    let written = !dry && !changes.is_empty();
-                    if written {
-                        folder::save(&path, &prj)?;
-                    }
-                    out.push(json!({ "file": name, "changes": changes, "written": written }));
-                }
-                Err(e) => out.push(json!({ "file": name, "error": e })),
-            }
+        if !query.is_empty() && !Entry::load(&name, false).matches(query) {
             continue;
         }
-        let bytes = read(&path)?;
-        if !query.is_empty() && !Entry::read(&name, &bytes, false).matches(query) {
-            continue;
-        }
-        match b.apply_to_file(&bytes, &date) {
-            Ok((changes, new)) => {
-                let written = match new {
-                    Some(new) if !dry => write(&path, &new).map(|_| true)?,
-                    _ => false,
-                };
-                out.push(json!({ "file": name, "changes": changes, "written": written }));
-            }
+        match b.apply_on_disk(&name, &date, !dry) {
+            Ok((changes, written)) => out.push(json!({ "file": name, "changes": changes, "written": written.is_some() })),
             Err(e) => out.push(json!({ "file": name, "error": e })),
         }
     }

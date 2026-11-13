@@ -21,6 +21,7 @@ pub enum Cmd {
     Open,
     Save,
     SaveAs,
+    SaveAsSplit,
     SaveAsProjectTemplate,
     CheckInVault,
     ImportDrawing,
@@ -405,6 +406,8 @@ pub static ALL: &[Def] = &[
     d(C::Open, "open", tr_const!("Open…"), I::FolderOpen).keys("Ctrl+O"),
     d(C::Save, "save", tr_const!("Save"), I::Save).keys("Ctrl+S"),
     d(C::SaveAs, "save_as", tr_const!("Save as…"), I::SaveAs).keys("Ctrl+Shift+S"),
+    d(C::SaveAsSplit, "save_as_split", tr_const!("Save as split project…"), I::SaveAs)
+        .tip(tr_const!("A folder with one small file per page, device and part instead of one project file, for version control such as git")),
     d(C::SaveAsProjectTemplate, "save_as_project_template", tr_const!("Save as project template…"), I::Template)
         .tip(tr_const!("Saves the project without revisions, baselines, review and wiring marks as a template for new projects")),
     d(C::CheckInVault, "check_in_vault", tr_const!("Check in to Vault"), I::Upload),

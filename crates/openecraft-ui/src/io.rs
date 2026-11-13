@@ -124,6 +124,20 @@ impl<K> FileIo<K> {
         Ok(Some(suggested.to_string()))
     }
 
+    /// Asks where to save without writing anything (desktop only): for content that
+    /// is more than one file.
+    pub fn pick_save(&self, suggested: &str, filter: (&str, &str)) -> Option<String> {
+        #[cfg(not(target_arch = "wasm32"))]
+        {
+            rfd::FileDialog::new().add_filter(filter.0, &[filter.1]).set_file_name(suggested).save_file().map(|p| p.display().to_string())
+        }
+        #[cfg(target_arch = "wasm32")]
+        {
+            let _ = (suggested, filter);
+            None
+        }
+    }
+
     /// Writes to a known location (native) or downloads again (web).
     pub fn save_to(&self, path: &str, content: &str) -> Result<(), String> {
         #[cfg(not(target_arch = "wasm32"))]

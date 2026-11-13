@@ -62,6 +62,7 @@
     <binary>openecraft-project-server</binary>
     <mediatype>application/x-openecraft-project</mediatype>
     <mediatype>application/x-openecraft-archive</mediatype>
+    <mediatype>application/x-openecraft-split-project</mediatype>
   </provides>
   <branding>
     <color type="primary" scheme_preference="light">#2c72cc</color>

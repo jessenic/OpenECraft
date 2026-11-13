@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	ケーブルのない接続ごとにバスタイプのケーブルを作成
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	隣のエンクロージャーの側板の同じ位置に同じサイズの切り欠きを追加します。両方でケーブル貫通口になります
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	フォルダー内に同名のファイルがある場合は新しいバージョンになり (チェックアウトとチェックイン)、ない場合はファイルが追加されます
+A folder with one small file per page, device and part instead of one project file, for version control such as git	1 つのプロジェクトファイルの代わりに、ページ、機器、部品ごとに小さなファイルを持つフォルダー。git などのバージョン管理用
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	各ページに大きく表示する文字（例: リビジョン準備中の「ドラフト」）。プレースホルダーを使えます。空 = なし。
 A level on top of the highest one	最上階の上の階
 A local file opens locally, a server project is opened on the project server again	ローカルファイルはローカルで開き、サーバープロジェクトはプロジェクトサーバーで再度開きます
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	設備の原点にある基準点
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	レポートブロックはレポートのページ (例: 端子台ごとに 1 つの端子図) を生成し、更新します。
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	現在のページの後に作成される回路図ページ 3.1、3.2、…。再番号付け時もサブページとして維持されます
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	ページマクロを持ち、まだ回路図にない計画済みデバイスごとの回路図ページ (選択したセグメント、選択がない場合はすべて)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	分割プロジェクト（.oecp）は、ページ、機器、部品、埋め込みファイルごとに小さなファイルを持つフォルダーで、git などのバージョン管理用です: ファイル › 分割プロジェクトとして保存。
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	分割プロジェクトはファイルのフォルダーです。ブラウザーでは開けません。先にプロジェクトファイル（.oec）またはアーカイブ（.oecz）に変換してください。
 A template of this name is replaced.	この名前のテンプレートは置き換えられます。
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	テンプレートは、新しいページのページタイプ、図枠、表題欄、構造、説明を設定し、その内容を配置します。
 A way through free air costs this many times the way in a duct or routing path	空中を通る経路のコストは、ダクトまたは配線経路を通る場合のこの倍数になります
@@ -1260,6 +1263,7 @@ OpenECraft property library	OpenECraft プロパティライブラリ
 OpenECraft property library (JSON)	OpenECraft プロパティライブラリ (JSON)
 OpenECraft rule sets	OpenECraft ルールセット
 OpenECraft rule sets (JSON)	OpenECraft ルールセット (JSON)
+OpenECraft split project	OpenECraft 分割プロジェクト
 OpenECraft structure template	OpenECraft 構造テンプレート
 OpenECraft structure template (JSON)	OpenECraft 構造テンプレート (JSON)
 OpenECraft symbol library	OpenECraft シンボルライブラリ
@@ -1656,6 +1660,7 @@ Save as local file	ローカルファイルとして保存
 Save as macro	マクロとして保存
 Save as project template…	プロジェクトテンプレートとして保存…
 Save as scheme	スキームとして保存
+Save as split project…	分割プロジェクトとして保存…
 Save as template	テンプレートとして保存
 Save as template…	テンプレートとして保存…
 Save asks for a file	「保存」でファイルを選択します

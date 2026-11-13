@@ -5,7 +5,7 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.2] - unreleased
 
-- **Split projects for version control (command line).** A project can be stored as
+- **Split projects for version control.** A project can be stored as
   a folder of small files instead of one `.oec` file: the index `<name>.oecp`, one file
   per page, one per device, part, cable and other record of the project-wide data, and
   the embedded documents and images as plain files named by their hash. Every JSON
@@ -13,8 +13,13 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   it concerns and two people editing different pages do not conflict. `convert_project
   --format oec|oecp|oecz` converts between the project file, the split project and the
   archive; `--project <name>.oecp`, `open_project`, `save_project`, templates,
-  subprojects, the project index and batch changes read and write split projects. The
-  `.oec` file stays the default (#149).
+  subprojects, the project index and batch changes read and write split projects. In
+  the desktop editor *File › Save as split project…* writes one (into a folder of its
+  own when the chosen folder holds other files), *Open*, the recent files, templates,
+  the comparison, subprojects and the project database read them, *Save* rewrites only
+  the changed files, and the installers open `.oecp` files with the editor. The web
+  version cannot open folders and keeps `.oec` and `.oecz`. The `.oec` file stays the
+  default (#149).
 - **Parts server: groups, catalog permissions, directories and a dashboard.** Users
   are gathered in **groups** of the server (*Administration › Groups*, `/api/v1/groups`;
   the groups of local accounts become such groups at startup), and grants to a group

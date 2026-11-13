@@ -24,6 +24,9 @@ panel layout. Most steps below can be tried on it.
   blocks (name, customer, creator) and the default plot frame and title block.
 - The project is saved as one `.oec` file (*File › Save*, Ctrl+S). In the browser the
   project is kept in the browser storage and downloaded with *File › Download project*.
+  For version control (git) the desktop version also saves it as a split project
+  (*File › Save as split project…*): a folder with the index `<name>.oecp` and one
+  small file per page, device and part, so a change touches only the files it concerns.
 
 ## 2. Pages and structure
 

@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Un cablu de tipul magistralei pentru fiecare conexiune fără cablu
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Un decupaj de aceeași dimensiune în același loc în peretele lateral al vecinului: împreună formează o trecere de cabluri
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Un fișier cu același nume din folder primește o versiune nouă (check-out și check-in), altfel fișierul este adăugat
+A folder with one small file per page, device and part instead of one project file, for version control such as git	Un dosar cu câte un fișier mic pentru fiecare pagină, dispozitiv și articol în locul unui singur fișier de proiect, pentru controlul versiunilor precum git
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Un text mare peste fiecare pagină, de ex. CIORNĂ cât timp se pregătește o revizie; textele acceptă substituenți, gol: fără ștampilă.
 A level on top of the highest one	Un nivel deasupra celui mai înalt
 A local file opens locally, a server project is opened on the project server again	Un fișier local se deschide local, un proiect de pe server este redeschis pe serverul de proiecte
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	Un punct de referință în origine
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	Un bloc de raport generează paginile unui raport, de ex. o schemă de borne pentru fiecare șir, și le actualizează.
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	O pagină de schemă 3.1, 3.2, … după pagina curentă, păstrată ca subpagină la renumerotare
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	O pagină de schemă pentru fiecare dispozitiv planificat cu macro de pagină care nu este încă în schemă (segmentul selectat, altfel toate)
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	Un proiect divizat (.oecp) este un dosar cu câte un fișier mic pentru fiecare pagină, dispozitiv, articol și fișier încorporat, pentru controlul versiunilor precum git: Fișier › Salvare ca proiect divizat.
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	Un proiect divizat este un dosar de fișiere: browserul nu îl poate deschide. Convertiți-l mai întâi într-un fișier de proiect (.oec) sau într-o arhivă (.oecz).
 A template of this name is replaced.	Un șablon cu acest nume va fi înlocuit.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Un șablon setează tipul paginii, chenarul, cartușul, structura și descrierea unei pagini noi și îi plasează conținutul.
 A way through free air costs this many times the way in a duct or routing path	Un traseu prin aer liber costă de atâtea ori mai mult decât un traseu într-un canal sau pe o cale de pozare
@@ -1274,6 +1277,7 @@ OpenECraft property library	Bibliotecă de proprietăți OpenECraft
 OpenECraft property library (JSON)	Bibliotecă de proprietăți OpenECraft (JSON)
 OpenECraft rule sets	Seturi de reguli OpenECraft
 OpenECraft rule sets (JSON)	Seturi de reguli OpenECraft (JSON)
+OpenECraft split project	Proiect divizat OpenECraft
 OpenECraft structure template	Șablon de structură OpenECraft
 OpenECraft structure template (JSON)	Șablon de structură OpenECraft (JSON)
 OpenECraft symbol library	Bibliotecă de simboluri OpenECraft
@@ -1674,6 +1678,7 @@ Save as local file	Salvare ca fișier local
 Save as macro	Salvare ca macro
 Save as project template…	Salvare ca șablon de proiect…
 Save as scheme	Salvare ca schemă
+Save as split project…	Salvare ca proiect divizat…
 Save as template	Salvare ca șablon
 Save as template…	Salvare ca șablon…
 Save asks for a file	Salvează cere un fișier

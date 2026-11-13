@@ -33,7 +33,7 @@ A project file given on the command line is opened at start (`openecraft plant.o
 administrator rights (or for all users in Program Files), in English, German, French or
 Spanish after the Windows language. Optional: the parts manager, the command line / MCP
 server (added to the `PATH` on request), the parts and project servers, a desktop
-shortcut, and opening `.oec` / `.oecz` files by double-click. It is uninstalled in
+shortcut, and opening `.oec` / `.oecz` / `.oecp` files by double-click. It is uninstalled in
 *Settings › Apps*; projects and settings are kept. CI builds it on every push (artifact
 `openecraft-windows-installer`); locally it needs
 [Inno Setup 6](https://jrsoftware.org/isinfo.php) (`winget install JRSoftware.InnoSetup`):
@@ -57,7 +57,7 @@ unsigned and SmartScreen asks for confirmation on first run (see [releasing](rel
 `installer/linux/build.sh` builds the packages for the architecture of the build machine
 into `target/installer/`. Each contains the editor and the parts manager (with menu
 entries in English, German, French and Spanish), the command line / MCP server and the
-parts and project servers. With deb, rpm, Flatpak and tar.gz `.oec` / `.oecz` files open
+parts and project servers. With deb, rpm, Flatpak and tar.gz `.oec` / `.oecz` / `.oecp` files open
 by double-click.
 
 ```bash

@@ -18,6 +18,22 @@ pub fn is_index(path: &Path) -> bool {
     path.extension().and_then(|e| e.to_str()).is_some_and(|e| e.eq_ignore_ascii_case(INDEX_EXT))
 }
 
+/// Where a split project saved as `chosen` goes: there, if the folder is empty or
+/// holds this project already, otherwise into a new folder named like the project (a
+/// split project needs a folder of its own).
+pub fn place(chosen: &Path) -> PathBuf {
+    let mut index = chosen.to_path_buf();
+    if !is_index(chosen) {
+        index.as_mut_os_string().push(format!(".{INDEX_EXT}"));
+    }
+    let dir = folder(&index);
+    let free = index.is_file() || std::fs::read_dir(dir).map_or(true, |mut entries| entries.next().is_none());
+    match (free, index.file_stem(), index.file_name()) {
+        (false, Some(stem), Some(name)) => dir.join(stem).join(name),
+        _ => index,
+    }
+}
+
 /// Reads the project of an index file.
 pub fn open(index: &Path) -> Result<(Project, Conversion), String> {
     join(&read(index)?)

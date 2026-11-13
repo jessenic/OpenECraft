@@ -66,10 +66,11 @@ en.ComponentPartsManager=Parts manager (maintains the parts of a parts server)
 en.ComponentCli=Command line and MCP server for AI agents
 en.ComponentServers=Parts server and project server
 en.Integration=Windows integration:
-en.AssocProjects=Open OpenECraft projects (.oec, .oecz) with OpenECraft
+en.AssocProjects=Open OpenECraft projects (.oec, .oecz, .oecp) with OpenECraft
 en.AddToPath=Add OpenECraft to the PATH (command line)
 en.ProjectFile=OpenECraft project
 en.ArchiveFile=OpenECraft project archive
+en.SplitFile=OpenECraft split project
 en.PartsManager=OpenECraft parts manager
 de.TypeEditor=Editor
 de.TypeFull=Vollständige Installation
@@ -79,10 +80,11 @@ de.ComponentPartsManager=Artikelverwaltung (pflegt die Artikel eines Artikelserv
 de.ComponentCli=Kommandozeile und MCP-Server für KI-Agenten
 de.ComponentServers=Artikelserver und Projektserver
 de.Integration=Windows-Integration:
-de.AssocProjects=OpenECraft-Projekte (.oec, .oecz) mit OpenECraft öffnen
+de.AssocProjects=OpenECraft-Projekte (.oec, .oecz, .oecp) mit OpenECraft öffnen
 de.AddToPath=OpenECraft zum PATH hinzufügen (Kommandozeile)
 de.ProjectFile=OpenECraft-Projekt
 de.ArchiveFile=OpenECraft-Projektarchiv
+de.SplitFile=Geteiltes OpenECraft-Projekt
 de.PartsManager=OpenECraft-Artikelverwaltung
 fr.TypeEditor=Éditeur
 fr.TypeFull=Installation complète
@@ -92,10 +94,11 @@ fr.ComponentPartsManager=Gestionnaire d'articles (gère les articles d'un serveu
 fr.ComponentCli=Ligne de commande et serveur MCP pour les agents IA
 fr.ComponentServers=Serveur d'articles et serveur de projets
 fr.Integration=Intégration à Windows :
-fr.AssocProjects=Ouvrir les projets OpenECraft (.oec, .oecz) avec OpenECraft
+fr.AssocProjects=Ouvrir les projets OpenECraft (.oec, .oecz, .oecp) avec OpenECraft
 fr.AddToPath=Ajouter OpenECraft au PATH (ligne de commande)
 fr.ProjectFile=Projet OpenECraft
 fr.ArchiveFile=Archive de projet OpenECraft
+fr.SplitFile=Projet fractionné OpenECraft
 fr.PartsManager=Gestionnaire d'articles OpenECraft
 es.TypeEditor=Editor
 es.TypeFull=Instalación completa
@@ -105,10 +108,11 @@ es.ComponentPartsManager=Gestor de artículos (mantiene los artículos de un ser
 es.ComponentCli=Línea de comandos y servidor MCP para agentes de IA
 es.ComponentServers=Servidor de artículos y servidor de proyectos
 es.Integration=Integración con Windows:
-es.AssocProjects=Abrir los proyectos de OpenECraft (.oec, .oecz) con OpenECraft
+es.AssocProjects=Abrir los proyectos de OpenECraft (.oec, .oecz, .oecp) con OpenECraft
 es.AddToPath=Añadir OpenECraft al PATH (línea de comandos)
 es.ProjectFile=Proyecto de OpenECraft
 es.ArchiveFile=Archivo comprimido de proyecto OpenECraft
+es.SplitFile=Proyecto dividido de OpenECraft
 es.PartsManager=Gestor de artículos de OpenECraft
 
 [Types]
@@ -155,9 +159,15 @@ Root: HKA; Subkey: "Software\Classes\.oecz\OpenWithProgids"; ValueType: string; 
 Root: HKA; Subkey: "Software\Classes\OpenECraft.Archive"; ValueType: string; ValueName: ""; ValueData: "{cm:ArchiveFile}"; Flags: uninsdeletekey; Tasks: fileassoc
 Root: HKA; Subkey: "Software\Classes\OpenECraft.Archive\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\openecraft.ico"; Tasks: fileassoc
 Root: HKA; Subkey: "Software\Classes\OpenECraft.Archive\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\openecraft.exe"" ""%1"""; Tasks: fileassoc
+Root: HKA; Subkey: "Software\Classes\.oecp"; ValueType: string; ValueName: ""; ValueData: "OpenECraft.SplitProject"; Flags: uninsdeletevalue uninsdeletekeyifempty; Tasks: fileassoc
+Root: HKA; Subkey: "Software\Classes\.oecp\OpenWithProgids"; ValueType: string; ValueName: "OpenECraft.SplitProject"; ValueData: ""; Flags: uninsdeletevalue uninsdeletekeyifempty; Tasks: fileassoc
+Root: HKA; Subkey: "Software\Classes\OpenECraft.SplitProject"; ValueType: string; ValueName: ""; ValueData: "{cm:SplitFile}"; Flags: uninsdeletekey; Tasks: fileassoc
+Root: HKA; Subkey: "Software\Classes\OpenECraft.SplitProject\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\openecraft.ico"; Tasks: fileassoc
+Root: HKA; Subkey: "Software\Classes\OpenECraft.SplitProject\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\openecraft.exe"" ""%1"""; Tasks: fileassoc
 Root: HKA; Subkey: "Software\Classes\Applications\openecraft.exe"; Flags: uninsdeletekey; Components: main
 Root: HKA; Subkey: "Software\Classes\Applications\openecraft.exe\SupportedTypes"; ValueType: string; ValueName: ".oec"; ValueData: ""; Components: main
 Root: HKA; Subkey: "Software\Classes\Applications\openecraft.exe\SupportedTypes"; ValueType: string; ValueName: ".oecz"; ValueData: ""; Components: main
+Root: HKA; Subkey: "Software\Classes\Applications\openecraft.exe\SupportedTypes"; ValueType: string; ValueName: ".oecp"; ValueData: ""; Components: main
 
 [Run]
 Filename: "{app}\openecraft.exe"; Description: "{cm:LaunchProgram,OpenECraft}"; Flags: nowait postinstall skipifsilent

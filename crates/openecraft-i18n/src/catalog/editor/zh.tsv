@@ -49,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	为每个没有电缆的连接创建一根总线类型的电缆
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	在相邻机柜侧板的相同位置开一个相同大小的孔：两者共同构成电缆过孔
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	文件夹中的同名文件将获得新版本（签出后签入），否则添加该文件
+A folder with one small file per page, device and part instead of one project file, for version control such as git	一个文件夹，每个页面、设备和部件各有一个小文件，而不是单个项目文件，用于 git 等版本控制
 A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	每页上的大号文字，例如准备修订时的“草稿”；文字可含占位符，空 = 无水印。
 A level on top of the highest one	在最高楼层之上添加一层
 A local file opens locally, a server project is opened on the project server again	本地文件在本地打开，服务器项目在项目服务器上重新打开
@@ -65,6 +66,8 @@ A reference point at the origin of the plant	位于设施原点的参考点
 A report block generates the pages of a report, e.g. one terminal diagram per strip, and updates them.	报表块生成报表的页（例如每个端子排一个端子图）并更新这些页。
 A schematic page 3.1, 3.2, … after the current page, kept as sub-page when renumbering	当前页之后的原理图页 3.1、3.2 …，重新编号时保持为子页
 A schematic page per planned device with a page macro that is not in the schematic yet (selected segment, otherwise all)	为每个具有页宏且尚未在原理图中的已规划设备生成一个原理图页（所选规划段，否则全部）
+A split project (.oecp) is a folder with one small file per page, device, part and embedded file, for version control such as git: File › Save as split project.	拆分项目（.oecp）是一个文件夹，每个页面、设备、部件和嵌入文件各有一个小文件，用于 git 等版本控制：文件 › 另存为拆分项目。
+A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.	拆分项目是一个包含多个文件的文件夹：浏览器无法打开。请先将其转换为项目文件（.oec）或归档（.oecz）。
 A template of this name is replaced.	将替换同名模板。
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	模板设置新页的页类型、图框、标题栏、结构和描述，并放置其内容。
 A way through free air costs this many times the way in a duct or routing path	穿过自由空间的路径成本是线槽或布线路径中的这么多倍
@@ -1261,6 +1264,7 @@ OpenECraft property library	OpenECraft 属性库
 OpenECraft property library (JSON)	OpenECraft 属性库 (JSON)
 OpenECraft rule sets	OpenECraft 规则集
 OpenECraft rule sets (JSON)	OpenECraft 规则集 (JSON)
+OpenECraft split project	OpenECraft 拆分项目
 OpenECraft structure template	OpenECraft 结构模板
 OpenECraft structure template (JSON)	OpenECraft 结构模板 (JSON)
 OpenECraft symbol library	OpenECraft 符号库
@@ -1657,6 +1661,7 @@ Save as local file	另存为本地文件
 Save as macro	另存为宏
 Save as project template…	另存为项目模板…
 Save as scheme	另存为方案
+Save as split project…	另存为拆分项目…
 Save as template	另存为模板
 Save as template…	另存为模板…
 Save asks for a file	“保存”会询问文件
