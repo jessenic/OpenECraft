@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Pole lub właściwość,
 File content instead of a file	Zawartość pliku zamiast pliku
 File id (see the attachments of parts_get)	Identyfikator pliku (zobacz attachments w parts_get)
 File name in the vault	Nazwa pliku w magazynie Vault
+File of the common ancestor (%O of git)	Plik wspólnego przodka (%O w git)
+File of the other side (%B of git)	Plik drugiej strony (%B w git)
+File of this side, replaced by the result (%A of git)	Plik tej strony, zastępowany wynikiem (%A w git)
 File to embed	Plik do osadzenia
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Plik, w którym zapisywany jest projekt (.oec; .oecp: projekt podzielony w folderze pliku)
 File to upload	Plik do przekazania
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Plik biblioteki makr (JSON, wy
 Manufacturer (wildcards); default * (everything)	Producent (symbole wieloznaczne); domyślnie * (wszystko)
 Manufacturer whose parts a manufacturer user maintains	Producent, którego artykuły utrzymuje użytkownik-producent
 Maximum number of hits (default 50)	Maksymalna liczba wyników (domyślnie 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Scala dwie wersje pliku projektu podzielonego rekord po rekordzie (sterownik scalania git): wynik zastępuje plik tej strony; tam, gdzie obie strony się różnią, pozostają jej wartości, a polecenie kończy się błędem
 Name of a built-in template (list_structure_templates)	Nazwa wbudowanego szablonu (list_structure_templates)
 Name of the knowledge vault (default Vault)	Nazwa magazynu Vault (domyślnie Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Nowe konta czekają na zatwierdzenie przez administratora (true) lub logują się od razu (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Podaj pliki lub folder
 Password (needed for new users; empty keeps the current one)	Hasło (wymagane dla nowych użytkowników; puste zachowuje obecne)
 Password of the Vault user	Hasło użytkownika Vault
 Password of the user	Hasło użytkownika
+Path of the file in the project (%P of git): its name says how it is merged	Ścieżka pliku w projekcie (%P w git): jego nazwa określa sposób scalania
 Plot frame (list_frames); default: the project's	Ramka rysunku (list_frames); domyślnie: ramka projektu
 Product top group: Electrical, Fluid, Mechanics or Process	Główna grupa produktów: Electrical, Fluid, Mechanics lub Process
 Profile whose column mapping is used	Profil, którego mapowanie kolumn jest używane
@@ -301,3 +306,4 @@ user or group	user lub group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} jest archiwum i pozostaje bez zmian: zapisz projekt jako plik projektu (save_project --path <file>.oec) lub przekonwertuj archiwum (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} jest archiwum: podaj ścieżkę, aby zapisać projekt jako plik projektu
 {} is not a language of the project	{} nie jest językiem projektu
+{}: {} conflicts, the values of this side were kept: {}	{}: {} konfliktów, zachowano wartości tej strony: {}

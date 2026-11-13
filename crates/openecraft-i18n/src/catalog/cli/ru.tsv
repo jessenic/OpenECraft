@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Поле или свой
 File content instead of a file	Содержимое файла вместо файла
 File id (see the attachments of parts_get)	ID файла (см. attachments в parts_get)
 File name in the vault	Имя файла в хранилище
+File of the common ancestor (%O of git)	Файл общего предка (%O в git)
+File of the other side (%B of git)	Файл другой стороны (%B в git)
+File of this side, replaced by the result (%A of git)	Файл этой стороны, заменяется результатом (%A в git)
 File to embed	Файл для встраивания
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Файл, в который сохраняется проект (.oec; .oecp: разделённый проект в папке файла)
 File to upload	Выгружаемый файл
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Файл библиотеки 
 Manufacturer (wildcards); default * (everything)	Производитель (подстановочные знаки); по умолчанию * (всё)
 Manufacturer whose parts a manufacturer user maintains	Производитель, изделия которого ведёт пользователь-производитель
 Maximum number of hits (default 50)	Максимальное число результатов (по умолчанию 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Объединяет две версии файла разделённого проекта запись за записью (драйвер слияния git): результат заменяет файл этой стороны; там, где стороны различаются, остаются её значения, а команда завершается с ошибкой
 Name of a built-in template (list_structure_templates)	Имя встроенного шаблона (list_structure_templates)
 Name of the knowledge vault (default Vault)	Имя хранилища (по умолчанию Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Новые учётные записи ждут одобрения администратора (true) или входят сразу (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Укажите файлы или папку
 Password (needed for new users; empty keeps the current one)	Пароль (обязателен для новых пользователей; пусто – сохранить текущий)
 Password of the Vault user	Пароль пользователя Vault
 Password of the user	Пароль пользователя
+Path of the file in the project (%P of git): its name says how it is merged	Путь к файлу в проекте (%P в git): его имя определяет способ слияния
 Plot frame (list_frames); default: the project's	Рамка листа (list_frames); по умолчанию: рамка проекта
 Product top group: Electrical, Fluid, Mechanics or Process	Основная группа продуктов: Electrical, Fluid, Mechanics или Process
 Profile whose column mapping is used	Профиль, сопоставление столбцов которого используется
@@ -301,3 +306,4 @@ user or group	user или group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} — это архив, он не изменяется: сохраните проект как файл проекта (save_project --path <file>.oec) или преобразуйте архив (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} — это архив: укажите путь, чтобы сохранить проект как файл проекта
 {} is not a language of the project	{} не является языком проекта
+{}: {} conflicts, the values of this side were kept: {}	{}: конфликтов: {}, сохранены значения этой стороны: {}

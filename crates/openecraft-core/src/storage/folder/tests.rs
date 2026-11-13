@@ -46,6 +46,12 @@ fn projects_round_trip_through_a_folder() {
     assert!(read(&index).unwrap() == split(&prj));
     // Saving the same project changes no file.
     assert_eq!(save(&index, &back).unwrap(), 0);
+    // Git is told to leave the files as they are; a file of the user stays.
+    let attributes = dir.join("plant").join(".gitattributes");
+    assert!(std::fs::read_to_string(&attributes).unwrap().contains("*.oecp -text merge=openecraft"));
+    std::fs::write(&attributes, "# mine\n").unwrap();
+    save(&index, &back).unwrap();
+    assert_eq!(std::fs::read_to_string(&attributes).unwrap(), "# mine\n");
     assert!(!stored(&dir.join("plant")).unwrap().iter().any(|(name, _)| name.ends_with(TMP)));
 }
 

@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Kenttä tai ominaisuus, 
 File content instead of a file	Tiedoston sisältö tiedoston sijaan
 File id (see the attachments of parts_get)	Tiedoston ID (katso parts_get-komennon attachments)
 File name in the vault	Tiedostonimi Vaultissa
+File of the common ancestor (%O of git)	Yhteisen edeltäjän tiedosto (gitin %O)
+File of the other side (%B of git)	Toisen puolen tiedosto (gitin %B)
+File of this side, replaced by the result (%A of git)	Tämän puolen tiedosto, korvataan tuloksella (gitin %A)
 File to embed	Upotettava tiedosto
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Tiedosto, johon projekti tallennetaan (.oec; .oecp: jaettu projekti tiedoston kansiossa)
 File to upload	Palvelimelle ladattava tiedosto
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Makrokirjastotiedosto (JSON, e
 Manufacturer (wildcards); default * (everything)	Valmistaja (yleismerkit); oletus * (kaikki)
 Manufacturer whose parts a manufacturer user maintains	Valmistaja, jonka osia valmistajakäyttäjä ylläpitää
 Maximum number of hits (default 50)	Osumien enimmäismäärä (oletus 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Yhdistää jaetun projektin tiedoston kaksi versiota tietue kerrallaan (gitin yhdistämisajuri): tulos korvaa tämän puolen tiedoston; missä puolet eroavat, sen arvot säilyvät ja komento epäonnistuu
 Name of a built-in template (list_structure_templates)	Sisäisen mallin nimi (list_structure_templates)
 Name of the knowledge vault (default Vault)	Vaultin nimi (oletus Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Uudet tilit odottavat järjestelmänvalvojan hyväksyntää (true) tai kirjautuvat heti (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Anna tiedostot tai kansio
 Password (needed for new users; empty keeps the current one)	Salasana (pakollinen uusille käyttäjille; tyhjä säilyttää nykyisen)
 Password of the Vault user	Vault-käyttäjän salasana
 Password of the user	Käyttäjän salasana
+Path of the file in the project (%P of git): its name says how it is merged	Tiedoston polku projektissa (gitin %P): sen nimi määrää, miten se yhdistetään
 Plot frame (list_frames); default: the project's	Piirustuskehys (list_frames); oletus: projektin kehys
 Product top group: Electrical, Fluid, Mechanics or Process	Tuotteen pääryhmä: Electrical, Fluid, Mechanics tai Process
 Profile whose column mapping is used	Profiili, jonka sarakemääritystä käytetään
@@ -301,3 +306,4 @@ user or group	user tai group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} on arkisto eikä muutu: tallenna projekti projektitiedostona (save_project --path <file>.oec) tai muunna arkisto (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} on arkisto: anna polku tallentaaksesi projektin projektitiedostona
 {} is not a language of the project	{} ei ole projektin kieli
+{}: {} conflicts, the values of this side were kept: {}	{}: {} ristiriitaa, tämän puolen arvot säilytettiin: {}

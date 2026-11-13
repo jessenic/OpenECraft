@@ -17,6 +17,7 @@
 //! the JSON, so every project can be stored.
 
 pub mod folder;
+pub mod merge;
 
 use crate::archive::{self, Conversion};
 use crate::document::{base64_encode, Document};

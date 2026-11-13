@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Felt eller egenskab, hvi
 File content instead of a file	Filindhold i stedet for en fil
 File id (see the attachments of parts_get)	Fil-id (se attachments i parts_get)
 File name in the vault	Filnavn i vaulten
+File of the common ancestor (%O of git)	Den fælles forfaders fil (%O i git)
+File of the other side (%B of git)	Den anden sides fil (%B i git)
+File of this side, replaced by the result (%A of git)	Denne sides fil, erstattes af resultatet (%A i git)
 File to embed	Fil, der skal integreres
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Fil, som projektet gemmes i (.oec; .oecp: et opdelt projekt i filens mappe)
 File to upload	Fil, der skal uploades
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Makrobiblioteksfil (JSON, eksp
 Manufacturer (wildcards); default * (everything)	Producent (jokertegn); standard * (alt)
 Manufacturer whose parts a manufacturer user maintains	Producent, hvis artikler en producentbruger vedligeholder
 Maximum number of hits (default 50)	Maksimalt antal resultater (standard 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Fletter to versioner af en fil i et opdelt projekt post for post (gits flettedriver): resultatet erstatter denne sides fil; hvor siderne er forskellige, bevares dens værdier, og kommandoen mislykkes
 Name of a built-in template (list_structure_templates)	Navn på en indbygget skabelon (list_structure_templates)
 Name of the knowledge vault (default Vault)	Navnet på vaulten (standard Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Nye konti venter på godkendelse af en administrator (true) eller logger på med det samme (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Angiv filer eller en mappe
 Password (needed for new users; empty keeps the current one)	Adgangskode (påkrævet for nye brugere; tom bevarer den nuværende)
 Password of the Vault user	Vault-brugerens adgangskode
 Password of the user	Brugerens adgangskode
+Path of the file in the project (%P of git): its name says how it is merged	Filens sti i projektet (%P i git): navnet afgør, hvordan den flettes
 Plot frame (list_frames); default: the project's	Plotramme (list_frames); standard: projektets
 Product top group: Electrical, Fluid, Mechanics or Process	Produkthovedgruppe: Electrical, Fluid, Mechanics eller Process
 Profile whose column mapping is used	Profil, hvis kolonnetilknytning bruges
@@ -301,3 +306,4 @@ user or group	user eller group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} er et arkiv og forbliver uændret: gem projektet som projektfil (save_project --path <file>.oec), eller konvertér arkivet (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} er et arkiv: angiv en sti for at gemme projektet som projektfil
 {} is not a language of the project	{} er ikke et sprog i projektet
+{}: {} conflicts, the values of this side were kept: {}	{}: {} konflikter, denne sides værdier blev bevaret: {}

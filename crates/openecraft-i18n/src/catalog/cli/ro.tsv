@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Câmpul sau proprietatea
 File content instead of a file	Conținutul fișierului în locul unui fișier
 File id (see the attachments of parts_get)	ID fișier (vezi attachments din parts_get)
 File name in the vault	Numele fișierului în vault
+File of the common ancestor (%O of git)	Fișierul strămoșului comun (%O din git)
+File of the other side (%B of git)	Fișierul celeilalte părți (%B din git)
+File of this side, replaced by the result (%A of git)	Fișierul acestei părți, înlocuit de rezultat (%A din git)
 File to embed	Fișier de încorporat
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Fișierul în care se salvează proiectul (.oec; .oecp: un proiect divizat în dosarul fișierului)
 File to upload	Fișierul de încărcat
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Fișier de bibliotecă de macr
 Manufacturer (wildcards); default * (everything)	Producător (metacaractere); implicit * (tot)
 Manufacturer whose parts a manufacturer user maintains	Producătorul ale cărui articole sunt întreținute de un utilizator producător
 Maximum number of hits (default 50)	Număr maxim de rezultate (implicit 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Îmbină două versiuni ale unui fișier dintr-un proiect divizat înregistrare cu înregistrare (driverul de îmbinare git): rezultatul înlocuiește fișierul acestei părți; acolo unde părțile diferă, valorile ei rămân și comanda eșuează
 Name of a built-in template (list_structure_templates)	Numele unui șablon integrat (list_structure_templates)
 Name of the knowledge vault (default Vault)	Numele seifului de cunoștințe (implicit Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Conturile noi așteaptă aprobarea unui administrator (true) sau se conectează imediat (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Indicați fișiere sau un folder
 Password (needed for new users; empty keeps the current one)	Parolă (necesară pentru utilizatorii noi; goală păstrează parola actuală)
 Password of the Vault user	Parola utilizatorului Vault
 Password of the user	Parola utilizatorului
+Path of the file in the project (%P of git): its name says how it is merged	Calea fișierului în proiect (%P din git): numele lui arată cum este îmbinat
 Plot frame (list_frames); default: the project's	Chenar (list_frames); implicit: cel al proiectului
 Product top group: Electrical, Fluid, Mechanics or Process	Grupă principală de produse: Electrical, Fluid, Mechanics sau Process
 Profile whose column mapping is used	Profilul a cărui mapare a coloanelor este folosită
@@ -301,3 +306,4 @@ user or group	user sau group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} este o arhivă și rămâne neschimbată: salvați proiectul ca fișier de proiect (save_project --path <file>.oec) sau convertiți arhiva (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} este o arhivă: indicați o cale pentru a salva proiectul ca fișier de proiect
 {} is not a language of the project	{} nu este o limbă a proiectului
+{}: {} conflicts, the values of this side were kept: {}	{}: {} conflicte, valorile acestei părți au fost păstrate: {}

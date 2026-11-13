@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Mező vagy tulajdonság,
 File content instead of a file	Fájltartalom fájl helyett
 File id (see the attachments of parts_get)	Fájlazonosító (lásd a parts_get attachments mezőjét)
 File name in the vault	Fájlnév a vaultban
+File of the common ancestor (%O of git)	A közös ős fájlja (git %O)
+File of the other side (%B of git)	A másik oldal fájlja (git %B)
+File of this side, replaced by the result (%A of git)	Ennek az oldalnak a fájlja, az eredmény váltja fel (git %A)
 File to embed	Beágyazandó fájl
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	A fájl, amelybe a projekt mentésre kerül (.oec; .oecp: felosztott projekt a fájl mappájában)
 File to upload	Feltöltendő fájl
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Makrókönyvtár-fájl (JSON, 
 Manufacturer (wildcards); default * (everything)	Gyártó (helyettesítő karakterek); alapértelmezés: * (minden)
 Manufacturer whose parts a manufacturer user maintains	Gyártó, amelynek alkatrészeit egy gyártói felhasználó kezeli
 Maximum number of hits (default 50)	Találatok maximális száma (alapértelmezés: 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Egy felosztott projekt fájljának két verzióját egyesíti rekordonként (a git egyesítő illesztője): az eredmény felváltja ennek az oldalnak a fájlját; ahol a két oldal eltér, annak értékei megmaradnak, és a parancs meghiúsul
 Name of a built-in template (list_structure_templates)	Egy beépített sablon neve (list_structure_templates)
 Name of the knowledge vault (default Vault)	A vault neve (alapértelmezés: Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Az új fiókok rendszergazdai jóváhagyásra várnak (true), vagy azonnal bejelentkeznek (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Adjon meg fájlokat vagy egy mappát
 Password (needed for new users; empty keeps the current one)	Jelszó (új felhasználóknál kötelező; üresen hagyva a jelenlegi marad)
 Password of the Vault user	A Vault-felhasználó jelszava
 Password of the user	A felhasználó jelszava
+Path of the file in the project (%P of git): its name says how it is merged	A fájl útvonala a projektben (git %P): a neve határozza meg az egyesítés módját
 Plot frame (list_frames); default: the project's	Rajzkeret (list_frames); alapértelmezés: a projekté
 Product top group: Electrical, Fluid, Mechanics or Process	Termék-főcsoport: Electrical, Fluid, Mechanics vagy Process
 Profile whose column mapping is used	Profil, amelynek oszlop-hozzárendelése használatos
@@ -301,3 +306,4 @@ user or group	user vagy group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	A(z) {} archívum, és nem változik: mentse a projektet projektfájlként (save_project --path <file>.oec), vagy alakítsa át az archívumot (convert_project)
 {} is an archive: pass a path to save the project as a project file	A(z) {} archívum: adjon meg egy elérési utat a projekt projektfájlként való mentéséhez
 {} is not a language of the project	{} nem a projekt nyelve
+{}: {} conflicts, the values of this side were kept: {}	{}: {} ütközés, ennek az oldalnak az értékei megmaradtak: {}

@@ -5,7 +5,7 @@ use super::{optional, param, Args, Kind, Tool};
 use crate::session::Session;
 use openecraft_core::archive::{self, ArchiveOptions, ARCHIVE_EXT};
 use openecraft_core::projects::{self, Batch, Database, Entry};
-use openecraft_core::storage::{folder, INDEX_EXT};
+use openecraft_core::storage::{folder, merge, INDEX_EXT};
 use openecraft_core::subproject;
 use openecraft_i18n::{tr, tr_const, tr_fmt};
 use serde_json::{json, Value};
@@ -82,6 +82,18 @@ pub static TOOLS: &[Tool] = &[
         ],
         needs_project: false,
         run: convert_project,
+    },
+    Tool {
+        name: "merge_project_file",
+        help: tr_const!("Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails"),
+        params: &[
+            param("base", Kind::Str, tr_const!("File of the common ancestor (%O of git)")),
+            param("ours", Kind::Str, tr_const!("File of this side, replaced by the result (%A of git)")),
+            param("theirs", Kind::Str, tr_const!("File of the other side (%B of git)")),
+            param("name", Kind::Str, tr_const!("Path of the file in the project (%P of git): its name says how it is merged")),
+        ],
+        needs_project: false,
+        run: merge_project_file,
     },
     Tool {
         name: "extract_subproject",
@@ -256,6 +268,17 @@ fn convert_project(_: &mut Session, a: &Args) -> Result<Value, String> {
         _ => write(&output, prj.to_json().as_bytes())?,
     }
     Ok(json!({ "from": conv.from, "to": prj.format, "steps": conv.steps, "newer": conv.newer(), "output": output.display().to_string() }))
+}
+
+fn merge_project_file(_: &mut Session, a: &Args) -> Result<Value, String> {
+    let (ours, name) = (Path::new(a.req("ours")), a.req("name"));
+    let merged = merge::merge_file(name, &read(Path::new(a.req("base")))?, &read(ours)?, &read(Path::new(a.req("theirs")))?)?;
+    write(ours, &merged.content)?;
+    if merged.conflicts.is_empty() {
+        Ok(json!({ "file": name, "conflicts": [] }))
+    } else {
+        Err(tr_fmt!("{}: {} conflicts, the values of this side were kept: {}", name, merged.conflicts.len(), merged.conflicts.join(", ")))
+    }
 }
 
 fn extract_subproject(s: &mut Session, a: &Args) -> Result<Value, String> {

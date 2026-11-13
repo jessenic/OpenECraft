@@ -25,8 +25,12 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   of OpenECraft before this one cannot read the new archives. The **project server
   stores its projects as split projects** (`<name>/<name>.oecp` in the data
   directory) and writes only the files a save changed; project files of earlier
-  versions are converted at the first start and kept as `<name>.oec.bak`. The `.oec`
-  file stays the default (#149).
+  versions are converted at the first start and kept as `<name>.oec.bak`. For **git**,
+  saving writes a `.gitattributes` that keeps the files unconverted, and the merge
+  driver `merge_project_file` merges the JSON files record by record (fields of a
+  record, records by their id, the order of pages and records, the id counter);
+  `check_project_data --repair` renumbers ids two branches gave twice
+  (`docs/command-line.md`). The `.oec` file stays the default (#149).
 - **Parts server: groups, catalog permissions, directories and a dashboard.** Users
   are gathered in **groups** of the server (*Administration › Groups*, `/api/v1/groups`;
   the groups of local accounts become such groups at startup), and grants to a group

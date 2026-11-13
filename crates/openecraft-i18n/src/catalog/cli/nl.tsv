@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Veld of eigenschap waarv
 File content instead of a file	Bestandsinhoud in plaats van een bestand
 File id (see the attachments of parts_get)	Bestands-ID (zie de attachments van parts_get)
 File name in the vault	Bestandsnaam in de vault
+File of the common ancestor (%O of git)	Bestand van de gemeenschappelijke voorouder (%O van git)
+File of the other side (%B of git)	Bestand van de andere kant (%B van git)
+File of this side, replaced by the result (%A of git)	Bestand van deze kant, vervangen door het resultaat (%A van git)
 File to embed	In te sluiten bestand
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Bestand waarin het project wordt opgeslagen (.oec; .oecp: een gesplitst project in de map van het bestand)
 File to upload	Te uploaden bestand
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Macrobibliotheekbestand (JSON,
 Manufacturer (wildcards); default * (everything)	Fabrikant (jokertekens); standaard * (alles)
 Manufacturer whose parts a manufacturer user maintains	Fabrikant waarvan een fabrikantgebruiker de artikelen onderhoudt
 Maximum number of hits (default 50)	Maximaal aantal resultaten (standaard 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Voegt twee versies van een bestand van een gesplitst project record voor record samen (het merge-stuurprogramma van git): het resultaat vervangt het bestand van deze kant; waar beide kanten verschillen, blijven de waarden ervan staan en mislukt de opdracht
 Name of a built-in template (list_structure_templates)	Naam van een ingebouwde sjabloon (list_structure_templates)
 Name of the knowledge vault (default Vault)	Naam van de knowledge vault (standaard Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Nieuwe accounts wachten op goedkeuring door een beheerder (true) of melden zich meteen aan (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Geef bestanden of een map op
 Password (needed for new users; empty keeps the current one)	Wachtwoord (vereist voor nieuwe gebruikers; leeg behoudt het huidige)
 Password of the Vault user	Wachtwoord van de Vault-gebruiker
 Password of the user	Wachtwoord van de gebruiker
+Path of the file in the project (%P of git): its name says how it is merged	Pad van het bestand in het project (%P van git): de naam bepaalt hoe het wordt samengevoegd
 Plot frame (list_frames); default: the project's	Plotkader (list_frames); standaard: dat van het project
 Product top group: Electrical, Fluid, Mechanics or Process	Producthoofdgroep: Electrical, Fluid, Mechanics of Process
 Profile whose column mapping is used	Profiel waarvan de kolomtoewijzing wordt gebruikt
@@ -301,3 +306,4 @@ user or group	user of group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} is een archief en blijft ongewijzigd: sla het project op als projectbestand (save_project --path <file>.oec) of converteer het archief (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} is een archief: geef een pad op om het project als projectbestand op te slaan
 {} is not a language of the project	{} is geen taal van het project
+{}: {} conflicts, the values of this side were kept: {}	{}: {} conflicten, de waarden van deze kant zijn behouden: {}

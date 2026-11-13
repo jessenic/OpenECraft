@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Fält eller egenskap var
 File content instead of a file	Filinnehåll i stället för en fil
 File id (see the attachments of parts_get)	Fil-ID (se attachments i parts_get)
 File name in the vault	Filnamn i valvet
+File of the common ancestor (%O of git)	Den gemensamma förfaderns fil (%O i git)
+File of the other side (%B of git)	Den andra sidans fil (%B i git)
+File of this side, replaced by the result (%A of git)	Den här sidans fil, ersätts av resultatet (%A i git)
 File to embed	Fil att bädda in
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Fil som projektet sparas i (.oec; .oecp: ett delat projekt i filens mapp)
 File to upload	Fil som ska laddas upp
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Makrobiblioteksfil (JSON, expo
 Manufacturer (wildcards); default * (everything)	Tillverkare (jokertecken); standard * (allt)
 Manufacturer whose parts a manufacturer user maintains	Tillverkare vars artiklar en tillverkaranvändare underhåller
 Maximum number of hits (default 50)	Maximalt antal träffar (standard 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Slår ihop två versioner av en fil i ett delat projekt post för post (gits sammanslagningsdrivrutin): resultatet ersätter den här sidans fil; där sidorna skiljer sig behålls dess värden och kommandot misslyckas
 Name of a built-in template (list_structure_templates)	Namn på en inbyggd mall (list_structure_templates)
 Name of the knowledge vault (default Vault)	Namn på kunskapsvalvet (standard Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Nya konton väntar på godkännande av en administratör (true) eller loggar in direkt (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Ange filer eller en mapp
 Password (needed for new users; empty keeps the current one)	Lösenord (krävs för nya användare; tomt behåller det nuvarande)
 Password of the Vault user	Vault-användarens lösenord
 Password of the user	Användarens lösenord
+Path of the file in the project (%P of git): its name says how it is merged	Filens sökväg i projektet (%P i git): namnet avgör hur den slås ihop
 Plot frame (list_frames); default: the project's	Ritningsram (list_frames); standard: projektets
 Product top group: Electrical, Fluid, Mechanics or Process	Produkthuvudgrupp: Electrical, Fluid, Mechanics eller Process
 Profile whose column mapping is used	Profil vars kolumnmappning används
@@ -301,3 +306,4 @@ user or group	user eller group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} är ett arkiv och lämnas oförändrat: spara projektet som projektfil (save_project --path <file>.oec) eller konvertera arkivet (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} är ett arkiv: ange en sökväg för att spara projektet som projektfil
 {} is not a language of the project	{} är inte ett språk i projektet
+{}: {} conflicts, the values of this side were kept: {}	{}: {} konflikter, den här sidans värden behölls: {}

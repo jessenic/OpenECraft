@@ -126,6 +126,34 @@ fn projects_are_converted_between_file_split_folder_and_archive() {
 }
 
 #[test]
+fn files_of_a_split_project_are_merged_for_git() {
+    let dir = temp_dir("mgmt-merge");
+    let file = |name: &str, content: &str| {
+        let path = dir.join(name);
+        std::fs::write(&path, content).unwrap();
+        path.display().to_string()
+    };
+    let mut s = session();
+    let base = file("base", r#"{"id":1,"name":"1","symbols":[{"id":2,"tag":"-K1"}]}"#);
+    let ours = file("ours", r#"{"id":1,"name":"2","symbols":[{"id":2,"tag":"-K1"}]}"#);
+    let theirs = file("theirs", r#"{"id":1,"name":"1","symbols":[{"id":2,"tag":"-Q1"}]}"#);
+    let out = run(&mut s, "merge_project_file", json!({ "base": base, "ours": ours, "theirs": theirs, "name": "pages/1.json" })).unwrap();
+    assert_eq!(out["conflicts"], json!([]));
+    assert_eq!(std::fs::read_to_string(&ours).unwrap(), "{\"id\":1,\"name\":\"2\",\"symbols\":[{\"id\":2,\"tag\":\"-Q1\"}]}\n");
+
+    // A conflict fails the command (git then marks the file); the file keeps our value.
+    let theirs = file("theirs", r#"{"id":1,"name":"3","symbols":[{"id":2,"tag":"-Q1"}]}"#);
+    let err = run(&mut s, "merge_project_file", json!({ "base": base, "ours": ours, "theirs": theirs, "name": "pages/1.json" })).unwrap_err();
+    assert!(err.contains("pages/1.json") && err.contains("name"), "{err}");
+    assert!(std::fs::read_to_string(&ours).unwrap().contains("\"name\":\"2\""));
+
+    // The name of the file says what it is: the id counter takes the larger value.
+    let (base, ours, theirs) = (file("base", "10\n"), file("ours", "15\n"), file("theirs", "12\n"));
+    run(&mut s, "merge_project_file", json!({ "base": base, "ours": ours, "theirs": theirs, "name": "data/next_id.json" })).unwrap();
+    assert_eq!(std::fs::read_to_string(&ours).unwrap(), "15\n");
+}
+
+#[test]
 fn subprojects_are_extracted_and_inserted() {
     let dir = temp_dir("mgmt-sub");
     let mut s = demo_session();

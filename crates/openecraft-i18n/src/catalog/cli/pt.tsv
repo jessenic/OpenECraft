@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Campo ou propriedade cuj
 File content instead of a file	Conteúdo do arquivo em vez de um arquivo
 File id (see the attachments of parts_get)	ID do arquivo (consulte os attachments de parts_get)
 File name in the vault	Nome do arquivo no vault
+File of the common ancestor (%O of git)	Arquivo do ancestral comum (%O do git)
+File of the other side (%B of git)	Arquivo do outro lado (%B do git)
+File of this side, replaced by the result (%A of git)	Arquivo deste lado, substituído pelo resultado (%A do git)
 File to embed	Arquivo a incorporar
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Arquivo em que o projeto é salvo (.oec; .oecp: um projeto dividido na pasta do arquivo)
 File to upload	Arquivo a enviar
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Arquivo de biblioteca de macro
 Manufacturer (wildcards); default * (everything)	Fabricante (curingas); padrão * (tudo)
 Manufacturer whose parts a manufacturer user maintains	Fabricante cujas peças um usuário fabricante mantém
 Maximum number of hits (default 50)	Número máximo de resultados (padrão 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Mescla duas versões de um arquivo de um projeto dividido registro por registro (o driver de mesclagem do git): o resultado substitui o arquivo deste lado; onde os dois lados diferem, seus valores permanecem e o comando falha
 Name of a built-in template (list_structure_templates)	Nome de um modelo integrado (list_structure_templates)
 Name of the knowledge vault (default Vault)	Nome do vault (padrão Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Novas contas aguardam a aprovação de um administrador (true) ou entram na hora (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Informe arquivos ou uma pasta
 Password (needed for new users; empty keeps the current one)	Senha (necessária para novos usuários; vazio mantém a atual)
 Password of the Vault user	Senha do usuário do Vault
 Password of the user	Senha do usuário
+Path of the file in the project (%P of git): its name says how it is merged	Caminho do arquivo no projeto (%P do git): seu nome indica como ele é mesclado
 Plot frame (list_frames); default: the project's	Moldura de plotagem (list_frames); padrão: a do projeto
 Product top group: Electrical, Fluid, Mechanics or Process	Grupo principal de produtos: Electrical, Fluid, Mechanics ou Process
 Profile whose column mapping is used	Perfil cujo mapeamento de colunas é usado
@@ -301,3 +306,4 @@ user or group	user ou group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} é um arquivo compactado e permanece inalterado: salve o projeto como arquivo de projeto (save_project --path <file>.oec) ou converta o arquivo (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} é um arquivo compactado: informe um caminho para salvar o projeto como arquivo de projeto
 {} is not a language of the project	{} não é um idioma do projeto
+{}: {} conflicts, the values of this side were kept: {}	{}: {} conflitos, os valores deste lado foram mantidos: {}

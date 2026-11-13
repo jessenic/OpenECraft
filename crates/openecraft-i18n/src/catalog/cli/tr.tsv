@@ -70,6 +70,9 @@ Field or property whose value is searched ('*' for all)	Değeri aranan alan veya
 File content instead of a file	Dosya yerine dosya içeriği
 File id (see the attachments of parts_get)	Dosya kimliği (parts_get attachments öğelerine bakın)
 File name in the vault	Kasadaki dosya adı
+File of the common ancestor (%O of git)	Ortak atanın dosyası (git %O)
+File of the other side (%B of git)	Diğer tarafın dosyası (git %B)
+File of this side, replaced by the result (%A of git)	Bu tarafın dosyası, sonuçla değiştirilir (git %A)
 File to embed	Gömülecek dosya
 File to save the project to (.oec; .oecp: a split project in the folder of the file)	Projenin kaydedileceği dosya (.oec; .oecp: dosyanın klasöründe bölünmüş bir proje)
 File to upload	Karşıya yüklenecek dosya
@@ -132,6 +135,7 @@ Macro library file (JSON, exported by the editor)	Makro kütüphanesi dosyası (
 Manufacturer (wildcards); default * (everything)	Üretici (joker karakterler); varsayılan * (tümü)
 Manufacturer whose parts a manufacturer user maintains	Üretici kullanıcısının parçalarını yönettiği üretici
 Maximum number of hits (default 50)	En fazla isabet sayısı (varsayılan 50)
+Merges two versions of a file of a split project record by record (the merge driver of git): the result replaces the file of this side; where both sides differ its values stay and the command fails	Bölünmüş bir projenin bir dosyasının iki sürümünü kayıt kayıt birleştirir (git birleştirme sürücüsü): sonuç bu tarafın dosyasının yerini alır; iki tarafın farklı olduğu yerde bu tarafın değerleri kalır ve komut başarısız olur
 Name of a built-in template (list_structure_templates)	Yerleşik bir şablonun adı (list_structure_templates)
 Name of the knowledge vault (default Vault)	Bilgi kasasının adı (varsayılan Vault)
 New accounts wait for the approval of an administrator (true) or sign in at once (false)	Yeni hesaplar bir yöneticinin onayını bekler (true) veya hemen oturum açar (false)
@@ -177,6 +181,7 @@ Pass files or a folder	Dosyalar veya bir klasör belirtin
 Password (needed for new users; empty keeps the current one)	Parola (yeni kullanıcılar için gerekli; boş bırakılırsa mevcut parola korunur)
 Password of the Vault user	Vault kullanıcısının parolası
 Password of the user	Kullanıcının parolası
+Path of the file in the project (%P of git): its name says how it is merged	Dosyanın projedeki yolu (git %P): adı nasıl birleştirileceğini belirler
 Plot frame (list_frames); default: the project's	Çizim çerçevesi (list_frames); varsayılan: projeninki
 Product top group: Electrical, Fluid, Mechanics or Process	Ürün ana grubu: Electrical, Fluid, Mechanics veya Process
 Profile whose column mapping is used	Sütun eşlemesi kullanılan profil
@@ -301,3 +306,4 @@ user or group	user veya group
 {} is an archive and stays unchanged: save the project as a project file (save_project --path <file>.oec) or convert the archive (convert_project)	{} bir arşiv ve değişmeden kalır: projeyi proje dosyası olarak kaydedin (save_project --path <file>.oec) veya arşivi dönüştürün (convert_project)
 {} is an archive: pass a path to save the project as a project file	{} bir arşiv: projeyi proje dosyası olarak kaydetmek için bir yol belirtin
 {} is not a language of the project	{} projenin bir dili değil
+{}: {} conflicts, the values of this side were kept: {}	{}: {} çakışma, bu tarafın değerleri korundu: {}

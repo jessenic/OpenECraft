@@ -1,7 +1,8 @@
 //! The split format on disk: a project folder with the index file (`<name>.oecp`)
 //! and the folders `pages`, `data` and `files` next to it. Saving writes only the
 //! files that changed (a temporary file first, the index last) and removes the files
-//! of deleted pages and records; other files of the folder are left alone.
+//! of deleted pages and records; other files of the folder are left alone. A folder
+//! without a `.gitattributes` gets one, so that git leaves the files as they are.
 
 use super::{join, split, Files, INDEX, INDEX_EXT};
 use crate::archive::Conversion;
@@ -12,6 +13,11 @@ use std::path::{Path, PathBuf};
 /// Folders of the format next to the index.
 const FOLDERS: [&str; 3] = ["pages", "data", "files"];
 const TMP: &str = ".tmp";
+/// Written into a project folder that has none: git must not convert line ends (a
+/// saved project would differ from its files, embedded files would be damaged) and
+/// merges the JSON files with the merge driver, once it is set up (`merge`).
+const ATTRIBUTES_FILE: &str = ".gitattributes";
+const ATTRIBUTES: &str = "# OpenECraft split project: no conversion of line ends, merged record by record\n# (git config merge.openecraft.driver, see docs/command-line.md).\n*.oecp -text merge=openecraft\npages/*.json -text merge=openecraft\ndata/**/*.json -text merge=openecraft\nfiles/** binary\n";
 
 /// The path names the index of a split project.
 pub fn is_index(path: &Path) -> bool {
@@ -95,6 +101,10 @@ pub fn write(index: &Path, files: &Files) -> Result<usize, String> {
     }
     if let Some(content) = files.get(INDEX) {
         changed += usize::from(put(index, content, false)?);
+    }
+    let attributes = dir.join(ATTRIBUTES_FILE);
+    if !attributes.exists() {
+        std::fs::write(&attributes, ATTRIBUTES).map_err(|e| cannot_write(&attributes, &e))?;
     }
     Ok(changed)
 }

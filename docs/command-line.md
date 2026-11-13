@@ -42,6 +42,23 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   files it concerns. Every file is one line of JSON and depends only on the content of
   the project, so saving an unchanged project changes nothing. A split project needs a
   folder of its own; other files in it (a README, `.gitattributes`) are left alone.
+- **Git** needs two things for a split project. The `.gitattributes` that saving writes
+  into the folder (unless there is one) keeps git from converting line ends, which
+  would change every file and damage the embedded ones. And the merge driver merges
+  the JSON files record by record, so that changes to different symbols of a page, or
+  to different fields of one, do not conflict; set it up once per clone:
+
+  ```bash
+  git config merge.openecraft.name "OpenECraft split project"
+  git config merge.openecraft.driver "openecraft-cli merge_project_file --base %O --ours %A --theirs %B --name %P"
+  ```
+
+  Where both sides changed the same value, the file keeps the value of the current
+  branch, the command names the places and git marks the file as conflicted: open the
+  project, set what is right and `git add` the file. Object ids are not coordinated
+  between branches, so two branches that each added an object can give it the same
+  id; after a merge run `openecraft-cli -p plant/plant.oecp check_project_data` and,
+  if it reports ids used more than once, again with `--repair`.
 - Parameters are `--name value` (also `--name=value`, or all at once with `--json '{…}'`);
   lists as `--ids 3,4` and points as `--points "0,0 40,0"`; lists of codes, tags or
   languages are separated by commas or blanks. Values outside their range are refused
