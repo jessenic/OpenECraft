@@ -63,7 +63,7 @@ fn projects_are_archived_converted_and_verified() {
 
     let path = dir.join("demo.oecz").display().to_string();
     let out = run(&mut s, "archive_project", json!({ "path": path, "comment": "Handover", "compact": true })).unwrap();
-    assert_eq!(out["files"][0], "project.oec");
+    assert_eq!(out["files"][0], "project.oecp");
     let info = run(&mut s, "archive_info", json!({ "path": path })).unwrap();
     assert_eq!((info["name"].as_str(), info["comment"].as_str()), (Some("Demo conveyor"), Some("Handover")));
     let opened = run(&mut s, "open_project", json!({ "path": path, "discard": true })).unwrap();

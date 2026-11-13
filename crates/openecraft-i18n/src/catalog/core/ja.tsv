@@ -1572,6 +1572,7 @@ The archive contains no project	アーカイブにプロジェクトが含まれ
 The archive has no manifest	アーカイブにマニフェストがありません
 The archive is damaged	アーカイブが破損しています
 The archive unpacks to more than {} MB	アーカイブの展開後のサイズが {} MB を超えます
+The archive was written by a newer version (archive version {})	このアーカイブは新しいバージョンで書き込まれています（アーカイブのバージョン {}）
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	アセンブリの製造者を明記する必要があります (IEC 61439-1、6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	部屋に設置した列盤：L 字形の平面図、内壁、扉とウィンドウ、所定の位置の列盤、壁のコンセント付きレール、壁付けの非常灯、天井下のケーブルラック。
 The configuration is not a JSON object	構成が JSON オブジェクトではありません

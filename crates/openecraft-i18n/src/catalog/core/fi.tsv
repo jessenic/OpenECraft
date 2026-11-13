@@ -1584,6 +1584,7 @@ The archive contains no project	Arkisto ei sisällä projektia
 The archive has no manifest	Arkistossa ei ole manifestia
 The archive is damaged	Arkisto on vioittunut
 The archive unpacks to more than {} MB	Arkisto purkautuu yli {} megatavuksi
+The archive was written by a newer version (archive version {})	Arkiston on kirjoittanut uudempi versio (arkistoversio {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	Kojeiston valmistaja on mainittava (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Kaappirivi tilassaan: L-muotoinen pohjapiirros, väliseinä, ovi ja ikkuna, kaappirivi paikallaan, seinällä kisko ja pistorasia, seinään asennettu turvavalaisin ja kaapelihylly katon alla.
 The configuration is not a JSON object	Konfiguraatio ei ole JSON-objekti

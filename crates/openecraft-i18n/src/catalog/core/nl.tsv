@@ -1584,6 +1584,7 @@ The archive contains no project	Het archief bevat geen project
 The archive has no manifest	Het archief heeft geen manifest
 The archive is damaged	Het archief is beschadigd
 The archive unpacks to more than {} MB	Het archief pakt uit tot meer dan {} MB
+The archive was written by a newer version (archive version {})	Het archief is geschreven door een nieuwere versie (archiefversie {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	De fabrikant van de verdeelinrichting moet worden vermeld (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	De kastenrij in haar ruimte: L-vormige plattegrond, binnenwand, deur en raam, de kastenrij op haar plaats, een montagerail met een wandcontactdoos, een op de wand gemonteerde noodverlichting en een kabelgoot onder het plafond.
 The configuration is not a JSON object	De configuratie is geen JSON-object

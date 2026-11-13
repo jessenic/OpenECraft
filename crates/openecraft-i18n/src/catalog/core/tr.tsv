@@ -1584,6 +1584,7 @@ The archive contains no project	Arşiv proje içermiyor
 The archive has no manifest	Arşivin manifestosu yok
 The archive is damaged	Arşiv hasarlı
 The archive unpacks to more than {} MB	Arşiv açıldığında {} MB'tan büyük oluyor
+The archive was written by a newer version (archive version {})	Arşiv daha yeni bir sürümle yazılmış (arşiv sürümü {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	Düzen imalatçısı belirtilmelidir (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Odasındaki yan yana panolar: L biçimli kat planı, iç duvar, kapı ve pencere, yerindeki pano dizisi, bir duvarda prizli bir ray, duvara monte acil durum aydınlatması ve tavan altında bir kablo tavası.
 The configuration is not a JSON object	Yapılandırma bir JSON nesnesi değil

@@ -1572,6 +1572,7 @@ The archive contains no project	아카이브에 프로젝트가 없습니다
 The archive has no manifest	아카이브에 매니페스트가 없습니다
 The archive is damaged	아카이브가 손상되었습니다
 The archive unpacks to more than {} MB	압축을 풀면 {} MB보다 큰 압축 파일입니다
+The archive was written by a newer version (archive version {})	이 아카이브는 더 새로운 버전으로 기록되었습니다(아카이브 버전 {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	조립품 제조업체를 명시해야 합니다(IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	방 안의 외함 열: L자형 평면도, 내벽, 문과 창문, 제자리에 놓인 외함 열, 벽의 콘센트가 있는 레일, 벽에 설치된 비상등 및 천장 아래의 케이블 트레이.
 The configuration is not a JSON object	구성이 JSON 개체가 아닙니다

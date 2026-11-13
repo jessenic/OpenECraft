@@ -1570,6 +1570,7 @@ The archive contains no project	归档中不包含项目
 The archive has no manifest	归档没有清单
 The archive is damaged	归档已损坏
 The archive unpacks to more than {} MB	压缩包解压后超过 {} MB
+The archive was written by a newer version (archive version {})	该归档由更新的版本写入（归档版本 {}）
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	必须指明成套设备制造商 (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	并柜后的控制柜在其房间中：L 形平面图、内墙、门和窗、放置到位的并柜、墙上带插座的导轨、墙装应急灯以及顶部下方的电缆桥架。
 The configuration is not a JSON object	配置不是 JSON 对象

@@ -1584,6 +1584,7 @@ The archive contains no project	Archiv neobsahuje žádný projekt
 The archive has no manifest	Archiv nemá manifest
 The archive is damaged	Archiv je poškozen
 The archive unpacks to more than {} MB	Archiv se rozbalí na více než {} MB
+The archive was written by a newer version (archive version {})	Archiv byl zapsán novější verzí (verze archivu {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	Výrobce rozváděče musí být uveden (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Řada rozvaděčů ve své místnosti: půdorys ve tvaru L, vnitřní stěna, dveře a okno, řada na svém místě, lišta se zásuvkou na stěně, nouzové svítidlo na stěně a kabelový žlab pod stropem.
 The configuration is not a JSON object	Konfigurace není objekt JSON

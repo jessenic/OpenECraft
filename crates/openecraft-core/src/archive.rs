@@ -1,6 +1,8 @@
 //! Project archives and version conversion. An archive (`.oecz`) is a ZIP file with
 //! the project, a manifest, the embedded documents and images as plain files and
-//! optionally a PDF of all pages, so it can be read without OpenECraft. Opening a
+//! optionally a PDF of all pages, so it can be read without OpenECraft. Since
+//! version 2 the project is stored as the files of a split project ([`crate::storage`]);
+//! version 1 held one project file (`project.oec`) and is still read. Opening a
 //! project file of an older format converts it and reports what was converted.
 
 use crate::zip::{read_zip, ZipWriter};
@@ -8,11 +10,16 @@ use crate::zip::{read_zip, ZipWriter};
 use crate::zip::{crc32, dos_date};
 use openecraft_i18n::{tr, tr_fmt};
 use crate::model::{Project, FORMAT};
+use crate::storage;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 pub const ARCHIVE_EXT: &str = "oecz";
+/// Version of the archives written: the files of a split project.
+pub const ARCHIVE_VERSION: u32 = 2;
+/// The project of an archive of version 1.
 const PROJECT_FILE: &str = "project.oec";
+const PDF_FILE: &str = "project.pdf";
 const MANIFEST_FILE: &str = "manifest.json";
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -30,6 +37,8 @@ pub struct ArchiveOptions {
 #[serde(default)]
 pub struct Manifest {
     pub generator: String,
+    /// Version of the archive; archives of version 1 have none (0).
+    pub version: u32,
     pub format: u32,
     pub name: String,
     pub description: String,
@@ -122,16 +131,6 @@ pub fn read_project(bytes: &[u8]) -> Result<(Project, Conversion), String> {
     }
 }
 
-fn file_name(text: &str) -> String {
-    let s: String = text.chars().map(|c| if c.is_alphanumeric() || "-_. ".contains(c) { c } else { '_' }).collect();
-    let s = s.trim().to_string();
-    if s.is_empty() {
-        "_".into()
-    } else {
-        s
-    }
-}
-
 /// Writes the project into an archive.
 pub fn archive(prj: &Project, opts: &ArchiveOptions) -> Vec<u8> {
     let mut prj = prj.clone();
@@ -141,35 +140,21 @@ pub fn archive(prj: &Project, opts: &ArchiveOptions) -> Vec<u8> {
         prj.wiring_marks.clear();
     }
     let mut zip = ZipWriter::new(&opts.date);
-    zip.add(PROJECT_FILE, prj.to_json().as_bytes());
-    let mut files = vec![PROJECT_FILE.to_string()];
-    let mut used = std::collections::BTreeSet::new();
-    // A file name used before gets a number in front, in the folder `files/`.
-    let mut unique = |name: String| {
-        let mut n = format!("files/{name}");
-        let mut i = 2;
-        while !used.insert(n.clone()) {
-            n = format!("files/{i} {name}");
-            i += 1;
-        }
-        n
-    };
-    for pg in &prj.pages {
-        let docs = pg.document.iter().chain(pg.images.iter().map(|i| &i.file));
-        for doc in docs {
-            let Ok(bytes) = doc.bytes() else { continue };
-            let name = unique(format!("{} {}", file_name(&pg.name), file_name(&doc.name)));
-            zip.add(&name, &bytes);
-            files.push(name);
-        }
+    let split = storage::split(&prj);
+    // The index first: it says what the other files are.
+    let index = split.get_key_value(storage::INDEX).into_iter();
+    let mut files = Vec::new();
+    for (name, content) in index.chain(split.iter().filter(|(name, _)| *name != storage::INDEX)) {
+        zip.add(name, content);
+        files.push(name.clone());
     }
     if opts.pdf {
-        let name = "project.pdf".to_string();
-        zip.add(&name, crate::pdf::document(&prj).as_bytes());
-        files.push(name);
+        zip.add(PDF_FILE, crate::pdf::document(&prj).as_bytes());
+        files.push(PDF_FILE.to_string());
     }
     let manifest = Manifest {
         generator: format!("OpenECraft {}", env!("CARGO_PKG_VERSION")),
+        version: ARCHIVE_VERSION,
         format: FORMAT,
         name: prj.info.name.clone(),
         description: prj.info.description.clone(),
@@ -187,9 +172,15 @@ pub fn archive(prj: &Project, opts: &ArchiveOptions) -> Vec<u8> {
 pub fn restore(bytes: &[u8]) -> Result<(Project, Manifest, Conversion), String> {
     let entries = read_zip(bytes)?;
     let get = |name: &str| entries.iter().find(|(n, _)| n == name).map(|(_, b)| b);
-    let text = get(PROJECT_FILE).ok_or_else(|| tr("The archive contains no project").to_string())?;
-    let manifest = get(MANIFEST_FILE).and_then(|m| serde_json::from_slice(m).ok()).unwrap_or_default();
-    let (prj, conv) = convert(&String::from_utf8_lossy(text))?;
+    let manifest: Manifest = get(MANIFEST_FILE).and_then(|m| serde_json::from_slice(m).ok()).unwrap_or_default();
+    if manifest.version > ARCHIVE_VERSION {
+        return Err(tr_fmt!("The archive was written by a newer version (archive version {})", manifest.version));
+    }
+    let (prj, conv) = match get(PROJECT_FILE) {
+        Some(text) => convert(&String::from_utf8_lossy(text))?,
+        None if get(storage::INDEX).is_some() => storage::join(&entries.into_iter().collect())?,
+        None => return Err(tr("The archive contains no project").to_string()),
+    };
     Ok((prj, manifest, conv))
 }
 

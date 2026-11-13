@@ -1584,6 +1584,7 @@ The archive contains no project	O arquivo compactado não contém nenhum projeto
 The archive has no manifest	O arquivo compactado não tem manifesto
 The archive is damaged	O arquivo compactado está danificado
 The archive unpacks to more than {} MB	O arquivo compactado se descompacta em mais de {} MB
+The archive was written by a newer version (archive version {})	O arquivo compactado foi gravado por uma versão mais recente (versão do arquivo compactado {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	O fabricante do conjunto deve ser indicado (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Os painéis em linha em sua sala: planta em L, parede interna, porta e janela, a linha de painéis em seu lugar, um trilho com uma tomada em uma parede, uma luminária de emergência montada na parede e uma eletrocalha sob o teto.
 The configuration is not a JSON object	A configuração não é um objeto JSON

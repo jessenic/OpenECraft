@@ -1584,6 +1584,7 @@ The archive contains no project	Архив не содержит проекта
 The archive has no manifest	В архиве нет манифеста
 The archive is damaged	Архив повреждён
 The archive unpacks to more than {} MB	Архив распаковывается более чем в {} МБ
+The archive was written by a newer version (archive version {})	Архив записан более новой версией (версия архива {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	Должен быть указан изготовитель комплектного устройства (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Ряд шкафов в своём помещении: Г-образный план, внутренняя стена, дверь и окно, ряд шкафов на своём месте, рейка с розеткой на стене, настенный аварийный светильник и кабельный лоток под потолком.
 The configuration is not a JSON object	Конфигурация не является объектом JSON

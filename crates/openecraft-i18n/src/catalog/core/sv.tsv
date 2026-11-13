@@ -1584,6 +1584,7 @@ The archive contains no project	Arkivet innehåller inget projekt
 The archive has no manifest	Arkivet har inget manifest
 The archive is damaged	Arkivet är skadat
 The archive unpacks to more than {} MB	Arkivet packas upp till mer än {} MB
+The archive was written by a newer version (archive version {})	Arkivet har skrivits av en nyare version (arkivversion {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	Tillverkaren av kopplingsutrustningen måste anges (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Skåpraden i sitt rum: L-format planritning, innervägg, dörr och fönster, skåpraden på sin plats, en skena med ett vägguttag, en väggmonterad nödbelysning och en kabelstege under taket.
 The configuration is not a JSON object	Konfigurationen är inte ett JSON-objekt

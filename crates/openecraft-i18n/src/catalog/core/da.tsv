@@ -1584,6 +1584,7 @@ The archive contains no project	Arkivet indeholder intet projekt
 The archive has no manifest	Arkivet har intet manifest
 The archive is damaged	Arkivet er beskadiget
 The archive unpacks to more than {} MB	Arkivet udpakkes til mere end {} MB
+The archive was written by a newer version (archive version {})	Arkivet er skrevet af en nyere version (arkivversion {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	Tavlefabrikanten skal være angivet (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Tavlerækken i sit rum: L-formet plan, indervæg, dør og vindue, tavlerækken på sin plads, en skinne med en stikkontakt på en væg, en vægmonteret nødbelysning og en kabelbakke under loftet.
 The configuration is not a JSON object	Konfigurationen er ikke et JSON-objekt

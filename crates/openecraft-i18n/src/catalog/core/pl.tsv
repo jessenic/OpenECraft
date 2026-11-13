@@ -1584,6 +1584,7 @@ The archive contains no project	Archiwum nie zawiera projektu
 The archive has no manifest	Archiwum nie ma manifestu
 The archive is damaged	Archiwum jest uszkodzone
 The archive unpacks to more than {} MB	Archiwum po rozpakowaniu zajmuje ponad {} MB
+The archive was written by a newer version (archive version {})	Archiwum zostało zapisane przez nowszą wersję (wersja archiwum {})
 The assembly manufacturer must be named (IEC 61439-1, 6.1)	Należy podać producenta zestawu (IEC 61439-1, 6.1)
 The cabinet line-up in its room: L-shaped floor plan, inner wall, door and window, the line-up at its place, a mounting rail with a socket outlet on a wall, a wall-mounted emergency light and a cable tray under the ceiling.	Szereg szaf w swoim pomieszczeniu: rzut w kształcie litery L, ściana wewnętrzna, drzwi i okno, szereg szaf na swoim miejscu, szyna z gniazdem na ścianie, oprawa awaryjna montowana na ścianie i korytko kablowe pod sufitem.
 The configuration is not a JSON object	Konfiguracja nie jest obiektem JSON

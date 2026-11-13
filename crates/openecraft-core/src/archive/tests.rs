@@ -42,9 +42,17 @@ fn archive_contains_project_files_and_manifest() {
     let bytes = archive(&prj, &opts);
     let m = manifest(&bytes).unwrap();
     assert_eq!((m.name.as_str(), m.archived.as_str(), m.comment.as_str(), m.format), ("Demo conveyor", "2026-10-24", "Handover", FORMAT));
-    assert_eq!(m.files, vec!["project.oec", "files/8 sheet.pdf", "project.pdf"]);
+    assert_eq!(m.version, ARCHIVE_VERSION);
+    // The files of a split project, its index first, and the PDF.
+    assert_eq!((m.files.first().map(String::as_str), m.files.last().map(String::as_str)), (Some(storage::INDEX), Some("project.pdf")));
+    let embedded: Vec<&String> = m.files.iter().filter(|f| f.starts_with("files/")).collect();
+    assert_eq!(embedded.len(), 1);
+    assert!(embedded[0].ends_with(".pdf"));
+    assert!(m.files.contains(&format!("pages/{}.json", prj.pages[0].id)));
     let files = read_zip(&bytes).unwrap();
-    assert_eq!(files.iter().find(|f| f.0 == "files/8 sheet.pdf").unwrap().1, b"%PDF-1.4 test");
+    assert_eq!(files.len(), m.files.len() + 1);
+    assert_eq!(files.iter().find(|f| &f.0 == embedded[0]).unwrap().1, b"%PDF-1.4 test");
+    assert!(!files.iter().any(|f| f.0 == "project.oec"));
 
     let (back, m2, conv) = restore(&bytes).unwrap();
     assert_eq!(m2, m);
@@ -53,10 +61,35 @@ fn archive_contains_project_files_and_manifest() {
     assert_eq!(back.pages, prj.pages);
     let (again, _) = read_project(&bytes).unwrap();
     assert_eq!(again.pages.len(), prj.pages.len());
+    // Without the compact option the archive holds the whole project.
+    let (whole, _, _) = restore(&archive(&prj, &ArchiveOptions::default())).unwrap();
+    assert!(whole == prj);
 }
 
 #[test]
-fn files_of_the_same_name_stay_in_the_files_folder() {
+fn archives_of_version_1_are_still_read() {
+    let prj = demo_project();
+    let mut zip = ZipWriter::new("2026-01-02");
+    zip.add("project.oec", prj.to_json().as_bytes());
+    zip.add("files/8 sheet.pdf", b"%PDF-1.4 test");
+    zip.add("manifest.json", br#"{ "generator": "OpenECraft 0.1.1", "format": 2, "name": "Demo conveyor", "comment": "Old", "files": ["project.oec"] }"#);
+    let bytes = zip.finish();
+    let (back, m, conv) = restore(&bytes).unwrap();
+    assert!(back == prj);
+    assert_eq!((m.version, m.comment.as_str()), (0, "Old"));
+    assert!(conv.message().is_none());
+
+    let mut zip = ZipWriter::new("2026-01-02");
+    zip.add("manifest.json", br#"{ "version": 99 }"#);
+    zip.add("project.oecp", b"{}");
+    assert!(restore(&zip.finish()).unwrap_err().contains("99"));
+    let mut zip = ZipWriter::new("2026-01-02");
+    zip.add("readme.txt", b"x");
+    assert!(restore(&zip.finish()).is_err());
+}
+
+#[test]
+fn the_same_embedded_file_is_archived_once() {
     let mut prj = demo_project();
     for _ in 0..3 {
         let id = prj.new_id();
@@ -64,8 +97,10 @@ fn files_of_the_same_name_stay_in_the_files_folder() {
         doc.document = Some(Document::new("sheet.pdf", b"%PDF-1.4 test"));
         prj.pages.push(doc);
     }
-    let m = manifest(&archive(&prj, &ArchiveOptions::default())).unwrap();
-    assert_eq!(m.files, vec!["project.oec", "files/8 sheet.pdf", "files/2 8 sheet.pdf", "files/3 8 sheet.pdf"]);
+    let bytes = archive(&prj, &ArchiveOptions::default());
+    let m = manifest(&bytes).unwrap();
+    assert_eq!(m.files.iter().filter(|f| f.starts_with("files/")).count(), 1);
+    assert!(restore(&bytes).unwrap().0 == prj);
 }
 
 #[test]

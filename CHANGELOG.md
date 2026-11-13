@@ -18,8 +18,12 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   own when the chosen folder holds other files), *Open*, the recent files, templates,
   the comparison, subprojects and the project database read them, *Save* rewrites only
   the changed files, and the installers open `.oecp` files with the editor. The web
-  version cannot open folders and keeps `.oec` and `.oecz`. The `.oec` file stays the
-  default (#149).
+  version cannot open folders and keeps `.oec` and `.oecz`. **Archives (`.oecz`) are
+  written in version 2**: they hold the files of a split project instead of one
+  `project.oec`, so an embedded file used several times is stored once; the manifest
+  names the version (`version`), archives of version 1 are still read, and versions
+  of OpenECraft before this one cannot read the new archives. The `.oec` file stays
+  the default (#149).
 - **Parts server: groups, catalog permissions, directories and a dashboard.** Users
   are gathered in **groups** of the server (*Administration › Groups*, `/api/v1/groups`;
   the groups of local accounts become such groups at startup), and grants to a group
