@@ -85,7 +85,7 @@ pub struct PartsUi {
     show_server: bool,
     /// Data portal window (search on the parts server).
     pub show_portal: bool,
-    portal: Browser,
+    pub(crate) portal: Browser,
     /// Part (source, number) that receives the next imported model.
     model_target: Option<(Source, String)>,
 }

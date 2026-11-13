@@ -12,6 +12,7 @@ Above	上
 Access token	アクセストークン
 Accessories	付属品
 Accessory	付属品
+Add	追加
 Add a PDF of all pages	全ページの PDF を追加
 Add to favorites	お気に入りに追加
 Address	アドレス
@@ -83,6 +84,7 @@ Created by	作成者
 Cross references	相互参照
 Cross-section	断面積
 Crossing	交差
+Currency	通貨
 Current	電流
 Cutout	切り欠き
 Cutouts	切り欠き
@@ -106,6 +108,7 @@ Device description	デバイス記述
 Device tag	デバイスタグ
 Device {}	デバイス {}
 Devices	デバイス
+Dimensions	寸法
 Direction	方向
 Discard	破棄
 Discard changes	変更を破棄
@@ -197,11 +200,13 @@ Load	負荷
 Loaded circuits bunched together	束ねられた負荷回路数
 Location	取付場所
 Location (+)	取付場所 (+)
+Logo	ロゴ
 MTTFd (years)	MTTFd (年)
 Machine	機械
 Main earthing terminal	主接地端子
 Main switch	主開閉器
 Manufacturer	メーカー
+Manufacturers	メーカー
 Manufacturing	製造
 Marking	マーキング
 Match case	大文字と小文字を区別する
@@ -228,6 +233,7 @@ Name of the point, e.g. a survey point	点の名前（例：測量点）
 Name of the scheme	スキームの名前
 Net	ネット
 Never	表示しない
+New group	新しいグループ
 New name	新しい名前
 Next page	次のページ
 No	いいえ
@@ -399,6 +405,7 @@ Settings	設定
 Shape	形状
 Short-circuit voltage	短絡インピーダンス電圧
 Show history	履歴を表示
+Show the logos of the catalogs	カタログのロゴを表示
 Show the row after the column	列の後に行を表示
 Side	側
 Sign in	サインイン

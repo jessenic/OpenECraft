@@ -2,9 +2,14 @@
 (renamed from {})	({}에서 이름 변경됨)
 19-inch module technology	19인치 모듈 기술
 A catalog id must not be empty or contain blanks	카탈로그 ID는 비어 있거나 공백을 포함할 수 없습니다
+A directory id must not be empty or contain blanks or ':'	디렉터리 서비스 ID는 비워 둘 수 없으며 공백이나 ':'를 포함할 수 없습니다
+A grant needs a user or a group	권한 부여에는 사용자 또는 그룹이 필요합니다
+A group name must not be empty or contain ':'	그룹 이름은 비워 둘 수 없으며 ':'를 포함할 수 없습니다
 A manufacturer user needs a manufacturer	제조업체 사용자에게는 제조업체가 필요합니다
+A part number must not be empty or start or end with blanks	부품 번호는 비워 둘 수 없으며 공백으로 시작하거나 끝날 수 없습니다
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	역할은 권한의 집합입니다. 권한 부여는 사용자 또는 그룹에 제조업체의 부품에 대한 역할을 제공합니다(* 및 ?는 와일드카드, *는 전체). 거부 권한 부여는 다른 권한 부여와 관계없이 역할의 권한을 회수합니다.
 A user name must not be empty or contain blanks	사용자 이름은 비어 있거나 공백을 포함할 수 없습니다
+Accept any certificate (test installations only)	모든 인증서 허용(테스트 설치 전용)
 Access rights	액세스 권한
 Access settings saved	액세스 설정을 저장했습니다
 Accumulator blocks	어큐뮬레이터 블록
@@ -18,6 +23,8 @@ Administration	관리
 All manufacturers	모든 제조업체
 All parts	모든 부품
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	모든 부품과 해당 데이터로, 스프레드시트에 사용하거나 다른 서버로 가져올 수 있습니다. 파일은 데이터베이스 백업에만 포함됩니다.
+Allowed groups	허용된 그룹
+Also groups of groups (Active Directory)	그룹의 그룹도 포함(Active Directory)
 Amplifiers, controllers	증폭기, 컨트롤러
 Analog sensor	아날로그 센서
 Approval of new accounts	새 계정 승인
@@ -29,11 +36,14 @@ Auxiliary contact block	보조 접점 블록
 Auxiliary switch	보조 스위치
 Awaiting approval	승인 대기 중
 Awaiting approval: {}	승인 대기: {}
+Back to the part	부품으로 돌아가기
 Back to the results	결과로 돌아가기
 Ball valve pneumatic	공압 볼 밸브
 Ball valves	볼 밸브
 Base	베이스
 Battery monitor	배터리 모니터
+Better kept in an environment variable of the server	서버의 환경 변수에 두는 것을 권장합니다
+Bind name of a user without service account; {user} is replaced	서비스 계정이 없을 때 사용자의 바인딩 이름. {user}가 대체됩니다
 Block ball valves	블록 볼 밸브
 Body	본체
 Brake motor	브레이크 모터
@@ -58,10 +68,12 @@ Centrifugal pumps	원심 펌프
 Centrifuge	원심 분리기
 Certificate	인증서
 Changed	변경됨
+Changed last	최근 변경됨
 Changes allowed	변경 허용
 Check control valve	체크 제어 밸브
 Check flap	체크 플랩
 Chimney	굴뚝
+Choose logo…	로고 선택…
 Circuit breaker	차단기
 Coil	코일
 Complete power units	완성형 동력 장치
@@ -94,13 +106,17 @@ Crusher	파쇄기
 Cylinders	실린더
 DC motor	DC 모터
 DC-DC converter	DC-DC 컨버터
+Dashboard	대시보드
 Data recorder	데이터 기록계
 Database backup	데이터베이스 백업
 Datasheet	데이터시트
 Defined roles	정의된 역할
 Delete catalog {} from the server?	서버에서 카탈로그 {}을(를) 삭제하시겠습니까?
 Delete catalog {}?	카탈로그 {}을(를) 삭제하시겠습니까?
+Delete directory {}? Its users can no longer sign in.	디렉터리 서비스 {}을(를) 삭제하시겠습니까? 해당 사용자는 더 이상 로그인할 수 없습니다.
+Delete group {}? The grants to it are removed.	그룹 {}을(를) 삭제하시겠습니까? 이 그룹에 대한 권한 부여가 제거됩니다.
 Delete part {} from the server? This cannot be undone.	서버에서 부품 {}을(를) 삭제하시겠습니까? 이 작업은 실행 취소할 수 없습니다.
+Delete part {}?	부품 {}을(를) 삭제하시겠습니까?
 Delete parts	부품 삭제
 Delete user {}? Their sessions and favorites are removed.	사용자 {}을(를) 삭제하시겠습니까? 해당 사용자의 세션과 즐겨찾기가 제거됩니다.
 Deleted	삭제됨
@@ -108,8 +124,9 @@ Digital sensor, general	디지털 센서, 일반
 Directional control valves	방향 제어 밸브
 Directional control valves, coaxial	동축 방향 제어 밸브
 Directories	디렉터리 서비스
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	디렉터리 서비스(Active Directory, LDAP)는 서버의 액세스 설정 파일에서 설정합니다.
 Directory	디렉터리 서비스
+Directory groups	디렉터리 서비스의 그룹
+Directory {} exists already. Change it?	디렉터리 서비스 {}이(가) 이미 있습니다. 변경하시겠습니까?
 Dirt trap	오물 트랩
 Discard the changes	변경 내용 취소
 Discard the unsaved changes of {}?	{}의 저장되지 않은 변경 내용을 취소하시겠습니까?
@@ -125,18 +142,27 @@ Duplex switch filters	듀플렉스 전환 필터
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	카탈로그 {} 편집
 Edit catalogs	카탈로그 편집
+Edit directory {}	디렉터리 서비스 {} 편집
+Edit group {}	그룹 {} 편집
+Edit part {}	부품 {} 편집
 Edit parts	부품 편집
 Edit user {}	사용자 {} 편집
 Electrical engineering - special items	전기 공학 - 특수 품목
 Electrically-operated mechanical devices	전기 작동식 기계 장치
 Electrolysis cell	전해조
+Empty: the memberOf attribute of the user	비어 있음: 사용자의 memberOf 특성
+Empty: the search base	비어 있음: 검색 기준
+Empty: the usual filter of the type	비어 있음: 유형의 일반 필터
 Enclosure cooling devices	외함 냉각 장치
 Enclosure heater	외함 히터
+Encryption	암호화
 End clamp	엔드 클램프
 Ends the session and forgets the token	세션을 종료하고 토큰을 삭제합니다
 Engine	원동기
 Enter the address of an openecraft-parts-server and click Connect.	openecraft-parts-server의 주소를 입력하고 연결을 클릭하세요.
+Environment variable with the password of the service account	서비스 계정의 암호가 있는 환경 변수
 Evaporator	증발기
+Everybody who may read the parts sees it.	부품을 읽을 수 있는 모든 사람이 볼 수 있습니다.
 Exhaust valves	배기 밸브
 Export (CSV)	내보내기(CSV)
 Export and backup	내보내기 및 백업
@@ -166,8 +192,14 @@ Furnace	노
 Generator	발전기
 Grants	권한 부여
 Grants of the server's access settings can refer to them	서버 액세스 설정의 권한 부여에서 이를 참조할 수 있습니다
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	catalog:<id>에 대한 권한 부여는 하나의 카탈로그와 그 부품에 적용됩니다(카탈로그 › 권한).
 Ground fault current circuit breaker	누전 차단기
 Ground fault voltage circuit-breaker	전압 동작형 누전 차단기
+Group filter	그룹 필터
+Group search base	그룹 검색 기준
+Group {} exists already. Change it?	그룹 {}이(가) 이미 있습니다. 변경하시겠습니까?
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	그룹은 로컬 사용자와 디렉터리 서비스의 사용자를 묶습니다. 그룹에 대한 권한 부여는 구성원에게 서버 전체, 제조업체 또는 카탈로그에서 역할의 권한을 부여합니다.
+Groups of this server, next to those of the directory	디렉터리 서비스 그룹 외에 이 서버의 그룹
 Heat exchangers	열교환기
 High-pressure systems	고압 시스템
 High-pressure tanks	고압 탱크
@@ -178,6 +210,7 @@ Housing accessories, external extension	하우징 부속품, 외부 확장
 Housing accessories, internal extension	하우징 부속품, 내부 확장
 Hydraulic motors	유압 모터
 Hydraulic tanks	유압 탱크
+Images (PNG, JPEG, GIF, WebP, SVG)	이미지(PNG, JPEG, GIF, WebP, SVG)
 Import / export	가져오기 / 내보내기
 Import parts	부품 가져오기
 Imported {} parts (revision {})	부품 {}개를 가져왔습니다(개정 {})
@@ -190,6 +223,7 @@ KNX actuator	KNX 액추에이터
 KNX system device	KNX 시스템 장치
 Key switch	키 스위치
 Kneader	니더
+Last changes per month	최근 변경 추이
 Last sign-in	마지막 로그인
 Legend plate	명판
 Level detector	레벨 검출기
@@ -207,12 +241,15 @@ Lock systems	잠금 장치
 Locking couplings	잠금 커플링
 Logic item	논리 소자
 Logic items	논리 소자
+Logos	로고
+Looks the users up; empty: users bind with their own name (below)	사용자를 조회합니다. 비어 있으면 사용자가 자신의 이름으로 바인딩합니다(아래)
 Male insert	수 인서트
 Measurement system	측정 시스템
 Measuring connection points	측정 연결점
 Measuring couplings	측정 커플링
 Measuring instruments, test devices	계측기, 시험 장치
 Mechanics	기계
+Members	구성원
 Metering hopper	정량 호퍼
 Miscellaneous	기타
 Mixer	혼합기
@@ -221,15 +258,20 @@ Modulators	변조기
 Motor overload switch	모터 보호 스위치
 Mounting chassis	장착 섀시
 Mounting panels	장착 플레이트
+Name attribute	이름 특성
 New accounts need the approval of an administrator	새 계정은 관리자의 승인이 필요합니다
 New catalog	새 카탈로그
+New directory	새 디렉터리 서비스
+New part	새 부품
 New part based on the open one	열린 부품을 기반으로 새 부품
 New password	새 암호
 New role	새 역할
 New user	새 사용자
 Newer version	최신 버전
 Next	다음
+No grants: the rights by manufacturer apply	권한 부여 없음: 제조업체별 권한이 적용됩니다
 No grants: users have the rights of their role	권한 부여 없음: 사용자는 자신의 역할 권한을 가집니다
+No groups	그룹 없음
 No users	사용자 없음
 Non-return valves	논리턴 밸브
 Not mounted	장착 안 함
@@ -239,15 +281,18 @@ On the left side	왼쪽
 On the right side	오른쪽
 On this server	이 서버
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	모든 부품과 해당 기록 및 파일, 카탈로그, 사용자와 즐겨찾기가 포함된 하나의 SQLite 파일입니다. 사용자의 암호 해시가 포함되어 있으므로 안전하게 보관하십시오.
+One line per value, e.g. Coil voltage: 24 V DC	값마다 한 줄, 예: 코일 전압: 24 V DC
 Only catalogs without parts can be deleted	부품이 없는 카탈로그만 삭제할 수 있습니다
 Only empty catalogs can be deleted	빈 카탈로그만 삭제할 수 있습니다
 Only local accounts	로컬 계정만
+Only their members sign in; empty: all users	구성원만 로그인합니다. 비어 있음: 모든 사용자
 Open sessions: {}	열린 세션: {}
 OpenECraft data portal	OpenECraft 데이터 포털
 OpenECraft parts manager	OpenECraft 부품 관리자
 OpenECraft parts server	OpenECraft 부품 서버
 Other file	기타 파일
 Other labels	기타 라벨
+Others	기타
 Outlet	배출구
 Outlet filter	배출 필터
 Overload	보호 릴레이
@@ -267,8 +312,17 @@ PV rail connector	태양광 레일 연결구
 Part (source)	부품(소스)
 Part (target)	부품(대상)
 Part files (documents, images, models, macros)	부품 파일(문서, 이미지, 모델, 매크로)
+Part {} exists already	부품 {}이(가) 이미 있습니다
 Part {} not found	부품 {}을(를) 찾을 수 없습니다
 Partition	격벽
+Parts per catalog	카탈로그별 부품
+Parts per manufacturer	제조업체별 부품
+Parts per product group	제품 그룹별 부품
+Parts with …	다음이 있는 부품…
+Password variable	암호 변수
+Per page	페이지당
+Permissions	권한
+Permissions of catalog {}	카탈로그 {}의 권한
 Phase-out	단종 예정
 Pipes	파이프
 Piping part	배관 부품
@@ -316,7 +370,9 @@ Register	가입
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	가입한 사용자는 읽기 사용자가 됩니다. 즐겨찾기를 저장할 수 있으며, 읽기에 로그인이 필요한 경우에도 부품을 읽을 수 있습니다. 추가 권한은 사용자에서 부여하십시오.
 Registration	가입
 Reject the registration of {}? The account is deleted.	{}의 가입을 거부하시겠습니까? 계정이 삭제됩니다.
+Remove logo	로고 제거
 Remove the file from the part	부품에서 파일 제거
+Remove the logo	로고 제거
 Removed from the server	서버에서 제거됨
 Repeat password	암호 확인
 Replace the roles and grants with those of the file?	역할과 권한 부여를 파일의 내용으로 바꾸시겠습니까?
@@ -334,11 +390,15 @@ Safety accumulators	안전 어큐뮬레이터
 Safety devices	보호 장치
 Safety fuse	퓨즈
 Safety switch	보호 스위치
+Save the catalog first	먼저 카탈로그를 저장하십시오
 Save the part first	먼저 부품을 저장하세요
+Saved directory {}	디렉터리 서비스 {} 저장됨
+Saved group {}	그룹 {} 저장됨
 Screw connections	나사 연결부
 Screw pumps	스크류 펌프
 Screw spindle compressors	스크류 스핀들 압축기
 Scroll compressors	스크롤 압축기
+Search base	검색 기준
 Search users	사용자 검색
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	카탈로그를 선택하거나 새로 만드세요. 부품은 카탈로그 ID를 통해 카탈로그에 속합니다(부품 편집기, 데이터 포털 탭).
 Select a user or create a new one.	사용자를 선택하거나 새로 만드세요.
@@ -348,8 +408,12 @@ Sensor NC	센서 b접점
 Sensor, switch, and pushbutton	센서, 스위치 및 푸시버튼
 Sensors - pressure gauges	센서 - 압력계
 Serial sub-plates	직렬 서브플레이트
+Service account	서비스 계정
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	서버 시작 옵션으로 설정됨(--dashboard 또는 OPENECRAFT_DASHBOARD).
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	서버 시작 옵션으로 설정되었습니다(--registration 또는 OPENECRAFT_REGISTRATION).
+Short name without blanks; qualifies the groups (id:group)	공백 없는 짧은 이름. 그룹을 한정합니다(id:그룹)
 Show parts	부품 표시
+Show the dashboard with graphs of the parts	부품 그래프가 있는 대시보드 표시
 Shut-off accumulators	차단 어큐뮬레이터
 Shut-off control valve	차단 제어 밸브
 Shut-off flap	차단 플랩
@@ -374,10 +438,12 @@ Silo	사일로
 Single-phase motor	단상 모터
 Single-stage filters	단단 필터
 Siphon	사이펀
+Size of the files	파일 크기
 Solenoid valve	솔레노이드 밸브
 Sorter	선별기
 Start a server with:  openecraft-parts-server --token <secret>	서버 시작 명령:  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	변경을 허용하려면 --token을 사용하여 openecraft-parts-server를 시작하세요
+StartTLS (for ldap://)	StartTLS(ldap://용)
 Steam boiler	증기 보일러
 Stirrer	교반기
 Storage	저장소
@@ -398,23 +464,32 @@ Temperature sensors	온도 센서
 Terminal label	단자 라벨
 Terminator	종단기
 Terminators, filters	종단기, 필터
+Test	테스트
 Test accessories	시험 부속품
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal은 부품 검색 및 읽기만 제공합니다
 The access settings would leave nobody who manages users	이 액세스 설정으로는 사용자를 관리할 사람이 없게 됩니다
 The access token is only needed for changes; it is not stored.	액세스 토큰은 변경 시에만 필요하며 저장되지 않습니다.
+The address must start with ldap:// or ldaps://	주소는 ldap:// 또는 ldaps://로 시작해야 합니다
 The catalogs with their manufacturer, version and description.	제조업체, 버전 및 설명이 포함된 카탈로그입니다.
 The checksum of {} does not match: the download is damaged	{}의 SHA-256 값이 일치하지 않습니다: 다운로드가 손상되었습니다
+The dashboard is hidden	대시보드가 숨겨짐
+The dashboard is shown	대시보드가 표시됨
 The directory checks the password and sets the groups at every sign-in	디렉터리 서비스는 로그인할 때마다 암호를 확인하고 그룹을 설정합니다
 The file holds no access settings	파일에 액세스 설정이 없습니다
+The groups would leave nobody who manages users	그룹을 변경하면 사용자를 관리할 사람이 남지 않습니다
 The last administrator cannot lose the right to manage users	마지막 관리자의 사용자 관리 권한은 제거할 수 없습니다
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	회사 로고: PNG, JPEG, GIF, WebP 또는 SVG, 최대 512 kB
 The password needs at least {} characters	암호는 {}자 이상이어야 합니다
 The passwords do not match	암호가 일치하지 않습니다
 The project has no parts	프로젝트에 부품이 없습니다
 The registration is closed	가입이 열려 있지 않습니다
 The registration is open	가입이 열려 있습니다
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	역할, 권한 부여 및 로그인 없이 액세스입니다. 복원하면 이를 대체하며, 디렉터리 서비스는 서버에 설정된 대로 유지됩니다.
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	여기에서 부여한 역할은 제조업체와 관계없이 이 카탈로그와 그 부품에 적용됩니다. 거부는 역할의 권한을 회수합니다. 읽기는 서버 전체의 권한입니다.
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	역할, 권한 부여, 그룹 및 로그인 없는 액세스(서버 버전 포함). 복원하면 역할과 권한 부여가 대체되고 그룹이 추가됩니다. 디렉터리 서비스는 서버에 설정된 대로 유지됩니다.
 The server cannot be reached	서버에 연결할 수 없습니다
 The server sent no text	서버가 텍스트를 보내지 않았습니다
+The test failed	테스트에 실패했습니다
+The test succeeded	테스트에 성공했습니다
 The upload is finished	업로드가 완료되었습니다
 The users with their role, manufacturer, groups and last sign-in, without passwords.	역할, 제조업체, 그룹 및 마지막 로그인이 포함된 사용자입니다(암호 제외).
 Thermometers	온도계
@@ -426,6 +501,7 @@ Three-way control valve	3방향 제어 밸브
 Three-way flap	3방향 플랩
 Three-way valve	3방향 밸브
 Throttle plate	오리피스 플레이트
+Timeout (s)	시간 제한(초)
 Timer relay	타이머 릴레이
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	복원하려면 --data <파일>로 서버를 시작하거나 --migrate-from <파일>로 새 데이터베이스에 복사하십시오.
 Too many failed sign-ins, try again later	로그인 실패가 너무 많습니다. 나중에 다시 시도하세요
@@ -439,10 +515,15 @@ Undefined	정의되지 않음
 Uploading {} to Vault ({} %)…	{}을(를) Vault에 업로드하는 중({} %)…
 Uploading {} to Vault…	{}을(를) Vault에 업로드하는 중…
 User account	사용자 계정
+User bind	사용자 바인딩
+User filter	사용자 필터
 User or group	사용자 또는 그룹
 User {} exists already. Change it?	사용자 {}이(가) 이미 있습니다. 변경하시겠습니까?
 User-defined rail	사용자 정의 레일
 Users may register themselves (as readers)	사용자가 직접 가입할 수 있습니다(읽기 사용자로)
+Users of a directory too, by the name they sign in with	디렉터리 서비스의 사용자도 로그인하는 이름으로 지정
+Users per role	역할별 사용자
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	서버에 사용자 이름의 로컬 계정이 없으면 사용자는 디렉터리 서비스(Active Directory, LDAP)의 계정으로 로그인합니다. 권한 부여는 디렉터리 서비스의 그룹을 디렉터리:그룹으로 지정합니다.
 Vacuum pump	진공 펌프
 Valve / distributor	밸브 / 분배기
 Valve coil	밸브 코일
@@ -458,9 +539,12 @@ Washer	와셔
 Water traps	수분 분리기
 Wind deflector	바람막이
 Wiring material	배선 자재
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	사용자 없음: 연결하고 서비스 계정으로 바인딩합니다. 사용자 있음: 해당 사용자를 로그인시키고 그룹을 표시합니다.
+Without catalog	카탈로그 없음
 Without sign-in	로그인 없이
 Wrong access token	액세스 토큰이 잘못되었습니다
 Wrong user name or password	사용자 이름 또는 암호가 잘못되었습니다
+You may not change parts of manufacturer {}	제조업체 {}의 부품은 변경할 수 없습니다
 Your account awaits the approval of an administrator	계정이 관리자의 승인을 기다리고 있습니다
 Your account was created. An administrator has to approve it before you can sign in.	계정을 만들었습니다. 로그인하려면 관리자의 승인이 필요합니다.
 access denied – check the personal access token	액세스 거부됨 – 개인 액세스 토큰을 확인하세요
@@ -469,6 +553,7 @@ changed, not saved	변경됨, 저장되지 않음
 connection failed: {}	연결 실패: {}
 directory:group	디렉터리:그룹
 from the name	이름에서
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// 또는 ldaps://, 일반적인 포트가 아니면 포트 포함
 needed for changes	변경 시 필요
 new part, not saved	새 부품, 저장되지 않음
 read-only server	읽기 전용 서버
@@ -486,6 +571,8 @@ you	나
 {} parts in {} catalogs, revision {}	부품 {}개, 카탈로그 {}개, 개정 {}
 {} parts, {} catalogs, {}	부품 {}개, 카탈로그 {}개, {}
 {} – save to upload it	{} – 업로드하려면 저장하세요
+{}: a logo has at most 512 kB	{}: 로고는 최대 512 kB입니다
+{}: the catalog is no longer open	{}: 카탈로그가 더 이상 열려 있지 않습니다
 {}: the part is no longer open	{}: 부품이 더 이상 열려 있지 않습니다
 {}: {} parts added, {} updated, {} kept	{}: 부품 {}개 추가, {}개 업데이트, {}개 유지
 ⎘ Copy	⎘ 복사

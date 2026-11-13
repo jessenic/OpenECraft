@@ -77,7 +77,6 @@ Accept as checked	Přijmout jako zkontrolované
 Accepted messages ({})	Přijatá hlášení ({})
 Active	Aktivní
 Actuators on the door	Ovládací prvky na dveřích
-Add	Přidat
 Add a command	Přidat příkaz
 Add a target language to translate the project texts.	Chcete-li přeložit texty projektu, přidejte cílový jazyk.
 Add filter	Přidat filtr
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	Uzamčeno uživatelem {} na pro
 Locked by {} – read only	Uzamkl {} – jen pro čtení
 Locking…	Zamykání…
 Logic	Logika
-Logo	Logo
 Logo on the cover page	Logo na titulním listu
 Longer values are drawn smaller (0 = no limit)	Delší hodnoty se kreslí menší (0 = bez omezení)
 Look for updates when OpenECraft starts	Hledat aktualizace při spuštění OpenECraft
@@ -1120,7 +1118,6 @@ New document page…	Nová stránka dokumentu…
 New empty	Nový, prázdný
 New enclosure	Nová skříň
 New graphics page	Nová stránka grafiky
-New group	Nová skupina
 New harness	Nový kabelový svazek
 New items go onto this layer	Nové objekty se umístí do této vrstvy
 New mounting layout page	Nová stránka montážního plánu
@@ -1962,6 +1959,7 @@ The horizontal wire	Vodorovný vodič
 The items are selected and moved together	Prvky se vybírají a přesouvají společně
 The logo is fitted into this area keeping its aspect ratio	Logo se vepíše do této oblasti se zachováním poměru stran
 The logo of the project properties, e.g. the customer's	Logo z vlastností projektu, např. logo zákazníka
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Loga katalogů výrobců na serveru artiklů, vedle podrobností artiklu
 The macro library has no page macros (Macros › Save page as macro…).	Knihovna maker neobsahuje žádná makra stránek (Makra › Uložit stránku jako makro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Modifikační klávesy, se kterými kolečko posouvá do strany nebo přibližuje, se nastavují v části Modifikační klávesy.
 The modules no string takes yet in series, on the first inverter	Moduly, které ještě žádný string nebere, v sérii, na prvním střídači
@@ -2232,7 +2230,6 @@ no electrical data of the module	žádná elektrická data modulu
 no rooms	žádné místnosti
 no valid levels	žádná platná podlaží
 no wires	žádné vodiče
-none	žádná
 not defined	nedefinováno
 not in the P&ID	není v P&ID
 not in the library	není v knihovně

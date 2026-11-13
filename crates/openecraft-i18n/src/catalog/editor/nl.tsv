@@ -77,7 +77,6 @@ Accept as checked	Accepteren als gecontroleerd
 Accepted messages ({})	Geaccepteerde meldingen ({})
 Active	Actief
 Actuators on the door	Bedieningselementen in de deur
-Add	Toevoegen
 Add a command	Een opdracht toevoegen
 Add a target language to translate the project texts.	Voeg een doeltaal toe om de projectteksten te vertalen.
 Add filter	Filter toevoegen
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	Vergrendeld door {} op de proje
 Locked by {} – read only	Vergrendeld door {} – alleen-lezen
 Locking…	Vergrendelen…
 Logic	Logica
-Logo	Logo
 Logo on the cover page	Logo op het voorblad
 Longer values are drawn smaller (0 = no limit)	Langere waarden worden kleiner getekend (0 = geen limiet)
 Look for updates when OpenECraft starts	Bij het starten van OpenECraft op updates controleren
@@ -1120,7 +1118,6 @@ New document page…	Nieuwe documentpagina…
 New empty	Nieuw, leeg
 New enclosure	Nieuwe behuizing
 New graphics page	Nieuwe grafiekpagina
-New group	Nieuwe groep
 New harness	Nieuwe kabelboom
 New items go onto this layer	Nieuwe elementen komen op deze laag
 New mounting layout page	Nieuwe montageplanpagina
@@ -1962,6 +1959,7 @@ The horizontal wire	De horizontale draad
 The items are selected and moved together	De elementen worden samen geselecteerd en verplaatst
 The logo is fitted into this area keeping its aspect ratio	Het logo wordt met behoud van de beeldverhouding in dit gebied ingepast
 The logo of the project properties, e.g. the customer's	Het logo uit de projecteigenschappen, bijv. dat van de klant
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	De logo's van de catalogi van de fabrikanten op de artikelserver, naast de details van een artikel
 The macro library has no page macros (Macros › Save page as macro…).	De macrobibliotheek heeft geen paginamacro's (Macro's › Pagina opslaan als macro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	De combinatietoetsen waarmee het wiel zijwaarts verschuift of zoomt, stelt u in onder Combinatietoetsen.
 The modules no string takes yet in series, on the first inverter	De modules die nog geen string neemt, in serie, op de eerste omvormer
@@ -2232,7 +2230,6 @@ no electrical data of the module	geen elektrische gegevens van de module
 no rooms	geen ruimten
 no valid levels	geen geldige verdiepingen
 no wires	geen draden
-none	geen
 not defined	niet gedefinieerd
 not in the P&ID	niet in het P&ID
 not in the library	niet in de bibliotheek

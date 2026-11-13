@@ -77,7 +77,6 @@ Accept as checked	Elfogadás ellenőrzöttként
 Accepted messages ({})	Elfogadott üzenetek ({})
 Active	Aktív
 Actuators on the door	Kezelőelemek az ajtón
-Add	Hozzáadás
 Add a command	Parancs hozzáadása
 Add a target language to translate the project texts.	A projektszövegek fordításához adjon hozzá egy célnyelvet.
 Add filter	Szűrő hozzáadása
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	{} zárolta a projektkiszolgál
 Locked by {} – read only	Zárolta: {} – csak olvasható
 Locking…	Zárolás…
 Logic	Logika
-Logo	Logó
 Logo on the cover page	Logó a fedlapon
 Longer values are drawn smaller (0 = no limit)	A hosszabb értékek kisebben jelennek meg (0 = nincs korlát)
 Look for updates when OpenECraft starts	Frissítések keresése az OpenECraft indításakor
@@ -1120,7 +1118,6 @@ New document page…	Új dokumentumoldal…
 New empty	Új, üres
 New enclosure	Új szekrény
 New graphics page	Új grafikus oldal
-New group	Új csoport
 New harness	Új kábelköteg
 New items go onto this layer	Az új elemek erre a rétegre kerülnek
 New mounting layout page	Új szerelésiterv-oldal
@@ -1962,6 +1959,7 @@ The horizontal wire	A vízszintes vezeték
 The items are selected and moved together	Az elemek kijelölése és mozgatása együtt történik
 The logo is fitted into this area keeping its aspect ratio	A logó a méretarány megtartásával illeszkedik erre a területre
 The logo of the project properties, e.g. the customer's	A projekt tulajdonságaiban megadott logó, pl. az ügyfélé
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	A gyártói katalógusok logói az alkatrész-kiszolgálón, egy alkatrész részletei mellett
 The macro library has no page macros (Macros › Save page as macro…).	A makrókönyvtárban nincsenek oldalmakrók (Makrók › Oldal mentése makróként…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	A módosítóbillentyűk, amelyekkel a görgő oldalra mozgat vagy nagyít, a Módosítóbillentyűk részben állíthatók be.
 The modules no string takes yet in series, on the first inverter	A még egy stringhez sem tartozó modulok sorba kötve, az első inverteren
@@ -2232,7 +2230,6 @@ no electrical data of the module	nincsenek a modul elektromos adatai
 no rooms	nincs helyiség
 no valid levels	nincs érvényes szint
 no wires	nincsenek vezetékek
-none	nincs
 not defined	nincs definiálva
 not in the P&ID	nincs a P&ID-ben
 not in the library	nincs a könyvtárban

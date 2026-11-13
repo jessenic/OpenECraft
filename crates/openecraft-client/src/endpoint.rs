@@ -102,6 +102,24 @@ impl Endpoint {
         self.authorized(ehttp::Request::delete(&self.url(&api::catalog_path(id))))
     }
 
+    /// GET /api/v1/catalogs/{id}/logo: the image of the catalog's logo.
+    pub fn catalog_logo(&self, id: &str) -> ehttp::Request {
+        self.authorized(ehttp::Request::get(self.url(&api::catalog_logo_path(id))))
+    }
+
+    /// PUT /api/v1/catalogs/{id}/logo?name=: sets the logo (the file name gives its type).
+    pub fn set_catalog_logo(&self, id: &str, name: &str, data: Vec<u8>) -> ehttp::Request {
+        let path = format!("{}?name={}", api::catalog_logo_path(id), api::encode_component(name));
+        let mut req = ehttp::Request::post(self.url(&path), data);
+        req.method = ehttp::Method::PUT;
+        self.authorized(with_content_type(req, "application/octet-stream"))
+    }
+
+    /// DELETE /api/v1/catalogs/{id}/logo
+    pub fn delete_catalog_logo(&self, id: &str) -> ehttp::Request {
+        self.authorized(ehttp::Request::delete(&self.url(&api::catalog_logo_path(id))))
+    }
+
     /// GET /api/v1/libraries/{name}: a library shared by all projects (404: none yet).
     pub fn library(&self, name: &str) -> ehttp::Request {
         self.authorized(ehttp::Request::get(self.url(&api::library_path(name))))

@@ -12,6 +12,7 @@ Above	上方
 Access token	访问令牌
 Accessories	附件
 Accessory	附件
+Add	添加
 Add a PDF of all pages	添加所有页的 PDF
 Add to favorites	添加到收藏夹
 Address	地址
@@ -83,6 +84,7 @@ Created by	创建者
 Cross references	交叉引用
 Cross-section	截面积
 Crossing	交叉
+Currency	货币
 Current	电流
 Cutout	开孔
 Cutouts	开孔
@@ -106,6 +108,7 @@ Device description	设备描述
 Device tag	设备标识符
 Device {}	设备 {}
 Devices	设备
+Dimensions	尺寸
 Direction	方向
 Discard	放弃
 Discard changes	放弃更改
@@ -197,11 +200,13 @@ Load	负载
 Loaded circuits bunched together	成束敷设的带负载回路数
 Location	位置
 Location (+)	位置 (+)
+Logo	标志
 MTTFd (years)	MTTFd（年）
 Machine	机器
 Main earthing terminal	总接地端子
 Main switch	主开关
 Manufacturer	制造商
+Manufacturers	制造商
 Manufacturing	制造
 Marking	标记
 Match case	区分大小写
@@ -228,6 +233,7 @@ Name of the point, e.g. a survey point	点的名称，例如测量点
 Name of the scheme	方案名称
 Net	网络
 Never	从不
+New group	新建组
 New name	新名称
 Next page	下一页
 No	否
@@ -399,6 +405,7 @@ Settings	设置
 Shape	形状
 Short-circuit voltage	短路电压
 Show history	显示历史记录
+Show the logos of the catalogs	显示目录的标志
 Show the row after the column	在列后显示行
 Side	侧
 Sign in	登录

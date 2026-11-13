@@ -77,7 +77,6 @@ Accept as checked	Zaakceptuj jako sprawdzone
 Accepted messages ({})	Zaakceptowane komunikaty ({})
 Active	Aktywna
 Actuators on the door	Elementy sterownicze na drzwiach
-Add	Dodaj
 Add a command	Dodaj polecenie
 Add a target language to translate the project texts.	Dodaj język docelowy, aby przetłumaczyć teksty projektu.
 Add filter	Dodaj filtr
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	Zablokowane przez {} na serwerz
 Locked by {} – read only	Zablokowane przez {} – tylko do odczytu
 Locking…	Blokowanie…
 Logic	Logika
-Logo	Logo
 Logo on the cover page	Logo na stronie tytułowej
 Longer values are drawn smaller (0 = no limit)	Dłuższe wartości są rysowane mniejsze (0 = bez ograniczenia)
 Look for updates when OpenECraft starts	Szukaj aktualizacji przy uruchamianiu OpenECraft
@@ -1120,7 +1118,6 @@ New document page…	Nowa strona dokumentu…
 New empty	Nowy, pusty
 New enclosure	Nowa obudowa
 New graphics page	Nowa strona grafiki
-New group	Nowa grupa
 New harness	Nowa wiązka
 New items go onto this layer	Nowe elementy trafiają na tę warstwę
 New mounting layout page	Nowa strona planu montażu
@@ -1962,6 +1959,7 @@ The horizontal wire	Przewód poziomy
 The items are selected and moved together	Elementy są zaznaczane i przesuwane razem
 The logo is fitted into this area keeping its aspect ratio	Logo jest dopasowywane do tego obszaru z zachowaniem proporcji
 The logo of the project properties, e.g. the customer's	Logo z właściwości projektu, np. logo klienta
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Loga katalogów producentów na serwerze artykułów, obok szczegółów artykułu
 The macro library has no page macros (Macros › Save page as macro…).	Biblioteka makr nie zawiera makr stron (Makra › Zapisz stronę jako makro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Klawisze modyfikujące, które sprawiają, że kółko przesuwa w bok lub powiększa, ustawia się w sekcji Klawisze modyfikujące.
 The modules no string takes yet in series, on the first inverter	Moduły, których żaden łańcuch jeszcze nie bierze, szeregowo, na pierwszym falowniku
@@ -2232,7 +2230,6 @@ no electrical data of the module	brak danych elektrycznych modułu
 no rooms	brak pomieszczeń
 no valid levels	brak prawidłowych kondygnacji
 no wires	brak przewodów
-none	brak
 not defined	niezdefiniowany
 not in the P&ID	nie na schemacie P&ID
 not in the library	brak w bibliotece

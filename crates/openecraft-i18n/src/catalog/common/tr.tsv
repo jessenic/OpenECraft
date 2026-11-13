@@ -12,6 +12,7 @@ Above	Üstte
 Access token	Erişim belirteci
 Accessories	Aksesuarlar
 Accessory	Aksesuar
+Add	Ekle
 Add a PDF of all pages	Tüm sayfaların PDF'ini ekle
 Add to favorites	Sık kullanılanlara ekle
 Address	Adres
@@ -85,6 +86,7 @@ Created by	Oluşturan
 Cross references	Çapraz referanslar
 Cross-section	Kesit
 Crossing	Kesişme
+Currency	Para birimi
 Current	Akım
 Cutout	Kesim
 Cutouts	Kesimler
@@ -108,6 +110,7 @@ Device description	Cihaz tanımı
 Device tag	Cihaz etiketi
 Device {}	Cihaz {}
 Devices	Cihazlar
+Dimensions	Boyutlar
 Direction	Yön
 Discard	At
 Discard changes	Değişiklikleri at
@@ -199,11 +202,13 @@ Load	Yük
 Loaded circuits bunched together	Bir arada gruplanmış yüklü devreler
 Location	Konum
 Location (+)	Konum (+)
+Logo	Logo
 MTTFd (years)	MTTFd (yıl)
 Machine	Makine
 Main earthing terminal	Ana topraklama barası
 Main switch	Ana şalter
 Manufacturer	Üretici
+Manufacturers	Üreticiler
 Manufacturing	Üretim
 Marking	İşaretleme
 Match case	Büyük/küçük harf eşleştir
@@ -230,6 +235,7 @@ Name of the point, e.g. a survey point	Noktanın adı, ör. bir ölçüm noktas�
 Name of the scheme	Düzenin adı
 Net	Ağ
 Never	Hiçbir zaman
+New group	Yeni grup
 New name	Yeni ad
 Next page	Sonraki sayfa
 No	Hayır
@@ -401,6 +407,7 @@ Settings	Ayarlar
 Shape	Şekil
 Short-circuit voltage	Kısa devre gerilimi
 Show history	Geçmişi göster
+Show the logos of the catalogs	Katalogların logolarını göster
 Show the row after the column	Satırı sütundan sonra göster
 Side	Taraf
 Sign in	Oturum aç
@@ -497,6 +504,7 @@ file or folder not found	dosya veya klasör bulunamadı
 landscape	yatay
 left	sola
 mm	mm
+none	yok
 normal	normal
 not bonded	kuşaklanmadı
 not connected	bağlı değil

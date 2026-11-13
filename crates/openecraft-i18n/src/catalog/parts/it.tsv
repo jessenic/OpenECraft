@@ -2,9 +2,14 @@
 (renamed from {})	(rinominato da {})
 19-inch module technology	Tecnica di montaggio a 19 pollici
 A catalog id must not be empty or contain blanks	Un identificativo di catalogo non può essere vuoto né contenere spazi
+A directory id must not be empty or contain blanks or ':'	L'id di un servizio di directory non può essere vuoto né contenere spazi o ':'
+A grant needs a user or a group	Un'assegnazione richiede un utente o un gruppo
+A group name must not be empty or contain ':'	Il nome di un gruppo non può essere vuoto né contenere ':'
 A manufacturer user needs a manufacturer	Un utente produttore richiede un produttore
+A part number must not be empty or start or end with blanks	Un codice articolo non può essere vuoto né iniziare o finire con spazi
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Un ruolo è un insieme di diritti. Le assegnazioni danno a un utente o a un gruppo un ruolo sugli articoli di un produttore (* e ? come caratteri jolly, * per tutti); un'assegnazione di negazione toglie i diritti del ruolo, qualunque cosa diano le altre assegnazioni.
 A user name must not be empty or contain blanks	Un nome utente non può essere vuoto né contenere spazi
+Accept any certificate (test installations only)	Accetta qualsiasi certificato (solo installazioni di prova)
 Access rights	Diritti di accesso
 Access settings saved	Impostazioni di accesso salvate
 Accumulator blocks	Blocchi accumulatori
@@ -18,6 +23,8 @@ Administration	Amministrazione
 All manufacturers	Tutti i produttori
 All parts	Tutti gli articoli
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Tutti gli articoli con i loro dati, per i fogli di calcolo o per importarli in un altro server. I loro file sono solo nel backup del database.
+Allowed groups	Gruppi ammessi
+Also groups of groups (Active Directory)	Anche gruppi di gruppi (Active Directory)
 Amplifiers, controllers	Amplificatori, regolatori
 Analog sensor	Sensore analogico
 Approval of new accounts	Approvazione dei nuovi account
@@ -29,11 +36,14 @@ Auxiliary contact block	Blocco di contatti ausiliari
 Auxiliary switch	Interruttore ausiliario
 Awaiting approval	In attesa di approvazione
 Awaiting approval: {}	In attesa di approvazione: {}
+Back to the part	Torna all'articolo
 Back to the results	Torna ai risultati
 Ball valve pneumatic	Valvola a sfera pneumatica
 Ball valves	Valvole a sfera
 Base	Zoccolo
 Battery monitor	Monitor batteria
+Better kept in an environment variable of the server	Meglio in una variabile d'ambiente del server
+Bind name of a user without service account; {user} is replaced	Nome di bind di un utente senza account di servizio; {user} viene sostituito
 Block ball valves	Valvole a sfera monoblocco
 Body	Corpo
 Brake motor	Motore autofrenante
@@ -59,10 +69,12 @@ Centrifugal pumps	Pompe centrifughe
 Centrifuge	Centrifuga
 Certificate	Certificato
 Changed	Modificato
+Changed last	Modificati per ultimi
 Changes allowed	Modifiche consentite
 Check control valve	Valvola di ritegno
 Check flap	Clapet di ritegno
 Chimney	Camino
+Choose logo…	Scegli logo…
 Circuit breaker	Interruttore automatico
 Coil	Bobina
 Complete power units	Centraline complete
@@ -95,13 +107,17 @@ Crusher	Frantumatore
 Cylinders	Cilindri
 DC motor	Motore in corrente continua
 DC-DC converter	Convertitore DC-DC
+Dashboard	Dashboard
 Data recorder	Registratore di dati
 Database backup	Backup del database
 Datasheet	Scheda tecnica
 Defined roles	Ruoli definiti
 Delete catalog {} from the server?	Eliminare il catalogo {} dal server?
 Delete catalog {}?	Eliminare il catalogo {}?
+Delete directory {}? Its users can no longer sign in.	Eliminare il servizio di directory {}? I suoi utenti non potranno più accedere.
+Delete group {}? The grants to it are removed.	Eliminare il gruppo {}? Le sue assegnazioni vengono rimosse.
 Delete part {} from the server? This cannot be undone.	Eliminare l'articolo {} dal server? L'operazione non può essere annullata.
+Delete part {}?	Eliminare l'articolo {}?
 Delete parts	Elimina articoli
 Delete user {}? Their sessions and favorites are removed.	Eliminare l'utente {}? Le sue sessioni e i suoi preferiti vengono rimossi.
 Deleted	Eliminato
@@ -109,8 +125,9 @@ Digital sensor, general	Sensore digitale, generico
 Directional control valves	Valvole distributrici
 Directional control valves, coaxial	Valvole distributrici coassiali
 Directories	Servizi di directory
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	I servizi di directory (Active Directory, LDAP) si configurano nel file delle impostazioni di accesso del server.
 Directory	Servizio di directory
+Directory groups	Gruppi del servizio di directory
+Directory {} exists already. Change it?	Il servizio di directory {} esiste già. Modificarlo?
 Dirt trap	Filtro raccoglitore di impurità
 Discard the changes	Ignora le modifiche
 Discard the unsaved changes of {}?	Ignorare le modifiche non salvate di {}?
@@ -126,18 +143,27 @@ Duplex switch filters	Filtri doppi commutabili
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	Modifica catalogo {}
 Edit catalogs	Modifica cataloghi
+Edit directory {}	Modifica il servizio di directory {}
+Edit group {}	Modifica il gruppo {}
+Edit part {}	Modifica l'articolo {}
 Edit parts	Modifica articoli
 Edit user {}	Modifica utente {}
 Electrical engineering - special items	Elettrotecnica - componenti speciali
 Electrically-operated mechanical devices	Dispositivi meccanici ad azionamento elettrico
 Electrolysis cell	Cella elettrolitica
+Empty: the memberOf attribute of the user	Vuoto: l'attributo memberOf dell'utente
+Empty: the search base	Vuoto: la base di ricerca
+Empty: the usual filter of the type	Vuoto: il filtro usuale del tipo
 Enclosure cooling devices	Condizionatori per armadi
 Enclosure heater	Riscaldatore per armadi
+Encryption	Crittografia
 End clamp	Fermo terminale
 Ends the session and forgets the token	Termina la sessione e dimentica il token
 Engine	Macchina motrice
 Enter the address of an openecraft-parts-server and click Connect.	Immetti l'indirizzo di un openecraft-parts-server e fai clic su Connetti.
+Environment variable with the password of the service account	Variabile d'ambiente con la password dell'account di servizio
 Evaporator	Evaporatore
+Everybody who may read the parts sees it.	La vede chiunque possa leggere gli articoli.
 Exhaust valves	Valvole di sfiato
 Export (CSV)	Esportazione (CSV)
 Export and backup	Esportazione e backup
@@ -167,8 +193,14 @@ Furnace	Forno
 Generator	Generatore
 Grants	Assegnazioni
 Grants of the server's access settings can refer to them	Le assegnazioni delle impostazioni di accesso del server possono farvi riferimento
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	Le assegnazioni su catalog:<id> valgono per un catalogo e i suoi articoli (Cataloghi › Autorizzazioni).
 Ground fault current circuit breaker	Interruttore differenziale
 Ground fault voltage circuit-breaker	Interruttore di protezione a tensione di guasto
+Group filter	Filtro gruppi
+Group search base	Base di ricerca dei gruppi
+Group {} exists already. Change it?	Il gruppo {} esiste già. Modificarlo?
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	I gruppi riuniscono utenti, locali e di un servizio di directory. Le assegnazioni a un gruppo danno ai suoi membri i diritti di un ruolo, sull'intero server, un produttore o un catalogo.
+Groups of this server, next to those of the directory	Gruppi di questo server, oltre a quelli del servizio di directory
 Heat exchangers	Scambiatori di calore
 High-pressure systems	Impianti ad alta pressione
 High-pressure tanks	Serbatoi ad alta pressione
@@ -179,6 +211,7 @@ Housing accessories, external extension	Accessori per custodie, montaggio estern
 Housing accessories, internal extension	Accessori per custodie, montaggio interno
 Hydraulic motors	Motori idraulici
 Hydraulic tanks	Serbatoi idraulici
+Images (PNG, JPEG, GIF, WebP, SVG)	Immagini (PNG, JPEG, GIF, WebP, SVG)
 Import / export	Importazione / esportazione
 Import parts	Importa articoli
 Imported {} parts (revision {})	{} articoli importati (revisione {})
@@ -191,6 +224,7 @@ KNX actuator	Attuatore KNX
 KNX system device	Dispositivo di sistema KNX
 Key switch	Selettore a chiave
 Kneader	Impastatrice
+Last changes per month	Ultime modifiche per mese
 Last sign-in	Ultimo accesso
 Legend plate	Targhetta
 Level detector	Rilevatore di livello
@@ -208,12 +242,15 @@ Lock systems	Sistemi di chiusura
 Locking couplings	Raccordi di chiusura
 Logic item	Componente logico
 Logic items	Componenti logici
+Logos	Loghi
+Looks the users up; empty: users bind with their own name (below)	Cerca gli utenti; vuoto: gli utenti si collegano con il proprio nome (sotto)
 Male insert	Inserto maschio
 Measurement system	Sistema di misura
 Measuring connection points	Punti di connessione di misura
 Measuring couplings	Raccordi di misura
 Measuring instruments, test devices	Strumenti di misura, dispositivi di prova
 Mechanics	Meccanica
+Members	Membri
 Metering hopper	Dosatore
 Miscellaneous	Varie
 Mixer	Miscelatore
@@ -222,15 +259,20 @@ Modulators	Modulatori
 Motor overload switch	Interruttore salvamotore
 Mounting chassis	Telaio di montaggio
 Mounting panels	Piastre di montaggio
+Name attribute	Attributo del nome
 New accounts need the approval of an administrator	I nuovi account richiedono l'approvazione di un amministratore
 New catalog	Nuovo catalogo
+New directory	Nuovo servizio di directory
+New part	Nuovo articolo
 New part based on the open one	Nuovo articolo basato su quello aperto
 New password	Nuova password
 New role	Nuovo ruolo
 New user	Nuovo utente
 Newer version	Versione più recente
 Next	Avanti
+No grants: the rights by manufacturer apply	Nessuna assegnazione: valgono i diritti per produttore
 No grants: users have the rights of their role	Nessuna assegnazione: gli utenti hanno i diritti del loro ruolo
+No groups	Nessun gruppo
 No users	Nessun utente
 Non-return valves	Valvole di non ritorno
 Not mounted	Non montato
@@ -240,15 +282,18 @@ On the left side	Sul lato sinistro
 On the right side	Sul lato destro
 On this server	Su questo server
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Un file SQLite con tutti gli articoli, la loro cronologia e i loro file, i cataloghi, gli utenti e i loro preferiti. Contiene gli hash delle password degli utenti: conservalo al sicuro.
+One line per value, e.g. Coil voltage: 24 V DC	Una riga per valore, ad es. Tensione bobina: 24 V DC
 Only catalogs without parts can be deleted	È possibile eliminare solo cataloghi senza articoli
 Only empty catalogs can be deleted	Solo i cataloghi vuoti possono essere eliminati
 Only local accounts	Solo account locali
+Only their members sign in; empty: all users	Accedono solo i loro membri; vuoto: tutti gli utenti
 Open sessions: {}	Sessioni aperte: {}
 OpenECraft data portal	OpenECraft Data Portal
 OpenECraft parts manager	Gestione articoli OpenECraft
 OpenECraft parts server	Server articoli OpenECraft
 Other file	Altro file
 Other labels	Altre targhette
+Others	Altri
 Outlet	Uscita
 Outlet filter	Filtro di uscita
 Overload	Relè di protezione
@@ -268,8 +313,17 @@ PV rail connector	Giunto per guida fotovoltaica
 Part (source)	Articolo (origine)
 Part (target)	Articolo (destinazione)
 Part files (documents, images, models, macros)	File degli articoli (documenti, immagini, modelli, macro)
+Part {} exists already	L'articolo {} esiste già
 Part {} not found	Articolo {} non trovato
 Partition	Parete divisoria
+Parts per catalog	Articoli per catalogo
+Parts per manufacturer	Articoli per produttore
+Parts per product group	Articoli per gruppo di prodotti
+Parts with …	Articoli con …
+Password variable	Variabile della password
+Per page	Per pagina
+Permissions	Autorizzazioni
+Permissions of catalog {}	Autorizzazioni del catalogo {}
 Phase-out	In dismissione
 Pipes	Tubazioni
 Piping part	Componente di tubazione
@@ -317,7 +371,9 @@ Register	Registrati
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Gli utenti registrati diventano lettori: salvano preferiti e leggono gli articoli anche quando la lettura richiede l'accesso. Assegna loro altri diritti in Utenti.
 Registration	Registrazione
 Reject the registration of {}? The account is deleted.	Rifiutare la registrazione di {}? L'account viene eliminato.
+Remove logo	Rimuovi logo
 Remove the file from the part	Rimuovi il file dall'articolo
+Remove the logo	Rimuovi il logo
 Removed from the server	Rimosso dal server
 Repeat password	Ripeti password
 Replace the roles and grants with those of the file?	Sostituire i ruoli e le assegnazioni con quelli del file?
@@ -335,11 +391,15 @@ Safety accumulators	Accumulatori di sicurezza
 Safety devices	Dispositivi di sicurezza
 Safety fuse	Fusibile
 Safety switch	Interruttore di protezione
+Save the catalog first	Salva prima il catalogo
 Save the part first	Salva prima l'articolo
+Saved directory {}	Servizio di directory {} salvato
+Saved group {}	Gruppo {} salvato
 Screw connections	Raccordi a vite
 Screw pumps	Pompe a vite
 Screw spindle compressors	Compressori a vite
 Scroll compressors	Compressori scroll
+Search base	Base di ricerca
 Search users	Cerca utenti
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Seleziona un catalogo o creane uno nuovo. Gli articoli appartengono a un catalogo tramite il loro ID catalogo (editor articoli, scheda Data Portal).
 Select a user or create a new one.	Seleziona un utente o creane uno nuovo.
@@ -349,8 +409,12 @@ Sensor NC	Sensore NC
 Sensor, switch, and pushbutton	Sensori, interruttori e pulsanti
 Sensors - pressure gauges	Sensori - manometri
 Serial sub-plates	Piastre di base in serie
+Service account	Account di servizio
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	Impostato dalle opzioni di avvio del server (--dashboard o OPENECRAFT_DASHBOARD).
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Impostato dalle opzioni di avvio del server (--registration o OPENECRAFT_REGISTRATION).
+Short name without blanks; qualifies the groups (id:group)	Nome breve senza spazi; qualifica i gruppi (id:gruppo)
 Show parts	Mostra articoli
+Show the dashboard with graphs of the parts	Mostra la dashboard con i grafici degli articoli
 Shut-off accumulators	Accumulatori di intercettazione
 Shut-off control valve	Valvola di intercettazione
 Shut-off flap	Valvola a farfalla di intercettazione
@@ -375,10 +439,12 @@ Silo	Silo
 Single-phase motor	Motore monofase
 Single-stage filters	Filtri semplici
 Siphon	Sifone
+Size of the files	Dimensione dei file
 Solenoid valve	Elettrovalvola
 Sorter	Selezionatrice
 Start a server with:  openecraft-parts-server --token <secret>	Avvia un server con:  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	Avvia openecraft-parts-server con --token per consentire le modifiche
+StartTLS (for ldap://)	StartTLS (per ldap://)
 Steam boiler	Caldaia a vapore
 Stirrer	Agitatore
 Storage	Archiviazione
@@ -399,23 +465,32 @@ Temperature sensors	Sensori di temperatura
 Terminal label	Targhetta del morsetto
 Terminator	Terminazione
 Terminators, filters	Terminazioni, filtri
+Test	Prova
 Test accessories	Accessori di prova
 The EPLAN Data Portal only offers searching and reading parts	L'EPLAN Data Portal offre solo la ricerca e la lettura di articoli
 The access settings would leave nobody who manages users	Con queste impostazioni di accesso nessuno potrebbe più gestire gli utenti
 The access token is only needed for changes; it is not stored.	Il token di accesso è necessario solo per le modifiche; non viene salvato.
+The address must start with ldap:// or ldaps://	L'indirizzo deve iniziare con ldap:// o ldaps://
 The catalogs with their manufacturer, version and description.	I cataloghi con produttore, versione e descrizione.
 The checksum of {} does not match: the download is damaged	Il checksum di {} non corrisponde: il download è danneggiato
+The dashboard is hidden	La dashboard è nascosta
+The dashboard is shown	La dashboard è visibile
 The directory checks the password and sets the groups at every sign-in	Il servizio di directory verifica la password e imposta i gruppi a ogni accesso
 The file holds no access settings	Il file non contiene impostazioni di accesso
+The groups would leave nobody who manages users	I gruppi non lascerebbero nessuno che gestisca gli utenti
 The last administrator cannot lose the right to manage users	L'ultimo amministratore non può perdere il diritto di gestire gli utenti
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	Il logo dell'azienda: PNG, JPEG, GIF, WebP o SVG, al massimo 512 kB
 The password needs at least {} characters	La password richiede almeno {} caratteri
 The passwords do not match	Le password non coincidono
 The project has no parts	Il progetto non ha articoli
 The registration is closed	La registrazione è chiusa
 The registration is open	La registrazione è aperta
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	I ruoli, le assegnazioni e l'accesso senza autenticazione. Il ripristino li sostituisce; i servizi di directory restano come configurati sul server.
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	I ruoli dati qui valgono per questo catalogo e i suoi articoli, qualunque sia il produttore; nega toglie i diritti del ruolo. La lettura è un diritto dell'intero server.
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	I ruoli, le assegnazioni, i gruppi e l'accesso senza login, con la versione del server. Il ripristino sostituisce ruoli e assegnazioni e aggiunge i gruppi; i servizi di directory restano come configurati sul server.
 The server cannot be reached	Il server non è raggiungibile
 The server sent no text	Il server non ha inviato alcun testo
+The test failed	La prova non è riuscita
+The test succeeded	La prova è riuscita
 The upload is finished	Il caricamento è completato
 The users with their role, manufacturer, groups and last sign-in, without passwords.	Gli utenti con ruolo, produttore, gruppi e ultimo accesso, senza password.
 Thermometers	Termometri
@@ -427,6 +502,7 @@ Three-way control valve	Valvola a tre vie
 Three-way flap	Farfalla a tre vie
 Three-way valve	Valvola a tre vie
 Throttle plate	Disco di strozzamento
+Timeout (s)	Timeout (s)
 Timer relay	Relè temporizzato
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Per ripristinarlo, avvia il server con --data <file> oppure copialo in un nuovo database con --migrate-from <file>.
 Too many failed sign-ins, try again later	Troppi accessi non riusciti, riprovare più tardi
@@ -441,10 +517,15 @@ Under the part (base)	Sotto l'articolo (base)
 Uploading {} to Vault ({} %)…	Caricamento di {} in Vault ({} %)…
 Uploading {} to Vault…	Caricamento di {} in Vault…
 User account	Account utente
+User bind	Bind dell'utente
+User filter	Filtro utenti
 User or group	Utente o gruppo
 User {} exists already. Change it?	L'utente {} esiste già. Modificarlo?
 User-defined rail	Guida definita dall'utente
 Users may register themselves (as readers)	Gli utenti possono registrarsi da soli (come lettori)
+Users of a directory too, by the name they sign in with	Anche utenti di un servizio di directory, con il nome con cui accedono
+Users per role	Utenti per ruolo
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	Gli utenti accedono con l'account di un servizio di directory (Active Directory, LDAP) quando il server non ha un account locale con il loro nome. Le assegnazioni indicano i gruppi di un servizio di directory come directory:gruppo.
 Vacuum pump	Pompa per vuoto
 Valve / distributor	Valvola / distributore
 Valve coil	Bobina valvola
@@ -460,9 +541,12 @@ Washer	Rondella
 Water traps	Separatori di condensa
 Wind deflector	Deflettore del vento
 Wiring material	Materiale di cablatura
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	Senza utente: si connette e si collega con l'account di servizio. Con un utente: lo fa accedere e mostra i suoi gruppi.
+Without catalog	Senza catalogo
 Without sign-in	Senza accesso
 Wrong access token	Token di accesso errato
 Wrong user name or password	Nome utente o password errati
+You may not change parts of manufacturer {}	Non puoi modificare gli articoli del produttore {}
 Your account awaits the approval of an administrator	Il tuo account è in attesa dell'approvazione di un amministratore
 Your account was created. An administrator has to approve it before you can sign in.	Il tuo account è stato creato. Un amministratore deve approvarlo prima che tu possa accedere.
 access denied – check the personal access token	accesso negato – verifica il token di accesso personale
@@ -471,6 +555,7 @@ changed, not saved	modificato, non salvato
 connection failed: {}	connessione non riuscita: {}
 directory:group	directory:gruppo
 from the name	dal nome
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// o ldaps://, con la porta se non è quella usuale
 needed for changes	necessario per le modifiche
 new part, not saved	nuovo articolo, non salvato
 read-only server	server di sola lettura
@@ -488,6 +573,8 @@ you	tu
 {} parts in {} catalogs, revision {}	{} articoli in {} cataloghi, revisione {}
 {} parts, {} catalogs, {}	{} articoli, {} cataloghi, {}
 {} – save to upload it	{} – salva per caricarlo
+{}: a logo has at most 512 kB	{}: un logo è al massimo di 512 kB
+{}: the catalog is no longer open	{}: il catalogo non è più aperto
 {}: the part is no longer open	{}: l'articolo non è più aperto
 {}: {} parts added, {} updated, {} kept	{}: {} articoli aggiunti, {} aggiornati, {} mantenuti
 ⎘ Copy	⎘ Copia

@@ -12,6 +12,7 @@ Above	Yläpuolella
 Access token	Käyttöoikeustokeni
 Accessories	Tarvikkeet
 Accessory	Tarvike
+Add	Lisää
 Add a PDF of all pages	Lisää kaikista sivuista PDF
 Add to favorites	Lisää suosikkeihin
 Address	Osoite
@@ -85,6 +86,7 @@ Created by	Luonut
 Cross references	Ristiviittaukset
 Cross-section	Poikkipinta-ala
 Crossing	Risteys
+Currency	Valuutta
 Current	Virta
 Cutout	Aukko
 Cutouts	Aukot
@@ -108,6 +110,7 @@ Device description	Laitekuvaus
 Device tag	Laitetunnus
 Device {}	Laite {}
 Devices	Laitteet
+Dimensions	Mitat
 Direction	Suunta
 Discard	Hylkää
 Discard changes	Hylkää muutokset
@@ -199,11 +202,13 @@ Load	Kuorma
 Loaded circuits bunched together	Yhteen niputetut kuormitetut piirit
 Location	Sijainti
 Location (+)	Sijainti (+)
+Logo	Logo
 MTTFd (years)	MTTFd (vuotta)
 Machine	Kone
 Main earthing terminal	Päämaadoituskisko
 Main switch	Pääkytkin
 Manufacturer	Valmistaja
+Manufacturers	Valmistajat
 Manufacturing	Valmistus
 Marking	Merkinnät
 Match case	Sama kirjainkoko
@@ -230,6 +235,7 @@ Name of the point, e.g. a survey point	Pisteen nimi, esim. mittapiste
 Name of the scheme	Mallin nimi
 Net	Verkko
 Never	Ei koskaan
+New group	Uusi ryhmä
 New name	Uusi nimi
 Next page	Seuraava sivu
 No	Ei
@@ -401,6 +407,7 @@ Settings	Asetukset
 Shape	Muoto
 Short-circuit voltage	Oikosulkujännite
 Show history	Näytä historia
+Show the logos of the catalogs	Näytä luetteloiden logot
 Show the row after the column	Näytä rivi sarakkeen jälkeen
 Side	Puoli
 Sign in	Kirjaudu sisään
@@ -497,6 +504,7 @@ file or folder not found	tiedostoa tai kansiota ei löytynyt
 landscape	vaaka
 left	vasemmalle
 mm	mm
+none	ei mitään
 normal	normaali
 not bonded	ei liitetty
 not connected	ei liitetty

@@ -441,6 +441,7 @@ impl App {
     /// The data portal (parts server) as a pane.
     pub(super) fn portal_pane(&mut self, ui: &mut egui::Ui) {
         let ctx = ui.ctx().clone();
+        self.parts_ui.portal.show_logos = self.shell.catalog_logos;
         let actions = self.parts_ui.portal(ui, &mut self.parts_db);
         self.parts_actions(&ctx, actions);
     }

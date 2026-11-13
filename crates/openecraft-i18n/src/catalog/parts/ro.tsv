@@ -2,9 +2,14 @@
 (renamed from {})	(redenumit din {})
 19-inch module technology	Tehnică modulară de 19 inci
 A catalog id must not be empty or contain blanks	Un identificator de catalog nu poate fi gol sau conține spații
+A directory id must not be empty or contain blanks or ':'	Id-ul unui serviciu de director nu poate fi gol și nu poate conține spații sau ':'
+A grant needs a user or a group	O atribuire are nevoie de un utilizator sau de o grupă
+A group name must not be empty or contain ':'	Numele unei grupe nu poate fi gol și nu poate conține ':'
 A manufacturer user needs a manufacturer	Un utilizator producător are nevoie de un producător
+A part number must not be empty or start or end with blanks	Numărul de articol nu poate fi gol și nu poate începe sau se termina cu spații
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Un rol este un set de drepturi. Atribuirile dau unui utilizator sau unui grup un rol pentru articolele unui producător (* și ? ca metacaractere, * pentru toți); o atribuire de refuz retrage drepturile rolului, indiferent ce dau alte atribuiri.
 A user name must not be empty or contain blanks	Un nume de utilizator nu poate fi gol sau conține spații
+Accept any certificate (test installations only)	Acceptare orice certificat (doar instalări de test)
 Access rights	Drepturi de acces
 Access settings saved	Setările de acces au fost salvate
 Accumulator blocks	Blocuri de acumulatoare
@@ -18,6 +23,8 @@ Administration	Administrare
 All manufacturers	Toți producătorii
 All parts	Toate articolele
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Toate articolele cu datele lor, pentru foi de calcul sau pentru import pe alt server. Fișierele lor sunt doar în copia de rezervă a bazei de date.
+Allowed groups	Grupe permise
+Also groups of groups (Active Directory)	Și grupe de grupe (Active Directory)
 Amplifiers, controllers	Amplificatoare, regulatoare
 Analog sensor	Senzor analogic
 Approval of new accounts	Aprobarea conturilor noi
@@ -29,11 +36,14 @@ Auxiliary contact block	Bloc de contacte auxiliare
 Auxiliary switch	Comutator auxiliar
 Awaiting approval	Așteaptă aprobarea
 Awaiting approval: {}	Așteaptă aprobarea: {}
+Back to the part	Înapoi la articol
 Back to the results	Înapoi la rezultate
 Ball valve pneumatic	Robinet cu bilă pneumatic
 Ball valves	Robinete cu bilă
 Base	Soclu
 Battery monitor	Monitor baterie
+Better kept in an environment variable of the server	Mai bine într-o variabilă de mediu a serverului
+Bind name of a user without service account; {user} is replaced	Numele de legare al unui utilizator fără cont de serviciu; {user} este înlocuit
 Block ball valves	Robinete cu bilă bloc
 Body	Corp
 Brake motor	Motor cu frână
@@ -59,10 +69,12 @@ Centrifugal pumps	Pompe centrifuge
 Centrifuge	Centrifugă
 Certificate	Certificat
 Changed	Modificat
+Changed last	Modificate ultimele
 Changes allowed	Modificări permise
 Check control valve	Armătură de reținere
 Check flap	Clapetă de reținere
 Chimney	Coș de fum
+Choose logo…	Alegere logo…
 Circuit breaker	Întrerupător automat
 Coil	Bobină
 Complete power units	Agregate complete
@@ -95,13 +107,17 @@ Crusher	Concasor
 Cylinders	Cilindri
 DC motor	Motor de curent continuu
 DC-DC converter	Convertor c.c.-c.c.
+Dashboard	Tablou de bord
 Data recorder	Înregistrator de date
 Database backup	Copie de rezervă a bazei de date
 Datasheet	Fișă tehnică
 Defined roles	Roluri definite
 Delete catalog {} from the server?	Ștergeți catalogul {} de pe server?
 Delete catalog {}?	Ștergeți catalogul {}?
+Delete directory {}? Its users can no longer sign in.	Ștergeți serviciul de director {}? Utilizatorii lui nu se mai pot autentifica.
+Delete group {}? The grants to it are removed.	Ștergeți grupa {}? Atribuirile ei sunt eliminate.
 Delete part {} from the server? This cannot be undone.	Ștergeți articolul {} de pe server? Această acțiune nu poate fi anulată.
+Delete part {}?	Ștergeți articolul {}?
 Delete parts	Ștergere articole
 Delete user {}? Their sessions and favorites are removed.	Ștergeți utilizatorul {}? Sesiunile și favoritele sale sunt eliminate.
 Deleted	Șters
@@ -109,8 +125,9 @@ Digital sensor, general	Senzor digital, general
 Directional control valves	Distribuitoare
 Directional control valves, coaxial	Distribuitoare coaxiale
 Directories	Servicii de director
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Serviciile de director (Active Directory, LDAP) se configurează în fișierul cu setările de acces ale serverului.
 Directory	Serviciu de director
+Directory groups	Grupele serviciului de director
+Directory {} exists already. Change it?	Serviciul de director {} există deja. Îl modificați?
 Dirt trap	Filtru de impurități
 Discard the changes	Renunțare la modificări
 Discard the unsaved changes of {}?	Renunțați la modificările nesalvate din {}?
@@ -126,18 +143,27 @@ Duplex switch filters	Filtre duble comutabile
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	Editare catalog {}
 Edit catalogs	Editare cataloage
+Edit directory {}	Editare serviciu de director {}
+Edit group {}	Editare grupă {}
+Edit part {}	Editare articol {}
 Edit parts	Editare articole
 Edit user {}	Editare utilizator {}
 Electrical engineering - special items	Electrotehnică - componente speciale
 Electrically-operated mechanical devices	Dispozitive mecanice acționate electric
 Electrolysis cell	Celulă de electroliză
+Empty: the memberOf attribute of the user	Gol: atributul memberOf al utilizatorului
+Empty: the search base	Gol: baza de căutare
+Empty: the usual filter of the type	Gol: filtrul obișnuit al tipului
 Enclosure cooling devices	Aparate de răcire pentru carcase
 Enclosure heater	Încălzitor pentru carcasă
+Encryption	Criptare
 End clamp	Opritor de capăt
 Ends the session and forgets the token	Încheie sesiunea și uită tokenul
 Engine	Mașină de antrenare
 Enter the address of an openecraft-parts-server and click Connect.	Introduceți adresa unui openecraft-parts-server și faceți clic pe Conectare.
+Environment variable with the password of the service account	Variabila de mediu cu parola contului de serviciu
 Evaporator	Evaporator
+Everybody who may read the parts sees it.	Îl vede oricine poate citi articolele.
 Exhaust valves	Supape de evacuare
 Export (CSV)	Export (CSV)
 Export and backup	Export și copie de rezervă
@@ -167,8 +193,14 @@ Furnace	Cuptor
 Generator	Generator
 Grants	Atribuiri
 Grants of the server's access settings can refer to them	Atribuirile din setările de acces ale serverului pot face referire la acestea
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	Atribuirile pe catalog:<id> se aplică unui catalog și articolelor sale (Cataloage › Permisiuni).
 Ground fault current circuit breaker	Întrerupător de protecție la curent rezidual
 Ground fault voltage circuit-breaker	Întrerupător de protecție la tensiune de defect
+Group filter	Filtru grupe
+Group search base	Baza de căutare a grupelor
+Group {} exists already. Change it?	Grupa {} există deja. O modificați?
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	Grupele reunesc utilizatori, locali și din serviciul de director. Atribuirile unei grupe dau membrilor ei drepturile unui rol, pe tot serverul, pentru un producător sau un catalog.
+Groups of this server, next to those of the directory	Grupele acestui server, pe lângă cele ale serviciului de director
 Heat exchangers	Schimbătoare de căldură
 High-pressure systems	Instalații de înaltă presiune
 High-pressure tanks	Rezervoare de înaltă presiune
@@ -179,6 +211,7 @@ Housing accessories, external extension	Accesorii de carcasă, montaj exterior
 Housing accessories, internal extension	Accesorii de carcasă, montaj interior
 Hydraulic motors	Motoare hidraulice
 Hydraulic tanks	Rezervoare hidraulice
+Images (PNG, JPEG, GIF, WebP, SVG)	Imagini (PNG, JPEG, GIF, WebP, SVG)
 Import / export	Import / export
 Import parts	Importare articole
 Imported {} parts (revision {})	{} articole importate (revizia {})
@@ -191,6 +224,7 @@ KNX actuator	Actuator KNX
 KNX system device	Dispozitiv de sistem KNX
 Key switch	Comutator cu cheie
 Kneader	Malaxor
+Last changes per month	Ultimele modificări pe lună
 Last sign-in	Ultima conectare
 Legend plate	Plăcuță de marcare
 Level detector	Detector de nivel
@@ -208,12 +242,15 @@ Lock systems	Sisteme de închidere
 Locking couplings	Cuplaje cu închidere
 Logic item	Element logic
 Logic items	Elemente logice
+Logos	Logouri
+Looks the users up; empty: users bind with their own name (below)	Caută utilizatorii; gol: utilizatorii se leagă cu propriul nume (mai jos)
 Male insert	Inserție tată
 Measurement system	Sistem de măsurare
 Measuring connection points	Puncte de conexiune pentru măsurare
 Measuring couplings	Cuplaje de măsurare
 Measuring instruments, test devices	Aparate de măsură, dispozitive de testare
 Mechanics	Mecanică
+Members	Membri
 Metering hopper	Dozator
 Miscellaneous	Diverse
 Mixer	Mixer
@@ -222,15 +259,20 @@ Modulators	Modulatoare
 Motor overload switch	Întrerupător de protecție a motorului
 Mounting chassis	Șasiu de montaj
 Mounting panels	Plăci de montaj
+Name attribute	Atributul numelui
 New accounts need the approval of an administrator	Conturile noi necesită aprobarea unui administrator
 New catalog	Catalog nou
+New directory	Serviciu de director nou
+New part	Articol nou
 New part based on the open one	Articol nou pe baza celui deschis
 New password	Parolă nouă
 New role	Rol nou
 New user	Utilizator nou
 Newer version	Versiune mai nouă
 Next	Următorul
+No grants: the rights by manufacturer apply	Nicio atribuire: se aplică drepturile pe producător
 No grants: users have the rights of their role	Nicio atribuire: utilizatorii au drepturile rolului lor
+No groups	Nicio grupă
 No users	Niciun utilizator
 Non-return valves	Supape de reținere
 Not mounted	Nemontat
@@ -240,15 +282,18 @@ On the left side	Pe partea stângă
 On the right side	Pe partea dreaptă
 On this server	Pe acest server
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Un singur fișier SQLite cu toate articolele, istoricul și fișierele lor, cataloagele, utilizatorii și favoritele lor. Conține hash-urile parolelor utilizatorilor: păstrați-l în siguranță.
+One line per value, e.g. Coil voltage: 24 V DC	O linie pe valoare, de ex. Tensiunea bobinei: 24 V DC
 Only catalogs without parts can be deleted	Pot fi șterse numai cataloagele fără articole
 Only empty catalogs can be deleted	Doar cataloagele goale pot fi șterse
 Only local accounts	Doar conturi locale
+Only their members sign in; empty: all users	Se autentifică doar membrii lor; gol: toți utilizatorii
 Open sessions: {}	Sesiuni deschise: {}
 OpenECraft data portal	Portal de date OpenECraft
 OpenECraft parts manager	Gestionar de articole OpenECraft
 OpenECraft parts server	Server de articole OpenECraft
 Other file	Alt fișier
 Other labels	Alte etichete
+Others	Altele
 Outlet	Evacuare
 Outlet filter	Filtru de ieșire
 Overload	Releu de protecție
@@ -268,8 +313,17 @@ PV rail connector	Conector de șină fotovoltaică
 Part (source)	Articol (sursă)
 Part (target)	Articol (țintă)
 Part files (documents, images, models, macros)	Fișiere de articol (documente, imagini, modele, macro-uri)
+Part {} exists already	Articolul {} există deja
 Part {} not found	Articolul {} nu a fost găsit
 Partition	Perete despărțitor
+Parts per catalog	Articole pe catalog
+Parts per manufacturer	Articole pe producător
+Parts per product group	Articole pe grupă de produse
+Parts with …	Articole cu …
+Password variable	Variabila parolei
+Per page	Pe pagină
+Permissions	Permisiuni
+Permissions of catalog {}	Permisiunile catalogului {}
 Phase-out	În curs de retragere
 Pipes	Țevi
 Piping part	Element de conductă
@@ -317,7 +371,9 @@ Register	Înregistrare
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Utilizatorii înregistrați devin cititori: păstrează favorite și citesc articolele chiar și atunci când citirea necesită conectare. Dați-le mai multe drepturi în Utilizatori.
 Registration	Înregistrare
 Reject the registration of {}? The account is deleted.	Respingeți înregistrarea lui {}? Contul este șters.
+Remove logo	Eliminare logo
 Remove the file from the part	Eliminarea fișierului din articol
+Remove the logo	Eliminare logo
 Removed from the server	Eliminat de pe server
 Repeat password	Repetați parola
 Replace the roles and grants with those of the file?	Înlocuiți rolurile și atribuirile cu cele din fișier?
@@ -335,11 +391,15 @@ Safety accumulators	Acumulatoare de siguranță
 Safety devices	Dispozitive de protecție
 Safety fuse	Siguranță fuzibilă
 Safety switch	Întrerupător de protecție
+Save the catalog first	Salvați mai întâi catalogul
 Save the part first	Salvați mai întâi articolul
+Saved directory {}	Serviciul de director {} a fost salvat
+Saved group {}	Grupa {} a fost salvată
 Screw connections	Racorduri filetate
 Screw pumps	Pompe cu șurub
 Screw spindle compressors	Compresoare cu șurub
 Scroll compressors	Compresoare scroll
+Search base	Bază de căutare
 Search users	Căutare utilizatori
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Selectați un catalog sau creați unul nou. Articolele aparțin unui catalog prin ID-ul lor de catalog (editorul de articole, fila Portal de date).
 Select a user or create a new one.	Selectați un utilizator sau creați unul nou.
@@ -349,8 +409,12 @@ Sensor NC	Senzor NÎ
 Sensor, switch, and pushbutton	Senzori, comutatoare și butoane
 Sensors - pressure gauges	Senzori - manometre
 Serial sub-plates	Plăci de bază în serie
+Service account	Cont de serviciu
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	Stabilit de opțiunile de pornire ale serverului (--dashboard sau OPENECRAFT_DASHBOARD).
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Stabilit de opțiunile de pornire ale serverului (--registration sau OPENECRAFT_REGISTRATION).
+Short name without blanks; qualifies the groups (id:group)	Nume scurt fără spații; califică grupele (id:grupă)
 Show parts	Afișare articole
+Show the dashboard with graphs of the parts	Afișare tablou de bord cu graficele articolelor
 Shut-off accumulators	Acumulatoare cu închidere
 Shut-off control valve	Armătură de închidere
 Shut-off flap	Clapetă de închidere
@@ -375,10 +439,12 @@ Silo	Siloz
 Single-phase motor	Motor monofazat
 Single-stage filters	Filtre simple
 Siphon	Sifon
+Size of the files	Dimensiunea fișierelor
 Solenoid valve	Electrovalvă
 Sorter	Sortator
 Start a server with:  openecraft-parts-server --token <secret>	Porniți un server cu:  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	Porniți openecraft-parts-server cu --token pentru a permite modificări
+StartTLS (for ldap://)	StartTLS (pentru ldap://)
 Steam boiler	Cazan de abur
 Stirrer	Agitator
 Storage	Stocare
@@ -399,23 +465,32 @@ Temperature sensors	Senzori de temperatură
 Terminal label	Etichetă de bornă
 Terminator	Terminator
 Terminators, filters	Terminatoare, filtre
+Test	Testare
 Test accessories	Accesorii de testare
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal oferă numai căutarea și citirea articolelor
 The access settings would leave nobody who manages users	Cu aceste setări de acces nimeni nu ar mai putea gestiona utilizatorii
 The access token is only needed for changes; it is not stored.	Tokenul de acces este necesar doar pentru modificări; nu se stochează.
+The address must start with ldap:// or ldaps://	Adresa trebuie să înceapă cu ldap:// sau ldaps://
 The catalogs with their manufacturer, version and description.	Cataloagele cu producătorul, versiunea și descrierea lor.
 The checksum of {} does not match: the download is damaged	Suma de control a {} nu corespunde: descărcarea este deteriorată
+The dashboard is hidden	Tabloul de bord este ascuns
+The dashboard is shown	Tabloul de bord este afișat
 The directory checks the password and sets the groups at every sign-in	Serviciul de director verifică parola și setează grupurile la fiecare conectare
 The file holds no access settings	Fișierul nu conține setări de acces
+The groups would leave nobody who manages users	Grupele nu ar mai lăsa pe nimeni care administrează utilizatorii
 The last administrator cannot lose the right to manage users	Ultimul administrator nu poate pierde dreptul de a gestiona utilizatorii
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	Logoul companiei: PNG, JPEG, GIF, WebP sau SVG, cel mult 512 kB
 The password needs at least {} characters	Parola trebuie să aibă cel puțin {} caractere
 The passwords do not match	Parolele nu se potrivesc
 The project has no parts	Proiectul nu are articole
 The registration is closed	Înregistrarea este închisă
 The registration is open	Înregistrarea este deschisă
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Rolurile, atribuirile și accesul fără conectare. Restaurarea le înlocuiește; serviciile de director rămân așa cum sunt configurate pe server.
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	Rolurile date aici se aplică acestui catalog și articolelor sale, oricare le-ar fi producătorul; refuzarea retrage drepturile rolului. Citirea este un drept al întregului server.
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	Rolurile, atribuirile, grupele și accesul fără autentificare, cu versiunea serverului. Restaurarea înlocuiește rolurile și atribuirile și adaugă grupele; serviciile de director rămân cum sunt configurate pe server.
 The server cannot be reached	Serverul nu poate fi accesat
 The server sent no text	Serverul nu a trimis niciun text
+The test failed	Testul a eșuat
+The test succeeded	Testul a reușit
 The upload is finished	Încărcarea s-a încheiat
 The users with their role, manufacturer, groups and last sign-in, without passwords.	Utilizatorii cu rolul, producătorul, grupurile și ultima conectare, fără parole.
 Thermometers	Termometre
@@ -427,6 +502,7 @@ Three-way control valve	Armătură cu trei căi
 Three-way flap	Clapetă cu trei căi
 Three-way valve	Supapă cu trei căi
 Throttle plate	Diafragmă de strangulare
+Timeout (s)	Timp limită (s)
 Timer relay	Releu de timp
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Pentru restaurare, porniți serverul cu --data <fișier> sau copiați-o într-o bază de date nouă cu --migrate-from <fișier>.
 Too many failed sign-ins, try again later	Prea multe autentificări eșuate, încercați mai târziu
@@ -441,10 +517,15 @@ Under the part (base)	Sub articol (bază)
 Uploading {} to Vault ({} %)…	Se încarcă {} în Vault ({} %)…
 Uploading {} to Vault…	Se încarcă {} în Vault…
 User account	Cont de utilizator
+User bind	Legare utilizator
+User filter	Filtru utilizatori
 User or group	Utilizator sau grup
 User {} exists already. Change it?	Utilizatorul {} există deja. Îl modificați?
 User-defined rail	Șină definită de utilizator
 Users may register themselves (as readers)	Utilizatorii se pot înregistra singuri (ca cititori)
+Users of a directory too, by the name they sign in with	Și utilizatori ai unui serviciu de director, după numele cu care se autentifică
+Users per role	Utilizatori pe rol
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	Utilizatorii se autentifică cu contul unui serviciu de director (Active Directory, LDAP) când serverul nu are un cont local cu numele lor. Atribuirile se referă la grupele unui serviciu de director ca director:grupă.
 Vacuum pump	Pompă de vid
 Valve / distributor	Supapă / distribuitor
 Valve coil	Bobină de supapă
@@ -460,9 +541,12 @@ Washer	Șaibă
 Water traps	Separatoare de apă
 Wind deflector	Deflector de vânt
 Wiring material	Material de cablare
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	Fără utilizator: se conectează și se leagă cu contul de serviciu. Cu un utilizator: îl autentifică și îi arată grupele.
+Without catalog	Fără catalog
 Without sign-in	Fără conectare
 Wrong access token	Token de acces greșit
 Wrong user name or password	Nume de utilizator sau parolă greșită
+You may not change parts of manufacturer {}	Nu puteți modifica articolele producătorului {}
 Your account awaits the approval of an administrator	Contul așteaptă aprobarea unui administrator
 Your account was created. An administrator has to approve it before you can sign in.	Contul a fost creat. Un administrator trebuie să-l aprobe înainte să vă puteți conecta.
 access denied – check the personal access token	acces refuzat – verificați tokenul de acces personal
@@ -471,6 +555,7 @@ changed, not saved	modificat, nesalvat
 connection failed: {}	conexiunea nu a reușit: {}
 directory:group	director:grup
 from the name	din nume
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// sau ldaps://, cu portul dacă nu este cel obișnuit
 needed for changes	necesar pentru modificări
 new part, not saved	articol nou, nesalvat
 read-only server	server doar în citire
@@ -488,6 +573,8 @@ you	tu
 {} parts in {} catalogs, revision {}	{} articole în {} cataloage, revizia {}
 {} parts, {} catalogs, {}	{} articole, {} cataloage, {}
 {} – save to upload it	{} – salvați pentru a-l încărca
+{}: a logo has at most 512 kB	{}: un logo are cel mult 512 kB
+{}: the catalog is no longer open	{}: catalogul nu mai este deschis
 {}: the part is no longer open	{}: articolul nu mai este deschis
 {}: {} parts added, {} updated, {} kept	{}: {} articole adăugate, {} actualizate, {} păstrate
 ⎘ Copy	⎘ Copiere

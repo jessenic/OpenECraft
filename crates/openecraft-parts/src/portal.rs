@@ -152,10 +152,34 @@ pub struct Catalog {
     pub modified: u64,
     /// Number of parts (filled in by the server).
     pub parts: usize,
+    /// Logo of the company (an image file on the server, `GET` [`crate::api::catalog_logo_path`]);
+    /// changed only through that path.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub logo: Option<Attachment>,
+}
+
+/// Prefix of the scopes of single catalogs ([`catalog_scope`]).
+pub const CATALOG_SCOPE: &str = "catalog:";
+
+/// Scope of the rights on one catalog and its parts (`catalog:siemens`): grants on it
+/// give rights on the catalog whatever the manufacturer of its parts.
+pub fn catalog_scope(id: &str) -> String {
+    format!("{CATALOG_SCOPE}{}", id.trim())
+}
+
+/// The scopes of the rights on a part or a catalog: its manufacturer and, if it has
+/// one, its catalog ([`crate::access::Access::allows_on`]).
+pub fn scopes(manufacturer: &str, catalog: &str) -> Vec<String> {
+    let mut out = vec![manufacturer.trim().to_string()];
+    if !catalog.trim().is_empty() {
+        out.push(catalog_scope(catalog));
+    }
+    out
 }
 
 /// What may be done on the parts server. The scope of a right is the manufacturer
-/// of the parts and catalogs; reading and administering apply to the whole server.
+/// of the parts and catalogs or a single catalog ([`catalog_scope`]); reading and
+/// administering apply to the whole server.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PartsRight {

@@ -6,7 +6,7 @@
 //! | GET | `/api/v1/parts?q=&group=&manufacturer=&catalog=&offset=&limit=` | [`PartList`] |
 //! | POST | `/api/v1/search` | [`PartQuery`] JSON → [`SearchResult`] with facets |
 //! | GET | `/api/v1/parts/{number}` | [`Part`] |
-//! | PUT | `/api/v1/parts/{number}` | create / replace a part (editor) |
+//! | PUT | `/api/v1/parts/{number}` | create / replace a part (editor); `If-None-Match: *` only creates (`409` if it exists) |
 //! | DELETE | `/api/v1/parts/{number}` | delete a part (editor) |
 //! | GET | `/api/v1/parts/{number}/accessories` | [`Accessories`]: its accessories and the parts it fits |
 //! | GET | `/api/v1/parts/{number}/history` | [`HistoryEntry`] list, newest first |
@@ -15,11 +15,14 @@
 //! | DELETE | `/api/v1/parts/{number}/attachments/{id}` | → [`Part`] (editor) |
 //! | GET | `/api/v1/files/{id}` | file of an attachment |
 //! | POST | `/api/v1/import` | CSV, JSON or BMEcat body, upserts parts (editor) → [`ImportResult`] |
-//! | GET | `/api/v1/export.csv` | all parts as CSV |
-//! | GET | `/api/v1/export.json` | all parts as a JSON part list (with models), as `/import` reads it |
-//! | GET | `/api/v1/backup` | the whole database as a SQLite file (administrator) |
+//! | GET | `/api/v1/export.csv` | all parts as CSV, after a [`ExportInfo::csv_comment`] line |
+//! | GET | `/api/v1/export.json` | all parts as a [`PartsExport`] (with models), as `/import` reads it |
+//! | GET | `/api/v1/backup` | the whole database as a SQLite file (administrator; `meta` table: [`ExportInfo`] keys) |
 //! | GET | `/api/v1/catalogs` | [`Catalog`] list |
 //! | PUT / DELETE | `/api/v1/catalogs/{id}` | create, change, delete a catalog (editor) |
+//! | GET | `/api/v1/catalogs/{id}/logo` | the logo of the catalog's company (image) |
+//! | PUT / DELETE | `/api/v1/catalogs/{id}/logo?name=` | image body (PNG, JPEG, GIF, WebP, SVG; editor of the catalog) → [`Catalog`] |
+//! | GET / PUT | `/api/v1/catalogs/{id}/grants` | [`Grant`](crate::access::Grant) list on the catalog ([`catalog_scope`](crate::portal::catalog_scope), administrator) |
 //! | POST | `/api/v1/login` | [`Login`] → [`Session`] |
 //! | POST | `/api/v1/register` | [`Login`] → [`Session`]: a new reader account, if [`ServerInfo::registration`]; `202` and a session without token while it awaits approval |
 //! | GET / PUT | `/api/v1/registration` | [`Registration`]: whether users may register themselves (administrator) |
@@ -33,6 +36,13 @@
 //! | DELETE | `/api/v1/users/{name}/sessions` | signs the user out everywhere (administrator) |
 //! | GET | `/api/v1/access` | [`Settings`](crate::access::Settings) of [`PartsRight`] (administrator) |
 //! | PUT | `/api/v1/access` | [`Policy`](crate::access::Policy) of [`PartsRight`] (administrator) |
+//! | GET | `/api/v1/groups` | [`Group`](crate::access::Group) list (administrator) |
+//! | PUT / DELETE | `/api/v1/groups/{name}` | create, change, delete a group (administrator) |
+//! | GET | `/api/v1/directories` | directories (Active Directory, LDAP) without their passwords (administrator) |
+//! | PUT / DELETE | `/api/v1/directories/{id}` | create, change, delete a directory; an empty password keeps the stored one (administrator) |
+//! | POST | `/api/v1/directories/{id}/test` | connects (with a [`Login`] also signs the user in) → [`DirectoryTest`] (administrator) |
+//! | GET | `/api/v1/dashboard` | [`Dashboard`](crate::dashboard::Dashboard), if [`ServerInfo::dashboard`] (reader) |
+//! | GET / PUT | `/api/v1/dashboard/settings` | [`DashboardSettings`]: whether the dashboard is shown (administrator) |
 //! | GET | `/api/v1/bundled` | [`BundledCatalog`] list: catalogs shipped with the server (administrator) |
 //! | POST | `/api/v1/bundled/{id}` | installs or updates a bundled catalog (administrator) → [`Installed`] |
 //! | GET | `/api/v1/texts?lang=de` | translations of the web portal |
@@ -41,11 +51,14 @@
 //! [`Session`] or the server's administrator token (`--token`). Users sign in with a
 //! local account or with a directory of the server (Active Directory, LDAP). What
 //! they may do comes from their role and the grants of the server's policy
-//! ([`crate::access`]); the scope of a right is the manufacturer. Errors are returned
-//! as [`ApiError`] JSON.
+//! ([`crate::access`]); the scope of a right is the manufacturer or a catalog. Errors
+//! are returned as [`ApiError`] JSON. Exports carry the version of the server
+//! ([`ExportInfo`], header [`SERVER_VERSION_HEADER`]), so that later versions can
+//! convert what older ones wrote.
 
 use crate::access::{Access, SERVER};
 use crate::portal::{Lifecycle, PartsRight, Role, Sort, User};
+use crate::Part;
 use crate::TopGroup;
 use serde::{Deserialize, Serialize};
 
@@ -73,6 +86,8 @@ pub struct ServerInfo {
     pub access: Access<PartsRight>,
     /// Anybody may create an account (`POST /api/v1/register`).
     pub registration: bool,
+    /// The dashboard is shown (`GET /api/v1/dashboard`).
+    pub dashboard: bool,
 }
 
 impl ServerInfo {
@@ -93,6 +108,12 @@ impl ServerInfo {
     /// True if the caller may change parts of this manufacturer.
     pub fn may_edit(&self, manufacturer: &str) -> bool {
         self.may(PartsRight::EditParts, manufacturer)
+    }
+
+    /// True if the caller has the right on the part: by its manufacturer or its catalog.
+    pub fn may_on_part(&self, right: PartsRight, part: &Part) -> bool {
+        let scopes = crate::portal::scopes(&part.manufacturer, &part.catalog);
+        self.rights().allows_on(&scopes.iter().map(String::as_str).collect::<Vec<_>>(), right)
     }
 
     /// True if the caller may change any parts at all.
@@ -212,6 +233,119 @@ pub struct UserEntry {
     pub sessions: usize,
     /// Unix time of the newest sign-in (0: none kept).
     pub signed_in: u64,
+    /// The groups defined on the server the user is a member of (also in
+    /// `user.groups`, next to the groups of the directory).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub local_groups: Vec<String>,
+}
+
+/// Whether the dashboard is shown (`GET|PUT /api/v1/dashboard/settings`).
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct DashboardSettings {
+    pub enabled: bool,
+    /// Set by the start options of the server (`--dashboard`): not changeable here.
+    pub fixed: bool,
+}
+
+impl Default for DashboardSettings {
+    fn default() -> Self {
+        DashboardSettings { enabled: true, fixed: false }
+    }
+}
+
+/// What testing a directory found (`POST /api/v1/directories/{id}/test`).
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct DirectoryTest {
+    pub ok: bool,
+    pub message: String,
+    /// The user signed in with the test login and their groups.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub identity: Option<crate::access::Identity>,
+}
+
+/// Name of the format of the exports.
+pub const EXPORT_FORMAT: &str = "openecraft-parts";
+/// Version of the export format; raised when its meaning changes.
+pub const EXPORT_FORMAT_VERSION: u32 = 1;
+/// Header of the export answers with the version of the server.
+pub const SERVER_VERSION_HEADER: &str = "x-openecraft-server-version";
+
+/// Who wrote an export and when: kept with the data (JSON `export`, first CSV line,
+/// `meta` table of a backup), so that an import can convert data of older versions.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct ExportInfo {
+    /// [`EXPORT_FORMAT`].
+    pub format: String,
+    pub format_version: u32,
+    /// Name and version of the server ([`ServerInfo::name`], [`ServerInfo::version`]).
+    pub server: String,
+    pub server_version: String,
+    /// Revision of the database when it was exported.
+    pub revision: u64,
+    /// Unix time.
+    pub exported: u64,
+}
+
+impl ExportInfo {
+    pub fn new(server: &str, server_version: &str, revision: u64, exported: u64) -> ExportInfo {
+        ExportInfo { format: EXPORT_FORMAT.into(), format_version: EXPORT_FORMAT_VERSION, server: server.into(), server_version: server_version.into(), revision, exported }
+    }
+
+    /// The fields as `(key, value)`, as the CSV line and the backup keep them.
+    pub fn fields(&self) -> Vec<(&'static str, String)> {
+        vec![
+            ("format", self.format.clone()),
+            ("format_version", self.format_version.to_string()),
+            ("server", self.server.clone()),
+            ("server_version", self.server_version.clone()),
+            ("revision", self.revision.to_string()),
+            ("exported", self.exported.to_string()),
+        ]
+    }
+
+    /// Reads [`Self::fields`]; unknown keys are skipped.
+    pub fn from_fields<'a>(fields: impl IntoIterator<Item = (&'a str, &'a str)>) -> ExportInfo {
+        let mut info = ExportInfo::default();
+        for (k, v) in fields {
+            let v = v.trim();
+            match k.trim() {
+                "format" => info.format = v.into(),
+                "format_version" => info.format_version = v.parse().unwrap_or(0),
+                "server" => info.server = v.into(),
+                "server_version" => info.server_version = v.into(),
+                "revision" => info.revision = v.parse().unwrap_or(0),
+                "exported" => info.exported = v.parse().unwrap_or(0),
+                _ => {}
+            }
+        }
+        info
+    }
+
+    /// The first line of a CSV export: `# format=openecraft-parts;format_version=1;…`
+    /// (the CSV import skips the lines starting with `#` before the header).
+    pub fn csv_comment(&self) -> String {
+        let fields: Vec<String> = self.fields().into_iter().map(|(k, v)| format!("{k}={}", v.replace([';', '\r', '\n'], " "))).collect();
+        format!("# {}", fields.join(";"))
+    }
+
+    /// The export information of a CSV export (its first line), if it has one.
+    pub fn from_csv(text: &str) -> Option<ExportInfo> {
+        let first = text.trim_start_matches('\u{feff}').lines().next()?.strip_prefix('#')?;
+        let info = ExportInfo::from_fields(first.split(';').filter_map(|f| f.split_once('=')));
+        (info.format == EXPORT_FORMAT).then_some(info)
+    }
+}
+
+/// The parts export as JSON (`GET /api/v1/export.json`); `/import` reads it like a
+/// parts database.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct PartsExport {
+    pub export: ExportInfo,
+    pub parts: Vec<Part>,
 }
 
 /// A manufacturer catalog shipped with the server (`GET /api/v1/bundled`).
@@ -356,6 +490,11 @@ pub fn file_path(id: &str) -> String {
 
 pub fn catalog_path(id: &str) -> String {
     format!("{API_PREFIX}/catalogs/{}", encode_component(id))
+}
+
+/// Path of the logo of a catalog ([`crate::portal::Catalog::logo`]).
+pub fn catalog_logo_path(id: &str) -> String {
+    format!("{}/logo", catalog_path(id))
 }
 
 pub fn user_path(name: &str) -> String {

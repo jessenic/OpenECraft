@@ -176,3 +176,41 @@ fn long_names_do_not_overflow_the_match() {
     assert!(matches("Plant*", &name));
     assert!(!matches("*8", &name));
 }
+
+#[test]
+fn defined_groups_add_their_members() {
+    let groups = vec![
+        Group { name: "Wiring".into(), description: String::new(), members: vec!["anna".into(), "Bob".into()] },
+        Group { name: "Purchase".into(), members: vec!["bob".into()], ..Default::default() },
+    ];
+    assert_eq!(groups_of(&groups, "BOB"), ["Wiring", "Purchase"]);
+    let anna = with_groups(anna(), &groups);
+    assert_eq!(anna.groups, ["corp:Engineering", "corp:Plant A", "Wiring"]);
+    assert!(anna.is(&Subject::Group("wiring".into())));
+    let policy: Policy<R> = Policy { grants: vec![Grant::new(Subject::Group("Wiring".into()), "editor", "Plant*")], ..Default::default() };
+    assert!(policy.access(&anna, &[]).allows("Plant 1", R::Edit));
+    assert!(policy.access(&self::anna(), &[]).is_empty());
+}
+
+#[test]
+fn group_names_and_members_are_normalized() {
+    let g = Group { name: " Wiring ".into(), description: " Panel ".into(), members: vec!["anna".into(), " ".into(), "ANNA".into(), "bob".into()] }.normalized().unwrap();
+    assert_eq!((g.name.as_str(), g.description.as_str()), ("Wiring", "Panel"));
+    assert_eq!(g.members, ["anna", "bob"]);
+    assert!(Group { name: "corp:Wiring".into(), ..Default::default() }.normalized().is_err());
+    assert!(Group::default().normalized().is_err());
+}
+
+#[test]
+fn rights_on_several_scopes() {
+    let entry = |scope: &str, rights: &[R], deny: bool| Entry { scope: scope.into(), rights: set(rights), deny };
+    let access = Access { entries: vec![entry("Plant*", &[R::Edit], false), entry("catalog:x", &[R::View], false), entry("catalog:secret", &[R::Edit], true)] };
+    assert_eq!(access.rights_on(&["Plant 1", "catalog:x"]), set(&[R::View, R::Edit]));
+    assert!(access.allows_on(&["Other", "catalog:x"], R::View));
+    assert!(!access.allows_on(&["Other", "catalog:x"], R::Edit));
+    // A deny on one of the scopes takes the right away.
+    assert!(!access.allows_on(&["Plant 1", "catalog:secret"], R::Edit));
+    // Server-wide rights only come from grants on the server.
+    let admin = Access { entries: vec![entry("catalog:x", &[R::Admin], false)] };
+    assert!(!admin.allows_on(&["catalog:x"], R::Admin));
+}

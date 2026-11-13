@@ -79,6 +79,18 @@ impl SqliteBackend {
         Ok(SqliteBackend { conn, revision })
     }
 
+    /// Sets a value of the `meta` table (e.g. the export information of a backup).
+    pub fn set_meta(&mut self, key: &str, value: &str) -> io::Result<()> {
+        self.conn.execute("INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)", [key, value]).map_err(err)?;
+        Ok(())
+    }
+
+    /// A value of the `meta` table.
+    #[cfg(test)]
+    pub fn meta(&self, key: &str) -> io::Result<Option<String>> {
+        self.conn.query_row("SELECT value FROM meta WHERE key = ?", [key], |r| r.get(0)).optional().map_err(err)
+    }
+
     fn rows<T: DeserializeOwned>(&self, sql: &str, args: &[&dyn rusqlite::ToSql]) -> io::Result<Vec<T>> {
         let mut stmt = self.conn.prepare(sql).map_err(err)?;
         let texts: Vec<String> = stmt.query_map(args, |r| r.get(0)).map_err(err)?.collect::<Result<_, _>>().map_err(err)?;

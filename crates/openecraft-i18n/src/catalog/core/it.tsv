@@ -310,7 +310,6 @@ Create projects	Crea progetti
 Creation date	Data di creazione
 Cross-section {} carries {} A, less than the {} A of {}	La sezione {} porta {} A, meno dei {} A di {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	L'incrocio a pagina {} non corrisponde ai suoi conduttori: serve un conduttore nelle quattro direzioni e nessun punto di collegamento lì
-Currency	Valuta
 Current (A)	Corrente (A)
 Current capacity (A)	Portata (A)
 Current consumption	Assorbimento di corrente
@@ -818,7 +817,6 @@ Manual switch NO	Interruttore manuale NA
 Manual switch NO, latching	Interruttore manuale NA, con ritenuta
 Manual work	Lavorazione manuale
 Manufacturer's table	Tabella del produttore
-Manufacturers	Produttori
 Marking (CSV)	Marcatura (CSV)
 Marking (Excel)	Marcatura (Excel)
 Mating faces	Facce di accoppiamento

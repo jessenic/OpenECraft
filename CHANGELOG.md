@@ -5,6 +5,29 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
 
 ## [0.1.2] - unreleased
 
+- **Parts server: groups, catalog permissions, directories and a dashboard.** Users
+  are gathered in **groups** of the server (*Administration › Groups*, `/api/v1/groups`;
+  the groups of local accounts become such groups at startup), and grants to a group
+  apply to its members, local or from a directory. Each catalog gets **permissions**
+  of users and groups (*Catalogs › Permissions*, grants on `catalog:<id>`), which
+  apply to the catalog and its parts whatever their manufacturer. Users who may change
+  parts create them on the web page (*New part*) and edit or delete those they may
+  change. The **Active Directory / LDAP** connections are set up and tested in
+  *Administration › Directories*. A **dashboard** shows graphs of the parts (per
+  manufacturer, group, catalog, lifecycle, changes per month, completeness);
+  administrators hide it on the web page, with `--dashboard false`,
+  `OPENECRAFT_DASHBOARD` or `dashboard` in the configuration file. **Exports carry the
+  version of the server** (`export` in `export.json`, which is now an object with
+  `parts`, a first line in `export.csv`, the `meta` table of backups, the header
+  `X-OpenECraft-Server-Version`). The web page shows the OpenECraft logo, its title
+  leads back to the start page and the list shows 10 to 200 parts per page.
+  **Catalogs have company logos** (*Administration › Catalogs › Edit*,
+  `/api/v1/catalogs/{id}/logo`), shown on the catalog cards and on their parts; the
+  bundled catalogs bring the manufacturers' logos (from Wikimedia Commons, name badges
+  for COSMO, Janitza, MDT and Pylontech). The editor's *Data portal* shows the logo of a
+  part's catalog and the parts manager the logos of its catalogs, where they are also
+  changed or removed; *Settings › Appearance › Data portal* (editor) and *Logos* (parts
+  manager) hide them ([parts server](docs/parts-server.md), [access control](docs/access-control.md)).
 - **Logos in title blocks** (#165): title blocks and drawn report forms get image
   elements (*➕ Image*), with a picture of their own (e.g. the company logo, kept in the
   title block and its file) or the new project logo of *Project properties › Logo*

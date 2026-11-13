@@ -12,6 +12,7 @@ Above	Felül
 Access token	Hozzáférési token
 Accessories	Tartozékok
 Accessory	Tartozék
+Add	Hozzáadás
 Add a PDF of all pages	PDF hozzáadása az összes oldalról
 Add to favorites	Hozzáadás a kedvencekhez
 Address	Cím
@@ -85,6 +86,7 @@ Created by	Létrehozta
 Cross references	Kereszthivatkozások
 Cross-section	Keresztmetszet
 Crossing	Kereszteződés
+Currency	Pénznem
 Current	Áram
 Cutout	Kivágás
 Cutouts	Kivágások
@@ -108,6 +110,7 @@ Device description	Eszközleírás
 Device tag	Készülékazonosító
 Device {}	{} készülék
 Devices	Készülékek
+Dimensions	Méretek
 Direction	Irány
 Discard	Elvetés
 Discard changes	Módosítások elvetése
@@ -199,11 +202,13 @@ Load	Fogyasztó
 Loaded circuits bunched together	Együtt fektetett terhelt áramkörök
 Location	Szerelési hely
 Location (+)	Szerelési hely (+)
+Logo	Logó
 MTTFd (years)	MTTFd (év)
 Machine	Gép
 Main earthing terminal	Fő földelősín
 Main switch	Főkapcsoló
 Manufacturer	Gyártó
+Manufacturers	Gyártók
 Manufacturing	Gyártás
 Marking	Jelölés
 Match case	Kis- és nagybetűk megkülönböztetése
@@ -230,6 +235,7 @@ Name of the point, e.g. a survey point	A pont neve, pl. egy geodéziai pont
 Name of the scheme	A séma neve
 Net	Hálózat
 Never	Soha
+New group	Új csoport
 New name	Új név
 Next page	Következő oldal
 No	Nem
@@ -401,6 +407,7 @@ Settings	Beállítások
 Shape	Alak
 Short-circuit voltage	Rövidzárási feszültség
 Show history	Előzmények megjelenítése
+Show the logos of the catalogs	A katalógusok logóinak megjelenítése
 Show the row after the column	A sor megjelenítése az oszlop után
 Side	Oldal
 Sign in	Bejelentkezés
@@ -497,6 +504,7 @@ file or folder not found	a fájl vagy mappa nem található
 landscape	fekvő
 left	balra
 mm	mm
+none	nincs
 normal	normál
 not bonded	nincs bekötve
 not connected	nincs csatlakoztatva

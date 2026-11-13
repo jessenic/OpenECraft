@@ -310,7 +310,6 @@ Create projects	Tworzenie projektów
 Creation date	Data utworzenia
 Cross-section {} carries {} A, less than the {} A of {}	Przekrój {} przenosi {} A, mniej niż {} A z {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Skrzyżowanie na stronie {} nie pasuje do swoich przewodów: potrzebuje przewodu we wszystkich czterech kierunkach i braku punktu przyłączenia w tym miejscu
-Currency	Waluta
 Current (A)	Prąd (A)
 Current capacity (A)	Obciążalność prądowa (A)
 Current consumption	Pobór prądu
@@ -818,7 +817,6 @@ Manual switch NO	Łącznik ręczny, zwierny
 Manual switch NO, latching	Łącznik ręczny, zwierny, z zatrzaskiem
 Manual work	Praca ręczna
 Manufacturer's table	Tabela producenta
-Manufacturers	Producenci
 Marking (CSV)	Oznaczenia (CSV)
 Marking (Excel)	Oznaczenia (Excel)
 Mating faces	Strony styku

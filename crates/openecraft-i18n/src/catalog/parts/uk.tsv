@@ -2,9 +2,14 @@
 (renamed from {})	(перейменовано з {})
 19-inch module technology	19-дюймова конструктивна система
 A catalog id must not be empty or contain blanks	Ідентифікатор каталогу не може бути порожнім або містити пробіли
+A directory id must not be empty or contain blanks or ':'	Id служби каталогів не може бути порожнім або містити пробіли чи ':'
+A grant needs a user or a group	Призначенню потрібен користувач або група
+A group name must not be empty or contain ':'	Назва групи не може бути порожньою або містити ':'
 A manufacturer user needs a manufacturer	Користувачу-виробнику потрібен виробник
+A part number must not be empty or start or end with blanks	Номер виробу не може бути порожнім, починатися чи закінчуватися пробілами
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Роль — це набір прав. Призначення надають користувачу або групі роль для виробів виробника (* і ? як символи підстановки, * для всіх); забороняльне призначення забирає права ролі, незалежно від інших призначень.
 A user name must not be empty or contain blanks	Ім’я користувача не може бути порожнім або містити пробіли
+Accept any certificate (test installations only)	Приймати будь-який сертифікат (лише тестові встановлення)
 Access rights	Права доступу
 Access settings saved	Параметри доступу збережено
 Accumulator blocks	Блоки акумуляторів
@@ -18,6 +23,8 @@ Administration	Адміністрування
 All manufacturers	Усі виробники
 All parts	Усі вироби
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Усі вироби з їхніми даними — для електронних таблиць або імпорту на інший сервер. Їхні файли є лише в резервній копії бази даних.
+Allowed groups	Дозволені групи
+Also groups of groups (Active Directory)	Також групи груп (Active Directory)
 Amplifiers, controllers	Підсилювачі, регулятори
 Analog sensor	Аналоговий датчик
 Approval of new accounts	Схвалення нових облікових записів
@@ -29,11 +36,14 @@ Auxiliary contact block	Блок допоміжних контактів
 Auxiliary switch	Допоміжний вимикач
 Awaiting approval	Очікує схвалення
 Awaiting approval: {}	Очікують схвалення: {}
+Back to the part	Назад до виробу
 Back to the results	Назад до результатів
 Ball valve pneumatic	Кульовий кран пневматичний
 Ball valves	Кульові крани
 Base	Цоколь
 Battery monitor	Монітор акумулятора
+Better kept in an environment variable of the server	Краще зберігати у змінній середовища сервера
+Bind name of a user without service account; {user} is replaced	Ім'я прив'язки користувача без службового облікового запису; {user} замінюється
 Block ball valves	Блокові кульові крани
 Body	Корпус-основа
 Brake motor	Двигун із гальмом
@@ -59,10 +69,12 @@ Centrifugal pumps	Відцентрові насоси
 Centrifuge	Центрифуга
 Certificate	Сертифікат
 Changed	Змінено
+Changed last	Змінені останніми
 Changes allowed	Зміни дозволено
 Check control valve	Зворотна арматура
 Check flap	Зворотна заслінка
 Chimney	Димова труба
+Choose logo…	Вибрати логотип…
 Circuit breaker	Автоматичний вимикач
 Coil	Котушка
 Complete power units	Комплектні агрегати
@@ -95,13 +107,17 @@ Crusher	Подрібнювач
 Cylinders	Циліндри
 DC motor	Двигун постійного струму
 DC-DC converter	Перетворювач DC-DC
+Dashboard	Панель
 Data recorder	Реєстратор даних
 Database backup	Резервна копія бази даних
 Datasheet	Технічний паспорт
 Defined roles	Визначені ролі
 Delete catalog {} from the server?	Видалити каталог {} із сервера?
 Delete catalog {}?	Видалити каталог {}?
+Delete directory {}? Its users can no longer sign in.	Видалити службу каталогів {}? Її користувачі більше не зможуть увійти.
+Delete group {}? The grants to it are removed.	Видалити групу {}? Її призначення буде видалено.
 Delete part {} from the server? This cannot be undone.	Видалити виріб {} із сервера? Цю дію не можна скасувати.
+Delete part {}?	Видалити виріб {}?
 Delete parts	Видаляти вироби
 Delete user {}? Their sessions and favorites are removed.	Видалити користувача {}? Його сеанси та вибране буде вилучено.
 Deleted	Видалено
@@ -109,8 +125,9 @@ Digital sensor, general	Цифровий датчик, загальний
 Directional control valves	Розподільники
 Directional control valves, coaxial	Розподільники коаксіальні
 Directories	Служби каталогів
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Служби каталогів (Active Directory, LDAP) налаштовуються у файлі параметрів доступу сервера.
 Directory	Служба каталогів
+Directory groups	Групи служби каталогів
+Directory {} exists already. Change it?	Служба каталогів {} вже існує. Змінити її?
 Dirt trap	Грязьовик
 Discard the changes	Відхилити зміни
 Discard the unsaved changes of {}?	Відхилити незбережені зміни {}?
@@ -126,18 +143,27 @@ Duplex switch filters	Здвоєні перемикні фільтри
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	Редагувати каталог {}
 Edit catalogs	Редагувати каталоги
+Edit directory {}	Змінити службу каталогів {}
+Edit group {}	Змінити групу {}
+Edit part {}	Змінити виріб {}
 Edit parts	Редагувати вироби
 Edit user {}	Редагувати користувача {}
 Electrical engineering - special items	Електротехніка – спеціальні вироби
 Electrically-operated mechanical devices	Механічні пристрої з електричним приводом
 Electrolysis cell	Електролізна комірка
+Empty: the memberOf attribute of the user	Порожньо: атрибут memberOf користувача
+Empty: the search base	Порожньо: база пошуку
+Empty: the usual filter of the type	Порожньо: звичайний фільтр типу
 Enclosure cooling devices	Кондиціонери для шаф
 Enclosure heater	Нагрівач шафи
+Encryption	Шифрування
 End clamp	Кінцевий фіксатор
 Ends the session and forgets the token	Завершує сеанс і забуває токен
 Engine	Приводна машина
 Enter the address of an openecraft-parts-server and click Connect.	Введіть адресу openecraft-parts-server і натисніть «Підключитися».
+Environment variable with the password of the service account	Змінна середовища з паролем службового облікового запису
 Evaporator	Випарник
+Everybody who may read the parts sees it.	Її бачать усі, хто може читати вироби.
 Exhaust valves	Клапани для випуску повітря
 Export (CSV)	Експорт (CSV)
 Export and backup	Експорт і резервна копія
@@ -167,8 +193,14 @@ Furnace	Піч
 Generator	Генератор
 Grants	Призначення
 Grants of the server's access settings can refer to them	На них можуть посилатися призначення в параметрах доступу сервера
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	Призначення на catalog:<id> діють для одного каталогу та його виробів (Каталоги › Дозволи).
 Ground fault current circuit breaker	Пристрій захисного вимкнення
 Ground fault voltage circuit-breaker	Вимикач захисту від напруги замикання на землю
+Group filter	Фільтр груп
+Group search base	База пошуку груп
+Group {} exists already. Change it?	Група {} вже існує. Змінити її?
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	Групи об'єднують користувачів, локальних і зі служби каталогів. Призначення групі дають її учасникам права ролі на всьому сервері, для виробника або каталогу.
+Groups of this server, next to those of the directory	Групи цього сервера, окрім груп служби каталогів
 Heat exchangers	Теплообмінники
 High-pressure systems	Системи високого тиску
 High-pressure tanks	Резервуари високого тиску
@@ -179,6 +211,7 @@ Housing accessories, external extension	Аксесуари корпусу, зо�
 Housing accessories, internal extension	Аксесуари корпусу, внутрішній монтаж
 Hydraulic motors	Гідромотори
 Hydraulic tanks	Гідравлічні баки
+Images (PNG, JPEG, GIF, WebP, SVG)	Зображення (PNG, JPEG, GIF, WebP, SVG)
 Import / export	Імпорт / експорт
 Import parts	Імпорт виробів
 Imported {} parts (revision {})	Імпортовано виробів: {} (ревізія {})
@@ -191,6 +224,7 @@ KNX actuator	Виконавчий пристрій KNX
 KNX system device	Системний пристрій KNX
 Key switch	Перемикач із ключем
 Kneader	Місильна машина
+Last changes per month	Останні зміни за місяцями
 Last sign-in	Останній вхід
 Legend plate	Табличка з написом
 Level detector	Граничний сигналізатор
@@ -208,12 +242,15 @@ Lock systems	Системи замків
 Locking couplings	Запірні муфти
 Logic item	Логічний елемент
 Logic items	Логічні елементи
+Logos	Логотипи
+Looks the users up; empty: users bind with their own name (below)	Шукає користувачів; порожньо: користувачі прив'язуються своїм ім'ям (нижче)
 Male insert	Вставка зі штирями
 Measurement system	Вимірювальна система
 Measuring connection points	Вимірювальні приєднання
 Measuring couplings	Вимірювальні муфти
 Measuring instruments, test devices	Вимірювальні прилади, випробувальні пристрої
 Mechanics	Механіка
+Members	Учасники
 Metering hopper	Дозатор
 Miscellaneous	Різне
 Mixer	Змішувач
@@ -222,15 +259,20 @@ Modulators	Модулятори
 Motor overload switch	Автоматичний вимикач захисту двигуна
 Mounting chassis	Монтажне шасі
 Mounting panels	Монтажні панелі
+Name attribute	Атрибут імені
 New accounts need the approval of an administrator	Новим обліковим записам потрібне схвалення адміністратора
 New catalog	Новий каталог
+New directory	Нова служба каталогів
+New part	Новий виріб
 New part based on the open one	Новий виріб на основі відкритого
 New password	Новий пароль
 New role	Нова роль
 New user	Новий користувач
 Newer version	Новіша версія
 Next	Далі
+No grants: the rights by manufacturer apply	Немає призначень: діють права за виробником
 No grants: users have the rights of their role	Немає призначень: користувачі мають права своєї ролі
+No groups	Немає груп
 No users	Немає користувачів
 Non-return valves	Зворотні клапани
 Not mounted	Не монтується
@@ -240,15 +282,18 @@ On the left side	Ліворуч
 On the right side	Праворуч
 On this server	На цьому сервері
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Один файл SQLite з усіма виробами, їхньою історією та файлами, каталогами, користувачами та їхнім вибраним. Він містить хеші паролів користувачів: зберігайте його в надійному місці.
+One line per value, e.g. Coil voltage: 24 V DC	Один рядок на значення, напр. Напруга котушки: 24 V DC
 Only catalogs without parts can be deleted	Видаляти можна лише каталоги без виробів
 Only empty catalogs can be deleted	Видаляти можна лише порожні каталоги
 Only local accounts	Лише локальні облікові записи
+Only their members sign in; empty: all users	Входять лише їхні учасники; порожньо: усі користувачі
 Open sessions: {}	Відкриті сеанси: {}
 OpenECraft data portal	Портал даних OpenECraft
 OpenECraft parts manager	Керування виробами OpenECraft
 OpenECraft parts server	Сервер виробів OpenECraft
 Other file	Інший файл
 Other labels	Інші таблички
+Others	Інші
 Outlet	Випуск
 Outlet filter	Випускний фільтр
 Overload	Захисне реле
@@ -268,8 +313,17 @@ PV rail connector	З'єднувач рейок для ФЕМ
 Part (source)	Виріб (джерело)
 Part (target)	Виріб (ціль)
 Part files (documents, images, models, macros)	Файли виробу (документи, зображення, моделі, макроси)
+Part {} exists already	Виріб {} вже існує
 Part {} not found	Артикул {} не знайдено
 Partition	Розділювальна пластина
+Parts per catalog	Вироби за каталогами
+Parts per manufacturer	Вироби за виробниками
+Parts per product group	Вироби за групами продуктів
+Parts with …	Вироби з …
+Password variable	Змінна пароля
+Per page	На сторінці
+Permissions	Дозволи
+Permissions of catalog {}	Дозволи каталогу {}
 Phase-out	Знімається з виробництва
 Pipes	Труби
 Piping part	Елемент трубопроводу
@@ -317,7 +371,9 @@ Register	Зареєструватися
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Зареєстровані користувачі стають читачами: вони зберігають вибране й читають вироби, навіть якщо для читання потрібен вхід. Додаткові права надаються в розділі «Користувачі».
 Registration	Реєстрація
 Reject the registration of {}? The account is deleted.	Відхилити реєстрацію {}? Обліковий запис буде видалено.
+Remove logo	Видалити логотип
 Remove the file from the part	Вилучити файл із виробу
+Remove the logo	Видалити логотип
 Removed from the server	Вилучено із сервера
 Repeat password	Повторіть пароль
 Replace the roles and grants with those of the file?	Замінити ролі та призначення даними з файлу?
@@ -335,11 +391,15 @@ Safety accumulators	Запобіжні акумулятори
 Safety devices	Захисні пристрої
 Safety fuse	Плавкий запобіжник
 Safety switch	Захисний вимикач
+Save the catalog first	Спочатку збережіть каталог
 Save the part first	Спочатку збережіть виріб
+Saved directory {}	Службу каталогів {} збережено
+Saved group {}	Групу {} збережено
 Screw connections	Різьбові з’єднання
 Screw pumps	Гвинтові насоси
 Screw spindle compressors	Гвинтові компресори
 Scroll compressors	Спіральні компресори
+Search base	База пошуку
 Search users	Пошук користувачів
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Виберіть каталог або створіть новий. Вироби належать до каталогу через свій ідентифікатор каталогу (редактор виробів, вкладка «Портал даних»).
 Select a user or create a new one.	Виберіть користувача або створіть нового.
@@ -349,8 +409,12 @@ Sensor NC	Датчик, розмикальний
 Sensor, switch, and pushbutton	Датчики, перемикачі та кнопки
 Sensors - pressure gauges	Датчики – манометри
 Serial sub-plates	Плити послідовного приєднання
+Service account	Службовий обліковий запис
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	Задано параметрами запуску сервера (--dashboard або OPENECRAFT_DASHBOARD).
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Задано параметрами запуску сервера (--registration або OPENECRAFT_REGISTRATION).
+Short name without blanks; qualifies the groups (id:group)	Коротке ім'я без пробілів; уточнює групи (id:група)
 Show parts	Показати вироби
+Show the dashboard with graphs of the parts	Показувати панель із графіками виробів
 Shut-off accumulators	Запірні акумулятори
 Shut-off control valve	Запірна арматура
 Shut-off flap	Запірна заслінка
@@ -375,10 +439,12 @@ Silo	Силос
 Single-phase motor	Однофазний двигун
 Single-stage filters	Одноступеневі фільтри
 Siphon	Сифон
+Size of the files	Розмір файлів
 Solenoid valve	Електромагнітний клапан
 Sorter	Сортувальник
 Start a server with:  openecraft-parts-server --token <secret>	Запустіть сервер командою:  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	Запустіть openecraft-parts-server із --token, щоб дозволити зміни
+StartTLS (for ldap://)	StartTLS (для ldap://)
 Steam boiler	Паровий котел
 Stirrer	Мішалка
 Storage	Сховище
@@ -399,23 +465,32 @@ Temperature sensors	Датчики температури
 Terminal label	Маркування клеми
 Terminator	Кінцева кришка
 Terminators, filters	Кінцеві пристрої, фільтри
+Test	Перевірити
 Test accessories	Аксесуари для випробувань
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal пропонує лише пошук і читання виробів
 The access settings would leave nobody who manages users	З такими параметрами доступу ніхто не зможе керувати користувачами
 The access token is only needed for changes; it is not stored.	Токен доступу потрібен лише для змін; він не зберігається.
+The address must start with ldap:// or ldaps://	Адреса має починатися з ldap:// або ldaps://
 The catalogs with their manufacturer, version and description.	Каталоги з виробником, версією та описом.
 The checksum of {} does not match: the download is damaged	Контрольна сума {} не збігається: завантаження пошкоджене
+The dashboard is hidden	Панель приховано
+The dashboard is shown	Панель показується
 The directory checks the password and sets the groups at every sign-in	Служба каталогів перевіряє пароль і встановлює групи під час кожного входу
 The file holds no access settings	Файл не містить параметрів доступу
+The groups would leave nobody who manages users	Після зміни груп не залишиться нікого, хто керує користувачами
 The last administrator cannot lose the right to manage users	Останній адміністратор не може втратити право керувати користувачами
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	Логотип компанії: PNG, JPEG, GIF, WebP або SVG, не більше 512 кБ
 The password needs at least {} characters	Пароль має містити щонайменше {} символів
 The passwords do not match	Паролі не збігаються
 The project has no parts	Проєкт не має виробів
 The registration is closed	Реєстрацію закрито
 The registration is open	Реєстрацію відкрито
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Ролі, призначення та доступ без входу. Відновлення замінює їх; служби каталогів залишаються такими, як налаштовано на сервері.
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	Задані тут ролі діють для цього каталогу та його виробів незалежно від виробника; заборона відбирає права ролі. Читання — право всього сервера.
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	Ролі, призначення, групи та доступ без входу, з версією сервера. Відновлення замінює ролі та призначення й додає групи; служби каталогів залишаються такими, як налаштовано на сервері.
 The server cannot be reached	Сервер недоступний
 The server sent no text	Сервер не надіслав тексту
+The test failed	Перевірка не вдалася
+The test succeeded	Перевірка пройшла успішно
 The upload is finished	Передавання завершено
 The users with their role, manufacturer, groups and last sign-in, without passwords.	Користувачі з роллю, виробником, групами та останнім входом, без паролів.
 Thermometers	Термометри
@@ -427,6 +502,7 @@ Three-way control valve	Триходова арматура
 Three-way flap	Триходова заслінка
 Three-way valve	Триходовий клапан
 Throttle plate	Дросельна шайба
+Timeout (s)	Тайм-аут (с)
 Timer relay	Реле часу
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Щоб відновити її, запустіть сервер із --data <файл> або скопіюйте її в нову базу даних за допомогою --migrate-from <файл>.
 Too many failed sign-ins, try again later	Забагато невдалих спроб входу, спробуйте пізніше
@@ -441,10 +517,15 @@ Under the part (base)	Під виробом (основа)
 Uploading {} to Vault ({} %)…	Передавання {} у Vault ({} %)…
 Uploading {} to Vault…	Передавання {} у Vault…
 User account	Обліковий запис
+User bind	Прив'язка користувача
+User filter	Фільтр користувачів
 User or group	Користувач або група
 User {} exists already. Change it?	Користувач {} уже існує. Змінити його?
 User-defined rail	Користувацька рейка
 Users may register themselves (as readers)	Користувачі можуть реєструватися самі (як читачі)
+Users of a directory too, by the name they sign in with	Також користувачі служби каталогів, за ім'ям, з яким вони входять
+Users per role	Користувачі за ролями
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	Користувачі входять з обліковим записом служби каталогів (Active Directory, LDAP), якщо на сервері немає локального облікового запису з їхнім ім'ям. Призначення посилаються на групи служби каталогів як каталог:група.
 Vacuum pump	Вакуумний насос
 Valve / distributor	Клапан / розподільник
 Valve coil	Котушка клапана
@@ -460,9 +541,12 @@ Washer	Шайба
 Water traps	Водовідокремлювачі
 Wind deflector	Вітровий дефлектор
 Wiring material	Монтажний матеріал
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	Без користувача: підключається та прив'язується службовим обліковим записом. З користувачем: виконує його вхід і показує його групи.
+Without catalog	Без каталогу
 Without sign-in	Без входу
 Wrong access token	Неправильний токен доступу
 Wrong user name or password	Неправильне ім'я користувача або пароль
+You may not change parts of manufacturer {}	Ви не можете змінювати вироби виробника {}
 Your account awaits the approval of an administrator	Обліковий запис очікує схвалення адміністратора
 Your account was created. An administrator has to approve it before you can sign in.	Обліковий запис створено. Адміністратор має схвалити його, перш ніж ви зможете увійти.
 access denied – check the personal access token	доступ заборонено – перевірте персональний маркер доступу
@@ -471,6 +555,7 @@ changed, not saved	змінено, не збережено
 connection failed: {}	помилка підключення: {}
 directory:group	каталог:група
 from the name	з назви
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// або ldaps://, з портом, якщо він не звичайний
 needed for changes	потрібен для змін
 new part, not saved	новий виріб, не збережено
 read-only server	сервер лише для читання
@@ -488,6 +573,8 @@ you	ви
 {} parts in {} catalogs, revision {}	Виробів: {}, каталогів: {}, ревізія {}
 {} parts, {} catalogs, {}	Виробів: {}, каталогів: {}, {}
 {} – save to upload it	{} – збережіть, щоб вивантажити
+{}: a logo has at most 512 kB	{}: логотип не більше 512 кБ
+{}: the catalog is no longer open	{}: каталог більше не відкрито
 {}: the part is no longer open	{}: виріб більше не відкрито
 {}: {} parts added, {} updated, {} kept	{}: додано виробів: {}, оновлено: {}, збережено: {}
 ⎘ Copy	⎘ Копіювати

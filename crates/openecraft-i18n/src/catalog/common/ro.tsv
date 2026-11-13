@@ -12,6 +12,7 @@ Above	Deasupra
 Access token	Token de acces
 Accessories	Accesorii
 Accessory	Accesoriu
+Add	Adăugare
 Add a PDF of all pages	Adăugare PDF cu toate paginile
 Add to favorites	Adăugare la favorite
 Address	Adresă
@@ -85,6 +86,7 @@ Created by	Creat de
 Cross references	Referințe încrucișate
 Cross-section	Secțiune
 Crossing	Încrucișare
+Currency	Monedă
 Current	Curent
 Cutout	Decupaj
 Cutouts	Decupaje
@@ -108,6 +110,7 @@ Device description	Descriere de dispozitiv
 Device tag	Identificator de dispozitiv
 Device {}	Dispozitiv {}
 Devices	Dispozitive
+Dimensions	Dimensiuni
 Direction	Direcție
 Discard	Renunțare
 Discard changes	Renunță la modificări
@@ -199,11 +202,13 @@ Load	Consumator
 Loaded circuits bunched together	Circuite încărcate grupate împreună
 Location	Loc de montare
 Location (+)	Loc de montare (+)
+Logo	Siglă
 MTTFd (years)	MTTFd (ani)
 Machine	Mașină
 Main earthing terminal	Bornă principală de împământare
 Main switch	Întrerupător principal
 Manufacturer	Producător
+Manufacturers	Producători
 Manufacturing	Fabricație
 Marking	Marcare
 Match case	Potrivire litere mari și mici
@@ -230,6 +235,7 @@ Name of the point, e.g. a survey point	Numele punctului, de ex. un punct geodezi
 Name of the scheme	Numele schemei
 Net	Rețea
 Never	Niciodată
+New group	Grup nou
 New name	Nume nou
 Next page	Pagina următoare
 No	Nu
@@ -401,6 +407,7 @@ Settings	Setări
 Shape	Formă
 Short-circuit voltage	Tensiune de scurtcircuit
 Show history	Afișare istoric
+Show the logos of the catalogs	Afișare logouri ale cataloagelor
 Show the row after the column	Afișare rând după coloană
 Side	Parte
 Sign in	Conectare
@@ -497,6 +504,7 @@ file or folder not found	fișierul sau folderul nu a fost găsit
 landscape	vedere
 left	spre stânga
 mm	mm
+none	niciuna
 normal	normală
 not bonded	nelegat
 not connected	neconectat

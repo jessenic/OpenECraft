@@ -310,7 +310,6 @@ Create projects	Luo projekteja
 Creation date	Luontipäivä
 Cross-section {} carries {} A, less than the {} A of {}	Poikkipinta-ala {0} kestää {1} A, vähemmän kuin kohteen {3} {2} A
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Sivun {} risteys ei sovi johtimiinsa: se tarvitsee johtimen kaikkiin neljään suuntaan eikä liitäntäpistettä siinä
-Currency	Valuutta
 Current (A)	Virta (A)
 Current capacity (A)	Virrankestoisuus (A)
 Current consumption	Virrankulutus
@@ -818,7 +817,6 @@ Manual switch NO	Käsikytkin, sulkeutuva
 Manual switch NO, latching	Käsikytkin, sulkeutuva, lukittuva
 Manual work	Käsityö
 Manufacturer's table	Valmistajan taulukko
-Manufacturers	Valmistajat
 Marking (CSV)	Merkinnät (CSV)
 Marking (Excel)	Merkinnät (Excel)
 Mating faces	Liitinpinnat

@@ -77,7 +77,6 @@ Accept as checked	Kontrol edildi olarak kabul et
 Accepted messages ({})	Kabul edilen mesajlar ({})
 Active	Etkin
 Actuators on the door	Kapıdaki kumanda elemanları
-Add	Ekle
 Add a command	Komut ekle
 Add a target language to translate the project texts.	Proje metinlerini çevirmek için bir hedef dil ekleyin.
 Add filter	Filtre ekle
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	Proje sunucusunda {} tarafında
 Locked by {} – read only	{} tarafından kilitlendi – salt okunur
 Locking…	Kilitleniyor…
 Logic	Mantık
-Logo	Logo
 Logo on the cover page	Kapak sayfasındaki logo
 Longer values are drawn smaller (0 = no limit)	Daha uzun değerler daha küçük çizilir (0 = sınır yok)
 Look for updates when OpenECraft starts	OpenECraft başlarken güncellemeleri ara
@@ -1120,7 +1118,6 @@ New document page…	Yeni belge sayfası…
 New empty	Yeni, boş
 New enclosure	Yeni pano
 New graphics page	Yeni grafik sayfası
-New group	Yeni grup
 New harness	Yeni kablo demeti
 New items go onto this layer	Yeni öğeler bu katmana eklenir
 New mounting layout page	Yeni montaj planı sayfası
@@ -1962,6 +1959,7 @@ The horizontal wire	Yatay tel
 The items are selected and moved together	Öğeler birlikte seçilir ve taşınır
 The logo is fitted into this area keeping its aspect ratio	Logo, en boy oranı korunarak bu alana sığdırılır
 The logo of the project properties, e.g. the customer's	Proje özelliklerindeki logo, ör. müşterinin logosu
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Parça sunucusundaki üretici kataloglarının logoları, bir parçanın ayrıntılarının yanında
 The macro library has no page macros (Macros › Save page as macro…).	Makro kütüphanesinde sayfa makrosu yok (Makrolar › Sayfayı makro olarak kaydet…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Tekerleğin yana kaydırmasını veya yakınlaştırmasını sağlayan değiştiriciler Değiştirici tuşlar altında ayarlanır.
 The modules no string takes yet in series, on the first inverter	Henüz hiçbir dizinin almadığı modüller, seri olarak, ilk invertörde
@@ -2232,7 +2230,6 @@ no electrical data of the module	modülün elektrik verisi yok
 no rooms	oda yok
 no valid levels	geçerli kat yok
 no wires	tel yok
-none	yok
 not defined	tanımlı değil
 not in the P&ID	P&ID'de değil
 not in the library	kütüphanede yok

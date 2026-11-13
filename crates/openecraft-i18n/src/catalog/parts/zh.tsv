@@ -2,9 +2,14 @@
 (renamed from {})	（由 {} 重命名）
 19-inch module technology	19 英寸模块技术
 A catalog id must not be empty or contain blanks	目录标识不能为空，也不能包含空格
+A directory id must not be empty or contain blanks or ':'	目录服务 ID 不能为空，也不能包含空格或“:”
+A grant needs a user or a group	授权需要用户或组
+A group name must not be empty or contain ':'	组名不能为空，也不能包含“:”
 A manufacturer user needs a manufacturer	制造商用户需要指定制造商
+A part number must not be empty or start or end with blanks	部件编号不能为空，也不能以空格开头或结尾
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	角色是一组权限。授权为用户或组授予某个制造商的部件上的角色（* 和 ? 为通配符，* 表示全部）；拒绝授权会收回该角色的权限，无论其他授权给予什么。
 A user name must not be empty or contain blanks	用户名不能为空，也不能包含空格
+Accept any certificate (test installations only)	接受任何证书（仅限测试安装）
 Access rights	访问权限
 Access settings saved	访问设置已保存
 Accumulator blocks	蓄能器块
@@ -18,6 +23,8 @@ Administration	管理
 All manufacturers	所有制造商
 All parts	所有部件
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	所有部件及其数据，可用于电子表格或导入其他服务器。其文件仅包含在数据库备份中。
+Allowed groups	允许的组
+Also groups of groups (Active Directory)	也包括组的组（Active Directory）
 Amplifiers, controllers	放大器、控制器
 Analog sensor	模拟量传感器
 Approval of new accounts	新帐户的批准
@@ -29,11 +36,14 @@ Auxiliary contact block	辅助触点块
 Auxiliary switch	辅助开关
 Awaiting approval	等待批准
 Awaiting approval: {}	等待批准：{}
+Back to the part	返回部件
 Back to the results	返回结果
 Ball valve pneumatic	气动球阀
 Ball valves	球阀
 Base	底座
 Battery monitor	电池监视器
+Better kept in an environment variable of the server	建议放在服务器的环境变量中
+Bind name of a user without service account; {user} is replaced	没有服务帐户时用户的认证名称；{user} 会被替换
 Block ball valves	块式球阀
 Body	柜体
 Brake motor	制动电机
@@ -58,10 +68,12 @@ Centrifugal pumps	离心泵
 Centrifuge	离心机
 Certificate	证书
 Changed	已更改
+Changed last	最近更改
 Changes allowed	允许更改
 Check control valve	止回阀
 Check flap	止回挡板
 Chimney	烟囱
+Choose logo…	选择标志…
 Circuit breaker	断路器
 Coil	线圈
 Complete power units	成套动力单元
@@ -94,13 +106,17 @@ Crusher	破碎机
 Cylinders	缸
 DC motor	直流电机
 DC-DC converter	DC-DC 转换器
+Dashboard	仪表板
 Data recorder	数据记录仪
 Database backup	数据库备份
 Datasheet	数据手册
 Defined roles	已定义的角色
 Delete catalog {} from the server?	是否从服务器删除目录 {}？
 Delete catalog {}?	是否删除目录 {}？
+Delete directory {}? Its users can no longer sign in.	删除目录服务 {}？其用户将无法再登录。
+Delete group {}? The grants to it are removed.	删除组 {}？对它的授权将被删除。
 Delete part {} from the server? This cannot be undone.	要从服务器删除部件 {} 吗？此操作无法撤消。
+Delete part {}?	删除部件 {}？
 Delete parts	删除部件
 Delete user {}? Their sessions and favorites are removed.	是否删除用户 {}？其会话和收藏夹将被删除。
 Deleted	已删除
@@ -108,8 +124,9 @@ Digital sensor, general	数字量传感器，通用
 Directional control valves	换向阀
 Directional control valves, coaxial	同轴换向阀
 Directories	目录服务
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	目录服务（Active Directory、LDAP）在服务器的访问设置文件中配置。
 Directory	目录服务
+Directory groups	目录服务的组
+Directory {} exists already. Change it?	目录服务 {} 已存在。要更改吗？
 Dirt trap	除污器
 Discard the changes	放弃更改
 Discard the unsaved changes of {}?	要放弃 {} 未保存的更改吗？
@@ -125,18 +142,27 @@ Duplex switch filters	双筒切换过滤器
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	编辑目录 {}
 Edit catalogs	编辑目录
+Edit directory {}	编辑目录服务 {}
+Edit group {}	编辑组 {}
+Edit part {}	编辑部件 {}
 Edit parts	编辑部件
 Edit user {}	编辑用户 {}
 Electrical engineering - special items	电气工程 - 特殊元件
 Electrically-operated mechanical devices	电动机械装置
 Electrolysis cell	电解槽
+Empty: the memberOf attribute of the user	为空：用户的 memberOf 属性
+Empty: the search base	为空：搜索基准
+Empty: the usual filter of the type	为空：该类型的常用筛选器
 Enclosure cooling devices	机柜冷却装置
 Enclosure heater	机柜加热器
+Encryption	加密
 End clamp	终端固定件
 Ends the session and forgets the token	结束会话并丢弃令牌
 Engine	原动机
 Enter the address of an openecraft-parts-server and click Connect.	输入 openecraft-parts-server 的地址，然后单击“连接”。
+Environment variable with the password of the service account	包含服务帐户密码的环境变量
 Evaporator	蒸发器
+Everybody who may read the parts sees it.	所有可以读取部件的人都能看到。
 Exhaust valves	排气阀
 Export (CSV)	导出 (CSV)
 Export and backup	导出和备份
@@ -166,8 +192,14 @@ Furnace	炉
 Generator	发电机
 Grants	授权
 Grants of the server's access settings can refer to them	服务器访问设置中的授权可以引用它们
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	catalog:<id> 上的授权适用于一个目录及其部件（目录 › 权限）。
 Ground fault current circuit breaker	剩余电流断路器
 Ground fault voltage circuit-breaker	故障电压断路器
+Group filter	组筛选器
+Group search base	组的搜索基准
+Group {} exists already. Change it?	组 {} 已存在。要更改吗？
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	组汇集用户，包括本地用户和目录服务的用户。授予组的授权使其成员在整个服务器、某个制造商或某个目录上获得角色的权限。
+Groups of this server, next to those of the directory	本服务器的组，以及目录服务的组
 Heat exchangers	换热器
 High-pressure systems	高压系统
 High-pressure tanks	高压罐
@@ -178,6 +210,7 @@ Housing accessories, external extension	外壳附件，外部扩展
 Housing accessories, internal extension	外壳附件，内部扩展
 Hydraulic motors	液压马达
 Hydraulic tanks	液压油箱
+Images (PNG, JPEG, GIF, WebP, SVG)	图像（PNG、JPEG、GIF、WebP、SVG）
 Import / export	导入 / 导出
 Import parts	导入部件
 Imported {} parts (revision {})	已导入 {} 个部件（修订 {}）
@@ -190,6 +223,7 @@ KNX actuator	KNX 执行器
 KNX system device	KNX 系统设备
 Key switch	钥匙开关
 Kneader	捏合机
+Last changes per month	最近更改的时间分布
 Last sign-in	上次登录
 Legend plate	铭牌
 Level detector	限值检测器
@@ -207,12 +241,15 @@ Lock systems	锁闭系统
 Locking couplings	锁定接头
 Logic item	逻辑元件
 Logic items	逻辑元件
+Logos	标志
+Looks the users up; empty: users bind with their own name (below)	用于查找用户；为空：用户以自己的名称认证（见下方）
 Male insert	公头插芯
 Measurement system	测量系统
 Measuring connection points	测量接口
 Measuring couplings	测压接头
 Measuring instruments, test devices	测量仪器、测试装置
 Mechanics	机械
+Members	成员
 Metering hopper	计量料斗
 Miscellaneous	其他
 Mixer	混合机
@@ -221,15 +258,20 @@ Modulators	调制器
 Motor overload switch	电机保护开关
 Mounting chassis	安装底架
 Mounting panels	安装板
+Name attribute	名称属性
 New accounts need the approval of an administrator	新帐户需要管理员批准
 New catalog	新建目录
+New directory	新建目录服务
+New part	新建部件
 New part based on the open one	基于打开的部件新建部件
 New password	新密码
 New role	新建角色
 New user	新建用户
 Newer version	有更新版本
 Next	下一页
+No grants: the rights by manufacturer apply	没有授权：按制造商的权限生效
 No grants: users have the rights of their role	没有授权：用户具有其角色的权限
+No groups	没有组
 No users	没有用户
 Non-return valves	单向阀
 Not mounted	不安装
@@ -239,15 +281,18 @@ On the left side	左侧
 On the right side	右侧
 On this server	此服务器上
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	一个 SQLite 文件，包含所有部件及其历史和文件、目录、用户及其收藏夹。其中包含用户的密码数据：请安全保存。
+One line per value, e.g. Coil voltage: 24 V DC	每行一个值，例如 线圈电压: 24 V DC
 Only catalogs without parts can be deleted	只能删除不含部件的目录
 Only empty catalogs can be deleted	只能删除空目录
 Only local accounts	仅本地帐户
+Only their members sign in; empty: all users	只有其成员可以登录；为空：所有用户
 Open sessions: {}	打开的会话：{}
 OpenECraft data portal	OpenECraft 数据门户
 OpenECraft parts manager	OpenECraft 部件管理器
 OpenECraft parts server	OpenECraft 部件服务器
 Other file	其他文件
 Other labels	其他标签
+Others	其他
 Outlet	出口
 Outlet filter	出风过滤器
 Overload	过载保护
@@ -267,8 +312,17 @@ PV rail connector	光伏导轨连接件
 Part (source)	部件（源）
 Part (target)	部件（目标）
 Part files (documents, images, models, macros)	部件文件（文档、图像、模型、宏）
+Part {} exists already	部件 {} 已存在
 Part {} not found	未找到部件 {}
 Partition	隔板
+Parts per catalog	按目录统计部件
+Parts per manufacturer	按制造商统计部件
+Parts per product group	按产品组统计部件
+Parts with …	具有以下内容的部件…
+Password variable	密码变量
+Per page	每页
+Permissions	权限
+Permissions of catalog {}	目录 {} 的权限
 Phase-out	即将停产
 Pipes	管道
 Piping part	管道部件
@@ -316,7 +370,9 @@ Register	注册
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	注册用户成为读者：他们可以保存收藏，即使读取需要登录也能读取部件。可在“用户”中授予更多权限。
 Registration	注册
 Reject the registration of {}? The account is deleted.	是否拒绝 {} 的注册？该帐户将被删除。
+Remove logo	删除标志
 Remove the file from the part	从部件中删除该文件
+Remove the logo	删除标志
 Removed from the server	已从服务器删除
 Repeat password	重复密码
 Replace the roles and grants with those of the file?	是否用文件中的角色和授权替换现有的？
@@ -334,11 +390,15 @@ Safety accumulators	安全蓄能器
 Safety devices	安全装置
 Safety fuse	熔断器
 Safety switch	保护开关
+Save the catalog first	请先保存目录
 Save the part first	请先保存部件
+Saved directory {}	已保存目录服务 {}
+Saved group {}	已保存组 {}
 Screw connections	螺纹接头
 Screw pumps	螺杆泵
 Screw spindle compressors	螺杆压缩机
 Scroll compressors	涡旋压缩机
+Search base	搜索基准
 Search users	搜索用户
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	选择目录或新建目录。部件通过其目录 ID 归属于目录（部件编辑器，“数据门户”选项卡）。
 Select a user or create a new one.	选择用户或新建用户。
@@ -348,8 +408,12 @@ Sensor NC	传感器 常闭触点
 Sensor, switch, and pushbutton	传感器、开关和按钮
 Sensors - pressure gauges	传感器 - 压力表
 Serial sub-plates	串联底板
+Service account	服务帐户
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	由服务器的启动选项设置（--dashboard 或 OPENECRAFT_DASHBOARD）。
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	由服务器的启动选项设置（--registration 或 OPENECRAFT_REGISTRATION）。
+Short name without blanks; qualifies the groups (id:group)	不含空格的短名称；用于限定组（id:组）
 Show parts	显示部件
+Show the dashboard with graphs of the parts	显示带有部件图表的仪表板
 Shut-off accumulators	截止式蓄能器
 Shut-off control valve	截止阀
 Shut-off flap	截止挡板
@@ -374,10 +438,12 @@ Silo	筒仓
 Single-phase motor	单相电机
 Single-stage filters	单级过滤器
 Siphon	虹吸管
+Size of the files	文件大小
 Solenoid valve	电磁阀
 Sorter	分选机
 Start a server with:  openecraft-parts-server --token <secret>	使用以下命令启动服务器：  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	使用 --token 启动 openecraft-parts-server 以允许更改
+StartTLS (for ldap://)	StartTLS（用于 ldap://）
 Steam boiler	蒸汽锅炉
 Stirrer	搅拌器
 Storage	存储
@@ -398,23 +464,32 @@ Temperature sensors	温度传感器
 Terminal label	端子标签
 Terminator	终端器
 Terminators, filters	终端器、滤波器
+Test	测试
 Test accessories	测试附件
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal 仅支持搜索和读取部件
 The access settings would leave nobody who manages users	这些访问设置将导致没有人可以管理用户
 The access token is only needed for changes; it is not stored.	访问令牌仅在更改时需要；不会被存储。
+The address must start with ldap:// or ldaps://	地址必须以 ldap:// 或 ldaps:// 开头
 The catalogs with their manufacturer, version and description.	目录及其制造商、版本和说明。
 The checksum of {} does not match: the download is damaged	{} 的校验和不匹配：下载已损坏
+The dashboard is hidden	仪表板已隐藏
+The dashboard is shown	仪表板已显示
 The directory checks the password and sets the groups at every sign-in	目录服务在每次登录时检查密码并设置组
 The file holds no access settings	该文件不包含访问设置
+The groups would leave nobody who manages users	这些组将不再留下任何管理用户的人
 The last administrator cannot lose the right to manage users	最后一个管理员不能失去管理用户的权限
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	公司的标志：PNG、JPEG、GIF、WebP 或 SVG，最大 512 kB
 The password needs at least {} characters	密码至少需要 {} 个字符
 The passwords do not match	两次输入的密码不一致
 The project has no parts	项目没有部件
 The registration is closed	注册已关闭
 The registration is open	注册已开放
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	角色、授权和未登录时的访问。恢复会替换它们；目录服务保持服务器上的设置不变。
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	此处授予的角色适用于此目录及其部件，不论制造商；拒绝会撤销角色的权限。读取是整个服务器的权利。
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	角色、授权、组以及无需登录的访问，附带服务器版本。恢复会替换角色和授权并添加组；目录服务保持服务器上的设置。
 The server cannot be reached	无法连接到服务器
 The server sent no text	服务器未发送文本
+The test failed	测试失败
+The test succeeded	测试成功
 The upload is finished	上传已完成
 The users with their role, manufacturer, groups and last sign-in, without passwords.	用户及其角色、制造商、组和上次登录时间，不含密码。
 Thermometers	温度计
@@ -426,6 +501,7 @@ Three-way control valve	三通阀
 Three-way flap	三通挡板
 Three-way valve	三通阀
 Throttle plate	节流板
+Timeout (s)	超时（秒）
 Timer relay	时间继电器
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	要恢复它，请使用 --data <文件> 启动服务器，或使用 --migrate-from <文件> 将其复制到新数据库中。
 Too many failed sign-ins, try again later	登录失败次数过多，请稍后再试
@@ -439,10 +515,15 @@ Undefined	未定义
 Uploading {} to Vault ({} %)…	正在将 {} 上传到 Vault ({} %)…
 Uploading {} to Vault…	正在将 {} 上传到 Vault…
 User account	用户帐户
+User bind	用户认证名称
+User filter	用户筛选器
 User or group	用户或组
 User {} exists already. Change it?	用户 {} 已存在。是否更改？
 User-defined rail	用户定义导轨
 Users may register themselves (as readers)	用户可以自行注册（作为读者）
+Users of a directory too, by the name they sign in with	也包括目录服务的用户，按其登录名
+Users per role	按角色统计用户
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	当服务器没有与用户同名的本地帐户时，用户使用目录服务（Active Directory、LDAP）的帐户登录。授权以“目录:组”的形式引用目录服务的组。
 Vacuum pump	真空泵
 Valve / distributor	阀 / 分配器
 Valve coil	阀线圈
@@ -458,9 +539,12 @@ Washer	垫圈
 Water traps	水分离器
 Wind deflector	挡风板
 Wiring material	接线材料
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	不指定用户：连接并以服务帐户认证。指定用户：使其登录并显示其组。
+Without catalog	无目录
 Without sign-in	未登录
 Wrong access token	访问令牌错误
 Wrong user name or password	用户名或密码错误
+You may not change parts of manufacturer {}	您不能更改制造商 {} 的部件
 Your account awaits the approval of an administrator	您的帐户正在等待管理员批准
 Your account was created. An administrator has to approve it before you can sign in.	您的帐户已创建。管理员批准后您才能登录。
 access denied – check the personal access token	访问被拒绝 – 请检查个人访问令牌
@@ -469,6 +553,7 @@ changed, not saved	已更改，未保存
 connection failed: {}	连接失败：{}
 directory:group	目录:组
 from the name	根据名称
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// 或 ldaps://，如端口不是常用端口则带上端口
 needed for changes	更改时需要
 new part, not saved	新部件，未保存
 read-only server	只读服务器
@@ -486,6 +571,8 @@ you	您
 {} parts in {} catalogs, revision {}	{1} 个目录中共 {0} 个部件，修订 {2}
 {} parts, {} catalogs, {}	{} 个部件，{} 个目录，{}
 {} – save to upload it	{} – 保存后上传
+{}: a logo has at most 512 kB	{}：标志最大 512 kB
+{}: the catalog is no longer open	{}：目录已不再打开
 {}: the part is no longer open	{}：该部件已不再打开
 {}: {} parts added, {} updated, {} kept	{}：已添加 {} 个部件，已更新 {} 个，保留 {} 个
 ⎘ Copy	⎘ 复制

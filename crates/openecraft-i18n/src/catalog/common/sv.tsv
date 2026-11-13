@@ -12,6 +12,7 @@ Above	Ovanför
 Access token	Åtkomsttoken
 Accessories	Tillbehör
 Accessory	Tillbehör
+Add	Lägg till
 Add a PDF of all pages	Lägg till en PDF med alla sidor
 Add to favorites	Lägg till i favoriter
 Address	Adress
@@ -85,6 +86,7 @@ Created by	Skapad av
 Cross references	Korsreferenser
 Cross-section	Tvärsnitt
 Crossing	Korsning
+Currency	Valuta
 Current	Ström
 Cutout	Urtag
 Cutouts	Urtag
@@ -108,6 +110,7 @@ Device description	Enhetsbeskrivning
 Device tag	Apparatbeteckning
 Device {}	Apparat {}
 Devices	Apparater
+Dimensions	Mått
 Direction	Riktning
 Discard	Ignorera
 Discard changes	Släng ändringarna
@@ -199,11 +202,13 @@ Load	Last
 Loaded circuits bunched together	Belastade kretsar förlagda tillsammans
 Location	Placering
 Location (+)	Placering (+)
+Logo	Logotyp
 MTTFd (years)	MTTFd (år)
 Machine	Maskin
 Main earthing terminal	Huvudjordningsskena
 Main switch	Huvudbrytare
 Manufacturer	Tillverkare
+Manufacturers	Tillverkare
 Manufacturing	Tillverkning
 Marking	Märkning
 Match case	Matcha versaler/gemener
@@ -230,6 +235,7 @@ Name of the point, e.g. a survey point	Punktens namn, t.ex. en mätpunkt
 Name of the scheme	Schemats namn
 Net	Nät
 Never	Aldrig
+New group	Ny grupp
 New name	Nytt namn
 Next page	Nästa sida
 No	Nej
@@ -401,6 +407,7 @@ Settings	Inställningar
 Shape	Form
 Short-circuit voltage	Kortslutningsspänning
 Show history	Visa historik
+Show the logos of the catalogs	Visa katalogernas logotyper
 Show the row after the column	Visa raden efter kolumnen
 Side	Sida
 Sign in	Logga in
@@ -497,6 +504,7 @@ file or folder not found	filen eller mappen hittades inte
 landscape	liggande
 left	vänster
 mm	mm
+none	inget
 normal	normal
 not bonded	inte ansluten
 not connected	inte ansluten

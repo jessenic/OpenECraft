@@ -12,6 +12,7 @@ Above	Acima
 Access token	Token de acesso
 Accessories	Acessórios
 Accessory	Acessório
+Add	Adicionar
 Add a PDF of all pages	Adicionar um PDF de todas as páginas
 Add to favorites	Adicionar aos favoritos
 Address	Endereço
@@ -85,6 +86,7 @@ Created by	Criado por
 Cross references	Referências cruzadas
 Cross-section	Seção transversal
 Crossing	Cruzamento
+Currency	Moeda
 Current	Corrente
 Cutout	Recorte
 Cutouts	Recortes
@@ -108,6 +110,7 @@ Device description	Descrição de dispositivo
 Device tag	Identificador de dispositivo
 Device {}	Dispositivo {}
 Devices	Dispositivos
+Dimensions	Dimensões
 Direction	Direção
 Discard	Descartar
 Discard changes	Descartar alterações
@@ -199,11 +202,13 @@ Load	Carga
 Loaded circuits bunched together	Circuitos carregados agrupados
 Location	Localização
 Location (+)	Localização (+)
+Logo	Logotipo
 MTTFd (years)	MTTFd (anos)
 Machine	Máquina
 Main earthing terminal	Barramento de aterramento principal
 Main switch	Chave geral
 Manufacturer	Fabricante
+Manufacturers	Fabricantes
 Manufacturing	Fabricação
 Marking	Marcação
 Match case	Diferenciar maiúsculas e minúsculas
@@ -230,6 +235,7 @@ Name of the point, e.g. a survey point	Nome do ponto, p. ex. um marco topográfi
 Name of the scheme	Nome do esquema
 Net	Rede
 Never	Nunca
+New group	Novo grupo
 New name	Novo nome
 Next page	Próxima página
 No	Não
@@ -401,6 +407,7 @@ Settings	Configurações
 Shape	Forma
 Short-circuit voltage	Tensão de curto-circuito
 Show history	Mostrar histórico
+Show the logos of the catalogs	Mostrar os logotipos dos catálogos
 Show the row after the column	Mostrar a linha após a coluna
 Side	Lado
 Sign in	Entrar
@@ -497,6 +504,7 @@ file or folder not found	arquivo ou pasta não encontrado
 landscape	paisagem
 left	para a esquerda
 mm	mm
+none	nenhum
 normal	normal
 not bonded	não equipotencializado
 not connected	não conectado

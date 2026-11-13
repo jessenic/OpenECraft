@@ -168,6 +168,14 @@ impl Session {
         };
     }
 
+    /// The catalog whose logo may be changed now: a stored catalog without unsaved
+    /// changes (a changed logo replaces the open catalog with the server's).
+    pub fn logo_target(&self) -> Option<&str> {
+        let d = self.catalog.as_ref()?;
+        let id = d.original.as_deref()?;
+        self.catalogs.iter().any(|c| c.id == id && *c == d.catalog).then_some(id)
+    }
+
     /// The catalog to save, with an id derived from the name for new catalogs; or
     /// why it cannot be saved.
     pub fn catalog_to_save(&self) -> Result<Catalog, &'static str> {

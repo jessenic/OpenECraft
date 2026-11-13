@@ -146,8 +146,14 @@ pub fn parse_csv(text: &str) -> Vec<Vec<String>> {
 }
 
 /// Reads parts from CSV. Columns are matched by header name; unknown columns are ignored.
+/// Lines starting with `#` before the header (the export information of the parts
+/// server) are skipped.
 pub fn from_csv(text: &str) -> Result<Vec<Part>, String> {
-    let rows = parse_csv(text.trim_start_matches('\u{feff}'));
+    let mut text = text.trim_start_matches('\u{feff}');
+    while text.starts_with('#') {
+        text = text.split_once('\n').map_or("", |(_, rest)| rest);
+    }
+    let rows = parse_csv(text);
     let Some((header, data)) = rows.split_first() else { return Err("empty file".into()) };
     let col = |name: &str| header.iter().position(|h| h.trim().eq_ignore_ascii_case(name));
     if col("Part number").is_none() {

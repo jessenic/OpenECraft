@@ -165,3 +165,24 @@ fn the_browser_fits_its_window_instead_of_growing_it() {
     let (first, last) = (heights[1], *heights.last().unwrap());
     assert!(last <= first + 1.0, "the window grew: {heights:?}");
 }
+
+#[test]
+fn catalogs_and_logos_load_while_logos_are_shown() {
+    use openecraft_parts::portal::{Attachment, Catalog};
+    let mut b = Browser::new();
+    assert!(b.show_logos, "shown by default");
+    assert!(b.take_catalogs());
+    assert!(!b.take_catalogs(), "once per server");
+    let logo = Attachment { id: "f1".into(), name: "acme.svg".into(), ..Default::default() };
+    b.apply(&Reply::Catalogs(Ok(vec![Catalog { id: "acme".into(), name: "ACME".into(), logo: Some(logo), ..Default::default() }])), &[]);
+    assert_eq!(b.catalog("ACME ").map(|c| c.name.as_str()), Some("ACME"));
+    b.apply(&Reply::Logo("f1".into(), "acme.svg".into(), Ok(b"<svg/>".to_vec())), &[]);
+    assert!(b.logos.loaded("f1"));
+    // Connecting again loads them again (another server, or changed catalogs).
+    b.apply(&Reply::Info(Ok(Default::default())), &[]);
+    assert!(b.catalogs.is_empty() && !b.logos.loaded("f1"));
+    b.show_logos = false;
+    assert!(!b.take_catalogs(), "nothing is loaded while logos are hidden");
+    b.show_logos = true;
+    assert!(b.take_catalogs());
+}

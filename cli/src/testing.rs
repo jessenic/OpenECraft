@@ -140,7 +140,7 @@ impl Transport for FakeServer {
                     }
                     *self.policy.borrow_mut() = policy;
                 }
-                return Ok(json(&Settings { policy: self.policy.borrow().clone(), providers: Vec::new() }));
+                return Ok(json(&Settings { policy: self.policy.borrow().clone(), ..Default::default() }));
             }
             (["libraries", name], ehttp::Method::GET) => {
                 return Ok(match self.libraries.borrow().get(*name) {

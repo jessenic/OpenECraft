@@ -112,7 +112,6 @@ Accepted ({})	Akzeptiert ({})	Acceptés ({})	Aceptados ({})
 Accepted messages ({})	Akzeptierte Meldungen ({})	Messages acceptés ({})	Mensajes aceptados ({})
 Active	Aktiv	Active	Activa
 Actuators on the door	Bedienteile in der Tür	Organes de commande sur la porte	Actuadores en la puerta
-Add	Hinzufügen	Ajouter	Añadir
 Add a command	Befehl hinzufügen	Ajouter une commande	Añadir un comando
 Add a target language to translate the project texts.	Fügen Sie eine Zielsprache hinzu, um die Projekttexte zu übersetzen.	Ajoutez une langue cible pour traduire les textes du projet.	Añada un idioma de destino para traducir los textos del proyecto.
 Add default property	Standardeigenschaft hinzufügen	Ajouter une propriété par défaut	Añadir propiedad predeterminada
@@ -1158,7 +1157,6 @@ Locked by {} on the project server – read only	Auf dem Projektserver von {} ge
 Locked by {} – read only	Gesperrt von {} – schreibgeschützt	Verrouillé par {} – lecture seule	Bloqueado por {} – solo lectura
 Locking…	Sperren…	Verrouillage…	Bloqueando…
 Logic	Logik	Logique	Lógica
-Logo	Logo	Logo	Logotipo
 Logo on the cover page	Logo auf dem Deckblatt	Logo sur la page de garde	Logotipo en la portada
 Longer values are drawn smaller (0 = no limit)	Längere Werte werden kleiner gezeichnet (0 = keine Begrenzung)	Les valeurs plus longues sont dessinées plus petites (0 = sans limite)	Los valores más largos se dibujan más pequeños (0 = sin límite)
 Look for updates when OpenECraft starts	Beim Start von OpenECraft nach Updates suchen	Rechercher des mises à jour au démarrage d'OpenECraft	Buscar actualizaciones al iniciar OpenECraft
@@ -1283,7 +1281,6 @@ New document page…	Neue Dokumentseite…	Nouvelle page document…	Nueva pági
 New empty	Neu, leer	Nouveau, vide	Nuevo, vacío
 New enclosure	Neues Gehäuse	Nouvelle enveloppe	Nueva envolvente
 New graphics page	Neue Grafikseite	Nouvelle page graphique	Nueva página gráfica
-New group	Neue Gruppe	Nouveau groupe	Nuevo grupo
 New harness	Neuer Kabelbaum	Nouveau faisceau	Nuevo mazo
 New items go onto this layer	Neue Objekte kommen auf diese Ebene	Les nouveaux éléments vont sur ce calque	Los nuevos elementos van a esta capa
 New mounting layout page	Neue Montageplan-Seite	Nouvelle page d'implantation	Nueva página de distribución de montaje
@@ -2205,6 +2202,7 @@ The items are selected and moved together	Die Elemente werden gemeinsam ausgewä
 The level of a building the room is on (Layout space › Buildings); it moves with the building and its level	Die Ebene eines Gebäudes, auf der der Raum liegt (Layoutraum › Gebäude); er bewegt sich mit dem Gebäude und seiner Ebene	Le niveau d'un bâtiment sur lequel se trouve la pièce (Espace de montage › Bâtiments) ; elle suit le bâtiment et son niveau	El nivel de un edificio en el que está la sala (Espacio de montaje › Edificios); se mueve con el edificio y su nivel
 The logo is fitted into this area keeping its aspect ratio	Das Logo wird mit seinem Seitenverhältnis in diesen Bereich eingepasst	Le logo est ajusté à cette zone en conservant ses proportions	El logotipo se ajusta a esta área manteniendo su relación de aspecto
 The logo of the project properties, e.g. the customer's	Das Logo aus den Projekteigenschaften, z. B. das des Kunden	Le logo des propriétés du projet, p. ex. celui du client	El logotipo de las propiedades del proyecto, p. ej. el del cliente
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Die Logos der Herstellerkataloge auf dem Artikelserver, neben den Details eines Artikels	Les logos des catalogues des fabricants sur le serveur d'articles, à côté des détails d'un article	Los logotipos de los catálogos de los fabricantes en el servidor de artículos, junto a los detalles de un artículo
 The low eaves at the rear or left instead of the front or right	Die niedrige Traufe hinten oder links statt vorne oder rechts	L'égout bas à l'arrière ou à gauche au lieu de l'avant ou de la droite	El alero bajo detrás o a la izquierda en lugar de delante o a la derecha
 The macro library has no page macros (Macros › Save page as macro…).	Die Makrobibliothek hat keine Seitenmakros (Makros › Seite als Makro speichern…).	La bibliothèque de macros n'a pas de macros de page (Macros › Enregistrer la page comme macro…).	La biblioteca de macros no tiene macros de página (Macros › Guardar página como macro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Die Zusatztasten, mit denen das Mausrad seitwärts verschiebt oder zoomt, werden unter Zusatztasten eingestellt.	Les touches de modification qui font défiler la molette latéralement ou zoomer se règlent sous Touches de modification.	Las teclas modificadoras que hacen que la rueda desplace hacia los lados o haga zoom se ajustan en Teclas modificadoras.
@@ -2514,7 +2512,6 @@ no electrical data of the module	keine elektrischen Daten des Moduls	pas de donn
 no rooms	keine Räume	aucune pièce	ninguna sala
 no valid levels	keine gültigen Ebenen	pas de niveaux valides	sin niveles válidos
 no wires	keine Verbindungen	aucun fil	sin cables
-none	keins	aucun	ninguno
 not available, drawn by the processor	nicht verfügbar, Zeichnen durch den Prozessor	non disponible, dessinée par le processeur	no disponible, la dibuja el procesador
 not defined	nicht definiert	non défini	no definido
 not in the P&ID	nicht im R&I-Fließschema	absent du P&ID	no está en el P&ID

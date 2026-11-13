@@ -198,10 +198,7 @@ impl Directory {
         if user.is_empty() || password.is_empty() {
             return Err(SignInError::Refused);
         }
-        let timeout = Duration::from_secs(self.timeout_secs.max(1));
-        let settings = LdapConnSettings::new().set_conn_timeout(timeout).set_starttls(self.starttls).set_no_tls_verify(self.insecure_tls);
-        let (conn, mut ldap) = LdapConnAsync::with_settings(settings, &self.url).await?;
-        ldap3::drive!(conn);
+        let (mut ldap, timeout) = self.connect().await?;
         let result = self.look_up(&mut ldap, timeout, user, password).await;
         let _ = ldap.unbind().await;
         let (name, groups) = result?;
@@ -210,6 +207,43 @@ impl Directory {
             return Err(SignInError::Refused);
         }
         Ok(Identity { name, provider: self.id.trim().to_string(), groups })
+    }
+
+    async fn connect(&self) -> Result<(Ldap, Duration), SignInError> {
+        let timeout = Duration::from_secs(self.timeout_secs.max(1));
+        let settings = LdapConnSettings::new().set_conn_timeout(timeout).set_starttls(self.starttls).set_no_tls_verify(self.insecure_tls);
+        let (conn, ldap) = LdapConnAsync::with_settings(settings, &self.url).await?;
+        ldap3::drive!(conn);
+        Ok((ldap, timeout))
+    }
+
+    /// Checks the settings and the connection: connects and, with a service account,
+    /// binds with it and reads the entry of `base_dn`. Returns what was checked.
+    pub async fn test_connection(&self) -> Result<String, SignInError> {
+        self.check().map_err(SignInError::Unavailable)?;
+        let (mut ldap, timeout) = self.connect().await?;
+        let result = async {
+            let dn = self.bind_dn.trim();
+            if dn.is_empty() {
+                return Ok(format!("connected to {}", self.url));
+            }
+            let bound = ldap.with_timeout(timeout).simple_bind(dn, &self.bind_password()).await?;
+            if bound.rc != 0 {
+                return Err(SignInError::Unavailable(format!("bind as {dn} failed: {bound}")));
+            }
+            let base = self.base_dn.trim();
+            ldap.with_timeout(timeout).search(base, Scope::Base, "(objectClass=*)", vec!["1.1"]).await?.success()?;
+            Ok(format!("connected to {} as {dn}, {base} found", self.url))
+        }
+        .await;
+        let _ = ldap.unbind().await;
+        result
+    }
+
+    /// True if the password of the service account is set (in the file or in its
+    /// environment variable).
+    pub fn has_bind_password(&self) -> bool {
+        !self.bind_password().is_empty()
     }
 
     async fn look_up(&self, ldap: &mut Ldap, timeout: Duration, user: &str, password: &str) -> Result<(String, Vec<String>), SignInError> {

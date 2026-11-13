@@ -62,3 +62,36 @@ fn only_web_addresses_are_links() {
         assert!(!is_web_link(bad), "{bad}");
     }
 }
+
+#[test]
+fn exports_carry_the_server_version() {
+    let info = ExportInfo::new("OpenECraft parts server", "0.1.2", 42, 1_794_268_800);
+    let line = info.csv_comment();
+    assert!(line.starts_with("# format=openecraft-parts;format_version=1;"), "{line}");
+    let csv = format!("{line}\n{}", crate::to_csv(&[Part { number: "A".into(), ..Default::default() }]));
+    assert_eq!(ExportInfo::from_csv(&csv), Some(info.clone()));
+    assert_eq!(ExportInfo::from_csv("Part number;Description\nA;x\n"), None);
+    assert_eq!(crate::import(&csv).unwrap().len(), 1);
+    // The JSON export is read as a parts database.
+    let json = serde_json::to_string(&PartsExport { export: info.clone(), parts: vec![Part { number: "B".into(), ..Default::default() }] }).unwrap();
+    assert_eq!(crate::import(&json).unwrap()[0].number, "B");
+    let back: PartsExport = serde_json::from_str(&json).unwrap();
+    assert_eq!(back.export, info);
+}
+
+#[test]
+fn rights_on_a_part_come_from_its_manufacturer_or_its_catalog() {
+    use crate::access::{Entry, SERVER};
+    let entry = |scope: &str, deny: bool| Entry { scope: scope.into(), rights: [PartsRight::EditParts].into_iter().collect(), deny };
+    let read = Entry { scope: SERVER.into(), rights: [PartsRight::Read].into_iter().collect(), deny: false };
+    let info = |entries: Vec<Entry<PartsRight>>| ServerInfo { access: Access { entries }, ..Default::default() };
+    let part = Part { number: "A".into(), manufacturer: "Siemens".into(), catalog: "sirius".into(), ..Default::default() };
+    let other = Part { catalog: "sentron".into(), manufacturer: "ABB".into(), ..part.clone() };
+    let by_catalog = info(vec![read.clone(), entry(&crate::portal::catalog_scope("sirius"), false)]);
+    assert!(by_catalog.may_on_part(PartsRight::EditParts, &part));
+    assert!(!by_catalog.may_on_part(PartsRight::EditParts, &other));
+    assert!(!by_catalog.may_edit("Siemens"));
+    let denied = info(vec![read, entry("Siemens", false), entry("catalog:sir*", true)]);
+    assert!(!denied.may_on_part(PartsRight::EditParts, &part));
+    assert!(denied.may_on_part(PartsRight::EditParts, &Part { catalog: String::new(), ..part }));
+}

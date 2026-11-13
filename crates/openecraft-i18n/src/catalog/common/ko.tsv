@@ -12,6 +12,7 @@ Above	위
 Access token	액세스 토큰
 Accessories	부속품
 Accessory	부속품
+Add	추가
 Add a PDF of all pages	모든 페이지의 PDF 추가
 Add to favorites	즐겨찾기에 추가
 Address	주소
@@ -83,6 +84,7 @@ Created by	작성자
 Cross references	상호 참조
 Cross-section	단면적
 Crossing	교차
+Currency	통화
 Current	전류
 Cutout	컷아웃
 Cutouts	컷아웃
@@ -106,6 +108,7 @@ Device description	장치 설명
 Device tag	장치 태그
 Device {}	장치 {}
 Devices	장치
+Dimensions	치수
 Direction	방향
 Discard	폐기
 Discard changes	변경 내용 취소
@@ -197,11 +200,13 @@ Load	부하
 Loaded circuits bunched together	함께 묶인 부하 회로
 Location	위치
 Location (+)	위치 (+)
+Logo	로고
 MTTFd (years)	MTTFd(년)
 Machine	기계
 Main earthing terminal	주 접지 단자
 Main switch	주 스위치
 Manufacturer	제조업체
+Manufacturers	제조업체
 Manufacturing	제조
 Marking	마킹
 Match case	대/소문자 구분
@@ -228,6 +233,7 @@ Name of the point, e.g. a survey point	점 이름 (예: 측량점)
 Name of the scheme	스키마 이름
 Net	네트
 Never	안 함
+New group	새 그룹
 New name	새 이름
 Next page	다음 페이지
 No	아니요
@@ -399,6 +405,7 @@ Settings	설정
 Shape	모양
 Short-circuit voltage	단락 전압
 Show history	기록 표시
+Show the logos of the catalogs	카탈로그 로고 표시
 Show the row after the column	열 다음에 행 표시
 Side	측
 Sign in	로그인

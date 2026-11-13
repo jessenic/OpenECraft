@@ -77,7 +77,6 @@ Accept as checked	接受为已检查
 Accepted messages ({})	已接受的消息 ({})
 Active	激活
 Actuators on the door	柜门上的操作元件
-Add	添加
 Add a command	添加命令
 Add a target language to translate the project texts.	添加目标语言以翻译项目文本。
 Add filter	添加筛选
@@ -991,7 +990,6 @@ Locked by {} on the project server – read only	已被 {} 在项目服务器上
 Locked by {} – read only	已被 {} 锁定 – 只读
 Locking…	正在锁定…
 Logic	逻辑
-Logo	标志
 Logo on the cover page	封面上的标志
 Longer values are drawn smaller (0 = no limit)	较长的值将以较小字号绘制（0 = 无限制）
 Look for updates when OpenECraft starts	OpenECraft 启动时检查更新
@@ -1108,7 +1106,6 @@ New document page…	新建文档页…
 New empty	新建空白
 New enclosure	新建机柜
 New graphics page	新建图形页
-New group	新建组
 New harness	新建线束
 New items go onto this layer	新元素放到此图层上
 New mounting layout page	新建安装布局页
@@ -1942,6 +1939,7 @@ The horizontal wire	水平导线
 The items are selected and moved together	这些元素将一起被选择和移动
 The logo is fitted into this area keeping its aspect ratio	标志按原比例缩放到此区域中
 The logo of the project properties, e.g. the customer's	项目属性中的标志，例如客户的标志
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	部件服务器上制造商目录的标志，显示在部件详细信息旁边
 The macro library has no page macros (Macros › Save page as macro…).	宏库没有页宏（宏 › 将页另存为宏…）。
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	使滚轮横向平移或缩放的组合键在“组合键”中设置。
 The modules no string takes yet in series, on the first inverter	尚未分配到组串的组件串联，接到第一台逆变器

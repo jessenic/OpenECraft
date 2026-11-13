@@ -4,11 +4,11 @@
 //! persists them: SQLite (default) or JSON files.
 
 mod json;
-mod sqlite;
+pub mod sqlite;
 
 use crate::auth::{sha256_hex, Account};
 use crate::bundled::{self, Bundle};
-use openecraft_parts::api::{Installed, PartQuery};
+use openecraft_parts::api::{ExportInfo, Installed, PartQuery};
 use openecraft_parts::portal::{brief, content, Attachment, AttachmentKind, Catalog, ChangeKind, HistoryEntry, SearchResult};
 use openecraft_parts::{default_catalog, Part};
 use std::collections::HashMap;
@@ -189,7 +189,7 @@ impl Store {
         Ok(q.search(&self.candidates(q)?, self.revision))
     }
 
-    #[cfg(test)]
+    /// All parts with their models.
     pub fn all(&self) -> io::Result<Vec<Part>> {
         self.list(&PartQuery::default()).map(|(_, parts)| parts)
     }
@@ -238,7 +238,9 @@ impl Store {
         if ids.is_empty() {
             return Ok(0);
         }
-        let unused = self.backend.unused_files(&ids)?;
+        // The logos of the catalogs are files too.
+        let logos: Vec<String> = self.backend.catalogs()?.into_iter().filter_map(|c| c.logo.map(|l| l.id)).collect();
+        let unused: Vec<String> = self.backend.unused_files(&ids)?.into_iter().filter(|id| !logos.contains(id)).collect();
         let n = unused.len();
         if n > 0 {
             self.backend.commit(Change { revision: self.revision, deleted_files: unused, ..Default::default() })?;
@@ -324,14 +326,36 @@ impl Store {
         Ok(self.catalogs()?.into_iter().find(|c| c.id.eq_ignore_ascii_case(id)))
     }
 
+    /// Stores a catalog; its logo stays as it is ([`Store::set_logo`] changes it).
     pub fn put_catalog(&mut self, catalog: Catalog) -> io::Result<Catalog> {
-        let stored = Catalog { modified: now(), parts: 0, ..catalog };
+        let logo = self.catalog(&catalog.id)?.and_then(|c| c.logo);
+        let stored = Catalog { modified: now(), parts: 0, logo, ..catalog };
         self.commit(Change { catalogs: vec![stored.clone()], ..Default::default() }, true)?;
         Ok(self.catalog(&stored.id)?.unwrap_or(stored))
     }
 
     pub fn delete_catalog(&mut self, id: &str) -> io::Result<()> {
-        self.commit(Change { deleted_catalogs: vec![id.into()], ..Default::default() }, true)
+        let logo = self.catalog(id)?.and_then(|c| c.logo);
+        self.commit(Change { deleted_catalogs: vec![id.into()], ..Default::default() }, true)?;
+        self.remove_unused(logo.into_iter().map(|l| l.id).collect())?;
+        Ok(())
+    }
+
+    /// Sets (`Some((file name, image))`) or removes the logo of a catalog. `None` if
+    /// the catalog does not exist.
+    pub fn set_logo(&mut self, id: &str, logo: Option<(&str, Vec<u8>)>) -> io::Result<Option<Catalog>> {
+        let Some(mut catalog) = self.catalog(id)? else { return Ok(None) };
+        let old = catalog.logo.take();
+        let mut files = Vec::new();
+        if let Some((name, data)) = logo {
+            let file_id = sha256_hex(&data);
+            catalog.logo = Some(Attachment { id: file_id.clone(), name: name.into(), kind: AttachmentKind::Image, size: data.len() as u64 });
+            files.push(StoredFile { id: file_id, name: name.into(), data });
+        }
+        let stored = Catalog { modified: now(), parts: 0, ..catalog };
+        self.commit(Change { catalogs: vec![stored.clone()], files, ..Default::default() }, true)?;
+        self.remove_unused(old.into_iter().map(|l| l.id).collect())?;
+        self.catalog(&stored.id)
     }
 
     /// Installs a bundled catalog: stores the catalog if it is missing or has another
@@ -340,9 +364,13 @@ impl Store {
     /// same number, are kept.
     pub fn install(&mut self, bundle: Bundle) -> io::Result<Installed> {
         let mut result = Installed::default();
-        let Bundle { catalog, parts } = bundle;
+        let Bundle { catalog, parts, logo } = bundle;
         if self.catalog(&catalog.id)?.is_none_or(|c| c.version != catalog.version) {
             self.put_catalog(catalog.clone())?;
+        }
+        // The bundled logo while the catalog has none (also after it was removed).
+        if let Some(svg) = logo.filter(|_| self.catalog(&catalog.id).ok().flatten().is_some_and(|c| c.logo.is_none())) {
+            self.set_logo(&catalog.id, Some((&format!("{}.svg", catalog.id), svg.as_bytes().to_vec())))?;
         }
         let mut changed = Vec::new();
         for part in parts {
@@ -374,8 +402,9 @@ impl Store {
 
     /// A copy of the whole database (parts with history and files, catalogs, accounts,
     /// favorites) as one SQLite file, which the server opens with `--data` or copies
-    /// with `--migrate-from`.
-    pub fn backup(&self) -> io::Result<Vec<u8>> {
+    /// with `--migrate-from`. Its `meta` table keeps the fields of `info` (the version
+    /// of the server, `export.` before their names).
+    pub fn backup(&self, info: &ExportInfo) -> io::Result<Vec<u8>> {
         let dir = std::env::temp_dir().join(format!("openecraft-backup-{}-{}", std::process::id(), now_nanos()));
         // The copy holds the password hashes: only this user may read it.
         #[cfg(unix)]
@@ -386,6 +415,9 @@ impl Store {
         let copy = || {
             let mut target = SqliteBackend::open(&path)?;
             migrate(self.backend.as_ref(), &mut target)?;
+            for (key, value) in info.fields() {
+                target.set_meta(&format!("export.{key}"), &value)?;
+            }
             drop(target);
             std::fs::read(&path)
         };
@@ -502,6 +534,11 @@ pub(crate) fn search_text(p: &Part) -> String {
 pub fn migrate(from: &dyn Backend, to: &mut dyn Backend) -> io::Result<usize> {
     let parts = from.candidates(&[], &[], false)?;
     let mut change = Change { revision: from.revision().max(1), catalogs: from.catalogs()?, accounts: from.accounts()?, ..Default::default() };
+    for id in change.catalogs.iter().filter_map(|c| c.logo.as_ref().map(|l| l.id.clone())).collect::<Vec<_>>() {
+        if !change.files.iter().any(|f| f.id == id) {
+            change.files.extend(from.file(&id)?);
+        }
+    }
     for p in &parts {
         let history = from.history(&p.number)?;
         let attachments = p.attachments.iter().chain(history.iter().flat_map(|s| s.part.iter().flat_map(|p| &p.attachments)));

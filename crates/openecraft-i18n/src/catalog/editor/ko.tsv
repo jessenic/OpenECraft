@@ -77,7 +77,6 @@ Accept as checked	확인됨으로 승인
 Accepted messages ({})	승인된 메시지({})
 Active	활성
 Actuators on the door	도어의 조작부
-Add	추가
 Add a command	명령 추가
 Add a target language to translate the project texts.	프로젝트 텍스트를 번역하려면 대상 언어를 추가하세요.
 Add filter	필터 추가
@@ -988,7 +987,6 @@ Locked by {} on the project server – read only	프로젝트 서버에서 {}이
 Locked by {} – read only	잠금: {} – 읽기 전용
 Locking…	잠그는 중…
 Logic	로직
-Logo	로고
 Logo on the cover page	표지의 로고
 Longer values are drawn smaller (0 = no limit)	더 긴 값은 더 작게 그려집니다(0 = 제한 없음)
 Look for updates when OpenECraft starts	OpenECraft 시작 시 업데이트 확인
@@ -1105,7 +1103,6 @@ New document page…	새 문서 페이지…
 New empty	새로 만들기(빈 항목)
 New enclosure	새 외함
 New graphics page	새 그래픽 페이지
-New group	새 그룹
 New harness	새 하네스
 New items go onto this layer	새 항목이 이 레이어에 추가됩니다
 New mounting layout page	새 장착 레이아웃 페이지
@@ -1939,6 +1936,7 @@ The horizontal wire	가로 전선
 The items are selected and moved together	항목이 함께 선택되고 이동됩니다
 The logo is fitted into this area keeping its aspect ratio	로고는 가로세로 비율을 유지하며 이 영역에 맞춰집니다
 The logo of the project properties, e.g. the customer's	프로젝트 속성의 로고(예: 고객의 로고)
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	부품 서버에 있는 제조업체 카탈로그의 로고를 부품 세부 정보 옆에 표시
 The macro library has no page macros (Macros › Save page as macro…).	매크로 라이브러리에 페이지 매크로가 없습니다(매크로 › 페이지를 매크로로 저장…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	휠로 옆으로 이동하거나 확대/축소하는 보조키는 보조키에서 설정합니다.
 The modules no string takes yet in series, on the first inverter	아직 어느 스트링에도 속하지 않은 모듈을 직렬로, 첫 번째 인버터에

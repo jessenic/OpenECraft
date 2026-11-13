@@ -77,7 +77,6 @@ Accept as checked	Accetta come verificato
 Accepted messages ({})	Messaggi accettati ({})
 Active	Attiva
 Actuators on the door	Attuatori sulla porta
-Add	Aggiungi
 Add a command	Aggiungi un comando
 Add a target language to translate the project texts.	Aggiungi una lingua di destinazione per tradurre i testi del progetto.
 Add filter	Aggiungi filtro
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	Bloccato da {} sul server dei p
 Locked by {} – read only	Bloccato da {} – sola lettura
 Locking…	Blocco in corso…
 Logic	Logica
-Logo	Logo
 Logo on the cover page	Logo nel frontespizio
 Longer values are drawn smaller (0 = no limit)	I valori più lunghi vengono disegnati più piccoli (0 = nessun limite)
 Look for updates when OpenECraft starts	Cerca aggiornamenti all'avvio di OpenECraft
@@ -1120,7 +1118,6 @@ New document page…	Nuova pagina documento…
 New empty	Nuovo vuoto
 New enclosure	Nuovo armadio
 New graphics page	Nuova pagina di grafica
-New group	Nuovo gruppo
 New harness	Nuovo cablaggio
 New items go onto this layer	I nuovi elementi vengono inseriti in questo livello
 New mounting layout page	Nuova pagina layout di montaggio
@@ -1962,6 +1959,7 @@ The horizontal wire	Il filo orizzontale
 The items are selected and moved together	Gli elementi vengono selezionati e spostati insieme
 The logo is fitted into this area keeping its aspect ratio	Il logo viene adattato a quest'area mantenendo le proporzioni
 The logo of the project properties, e.g. the customer's	Il logo delle proprietà del progetto, ad es. quello del cliente
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	I loghi dei cataloghi dei produttori sul server degli articoli, accanto ai dettagli di un articolo
 The macro library has no page macros (Macros › Save page as macro…).	La libreria macro non contiene macro di pagina (Macro › Salva pagina come macro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	I modificatori che fanno spostare la rotella di lato o eseguire lo zoom si impostano in Tasti modificatori.
 The modules no string takes yet in series, on the first inverter	I moduli che nessuna stringa prende ancora, in serie, sul primo inverter
@@ -2232,7 +2230,6 @@ no electrical data of the module	nessun dato elettrico del modulo
 no rooms	nessun locale
 no valid levels	nessun piano valido
 no wires	nessun conduttore
-none	nessuno
 not defined	non definito
 not in the P&ID	non nel P&ID
 not in the library	non nella libreria

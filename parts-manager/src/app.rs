@@ -7,6 +7,7 @@ use openecraft_parts::{date_from_unix, to_csv, PartFilter};
 use openecraft_parts::portal::{AttachmentKind, Role};
 use openecraft_ui::client::{Reply, ServerClient};
 use openecraft_ui::io::{short_name, FileIo, FileKind, Loaded};
+use openecraft_ui::logos::Logos;
 use openecraft_ui::part_editor::{self as pe, EditorState, ModelKind};
 
 /// What a file is opened for.
@@ -18,6 +19,8 @@ pub enum Purpose {
     Model(ModelKind),
     /// File stored with the part on the server (datasheet, image, macro …).
     Attachment,
+    /// Logo of a catalog.
+    Logo,
 }
 
 impl FileKind for Purpose {
@@ -25,6 +28,7 @@ impl FileKind for Purpose {
         match self {
             Purpose::Parts => (tr("Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)"), &["csv", "json", "xml", "txt", "edz"]),
             Purpose::Model(kind) => kind.filter(),
+            Purpose::Logo => (tr("Images (PNG, JPEG, GIF, WebP, SVG)"), &["png", "jpg", "jpeg", "gif", "webp", "svg"]),
             Purpose::Attachment => (
                 tr("Part files (documents, images, models, macros)"),
                 &["pdf", "png", "jpg", "jpeg", "gif", "webp", "svg", "dxf", "dwg", "step", "stp", "igs", "iges", "x_t", "x_b", "stl", "obj", "jt", "ifc", "json", "xml", "txt", "csv", "zip"],
@@ -60,6 +64,11 @@ pub struct ManagerApp {
     confirm: Option<Confirm>,
     /// Part number a model import was requested for.
     model_target: Option<String>,
+    /// Catalog a logo was chosen for.
+    logo_target: Option<String>,
+    logos: Logos,
+    /// Show the logos of the catalogs in the list (stored).
+    show_logos: bool,
     view: View,
     /// Kind of the next uploaded file (`None`: by file name).
     attach_kind: Option<AttachmentKind>,
@@ -72,6 +81,9 @@ pub struct ManagerApp {
 }
 
 const URL_KEY: &str = "server_url";
+const LOGOS_KEY: &str = "show_logos";
+/// Largest logo the server takes.
+const MAX_LOGO: usize = 512 * 1024;
 
 impl ManagerApp {
     pub fn new(cc: &eframe::CreationContext<'_>) -> ManagerApp {
@@ -89,6 +101,9 @@ impl ManagerApp {
             filter: PartFilter::default(),
             confirm: None,
             model_target: None,
+            logo_target: None,
+            logos: Logos::default(),
+            show_logos: cc.storage.and_then(|s| eframe::get_value::<bool>(s, LOGOS_KEY)).unwrap_or(true),
             view: View::Parts,
             attach_kind: None,
             user_name: String::new(),
@@ -111,8 +126,13 @@ impl ManagerApp {
 
     fn poll(&mut self, ctx: &egui::Context) {
         for reply in self.client.poll() {
+            self.logos.receive(&reply);
             match &reply {
-                Reply::Info(Ok(_)) => self.client.catalogs(ctx),
+                Reply::Info(Ok(_)) => {
+                    // Another server, or the same again: its logos may differ.
+                    self.logos.clear();
+                    self.client.catalogs(ctx);
+                }
                 Reply::SignedIn(Ok(_)) | Reply::SignedOut => {
                     self.password.clear();
                     self.client.check(ctx);
@@ -146,6 +166,11 @@ impl ManagerApp {
             Purpose::Attachment => match self.model_target.take() {
                 Some(number) => self.client.attach(ctx, &number, short_name(&loaded.name), self.attach_kind, loaded.bytes),
                 None => self.client.status = tr_fmt!("{}: the part is no longer open", short_name(&loaded.name)),
+            },
+            Purpose::Logo => match self.logo_target.take() {
+                Some(_) if loaded.bytes.len() > MAX_LOGO => self.client.status = tr_fmt!("{}: a logo has at most 512 kB", short_name(&loaded.name)),
+                Some(id) => self.client.set_catalog_logo(ctx, &id, short_name(&loaded.name), loaded.bytes),
+                None => self.client.status = tr_fmt!("{}: the catalog is no longer open", short_name(&loaded.name)),
             },
             Purpose::Model(kind) => {
                 let target = self.model_target.take();
@@ -273,6 +298,7 @@ impl ManagerApp {
             ui.separator();
             if self.view != View::Parts {
                 openecraft_ui::language::menu(ui);
+                ui.checkbox(&mut self.show_logos, tr("Logos")).on_hover_text(tr("Show the logos of the catalogs"));
                 if self.client.busy() {
                     ui.spinner();
                 }
@@ -325,6 +351,7 @@ impl ManagerApp {
                 }
             });
             openecraft_ui::language::menu(ui);
+            ui.checkbox(&mut self.show_logos, tr("Logos")).on_hover_text(tr("Show the logos of the catalogs"));
             if self.client.busy() {
                 ui.spinner();
             }
@@ -453,9 +480,14 @@ impl ManagerApp {
             let mut open = None;
             for c in &self.session.catalogs {
                 let text = format!("{} – {} ({})", c.manufacturer, c.name, c.parts);
-                if ui.selectable_label(selected.as_deref() == Some(c.id.as_str()), text).clicked() {
-                    open = Some(c.id.clone());
-                }
+                ui.horizontal(|ui| {
+                    if self.show_logos {
+                        self.logos.show_in_column(ui, &mut self.client, c, 18.0);
+                    }
+                    if ui.selectable_label(selected.as_deref() == Some(c.id.as_str()), text).clicked() {
+                        open = Some(c.id.clone());
+                    }
+                });
             }
             if let Some(id) = open {
                 self.session.select_catalog(Some(&id), "");
@@ -468,11 +500,13 @@ impl ManagerApp {
         let to_save = self.session.catalog_to_save();
         let may_edit = |m: &str| self.client.info.as_ref().is_some_and(|i| i.may_edit(m));
         let busy = self.client.busy();
+        let logo_target = self.session.logo_target().map(String::from);
         let Some(d) = self.session.catalog.as_mut() else {
             ui.weak(tr("Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab)."));
             return;
         };
         let editable = may_edit(&d.catalog.manufacturer) && !busy;
+        let logo_target = logo_target.filter(|_| editable);
         egui::Grid::new("catalog").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
             ui.label(tr("Catalog id"));
             if d.original.is_some() {
@@ -488,6 +522,25 @@ impl ManagerApp {
             }
             ui.label(tr("Description"));
             ui.add(egui::TextEdit::multiline(&mut d.catalog.description).desired_rows(3).desired_width(320.0));
+            ui.end_row();
+            ui.label(tr("Logo"));
+            ui.horizontal(|ui| {
+                // The logo of the stored catalog, whatever the list shows.
+                if self.logos.show(ui, &mut self.client, &d.catalog, 40.0).is_none() && d.catalog.logo.is_none() {
+                    ui.weak(tr("none"));
+                }
+                let r = ui.add_enabled(logo_target.is_some(), egui::Button::new(tr("Choose logo…")));
+                let r = if d.original.is_some() && editable && logo_target.is_none() { r.on_disabled_hover_text(tr("Save the catalog first")) } else { r };
+                if r.clicked() {
+                    self.logo_target = logo_target.clone();
+                    self.io.open(&ctx, Purpose::Logo);
+                }
+                if d.catalog.logo.is_some() && ui.add_enabled(logo_target.is_some(), egui::Button::new(tr("Remove logo"))).clicked() {
+                    if let Some(id) = &logo_target {
+                        self.client.delete_catalog_logo(&ctx, id);
+                    }
+                }
+            });
             ui.end_row();
             if d.original.is_some() {
                 ui.label(tr("Parts"));
@@ -702,6 +755,7 @@ impl eframe::App for ManagerApp {
 
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         eframe::set_value(storage, URL_KEY, &self.client.url);
+        eframe::set_value(storage, LOGOS_KEY, &self.show_logos);
         eframe::set_value(storage, openecraft_ui::language::STORAGE_KEY, &openecraft_i18n::lang().code());
         eframe::set_value(storage, openecraft_ui::language::STORAGE_KEY, &openecraft_i18n::lang().code());
     }

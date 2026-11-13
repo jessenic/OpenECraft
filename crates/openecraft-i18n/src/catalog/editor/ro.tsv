@@ -77,7 +77,6 @@ Accept as checked	Acceptare ca verificat
 Accepted messages ({})	Mesaje acceptate ({})
 Active	Activă
 Actuators on the door	Elemente de acționare pe ușă
-Add	Adăugare
 Add a command	Adăugare comandă
 Add a target language to translate the project texts.	Adăugați o limbă țintă pentru a traduce textele proiectului.
 Add filter	Adăugare filtru
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	Blocat de {} pe serverul de pro
 Locked by {} – read only	Blocat de {} – doar în citire
 Locking…	Se blochează…
 Logic	Logică
-Logo	Siglă
 Logo on the cover page	Sigla pe copertă
 Longer values are drawn smaller (0 = no limit)	Valorile mai lungi se desenează mai mic (0 = fără limită)
 Look for updates when OpenECraft starts	Caută actualizări la pornirea OpenECraft
@@ -1120,7 +1118,6 @@ New document page…	Pagină de document nouă…
 New empty	Nou, gol
 New enclosure	Carcasă nouă
 New graphics page	Pagină de grafică nouă
-New group	Grup nou
 New harness	Cablaj nou
 New items go onto this layer	Elementele noi se plasează pe acest strat
 New mounting layout page	Pagină nouă de plan de montaj
@@ -1962,6 +1959,7 @@ The horizontal wire	Firul orizontal
 The items are selected and moved together	Elementele se selectează și se mută împreună
 The logo is fitted into this area keeping its aspect ratio	Sigla este încadrată în această zonă păstrând proporțiile
 The logo of the project properties, e.g. the customer's	Sigla din proprietățile proiectului, de ex. cea a clientului
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Logourile cataloagelor producătorilor de pe serverul de articole, lângă detaliile unui articol
 The macro library has no page macros (Macros › Save page as macro…).	Biblioteca de macro-uri nu are macro-uri de pagină (Macro-uri › Salvare pagină ca macro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Tastele modificatoare cu care rotița deplasează lateral sau mărește se setează la Taste modificatoare.
 The modules no string takes yet in series, on the first inverter	Modulele pe care încă nu le ia niciun șir, în serie, pe primul invertor
@@ -2232,7 +2230,6 @@ no electrical data of the module	nu există date electrice ale modulului
 no rooms	nicio încăpere
 no valid levels	niciun nivel valid
 no wires	fără conductoare
-none	niciuna
 not defined	nedefinit
 not in the P&ID	nu este în P&ID
 not in the library	nu este în bibliotecă

@@ -77,7 +77,6 @@ Accept as checked	確認済みとして承認
 Accepted messages ({})	承認済みメッセージ ({})
 Active	有効
 Actuators on the door	扉の操作部
-Add	追加
 Add a command	コマンドを追加
 Add a target language to translate the project texts.	プロジェクトテキストを翻訳するには、ターゲット言語を追加してください。
 Add filter	フィルターを追加
@@ -990,7 +989,6 @@ Locked by {} on the project server – read only	プロジェクトサーバー�
 Locked by {} – read only	{} がロック中 – 読み取り専用
 Locking…	ロックしています…
 Logic	ロジック
-Logo	ロゴ
 Logo on the cover page	表紙のロゴ
 Longer values are drawn smaller (0 = no limit)	長い値は小さく描画されます (0 = 制限なし)
 Look for updates when OpenECraft starts	OpenECraft の起動時に更新を確認する
@@ -1107,7 +1105,6 @@ New document page…	新しいドキュメントページ…
 New empty	新規 (空)
 New enclosure	新しいエンクロージャー
 New graphics page	新しい図形ページ
-New group	新しいグループ
 New harness	新しいハーネス
 New items go onto this layer	新しいアイテムはこのレイヤーに配置されます
 New mounting layout page	新しい取付図ページ
@@ -1942,6 +1939,7 @@ The horizontal wire	水平の配線
 The items are selected and moved together	アイテムはまとめて選択、移動されます
 The logo is fitted into this area keeping its aspect ratio	ロゴは縦横比を保ってこの領域に収まります
 The logo of the project properties, e.g. the customer's	プロジェクトのプロパティのロゴ（例: 顧客のロゴ）
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	部品サーバーにあるメーカーのカタログのロゴを、部品の詳細の横に表示します
 The macro library has no page macros (Macros › Save page as macro…).	マクロライブラリにページマクロがありません (マクロ › ページをマクロとして保存…)。
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	ホイールで横にパンまたはズームするモディファイアキーは「モディファイアキー」で設定します。
 The modules no string takes yet in series, on the first inverter	まだどのストリングにも属さないモジュールを直列に、最初のインバーターへ

@@ -7,6 +7,7 @@
 //!   "directories": [{ "id": "corp", "url": "ldaps://dc1.corp.example", "base_dn": "DC=corp,DC=example",
 //!                     "bind_dn": "CN=svc-openecraft,OU=Service,DC=corp,DC=example",
 //!                     "bind_password_env": "OPENECRAFT_LDAP_PASSWORD", "nested_groups": true }],
+//!   "groups": [{ "name": "Wiring", "description": "Panel shop", "members": ["anna", "bob"] }],
 //!   "roles": [{ "name": "checker", "rights": ["view", "review"] }],
 //!   "grants": [{ "subject": { "group": "corp:Engineering" }, "role": "editor", "scope": "Plant*" },
 //!              { "subject": { "group": "corp:Contractors" }, "role": "editor", "scope": "Secret*", "deny": true }]
@@ -14,7 +15,7 @@
 //! ```
 
 use crate::directory::Directory;
-use openecraft_parts::access::{Policy, Right, Settings};
+use openecraft_parts::access::{Group, Policy, Right, Settings};
 use serde::{Deserialize, Serialize};
 use std::io;
 use std::path::{Path, PathBuf};
@@ -24,6 +25,10 @@ use std::path::{Path, PathBuf};
 pub struct AccessConfig<R: Right> {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub directories: Vec<Directory>,
+    /// Groups of users defined by administrators (parts server); grants to a group
+    /// apply to its members.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub groups: Vec<Group>,
     #[serde(flatten)]
     pub policy: Policy<R>,
     /// Anybody may create a local account on the sign-in page (parts server; its
@@ -33,6 +38,10 @@ pub struct AccessConfig<R: Right> {
     /// Registered accounts wait for the approval of an administrator (the default).
     #[serde(skip_serializing_if = "is_true")]
     pub registration_approval: bool,
+    /// The dashboard of the web page is shown (parts server, the default; its start
+    /// options can override it).
+    #[serde(skip_serializing_if = "is_true")]
+    pub dashboard: bool,
 }
 
 fn is_true(b: &bool) -> bool {
@@ -41,21 +50,38 @@ fn is_true(b: &bool) -> bool {
 
 impl<R: Right> Default for AccessConfig<R> {
     fn default() -> Self {
-        AccessConfig { directories: Vec::new(), policy: Policy::default(), registration: false, registration_approval: true }
+        AccessConfig { directories: Vec::new(), groups: Vec::new(), policy: Policy::default(), registration: false, registration_approval: true, dashboard: true }
     }
 }
 
 impl<R: Right> AccessConfig<R> {
     pub fn check(&self) -> Result<(), String> {
         self.policy.validate()?;
-        for (i, d) in self.directories.iter().enumerate() {
-            d.check()?;
-            if self.directories[..i].iter().any(|o| o.id.trim().eq_ignore_ascii_case(d.id.trim())) {
-                return Err(format!("directory '{}' is defined twice", d.id.trim()));
-            }
-        }
-        Ok(())
+        check_directories(&self.directories)?;
+        check_groups(&self.groups)
     }
+}
+
+/// Directories are complete and their ids unique.
+pub fn check_directories(directories: &[Directory]) -> Result<(), String> {
+    for (i, d) in directories.iter().enumerate() {
+        d.check()?;
+        if directories[..i].iter().any(|o| o.id.trim().eq_ignore_ascii_case(d.id.trim())) {
+            return Err(format!("directory '{}' is defined twice", d.id.trim()));
+        }
+    }
+    Ok(())
+}
+
+/// Group names are valid and unique.
+pub fn check_groups(groups: &[Group]) -> Result<(), String> {
+    for (i, g) in groups.iter().enumerate() {
+        openecraft_parts::access::check_group_name(&g.name)?;
+        if groups[..i].iter().any(|o| o.name.trim().eq_ignore_ascii_case(g.name.trim())) {
+            return Err(format!("group '{}' is defined twice", g.name.trim()));
+        }
+    }
+    Ok(())
 }
 
 /// The access settings of a server and where they are stored.
@@ -110,10 +136,34 @@ impl<R: Right> AccessFile<R> {
         self.save().map_err(|e| format!("cannot store the access settings: {e}"))
     }
 
-    /// What administrators see: the policy and the directories (without their
-    /// settings).
+    /// Replaces the directories (checked) and stores them.
+    pub fn set_directories(&mut self, directories: Vec<Directory>) -> Result<(), String> {
+        check_directories(&directories)?;
+        self.config.directories = directories;
+        self.save().map_err(|e| format!("cannot store the access settings: {e}"))
+    }
+
+    /// Replaces the groups (checked) and stores them.
+    pub fn set_groups(&mut self, groups: Vec<Group>) -> Result<(), String> {
+        check_groups(&groups)?;
+        self.config.groups = groups;
+        self.save().map_err(|e| format!("cannot store the access settings: {e}"))
+    }
+
+    /// Shows or hides the dashboard and stores it.
+    pub fn set_dashboard(&mut self, enabled: bool) -> Result<(), String> {
+        self.config.dashboard = enabled;
+        self.save().map_err(|e| format!("cannot store the access settings: {e}"))
+    }
+
+    /// What administrators see: the policy, the directories (without their settings)
+    /// and the groups.
     pub fn settings(&self) -> Settings<R> {
-        Settings { policy: self.config.policy.clone(), providers: self.config.directories.iter().map(Directory::provider).collect() }
+        Settings {
+            policy: self.config.policy.clone(),
+            providers: self.config.directories.iter().map(Directory::provider).collect(),
+            groups: self.config.groups.clone(),
+        }
     }
 }
 

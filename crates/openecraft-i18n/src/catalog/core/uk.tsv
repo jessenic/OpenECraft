@@ -310,7 +310,6 @@ Create projects	Створювати проєкти
 Creation date	Дата створення
 Cross-section {} carries {} A, less than the {} A of {}	Переріз {} витримує {} A, менше ніж {} A для {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Перехрестя на сторінці {} не відповідає своїм проводам: потрібен провід у всіх чотирьох напрямках і жодної точки підключення там
-Currency	Валюта
 Current (A)	Струм (A)
 Current capacity (A)	Допустимий струм (A)
 Current consumption	Споживаний струм
@@ -818,7 +817,6 @@ Manual switch NO	Ручний вимикач, замикальний
 Manual switch NO, latching	Ручний вимикач, замикальний, з фіксацією
 Manual work	Ручна робота
 Manufacturer's table	Таблиця виробника
-Manufacturers	Виробники
 Marking (CSV)	Маркування (CSV)
 Marking (Excel)	Маркування (Excel)
 Mating faces	Боки з'єднання

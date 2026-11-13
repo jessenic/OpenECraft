@@ -2,9 +2,14 @@
 (renamed from {})	(omdøbt fra {})
 19-inch module technology	19-tommer-modulteknik
 A catalog id must not be empty or contain blanks	Et katalog-id må ikke være tomt eller indeholde mellemrum
+A directory id must not be empty or contain blanks or ':'	Et katalogtjeneste-id må ikke være tomt eller indeholde mellemrum eller ':'
+A grant needs a user or a group	En tildeling kræver en bruger eller en gruppe
+A group name must not be empty or contain ':'	Et gruppenavn må ikke være tomt eller indeholde ':'
 A manufacturer user needs a manufacturer	En producentbruger skal have en producent
+A part number must not be empty or start or end with blanks	Et artikelnummer må ikke være tomt eller begynde eller slutte med mellemrum
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	En rolle er et sæt rettigheder. Tildelinger giver en bruger eller gruppe en rolle for en producents artikler (* og ? som jokertegn, * for alle); en afvisende tildeling fjerner rollens rettigheder, uanset hvad andre tildelinger giver.
 A user name must not be empty or contain blanks	Et brugernavn må ikke være tomt eller indeholde mellemrum
+Accept any certificate (test installations only)	Accepter ethvert certifikat (kun testinstallationer)
 Access rights	Adgangsrettigheder
 Access settings saved	Adgangsindstillingerne er gemt
 Accumulator blocks	Akkumulatorblokke
@@ -18,6 +23,8 @@ Administration	Administration
 All manufacturers	Alle producenter
 All parts	Alle artikler
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Alle artikler med deres data, til regneark eller til import på en anden server. Deres filer findes kun i databasens sikkerhedskopi.
+Allowed groups	Tilladte grupper
+Also groups of groups (Active Directory)	Også grupper af grupper (Active Directory)
 Amplifiers, controllers	Forstærkere, regulatorer
 Analog sensor	Analog sensor
 Approval of new accounts	Godkendelse af nye konti
@@ -29,11 +36,14 @@ Auxiliary contact block	Hjælpekontaktblok
 Auxiliary switch	Hjælpeafbryder
 Awaiting approval	Venter på godkendelse
 Awaiting approval: {}	Venter på godkendelse: {}
+Back to the part	Tilbage til artiklen
 Back to the results	Tilbage til resultaterne
 Ball valve pneumatic	Kugleventil, pneumatisk
 Ball valves	Kugleventiler
 Base	Sokkel
 Battery monitor	Batterimonitor
+Better kept in an environment variable of the server	Bedre i en miljøvariabel på serveren
+Bind name of a user without service account; {user} is replaced	Bindingsnavn for en bruger uden tjenestekonto; {user} erstattes
 Block ball valves	Blokkugleventiler
 Body	Korpus
 Brake motor	Bremsemotor
@@ -59,10 +69,12 @@ Centrifugal pumps	Centrifugalpumper
 Centrifuge	Centrifuge
 Certificate	Certifikat
 Changed	Ændret
+Changed last	Senest ændret
 Changes allowed	Ændringer tilladt
 Check control valve	Kontraventil
 Check flap	Kontraspjæld
 Chimney	Skorsten
+Choose logo…	Vælg logo…
 Circuit breaker	Automatsikring
 Coil	Spole
 Complete power units	Komplette aggregater
@@ -95,13 +107,17 @@ Crusher	Knuser
 Cylinders	Cylindre
 DC motor	DC-motor
 DC-DC converter	DC/DC-konverter
+Dashboard	Oversigt
 Data recorder	Måleværdiskriver
 Database backup	Sikkerhedskopi af databasen
 Datasheet	Datablad
 Defined roles	Definerede roller
 Delete catalog {} from the server?	Vil du slette kataloget {} fra serveren?
 Delete catalog {}?	Vil du slette kataloget {}?
+Delete directory {}? Its users can no longer sign in.	Slet katalogtjenesten {}? Dens brugere kan ikke længere logge ind.
+Delete group {}? The grants to it are removed.	Slet gruppe {}? Tildelingerne til den fjernes.
 Delete part {} from the server? This cannot be undone.	Vil du slette artiklen {} fra serveren? Dette kan ikke fortrydes.
+Delete part {}?	Slet artikel {}?
 Delete parts	Slet artikler
 Delete user {}? Their sessions and favorites are removed.	Vil du slette brugeren {}? Brugerens sessioner og favoritter fjernes.
 Deleted	Slettet
@@ -109,8 +125,9 @@ Digital sensor, general	Digital sensor, generelt
 Directional control valves	Retningsventiler
 Directional control valves, coaxial	Retningsventiler, koaksiale
 Directories	Katalogtjenester
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Katalogtjenester (Active Directory, LDAP) konfigureres i serverens fil med adgangsindstillinger.
 Directory	Katalogtjeneste
+Directory groups	Katalogtjenestens grupper
+Directory {} exists already. Change it?	Katalogtjenesten {} findes allerede. Ændre den?
 Dirt trap	Snavsfanger
 Discard the changes	Kassér ændringerne
 Discard the unsaved changes of {}?	Vil du kassere de ikke-gemte ændringer af {}?
@@ -126,18 +143,27 @@ Duplex switch filters	Dobbelte omskifterfiltre
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	Redigér kataloget {}
 Edit catalogs	Redigér kataloger
+Edit directory {}	Rediger katalogtjenesten {}
+Edit group {}	Rediger gruppe {}
+Edit part {}	Rediger artikel {}
 Edit parts	Redigér artikler
 Edit user {}	Redigér brugeren {}
 Electrical engineering - special items	Elektroteknik – specialkomponenter
 Electrically-operated mechanical devices	Elektrisk betjente mekaniske enheder
 Electrolysis cell	Elektrolysecelle
+Empty: the memberOf attribute of the user	Tomt: brugerens attribut memberOf
+Empty: the search base	Tomt: søgebasen
+Empty: the usual filter of the type	Tomt: typens sædvanlige filter
 Enclosure cooling devices	Tavlekøleenheder
 Enclosure heater	Tavlevarmer
+Encryption	Kryptering
 End clamp	Endestop
 Ends the session and forgets the token	Afslutter sessionen og glemmer tokenet
 Engine	Drivmaskine
 Enter the address of an openecraft-parts-server and click Connect.	Angiv adressen på en openecraft-parts-server, og klik på Forbind.
+Environment variable with the password of the service account	Miljøvariabel med tjenestekontoens adgangskode
 Evaporator	Fordamper
+Everybody who may read the parts sees it.	Alle, der må læse artiklerne, ser den.
 Exhaust valves	Udluftningsventiler
 Export (CSV)	Eksport (CSV)
 Export and backup	Eksport og sikkerhedskopi
@@ -167,8 +193,14 @@ Furnace	Ovn
 Generator	Generator
 Grants	Tildelinger
 Grants of the server's access settings can refer to them	Tildelinger i serverens adgangsindstillinger kan henvise til dem
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	Tildelinger på catalog:<id> gælder ét katalog og dets artikler (Kataloger › Tilladelser).
 Ground fault current circuit breaker	Fejlstrømsafbryder
 Ground fault voltage circuit-breaker	Fejlspændingsafbryder
+Group filter	Gruppefilter
+Group search base	Søgebase for grupper
+Group {} exists already. Change it?	Gruppen {} findes allerede. Ændre den?
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	Grupper samler brugere, lokale og fra en katalogtjeneste. Tildelinger til en gruppe giver dens medlemmer en rolles rettigheder, på hele serveren, en producent eller et katalog.
+Groups of this server, next to those of the directory	Grupper på denne server, ud over katalogtjenestens
 Heat exchangers	Varmevekslere
 High-pressure systems	Højtryksanlæg
 High-pressure tanks	Højtrykstanke
@@ -179,6 +211,7 @@ Housing accessories, external extension	Kapslingstilbehør, udvendig montering
 Housing accessories, internal extension	Kapslingstilbehør, indvendig montering
 Hydraulic motors	Hydraulikmotorer
 Hydraulic tanks	Hydrauliktanke
+Images (PNG, JPEG, GIF, WebP, SVG)	Billeder (PNG, JPEG, GIF, WebP, SVG)
 Import / export	Import / eksport
 Import parts	Importér artikler
 Imported {} parts (revision {})	{} artikler importeret (revision {})
@@ -191,6 +224,7 @@ KNX actuator	KNX-aktuator
 KNX system device	KNX-systemenhed
 Key switch	Nøgleafbryder
 Kneader	Ælter
+Last changes per month	Seneste ændringer pr. måned
 Last sign-in	Seneste login
 Legend plate	Skilt
 Level detector	Grænseværdigiver
@@ -208,12 +242,15 @@ Lock systems	Låsesystemer
 Locking couplings	Låsekoblinger
 Logic item	Logikkomponent
 Logic items	Logikkomponenter
+Logos	Logoer
+Looks the users up; empty: users bind with their own name (below)	Slår brugerne op; tomt: brugerne binder med deres eget navn (nedenfor)
 Male insert	Stiftindsats
 Measurement system	Målesystem
 Measuring connection points	Måletilslutninger
 Measuring couplings	Målekoblinger
 Measuring instruments, test devices	Måleinstrumenter, prøveudstyr
 Mechanics	Mekanik
+Members	Medlemmer
 Metering hopper	Doseringstragt
 Miscellaneous	Diverse
 Mixer	Blander
@@ -222,15 +259,20 @@ Modulators	Modulatorer
 Motor overload switch	Motorværn
 Mounting chassis	Monteringschassis
 Mounting panels	Monteringsplader
+Name attribute	Navneattribut
 New accounts need the approval of an administrator	Nye konti skal godkendes af en administrator
 New catalog	Nyt katalog
+New directory	Ny katalogtjeneste
+New part	Ny artikel
 New part based on the open one	Ny artikel baseret på den åbne
 New password	Ny adgangskode
 New role	Ny rolle
 New user	Ny bruger
 Newer version	Nyere version
 Next	Næste
+No grants: the rights by manufacturer apply	Ingen tildelinger: rettighederne pr. producent gælder
 No grants: users have the rights of their role	Ingen tildelinger: brugerne har deres rolles rettigheder
+No groups	Ingen grupper
 No users	Ingen brugere
 Non-return valves	Kontraventiler
 Not mounted	Ikke monteret
@@ -240,15 +282,18 @@ On the left side	På venstre side
 On the right side	På højre side
 On this server	På denne server
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Én SQLite-fil med alle artikler, deres historik og filer, katalogerne, brugerne og deres favoritter. Den indeholder brugernes adgangskodehashes: opbevar den sikkert.
+One line per value, e.g. Coil voltage: 24 V DC	Én linje pr. værdi, f.eks. Spolespænding: 24 V DC
 Only catalogs without parts can be deleted	Kun kataloger uden artikler kan slettes
 Only empty catalogs can be deleted	Kun tomme kataloger kan slettes
 Only local accounts	Kun lokale konti
+Only their members sign in; empty: all users	Kun deres medlemmer logger ind; tomt: alle brugere
 Open sessions: {}	Åbne sessioner: {}
 OpenECraft data portal	OpenECraft-dataportal
 OpenECraft parts manager	OpenECraft-artikelstyring
 OpenECraft parts server	OpenECraft-artikelserver
 Other file	Anden fil
 Other labels	Andre skilte
+Others	Andre
 Outlet	Udløb
 Outlet filter	Udgangsfilter
 Overload	Beskyttelsesrelæ
@@ -268,8 +313,17 @@ PV rail connector	Skinnesamler til solceller
 Part (source)	Artikel (kilde)
 Part (target)	Artikel (mål)
 Part files (documents, images, models, macros)	Artikelfiler (dokumenter, billeder, modeller, makroer)
+Part {} exists already	Artiklen {} findes allerede
 Part {} not found	Varen {} blev ikke fundet
 Partition	Skillevæg
+Parts per catalog	Artikler pr. katalog
+Parts per manufacturer	Artikler pr. producent
+Parts per product group	Artikler pr. produktgruppe
+Parts with …	Artikler med …
+Password variable	Adgangskodevariabel
+Per page	Pr. side
+Permissions	Tilladelser
+Permissions of catalog {}	Tilladelser for kataloget {}
 Phase-out	Udfases
 Pipes	Rør
 Piping part	Rørdel
@@ -317,7 +371,9 @@ Register	Registrér dig
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Registrerede brugere bliver læsere: de gemmer favoritter og læser artiklerne, også når læsning kræver login. Giv dem flere rettigheder under Brugere.
 Registration	Registrering
 Reject the registration of {}? The account is deleted.	Vil du afvise registreringen af {}? Kontoen slettes.
+Remove logo	Fjern logo
 Remove the file from the part	Fjern filen fra artiklen
+Remove the logo	Fjern logoet
 Removed from the server	Fjernet fra serveren
 Repeat password	Gentag adgangskoden
 Replace the roles and grants with those of the file?	Vil du erstatte rollerne og tildelingerne med dem fra filen?
@@ -335,11 +391,15 @@ Safety accumulators	Sikkerhedsakkumulatorer
 Safety devices	Beskyttelsesudstyr
 Safety fuse	Smeltesikring
 Safety switch	Beskyttelsesafbryder
+Save the catalog first	Gem kataloget først
 Save the part first	Gem artiklen først
+Saved directory {}	Katalogtjenesten {} gemt
+Saved group {}	Gruppen {} gemt
 Screw connections	Forskruninger
 Screw pumps	Skruepumper
 Screw spindle compressors	Skruekompressorer
 Scroll compressors	Scrollkompressorer
+Search base	Søgebase
 Search users	Søg efter brugere
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Vælg et katalog, eller opret et nyt. Artikler hører til et katalog via deres katalog-id (artikeleditor, fanen Dataportal).
 Select a user or create a new one.	Vælg en bruger, eller opret en ny.
@@ -349,8 +409,12 @@ Sensor NC	Sensor brydekontakt
 Sensor, switch, and pushbutton	Sensorer, afbrydere og trykknapper
 Sensors - pressure gauges	Sensorer – manometre
 Serial sub-plates	Serielle tilslutningsplader
+Service account	Tjenestekonto
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	Fastsat af serverens startindstillinger (--dashboard eller OPENECRAFT_DASHBOARD).
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Angivet af serverens startindstillinger (--registration eller OPENECRAFT_REGISTRATION).
+Short name without blanks; qualifies the groups (id:group)	Kort navn uden mellemrum; kvalificerer grupperne (id:gruppe)
 Show parts	Vis artikler
+Show the dashboard with graphs of the parts	Vis oversigten med grafer over artiklerne
 Shut-off accumulators	Afspærringsakkumulatorer
 Shut-off control valve	Afspærringsventil
 Shut-off flap	Afspærringsspjæld
@@ -375,10 +439,12 @@ Silo	Silo
 Single-phase motor	Enfasemotor
 Single-stage filters	Enkelttrinsfiltre
 Siphon	Sifon
+Size of the files	Filernes størrelse
 Solenoid valve	Magnetventil
 Sorter	Sorterer
 Start a server with:  openecraft-parts-server --token <secret>	Start en server med:  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	Start openecraft-parts-server med --token for at tillade ændringer
+StartTLS (for ldap://)	StartTLS (til ldap://)
 Steam boiler	Dampkedel
 Stirrer	Omrører
 Storage	Lager
@@ -399,23 +465,32 @@ Temperature sensors	Temperatursensorer
 Terminal label	Klemmeskilt
 Terminator	Afslutning
 Terminators, filters	Afslutninger, filtre
+Test	Test
 Test accessories	Testtilbehør
 The EPLAN Data Portal only offers searching and reading parts	EPLAN Data Portal giver kun mulighed for at søge efter og læse artikler
 The access settings would leave nobody who manages users	Med disse adgangsindstillinger ville ingen kunne administrere brugere
 The access token is only needed for changes; it is not stored.	Adgangstokenet er kun nødvendigt for ændringer; det gemmes ikke.
+The address must start with ldap:// or ldaps://	Adressen skal begynde med ldap:// eller ldaps://
 The catalogs with their manufacturer, version and description.	Katalogerne med producent, version og beskrivelse.
 The checksum of {} does not match: the download is damaged	Kontrolsummen for {} passer ikke: overførslen er beskadiget
+The dashboard is hidden	Oversigten er skjult
+The dashboard is shown	Oversigten vises
 The directory checks the password and sets the groups at every sign-in	Katalogtjenesten kontrollerer adgangskoden og angiver grupperne ved hvert logon
 The file holds no access settings	Filen indeholder ingen adgangsindstillinger
+The groups would leave nobody who manages users	Grupperne ville ikke efterlade nogen, der administrerer brugere
 The last administrator cannot lose the right to manage users	Den sidste administrator kan ikke miste retten til at administrere brugere
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	Virksomhedens logo: PNG, JPEG, GIF, WebP eller SVG, højst 512 kB
 The password needs at least {} characters	Adgangskoden skal have mindst {} tegn
 The passwords do not match	Adgangskoderne er ikke ens
 The project has no parts	Projektet har ingen artikler
 The registration is closed	Registreringen er lukket
 The registration is open	Registreringen er åben
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	Rollerne, tildelingerne og adgangen uden login. Gendannelse erstatter dem; katalogtjenesterne forbliver, som de er konfigureret på serveren.
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	Rollerne, der gives her, gælder dette katalog og dets artikler, uanset producent; afvis fjerner rollens rettigheder. Læsning er en rettighed for hele serveren.
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	Rollerne, tildelingerne, grupperne og adgangen uden login, med serverens version. Gendannelse erstatter rollerne og tildelingerne og tilføjer grupperne; katalogtjenesterne forbliver som opsat på serveren.
 The server cannot be reached	Serveren kan ikke nås
 The server sent no text	Serveren sendte ingen tekst
+The test failed	Testen mislykkedes
+The test succeeded	Testen lykkedes
 The upload is finished	Uploaden er fuldført
 The users with their role, manufacturer, groups and last sign-in, without passwords.	Brugerne med rolle, producent, grupper og seneste login, uden adgangskoder.
 Thermometers	Termometre
@@ -427,6 +502,7 @@ Three-way control valve	Trevejsventil
 Three-way flap	Trevejsspjæld
 Three-way valve	Trevejsventil
 Throttle plate	Drosselskive
+Timeout (s)	Timeout (s)
 Timer relay	Tidsrelæ
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Gendan den ved at starte serveren med --data <fil>, eller kopiér den til en ny database med --migrate-from <fil>.
 Too many failed sign-ins, try again later	For mange mislykkede logins, prøv igen senere
@@ -441,10 +517,15 @@ Under the part (base)	Under artiklen (sokkel)
 Uploading {} to Vault ({} %)…	Uploader {} til Vault ({} %)…
 Uploading {} to Vault…	Uploader {} til Vault…
 User account	Brugerkonto
+User bind	Brugerbinding
+User filter	Brugerfilter
 User or group	Bruger eller gruppe
 User {} exists already. Change it?	Brugeren {} findes allerede. Vil du ændre den?
 User-defined rail	Brugerdefineret skinne
 Users may register themselves (as readers)	Brugere må selv registrere sig (som læsere)
+Users of a directory too, by the name they sign in with	Også brugere fra en katalogtjeneste, med det navn de logger ind med
+Users per role	Brugere pr. rolle
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	Brugere logger ind med kontoen i en katalogtjeneste (Active Directory, LDAP), når serveren ikke har en lokal konto med deres navn. Tildelinger henviser til katalogtjenestens grupper som katalog:gruppe.
 Vacuum pump	Vakuumpumpe
 Valve / distributor	Ventil / fordeler
 Valve coil	Ventilspole
@@ -460,9 +541,12 @@ Washer	Skive
 Water traps	Vandudskillere
 Wind deflector	Vindafviser
 Wiring material	Ledningsmateriel
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	Uden bruger: forbinder og binder med tjenestekontoen. Med en bruger: logger den ind og viser dens grupper.
+Without catalog	Uden katalog
 Without sign-in	Uden login
 Wrong access token	Forkert adgangstoken
 Wrong user name or password	Forkert brugernavn eller adgangskode
+You may not change parts of manufacturer {}	Du må ikke ændre artikler fra producenten {}
 Your account awaits the approval of an administrator	Din konto venter på godkendelse af en administrator
 Your account was created. An administrator has to approve it before you can sign in.	Din konto er oprettet. En administrator skal godkende den, før du kan logge på.
 access denied – check the personal access token	adgang nægtet – kontrollér det personlige adgangstoken
@@ -471,6 +555,7 @@ changed, not saved	ændret, ikke gemt
 connection failed: {}	forbindelsen mislykkedes: {}
 directory:group	katalog:gruppe
 from the name	fra navnet
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// eller ldaps://, med porten, hvis det ikke er den sædvanlige
 needed for changes	nødvendigt for ændringer
 new part, not saved	ny artikel, ikke gemt
 read-only server	skrivebeskyttet server
@@ -488,6 +573,8 @@ you	dig
 {} parts in {} catalogs, revision {}	{} artikler i {} kataloger, revision {}
 {} parts, {} catalogs, {}	{} artikler, {} kataloger, {}
 {} – save to upload it	{} – gem for at uploade den
+{}: a logo has at most 512 kB	{}: et logo er højst 512 kB
+{}: the catalog is no longer open	{}: kataloget er ikke længere åbent
 {}: the part is no longer open	{}: Artiklen er ikke længere åben
 {}: {} parts added, {} updated, {} kept	{}: {} artikler tilføjet, {} opdateret, {} bevaret
 ⎘ Copy	⎘ Kopiér

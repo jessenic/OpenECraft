@@ -74,3 +74,27 @@ fn private_files_are_replaced_whole() {
     }
     let _ = std::fs::remove_dir_all(&dir);
 }
+
+#[test]
+fn groups_directories_and_the_dashboard_are_stored() {
+    use openecraft_parts::access::Group;
+    let dir = dir().join("groups");
+    std::fs::create_dir_all(&dir).unwrap();
+    let path = dir.join("access.json");
+    let mut file = AccessFile::<PartsRight>::open(&path, AccessConfig::default()).unwrap();
+    assert!(file.config.dashboard, "shown by default");
+    let wiring = Group { name: "Wiring".into(), members: vec!["anna".into()], ..Default::default() };
+    file.set_groups(vec![wiring.clone()]).unwrap();
+    assert!(file.set_groups(vec![wiring.clone(), Group { name: "wiring".into(), ..Default::default() }]).is_err(), "names are unique");
+    assert!(file.set_groups(vec![Group { name: "corp:x".into(), ..Default::default() }]).is_err());
+    let corp = Directory { id: "corp".into(), url: "ldaps://dc".into(), bind_dn: "CN=svc".into(), base_dn: "DC=corp".into(), ..Default::default() };
+    assert!(file.set_directories(vec![Directory { base_dn: String::new(), ..corp.clone() }]).is_err());
+    file.set_directories(vec![corp.clone()]).unwrap();
+    file.set_dashboard(false).unwrap();
+    let back = AccessFile::<PartsRight>::open(&path, AccessConfig::default()).unwrap();
+    assert_eq!(back.config.groups, std::slice::from_ref(&wiring));
+    assert_eq!(back.config.directories, [corp]);
+    assert!(!back.config.dashboard);
+    assert_eq!(back.settings().groups, [wiring]);
+    let _ = std::fs::remove_dir_all(&dir);
+}

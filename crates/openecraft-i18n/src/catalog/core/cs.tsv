@@ -310,7 +310,6 @@ Create projects	Vytvářet projekty
 Creation date	Datum vytvoření
 Cross-section {} carries {} A, less than the {} A of {}	Průřez {} snese {} A, méně než {} A z {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Křížení na straně {} neodpovídá svým vodičům: potřebuje vodič ve všech čtyřech směrech a žádný připojovací bod v místě
-Currency	Měna
 Current (A)	Proud (A)
 Current capacity (A)	Proudová zatížitelnost (A)
 Current consumption	Odběr proudu
@@ -818,7 +817,6 @@ Manual switch NO	Ruční spínač, spínací
 Manual switch NO, latching	Ruční spínač, spínací, s aretací
 Manual work	Ruční práce
 Manufacturer's table	Tabulka výrobce
-Manufacturers	Výrobci
 Marking (CSV)	Popisování (CSV)
 Marking (Excel)	Popisování (Excel)
 Mating faces	Čelní strany

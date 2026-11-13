@@ -140,6 +140,19 @@ fn new_catalogs_get_an_id_from_their_name() {
 }
 
 #[test]
+fn logos_are_changed_on_saved_catalogs_only() {
+    let mut s = Session::default();
+    s.apply(&Reply::Catalogs(Ok(vec![catalog("acme", "ACME")])));
+    assert_eq!(s.logo_target(), None, "nothing open");
+    s.select_catalog(Some("acme"), "");
+    assert_eq!(s.logo_target(), Some("acme"));
+    s.catalog.as_mut().unwrap().catalog.version = "2".into();
+    assert_eq!(s.logo_target(), None, "unsaved changes would be lost");
+    s.select_catalog(None, "ACME");
+    assert_eq!(s.logo_target(), None, "a new catalog is saved first");
+}
+
+#[test]
 fn catalog_replies_keep_the_list_and_draft_current() {
     let mut s = Session::default();
     s.apply(&Reply::Catalogs(Ok(vec![catalog("b", "Beta"), catalog("a", "Alpha")])));

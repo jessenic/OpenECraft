@@ -17,10 +17,11 @@
 //! server is read-only. Users sign in with a local account or with a directory
 //! (Active Directory, LDAP) of the access settings (`--access`, default
 //! `<data>.access.json`); their rights per manufacturer come from their role and the
-//! grants to them and their groups.
+//! grants to them and their groups (of the directory or defined on the server).
 
 mod auth;
 mod bundled;
+mod groups;
 mod routes;
 mod settings;
 mod storage;
@@ -83,6 +84,19 @@ fn install_catalogs(store: &mut Store, ids: &[String]) {
     }
 }
 
+/// The groups local accounts named become groups of the server ([`groups::adopt`]).
+fn adopt_groups(store: &mut Store, access: &mut openecraft_auth::AccessFile<openecraft_parts::portal::PartsRight>) {
+    let Some((accounts, defined)) = groups::adopt(store.accounts(), &access.config.groups) else { return };
+    access.set_groups(defined).unwrap_or_else(|e| fail(e));
+    let n = accounts.len();
+    for a in accounts {
+        if let Err(e) = store.put_account(a) {
+            fail(format!("cannot save the groups of the users: {e}"));
+        }
+    }
+    log::info!("the groups of {n} users are now groups of the server");
+}
+
 #[tokio::main]
 async fn main() {
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).init();
@@ -108,10 +122,11 @@ async fn main() {
         store.kind(),
         store.revision
     );
-    let access = openecraft_auth::AccessFile::open(&args.access, routes::default_access()).unwrap_or_else(|e| fail(format!("cannot read the access settings: {e}")));
+    let mut access = openecraft_auth::AccessFile::open(&args.access, routes::default_access()).unwrap_or_else(|e| fail(format!("cannot read the access settings: {e}")));
     for d in &access.config.directories {
         log::info!("sign-in with directory {} ({})", d.id, d.url);
     }
+    adopt_groups(&mut store, &mut access);
     let token = args.token;
     if openecraft_auth::server_config::secret_on_command_line(std::env::args(), "--token") {
         log::warn!("--token on the command line can be read by other users of this machine: use OPENECRAFT_TOKEN or the configuration file");
@@ -123,7 +138,10 @@ async fn main() {
     if registration {
         log::info!("users may register themselves{}", if args.registration.is_some() { " (start options)" } else { "" });
     }
-    let state = routes::AppState::new(store, token, access).with_registration(args.registration);
+    if let Some(shown) = args.dashboard {
+        log::info!("dashboard {} (start options)", if shown { "shown" } else { "hidden" });
+    }
+    let state = routes::AppState::new(store, token, access).with_registration(args.registration).with_dashboard(args.dashboard);
     let listener = tokio::net::TcpListener::bind(args.bind).await.unwrap_or_else(|e| fail(format!("cannot listen on {}: {e}", args.bind)));
     log::info!("listening on http://{}", args.bind);
     let shutdown = async {

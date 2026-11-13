@@ -51,6 +51,11 @@ fn portal_requests() {
     let save = e.save_catalog(&c);
     assert_eq!((save.method, save.url.as_str()), (ehttp::Method::PUT, "http://host:8090/api/v1/catalogs/acme%201"));
     assert_eq!(e.delete_catalog("x").headers.get("Authorization"), Some("Bearer secret"));
+    assert_eq!(e.catalog_logo("acme 1").url, "http://host:8090/api/v1/catalogs/acme%201/logo");
+    let logo = e.set_catalog_logo("acme", "my logo.svg", b"<svg/>".to_vec());
+    assert_eq!((logo.method, logo.url.as_str()), (ehttp::Method::PUT, "http://host:8090/api/v1/catalogs/acme/logo?name=my%20logo.svg"));
+    assert_eq!((logo.body.as_slice(), logo.headers.get("Authorization")), (b"<svg/>".as_slice(), Some("Bearer secret")));
+    assert_eq!(e.delete_catalog_logo("acme").method, ehttp::Method::DELETE);
 
     // Signing in never sends an old token.
     let login = e.login(" ann ", "pw");

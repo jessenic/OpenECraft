@@ -33,6 +33,15 @@ fn the_schematic_crosshair_setting_is_stored_with_the_shell() {
 }
 
 #[test]
+fn catalog_logos_are_shown_unless_switched_off() {
+    let shell = ShellState { catalog_logos: false, ..Default::default() };
+    let stored: ShellState = serde_json::from_str(&serde_json::to_string(&shell).unwrap()).unwrap();
+    assert!(!stored.catalog_logos);
+    let old: ShellState = serde_json::from_str("{}").unwrap();
+    assert!(old.catalog_logos, "stores written before show the logos");
+}
+
+#[test]
 fn wheel_source_policy_is_stored_with_the_shell() {
     let shell = ShellState {
         nav: openecraft_ui::nav::Settings {

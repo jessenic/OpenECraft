@@ -310,7 +310,6 @@ Create projects	Proje oluştur
 Creation date	Oluşturma tarihi
 Cross-section {} carries {} A, less than the {} A of {}	{} kesiti {} A taşıyor, {} A gerektiren {} için yetersiz
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Sayfa {} üzerindeki kesişme tellerine uymuyor: dört yönde de tel gerekir ve orada bağlantı noktası olmamalı
-Currency	Para birimi
 Current (A)	Akım (A)
 Current capacity (A)	Akım taşıma kapasitesi (A)
 Current consumption	Akım tüketimi
@@ -818,7 +817,6 @@ Manual switch NO	El şalteri NA
 Manual switch NO, latching	El şalteri NA, kalıcı
 Manual work	El işçiliği
 Manufacturer's table	Üretici tablosu
-Manufacturers	Üreticiler
 Marking (CSV)	Etiketleme (CSV)
 Marking (Excel)	Etiketleme (Excel)
 Mating faces	Eşleşme yüzleri

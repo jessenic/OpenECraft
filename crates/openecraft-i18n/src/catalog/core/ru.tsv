@@ -310,7 +310,6 @@ Create projects	Создание проектов
 Creation date	Дата создания
 Cross-section {} carries {} A, less than the {} A of {}	Сечение {} выдерживает {} A, меньше, чем {} A у {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Пересечение на странице {} не соответствует своим проводам: нужен провод во всех четырёх направлениях и никакой точки подключения там
-Currency	Валюта
 Current (A)	Ток (A)
 Current capacity (A)	Допустимый ток (A)
 Current consumption	Потребляемый ток
@@ -818,7 +817,6 @@ Manual switch NO	Ручной выключатель, замыкающий ко�
 Manual switch NO, latching	Ручной выключатель, замыкающий контакт, с фиксацией
 Manual work	Ручная работа
 Manufacturer's table	Таблица производителя
-Manufacturers	Производители
 Marking (CSV)	Маркировка (CSV)
 Marking (Excel)	Маркировка (Excel)
 Mating faces	Стороны сочленения

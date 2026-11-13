@@ -310,7 +310,6 @@ Create projects	Opret projekter
 Creation date	Oprettelsesdato
 Cross-section {} carries {} A, less than the {} A of {}	Tværsnittet {} kan bære {} A, mindre end de {} A for {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Krydsningen på side {} passer ikke til sine ledere: den kræver en leder i alle fire retninger og intet tilslutningspunkt der
-Currency	Valuta
 Current (A)	Strøm (A)
 Current capacity (A)	Strømbelastningsevne (A)
 Current consumption	Strømforbrug
@@ -818,7 +817,6 @@ Manual switch NO	Manuel afbryder, slutte
 Manual switch NO, latching	Manuel afbryder, slutte, låsende
 Manual work	Manuelt arbejde
 Manufacturer's table	Producenttabel
-Manufacturers	Producenter
 Marking (CSV)	Mærkater (CSV)
 Marking (Excel)	Mærkater (Excel)
 Mating faces	Stiksider

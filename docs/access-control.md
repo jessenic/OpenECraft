@@ -36,7 +36,7 @@ Project server (the scope of a grant is a project name):
 A signed-in user who creates a project becomes its `manager` (a grant on the new
 project), so project owners manage who works on their projects.
 
-Parts server (the scope of a grant is a manufacturer):
+Parts server (the scope of a grant is a manufacturer, or one catalog as `catalog:<id>`):
 
 | Right | Allows |
 | --- | --- |
@@ -50,13 +50,21 @@ Built-in roles: `reader` (read), `manufacturer` and `editor` (read, edit_parts,
 delete_parts, edit_catalogs), `admin` (everything). An account's own role still works
 as before: a manufacturer user has the manufacturer role on their manufacturer only.
 
+The rights on a part or a catalog are those on its manufacturer together with those on
+its catalog (`catalog:siemens`): a grant on a catalog lets users and groups change the
+catalog and its parts whatever their manufacturer, and a deny grant on either takes
+the right away. Administrators set the grants of a catalog in *Administration ›
+Catalogs › Permissions* (`GET` / `PUT /api/v1/catalogs/{id}/grants`); reading stays a
+right of the whole server.
+
 ## How rights are resolved
 
 1. The account's built-in role (project server: on its projects; none for users that
    came from a directory).
 2. Every grant of the policy whose subject matches the user (`{"user": "anna"}`) or one
-   of their groups (`{"group": "corp:Engineering"}`). Names and scopes take `*` and
-   `?` wildcards and are case insensitive; `{"user": "*"}` is every signed-in user.
+   of their groups (`{"group": "corp:Engineering"}` of a directory, `{"group":
+   "Wiring"}` defined on the parts server). Names and scopes take `*` and `?` wildcards
+   and are case insensitive; `{"user": "*"}` is every signed-in user.
 3. The role of anonymous requests (`anonymous`), which signed-in users have as well.
 4. **Deny grants win:** rights of a grant with `"deny": true` are taken away on its
    scope, whatever the other grants give.
@@ -116,8 +124,35 @@ On the parts server `"registration": true` lets users register themselves as rea
 (switched in *Administration › Access rights*; the start option `--registration`
 overrides it, see [docs/parts-server.md](parts-server.md)); their accounts wait for the
 approval of an administrator unless `"registration_approval": false`.
+`"dashboard": false` hides the dashboard of the web page (*Administration ›
+Overview*; the start option `--dashboard` overrides it).
+
+### Groups
+
+The parts server keeps groups of users in `groups` (*Administration › Groups*, `GET
+/api/v1/groups`, `PUT` / `DELETE /api/v1/groups/{name}`):
+
+```json
+"groups": [{ "name": "Wiring", "description": "Panel shop", "members": ["anna", "bob"] }]
+```
+
+Members are user names, local users and users of a directory alike (by the name they
+sign in with). Grants to `{"group": "Wiring"}` apply to the members next to the groups
+of their directory; group names cannot hold `:`, which separates the directory groups.
+The groups of a user (*Users*, `groups` of `PUT /api/v1/users/{name}`) are memberships:
+saving them adds the user to the named groups (new names become groups) and removes
+them from the others. Groups that local accounts named before are turned into groups of
+the server at startup. Deleting a group deletes the grants to it, deleting a user their
+memberships; names of members cannot be registered, and a change that would leave
+nobody who manages users is refused.
 
 ### Directories
+
+Administrators set the directories up in *Administration › Directories* too (`GET
+/api/v1/directories`, `PUT` / `DELETE /api/v1/directories/{id}`), which shows no
+password (an empty password keeps the stored one) and tests the settings: *Test*
+connects and binds with the service account, with a user name and password it signs the
+user in and shows their groups (`POST /api/v1/directories/{id}/test`).
 
 | Key | Meaning |
 | --- | --- |
@@ -177,7 +212,7 @@ Values are escaped for LDAP filters and DNs. Keep the service account read-only.
   reviewers cannot change it, project managers edit the grants on it in the *Project
   access* section.
 - Parts manager: the user editor shows the directory and groups of a user and edits the
-  local groups.
+  groups of the server the user is a member of.
 - Command line / MCP: `parts_access` (also sets `anonymous`), `parts_grant` (with
   `deny`, or `revoke` to remove grants), `parts_role` (define, change, `delete`),
   `parts_registration` (`enabled`, `approval`), `parts_user_approve` and

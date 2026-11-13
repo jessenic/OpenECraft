@@ -343,6 +343,10 @@ impl App {
                 }
             });
             ui.end_row();
+            ui.label(tr("Data portal"));
+            ui.checkbox(&mut self.shell.catalog_logos, tr("Show the logos of the catalogs"))
+                .on_hover_text(tr("The logos of the manufacturers' catalogs on the parts server, beside the details of a part"));
+            ui.end_row();
             ui.label(tr("Wall opacity"));
             let mut percent = self.shell.wall_opacity * 100.0;
             let r = ui.add(egui::Slider::new(&mut percent, 0.0..=100.0).step_by(5.0).suffix(" %"));

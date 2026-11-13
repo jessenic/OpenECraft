@@ -77,7 +77,6 @@ Accept as checked	Прийняти як перевірене
 Accepted messages ({})	Прийняті повідомлення ({})
 Active	Активна
 Actuators on the door	Органи керування на дверцятах
-Add	Додати
 Add a command	Додати команду
 Add a target language to translate the project texts.	Додайте цільову мову, щоб перекладати тексти проєкту.
 Add filter	Додати фільтр
@@ -1001,7 +1000,6 @@ Locked by {} on the project server – read only	Заблоковано кори
 Locked by {} – read only	Заблоковано користувачем {} – лише для читання
 Locking…	Блокування…
 Logic	Логіка
-Logo	Логотип
 Logo on the cover page	Логотип на титульній сторінці
 Longer values are drawn smaller (0 = no limit)	Довші значення відображаються меншими (0 = без обмеження)
 Look for updates when OpenECraft starts	Шукати оновлення під час запуску OpenECraft
@@ -1119,7 +1117,6 @@ New document page…	Нова сторінка документа…
 New empty	Новий порожній
 New enclosure	Новий корпус
 New graphics page	Нова сторінка графіки
-New group	Нова група
 New harness	Новий джгут
 New items go onto this layer	Нові об’єкти розміщуються на цьому шарі
 New mounting layout page	Нова сторінка плану монтажу
@@ -1961,6 +1958,7 @@ The horizontal wire	Горизонтальний провід
 The items are selected and moved together	Елементи вибираються й переміщуються разом
 The logo is fitted into this area keeping its aspect ratio	Логотип вписується в цю область зі збереженням пропорцій
 The logo of the project properties, e.g. the customer's	Логотип із властивостей проєкту, наприклад логотип замовника
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Логотипи каталогів виробників на сервері виробів, поруч із відомостями про виріб
 The macro library has no page macros (Macros › Save page as macro…).	Бібліотека макросів не містить макросів сторінок (Макроси › Зберегти сторінку як макрос…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Модифікатори, з якими коліщатко зсуває вбік або масштабує, задаються в розділі «Клавіші-модифікатори».
 The modules no string takes yet in series, on the first inverter	Модулі, не зайняті жодним ланцюжком, послідовно, на першому інверторі
@@ -2231,7 +2229,6 @@ no electrical data of the module	немає електричних даних м
 no rooms	немає приміщень
 no valid levels	немає дійсних поверхів
 no wires	немає проводів
-none	немає
 not defined	не визначено
 not in the P&ID	немає на P&ID
 not in the library	немає в бібліотеці

@@ -303,7 +303,6 @@ Create projects	프로젝트 만들기
 Creation date	작성 날짜
 Cross-section {} carries {} A, less than the {} A of {}	단면적 {0}의 허용 전류 {1} A가 {3}의 {2} A보다 작습니다
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	페이지 {}의 교차가 연결선과 맞지 않습니다: 네 방향 모두에 연결선이 필요하며 그 지점에 접속점이 없어야 합니다
-Currency	통화
 Current (A)	전류(A)
 Current capacity (A)	허용 전류(A)
 Current consumption	소비 전류
@@ -810,7 +809,6 @@ Manual switch NO	수동 스위치 a접점
 Manual switch NO, latching	수동 스위치 a접점, 래칭
 Manual work	수작업
 Manufacturer's table	제조업체 표
-Manufacturers	제조업체
 Marking (CSV)	마킹(CSV)
 Marking (Excel)	마킹(Excel)
 Mating faces	결합면

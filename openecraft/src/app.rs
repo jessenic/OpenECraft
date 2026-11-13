@@ -126,6 +126,8 @@ struct ShellState {
     full_crosshair: bool,
     /// The 3D view of the panel layout is drawn by the graphics card.
     gpu_3d: bool,
+    /// The data portal shows the logos of the parts server's catalogs.
+    catalog_logos: bool,
     /// Look for a new release when the editor starts (and install it).
     update_check: bool,
     /// What the wheel, trackpads and touch screens do in the views.
@@ -153,6 +155,7 @@ impl Default for ShellState {
             frame_stats: false,
             full_crosshair: false,
             gpu_3d: true,
+            catalog_logos: true,
             update_check: true,
             nav: openecraft_ui::nav::Settings::default(),
             wheel_source_policy_migrated: false,

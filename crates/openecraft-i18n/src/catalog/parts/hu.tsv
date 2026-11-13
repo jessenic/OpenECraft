@@ -2,9 +2,14 @@
 (renamed from {})	(átnevezve erről: {})
 19-inch module technology	19 colos modultechnika
 A catalog id must not be empty or contain blanks	A katalógusazonosító nem lehet üres, és nem tartalmazhat szóközt
+A directory id must not be empty or contain blanks or ':'	A címtár azonosítója nem lehet üres és nem tartalmazhat szóközt vagy ':' karaktert
+A grant needs a user or a group	Egy hozzárendeléshez felhasználó vagy csoport kell
+A group name must not be empty or contain ':'	A csoport neve nem lehet üres és nem tartalmazhat ':' karaktert
 A manufacturer user needs a manufacturer	A gyártói felhasználóhoz gyártó szükséges
+A part number must not be empty or start or end with blanks	A cikkszám nem lehet üres, és nem kezdődhet vagy végződhet szóközzel
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	A szerepkör jogok halmaza. A hozzárendelések egy felhasználónak vagy csoportnak szerepkört adnak egy gyártó alkatrészeire (* és ? helyettesítő karakterként, * mindegyikre); a megtagadó hozzárendelés elveszi a szerepkör jogait, bármit adnak is más hozzárendelések.
 A user name must not be empty or contain blanks	A felhasználónév nem lehet üres, és nem tartalmazhat szóközt
+Accept any certificate (test installations only)	Bármely tanúsítvány elfogadása (csak teszttelepítések)
 Access rights	Hozzáférési jogok
 Access settings saved	Hozzáférési beállítások mentve
 Accumulator blocks	Tárolóblokkok
@@ -18,6 +23,8 @@ Administration	Adminisztráció
 All manufacturers	Minden gyártó
 All parts	Összes alkatrész
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Az összes alkatrész az adataival, táblázatkezelőhöz vagy egy másik szerverre való importáláshoz. A fájljaik csak az adatbázis biztonsági mentésében vannak.
+Allowed groups	Engedélyezett csoportok
+Also groups of groups (Active Directory)	Csoportok csoportjai is (Active Directory)
 Amplifiers, controllers	Erősítők, szabályozók
 Analog sensor	Analóg érzékelő
 Approval of new accounts	Új fiókok jóváhagyása
@@ -29,11 +36,14 @@ Auxiliary contact block	Segédérintkező-blokk
 Auxiliary switch	Segédkapcsoló
 Awaiting approval	Jóváhagyásra vár
 Awaiting approval: {}	Jóváhagyásra vár: {}
+Back to the part	Vissza az alkatrészhez
 Back to the results	Vissza az eredményekhez
 Ball valve pneumatic	Pneumatikus golyóscsap
 Ball valves	Golyóscsapok
 Base	Lábazat
 Battery monitor	Akkumulátorfigyelő
+Better kept in an environment variable of the server	Jobb a kiszolgáló egy környezeti változójában
+Bind name of a user without service account; {user} is replaced	Egy szolgáltatásfiók nélküli felhasználó kötési neve; a {user} lecserélődik
 Block ball valves	Blokk-golyóscsapok
 Body	Test
 Brake motor	Fékmotor
@@ -59,10 +69,12 @@ Centrifugal pumps	Centrifugálszivattyúk
 Centrifuge	Centrifuga
 Certificate	Tanúsítvány
 Changed	Módosítva
+Changed last	Legutóbb módosítva
 Changes allowed	Módosítás engedélyezett
 Check control valve	Visszacsapó szerelvény
 Check flap	Visszacsapó csappantyú
 Chimney	Kémény
+Choose logo…	Logó kiválasztása…
 Circuit breaker	Kismegszakító
 Coil	Tekercs
 Complete power units	Komplett aggregátok
@@ -95,13 +107,17 @@ Crusher	Aprító
 Cylinders	Hengerek
 DC motor	Egyenáramú motor
 DC-DC converter	DC-DC átalakító
+Dashboard	Irányítópult
 Data recorder	Mérésadat-rögzítő
 Database backup	Adatbázis biztonsági mentése
 Datasheet	Adatlap
 Defined roles	Meghatározott szerepkörök
 Delete catalog {} from the server?	Törli a(z) {} katalógust a szerverről?
 Delete catalog {}?	Törli a(z) {} katalógust?
+Delete directory {}? Its users can no longer sign in.	Törli a(z) {} címtárat? A felhasználói többé nem tudnak bejelentkezni.
+Delete group {}? The grants to it are removed.	Törli a(z) {} csoportot? A hozzárendelései törlődnek.
 Delete part {} from the server? This cannot be undone.	Törli a(z) {} alkatrészt a szerverről? Ez nem vonható vissza.
+Delete part {}?	Törli a(z) {} alkatrészt?
 Delete parts	Alkatrészek törlése
 Delete user {}? Their sessions and favorites are removed.	Törli a(z) {} felhasználót? A munkamenetei és kedvencei eltávolításra kerülnek.
 Deleted	Törölve
@@ -109,8 +125,9 @@ Digital sensor, general	Digitális érzékelő, általános
 Directional control valves	Útszelepek
 Directional control valves, coaxial	Koaxiális útszelepek
 Directories	Címtárak
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	A címtárakat (Active Directory, LDAP) a szerver hozzáférési beállításainak fájljában kell megadni.
 Directory	Címtár
+Directory groups	A címtár csoportjai
+Directory {} exists already. Change it?	A(z) {} címtár már létezik. Módosítja?
 Dirt trap	Szennyfogó
 Discard the changes	Változtatások elvetése
 Discard the unsaved changes of {}?	Elveti a(z) {} nem mentett változtatásait?
@@ -126,18 +143,27 @@ Duplex switch filters	Kettős átkapcsolható szűrők
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	{} katalógus szerkesztése
 Edit catalogs	Katalógusok szerkesztése
+Edit directory {}	{} címtár szerkesztése
+Edit group {}	{} csoport szerkesztése
+Edit part {}	{} alkatrész szerkesztése
 Edit parts	Alkatrészek szerkesztése
 Edit user {}	{} felhasználó szerkesztése
 Electrical engineering - special items	Villamosmérnöki terület – különleges elemek
 Electrically-operated mechanical devices	Villamos működtetésű mechanikus készülékek
 Electrolysis cell	Elektrolizáló cella
+Empty: the memberOf attribute of the user	Üres: a felhasználó memberOf attribútuma
+Empty: the search base	Üres: a keresési alap
+Empty: the usual filter of the type	Üres: a típus szokásos szűrője
 Enclosure cooling devices	Kapcsolószekrény-hűtőkészülékek
 Enclosure heater	Kapcsolószekrény-fűtés
+Encryption	Titkosítás
 End clamp	Végbak
 Ends the session and forgets the token	Befejezi a munkamenetet, és elveti a tokent
 Engine	Hajtógép
 Enter the address of an openecraft-parts-server and click Connect.	Adja meg egy openecraft-parts-server címét, és kattintson a Csatlakozás gombra.
+Environment variable with the password of the service account	Környezeti változó a szolgáltatásfiók jelszavával
 Evaporator	Elpárologtató
+Everybody who may read the parts sees it.	Mindenki látja, aki olvashatja az alkatrészeket.
 Exhaust valves	Légtelenítő szelepek
 Export (CSV)	Exportálás (CSV)
 Export and backup	Exportálás és biztonsági mentés
@@ -167,8 +193,14 @@ Furnace	Kemence
 Generator	Generátor
 Grants	Hozzárendelések
 Grants of the server's access settings can refer to them	A szerver hozzáférési beállításainak hozzárendelései hivatkozhatnak rájuk
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	A catalog:<id> hozzárendelései egy katalógusra és alkatrészeire vonatkoznak (Katalógusok › Engedélyek).
 Ground fault current circuit breaker	Hibaáram-védőkapcsoló
 Ground fault voltage circuit-breaker	Hibafeszültség-védőkapcsoló
+Group filter	Csoportszűrő
+Group search base	Csoportok keresési alapja
+Group {} exists already. Change it?	A(z) {} csoport már létezik. Módosítja?
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	A csoportok felhasználókat fognak össze, helyieket és címtárbelieket. Egy csoport hozzárendelései a tagjainak egy szerepkör jogait adják az egész kiszolgálón, egy gyártóra vagy egy katalógusra.
+Groups of this server, next to those of the directory	E kiszolgáló csoportjai a címtár csoportjai mellett
 Heat exchangers	Hőcserélők
 High-pressure systems	Nagynyomású rendszerek
 High-pressure tanks	Nagynyomású tartályok
@@ -179,6 +211,7 @@ Housing accessories, external extension	Háztartozékok, külső bővítés
 Housing accessories, internal extension	Háztartozékok, belső bővítés
 Hydraulic motors	Hidromotorok
 Hydraulic tanks	Hidraulikatartályok
+Images (PNG, JPEG, GIF, WebP, SVG)	Képek (PNG, JPEG, GIF, WebP, SVG)
 Import / export	Importálás / exportálás
 Import parts	Alkatrészek importálása
 Imported {} parts (revision {})	{} alkatrész importálva ({}. revízió)
@@ -191,6 +224,7 @@ KNX actuator	KNX aktor
 KNX system device	KNX rendszereszköz
 Key switch	Kulcsos kapcsoló
 Kneader	Dagasztó
+Last changes per month	Utolsó módosítások havonta
 Last sign-in	Utolsó bejelentkezés
 Legend plate	Feliratos tábla
 Level detector	Határérték-jeladó
@@ -208,12 +242,15 @@ Lock systems	Zárrendszerek
 Locking couplings	Zárócsatlakozók
 Logic item	Logikai elem
 Logic items	Logikai elemek
+Logos	Logók
+Looks the users up; empty: users bind with their own name (below)	Megkeresi a felhasználókat; üres: a felhasználók saját nevükkel kötődnek (lent)
 Male insert	Dugós betét
 Measurement system	Mérőberendezés
 Measuring connection points	Mérőcsatlakozások
 Measuring couplings	Mérőcsatlakozók
 Measuring instruments, test devices	Mérőműszerek, vizsgálókészülékek
 Mechanics	Mechanika
+Members	Tagok
 Metering hopper	Adagoló
 Miscellaneous	Egyéb
 Mixer	Keverő
@@ -222,15 +259,20 @@ Modulators	Modulátorok
 Motor overload switch	Motorvédő kapcsoló
 Mounting chassis	Szerelőváz
 Mounting panels	Szerelőlapok
+Name attribute	Névattribútum
 New accounts need the approval of an administrator	Az új fiókokhoz rendszergazdai jóváhagyás szükséges
 New catalog	Új katalógus
+New directory	Új címtár
+New part	Új alkatrész
 New part based on the open one	Új alkatrész a megnyitott alapján
 New password	Új jelszó
 New role	Új szerepkör
 New user	Új felhasználó
 Newer version	Újabb verzió
 Next	Következő
+No grants: the rights by manufacturer apply	Nincsenek hozzárendelések: a gyártó szerinti jogok érvényesek
 No grants: users have the rights of their role	Nincsenek hozzárendelések: a felhasználók a szerepkörük jogaival rendelkeznek
+No groups	Nincsenek csoportok
 No users	Nincsenek felhasználók
 Non-return valves	Visszacsapó szelepek
 Not mounted	Nincs felszerelve
@@ -240,15 +282,18 @@ On the left side	A bal oldalon
 On the right side	A jobb oldalon
 On this server	Ezen a szerveren
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Egyetlen SQLite-fájl az összes alkatrésszel, azok előzményeivel és fájljaival, a katalógusokkal, a felhasználókkal és kedvenceikkel. Tartalmazza a felhasználók jelszókivonatait: tárolja biztonságos helyen.
+One line per value, e.g. Coil voltage: 24 V DC	Értékenként egy sor, pl. Tekercsfeszültség: 24 V DC
 Only catalogs without parts can be deleted	Csak alkatrész nélküli katalógusok törölhetők
 Only empty catalogs can be deleted	Csak üres katalógusok törölhetők
 Only local accounts	Csak helyi fiókok
+Only their members sign in; empty: all users	Csak tagjaik jelentkezhetnek be; üres: minden felhasználó
 Open sessions: {}	Nyitott munkamenetek: {}
 OpenECraft data portal	OpenECraft adatportál
 OpenECraft parts manager	OpenECraft alkatrészkezelő
 OpenECraft parts server	OpenECraft alkatrészszerver
 Other file	Egyéb fájl
 Other labels	Egyéb címkék
+Others	Egyéb
 Outlet	Kifolyó
 Outlet filter	Kilépő szűrő
 Overload	Védőrelé
@@ -268,8 +313,17 @@ PV rail connector	PV sínösszekötő
 Part (source)	Alkatrész (forrás)
 Part (target)	Alkatrész (cél)
 Part files (documents, images, models, macros)	Alkatrészfájlok (dokumentumok, képek, modellek, makrók)
+Part {} exists already	A(z) {} alkatrész már létezik
 Part {} not found	A(z) {} cikk nem található
 Partition	Válaszfal
+Parts per catalog	Alkatrészek katalógusonként
+Parts per manufacturer	Alkatrészek gyártónként
+Parts per product group	Alkatrészek termékcsoportonként
+Parts with …	Alkatrészek ezzel: …
+Password variable	Jelszóváltozó
+Per page	Oldalanként
+Permissions	Engedélyek
+Permissions of catalog {}	A(z) {} katalógus engedélyei
 Phase-out	Kifutó
 Pipes	Csövek
 Piping part	Csővezeték-elem
@@ -317,7 +371,9 @@ Register	Regisztráció
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	A regisztrált felhasználók olvasók lesznek: kedvenceket menthetnek, és akkor is olvassák az alkatrészeket, ha az olvasáshoz bejelentkezés szükséges. További jogokat a Felhasználók részben adhat nekik.
 Registration	Regisztráció
 Reject the registration of {}? The account is deleted.	Elutasítja {} regisztrációját? A fiók törlődik.
+Remove logo	Logó eltávolítása
 Remove the file from the part	A fájl eltávolítása az alkatrészből
+Remove the logo	Logó eltávolítása
 Removed from the server	Eltávolítva a szerverről
 Repeat password	Jelszó ismét
 Replace the roles and grants with those of the file?	Lecseréli a szerepköröket és a hozzárendeléseket a fájlban lévőkre?
@@ -335,11 +391,15 @@ Safety accumulators	Biztonsági tárolók
 Safety devices	Védőberendezések
 Safety fuse	Olvadóbiztosító
 Safety switch	Védőkapcsoló
+Save the catalog first	Előbb mentse a katalógust
 Save the part first	Előbb mentse az alkatrészt
+Saved directory {}	{} címtár mentve
+Saved group {}	{} csoport mentve
 Screw connections	Csavarkötések
 Screw pumps	Csavarorsós szivattyúk
 Screw spindle compressors	Csavarorsós kompresszorok
 Scroll compressors	Spirálkompresszorok
+Search base	Keresési alap
 Search users	Felhasználók keresése
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Válasszon ki egy katalógust, vagy hozzon létre újat. Az alkatrészek a katalógusazonosítójuk révén tartoznak egy katalógushoz (alkatrész-szerkesztő, Adatportál lap).
 Select a user or create a new one.	Válasszon ki egy felhasználót, vagy hozzon létre újat.
@@ -349,8 +409,12 @@ Sensor NC	Érzékelő, nyitóérintkező
 Sensor, switch, and pushbutton	Érzékelők, kapcsolók és nyomógombok
 Sensors - pressure gauges	Érzékelők – nyomásmérők
 Serial sub-plates	Soros csatlakozólapok
+Service account	Szolgáltatásfiók
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	A kiszolgáló indítási beállításai határozzák meg (--dashboard vagy OPENECRAFT_DASHBOARD).
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	A szerver indítási beállításai határozzák meg (--registration vagy OPENECRAFT_REGISTRATION).
+Short name without blanks; qualifies the groups (id:group)	Rövid név szóközök nélkül; minősíti a csoportokat (id:csoport)
 Show parts	Alkatrészek megjelenítése
+Show the dashboard with graphs of the parts	Az irányítópult megjelenítése az alkatrészek grafikonjaival
 Shut-off accumulators	Elzáró tárolók
 Shut-off control valve	Elzáró szerelvény
 Shut-off flap	Elzárócsappantyú
@@ -375,10 +439,12 @@ Silo	Siló
 Single-phase motor	Egyfázisú motor
 Single-stage filters	Egyfokozatú szűrők
 Siphon	Szifon
+Size of the files	A fájlok mérete
 Solenoid valve	Mágnesszelep
 Sorter	Válogató
 Start a server with:  openecraft-parts-server --token <secret>	Szerver indítása ezzel:  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	A módosítások engedélyezéséhez indítsa az openecraft-parts-server programot a --token kapcsolóval
+StartTLS (for ldap://)	StartTLS (ldap://-hez)
 Steam boiler	Gőzkazán
 Stirrer	Keverőszerkezet
 Storage	Tárolás
@@ -399,23 +465,32 @@ Temperature sensors	Hőmérséklet-érzékelők
 Terminal label	Sorkapocs-jelölőcímke
 Terminator	Lezárás
 Terminators, filters	Lezárások, szűrők
+Test	Teszt
 Test accessories	Vizsgálati tartozékok
 The EPLAN Data Portal only offers searching and reading parts	Az EPLAN Data Portal csak alkatrészek keresését és olvasását kínálja
 The access settings would leave nobody who manages users	Ezekkel a hozzáférési beállításokkal senki sem tudná kezelni a felhasználókat
 The access token is only needed for changes; it is not stored.	A hozzáférési token csak a módosításokhoz szükséges; nem tárolódik.
+The address must start with ldap:// or ldaps://	A címnek ldap:// vagy ldaps:// kezdetűnek kell lennie
 The catalogs with their manufacturer, version and description.	A katalógusok a gyártójukkal, verziójukkal és leírásukkal.
 The checksum of {} does not match: the download is damaged	A(z) {} ellenőrzőösszege nem egyezik: a letöltés sérült
+The dashboard is hidden	Az irányítópult rejtett
+The dashboard is shown	Az irányítópult látható
 The directory checks the password and sets the groups at every sign-in	A címtár minden bejelentkezéskor ellenőrzi a jelszót és beállítja a csoportokat
 The file holds no access settings	A fájl nem tartalmaz hozzáférési beállításokat
+The groups would leave nobody who manages users	A csoportok után senki sem maradna, aki a felhasználókat kezeli
 The last administrator cannot lose the right to manage users	Az utolsó rendszergazda nem veszítheti el a felhasználók kezelésének jogát
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	A cég logója: PNG, JPEG, GIF, WebP vagy SVG, legfeljebb 512 kB
 The password needs at least {} characters	A jelszónak legalább {} karakterből kell állnia
 The passwords do not match	A jelszavak nem egyeznek
 The project has no parts	A projektnek nincsenek alkatrészei
 The registration is closed	A regisztráció le van zárva
 The registration is open	A regisztráció nyitva van
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	A szerepkörök, a hozzárendelések és a bejelentkezés nélküli hozzáférés. A visszaállítás lecseréli őket; a címtárak a szerveren beállított módon maradnak.
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	Az itt adott szerepkörök erre a katalógusra és alkatrészeire vonatkoznak, gyártótól függetlenül; a megtagadás elveszi a szerepkör jogait. Az olvasás az egész kiszolgáló joga.
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	A szerepkörök, a hozzárendelések, a csoportok és a bejelentkezés nélküli hozzáférés, a kiszolgáló verziójával. A visszaállítás lecseréli a szerepköröket és hozzárendeléseket, és hozzáadja a csoportokat; a címtárak úgy maradnak, ahogy a kiszolgálón be vannak állítva.
 The server cannot be reached	A szerver nem érhető el
 The server sent no text	A szerver nem küldött szöveget
+The test failed	A teszt nem sikerült
+The test succeeded	A teszt sikerült
 The upload is finished	A feltöltés befejeződött
 The users with their role, manufacturer, groups and last sign-in, without passwords.	A felhasználók a szerepkörükkel, gyártójukkal, csoportjaikkal és utolsó bejelentkezésükkel, jelszavak nélkül.
 Thermometers	Hőmérők
@@ -427,6 +502,7 @@ Three-way control valve	Háromutas szerelvény
 Three-way flap	Háromutas csappantyú
 Three-way valve	Háromutas szelep
 Throttle plate	Fojtótárcsa
+Timeout (s)	Időkorlát (s)
 Timer relay	Időrelé
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	A visszaállításhoz indítsa el a szervert a --data <fájl> kapcsolóval, vagy másolja egy új adatbázisba a --migrate-from <fájl> kapcsolóval.
 Too many failed sign-ins, try again later	Túl sok sikertelen bejelentkezés, próbálja újra később
@@ -441,10 +517,15 @@ Under the part (base)	A cikk alatt (alap)
 Uploading {} to Vault ({} %)…	{} feltöltése a Vaultba ({} %)…
 Uploading {} to Vault…	{} feltöltése a Vaultba…
 User account	Felhasználói fiók
+User bind	Felhasználói kötés
+User filter	Felhasználószűrő
 User or group	Felhasználó vagy csoport
 User {} exists already. Change it?	A(z) {} felhasználó már létezik. Módosítja?
 User-defined rail	Felhasználó által definiált sín
 Users may register themselves (as readers)	A felhasználók maguk is regisztrálhatnak (olvasóként)
+Users of a directory too, by the name they sign in with	Címtár felhasználói is, azzal a névvel, amellyel bejelentkeznek
+Users per role	Felhasználók szerepkörönként
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	A felhasználók egy címtár fiókjával (Active Directory, LDAP) jelentkeznek be, ha a kiszolgálón nincs helyi fiók a nevükkel. A hozzárendelések a címtár csoportjaira címtár:csoport alakban hivatkoznak.
 Vacuum pump	Vákuumszivattyú
 Valve / distributor	Szelep / elosztó
 Valve coil	Szeleptekercs
@@ -460,9 +541,12 @@ Washer	Alátét
 Water traps	Vízleválasztók
 Wind deflector	Szélterelő
 Wiring material	Huzalozási anyag
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	Felhasználó nélkül: csatlakozik és a szolgáltatásfiókkal kötődik. Felhasználóval: bejelentkezteti és megmutatja a csoportjait.
+Without catalog	Katalógus nélkül
 Without sign-in	Bejelentkezés nélkül
 Wrong access token	Hibás hozzáférési token
 Wrong user name or password	Hibás felhasználónév vagy jelszó
+You may not change parts of manufacturer {}	Nem módosíthatja a(z) {} gyártó alkatrészeit
 Your account awaits the approval of an administrator	A fiókja rendszergazdai jóváhagyásra vár
 Your account was created. An administrator has to approve it before you can sign in.	A fiókja létrejött. Egy rendszergazdának jóvá kell hagynia, mielőtt bejelentkezhet.
 access denied – check the personal access token	hozzáférés megtagadva – ellenőrizze a személyes hozzáférési tokent
@@ -471,6 +555,7 @@ changed, not saved	módosítva, nincs mentve
 connection failed: {}	sikertelen csatlakozás: {}
 directory:group	címtár:csoport
 from the name	a névből
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// vagy ldaps://, a porttal, ha nem a szokásos
 needed for changes	a módosításokhoz szükséges
 new part, not saved	új alkatrész, nincs mentve
 read-only server	csak olvasható szerver
@@ -488,6 +573,8 @@ you	Ön
 {} parts in {} catalogs, revision {}	{} alkatrész {} katalógusban, {}. revízió
 {} parts, {} catalogs, {}	{} alkatrész, {} katalógus, {}
 {} – save to upload it	{} – a feltöltéshez mentse
+{}: a logo has at most 512 kB	{}: egy logó legfeljebb 512 kB
+{}: the catalog is no longer open	{}: a katalógus már nincs megnyitva
 {}: the part is no longer open	{}: az alkatrész már nincs megnyitva
 {}: {} parts added, {} updated, {} kept	{}: {} alkatrész hozzáadva, {} frissítve, {} megtartva
 ⎘ Copy	⎘ Másolás

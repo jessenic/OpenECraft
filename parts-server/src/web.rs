@@ -1,5 +1,5 @@
-//! Web page of the data portal (search with facets, part details, files, favorites,
-//! administration of the server) and its translations. The page is plain HTML / JavaScript on top of the API; its
+//! Web page of the data portal (dashboard, search with facets, part details and the
+//! part form, files, favorites, administration of the server) and its translations. The page is plain HTML / JavaScript on top of the API; its
 //! texts are written in English and translated through [`texts`].
 
 use axum::extract::Query;
@@ -16,6 +16,10 @@ use std::collections::BTreeMap;
 const PAGE: &str = include_str!("web/portal.html");
 const SCRIPT: &str = include_str!("web/portal.js");
 const ADMIN_SCRIPT: &str = include_str!("web/admin.js");
+const EDIT_SCRIPT: &str = include_str!("web/edit.js");
+const DASHBOARD_SCRIPT: &str = include_str!("web/dashboard.js");
+/// The OpenECraft logo (the application icon).
+const LOGO: &str = include_str!("../../assets/icon.svg");
 
 /// The page runs its own script only; parts data never becomes code.
 pub const PAGE_CSP: &str =
@@ -141,7 +145,6 @@ const TEXTS: &[&str] = &[
     tr_const!("All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup."),
     tr_const!("The catalogs with their manufacturer, version and description."),
     tr_const!("The users with their role, manufacturer, groups and last sign-in, without passwords."),
-    tr_const!("The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server."),
     tr_const!("Restore from a file"),
     tr_const!("Database backup"),
     tr_const!("One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe."),
@@ -208,7 +211,6 @@ const TEXTS: &[&str] = &[
     tr_const!("No grants: users have the rights of their role"),
     tr_const!("Add grant"),
     tr_const!("Directories"),
-    tr_const!("Directories (Active Directory, LDAP) are set up in the access settings file of the server."),
     tr_const!("Discard changes"),
     tr_const!("Access settings saved"),
     tr_const!("The access settings would leave nobody who manages users"),
@@ -244,6 +246,98 @@ const TEXTS: &[&str] = &[
     tr_const!("Install"),
     tr_const!("Install again"),
     tr_const!("Update"),
+    // Groups, directories, catalog permissions, part form, dashboard
+    tr_const!("Per page"),
+    tr_const!("New part"),
+    tr_const!("Delete part {}?"),
+    tr_const!("Dashboard"),
+    tr_const!("Show the dashboard with graphs of the parts"),
+    tr_const!("Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD)."),
+    tr_const!("Everybody who may read the parts sees it."),
+    tr_const!("The dashboard is shown"),
+    tr_const!("The dashboard is hidden"),
+    tr_const!("Directory groups"),
+    tr_const!("Groups of this server, next to those of the directory"),
+    tr_const!("Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions)."),
+    tr_const!("Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog."),
+    tr_const!("New group"),
+    tr_const!("Members"),
+    tr_const!("No groups"),
+    tr_const!("Delete group {}? The grants to it are removed."),
+    tr_const!("The groups would leave nobody who manages users"),
+    tr_const!("Edit group {}"),
+    tr_const!("Add"),
+    tr_const!("Users of a directory too, by the name they sign in with"),
+    tr_const!("A group name must not be empty or contain ':'"),
+    tr_const!("Group {} exists already. Change it?"),
+    tr_const!("Saved group {}"),
+    tr_const!("Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group."),
+    tr_const!("New directory"),
+    tr_const!("Address"),
+    tr_const!("Search base"),
+    tr_const!("Delete directory {}? Its users can no longer sign in."),
+    tr_const!("Edit directory {}"),
+    tr_const!("Short name without blanks; qualifies the groups (id:group)"),
+    tr_const!("ldap:// or ldaps://, with the port if it is not the usual one"),
+    tr_const!("Encryption"),
+    tr_const!("StartTLS (for ldap://)"),
+    tr_const!("Accept any certificate (test installations only)"),
+    tr_const!("Service account"),
+    tr_const!("Looks the users up; empty: users bind with their own name (below)"),
+    tr_const!("Better kept in an environment variable of the server"),
+    tr_const!("Password variable"),
+    tr_const!("Environment variable with the password of the service account"),
+    tr_const!("User bind"),
+    tr_const!("Bind name of a user without service account; {user} is replaced"),
+    tr_const!("User filter"),
+    tr_const!("Empty: the usual filter of the type"),
+    tr_const!("Name attribute"),
+    tr_const!("Also groups of groups (Active Directory)"),
+    tr_const!("Group filter"),
+    tr_const!("Empty: the memberOf attribute of the user"),
+    tr_const!("Group search base"),
+    tr_const!("Empty: the search base"),
+    tr_const!("Allowed groups"),
+    tr_const!("Only their members sign in; empty: all users"),
+    tr_const!("Timeout (s)"),
+    tr_const!("Test"),
+    tr_const!("Without a user: connects and binds with the service account. With a user: signs them in and shows their groups."),
+    tr_const!("A directory id must not be empty or contain blanks or ':'"),
+    tr_const!("The address must start with ldap:// or ldaps://"),
+    tr_const!("The test succeeded"),
+    tr_const!("The test failed"),
+    tr_const!("Directory {} exists already. Change it?"),
+    tr_const!("Saved directory {}"),
+    tr_const!("Permissions"),
+    tr_const!("Permissions of catalog {}"),
+    tr_const!("The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server."),
+    tr_const!("No grants: the rights by manufacturer apply"),
+    tr_const!("A grant needs a user or a group"),
+    tr_const!("Without catalog"),
+    tr_const!("Edit part {}"),
+    tr_const!("A part number must not be empty or start or end with blanks"),
+    tr_const!("You may not change parts of manufacturer {}"),
+    tr_const!("Part {} exists already"),
+    tr_const!("Currency"),
+    tr_const!("Price unit"),
+    tr_const!("Quantity unit"),
+    tr_const!("One line per value, e.g. Coil voltage: 24 V DC"),
+    tr_const!("Back to the part"),
+    tr_const!("Others"),
+    tr_const!("Parts per manufacturer"),
+    tr_const!("Parts per product group"),
+    tr_const!("Parts per catalog"),
+    tr_const!("Last changes per month"),
+    tr_const!("Parts with …"),
+    tr_const!("Users per role"),
+    tr_const!("Changed last"),
+    tr_const!("Dimensions"),
+    tr_const!("Manufacturers"),
+    tr_const!("Size of the files"),
+    tr_const!("Logo"),
+    tr_const!("Remove the logo"),
+    tr_const!("The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB"),
+    tr_const!("The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server."),
 ];
 
 #[derive(Deserialize)]
@@ -293,6 +387,18 @@ pub async fn script() -> impl IntoResponse {
 
 pub async fn admin_script() -> impl IntoResponse {
     ([(header::CONTENT_TYPE, "text/javascript; charset=utf-8")], ADMIN_SCRIPT)
+}
+
+pub async fn edit_script() -> impl IntoResponse {
+    ([(header::CONTENT_TYPE, "text/javascript; charset=utf-8")], EDIT_SCRIPT)
+}
+
+pub async fn dashboard_script() -> impl IntoResponse {
+    ([(header::CONTENT_TYPE, "text/javascript; charset=utf-8")], DASHBOARD_SCRIPT)
+}
+
+pub async fn logo() -> impl IntoResponse {
+    ([(header::CONTENT_TYPE, "image/svg+xml"), (header::CACHE_CONTROL, "max-age=86400")], LOGO)
 }
 
 pub fn web_texts(lang: Lang) -> WebTexts {

@@ -345,7 +345,6 @@ Create projects	Projekte anlegen	Créer des projets	Crear proyectos
 Creation date	Erstellungsdatum	Date de création	Fecha de creación
 Cross-section {} carries {} A, less than the {} A of {}	Querschnitt {} trägt {} A, weniger als die {} A von {}	La section {} supporte {} A, moins que les {} A de {}	La sección {} soporta {} A, menos que los {} A de {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Kreuzung auf Seite {} passt nicht zu ihren Verbindungslinien: sie braucht eine Linie in alle vier Richtungen und keinen Anschlusspunkt dort	Le croisement en page {} ne correspond pas à ses fils : il lui faut un fil dans les quatre directions et aucun point de connexion à cet endroit	El cruce en la página {} no se ajusta a sus cables: necesita un cable en las cuatro direcciones y ningún punto de conexión allí
-Currency	Währung	Devise	Moneda
 Current (A)	Strom (A)	Courant (A)	Corriente (A)
 Current capacity (A)	Strombelastbarkeit (A)	Courant admissible (A)	Intensidad admisible (A)
 Current consumption	Stromaufnahme	Consommation de courant	Consumo de corriente
@@ -896,7 +895,6 @@ Manual switch NO	Handschalter Schließer	Commutateur manuel NO	Interruptor manua
 Manual switch NO, latching	Handschalter Schließer, rastend	Commutateur manuel NO, à accrochage	Interruptor manual NA, con enclavamiento
 Manual work	Handarbeit	Travail manuel	Trabajo manual
 Manufacturer's table	Herstellertabelle	Tableau du fabricant	Tabla del fabricante
-Manufacturers	Hersteller	Fabricants	Fabricantes
 Marking (CSV)	Beschriftung (CSV)	Repérage (CSV)	Marcado (CSV)
 Marking (Excel)	Beschriftung (Excel)	Repérage (Excel)	Marcado (Excel)
 Mating faces	Steckseiten	Faces d'accouplement	Caras de acoplamiento

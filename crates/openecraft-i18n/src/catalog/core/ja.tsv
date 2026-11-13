@@ -303,7 +303,6 @@ Create projects	プロジェクトの作成
 Creation date	作成日
 Cross-section {} carries {} A, less than the {} A of {}	断面積 {0} の許容電流は {1} A で、{3} の {2} A より小さくなっています
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	ページ {} の交差がその接続線と合いません：4方向すべてに接続線が必要で、その位置に接続点があってはなりません
-Currency	通貨
 Current (A)	電流 (A)
 Current capacity (A)	許容電流 (A)
 Current consumption	消費電流
@@ -810,7 +809,6 @@ Manual switch NO	手動スイッチ a接点
 Manual switch NO, latching	手動スイッチ a接点 (保持形)
 Manual work	手作業
 Manufacturer's table	メーカーの表
-Manufacturers	メーカー
 Marking (CSV)	マーキング (CSV)
 Marking (Excel)	マーキング (Excel)
 Mating faces	嵌合面

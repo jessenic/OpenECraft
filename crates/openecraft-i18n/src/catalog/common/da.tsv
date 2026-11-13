@@ -12,6 +12,7 @@ Above	Over
 Access token	Adgangstoken
 Accessories	Tilbehør
 Accessory	Tilbehør
+Add	Tilføj
 Add a PDF of all pages	Tilføj en PDF med alle sider
 Add to favorites	Føj til favoritter
 Address	Adresse
@@ -85,6 +86,7 @@ Created by	Oprettet af
 Cross references	Krydsreferencer
 Cross-section	Tværsnit
 Crossing	Krydsning
+Currency	Valuta
 Current	Strøm
 Cutout	Udskæring
 Cutouts	Udskæringer
@@ -108,6 +110,7 @@ Device description	Enhedsbeskrivelse
 Device tag	Enhedsmærkning
 Device {}	Enhed {}
 Devices	Enheder
+Dimensions	Dimensioner
 Direction	Retning
 Discard	Kassér
 Discard changes	Kassér ændringerne
@@ -199,11 +202,13 @@ Load	Belastning
 Loaded circuits bunched together	Belastede kredse samlet i bundt
 Location	Placering
 Location (+)	Placering (+)
+Logo	Logo
 MTTFd (years)	MTTFd (år)
 Machine	Maskine
 Main earthing terminal	Hovedjordskinne
 Main switch	Hovedafbryder
 Manufacturer	Producent
+Manufacturers	Producenter
 Manufacturing	Produktion
 Marking	Mærkater
 Match case	Forskel på store og små bogstaver
@@ -230,6 +235,7 @@ Name of the point, e.g. a survey point	Punktets navn, f.eks. et målepunkt
 Name of the scheme	Skemaets navn
 Net	Net
 Never	Aldrig
+New group	Ny gruppe
 New name	Nyt navn
 Next page	Næste side
 No	Nej
@@ -401,6 +407,7 @@ Settings	Indstillinger
 Shape	Form
 Short-circuit voltage	Kortslutningsspænding
 Show history	Vis historik
+Show the logos of the catalogs	Vis katalogernes logoer
 Show the row after the column	Vis rækken efter kolonnen
 Side	Side
 Sign in	Log på
@@ -497,6 +504,7 @@ file or folder not found	filen eller mappen blev ikke fundet
 landscape	liggende
 left	venstre
 mm	mm
+none	ingen
 normal	normal
 not bonded	ikke tilsluttet
 not connected	ikke tilsluttet

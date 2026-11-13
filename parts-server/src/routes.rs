@@ -2,7 +2,8 @@
 
 use crate::auth::{hash_password, verify_account_password, Account};
 use crate::bundled;
-use crate::storage::Store;
+use crate::groups;
+use crate::storage::{now, Store};
 use crate::web;
 use axum::body::Bytes;
 use axum::extract::{DefaultBodyLimit, Path, Query, Request, State};
@@ -11,21 +12,24 @@ use axum::middleware::Next;
 use axum::response::{IntoResponse, Response};
 use axum::routing::{delete, get, post};
 use axum::{Json, Router};
-use openecraft_auth::{AccessFile, ClientIp, SignInError, Throttle};
-use openecraft_parts::access::{Access, Policy, Right, Settings, SERVER};
+use openecraft_auth::{AccessConfig, AccessFile, ClientIp, Directory, SignInError, Throttle};
+use openecraft_parts::access::{groups_of, with_groups, Access, Grant, Group, Policy, Right, Settings, Subject, SERVER};
 use openecraft_parts::api::{
-    bearer_token, token_matches, Accessories, ApiError, BundledCatalog, ImportResult, Installed, Login, PartList, PartQuery, Registration, ServerInfo, Session,
-    UserEntry, UserUpdate, API_PREFIX,
+    bearer_token, token_matches, Accessories, ApiError, BundledCatalog, DashboardSettings, DirectoryTest, ExportInfo, ImportResult, Installed, Login, PartList,
+    PartQuery, PartsExport, Registration, ServerInfo, Session, UserEntry, UserUpdate, API_PREFIX, SERVER_VERSION_HEADER,
 };
-use openecraft_parts::portal::{content_type, AttachmentKind, Catalog, HistoryEntry, PartsRight, Role, SearchResult, User};
+use openecraft_parts::dashboard::Dashboard;
+use openecraft_parts::portal::{catalog_scope, content_type, scopes, AttachmentKind, Catalog, HistoryEntry, PartsRight, Role, SearchResult, User};
 use openecraft_parts::{import, to_csv, Part};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex, MutexGuard};
 use std::time::Instant;
 use tower_http::cors::{Any, CorsLayer};
 
 /// Name of the user of the administrator token.
 pub const ADMIN: &str = "admin";
+/// Name of the server in [`ServerInfo`] and in its exports.
+pub const SERVER_NAME: &str = "OpenECraft parts server";
 
 #[derive(Clone)]
 pub struct AppState {
@@ -42,6 +46,9 @@ pub struct AppState {
     pub registration: Option<bool>,
     /// Registrations per client.
     pub registrations: Arc<Mutex<Throttle>>,
+    /// Dashboard shown or hidden by the start options (`--dashboard`); `None`: as the
+    /// access settings say.
+    pub dashboard: Option<bool>,
 }
 
 impl AppState {
@@ -53,6 +60,7 @@ impl AppState {
             throttle: Arc::default(),
             registration: None,
             registrations: Arc::default(),
+            dashboard: None,
         }
     }
 
@@ -60,9 +68,18 @@ impl AppState {
         AppState { registration: fixed, ..self }
     }
 
+    pub fn with_dashboard(self, fixed: Option<bool>) -> AppState {
+        AppState { dashboard: fixed, ..self }
+    }
+
     /// True if users may register themselves now.
     fn registration_open(&self) -> bool {
         self.registration.unwrap_or_else(|| access_file(self).config.registration)
+    }
+
+    /// True if the web page shows the dashboard.
+    fn dashboard_shown(&self) -> bool {
+        self.dashboard.unwrap_or_else(|| access_file(self).config.dashboard)
     }
 }
 
@@ -109,6 +126,9 @@ pub fn router(state: AppState) -> Router {
         .route("/", get(web::index))
         .route("/portal.js", get(web::script))
         .route("/admin.js", get(web::admin_script))
+        .route("/edit.js", get(web::edit_script))
+        .route("/dashboard.js", get(web::dashboard_script))
+        .route("/logo.svg", get(web::logo))
         .route(&api("/texts"), get(web::texts))
         .route(&api("/info"), get(info))
         .route(&api("/parts"), get(list))
@@ -126,6 +146,15 @@ pub fn router(state: AppState) -> Router {
         .route(&api("/backup"), get(backup))
         .route(&api("/catalogs"), get(catalogs))
         .route(&api("/catalogs/{id}"), get(get_catalog).put(put_catalog).delete(delete_catalog))
+        .route(&api("/catalogs/{id}/grants"), get(catalog_grants).put(set_catalog_grants))
+        .route(&api("/catalogs/{id}/logo"), get(catalog_logo).put(put_catalog_logo).delete(delete_catalog_logo))
+        .route(&api("/groups"), get(list_groups))
+        .route(&api("/groups/{name}"), axum::routing::put(put_group).delete(delete_group))
+        .route(&api("/directories"), get(directories))
+        .route(&api("/directories/{id}"), axum::routing::put(put_directory).delete(delete_directory))
+        .route(&api("/directories/{id}/test"), post(test_directory))
+        .route(&api("/dashboard"), get(dashboard))
+        .route(&api("/dashboard/settings"), get(dashboard_settings).put(set_dashboard_settings))
         .route(&api("/libraries/{name}"), get(get_library).put(put_library))
         .route(&api("/login"), post(login).layer(DefaultBodyLimit::max(SMALL_BODY)))
         .route(&api("/logout"), post(logout))
@@ -167,7 +196,7 @@ fn cors() -> CorsLayer {
     CorsLayer::new()
         .allow_origin(Any)
         .allow_methods([Method::GET, Method::PUT, Method::POST, Method::DELETE])
-        .allow_headers([header::AUTHORIZATION, header::CONTENT_TYPE])
+        .allow_headers([header::AUTHORIZATION, header::CONTENT_TYPE, header::IF_NONE_MATCH])
 }
 
 fn store(state: &AppState) -> MutexGuard<'_, Store> {
@@ -204,11 +233,17 @@ fn caller(state: &AppState, headers: &HeaderMap) -> Caller {
     }
     let user = token.and_then(|t| store(state).session(t).map(|a| a.user.clone()));
     let file = access_file(state);
-    let policy = &file.config.policy;
     match user {
-        Some(u) => Caller { access: policy.access(&u.identity(), &u.grants()).with(policy.anonymous_access()), user: Some(u), unknown_token: false },
-        None => Caller { user: None, access: policy.anonymous_access(), unknown_token: token.is_some() },
+        Some(u) => Caller { access: access_of(&file.config, &u), user: Some(groups::shown(&u, &file.config.groups)), unknown_token: false },
+        None => Caller { user: None, access: file.config.policy.anonymous_access(), unknown_token: token.is_some() },
     }
+}
+
+/// What a user may do: their role, the grants to them and to their groups (with the
+/// groups defined on the server) and what requests without sign-in may.
+fn access_of(config: &AccessConfig<PartsRight>, user: &User) -> Access<PartsRight> {
+    let policy = &config.policy;
+    policy.access(&with_groups(user.identity(), &config.groups), &user.grants()).with(policy.anonymous_access())
 }
 
 fn wrong_token() -> AppError {
@@ -251,6 +286,18 @@ fn need(user: &User, access: &Access<PartsRight>, right: PartsRight, manufacture
     }
 }
 
+/// The right on a part or a catalog: by its manufacturer or by its catalog.
+fn need_on(user: &User, access: &Access<PartsRight>, right: PartsRight, manufacturer: &str, catalog: &str) -> Result<()> {
+    let scopes = scopes(manufacturer, catalog);
+    if access.allows_on(&scopes.iter().map(String::as_str).collect::<Vec<_>>(), right) {
+        Ok(())
+    } else if catalog.trim().is_empty() {
+        need(user, access, right, manufacturer)
+    } else {
+        Err(forbidden(format!("user '{}' lacks the right '{}' for manufacturer '{}' and catalog '{}'", user.name, right.name(), manufacturer.trim(), catalog.trim())))
+    }
+}
+
 /// Reading needs the right to read: anonymous requests have it unless the policy
 /// takes it away (`anonymous` role).
 fn reader(state: &AppState, headers: &HeaderMap) -> Result<()> {
@@ -275,7 +322,7 @@ async fn info(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<
     }
     let store = store(&state);
     Ok(Json(ServerInfo {
-        name: "OpenECraft parts server".into(),
+        name: SERVER_NAME.into(),
         version: env!("CARGO_PKG_VERSION").into(),
         parts: store.count()?,
         revision: store.revision,
@@ -285,6 +332,7 @@ async fn info(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<
         user,
         access,
         registration: state.registration_open(),
+        dashboard: state.dashboard_shown(),
     }))
 }
 
@@ -364,7 +412,8 @@ fn check_catalog(store: &Store, user: &User, access: &Access<PartsRight>, part: 
         return Err(bad(format!("catalog '{name}' of part '{}' not found: create the catalog first", part.number)));
     };
     let unchanged = old.is_some_and(|o| o.catalog.trim().eq_ignore_ascii_case(name));
-    if !unchanged && !access.allows(catalog.manufacturer.trim(), PartsRight::EditParts) {
+    let scopes = scopes(&catalog.manufacturer, &catalog.id);
+    if !unchanged && !access.allows_on(&scopes.iter().map(String::as_str).collect::<Vec<_>>(), PartsRight::EditParts) {
         return Err(forbidden(format!("user '{}' may not add parts to catalog '{name}'", user.name)));
     }
     Ok(())
@@ -409,10 +458,15 @@ async fn put_part(
     check_part(&part)?;
     let mut store = store(&state);
     let old = store.get(&number)?;
+    // `If-None-Match: *`: only a new part (the web page's *New part*).
+    let only_new = headers.get(header::IF_NONE_MATCH).is_some_and(|v| v.as_bytes() == b"*");
+    if only_new && old.is_some() {
+        return Err(AppError(StatusCode::CONFLICT, format!("part '{number}' already exists")));
+    }
     check_catalog(&store, &user, &access, &part, old.as_ref())?;
-    need(&user, &access, PartsRight::EditParts, &part.manufacturer)?;
+    need_on(&user, &access, PartsRight::EditParts, &part.manufacturer, &part.catalog)?;
     if let Some(old) = &old {
-        need(&user, &access, PartsRight::EditParts, &old.manufacturer)?;
+        need_on(&user, &access, PartsRight::EditParts, &old.manufacturer, &old.catalog)?;
     }
     check_new_number(&store, &number)?;
     if !part.successor.is_empty() && store.get(&part.successor)?.is_none() {
@@ -427,7 +481,7 @@ async fn delete_part(State(state): State<AppState>, headers: HeaderMap, Path(num
     let (user, access) = user(&state, &headers)?;
     let mut store = store(&state);
     let old = part_of(&store, &number)?;
-    need(&user, &access, PartsRight::DeleteParts, &old.manufacturer)?;
+    need_on(&user, &access, PartsRight::DeleteParts, &old.manufacturer, &old.catalog)?;
     store.delete(&user.name, &number)?;
     log::info!("deleted part {number} ({})", user.name);
     Ok(StatusCode::NO_CONTENT)
@@ -483,7 +537,8 @@ async fn attach(
         return Err(bad("the file is empty"));
     }
     let mut store = store(&state);
-    need(&user, &access, PartsRight::EditParts, &part_of(&store, &number)?.manufacturer)?;
+    let old = part_of(&store, &number)?;
+    need_on(&user, &access, PartsRight::EditParts, &old.manufacturer, &old.catalog)?;
     let part = store.attach(&user.name, &number, name, q.kind, body.to_vec())?.ok_or_else(|| not_found(format!("part '{number}' not found")))?;
     log::info!("attached {name} to part {number} ({})", user.name);
     Ok(Json(part))
@@ -492,7 +547,8 @@ async fn attach(
 async fn detach(State(state): State<AppState>, headers: HeaderMap, Path((number, id)): Path<(String, String)>) -> Result<Json<Part>> {
     let (user, access) = user(&state, &headers)?;
     let mut store = store(&state);
-    need(&user, &access, PartsRight::EditParts, &part_of(&store, &number)?.manufacturer)?;
+    let old = part_of(&store, &number)?;
+    need_on(&user, &access, PartsRight::EditParts, &old.manufacturer, &old.catalog)?;
     store.detach(&user.name, &number, &id)?.map(Json).ok_or_else(|| not_found(format!("part '{number}' has no file '{id}'")))
 }
 
@@ -540,9 +596,9 @@ async fn import_parts(State(state): State<AppState>, headers: HeaderMap, body: S
     for p in &mut parts {
         let old = store.get(&p.number)?;
         check_catalog(&store, &user, &access, p, old.as_ref())?;
-        need(&user, &access, PartsRight::EditParts, &p.manufacturer)?;
+        need_on(&user, &access, PartsRight::EditParts, &p.manufacturer, &p.catalog)?;
         if let Some(old) = old {
-            need(&user, &access, PartsRight::EditParts, &old.manufacturer)?;
+            need_on(&user, &access, PartsRight::EditParts, &old.manufacturer, &old.catalog)?;
             // CSV, BMEcat and EPLAN XML carry no files: the stored ones stay.
             if p.attachments.is_empty() {
                 p.attachments = old.attachments;
@@ -558,22 +614,39 @@ async fn import_parts(State(state): State<AppState>, headers: HeaderMap, body: S
     Ok(Json(ImportResult { imported, revision: store.revision }))
 }
 
+/// Who writes an export: this server, its version and the revision of the database.
+fn export_info(store: &Store) -> ExportInfo {
+    ExportInfo::new(SERVER_NAME, env!("CARGO_PKG_VERSION"), store.revision, now())
+}
+
+/// Headers of an export: its type, its file name and the version of the server.
+fn export_headers(content_type: &str, file_name: &str) -> [(header::HeaderName, String); 3] {
+    [
+        (header::CONTENT_TYPE, content_type.to_string()),
+        (header::CONTENT_DISPOSITION, format!("attachment; filename=\"{file_name}\"")),
+        (header::HeaderName::from_static(SERVER_VERSION_HEADER), env!("CARGO_PKG_VERSION").to_string()),
+    ]
+}
+
 /// All parts, or those the query of the address selects (text, groups, manufacturer,
-/// catalog, lifecycle, sort order).
+/// catalog, lifecycle, sort order), after a line with the export information.
 async fn export_csv(State(state): State<AppState>, headers: HeaderMap, Query(mut query): Query<PartQuery>) -> Result<impl IntoResponse> {
     reader(&state, &headers)?;
     query.brief = false;
-    let parts = store(&state).list(&query)?.1;
-    Ok(([(header::CONTENT_TYPE, "text/csv; charset=utf-8"), (header::CONTENT_DISPOSITION, "attachment; filename=\"parts.csv\"")], to_csv(&parts)))
+    let store = store(&state);
+    let parts = store.list(&query)?.1;
+    let csv = format!("{}\r\n{}", export_info(&store).csv_comment(), to_csv(&parts));
+    Ok((export_headers("text/csv; charset=utf-8", "parts.csv"), csv))
 }
 
-/// The parts of [`export_csv`] as a JSON part list (with models), as `/import` reads it.
+/// The parts of [`export_csv`] as a [`PartsExport`] (with models), as `/import` reads it.
 async fn export_json(State(state): State<AppState>, headers: HeaderMap, Query(mut query): Query<PartQuery>) -> Result<impl IntoResponse> {
     reader(&state, &headers)?;
     query.brief = false;
-    let parts = store(&state).list(&query)?.1;
-    let json = serde_json::to_vec(&parts).map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
-    Ok(([(header::CONTENT_TYPE, "application/json"), (header::CONTENT_DISPOSITION, "attachment; filename=\"parts.json\"")], json))
+    let store = store(&state);
+    let export = PartsExport { export: export_info(&store), parts: store.list(&query)?.1 };
+    let json = serde_json::to_vec(&export).map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    Ok((export_headers("application/json", "parts.json"), json))
 }
 
 /// The whole database as a SQLite file ([`Store::backup`]).
@@ -582,13 +655,12 @@ async fn backup(State(state): State<AppState>, headers: HeaderMap) -> Result<Res
     let copy = state.clone();
     let (revision, data) = tokio::task::spawn_blocking(move || {
         let store = store(&copy);
-        store.backup().map(|data| (store.revision, data))
+        store.backup(&export_info(&store)).map(|data| (store.revision, data))
     })
     .await
     .map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))??;
     log::info!("database backup of revision {revision} downloaded ({})", admin.name);
-    let disposition = format!("attachment; filename=\"parts-db-backup-r{revision}.sqlite\"");
-    Ok(([(header::CONTENT_TYPE, "application/vnd.sqlite3".to_string()), (header::CONTENT_DISPOSITION, disposition)], data).into_response())
+    Ok((export_headers("application/vnd.sqlite3", &format!("parts-db-backup-r{revision}.sqlite")), data).into_response())
 }
 
 async fn catalogs(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<Catalog>>> {
@@ -616,9 +688,9 @@ async fn put_catalog(State(state): State<AppState>, headers: HeaderMap, Path(id)
         catalog.name = catalog.id.clone();
     }
     let mut store = store(&state);
-    need(&user, &access, PartsRight::EditCatalogs, &catalog.manufacturer)?;
+    need_on(&user, &access, PartsRight::EditCatalogs, &catalog.manufacturer, &id)?;
     if let Some(old) = store.catalog(&id)? {
-        need(&user, &access, PartsRight::EditCatalogs, &old.manufacturer)?;
+        need_on(&user, &access, PartsRight::EditCatalogs, &old.manufacturer, &old.id)?;
         catalog.id = old.id;
     }
     log::info!("saved catalog {id} ({})", user.name);
@@ -649,13 +721,95 @@ async fn delete_catalog(State(state): State<AppState>, headers: HeaderMap, Path(
     let (user, access) = user(&state, &headers)?;
     let mut store = store(&state);
     let old = store.catalog(&id)?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
-    need(&user, &access, PartsRight::EditCatalogs, &old.manufacturer)?;
+    need_on(&user, &access, PartsRight::EditCatalogs, &old.manufacturer, &old.id)?;
     if old.parts > 0 {
         return Err(AppError(StatusCode::CONFLICT, format!("catalog '{id}' still has {} parts", old.parts)));
     }
     store.delete_catalog(&old.id)?;
     log::info!("deleted catalog {id} ({})", user.name);
     Ok(StatusCode::NO_CONTENT)
+}
+
+/// Largest logo of a catalog.
+const MAX_LOGO_SIZE: usize = 512 * 1024;
+
+/// Media type of a logo: raster images and SVG (by name, checked against the content).
+fn logo_type(name: &str, data: &[u8]) -> Option<&'static str> {
+    let kind = content_type(name);
+    let text = || String::from_utf8_lossy(&data[..data.len().min(1024)]).trim_start_matches('\u{feff}').trim_start().to_lowercase();
+    let ok = match kind {
+        "image/png" => data.starts_with(b"\x89PNG"),
+        "image/jpeg" => data.starts_with(b"\xff\xd8"),
+        "image/gif" => data.starts_with(b"GIF8"),
+        "image/webp" => data.len() > 12 && &data[..4] == b"RIFF" && &data[8..12] == b"WEBP",
+        "image/svg+xml" => text().starts_with("<svg") || text().starts_with("<?xml"),
+        _ => false,
+    };
+    ok.then_some(kind)
+}
+
+async fn catalog_logo(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>) -> Result<Response> {
+    reader(&state, &headers)?;
+    let store = store(&state);
+    let catalog = store.catalog(&id)?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
+    let logo = catalog.logo.ok_or_else(|| not_found(format!("catalog '{id}' has no logo")))?;
+    let file = store.file(&logo.id)?.ok_or_else(|| not_found(format!("catalog '{id}' has no logo")))?;
+    let mut resp = ([(header::CONTENT_TYPE, content_type(&logo.name).to_string()), (header::CACHE_CONTROL, "max-age=86400".to_string())], file.data).into_response();
+    // An SVG opened on its own runs no scripts on the server's address.
+    resp.headers_mut().insert(header::CONTENT_SECURITY_POLICY, header::HeaderValue::from_static("default-src 'none'; style-src 'unsafe-inline'; sandbox"));
+    Ok(resp)
+}
+
+/// Sets the logo of a catalog (the body; `?name=` gives the type): who may change the
+/// catalog may change its logo.
+async fn put_catalog_logo(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>, Query(q): Query<AttachQuery>, body: Bytes) -> Result<Json<Catalog>> {
+    let (user, access) = user(&state, &headers)?;
+    let name = file_name(&q.name);
+    if body.is_empty() {
+        return Err(bad("the file is empty"));
+    }
+    if body.len() > MAX_LOGO_SIZE {
+        return Err(AppError(StatusCode::PAYLOAD_TOO_LARGE, format!("a logo has at most {} kB", MAX_LOGO_SIZE / 1024)));
+    }
+    if logo_type(name, &body).is_none() {
+        return Err(bad("a logo is a PNG, JPEG, GIF, WebP or SVG image"));
+    }
+    let mut store = store(&state);
+    let old = store.catalog(&id)?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
+    need_on(&user, &access, PartsRight::EditCatalogs, &old.manufacturer, &old.id)?;
+    let catalog = store.set_logo(&old.id, Some((name, body.to_vec())))?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
+    log::info!("logo of catalog {} changed ({})", catalog.id, user.name);
+    Ok(Json(catalog))
+}
+
+async fn delete_catalog_logo(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>) -> Result<Json<Catalog>> {
+    let (user, access) = user(&state, &headers)?;
+    let mut store = store(&state);
+    let old = store.catalog(&id)?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
+    need_on(&user, &access, PartsRight::EditCatalogs, &old.manufacturer, &old.id)?;
+    let catalog = store.set_logo(&old.id, None)?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
+    log::info!("logo of catalog {} removed ({})", catalog.id, user.name);
+    Ok(Json(catalog))
+}
+
+/// The grants on a catalog ([`catalog_scope`]): rights of users and groups on the
+/// catalog and its parts, whatever their manufacturer.
+async fn catalog_grants(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>) -> Result<Json<Vec<Grant>>> {
+    with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let catalog = store(&state).catalog(&id)?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
+    Ok(Json(access_file(&state).config.policy.grants_on(&catalog_scope(&catalog.id))))
+}
+
+async fn set_catalog_grants(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>, Json(grants): Json<Vec<Grant>>) -> Result<Json<Vec<Grant>>> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let catalog = store(&state).catalog(&id)?.ok_or_else(|| not_found(format!("catalog '{id}' not found")))?;
+    let scope = catalog_scope(&catalog.id);
+    let mut file = access_file(&state);
+    let mut policy = file.config.policy.clone();
+    policy.set_grants_on(&scope, grants);
+    file.set_policy(policy).map_err(bad)?;
+    log::info!("grants on catalog {} changed ({})", catalog.id, admin.name);
+    Ok(Json(file.config.policy.grants_on(&scope)))
 }
 
 /// Signs in with a local account or, if the server has none of that name, with its
@@ -731,9 +885,8 @@ async fn login(State(state): State<AppState>, ClientIp(client): ClientIp, Json(l
     drop(store);
     log::info!("{} signed in", user.name);
     let file = access_file(&state);
-    let policy = &file.config.policy;
-    let access = policy.access(&user.identity(), &user.grants()).with(policy.anonymous_access());
-    Ok(Json(Session { token, user, access }))
+    let access = access_of(&file.config, &user);
+    Ok(Json(Session { token, user: groups::shown(&user, &file.config.groups), access }))
 }
 
 /// Checks a password (Argon2) without blocking the other requests.
@@ -768,7 +921,11 @@ async fn register(State(state): State<AppState>, ClientIp(client): ClientIp, Jso
     throttle().failed(REGISTRATIONS, client, Instant::now());
     let taken = || AppError(StatusCode::CONFLICT, format!("the name '{name}' is taken"));
     let identity = openecraft_parts::access::Identity { name: name.clone(), ..Default::default() };
-    if access_file(&state).config.policy.grants.iter().any(|g| identity.is(&g.subject)) {
+    let promised = {
+        let file = access_file(&state);
+        file.config.policy.grants.iter().any(|g| identity.is(&g.subject)) || file.config.groups.iter().any(|g| g.has(&name))
+    };
+    if promised {
         return Err(taken());
     }
     if store(&state).account(&name).is_some() {
@@ -796,9 +953,7 @@ async fn register(State(state): State<AppState>, ClientIp(client): ClientIp, Jso
         return Ok((StatusCode::ACCEPTED, Json(Session { token, user, access: Default::default() })));
     }
     log::info!("user {name} registered");
-    let file = access_file(&state);
-    let policy = &file.config.policy;
-    let access = policy.access(&user.identity(), &user.grants()).with(policy.anonymous_access());
+    let access = access_of(&access_file(&state).config, &user);
     Ok((StatusCode::OK, Json(Session { token, user, access })))
 }
 
@@ -868,24 +1023,37 @@ async fn set_favorites(State(state): State<AppState>, headers: HeaderMap, Json(m
     Ok(Json(kept))
 }
 
+/// The defined groups (cloned, so that the access settings are not locked meanwhile).
+fn defined_groups(state: &AppState) -> Vec<Group> {
+    access_file(state).config.groups.clone()
+}
+
 async fn users(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<UserEntry>>> {
     with_right(&state, &headers, PartsRight::Administer, SERVER)?;
     let now = openecraft_auth::unix_now();
+    let defined = defined_groups(&state);
     let entry = |a: &Account| {
         let alive = || a.sessions.iter().filter(|s| s.alive(now));
-        UserEntry { user: a.user.clone(), sessions: alive().count(), signed_in: alive().map(|s| s.started).max().unwrap_or(0) }
+        UserEntry {
+            user: groups::shown(&a.user, &defined),
+            sessions: alive().count(),
+            signed_in: alive().map(|s| s.started).max().unwrap_or(0),
+            local_groups: groups_of(&defined, &a.user.name),
+        }
     };
     Ok(Json(store(&state).accounts().iter().map(entry).collect()))
 }
 
-/// True if a change (the users `after` under `policy`) would leave nobody who can
-/// manage users where somebody can now (without server token, nobody else could).
-/// Administrators by role, grant or group count.
-fn loses_admin(state: &AppState, store: &Store, policy: &Policy<PartsRight>, after: &[User]) -> bool {
-    let admin = |policy: &Policy<PartsRight>, u: &User| !u.pending && policy.access(&u.identity(), &u.grants()).allows(SERVER, PartsRight::Administer);
+/// True if a change (the users `after` under `policy` and `defined` groups) would
+/// leave nobody who can manage users where somebody can now (without server token,
+/// nobody else could). Administrators by role, grant or group count.
+fn loses_admin(state: &AppState, store: &Store, policy: &Policy<PartsRight>, defined: &[Group], after: &[User]) -> bool {
+    let admin = |policy: &Policy<PartsRight>, defined: &[Group], u: &User| {
+        !u.pending && policy.access(&with_groups(u.identity(), defined), &u.grants()).allows(SERVER, PartsRight::Administer)
+    };
     let file = access_file(state);
-    let now = &file.config.policy;
-    state.token.is_none() && store.accounts().iter().any(|a| admin(now, &a.user)) && !after.iter().any(|u| admin(policy, u))
+    let now = &file.config;
+    state.token.is_none() && store.accounts().iter().any(|a| admin(&now.policy, &now.groups, &a.user)) && !after.iter().any(|u| admin(policy, defined, u))
 }
 
 fn user_list(store: &Store) -> Vec<User> {
@@ -912,13 +1080,23 @@ async fn put_user(State(state): State<AppState>, headers: HeaderMap, Path(name):
     }
     account.user.role = update.role;
     account.user.manufacturer = update.manufacturer.trim().to_string();
-    if let Some(groups) = update.groups.filter(|_| account.user.provider.is_empty()) {
-        account.user.groups = groups.into_iter().map(|g| g.trim().to_string()).filter(|g| !g.is_empty()).collect();
+    let (policy, mut defined) = {
+        let file = access_file(&state);
+        (file.config.policy.clone(), file.config.groups.clone())
+    };
+    // The groups: memberships in the defined groups; names of directory groups stay
+    // on local accounts (directory users get theirs from the directory).
+    let groups_changed = update.groups.is_some();
+    if let Some(groups) = update.groups {
+        let groups: Vec<String> = groups.into_iter().map(|g| g.trim().to_string()).filter(|g| !g.is_empty()).collect();
+        defined = groups::set_memberships(&defined, &account.user.name, &groups);
+        if account.user.provider.is_empty() {
+            account.user.groups = groups.into_iter().filter(|g| groups::is_directory_group(g)).collect();
+        }
     }
     let mut after: Vec<User> = user_list(&store).into_iter().filter(|u| !u.name.eq_ignore_ascii_case(&name)).collect();
     after.push(account.user.clone());
-    let policy = access_file(&state).config.policy.clone();
-    if loses_admin(&state, &store, &policy, &after) {
+    if loses_admin(&state, &store, &policy, &defined, &after) {
         return Err(AppError(StatusCode::CONFLICT, "the last administrator cannot be demoted".into()));
     }
     if !update.password.is_empty() {
@@ -928,8 +1106,11 @@ async fn put_user(State(state): State<AppState>, headers: HeaderMap, Path(name):
     }
     let user = account.user.clone();
     store.put_account(account)?;
+    if groups_changed {
+        access_file(&state).set_groups(defined.clone()).map_err(bad)?;
+    }
     log::info!("saved user {} ({})", user.name, admin.name);
-    Ok(Json(user))
+    Ok(Json(groups::shown(&user, &defined)))
 }
 
 async fn delete_user(State(state): State<AppState>, headers: HeaderMap, Path(name): Path<String>) -> Result<StatusCode> {
@@ -937,11 +1118,18 @@ async fn delete_user(State(state): State<AppState>, headers: HeaderMap, Path(nam
     let mut store = store(&state);
     let account = store.account(&name).cloned().ok_or_else(|| not_found(format!("user '{name}' not found")))?;
     let after: Vec<User> = user_list(&store).into_iter().filter(|u| !u.name.eq_ignore_ascii_case(&account.user.name)).collect();
-    let policy = access_file(&state).config.policy.clone();
-    if loses_admin(&state, &store, &policy, &after) {
+    let (policy, defined) = {
+        let file = access_file(&state);
+        (file.config.policy.clone(), file.config.groups.clone())
+    };
+    if loses_admin(&state, &store, &policy, &defined, &after) {
         return Err(AppError(StatusCode::CONFLICT, "the last administrator cannot be deleted".into()));
     }
     store.delete_account(&account.user.name)?;
+    // A new user of the name does not inherit the memberships.
+    if !groups_of(&defined, &account.user.name).is_empty() {
+        access_file(&state).set_groups(groups::without_member(&defined, &account.user.name)).map_err(bad)?;
+    }
     log::info!("deleted user {} ({})", account.user.name, admin.name);
     Ok(StatusCode::NO_CONTENT)
 }
@@ -995,7 +1183,7 @@ async fn save_access(State(state): State<AppState>, headers: HeaderMap, Json(pol
     let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
     {
         let store = store(&state);
-        if loses_admin(&state, &store, &policy, &user_list(&store)) {
+        if loses_admin(&state, &store, &policy, &defined_groups(&state), &user_list(&store)) {
             return Err(AppError(StatusCode::CONFLICT, "the access settings would leave nobody who manages users".into()));
         }
     }
@@ -1003,6 +1191,207 @@ async fn save_access(State(state): State<AppState>, headers: HeaderMap, Json(pol
     file.set_policy(policy).map_err(bad)?;
     log::info!("access settings changed ({})", admin.name);
     Ok(Json(file.settings()))
+}
+
+async fn list_groups(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<Group>>> {
+    with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    Ok(Json(defined_groups(&state)))
+}
+
+/// Stores the groups unless they leave nobody who manages users.
+fn save_groups(state: &AppState, defined: Vec<Group>) -> Result<()> {
+    {
+        let store = store(state);
+        let policy = access_file(state).config.policy.clone();
+        if loses_admin(state, &store, &policy, &defined, &user_list(&store)) {
+            return Err(AppError(StatusCode::CONFLICT, "the groups would leave nobody who manages users".into()));
+        }
+    }
+    access_file(state).set_groups(defined).map_err(bad)
+}
+
+/// Creates or changes a group (its description and members).
+async fn put_group(State(state): State<AppState>, headers: HeaderMap, Path(name): Path<String>, Json(mut group): Json<Group>) -> Result<Json<Group>> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    if group.name.trim().is_empty() {
+        group.name = name.clone();
+    }
+    if !group.name.trim().eq_ignore_ascii_case(name.trim()) {
+        return Err(bad("group name in URL and body differ"));
+    }
+    let mut group = group.normalized().map_err(bad)?;
+    let mut defined = defined_groups(&state);
+    match defined.iter_mut().find(|g| g.name.eq_ignore_ascii_case(&group.name)) {
+        Some(old) => {
+            group.name = old.name.clone();
+            *old = group.clone();
+        }
+        None => defined.push(group.clone()),
+    }
+    save_groups(&state, defined)?;
+    log::info!("saved group {} ({})", group.name, admin.name);
+    Ok(Json(group))
+}
+
+/// Deletes a group and the grants to it.
+async fn delete_group(State(state): State<AppState>, headers: HeaderMap, Path(name): Path<String>) -> Result<StatusCode> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let mut defined = defined_groups(&state);
+    let Some(i) = defined.iter().position(|g| g.name.eq_ignore_ascii_case(name.trim())) else {
+        return Err(not_found(format!("group '{name}' not found")));
+    };
+    let group = defined.remove(i);
+    let mut policy = access_file(&state).config.policy.clone();
+    policy.grants.retain(|g| !matches!(&g.subject, Subject::Group(n) if n.trim().eq_ignore_ascii_case(&group.name)));
+    {
+        let store = store(&state);
+        if loses_admin(&state, &store, &policy, &defined, &user_list(&store)) {
+            return Err(AppError(StatusCode::CONFLICT, "the groups would leave nobody who manages users".into()));
+        }
+    }
+    let mut file = access_file(&state);
+    file.set_policy(policy).map_err(bad)?;
+    file.set_groups(defined).map_err(bad)?;
+    log::info!("deleted group {} ({})", group.name, admin.name);
+    Ok(StatusCode::NO_CONTENT)
+}
+
+/// A directory as administrators see it: without the password of its service account.
+#[derive(Serialize)]
+struct DirectoryEntry {
+    #[serde(flatten)]
+    directory: Directory,
+    /// The password of the service account is set (in the file or its variable).
+    password_set: bool,
+}
+
+fn directory_entry(d: &Directory) -> DirectoryEntry {
+    DirectoryEntry { password_set: d.has_bind_password(), directory: Directory { bind_password: String::new(), ..d.clone() } }
+}
+
+async fn directories(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Vec<DirectoryEntry>>> {
+    with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    Ok(Json(access_file(&state).config.directories.iter().map(directory_entry).collect()))
+}
+
+/// The directory of a request with the id of the address; an empty password is the
+/// stored one.
+fn directory_of(state: &AppState, id: &str, mut d: Directory) -> Result<Directory> {
+    if d.id.trim().is_empty() {
+        d.id = id.to_string();
+    }
+    if !d.id.trim().eq_ignore_ascii_case(id.trim()) {
+        return Err(bad("directory id in URL and body differ"));
+    }
+    d.id = d.id.trim().to_string();
+    if d.bind_password.is_empty() {
+        if let Some(old) = access_file(state).config.directories.iter().find(|o| o.id.trim().eq_ignore_ascii_case(&d.id)) {
+            d.bind_password = old.bind_password.clone();
+        }
+    }
+    Ok(d)
+}
+
+/// Creates or changes a directory users sign in with.
+async fn put_directory(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>, Json(d): Json<Directory>) -> Result<Json<DirectoryEntry>> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let d = directory_of(&state, &id, d)?;
+    let mut file = access_file(&state);
+    let mut list = file.config.directories.clone();
+    match list.iter_mut().find(|o| o.id.trim().eq_ignore_ascii_case(&d.id)) {
+        Some(old) => *old = d.clone(),
+        None => list.push(d.clone()),
+    }
+    file.set_directories(list).map_err(bad)?;
+    log::info!("saved directory {} ({})", d.id, admin.name);
+    Ok(Json(directory_entry(&d)))
+}
+
+/// Removes a directory; its users keep their accounts but cannot sign in.
+async fn delete_directory(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>) -> Result<StatusCode> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let mut file = access_file(&state);
+    let mut list = file.config.directories.clone();
+    let before = list.len();
+    list.retain(|d| !d.id.trim().eq_ignore_ascii_case(id.trim()));
+    if list.len() == before {
+        return Err(not_found(format!("directory '{id}' not found")));
+    }
+    file.set_directories(list).map_err(bad)?;
+    log::info!("deleted directory {id} ({})", admin.name);
+    Ok(StatusCode::NO_CONTENT)
+}
+
+/// Settings of a directory to test and, optionally, a user to sign in with.
+#[derive(Deserialize, Default)]
+#[serde(default)]
+struct DirectoryTestRequest {
+    directory: Directory,
+    name: String,
+    password: String,
+}
+
+/// Tests the settings of a directory (saved or not): connects and binds with the
+/// service account or, with a user, signs them in and reads their groups.
+async fn test_directory(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>, Json(req): Json<DirectoryTestRequest>) -> Result<Json<DirectoryTest>> {
+    with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    let d = directory_of(&state, &id, req.directory)?;
+    let result = if req.name.trim().is_empty() {
+        d.test_connection().await.map(|message| (message, None))
+    } else {
+        d.authenticate(&req.name, &req.password).await.map(|i| (format!("signed in as {} with {} groups", i.name, i.groups.len()), Some(i)))
+    };
+    Ok(Json(match result {
+        Ok((message, identity)) => DirectoryTest { ok: true, message, identity },
+        Err(e) => {
+            let message = match e {
+                SignInError::Unknown => "the directory does not know the user".into(),
+                SignInError::Refused => "wrong password, or the user may not sign in".into(),
+                SignInError::Unavailable(e) => e,
+            };
+            DirectoryTest { ok: false, message, identity: None }
+        }
+    }))
+}
+
+/// Figures and distributions of the parts for the dashboard of the web page; the
+/// users per role for administrators.
+async fn dashboard(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<Dashboard>> {
+    reader(&state, &headers)?;
+    if !state.dashboard_shown() {
+        return Err(not_found("the dashboard is switched off"));
+    }
+    let admin = caller(&state, &headers).access.allows(SERVER, PartsRight::Administer);
+    let store = store(&state);
+    let mut d = openecraft_parts::dashboard::dashboard(&store.all()?, now());
+    d.catalogs = store.catalogs()?.len();
+    d.revision = store.revision;
+    if admin {
+        let users = store.accounts();
+        d.users = Role::ALL.iter().map(|r| openecraft_parts::portal::FacetValue { value: format!("{r:?}"), count: users.iter().filter(|a| a.user.role == *r).count() }).collect();
+    }
+    Ok(Json(d))
+}
+
+fn dashboard_state(state: &AppState) -> DashboardSettings {
+    DashboardSettings { enabled: state.dashboard_shown(), fixed: state.dashboard.is_some() }
+}
+
+async fn dashboard_settings(State(state): State<AppState>, headers: HeaderMap) -> Result<Json<DashboardSettings>> {
+    with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    Ok(Json(dashboard_state(&state)))
+}
+
+async fn set_dashboard_settings(State(state): State<AppState>, headers: HeaderMap, Json(s): Json<DashboardSettings>) -> Result<Json<DashboardSettings>> {
+    let (admin, _) = with_right(&state, &headers, PartsRight::Administer, SERVER)?;
+    if state.dashboard.is_some_and(|fixed| fixed != s.enabled) {
+        return Err(AppError(StatusCode::CONFLICT, "the dashboard is set by the start options of the server (--dashboard)".into()));
+    }
+    if state.dashboard.is_none() {
+        access_file(&state).set_dashboard(s.enabled).map_err(|e| AppError(StatusCode::INTERNAL_SERVER_ERROR, e))?;
+    }
+    log::info!("dashboard {} ({})", if s.enabled { "shown" } else { "hidden" }, admin.name);
+    Ok(Json(dashboard_state(&state)))
 }
 
 #[cfg(test)]

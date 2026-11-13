@@ -721,9 +721,18 @@ async fn exports_and_backups() {
     let app = app(Some(TOKEN));
     let eve = sign_up(&app, "eve", "Editor", "").await;
     call(&app, "PUT", "/api/v1/parts/X.1", Some(&eve), r#"{"manufacturer": "X", "description": "First"}"#).await;
-    let parts: Vec<Part> = json(&app, "GET", "/api/v1/export.json?manufacturer=X", None, "").await;
-    assert_eq!(parts.len(), 1);
-    assert_eq!(parts[0].description, "First");
+    let export: PartsExport = json(&app, "GET", "/api/v1/export.json?manufacturer=X", None, "").await;
+    assert_eq!(export.parts.len(), 1);
+    assert_eq!(export.parts[0].description, "First");
+    // Exports name the server and its version, for conversions by later versions.
+    assert_eq!((export.export.server.as_str(), export.export.server_version.as_str()), (SERVER_NAME, env!("CARGO_PKG_VERSION")));
+    assert_eq!(export.export.format_version, openecraft_parts::api::EXPORT_FORMAT_VERSION);
+    assert!(export.export.revision > 0 && export.export.exported > 0);
+    let (_, headers, csv) = send(&app, "GET", "/api/v1/export.csv?manufacturer=X", None, Vec::new()).await;
+    assert_eq!(headers[SERVER_VERSION_HEADER], env!("CARGO_PKG_VERSION"));
+    let csv = String::from_utf8(csv).unwrap();
+    assert_eq!(ExportInfo::from_csv(&csv).unwrap().server_version, env!("CARGO_PKG_VERSION"));
+    assert_eq!(openecraft_parts::from_csv(&csv).unwrap().len(), 1);
     // The export imports again.
     let all = call(&app, "GET", "/api/v1/export.json", None, "").await.1;
     let imported: ImportResult = json(&app, "POST", "/api/v1/import", Some(&eve), &all).await;
@@ -738,6 +747,9 @@ async fn exports_and_backups() {
     let path = std::env::temp_dir().join(format!("openecraft-test-{}-{nanos}", std::process::id())).join("backup.sqlite");
     std::fs::create_dir_all(path.parent().unwrap()).unwrap();
     std::fs::write(&path, data).unwrap();
+    let meta = crate::storage::sqlite::SqliteBackend::open(&path).unwrap();
+    assert_eq!(meta.meta("export.server_version").unwrap().as_deref(), Some(env!("CARGO_PKG_VERSION")));
+    drop(meta);
     let restored = Store::open(crate::storage::StorageKind::Sqlite, &path).unwrap();
     assert_eq!(restored.get("X.1").unwrap().unwrap().description, "First");
     assert!(restored.account("eve").is_some());
@@ -843,4 +855,228 @@ async fn waiting_administrators_do_not_count() {
     let app = router(state);
     let s: Session = json(&app, "POST", "/api/v1/login", None, r#"{"name": "root", "password": "root-password"}"#).await;
     assert_eq!(call(&app, "DELETE", "/api/v1/users/root", Some(&s.token), "").await.0, StatusCode::CONFLICT);
+}
+
+#[tokio::test]
+async fn groups_of_users_get_grants() {
+    let app = app(Some(TOKEN));
+    let anna = sign_up(&app, "anna", "Reader", "").await;
+    assert_eq!(call(&app, "PUT", "/api/v1/groups/Wiring", Some(&anna), r#"{"members": ["anna"]}"#).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "PUT", "/api/v1/groups/corp:x", Some(TOKEN), "{}").await.0, StatusCode::BAD_REQUEST);
+    assert_eq!(call(&app, "PUT", "/api/v1/groups/Wiring", Some(TOKEN), r#"{"name": "Other"}"#).await.0, StatusCode::BAD_REQUEST);
+    let group: Group = json(&app, "PUT", "/api/v1/groups/Wiring", Some(TOKEN), r#"{"description": "Panel shop", "members": ["anna", "ANNA", " "]}"#).await;
+    assert_eq!(group.members, ["anna"]);
+    let policy = r#"{"anonymous": "reader", "grants": [{"subject": {"group": "wiring"}, "role": "manufacturer", "scope": "ACME"}]}"#;
+    let _: Settings<PartsRight> = json(&app, "PUT", "/api/v1/access", Some(TOKEN), policy).await;
+    let info: ServerInfo = json(&app, "GET", "/api/v1/info", Some(&anna), "").await;
+    assert!(info.may_edit("ACME") && !info.may_edit("Other"));
+    assert_eq!(info.user.unwrap().groups, ["Wiring"]);
+    let users: Vec<UserEntry> = json(&app, "GET", "/api/v1/users", Some(TOKEN), "").await;
+    let entry = users.iter().find(|u| u.user.name == "anna").unwrap();
+    assert_eq!((entry.local_groups.clone(), entry.user.groups.clone()), (vec!["Wiring".to_string()], vec!["Wiring".to_string()]));
+
+    // The groups of the user form are memberships; new names become groups.
+    let body = r#"{"role": "Reader", "manufacturer": "", "password": "", "groups": ["Testing"]}"#;
+    let user: User = json(&app, "PUT", "/api/v1/users/anna", Some(TOKEN), body).await;
+    assert_eq!(user.groups, ["Testing"]);
+    let groups: Vec<Group> = json(&app, "GET", "/api/v1/groups", Some(TOKEN), "").await;
+    assert_eq!(groups.iter().map(|g| (g.name.as_str(), g.members.len())).collect::<Vec<_>>(), [("Wiring", 0), ("Testing", 1)]);
+    assert!(!json::<ServerInfo>(&app, "GET", "/api/v1/info", Some(&anna), "").await.may_edit("ACME"));
+
+    // Members of a group cannot be registered by others; deleted users leave their groups.
+    assert_eq!(call(&app, "DELETE", "/api/v1/users/anna", Some(TOKEN), "").await.0, StatusCode::NO_CONTENT);
+    let groups: Vec<Group> = json(&app, "GET", "/api/v1/groups", Some(TOKEN), "").await;
+    assert!(groups.iter().all(|g| g.members.is_empty()));
+    // Deleting a group deletes the grants to it.
+    assert_eq!(call(&app, "DELETE", "/api/v1/groups/WIRING", Some(TOKEN), "").await.0, StatusCode::NO_CONTENT);
+    assert_eq!(call(&app, "DELETE", "/api/v1/groups/Wiring", Some(TOKEN), "").await.0, StatusCode::NOT_FOUND);
+    let settings: Settings<PartsRight> = json(&app, "GET", "/api/v1/access", Some(TOKEN), "").await;
+    assert!(settings.policy.grants.is_empty());
+    assert_eq!(settings.groups.len(), 1);
+}
+
+#[tokio::test]
+async fn members_of_groups_cannot_be_registered() {
+    let state = state(None);
+    access_file(&state).set_registration(true, false).unwrap();
+    access_file(&state).set_groups(vec![Group { name: "Wiring".into(), members: vec!["max".into()], ..Default::default() }]).unwrap();
+    let app = router(state);
+    let (status, _) = call(&app, "POST", "/api/v1/register", None, r#"{"name": "MAX", "password": "password-max"}"#).await;
+    assert_eq!(status, StatusCode::CONFLICT);
+}
+
+#[tokio::test]
+async fn the_last_administrator_by_group_stays() {
+    let state = state(None);
+    {
+        let password = hash_password("password-root").unwrap();
+        store(&state).put_account(Account { user: User { name: "root".into(), role: Role::Reader, ..Default::default() }, password, ..Default::default() }).unwrap();
+    }
+    access_file(&state).set_groups(vec![Group { name: "Admins".into(), members: vec!["root".into()], ..Default::default() }]).unwrap();
+    let policy: Policy<PartsRight> = serde_json::from_str(r#"{"grants": [{"subject": {"group": "Admins"}, "role": "admin"}]}"#).unwrap();
+    access_file(&state).set_policy(policy).unwrap();
+    let app = router(state);
+    let root: Session = json(&app, "POST", "/api/v1/login", None, r#"{"name": "root", "password": "password-root"}"#).await;
+    assert_eq!(call(&app, "PUT", "/api/v1/groups/Admins", Some(&root.token), r#"{"members": []}"#).await.0, StatusCode::CONFLICT);
+    assert_eq!(call(&app, "DELETE", "/api/v1/groups/Admins", Some(&root.token), "").await.0, StatusCode::CONFLICT);
+    let body = r#"{"role": "Reader", "manufacturer": "", "password": "", "groups": []}"#;
+    assert_eq!(call(&app, "PUT", "/api/v1/users/root", Some(&root.token), body).await.0, StatusCode::CONFLICT);
+    let _: Group = json(&app, "PUT", "/api/v1/groups/Admins", Some(&root.token), r#"{"description": "IT", "members": ["root"]}"#).await;
+}
+
+#[tokio::test]
+async fn rights_per_catalog() {
+    let app = app(Some(TOKEN));
+    call(&app, "PUT", "/api/v1/catalogs/acme", Some(TOKEN), r#"{"manufacturer": "ACME"}"#).await;
+    call(&app, "PUT", "/api/v1/catalogs/other", Some(TOKEN), r#"{"manufacturer": "ACME"}"#).await;
+    let bob = sign_up(&app, "bob", "Reader", "").await;
+    let _: Group = json(&app, "PUT", "/api/v1/groups/Buyers", Some(TOKEN), r#"{"members": ["bob"]}"#).await;
+    let grants = r#"[{"subject": {"group": "Buyers"}, "role": "editor"}, {"subject": {"user": "eve"}, "role": "reader", "scope": "ignored"}]"#;
+    assert_eq!(call(&app, "PUT", "/api/v1/catalogs/acme/grants", Some(&bob), grants).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "PUT", "/api/v1/catalogs/none/grants", Some(TOKEN), grants).await.0, StatusCode::NOT_FOUND);
+    let saved: Vec<Grant> = json(&app, "PUT", "/api/v1/catalogs/ACME/grants", Some(TOKEN), grants).await;
+    assert!(saved.len() == 2 && saved.iter().all(|g| g.scope == "catalog:acme"), "{saved:?}");
+    let read: Vec<Grant> = json(&app, "GET", "/api/v1/catalogs/acme/grants", Some(TOKEN), "").await;
+    assert_eq!(read, saved);
+    let info: ServerInfo = json(&app, "GET", "/api/v1/info", Some(&bob), "").await;
+    let part = Part { number: "B.1".into(), manufacturer: "Bolt".into(), catalog: "acme".into(), ..Default::default() };
+    assert!(info.may_on_part(PartsRight::EditParts, &part) && !info.may_edit("Bolt"));
+
+    // Bob changes the catalog and its parts, whatever their manufacturer, and no other.
+    assert_eq!(call(&app, "PUT", "/api/v1/parts/B.1", Some(&bob), r#"{"manufacturer": "Bolt", "catalog": "acme"}"#).await.0, StatusCode::CREATED);
+    assert_eq!(call(&app, "PUT", "/api/v1/parts/B.2", Some(&bob), r#"{"manufacturer": "Bolt", "catalog": "other"}"#).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "PUT", "/api/v1/parts/B.3", Some(&bob), r#"{"manufacturer": "Bolt"}"#).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "PUT", "/api/v1/catalogs/acme", Some(&bob), r#"{"manufacturer": "ACME", "version": "2"}"#).await.0, StatusCode::OK);
+    assert_eq!(call(&app, "PUT", "/api/v1/catalogs/other", Some(&bob), r#"{"manufacturer": "ACME", "version": "2"}"#).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "DELETE", "/api/v1/parts/B.1", Some(&bob), "").await.0, StatusCode::NO_CONTENT);
+    // The catalog's grants leave the other grants as they are.
+    let _: Vec<Grant> = json(&app, "PUT", "/api/v1/catalogs/acme/grants", Some(TOKEN), "[]").await;
+    let settings: Settings<PartsRight> = json(&app, "GET", "/api/v1/access", Some(TOKEN), "").await;
+    assert!(settings.policy.grants.is_empty());
+}
+
+#[tokio::test]
+async fn new_parts_do_not_replace_existing_ones() {
+    let app = app(Some(TOKEN));
+    let new = |number: &str| {
+        Request::builder()
+            .method("PUT")
+            .uri(format!("/api/v1/parts/{number}"))
+            .header(header::CONTENT_TYPE, "application/json")
+            .header(header::AUTHORIZATION, format!("Bearer {TOKEN}"))
+            .header(header::IF_NONE_MATCH, "*")
+            .body(Body::from(r#"{"manufacturer": "ACME", "description": "New"}"#))
+            .unwrap()
+    };
+    assert_eq!(app.clone().oneshot(new("N.1")).await.unwrap().status(), StatusCode::CREATED);
+    assert_eq!(app.clone().oneshot(new("N.1")).await.unwrap().status(), StatusCode::CONFLICT);
+    assert_eq!(app.clone().oneshot(new("GEN.CT-9A-24DC")).await.unwrap().status(), StatusCode::CONFLICT);
+    let part: Part = json(&app, "GET", "/api/v1/parts/N.1", None, "").await;
+    assert_eq!(part.description, "New");
+}
+
+#[tokio::test]
+async fn directories_are_set_up_by_administrators() {
+    let app = app(Some(TOKEN));
+    let eve = sign_up(&app, "eve", "Editor", "").await;
+    let corp = r#"{"title": "Corporate", "url": "ldap://127.0.0.1:1", "bind_dn": "CN=svc", "bind_password": "s3cret", "base_dn": "DC=corp", "timeout_secs": 2}"#;
+    assert_eq!(call(&app, "PUT", "/api/v1/directories/corp", Some(&eve), corp).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "PUT", "/api/v1/directories/corp", Some(TOKEN), r#"{"url": "http://dc"}"#).await.0, StatusCode::BAD_REQUEST);
+    let other = r#"{"id": "other", "url": "ldap://dc", "bind_dn": "x", "base_dn": "y"}"#;
+    assert_eq!(call(&app, "PUT", "/api/v1/directories/corp", Some(TOKEN), other).await.0, StatusCode::BAD_REQUEST);
+    let (status, text) = call(&app, "PUT", "/api/v1/directories/corp", Some(TOKEN), corp).await;
+    assert_eq!(status, StatusCode::OK, "{text}");
+    assert!(!text.contains("s3cret") && text.contains(r#""password_set":true"#), "{text}");
+    // An empty password keeps the stored one; the list never shows it.
+    let changed = corp.replace("s3cret", "").replace("Corporate", "Head office");
+    call(&app, "PUT", "/api/v1/directories/corp", Some(TOKEN), &changed).await;
+    let (_, list) = call(&app, "GET", "/api/v1/directories", Some(TOKEN), "").await;
+    assert!(list.contains("Head office") && list.contains(r#""password_set":true"#) && !list.contains("s3cret"), "{list}");
+    let settings: Settings<PartsRight> = json(&app, "GET", "/api/v1/access", Some(TOKEN), "").await;
+    assert_eq!(settings.providers[0].title, "Head office");
+    // Nothing listens there: the test says why it failed.
+    let test: DirectoryTest = json(&app, "POST", "/api/v1/directories/corp/test", Some(TOKEN), &format!(r#"{{"directory": {changed}}}"#)).await;
+    assert!(!test.ok && !test.message.is_empty(), "{test:?}");
+    let test: DirectoryTest = json(&app, "POST", "/api/v1/directories/corp/test", Some(TOKEN), r#"{"directory": {"url": "ldap://dc"}}"#).await;
+    assert!(!test.ok && test.message.contains("bind_dn"), "{test:?}");
+    assert_eq!(call(&app, "POST", "/api/v1/directories/corp/test", Some(&eve), "{}").await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "DELETE", "/api/v1/directories/corp", Some(TOKEN), "").await.0, StatusCode::NO_CONTENT);
+    assert_eq!(call(&app, "DELETE", "/api/v1/directories/corp", Some(TOKEN), "").await.0, StatusCode::NOT_FOUND);
+}
+
+#[tokio::test]
+async fn the_dashboard_can_be_switched_off() {
+    let app = app(Some(TOKEN));
+    let d: Dashboard = json(&app, "GET", "/api/v1/dashboard", None, "").await;
+    assert_eq!(d.parts, default_catalog().len());
+    assert!(d.manufacturers > 0 && !d.by_manufacturer.is_empty() && d.revision > 0);
+    assert!(d.users.is_empty(), "users only for administrators");
+    let d: Dashboard = json(&app, "GET", "/api/v1/dashboard", Some(TOKEN), "").await;
+    assert_eq!(d.users.len(), Role::ALL.len());
+
+    let eve = sign_up(&app, "eve", "Editor", "").await;
+    assert_eq!(call(&app, "PUT", "/api/v1/dashboard/settings", Some(&eve), r#"{"enabled": false}"#).await.0, StatusCode::FORBIDDEN);
+    let s: DashboardSettings = json(&app, "PUT", "/api/v1/dashboard/settings", Some(TOKEN), r#"{"enabled": false}"#).await;
+    assert!(!s.enabled && !s.fixed);
+    assert!(!json::<ServerInfo>(&app, "GET", "/api/v1/info", None, "").await.dashboard);
+    assert_eq!(call(&app, "GET", "/api/v1/dashboard", None, "").await.0, StatusCode::NOT_FOUND);
+
+    // Start options win over the switch.
+    let app = router(state(Some(TOKEN)).with_dashboard(Some(false)));
+    assert_eq!(call(&app, "PUT", "/api/v1/dashboard/settings", Some(TOKEN), r#"{"enabled": true}"#).await.0, StatusCode::CONFLICT);
+    let s: DashboardSettings = json(&app, "GET", "/api/v1/dashboard/settings", Some(TOKEN), "").await;
+    assert!(!s.enabled && s.fixed);
+    assert_eq!(call(&app, "GET", "/api/v1/dashboard", None, "").await.0, StatusCode::NOT_FOUND);
+}
+
+#[tokio::test]
+async fn the_logo_is_served() {
+    let app = app(None);
+    let (status, headers, body) = send(&app, "GET", "/logo.svg", None, Vec::new()).await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(headers[header::CONTENT_TYPE], "image/svg+xml");
+    assert!(String::from_utf8(body).unwrap().starts_with("<svg"));
+}
+
+#[tokio::test]
+async fn catalogs_have_logos() {
+    let app = app(Some(TOKEN));
+    call(&app, "PUT", "/api/v1/catalogs/acme", Some(TOKEN), r#"{"manufacturer": "ACME"}"#).await;
+    assert_eq!(call(&app, "GET", "/api/v1/catalogs/acme/logo", None, "").await.0, StatusCode::NOT_FOUND);
+    let png = b"\x89PNG\r\n\x1a\n logo".to_vec();
+    let put = |token: &str, name: &str, body: Vec<u8>| {
+        let (app, token, name) = (app.clone(), token.to_string(), name.to_string());
+        async move { send(&app, "PUT", &format!("/api/v1/catalogs/acme/logo?name={name}"), Some(&token), body).await }
+    };
+    // Only who may change the catalog, only images.
+    let other = sign_up(&app, "otto", "Manufacturer", "Other").await;
+    assert_eq!(put(&other, "logo.png", png.clone()).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(put(TOKEN, "logo.png", b"not a png".to_vec()).await.0, StatusCode::BAD_REQUEST);
+    assert_eq!(put(TOKEN, "logo.html", b"<svg></svg>".to_vec()).await.0, StatusCode::BAD_REQUEST);
+    assert_eq!(put(TOKEN, "logo.png", vec![0x89; 600 * 1024]).await.0, StatusCode::PAYLOAD_TOO_LARGE);
+    let acme = sign_up(&app, "anne", "Manufacturer", "ACME").await;
+    let (status, _, body) = put(&acme, "logo.png", png.clone()).await;
+    assert_eq!(status, StatusCode::OK);
+    let catalog: Catalog = serde_json::from_slice(&body).unwrap();
+    assert_eq!(catalog.logo.as_ref().map(|l| l.name.as_str()), Some("logo.png"));
+
+    let (status, headers, data) = send(&app, "GET", "/api/v1/catalogs/ACME/logo", None, Vec::new()).await;
+    assert_eq!((status, data), (StatusCode::OK, png));
+    assert_eq!(headers[header::CONTENT_TYPE], "image/png");
+    assert!(headers[header::CONTENT_SECURITY_POLICY].to_str().unwrap().contains("sandbox"));
+    // The catalog form does not send the logo: saving keeps it.
+    let saved: Catalog = json(&app, "PUT", "/api/v1/catalogs/acme", Some(&acme), r#"{"manufacturer": "ACME", "version": "2"}"#).await;
+    assert_eq!(saved.logo, catalog.logo);
+    let svg = br#"<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg"/>"#.to_vec();
+    assert_eq!(put(&acme, "logo.svg", svg).await.0, StatusCode::OK);
+    let removed: Catalog = json(&app, "DELETE", "/api/v1/catalogs/acme/logo", Some(&acme), "").await;
+    assert!(removed.logo.is_none());
+    assert_eq!(call(&app, "GET", "/api/v1/catalogs/acme/logo", None, "").await.0, StatusCode::NOT_FOUND);
+
+    // Bundled catalogs come with one.
+    let _: Installed = json(&app, "POST", "/api/v1/bundled/siemens", Some(TOKEN), "").await;
+    let (status, headers, data) = send(&app, "GET", "/api/v1/catalogs/siemens/logo", None, Vec::new()).await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(headers[header::CONTENT_TYPE], "image/svg+xml");
+    assert!(String::from_utf8(data).unwrap().contains("Siemens"));
 }

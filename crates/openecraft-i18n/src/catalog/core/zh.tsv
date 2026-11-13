@@ -301,7 +301,6 @@ Create projects	创建项目
 Creation date	创建日期
 Cross-section {} carries {} A, less than the {} A of {}	截面积 {0} 的载流量为 {1} A，小于 {3} 的 {2} A
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	第 {} 页上的交叉与其连接线不匹配：需要四个方向都有连接线，且该处不能有连接点
-Currency	货币
 Current (A)	电流 (A)
 Current capacity (A)	载流量 (A)
 Current consumption	电流消耗
@@ -808,7 +807,6 @@ Manual switch NO	手动开关，常开
 Manual switch NO, latching	手动开关，常开，自锁
 Manual work	手工作业
 Manufacturer's table	制造商表
-Manufacturers	制造商
 Marking (CSV)	标记 (CSV)
 Marking (Excel)	标记 (Excel)
 Mating faces	插合面

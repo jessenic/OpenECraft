@@ -2,9 +2,14 @@
 (renamed from {})	(hernoemd van {})
 19-inch module technology	19-inch-inbouwtechniek
 A catalog id must not be empty or contain blanks	Een catalogus-id mag niet leeg zijn of spaties bevatten
+A directory id must not be empty or contain blanks or ':'	Een directory-id mag niet leeg zijn en geen spaties of ':' bevatten
+A grant needs a user or a group	Een toekenning heeft een gebruiker of een groep nodig
+A group name must not be empty or contain ':'	Een groepsnaam mag niet leeg zijn en geen ':' bevatten
 A manufacturer user needs a manufacturer	Een fabrikantgebruiker heeft een fabrikant nodig
+A part number must not be empty or start or end with blanks	Een artikelnummer mag niet leeg zijn en niet met spaties beginnen of eindigen
 A role is a set of rights. Grants give a user or a group a role on the parts of a manufacturer (* and ? as wildcards, * for all); a deny grant takes the rights of the role away, whatever other grants give.	Een rol is een set rechten. Toekenningen geven een gebruiker of groep een rol op de artikelen van een fabrikant (* en ? als jokertekens, * voor alle); een weigerende toekenning neemt de rechten van de rol weer weg, wat andere toekenningen ook geven.
 A user name must not be empty or contain blanks	Een gebruikersnaam mag niet leeg zijn of spaties bevatten
+Accept any certificate (test installations only)	Elk certificaat accepteren (alleen testinstallaties)
 Access rights	Toegangsrechten
 Access settings saved	Toegangsinstellingen opgeslagen
 Accumulator blocks	Accumulatorblokken
@@ -18,6 +23,8 @@ Administration	Beheer
 All manufacturers	Alle fabrikanten
 All parts	Alle artikelen
 All parts with their data, for spreadsheets or to import them into another server. Their files are only in the database backup.	Alle artikelen met hun gegevens, voor spreadsheets of om ze in een andere server te importeren. Hun bestanden staan alleen in de databaseback-up.
+Allowed groups	Toegestane groepen
+Also groups of groups (Active Directory)	Ook groepen van groepen (Active Directory)
 Amplifiers, controllers	Versterkers, regelaars
 Analog sensor	Analoge sensor
 Approval of new accounts	Goedkeuring van nieuwe accounts
@@ -29,11 +36,14 @@ Auxiliary contact block	Hulpcontactblok
 Auxiliary switch	Hulpschakelaar
 Awaiting approval	Wacht op goedkeuring
 Awaiting approval: {}	Wachten op goedkeuring: {}
+Back to the part	Terug naar het artikel
 Back to the results	Terug naar de resultaten
 Ball valve pneumatic	Kogelkraan pneumatisch
 Ball valves	Kogelkranen
 Base	Sokkel
 Battery monitor	Accumonitor
+Better kept in an environment variable of the server	Beter in een omgevingsvariabele van de server
+Bind name of a user without service account; {user} is replaced	Bindnaam van een gebruiker zonder serviceaccount; {user} wordt vervangen
 Block ball valves	Blokkogelkranen
 Body	Romp
 Brake motor	Remmotor
@@ -59,10 +69,12 @@ Centrifugal pumps	Centrifugaalpompen
 Centrifuge	Centrifuge
 Certificate	Certificaat
 Changed	Gewijzigd
+Changed last	Laatst gewijzigd
 Changes allowed	Wijzigingen toegestaan
 Check control valve	Terugslagarmatuur
 Check flap	Terugslagklep
 Chimney	Schoorsteen
+Choose logo…	Logo kiezen…
 Circuit breaker	Installatieautomaat
 Coil	Spoel
 Complete power units	Complete aggregaten
@@ -95,13 +107,17 @@ Crusher	Breker
 Cylinders	Cilinders
 DC motor	Gelijkstroommotor
 DC-DC converter	DC/DC-omvormer
+Dashboard	Dashboard
 Data recorder	Meetwaardenschrijver
 Database backup	Databaseback-up
 Datasheet	Gegevensblad
 Defined roles	Gedefinieerde rollen
 Delete catalog {} from the server?	Catalogus {} van de server verwijderen?
 Delete catalog {}?	Catalogus {} verwijderen?
+Delete directory {}? Its users can no longer sign in.	Directoryservice {} verwijderen? De gebruikers ervan kunnen zich niet meer aanmelden.
+Delete group {}? The grants to it are removed.	Groep {} verwijderen? De toekenningen aan de groep worden verwijderd.
 Delete part {} from the server? This cannot be undone.	Artikel {} van de server verwijderen? Dit kan niet ongedaan worden gemaakt.
+Delete part {}?	Artikel {} verwijderen?
 Delete parts	Artikelen verwijderen
 Delete user {}? Their sessions and favorites are removed.	Gebruiker {} verwijderen? De sessies en favorieten van deze gebruiker worden verwijderd.
 Deleted	Verwijderd
@@ -109,8 +125,9 @@ Digital sensor, general	Digitale sensor, algemeen
 Directional control valves	Wegventielen
 Directional control valves, coaxial	Coaxiale wegventielen
 Directories	Directoryservices
-Directories (Active Directory, LDAP) are set up in the access settings file of the server.	Directoryservices (Active Directory, LDAP) worden ingesteld in het bestand met de toegangsinstellingen van de server.
 Directory	Directoryservice
+Directory groups	Groepen van de directoryservice
+Directory {} exists already. Change it?	Directoryservice {} bestaat al. Wijzigen?
 Dirt trap	Vuilvanger
 Discard the changes	De wijzigingen negeren
 Discard the unsaved changes of {}?	De niet-opgeslagen wijzigingen van {} negeren?
@@ -126,18 +143,27 @@ Duplex switch filters	Dubbele omschakelfilters
 EPLAN Data Portal	EPLAN Data Portal
 Edit catalog {}	Catalogus {} bewerken
 Edit catalogs	Catalogi bewerken
+Edit directory {}	Directoryservice {} bewerken
+Edit group {}	Groep {} bewerken
+Edit part {}	Artikel {} bewerken
 Edit parts	Artikelen bewerken
 Edit user {}	Gebruiker {} bewerken
 Electrical engineering - special items	Elektrotechniek - speciale onderdelen
 Electrically-operated mechanical devices	Elektrisch bediende mechanische apparaten
 Electrolysis cell	Elektrolysecel
+Empty: the memberOf attribute of the user	Leeg: het attribuut memberOf van de gebruiker
+Empty: the search base	Leeg: de zoekbasis
+Empty: the usual filter of the type	Leeg: het gebruikelijke filter van het type
 Enclosure cooling devices	Kastkoelapparaten
 Enclosure heater	Kastverwarming
+Encryption	Versleuteling
 End clamp	Eindsteun
 Ends the session and forgets the token	Beëindigt de sessie en vergeet het token
 Engine	Aandrijfmachine
 Enter the address of an openecraft-parts-server and click Connect.	Voer het adres van een openecraft-parts-server in en klik op Verbinden.
+Environment variable with the password of the service account	Omgevingsvariabele met het wachtwoord van het serviceaccount
 Evaporator	Verdamper
+Everybody who may read the parts sees it.	Iedereen die de artikelen mag lezen, ziet het.
 Exhaust valves	Ontluchtingsventielen
 Export (CSV)	Exporteren (CSV)
 Export and backup	Export en back-up
@@ -167,8 +193,14 @@ Furnace	Oven
 Generator	Generator
 Grants	Toekenningen
 Grants of the server's access settings can refer to them	Toekenningen in de toegangsinstellingen van de server kunnen ernaar verwijzen
+Grants on catalog:<id> apply to one catalog and its parts (Catalogs › Permissions).	Toekenningen op catalog:<id> gelden voor één catalogus en zijn artikelen (Catalogi › Machtigingen).
 Ground fault current circuit breaker	Aardlekschakelaar
 Ground fault voltage circuit-breaker	Foutspanningsschakelaar
+Group filter	Groepsfilter
+Group search base	Zoekbasis van de groepen
+Group {} exists already. Change it?	Groep {} bestaat al. Wijzigen?
+Groups gather users, local ones and those of a directory. Grants to a group give its members the rights of a role, on the whole server, a manufacturer or a catalog.	Groepen bundelen gebruikers, lokale en die van een directoryservice. Toekenningen aan een groep geven de leden de rechten van een rol, op de hele server, een fabrikant of een catalogus.
+Groups of this server, next to those of the directory	Groepen van deze server, naast die van de directoryservice
 Heat exchangers	Warmtewisselaars
 High-pressure systems	Hogedrukinstallaties
 High-pressure tanks	Hogedruktanks
@@ -179,6 +211,7 @@ Housing accessories, external extension	Behuizingtoebehoren, externe opbouw
 Housing accessories, internal extension	Behuizingtoebehoren, interne opbouw
 Hydraulic motors	Hydromotoren
 Hydraulic tanks	Hydraulische tanks
+Images (PNG, JPEG, GIF, WebP, SVG)	Afbeeldingen (PNG, JPEG, GIF, WebP, SVG)
 Import / export	Importeren / exporteren
 Import parts	Artikelen importeren
 Imported {} parts (revision {})	{} artikelen geïmporteerd (revisie {})
@@ -191,6 +224,7 @@ KNX actuator	KNX-actor
 KNX system device	KNX-systeemapparaat
 Key switch	Sleutelschakelaar
 Kneader	Kneder
+Last changes per month	Laatste wijzigingen per maand
 Last sign-in	Laatste aanmelding
 Legend plate	Tekstplaatje
 Level detector	Grenswaardesensor
@@ -208,12 +242,15 @@ Lock systems	Sluitsystemen
 Locking couplings	Afsluitkoppelingen
 Logic item	Logische component
 Logic items	Logische componenten
+Logos	Logo's
+Looks the users up; empty: users bind with their own name (below)	Zoekt de gebruikers op; leeg: gebruikers binden met hun eigen naam (hieronder)
 Male insert	Pennen-insert
 Measurement system	Meetsysteem
 Measuring connection points	Meetaansluitpunten
 Measuring couplings	Meetkoppelingen
 Measuring instruments, test devices	Meetinstrumenten, testapparaten
 Mechanics	Mechanica
+Members	Leden
 Metering hopper	Doseertrechter
 Miscellaneous	Diversen
 Mixer	Menger
@@ -222,15 +259,20 @@ Modulators	Modulatoren
 Motor overload switch	Motorbeveiligingsschakelaar
 Mounting chassis	Montagechassis
 Mounting panels	Montageplaten
+Name attribute	Naamattribuut
 New accounts need the approval of an administrator	Nieuwe accounts hebben de goedkeuring van een beheerder nodig
 New catalog	Nieuwe catalogus
+New directory	Nieuwe directoryservice
+New part	Nieuw artikel
 New part based on the open one	Nieuw artikel op basis van het geopende
 New password	Nieuw wachtwoord
 New role	Nieuwe rol
 New user	Nieuwe gebruiker
 Newer version	Nieuwere versie
 Next	Volgende
+No grants: the rights by manufacturer apply	Geen toekenningen: de rechten per fabrikant gelden
 No grants: users have the rights of their role	Geen toekenningen: gebruikers hebben de rechten van hun rol
+No groups	Geen groepen
 No users	Geen gebruikers
 Non-return valves	Terugslagkleppen
 Not mounted	Niet gemonteerd
@@ -240,15 +282,18 @@ On the left side	Aan de linkerkant
 On the right side	Aan de rechterkant
 On this server	Op deze server
 One SQLite file with all parts, their history and files, the catalogs, the users and their favorites. It holds the password hashes of the users: keep it safe.	Eén SQLite-bestand met alle artikelen, hun geschiedenis en bestanden, de catalogi, de gebruikers en hun favorieten. Het bevat de wachtwoordhashes van de gebruikers: bewaar het veilig.
+One line per value, e.g. Coil voltage: 24 V DC	Eén regel per waarde, bijv. Spoelspanning: 24 V DC
 Only catalogs without parts can be deleted	Alleen catalogi zonder artikelen kunnen worden verwijderd
 Only empty catalogs can be deleted	Alleen lege catalogi kunnen worden verwijderd
 Only local accounts	Alleen lokale accounts
+Only their members sign in; empty: all users	Alleen hun leden melden zich aan; leeg: alle gebruikers
 Open sessions: {}	Open sessies: {}
 OpenECraft data portal	OpenECraft-dataportaal
 OpenECraft parts manager	OpenECraft-artikelbeheer
 OpenECraft parts server	OpenECraft-artikelserver
 Other file	Ander bestand
 Other labels	Overige markeringen
+Others	Overige
 Outlet	Uitlaat
 Outlet filter	Uitlaatfilter
 Overload	Beveiligingsrelais
@@ -268,8 +313,17 @@ PV rail connector	PV-railverbinder
 Part (source)	Artikel (bron)
 Part (target)	Artikel (doel)
 Part files (documents, images, models, macros)	Artikelbestanden (documenten, afbeeldingen, modellen, macro's)
+Part {} exists already	Artikel {} bestaat al
 Part {} not found	Artikel {} niet gevonden
 Partition	Scheidingswand
+Parts per catalog	Artikelen per catalogus
+Parts per manufacturer	Artikelen per fabrikant
+Parts per product group	Artikelen per productgroep
+Parts with …	Artikelen met …
+Password variable	Wachtwoordvariabele
+Per page	Per pagina
+Permissions	Machtigingen
+Permissions of catalog {}	Machtigingen van catalogus {}
 Phase-out	Uitlopend
 Pipes	Buizen
 Piping part	Leidingdeel
@@ -317,7 +371,9 @@ Register	Registreren
 Registered users become readers: they keep favorites and read the parts even when reading needs a sign-in. Give them more rights in Users.	Geregistreerde gebruikers worden lezers: ze bewaren favorieten en lezen de artikelen ook als lezen een aanmelding vereist. Geef ze meer rechten onder Gebruikers.
 Registration	Registratie
 Reject the registration of {}? The account is deleted.	De registratie van {} afwijzen? Het account wordt verwijderd.
+Remove logo	Logo verwijderen
 Remove the file from the part	Het bestand uit het artikel verwijderen
+Remove the logo	Logo verwijderen
 Removed from the server	Verwijderd van de server
 Repeat password	Wachtwoord herhalen
 Replace the roles and grants with those of the file?	De rollen en toekenningen vervangen door die van het bestand?
@@ -335,11 +391,15 @@ Safety accumulators	Veiligheidsaccumulatoren
 Safety devices	Beveiligingsapparaten
 Safety fuse	Smeltzekering
 Safety switch	Beveiligingsschakelaar
+Save the catalog first	Sla eerst de catalogus op
 Save the part first	Sla eerst het artikel op
+Saved directory {}	Directoryservice {} opgeslagen
+Saved group {}	Groep {} opgeslagen
 Screw connections	Schroefverbindingen
 Screw pumps	Schroefpompen
 Screw spindle compressors	Schroefcompressoren
 Scroll compressors	Scrollcompressoren
+Search base	Zoekbasis
 Search users	Gebruikers zoeken
 Select a catalog or create a new one. Parts belong to a catalog through their catalog id (part editor, Data portal tab).	Selecteer een catalogus of maak een nieuwe. Artikelen horen bij een catalogus via hun catalogus-ID (artikeleditor, tabblad Dataportaal).
 Select a user or create a new one.	Selecteer een gebruiker of maak een nieuwe.
@@ -349,8 +409,12 @@ Sensor NC	Sensor verbreekcontact
 Sensor, switch, and pushbutton	Sensoren, schakelaars en drukknoppen
 Sensors - pressure gauges	Sensoren - manometers
 Serial sub-plates	Seriële aansluitplaten
+Service account	Serviceaccount
+Set by the start options of the server (--dashboard or OPENECRAFT_DASHBOARD).	Ingesteld door de startopties van de server (--dashboard of OPENECRAFT_DASHBOARD).
 Set by the start options of the server (--registration or OPENECRAFT_REGISTRATION).	Ingesteld door de startopties van de server (--registration of OPENECRAFT_REGISTRATION).
+Short name without blanks; qualifies the groups (id:group)	Korte naam zonder spaties; kwalificeert de groepen (id:groep)
 Show parts	Artikelen weergeven
+Show the dashboard with graphs of the parts	Het dashboard met grafieken van de artikelen weergeven
 Shut-off accumulators	Afsluitaccumulatoren
 Shut-off control valve	Afsluitarmatuur
 Shut-off flap	Afsluitklep
@@ -375,10 +439,12 @@ Silo	Silo
 Single-phase motor	Eenfasemotor
 Single-stage filters	Enkelvoudige filters
 Siphon	Sifon
+Size of the files	Grootte van de bestanden
 Solenoid valve	Magneetventiel
 Sorter	Sorteerder
 Start a server with:  openecraft-parts-server --token <secret>	Start een server met:  openecraft-parts-server --token <secret>
 Start openecraft-parts-server with --token to allow changes	Start openecraft-parts-server met --token om wijzigingen toe te staan
+StartTLS (for ldap://)	StartTLS (voor ldap://)
 Steam boiler	Stoomketel
 Stirrer	Roerder
 Storage	Opslag
@@ -399,23 +465,32 @@ Temperature sensors	Temperatuursensoren
 Terminal label	Klemmarkering
 Terminator	Afsluiting
 Terminators, filters	Afsluitingen, filters
+Test	Testen
 Test accessories	Testtoebehoren
 The EPLAN Data Portal only offers searching and reading parts	Het EPLAN Data Portal biedt alleen het zoeken en lezen van artikelen
 The access settings would leave nobody who manages users	Met deze toegangsinstellingen kan niemand meer gebruikers beheren
 The access token is only needed for changes; it is not stored.	Het toegangstoken is alleen nodig voor wijzigingen; het wordt niet opgeslagen.
+The address must start with ldap:// or ldaps://	Het adres moet beginnen met ldap:// of ldaps://
 The catalogs with their manufacturer, version and description.	De catalogi met hun fabrikant, versie en beschrijving.
 The checksum of {} does not match: the download is damaged	De controlesom van {} klopt niet: de download is beschadigd
+The dashboard is hidden	Het dashboard is verborgen
+The dashboard is shown	Het dashboard wordt weergegeven
 The directory checks the password and sets the groups at every sign-in	De directoryservice controleert het wachtwoord en stelt bij elke aanmelding de groepen in
 The file holds no access settings	Het bestand bevat geen toegangsinstellingen
+The groups would leave nobody who manages users	De groepen zouden niemand overlaten die gebruikers beheert
 The last administrator cannot lose the right to manage users	De laatste beheerder kan het recht om gebruikers te beheren niet verliezen
+The logo of the company: PNG, JPEG, GIF, WebP or SVG, at most 512 kB	Het logo van het bedrijf: PNG, JPEG, GIF, WebP of SVG, hoogstens 512 kB
 The password needs at least {} characters	Het wachtwoord moet minstens {} tekens hebben
 The passwords do not match	De wachtwoorden komen niet overeen
 The project has no parts	Het project heeft geen artikelen
 The registration is closed	De registratie is gesloten
 The registration is open	De registratie is open
-The roles, the grants and the access without sign-in. Restoring replaces them; the directories stay as set up on the server.	De rollen, de toekenningen en de toegang zonder aanmelding. Herstellen vervangt ze; de directoryservices blijven zoals ze op de server zijn ingesteld.
+The roles given here apply to this catalog and its parts, whatever their manufacturer; deny takes the rights of the role away. Reading is a right of the whole server.	De hier gegeven rollen gelden voor deze catalogus en zijn artikelen, ongeacht de fabrikant; weigeren neemt de rechten van de rol weg. Lezen is een recht van de hele server.
+The roles, the grants, the groups and the access without sign-in, with the version of the server. Restoring replaces the roles and grants and adds the groups; the directories stay as set up on the server.	De rollen, de toekenningen, de groepen en de toegang zonder aanmelding, met de versie van de server. Herstellen vervangt de rollen en toekenningen en voegt de groepen toe; de directoryservices blijven zoals ingesteld op de server.
 The server cannot be reached	De server is niet bereikbaar
 The server sent no text	De server heeft geen tekst verzonden
+The test failed	De test is mislukt
+The test succeeded	De test is geslaagd
 The upload is finished	Het uploaden is voltooid
 The users with their role, manufacturer, groups and last sign-in, without passwords.	De gebruikers met hun rol, fabrikant, groepen en laatste aanmelding, zonder wachtwoorden.
 Thermometers	Thermometers
@@ -427,6 +502,7 @@ Three-way control valve	Driewegarmatuur
 Three-way flap	Driewegklep
 Three-way valve	Driewegventiel
 Throttle plate	Smoorschijf
+Timeout (s)	Time-out (s)
 Timer relay	Tijdrelais
 To restore it, start the server with --data <file>, or copy it into a new database with --migrate-from <file>.	Om hem te herstellen, start u de server met --data <bestand> of kopieert u hem met --migrate-from <bestand> naar een nieuwe database.
 Too many failed sign-ins, try again later	Te veel mislukte aanmeldingen, probeer het later opnieuw
@@ -441,10 +517,15 @@ Under the part (base)	Onder het artikel (sokkel)
 Uploading {} to Vault ({} %)…	{} uploaden naar Vault ({} %)…
 Uploading {} to Vault…	{} uploaden naar Vault…
 User account	Gebruikersaccount
+User bind	Gebruikersbind
+User filter	Gebruikersfilter
 User or group	Gebruiker of groep
 User {} exists already. Change it?	Gebruiker {} bestaat al. Wijzigen?
 User-defined rail	Door de gebruiker gedefinieerde rail
 Users may register themselves (as readers)	Gebruikers mogen zich zelf registreren (als lezer)
+Users of a directory too, by the name they sign in with	Ook gebruikers van een directoryservice, met de naam waarmee ze aanmelden
+Users per role	Gebruikers per rol
+Users sign in with the account of a directory (Active Directory, LDAP) when the server has no local account of their name. Grants refer to the groups of a directory as directory:group.	Gebruikers melden zich aan met het account van een directoryservice (Active Directory, LDAP) als de server geen lokaal account met hun naam heeft. Toekenningen verwijzen naar de groepen van een directoryservice als directory:groep.
 Vacuum pump	Vacuümpomp
 Valve / distributor	Ventiel / verdeler
 Valve coil	Ventielspoel
@@ -460,9 +541,12 @@ Washer	Ring
 Water traps	Waterafscheiders
 Wind deflector	Windgeleider
 Wiring material	Bedradingsmateriaal
+Without a user: connects and binds with the service account. With a user: signs them in and shows their groups.	Zonder gebruiker: verbindt en bindt met het serviceaccount. Met een gebruiker: meldt die aan en toont de groepen.
+Without catalog	Zonder catalogus
 Without sign-in	Zonder aanmelding
 Wrong access token	Onjuist toegangstoken
 Wrong user name or password	Onjuiste gebruikersnaam of onjuist wachtwoord
+You may not change parts of manufacturer {}	U mag geen artikelen van fabrikant {} wijzigen
 Your account awaits the approval of an administrator	Uw account wacht op goedkeuring door een beheerder
 Your account was created. An administrator has to approve it before you can sign in.	Uw account is aangemaakt. Een beheerder moet het goedkeuren voordat u zich kunt aanmelden.
 access denied – check the personal access token	toegang geweigerd – controleer het persoonlijke toegangstoken
@@ -471,6 +555,7 @@ changed, not saved	gewijzigd, niet opgeslagen
 connection failed: {}	verbinding mislukt: {}
 directory:group	directory:groep
 from the name	uit de naam
+ldap:// or ldaps://, with the port if it is not the usual one	ldap:// of ldaps://, met de poort als het niet de gebruikelijke is
 needed for changes	nodig voor wijzigingen
 new part, not saved	nieuw artikel, niet opgeslagen
 read-only server	alleen-lezenserver
@@ -488,6 +573,8 @@ you	u
 {} parts in {} catalogs, revision {}	{} artikelen in {} catalogi, revisie {}
 {} parts, {} catalogs, {}	{} artikelen, {} catalogi, {}
 {} – save to upload it	{} – opslaan om te uploaden
+{}: a logo has at most 512 kB	{}: een logo is hoogstens 512 kB
+{}: the catalog is no longer open	{}: de catalogus is niet meer geopend
 {}: the part is no longer open	{}: het artikel is niet meer geopend
 {}: {} parts added, {} updated, {} kept	{}: {} artikelen toegevoegd, {} bijgewerkt, {} behouden
 ⎘ Copy	⎘ Kopiëren

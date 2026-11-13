@@ -18,7 +18,9 @@ openecraft-step = { path = "../openecraft-step" }
 openecraft-jt = { path = "../openecraft-jt" }
 openecraft-i18n = { path = "../openecraft-i18n" }
 openecraft-fonts = { path = "../openecraft-fonts" }
-image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp"] }
+# Catalog logos are SVG; text is drawn with egui's own font (no system fonts, also in the browser).
+resvg = { version = "0.45", default-features = false, features = ["text", "raster-images"] }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"

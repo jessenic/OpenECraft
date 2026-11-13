@@ -251,7 +251,45 @@ fn storage_kind_from_the_file_name() {
 
 fn bundle(version: &str, parts: Vec<Part>) -> Bundle {
     let catalog = Catalog { id: "acme".into(), name: "ACME".into(), manufacturer: "ACME".into(), version: version.into(), ..Default::default() };
-    Bundle { parts: parts.into_iter().map(|p| Part { catalog: "acme".into(), ..p }).collect(), catalog }
+    Bundle { parts: parts.into_iter().map(|p| Part { catalog: "acme".into(), ..p }).collect(), catalog, logo: None }
+}
+
+#[test]
+fn catalogs_keep_their_logos() {
+    for mut store in stores() {
+        let svg = r#"<svg xmlns="http://www.w3.org/2000/svg"/>"#;
+        let with_logo = Bundle { logo: Some(svg), ..bundle("1", vec![part("ACME.1")]) };
+        store.install(with_logo.clone()).unwrap();
+        let logo = store.catalog("acme").unwrap().unwrap().logo.unwrap();
+        assert_eq!((logo.name.as_str(), logo.size), ("acme.svg", svg.len() as u64));
+        assert_eq!(store.file(&logo.id).unwrap().unwrap().data, svg.as_bytes());
+        // Saving the catalog keeps the logo, the clean-up of files too.
+        let c = store.put_catalog(Catalog { description: "changed".into(), logo: None, ..store.catalog("acme").unwrap().unwrap() }).unwrap();
+        assert_eq!(c.logo.as_ref(), Some(&logo));
+        assert_eq!(store.collect_garbage().unwrap(), 0);
+        assert!(store.file(&logo.id).unwrap().is_some());
+
+        // An own logo stays when the bundle is installed again; a removed one comes back.
+        let png = b"\x89PNG own".to_vec();
+        let own = store.set_logo("ACME", Some(("own.png", png.clone()))).unwrap().unwrap().logo.unwrap();
+        assert!(store.file(&logo.id).unwrap().is_none(), "the old file is removed");
+        store.install(Bundle { catalog: Catalog { version: "2".into(), ..with_logo.catalog.clone() }, ..with_logo.clone() }).unwrap();
+        assert_eq!(store.catalog("acme").unwrap().unwrap().logo, Some(own.clone()));
+        assert!(store.set_logo("acme", None).unwrap().unwrap().logo.is_none());
+        assert!(store.file(&own.id).unwrap().is_none());
+        store.install(with_logo).unwrap();
+        assert_eq!(store.catalog("acme").unwrap().unwrap().logo.unwrap().id, logo.id);
+        assert!(store.set_logo("nope", None).unwrap().is_none());
+
+        // Migrations and backups take the logo along.
+        let mut target = SqliteBackend::in_memory().unwrap();
+        migrate(store.backend.as_ref(), &mut target).unwrap();
+        assert_eq!(target.file(&logo.id).unwrap().unwrap().data, svg.as_bytes());
+        // Deleting the catalog deletes its logo.
+        store.delete("x", "ACME.1").unwrap();
+        store.delete_catalog("acme").unwrap();
+        assert!(store.file(&logo.id).unwrap().is_none());
+    }
 }
 
 #[test]
@@ -292,6 +330,7 @@ fn new_databases_get_the_bundled_catalogs() {
     let count = default_catalog().len() + bundles.iter().map(|b| b.parts.len()).sum::<usize>();
     assert_eq!(store.count().unwrap(), count);
     assert!(bundles.iter().all(|b| store.catalog(&b.catalog.id).unwrap().is_some_and(|c| c.parts == b.parts.len())));
+    assert!(bundles.iter().all(|b| store.catalog(&b.catalog.id).unwrap().is_some_and(|c| c.logo.is_some())), "with their logos");
     let rev = store.revision;
     drop(store);
     // Opening it again installs nothing.

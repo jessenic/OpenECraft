@@ -127,6 +127,64 @@ impl Identity {
     }
 }
 
+/// A group of users defined on the server: grants to `Subject::Group(name)` apply to
+/// its members (local users and users of a directory), next to the groups of a
+/// directory (`directory:group`), whose names hold a `:`, which local names cannot.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct Group {
+    pub name: String,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub description: String,
+    /// User names (case insensitive).
+    pub members: Vec<String>,
+}
+
+impl Group {
+    pub fn has(&self, user: &str) -> bool {
+        self.members.iter().any(|m| m.trim().eq_ignore_ascii_case(user.trim()))
+    }
+
+    /// Checks the name and removes empty and repeated members.
+    pub fn normalized(mut self) -> Result<Group, String> {
+        self.name = self.name.trim().to_string();
+        check_group_name(&self.name)?;
+        self.description = self.description.trim().to_string();
+        let mut members: Vec<String> = Vec::new();
+        for m in self.members.iter().map(|m| m.trim()).filter(|m| !m.is_empty()) {
+            if !members.iter().any(|x| x.eq_ignore_ascii_case(m)) {
+                members.push(m.to_string());
+            }
+        }
+        self.members = members;
+        Ok(self)
+    }
+}
+
+/// A group name is not empty, has no control characters and no `:` (the separator of
+/// directory groups).
+pub fn check_group_name(name: &str) -> Result<(), String> {
+    if name.trim().is_empty() || name.chars().any(|c| c.is_control() || c == ':') {
+        return Err(format!("'{}' cannot be used as a group name", name.escape_debug()));
+    }
+    Ok(())
+}
+
+/// The names of the defined groups `user` is a member of.
+pub fn groups_of(groups: &[Group], user: &str) -> Vec<String> {
+    groups.iter().filter(|g| g.has(user)).map(|g| g.name.clone()).collect()
+}
+
+/// The identity with the defined groups it is a member of.
+pub fn with_groups(mut who: Identity, groups: &[Group]) -> Identity {
+    for g in groups_of(groups, &who.name) {
+        if !who.groups.iter().any(|x| x.eq_ignore_ascii_case(&g)) {
+            who.groups.push(g);
+        }
+    }
+    who
+}
+
 /// A directory users can sign in with, as shown to clients.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
@@ -144,11 +202,14 @@ pub struct Settings<R: Right> {
     pub policy: Policy<R>,
     /// The directories users can sign in with (configured on the server).
     pub providers: Vec<Provider>,
+    /// The groups defined on the server.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub groups: Vec<Group>,
 }
 
 impl<R: Right> Default for Settings<R> {
     fn default() -> Self {
-        Settings { policy: Policy::default(), providers: Vec::new() }
+        Settings { policy: Policy::default(), providers: Vec::new(), groups: Vec::new() }
     }
 }
 
@@ -295,19 +356,34 @@ impl<R: Right> Access<R> {
     /// The rights on a scope (a project, a manufacturer or [`SERVER`]): what the
     /// grants covering it give, without what deny grants covering it take away.
     pub fn rights(&self, scope: &str) -> BTreeSet<R> {
-        let scope = scope.trim();
-        let covering = || self.entries.iter().filter(|e| e.covers(scope));
+        self.rights_on(&[scope])
+    }
+
+    /// The rights on several scopes together (a part: its manufacturer and its
+    /// catalog): what grants covering any of them give, without what deny grants
+    /// covering any of them take away.
+    pub fn rights_on(&self, scopes: &[&str]) -> BTreeSet<R> {
+        let scopes: Vec<&str> = scopes.iter().map(|s| s.trim()).collect();
+        let server = scopes.contains(&SERVER);
+        let covering = || self.entries.iter().filter(|e| scopes.iter().any(|s| e.covers(s)));
         let denied: BTreeSet<R> = covering().filter(|e| e.deny).flat_map(|e| e.rights.iter().copied()).collect();
         covering()
             .filter(|e| !e.deny)
             .flat_map(|e| e.rights.iter().copied())
-            .filter(|r| !denied.contains(r) && (scope == SERVER || !r.server_wide()))
+            .filter(|r| !denied.contains(r) && (server || !r.server_wide()))
             .collect()
     }
 
     pub fn allows(&self, scope: &str, right: R) -> bool {
-        let scope = if right.server_wide() { SERVER } else { scope };
-        self.rights(scope).contains(&right)
+        self.allows_on(&[scope], right)
+    }
+
+    /// The right on any of the scopes, unless a deny grant covers one of them.
+    pub fn allows_on(&self, scopes: &[&str], right: R) -> bool {
+        if right.server_wide() {
+            return self.rights(SERVER).contains(&right);
+        }
+        self.rights_on(scopes).contains(&right)
     }
 
     /// The right is given on some scope (to offer a command at all).

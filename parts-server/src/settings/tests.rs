@@ -75,3 +75,14 @@ fn the_admin_user_can_come_from_the_environment() {
     let s = Settings::merge(args(&["--admin-user", " "]), File::default());
     assert_eq!(s.admin_user, None, "an empty name is no administrator");
 }
+
+#[test]
+fn the_dashboard_is_switched_by_the_options() {
+    use clap::CommandFactory;
+    assert_eq!(Settings::merge(args(&[]), File::default()).dashboard, None, "administrators decide");
+    assert_eq!(Settings::merge(args(&[]), file("dashboard = false\n")).dashboard, Some(false));
+    assert_eq!(Settings::merge(args(&["--dashboard", "on"]), file("dashboard = false\n")).dashboard, Some(true));
+    let command = Args::command();
+    let arg = command.get_arguments().find(|a| a.get_id() == "dashboard").unwrap();
+    assert_eq!(arg.get_env(), Some(std::ffi::OsStr::new("OPENECRAFT_DASHBOARD")));
+}

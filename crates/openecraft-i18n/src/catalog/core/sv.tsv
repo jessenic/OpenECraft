@@ -310,7 +310,6 @@ Create projects	Skapa projekt
 Creation date	Skapandedatum
 Cross-section {} carries {} A, less than the {} A of {}	Tvärsnitt {} klarar {} A, mindre än {} A för {}
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	Korsningen på sida {} passar inte sina ledare: den behöver en ledare i alla fyra riktningar och ingen anslutningspunkt där
-Currency	Valuta
 Current (A)	Ström (A)
 Current capacity (A)	Strömbelastningsförmåga (A)
 Current consumption	Strömförbrukning
@@ -818,7 +817,6 @@ Manual switch NO	Manuell brytare, slutande
 Manual switch NO, latching	Manuell brytare, slutande, låsande
 Manual work	Manuellt arbete
 Manufacturer's table	Tillverkarens tabell
-Manufacturers	Tillverkare
 Marking (CSV)	Märkning (CSV)
 Marking (Excel)	Märkning (Excel)
 Mating faces	Anslutningssidor

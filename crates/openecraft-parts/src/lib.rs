@@ -26,6 +26,7 @@ mod catalog;
 mod connection;
 pub mod connector;
 mod csv;
+pub mod dashboard;
 mod eplan;
 mod filter;
 mod graphics;

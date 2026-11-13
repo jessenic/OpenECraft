@@ -35,6 +35,8 @@ pub enum Reply {
     /// Part number, its accessories and the parts it fits.
     Accessories(String, Result<Accessories, String>),
     Catalogs(Result<Vec<Catalog>, String>),
+    /// Id of the logo's file, its file name and the image of a catalog logo.
+    Logo(String, String, Result<Vec<u8>, String>),
     CatalogSaved(Result<Catalog, String>),
     CatalogDeleted(String, Result<(), String>),
     SignedIn(Result<Session, String>),
@@ -328,8 +330,11 @@ impl ServerClient {
         }
     }
 
+    /// Counts the request; a status text (empty: a background request) shows meanwhile.
     fn begin_request(&mut self, ctx: &egui::Context, status: String) -> impl FnOnce(Reply) + Send + 'static {
-        self.status = status;
+        if !status.is_empty() {
+            self.status = status;
+        }
         self.pending += 1;
         let inbox = self.inbox.clone();
         let ctx = ctx.clone();
@@ -507,6 +512,26 @@ impl ServerClient {
         self.send(ctx, call, tr_fmt!("Saving {}…", catalog.name), Reply::CatalogSaved);
     }
 
+    /// Loads the logo of a catalog (`file`: [`Catalog::logo`]'s id and name), answered
+    /// with [`Reply::Logo`].
+    pub fn catalog_logo(&mut self, ctx: &egui::Context, catalog: &str, file: &str, name: &str) {
+        let call = self.server(|e| e.catalog_logo(catalog), |r| check(r).map(|resp| resp.bytes));
+        let (file, name) = (file.to_string(), name.to_string());
+        self.send(ctx, call, String::new(), move |r| Reply::Logo(file, name, r));
+    }
+
+    /// Sets the logo of a catalog; answered with [`Reply::CatalogSaved`].
+    pub fn set_catalog_logo(&mut self, ctx: &egui::Context, id: &str, name: &str, data: Vec<u8>) {
+        let call = self.server(|e| e.set_catalog_logo(id, name, data), decode);
+        self.send(ctx, call, tr_fmt!("Saving {}…", name), Reply::CatalogSaved);
+    }
+
+    /// Removes the logo of a catalog; answered with [`Reply::CatalogSaved`].
+    pub fn delete_catalog_logo(&mut self, ctx: &egui::Context, id: &str) {
+        let call = self.server(|e| e.delete_catalog_logo(id), decode);
+        self.send(ctx, call, tr_fmt!("Saving {}…", id), Reply::CatalogSaved);
+    }
+
     pub fn delete_catalog(&mut self, ctx: &egui::Context, id: &str) {
         let call = self.server(|e| e.delete_catalog(id), |r| check(r).map(|_| ()));
         let id = id.to_string();
@@ -599,7 +624,8 @@ impl ServerClient {
                 }
                 _ => {}
             }
-            if !matches!(reply, Reply::Detail(_, Ok(_))) {
+            // Details and logos load in the background, beside what the status shows.
+            if !matches!(reply, Reply::Detail(_, Ok(_)) | Reply::Logo(..)) {
                 self.status = reply.describe();
                 self.failed = reply.error().is_some();
             }

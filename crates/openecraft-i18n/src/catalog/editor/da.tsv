@@ -77,7 +77,6 @@ Accept as checked	Accepter som kontrolleret
 Accepted messages ({})	Accepterede meddelelser ({})
 Active	Aktiv
 Actuators on the door	Betjeningselementer på døren
-Add	Tilføj
 Add a command	Tilføj en kommando
 Add a target language to translate the project texts.	Tilføj et målsprog for at oversætte projektteksterne.
 Add filter	Tilføj filter
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	Låst af {} på projektserveren
 Locked by {} – read only	Låst af {} – skrivebeskyttet
 Locking…	Låser…
 Logic	Logik
-Logo	Logo
 Logo on the cover page	Logo på forsiden
 Longer values are drawn smaller (0 = no limit)	Længere værdier tegnes mindre (0 = ingen grænse)
 Look for updates when OpenECraft starts	Søg efter opdateringer, når OpenECraft starter
@@ -1120,7 +1118,6 @@ New document page…	Ny dokumentside…
 New empty	Ny, tom
 New enclosure	Ny kapsling
 New graphics page	Ny grafikside
-New group	Ny gruppe
 New harness	Nyt ledningsnet
 New items go onto this layer	Nye elementer placeres på dette lag
 New mounting layout page	Ny monteringslayoutside
@@ -1962,6 +1959,7 @@ The horizontal wire	Den vandrette ledning
 The items are selected and moved together	Elementerne markeres og flyttes samlet
 The logo is fitted into this area keeping its aspect ratio	Logoet tilpasses dette område med bevaret billedformat
 The logo of the project properties, e.g. the customer's	Logoet fra projektegenskaberne, f.eks. kundens
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Logoerne for producenternes kataloger på artikelserveren, ved siden af en artikels detaljer
 The macro library has no page macros (Macros › Save page as macro…).	Makrobiblioteket har ingen sidemakroer (Makroer › Gem side som makro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Modifikatortasterne, der får hjulet til at panorere sidelæns eller zoome, indstilles under Modifikatortaster.
 The modules no string takes yet in series, on the first inverter	Modulerne, som ingen streng tager endnu, i serie, på den første inverter
@@ -2232,7 +2230,6 @@ no electrical data of the module	ingen elektriske data for modulet
 no rooms	ingen rum
 no valid levels	ingen gyldige etager
 no wires	ingen ledninger
-none	ingen
 not defined	ikke defineret
 not in the P&ID	ikke i P&ID'et
 not in the library	ikke i biblioteket

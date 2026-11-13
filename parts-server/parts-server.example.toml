@@ -30,3 +30,8 @@ data = "parts-db.sqlite"
 # --registration true|false). Without it, administrators switch it on the web page
 # (Administration > Access rights).
 # registration = true
+
+# The dashboard (graphs of the parts) on the web page: true or false (or
+# OPENECRAFT_DASHBOARD, --dashboard true|false). Without it, administrators switch it on
+# the web page (Administration > Overview); it is shown by default.
+# dashboard = false

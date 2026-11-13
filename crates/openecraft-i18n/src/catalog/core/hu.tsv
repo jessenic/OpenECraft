@@ -310,7 +310,6 @@ Create projects	Projektek létrehozása
 Creation date	Létrehozás dátuma
 Cross-section {} carries {} A, less than the {} A of {}	A(z) {} keresztmetszet {} A-t visel el, kevesebbet, mint a(z) {} A ({})
 Crossing on page {} does not fit its wires: it needs a wire in all four directions and no connection point there	A(z) {}. lapon lévő kereszteződés nem illik a vezetékeihez: mind a négy irányban vezeték kell, és nem lehet ott csatlakozási pont
-Currency	Pénznem
 Current (A)	Áram (A)
 Current capacity (A)	Áramterhelhetőség (A)
 Current consumption	Áramfelvétel
@@ -818,7 +817,6 @@ Manual switch NO	Kézi kapcsoló, záróérintkező
 Manual switch NO, latching	Kézi kapcsoló, záróérintkező, reteszelő
 Manual work	Kézi munka
 Manufacturer's table	Gyártói táblázat
-Manufacturers	Gyártók
 Marking (CSV)	Feliratozás (CSV)
 Marking (Excel)	Feliratozás (Excel)
 Mating faces	Csatlakozó felületek

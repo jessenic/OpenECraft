@@ -3,13 +3,14 @@
 //! state (no UI code, unit tested); [`browser`] draws it and sends the requests.
 
 use crate::client::{FileUse, Reply, ServerClient};
+use crate::logos::Logos;
 use openecraft_client::PortalKind;
 use crate::part_editor::{part_summary, size_text};
 use egui::{Color32, RichText};
 use openecraft_i18n::{tr, tr_fmt};
 use crate::icons::{self, Icon};
 use openecraft_parts::api::{Accessories, PartQuery};
-use openecraft_parts::portal::{check_updates, lifecycle_from_key, top_group_from_key, Facet, HistoryEntry, Lifecycle, PartUpdate, SearchResult, Sort};
+use openecraft_parts::portal::{check_updates, lifecycle_from_key, top_group_from_key, Catalog, Facet, HistoryEntry, Lifecycle, PartUpdate, SearchResult, Sort};
 use openecraft_parts::{date_from_unix, productgroups, Part, PRODUCT_GROUPS};
 use std::collections::BTreeSet;
 
@@ -49,13 +50,32 @@ pub struct Browser {
     /// The results can be dragged out as [`crate::part_editor::PartDrag`] (the editor
     /// places them on a schematic page).
     pub drag_parts: bool,
+    /// Show the logos of the catalogs (a setting of the application).
+    pub show_logos: bool,
+    /// The catalogs of the server (names and logos), loaded with the logos.
+    pub catalogs: Vec<Catalog>,
+    pub logos: Logos,
     /// A new search is due.
     dirty: bool,
+    /// The catalogs were requested from this server.
+    catalogs_requested: bool,
 }
 
 impl Browser {
     pub fn new() -> Browser {
-        Browser { dirty: true, ..Default::default() }
+        Browser { dirty: true, show_logos: true, ..Default::default() }
+    }
+
+    /// Takes the request of the catalog list: once per server, while logos are shown.
+    pub fn take_catalogs(&mut self) -> bool {
+        let due = self.show_logos && !self.catalogs_requested;
+        self.catalogs_requested |= due;
+        due
+    }
+
+    /// The catalog of the server with this id.
+    pub fn catalog(&self, id: &str) -> Option<&Catalog> {
+        self.catalogs.iter().find(|c| c.id.eq_ignore_ascii_case(id.trim()))
     }
 
     /// The query of the next search: filters, text, page and favorites.
@@ -229,6 +249,14 @@ impl Browser {
                 self.remote = r.parts.clone();
             }
             Reply::SignedIn(Ok(_)) => self.password.clear(),
+            Reply::Catalogs(Ok(c)) => self.catalogs = c.clone(),
+            Reply::Logo(..) => self.logos.receive(reply),
+            // Another server, or the same again: its catalogs and logos may differ.
+            Reply::Info(_) => {
+                self.catalogs.clear();
+                self.catalogs_requested = false;
+                self.logos.clear();
+            }
             Reply::SignedOut => {
                 self.favorites.clear();
                 self.only_favorites = false;
@@ -542,7 +570,11 @@ pub fn browser(ui: &mut egui::Ui, b: &mut Browser, client: &mut ServerClient, lo
                 ui.horizontal_wrapped(|ui| {
                     if !p.catalog.is_empty() {
                         ui.label(RichText::new(tr("Catalog")).weak());
-                        ui.label(&p.catalog);
+                        let catalog = b.catalog(&p.catalog).cloned();
+                        if let Some(c) = catalog.as_ref().filter(|_| b.show_logos) {
+                            b.logos.show(ui, client, c, 24.0);
+                        }
+                        ui.label(catalog.map_or(p.catalog.clone(), |c| c.name));
                     }
                     if p.revision > 0 {
                         ui.label(RichText::new(tr("Last change")).weak());
@@ -640,6 +672,10 @@ pub fn browser(ui: &mut egui::Ui, b: &mut Browser, client: &mut ServerClient, lo
 
     if let Some(q) = b.take_search() {
         client.search(&ctx, &q);
+    }
+    // The EPLAN Data Portal has no catalogs of the parts server.
+    if !client.read_only() && b.take_catalogs() {
+        client.catalogs(&ctx);
     }
     event
 }

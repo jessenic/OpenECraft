@@ -50,6 +50,10 @@ pub struct Args {
     /// administrators switch it on the web page.
     #[arg(long, env = "OPENECRAFT_REGISTRATION", value_parser = clap::builder::BoolishValueParser::new())]
     registration: Option<bool>,
+    /// Show the dashboard (graphs of the parts) on the web page (`true`) or not
+    /// (`false`); without it administrators switch it on the web page.
+    #[arg(long, env = "OPENECRAFT_DASHBOARD", value_parser = clap::builder::BoolishValueParser::new())]
+    dashboard: Option<bool>,
 }
 
 /// The configuration file: the options without `--config` and `--migrate-from`.
@@ -64,6 +68,7 @@ struct File {
     install_catalogs: Vec<String>,
     access: Option<PathBuf>,
     registration: Option<bool>,
+    dashboard: Option<bool>,
 }
 
 /// The settings the server runs with.
@@ -81,6 +86,8 @@ pub struct Settings {
     pub access: PathBuf,
     /// Registration of users fixed by the start options; `None`: as administrators set it.
     pub registration: Option<bool>,
+    /// Dashboard shown or hidden by the start options; `None`: as administrators set it.
+    pub dashboard: Option<bool>,
 }
 
 impl Settings {
@@ -108,6 +115,7 @@ impl Settings {
             admin_user: args.admin_user.or(file.admin_user).filter(|n| !n.trim().is_empty()),
             install_catalogs: if args.install_catalogs.is_empty() { file.install_catalogs } else { args.install_catalogs },
             registration: args.registration.or(file.registration),
+            dashboard: args.dashboard.or(file.dashboard),
             data,
             access,
         }

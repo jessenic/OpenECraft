@@ -77,7 +77,6 @@ Accept as checked	Hyväksy tarkistetuksi
 Accepted messages ({})	Hyväksytyt ilmoitukset ({})
 Active	Aktiivinen
 Actuators on the door	Oven käyttöelimet
-Add	Lisää
 Add a command	Lisää komento
 Add a target language to translate the project texts.	Lisää kohdekieli kääntääksesi projektin tekstit.
 Add filter	Lisää suodatin
@@ -1002,7 +1001,6 @@ Locked by {} on the project server – read only	{} on lukinnut projektipalvelim
 Locked by {} – read only	Lukinnut {} – vain luku
 Locking…	Lukitaan…
 Logic	Logiikka
-Logo	Logo
 Logo on the cover page	Logo kansilehdellä
 Longer values are drawn smaller (0 = no limit)	Pidemmät arvot piirretään pienempinä (0 = ei rajaa)
 Look for updates when OpenECraft starts	Etsi päivityksiä, kun OpenECraft käynnistyy
@@ -1120,7 +1118,6 @@ New document page…	Uusi dokumenttisivu…
 New empty	Uusi tyhjä
 New enclosure	Uusi kotelo
 New graphics page	Uusi grafiikkasivu
-New group	Uusi ryhmä
 New harness	Uusi johtosarja
 New items go onto this layer	Uudet kohteet tulevat tälle tasolle
 New mounting layout page	Uusi asennuskuvasivu
@@ -1962,6 +1959,7 @@ The horizontal wire	Vaakasuora johdin
 The items are selected and moved together	Kohteet valitaan ja siirretään yhdessä
 The logo is fitted into this area keeping its aspect ratio	Logo sovitetaan tälle alueelle kuvasuhde säilyttäen
 The logo of the project properties, e.g. the customer's	Projektin ominaisuuksien logo, esim. asiakkaan
+The logos of the manufacturers' catalogs on the parts server, beside the details of a part	Valmistajien luetteloiden logot osapalvelimella osan tietojen vieressä
 The macro library has no page macros (Macros › Save page as macro…).	Makrokirjastossa ei ole sivumakroja (Makrot › Tallenna sivu makrona…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Muokkausnäppäimet, joilla rulla panoroi sivuttain tai zoomaa, asetetaan kohdassa Muokkausnäppäimet.
 The modules no string takes yet in series, on the first inverter	Moduulit, joita mikään merkkijono ei vielä ota, sarjassa, ensimmäiseen vaihtosuuntaajaan
@@ -2232,7 +2230,6 @@ no electrical data of the module	moduulin sähkötietoja ei ole
 no rooms	ei tiloja
 no valid levels	ei kelvollisia kerroksia
 no wires	ei johtoja
-none	ei mitään
 not defined	ei määritetty
 not in the P&ID	ei PI-kaaviossa
 not in the library	ei kirjastossa

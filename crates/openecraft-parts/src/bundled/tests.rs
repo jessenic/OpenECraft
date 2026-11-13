@@ -143,3 +143,26 @@ fn pv_modules_of_longi_and_jinko_go_on_the_roof() {
         assert!(acc.accessory && crate::accessory::mains_of(&generic, acc).iter().any(|m| m.number == rail.number), "{a}");
     }
 }
+
+#[test]
+fn bundled_catalogs_have_logos() {
+    for b in all().unwrap() {
+        let svg = b.logo.unwrap_or_else(|| panic!("{}: no logo in catalogs/logos", b.catalog.id));
+        let id = &b.catalog.id;
+        assert!(svg.starts_with("<svg") && svg.trim_end().ends_with("</svg>"), "{id}");
+        assert!(svg.contains(&format!("<title>{}</title>", b.catalog.manufacturer)), "{id}: the logo names the manufacturer");
+        assert!(svg.len() < 64 * 1024, "{id}: {} bytes", svg.len());
+        assert!(b.catalog.logo.is_none(), "the server sets the logo's file");
+        // Nothing that runs or loads anything: no scripts, no event handlers, links only
+        // inside the file or to embedded images.
+        let lower = svg.to_lowercase();
+        assert!(!lower.contains("<script") && !lower.contains("javascript:") && !lower.contains("<foreignobject"), "{id}");
+        let handler = |w: &str| w.split_once('=').is_some_and(|(name, _)| name.len() > 2 && name.starts_with("on") && name.chars().all(|c| c.is_ascii_lowercase()));
+        assert!(!lower.split_whitespace().any(handler), "{id}: event handler");
+        for (i, _) in lower.match_indices("href=\"") {
+            let target = &lower[i + 6..];
+            assert!(target.starts_with('#') || target.starts_with("data:image/"), "{id}: link {}", &target[..target.len().min(40)]);
+        }
+    }
+    assert_eq!(LOGOS.len(), FILES.len());
+}
