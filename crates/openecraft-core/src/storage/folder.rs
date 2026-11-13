@@ -4,11 +4,13 @@
 //! of deleted pages and records; other files of the folder are left alone. A folder
 //! without a `.gitattributes` gets one, so that git leaves the files as they are.
 
-use super::{join, split, Files, INDEX, INDEX_EXT};
+use super::{join, sha256, split, Files, INDEX, INDEX_EXT};
 use crate::archive::Conversion;
 use crate::model::Project;
 use openecraft_i18n::{io_error, tr_fmt};
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
+use std::time::SystemTime;
 
 /// Folders of the format next to the index.
 const FOLDERS: [&str; 3] = ["pages", "data", "files"];
@@ -42,13 +44,153 @@ pub fn place(chosen: &Path) -> PathBuf {
 
 /// Reads the project of an index file.
 pub fn open(index: &Path) -> Result<(Project, Conversion), String> {
-    join(&read(index)?)
+    let (mut prj, conv) = join(&read(index)?)?;
+    // Another copy of the folder may be edited at the same time.
+    prj.scatter_ids();
+    Ok((prj, conv))
 }
 
 /// Writes the project into the folder of the index file. Returns the number of
 /// files written or removed (0: the project on disk was the same).
 pub fn save(index: &Path, prj: &Project) -> Result<usize, String> {
     write(index, &split(prj))
+}
+
+/// The files of a project folder as a working copy knows them: as they were when it
+/// read the project or last saved it. A save compares the folder with them and so
+/// tells its own changes from those of another program (git, another editor).
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct Tracked {
+    index: PathBuf,
+    files: BTreeMap<String, Stamp>,
+}
+
+/// A file as it was seen: unchanged while size and time are the same.
+#[derive(Clone, Debug, PartialEq)]
+struct Stamp {
+    len: u64,
+    modified: Option<SystemTime>,
+    /// Hash of the content; none for embedded files, whose name is their hash.
+    hash: String,
+}
+
+/// What [`save_tracked`] did.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct Saved {
+    /// Files written or removed.
+    pub changed: usize,
+    /// Files another program changed since the project was read. They were left as
+    /// they are: the project in memory lacks their changes until it is read again.
+    pub foreign: usize,
+}
+
+/// The files of the project folder as they are now.
+pub fn track(index: &Path) -> Result<Tracked, String> {
+    let files = on_disk(index, None)?.into_iter().map(|(name, (_, stamp))| (name, stamp)).collect();
+    Ok(Tracked { index: index.to_path_buf(), files })
+}
+
+/// Writes the changes of the project into the folder of the index file: the files
+/// that differ from `tracked`. Files another program changed meanwhile stay as they
+/// are ([`Saved::foreign`]); a file changed by both is not overwritten: nothing is
+/// written and the files are named. Without `tracked` for this index (a new place)
+/// the folder is made to hold the project, like [`save`].
+pub fn save_tracked(index: &Path, prj: &Project, tracked: &mut Option<Tracked>) -> Result<Saved, String> {
+    let new = split(prj);
+    let Some(base) = tracked.as_ref().filter(|t| t.index == index) else {
+        let changed = write(index, &new)?;
+        *tracked = Some(track(index)?);
+        return Ok(Saved { changed, foreign: 0 });
+    };
+    let dir = folder(index);
+    let disk = on_disk(index, Some(base))?;
+    let hash = |name: &str, content: &[u8]| if embedded(name) { String::new() } else { sha256(content) };
+    let names: BTreeSet<&String> = base.files.keys().chain(disk.keys()).chain(new.keys()).collect();
+    // What to write (content) or remove (none), files of others, files of both.
+    let (mut ours, mut foreign, mut both) = (Vec::new(), 0, Vec::new());
+    let mut files = BTreeMap::new();
+    for name in names {
+        let was = base.files.get(name).map(|s| &s.hash);
+        let is = disk.get(name).map(|(_, s)| &s.hash);
+        let wanted = new.get(name).map(|content| hash(name, content));
+        match (wanted.as_ref() != was, is != was) {
+            (true, false) => ours.push((name, new.get(name))),
+            (false, true) => foreign += 1,
+            // Both made the same change.
+            (true, true) if wanted.as_ref() == is => {}
+            (true, true) => both.push(name.as_str()),
+            (false, false) => {}
+        }
+        // Files of others stay unknown, so that the next save leaves them again.
+        let stamp = if is != was && wanted.as_ref() != is { base.files.get(name) } else { disk.get(name).map(|(_, s)| s) };
+        if let Some(stamp) = stamp {
+            files.insert(name.clone(), stamp.clone());
+        }
+    }
+    if !both.is_empty() {
+        let more = if both.len() > 5 { ", \u{2026}" } else { "" };
+        return Err(tr_fmt!("{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes", both.len(), both.iter().take(5).copied().collect::<Vec<_>>().join(", "), more));
+    }
+    check_folder(dir, index)?;
+    let mut changed = 0;
+    // The index last.
+    ours.sort_by_key(|(name, _)| *name == INDEX);
+    for (name, content) in ours {
+        let path = if name == INDEX { index.to_path_buf() } else { dir.join(name) };
+        match content {
+            Some(content) => {
+                put(&path, content, false)?;
+                files.insert(name.clone(), stamp(name, &path, Some(hash(name, content)))?);
+            }
+            // An embedded file may be used by a page another program added.
+            None if foreign > 0 && embedded(name) => continue,
+            None => {
+                std::fs::remove_file(&path).map_err(|e| cannot_write(&path, &e))?;
+                files.remove(name);
+            }
+        }
+        changed += 1;
+    }
+    tidy(dir);
+    write_attributes(dir)?;
+    *tracked = Some(Tracked { index: index.to_path_buf(), files });
+    Ok(Saved { changed, foreign })
+}
+
+fn embedded(name: &str) -> bool {
+    name.starts_with("files/")
+}
+
+/// A file as it is now (`hash`: known, else read from the file).
+fn stamp(name: &str, path: &Path, hash: Option<String>) -> Result<Stamp, String> {
+    let meta = std::fs::metadata(path).map_err(|e| cannot_read(path, &e))?;
+    let hash = match hash {
+        Some(hash) => hash,
+        None if embedded(name) => String::new(),
+        None => sha256(&read_file(path)?),
+    };
+    Ok(Stamp { len: meta.len(), modified: meta.modified().ok(), hash })
+}
+
+/// The files of the format in the folder with their path; those that look as
+/// `known` has them are not read again.
+fn on_disk(index: &Path, known: Option<&Tracked>) -> Result<BTreeMap<String, (PathBuf, Stamp)>, String> {
+    let mut files = stored(folder(index))?;
+    files.retain(|(name, _)| owned(name));
+    if index.is_file() {
+        files.push((INDEX.to_string(), index.to_path_buf()));
+    }
+    let mut out = BTreeMap::new();
+    for (name, path) in files {
+        let meta = std::fs::metadata(&path).map_err(|e| cannot_read(&path, &e))?;
+        let same = known.and_then(|t| t.files.get(&name)).filter(|s| s.len == meta.len() && s.modified == meta.modified().ok() && s.modified.is_some());
+        let stamp = match same {
+            Some(stamp) => stamp.clone(),
+            None => stamp(&name, &path, None)?,
+        };
+        out.insert(name, (path, stamp));
+    }
+    Ok(out)
 }
 
 /// The files of the project of an index file.
@@ -66,13 +208,7 @@ pub fn read(index: &Path) -> Result<Files, String> {
 /// Makes the folder of the index file hold exactly `files`.
 pub fn write(index: &Path, files: &Files) -> Result<usize, String> {
     let dir = folder(index);
-    std::fs::create_dir_all(dir).map_err(|e| cannot_write(dir, &e))?;
-    for entry in std::fs::read_dir(dir).map_err(|e| cannot_read(dir, &e))?.flatten() {
-        let other = entry.path();
-        if is_index(&other) && other.file_name() != index.file_name() {
-            return Err(tr_fmt!("The folder {} already holds the project {}: a split project needs a folder of its own", dir.display(), entry.file_name().to_string_lossy()));
-        }
-    }
+    check_folder(dir, index)?;
     let before = stored(dir)?;
     let mut changed = 0;
     for (name, content) in files.iter().filter(|(name, _)| *name != INDEX) {
@@ -90,7 +226,28 @@ pub fn write(index: &Path, files: &Files) -> Result<usize, String> {
             changed += usize::from(!name.ends_with(TMP));
         }
     }
-    // Folders without records left (not empty ones are kept by the file system).
+    tidy(dir);
+    if let Some(content) = files.get(INDEX) {
+        changed += usize::from(put(index, content, false)?);
+    }
+    write_attributes(dir)?;
+    Ok(changed)
+}
+
+/// Creates the folder; it must not hold another project.
+fn check_folder(dir: &Path, index: &Path) -> Result<(), String> {
+    std::fs::create_dir_all(dir).map_err(|e| cannot_write(dir, &e))?;
+    for entry in std::fs::read_dir(dir).map_err(|e| cannot_read(dir, &e))?.flatten() {
+        let other = entry.path();
+        if is_index(&other) && other.file_name() != index.file_name() {
+            return Err(tr_fmt!("The folder {} already holds the project {}: a split project needs a folder of its own", dir.display(), entry.file_name().to_string_lossy()));
+        }
+    }
+    Ok(())
+}
+
+/// Removes folders without records left (not empty ones are kept by the file system).
+fn tidy(dir: &Path) {
     if let Ok(entries) = std::fs::read_dir(dir.join("data")) {
         for entry in entries.flatten() {
             let _ = std::fs::remove_dir(entry.path());
@@ -99,14 +256,14 @@ pub fn write(index: &Path, files: &Files) -> Result<usize, String> {
     for name in FOLDERS {
         let _ = std::fs::remove_dir(dir.join(name));
     }
-    if let Some(content) = files.get(INDEX) {
-        changed += usize::from(put(index, content, false)?);
-    }
+}
+
+fn write_attributes(dir: &Path) -> Result<(), String> {
     let attributes = dir.join(ATTRIBUTES_FILE);
     if !attributes.exists() {
         std::fs::write(&attributes, ATTRIBUTES).map_err(|e| cannot_write(&attributes, &e))?;
     }
-    Ok(changed)
+    Ok(())
 }
 
 fn folder(index: &Path) -> &Path {

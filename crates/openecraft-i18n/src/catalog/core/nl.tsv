@@ -1925,11 +1925,13 @@ yellow	geel
 {} cannot be renamed	{} kan niet worden hernoemd
 {} differences taken over	{} verschillen overgenomen
 {} duplicate ids renumbered	{} dubbele ID's opnieuw genummerd
+{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} bestanden zijn in de projectmap door een ander programma en in het geopende project gewijzigd: {}{}. Sla het project onder een andere naam op, of open het opnieuw en herhaal de wijzigingen
 {} fits none of the parts of {}	{} past op geen enkel artikel van {}
 {} frozen routes changed their length	{} bevroren routes hebben hun lengte gewijzigd
 {} has no MTTFd, B10d, PL or PFHd	{} heeft geen MTTFd, B10d, PL of PFHd
 {} has no door or window {}	{} heeft geen deur of raam {}
 {} has nothing to manufacture	{} heeft niets te produceren
+{} holds an unresolved merge conflict of git: the file was merged as text. Take one version of the file (git checkout --ours or --theirs), then set up the merge driver for split projects (merge_project_file) before merging again	{} bevat een onopgelost merge-conflict van git: het bestand is als tekst samengevoegd. Neem één versie van het bestand (git checkout --ours of --theirs) en stel daarna het merge-stuurprogramma voor gesplitste projecten in (merge_project_file) voordat u opnieuw samenvoegt
 {} is a built-in function definition	{} is een ingebouwde functiedefinitie
 {} is a built-in property	{} is een ingebouwde eigenschap
 {} is a built-in scheme	{} is een ingebouwd schema

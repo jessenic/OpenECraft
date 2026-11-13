@@ -1925,11 +1925,13 @@ yellow	жёлтый
 {} cannot be renamed	{} нельзя переименовать
 {} differences taken over	Перенесено различий: {}
 {} duplicate ids renumbered	Перенумеровано повторяющихся идентификаторов: {}
+{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Файлов, изменённых в папке проекта другой программой и в открытом проекте: {}: {}{}. Сохраните проект под другим именем или откройте его заново и повторите изменения
 {} fits none of the parts of {}	{} не подходит ни к одному изделию {}
 {} frozen routes changed their length	Зафиксированных трасс, изменивших длину: {}
 {} has no MTTFd, B10d, PL or PFHd	У {} нет MTTFd, B10d, PL или PFHd
 {} has no door or window {}	У {} нет двери или окна {}
 {} has nothing to manufacture	{}: нечего изготавливать
+{} holds an unresolved merge conflict of git: the file was merged as text. Take one version of the file (git checkout --ours or --theirs), then set up the merge driver for split projects (merge_project_file) before merging again	{} содержит неразрешённый конфликт слияния git: файл был объединён как текст. Возьмите одну версию файла (git checkout --ours или --theirs), затем настройте драйвер слияния для разделённых проектов (merge_project_file) перед повторным слиянием
 {} is a built-in function definition	{} – встроенное определение функции
 {} is a built-in property	{} – встроенное свойство
 {} is a built-in scheme	{} – встроенная схема

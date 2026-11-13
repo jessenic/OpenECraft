@@ -1925,11 +1925,13 @@ yellow	żółty
 {} cannot be renamed	Nie można zmienić nazwy {}
 {} differences taken over	Przejęte różnice: {}
 {} duplicate ids renumbered	Przenumerowano zduplikowane identyfikatory: {}
+{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} plików zostało zmienionych w folderze projektu przez inny program i w otwartym projekcie: {}{}. Zapisz projekt pod inną nazwą albo otwórz go ponownie i powtórz zmiany
 {} fits none of the parts of {}	{} nie pasuje do żadnej części {}
 {} frozen routes changed their length	Zamrożone trasy, które zmieniły długość: {}
 {} has no MTTFd, B10d, PL or PFHd	{} nie ma MTTFd, B10d, PL ani PFHd
 {} has no door or window {}	{} nie ma drzwi ani okna {}
 {} has nothing to manufacture	{} nie ma nic do wyprodukowania
+{} holds an unresolved merge conflict of git: the file was merged as text. Take one version of the file (git checkout --ours or --theirs), then set up the merge driver for split projects (merge_project_file) before merging again	{} zawiera nierozwiązany konflikt scalania git: plik został scalony jako tekst. Wybierz jedną wersję pliku (git checkout --ours lub --theirs), a następnie skonfiguruj sterownik scalania dla projektów podzielonych (merge_project_file) przed ponownym scaleniem
 {} is a built-in function definition	{} jest wbudowaną definicją funkcji
 {} is a built-in property	{} jest wbudowaną właściwością
 {} is a built-in scheme	{} jest wbudowanym schematem

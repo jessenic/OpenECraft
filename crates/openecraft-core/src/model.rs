@@ -60,6 +60,27 @@ pub mod manufacturing;
 pub mod climate;
 pub mod props;
 pub const FORMAT: u32 = 2;
+/// Ids between the places a working copy starts its new ids at ([`Project::scatter_ids`]).
+pub const ID_SLOT: u64 = 1024;
+/// Number of those places.
+pub const ID_SLOTS: u64 = 1 << 16;
+
+/// See [`Project::id_floor`]: equal to every other one, so that it is never compared.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct IdFloor(pub u64);
+
+impl PartialEq for IdFloor {
+    fn eq(&self, _: &IdFloor) -> bool {
+        true
+    }
+}
+
+/// A random number (the seed of the hash maps of this process, which differs from
+/// map to map).
+fn random() -> u64 {
+    use std::hash::{BuildHasher, Hasher};
+    std::collections::hash_map::RandomState::new().build_hasher().finish()
+}
 
 fn legacy_format() -> u32 {
     0
@@ -191,6 +212,10 @@ pub struct Project {
     #[serde(skip_serializing_if = "integration::Integration::is_empty")]
     pub integration: integration::Integration,
     pub next_id: u64,
+    /// First id this working copy of a split project gives to a new object (not
+    /// stored, never compared; 0: none): see [`Project::scatter_ids`].
+    #[serde(skip)]
+    pub id_floor: IdFloor,
     /// Lookup table of the user symbols (not stored, never compared).
     #[serde(skip)]
     pub symbol_cache: crate::symlib::SymbolCache,
@@ -245,6 +270,7 @@ impl Default for Project {
             xref: Default::default(),
             integration: Default::default(),
             next_id: 1,
+            id_floor: IdFloor::default(),
             symbol_cache: Default::default(),
         };
         let id = prj.new_id();
@@ -2057,12 +2083,28 @@ impl Project {
     }
 
     pub fn new_id(&mut self) -> u64 {
+        self.next_id = self.next_id.max(self.id_floor.0);
         let id = self.next_id;
         self.next_id += 1;
         id
     }
 
-    /// Repairs ids after loading (e.g. hand-edited files).
+    /// Makes the ids of new objects start at a random place above the ids in use.
+    ///
+    /// Copies of a split project under version control are edited apart and merged
+    /// later; counting on from the same id, two copies would give the same ids to
+    /// different objects. With starts [`ID_SLOT`] apart, picked from [`ID_SLOTS`]
+    /// places, two copies that each add fewer objects than a slot holds meet with a
+    /// chance of 2 in [`ID_SLOTS`]; the verification finds and repairs what is left
+    /// (`crate::verify`). Nothing changes before the first new object, and a
+    /// subproject keeps to the ids reserved for it.
+    pub fn scatter_ids(&mut self) {
+        if self.id_floor.0 == 0 && self.subprojects.parent.is_none() {
+            self.fix_next_id();
+            self.id_floor.0 = self.next_id + (random() % ID_SLOTS + 1) * ID_SLOT;
+        }
+    }
+
     /// Reads a project file and prepares it for editing ([`Project::normalize`]).
     pub fn from_json(text: &str) -> Result<Project, String> {
         let mut prj: Project = serde_json::from_str(text).map_err(|e| tr_fmt!("Not a valid project file: {}", e))?;

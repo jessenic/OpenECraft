@@ -1702,6 +1702,7 @@ Save workspace…	Werkruimte opslaan…
 Saved to	Opgeslagen in
 Saved to the project server (revision {})	Opgeslagen op de projectserver (revisie {})
 Saved workspaces	Opgeslagen werkruimten
+Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	{} opgeslagen. {} bestanden van het project zijn intussen door een ander programma gewijzigd: het project is opnieuw gelezen met die wijzigingen
 Saves the placed properties as a placement scheme of the project	Slaat de geplaatste eigenschappen op als plaatsingsschema van het project
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Slaat het project zonder revisies, basisversies, review en bedradingsmarkeringen op als sjabloon voor nieuwe projecten
 Saves the project's own properties, function definitions and schemes for other projects	Slaat de eigen eigenschappen, functiedefinities en schema's van het project op voor andere projecten

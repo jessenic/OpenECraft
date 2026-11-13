@@ -1702,6 +1702,7 @@ Save workspace…	Gem arbejdsområde…
 Saved to	Gemt i
 Saved to the project server (revision {})	Gemt på projektserveren (revision {})
 Saved workspaces	Gemte arbejdsområder
+Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	{} gemt. {} filer i projektet er i mellemtiden ændret af et andet program: projektet blev læst igen med deres ændringer
 Saves the placed properties as a placement scheme of the project	Gemmer de placerede egenskaber som et placeringsskema i projektet
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Gemmer projektet uden revisioner, baselines, gennemsyn og ledningsmarkeringer som en skabelon til nye projekter
 Saves the project's own properties, function definitions and schemes for other projects	Gemmer projektets egne egenskaber, funktionsdefinitioner og skemaer til andre projekter

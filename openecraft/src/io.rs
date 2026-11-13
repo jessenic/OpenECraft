@@ -4,7 +4,7 @@
 pub use openecraft_ui::io::short_name;
 use openecraft_core::archive::{self, Conversion};
 use openecraft_core::model::Project;
-use openecraft_core::storage::folder;
+use openecraft_core::storage::folder::{self, Tracked};
 use openecraft_i18n::tr;
 use std::path::Path;
 use openecraft_ui::io::FileKind;
@@ -139,13 +139,15 @@ pub fn read_project(name: &str, bytes: &[u8]) -> Result<(Project, Conversion, bo
     Ok((prj, conv, false))
 }
 
-/// Writes the project to `path`: a project file, or the folder of a split project
-/// for an index file.
-pub fn write_project(io: &FileIo, path: &str, prj: &Project) -> Result<(), String> {
+/// Writes the project to `path`: a project file, or for an index file the changes
+/// to the folder of a split project (`tracked`: its files as the project was read,
+/// see [`folder::save_tracked`]). Returns the number of files of the folder another
+/// program changed meanwhile: they were kept and are not in `prj`.
+pub fn write_project(io: &FileIo, path: &str, prj: &Project, tracked: &mut Option<Tracked>) -> Result<usize, String> {
     if is_split(path) {
-        folder::save(Path::new(path), prj).map(|_| ())
+        folder::save_tracked(Path::new(path), prj, tracked).map(|saved| saved.foreign)
     } else {
-        io.save_to(path, &prj.to_json())
+        io.save_to(path, &prj.to_json()).map(|_| 0)
     }
 }
 

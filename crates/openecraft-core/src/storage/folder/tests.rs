@@ -1,4 +1,5 @@
 use super::*;
+use crate::storage::INDEX;
 use crate::document::Document;
 use crate::model::{Page, PageKind};
 use crate::sample::demo_project;
@@ -91,6 +92,124 @@ fn saving_writes_only_what_changed_and_removes_what_is_gone() {
         assert_eq!(std::fs::read_to_string(path).unwrap(), "mine");
     }
     assert!(open(&index).unwrap().0 == prj);
+}
+
+#[test]
+fn copies_of_a_project_give_new_objects_different_ids() {
+    let dir = temp_dir("folder-ids");
+    let index = dir.join("p.oecp");
+    let prj = demo_project();
+    save(&index, &prj).unwrap();
+    // Two people open the same state of the project and each add objects.
+    let (mut a, _) = open(&index).unwrap();
+    let (mut b, _) = open(&index).unwrap();
+    assert!(a == prj && a.next_id == prj.next_id, "nothing changes before the first new object");
+    let ids = |p: &mut Project| -> Vec<u64> { (0..100).map(|_| p.new_id()).collect() };
+    let (ids_a, ids_b) = (ids(&mut a), ids(&mut b));
+    assert!(ids_a[0] >= prj.next_id + crate::model::ID_SLOT && ids_a.windows(2).all(|w| w[1] == w[0] + 1));
+    assert!(ids_a.iter().all(|id| !ids_b.contains(id)), "{} / {}", ids_a[0], ids_b[0]);
+    // The start stays through undo (a clone taken before) and is not stored.
+    let mut undone = open(&index).unwrap().0;
+    let before = undone.clone();
+    let first = undone.new_id();
+    undone = before;
+    assert_eq!(undone.new_id(), first);
+    assert!(!a.to_json().contains("id_floor"));
+    // A project file counts on, and so does a subproject: its ids are reserved.
+    let mut file = Project::from_json(&prj.to_json()).unwrap();
+    assert_eq!(file.new_id(), prj.next_id);
+    let mut sub = prj.clone();
+    sub.subprojects.parent = Some(Default::default());
+    sub.scatter_ids();
+    assert_eq!(sub.new_id(), prj.next_id);
+}
+
+/// Changes a file as another program would (also its time, whatever the clock does).
+fn change(path: &Path, content: &[u8]) {
+    std::fs::write(path, content).unwrap();
+    let later = SystemTime::now() + std::time::Duration::from_secs(5);
+    std::fs::File::options().write(true).open(path).unwrap().set_modified(later).unwrap();
+}
+
+#[test]
+fn a_save_keeps_what_another_program_changed() {
+    let dir = temp_dir("folder-tracked");
+    let index = dir.join("p.oecp");
+    let base = with_document();
+    let mut tracked = None;
+    assert_eq!(save_tracked(&index, &base, &mut tracked).unwrap(), Saved { changed: split(&base).len(), foreign: 0 });
+    // Nothing changed: nothing is written, and nothing is read but the folder.
+    assert_eq!(save_tracked(&index, &base, &mut tracked).unwrap(), Saved::default());
+
+    // A colleague's changes arrive (git pull) while the project is open: a page
+    // changed, a page added with its place in the index, a device removed.
+    let mut theirs = base.clone();
+    theirs.pages[2].description = "Theirs".into();
+    let id = theirs.next_id + 5000;
+    theirs.pages.push(Page::new(id, "90", "Theirs", PageKind::Schematic));
+    theirs.next_id = id + 1;
+    let gone = theirs.devices.keys().next().unwrap().clone();
+    theirs.devices.remove(&gone);
+    let files = split(&theirs);
+    let page = |p: &Project, i: usize| format!("pages/{}.json", p.pages[i].id);
+    for name in [page(&theirs, 2), format!("pages/{id}.json"), "data/next_id.json".to_string()] {
+        change(&dir.join(&name), &files[&name]);
+    }
+    change(&index, &files[INDEX]);
+    let device = stored(&dir).unwrap().into_iter().find(|(name, _)| name.starts_with("data/devices/") && !files.contains_key(name)).unwrap();
+    std::fs::remove_file(&device.1).unwrap();
+
+    // We changed another page and removed the document page with its file.
+    let mut ours = base.clone();
+    ours.pages[1].description = "Ours".into();
+    let removed = ours.pages.pop().unwrap();
+    let saved = save_tracked(&index, &ours, &mut tracked);
+    // The index was changed by both (their page, our removed page): nothing is written.
+    let err = saved.unwrap_err();
+    assert!(err.contains("p.oecp") || err.contains(INDEX), "{err}");
+    assert!(dir.join(format!("pages/{}.json", removed.id)).exists());
+    assert!(!String::from_utf8(std::fs::read(dir.join(page(&ours, 1))).unwrap()).unwrap().contains("Ours"));
+
+    // Without the change both made to the index, our changes are written next to theirs.
+    let mut ours = base.clone();
+    ours.pages[1].description = "Ours".into();
+    let saved = save_tracked(&index, &ours, &mut tracked).unwrap();
+    assert_eq!(saved, Saved { changed: 1, foreign: 5 });
+    let (merged, _) = open(&index).unwrap();
+    assert_eq!((merged.pages[1].description.as_str(), merged.pages[2].description.as_str()), ("Ours", "Theirs"));
+    assert_eq!(merged.pages.len(), base.pages.len() + 1);
+    assert!(!merged.devices.contains_key(&gone));
+    // Saving again still leaves their files alone, until the project is read again.
+    ours.pages[0].description = "More".into();
+    assert_eq!(save_tracked(&index, &ours, &mut tracked).unwrap(), Saved { changed: 1, foreign: 5 });
+    assert_eq!(open(&index).unwrap().0.pages.len(), base.pages.len() + 1);
+    let mut tracked = Some(track(&index).unwrap());
+    let (merged, _) = open(&index).unwrap();
+    assert_eq!(save_tracked(&index, &merged, &mut tracked).unwrap(), Saved::default());
+
+    // An embedded file we no longer use stays while files of others are unknown: a
+    // page of theirs may use it. Alone we remove it.
+    let mut alone = merged.clone();
+    let doc = alone.pages.iter().position(|p| p.document.is_some()).unwrap();
+    alone.pages.remove(doc);
+    change(&dir.join(page(&merged, 3)), &{
+        let mut p = merged.clone();
+        p.pages[3].description = "Again".into();
+        split(&p)[&page(&merged, 3)].clone()
+    });
+    assert_eq!(save_tracked(&index, &alone, &mut tracked).unwrap().foreign, 1);
+    assert_eq!(dir.join("files").read_dir().unwrap().count(), 1);
+    let mut tracked = Some(track(&index).unwrap());
+    let (now, _) = open(&index).unwrap();
+    let mut alone = now.clone();
+    alone.info.name = "Alone".into();
+    assert_eq!(save_tracked(&index, &alone, &mut tracked).unwrap(), Saved { changed: 2, foreign: 0 });
+    assert!(!dir.join("files").exists());
+
+    // Another place is written as a whole.
+    let other = dir.join("copy").join("p.oecp");
+    assert_eq!(save_tracked(&other, &alone, &mut tracked).unwrap().changed, split(&alone).len());
+    assert!(open(&other).unwrap().0 == alone);
 }
 
 #[test]

@@ -17,6 +17,8 @@ pub struct Session {
     pub path: Option<PathBuf>,
     /// Archive the project was read from: saving writes a project file, not the archive.
     pub archive: Option<PathBuf>,
+    /// The files of a split project as they were when it was opened or last saved.
+    tracked: Option<folder::Tracked>,
     /// Project as last opened / saved; `None` if it was never saved.
     saved: Option<Project>,
     history: Option<History>,
@@ -39,6 +41,7 @@ impl Session {
             project: None,
             path: None,
             archive: None,
+            tracked: None,
             saved: None,
             history: None,
             server,
@@ -60,6 +63,10 @@ impl Session {
     /// Replaces the project. `path` is the file it was read from (counts as saved).
     pub fn replace(&mut self, mut prj: Project, path: Option<PathBuf>) {
         prj.normalize();
+        self.tracked = path.as_deref().filter(|p| folder::is_index(p)).and_then(|p| {
+            prj.scatter_ids();
+            folder::track(p).ok()
+        });
         self.history = Some(History::new(&prj));
         self.saved = path.is_some().then(|| prj.clone());
         self.path = path;
@@ -83,15 +90,30 @@ impl Session {
 
     /// Saves to `path`, or to the file of the project. Returns the file.
     pub fn save(&mut self, path: Option<&str>) -> Result<PathBuf, String> {
-        let prj = self.project()?;
+        let prj = self.project.as_ref().ok_or_else(no_project)?;
         let no_file = || match &self.archive {
             Some(a) => tr_fmt!("{} is an archive: pass a path to save the project as a project file", a.display()),
             None => tr("The project has no file yet: pass a path").to_string(),
         };
         let path = path.map(PathBuf::from).or_else(|| self.path.clone()).ok_or_else(no_file)?;
-        write_project(&path, prj)?;
-        self.saved = Some(prj.clone());
-        self.path = Some(path.clone());
+        if !folder::is_index(&path) {
+            std::fs::write(&path, prj.to_json()).map_err(|e| tr_fmt!("Cannot write {}: {}", path.display(), openecraft_i18n::io_error(&e)))?;
+            self.saved = Some(prj.clone());
+            self.path = Some(path.clone());
+            return Ok(path);
+        }
+        let saved = folder::save_tracked(&path, prj, &mut self.tracked)?;
+        if saved.foreign > 0 {
+            // Another program changed files of the folder meanwhile (git): they were
+            // kept, the project is read again with them.
+            let (prj, _) = folder::open(&path)?;
+            self.replace(prj, Some(path.clone()));
+        } else {
+            let prj = self.project_mut()?;
+            prj.scatter_ids();
+            self.saved = self.project.clone();
+            self.path = Some(path.clone());
+        }
         Ok(path)
     }
 
@@ -166,14 +188,6 @@ pub fn read_project(path: &Path) -> Result<(Project, Conversion, bool), String> 
     let bytes = std::fs::read(path).map_err(|e| tr_fmt!("Cannot read {}: {}", path.display(), openecraft_i18n::io_error(&e)))?;
     let (prj, conv) = archive::read_project(&bytes)?;
     Ok((prj, conv, archive::is_archive(&bytes)))
-}
-
-/// Writes a project file or, for an index (`.oecp`), the folder of a split project.
-pub fn write_project(path: &Path, prj: &Project) -> Result<(), String> {
-    if folder::is_index(path) {
-        return folder::save(path, prj).map(|_| ());
-    }
-    std::fs::write(path, prj.to_json()).map_err(|e| tr_fmt!("Cannot write {}: {}", path.display(), openecraft_i18n::io_error(&e)))
 }
 
 fn no_project() -> String {

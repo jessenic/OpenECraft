@@ -2,6 +2,7 @@
 //! device index, saved state and file name. No UI code, so the rules (dirty, first
 //! page, when the analysis is rebuilt) are unit tested; `App` adds the windows.
 
+use openecraft_core::storage::folder::{self, Tracked};
 use openecraft_api::{Check, Plugins, Report};
 use openecraft_core::analysis::{self, Analysis, Cache, Issue, Progress, Step};
 use openecraft_core::history::History;
@@ -26,6 +27,9 @@ pub struct Session {
     saved: Option<u64>,
     /// File the project was opened from or saved to.
     pub file_name: Option<String>,
+    /// The files of a split project as they were when it was opened or last saved:
+    /// a save writes what differs from them and leaves what another program changed.
+    pub tracked: Option<Tracked>,
     /// The project is new to the session (at its start or replaced) and has no analysis
     /// yet: the next one is built in the background (`opening`).
     replaced: bool,
@@ -65,12 +69,21 @@ struct Built {
     result: Option<Result<(Analysis, Cache), ()>>,
 }
 
+/// For a split project: its files as they are now. Its new objects get ids apart
+/// from those of other copies of the folder.
+fn track(prj: &mut Project, file_name: Option<&str>) -> Option<Tracked> {
+    let index = std::path::Path::new(file_name.filter(|f| crate::io::is_split(f))?);
+    prj.scatter_ids();
+    folder::track(index).ok()
+}
+
 impl Session {
     /// Opens `prj` (normalised) on its first schematic page; it counts as saved. Its
     /// analysis is built in the background like that of a project opened later (the
     /// project at the start of the app, restored from the last session).
     pub fn new(mut prj: Project, file_name: Option<String>) -> Session {
         prj.normalize();
+        let tracked = track(&mut prj, file_name.as_deref());
         let history = History::new(&prj);
         let saved = Some(history.state());
         let page = first_schematic(&prj);
@@ -86,6 +99,7 @@ impl Session {
             index_rev: 0,
             saved,
             file_name,
+            tracked,
             replaced: true,
             opening: None,
             waiting: None,
@@ -101,6 +115,7 @@ impl Session {
     pub fn replace(&mut self, prj: Project, file_name: Option<String>) {
         self.prj = prj;
         self.prj.normalize();
+        self.tracked = track(&mut self.prj, file_name.as_deref());
         self.file_name = file_name;
         self.page = first_schematic(&self.prj);
         // A new revision, so that the analysis and the index are built again.

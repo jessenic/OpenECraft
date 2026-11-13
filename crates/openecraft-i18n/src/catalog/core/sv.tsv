@@ -1925,11 +1925,13 @@ yellow	gul
 {} cannot be renamed	{} kan inte byta namn
 {} differences taken over	{} skillnader överförda
 {} duplicate ids renumbered	{} dubblerade ID:n omnumrerade
+{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} filer har ändrats i projektmappen av ett annat program och i det öppna projektet: {}{}. Spara projektet under ett annat namn, eller öppna det igen och upprepa ändringarna
 {} fits none of the parts of {}	{} passar inte till någon artikel i {}
 {} frozen routes changed their length	{} frysta dragningar har ändrat längd
 {} has no MTTFd, B10d, PL or PFHd	{} har varken MTTFd, B10d, PL eller PFHd
 {} has no door or window {}	{} har ingen dörr eller fönster {}
 {} has nothing to manufacture	{} har inget att tillverka
+{} holds an unresolved merge conflict of git: the file was merged as text. Take one version of the file (git checkout --ours or --theirs), then set up the merge driver for split projects (merge_project_file) before merging again	{} innehåller en olöst sammanslagningskonflikt från git: filen slogs ihop som text. Ta en version av filen (git checkout --ours eller --theirs) och ställ sedan in sammanslagningsdrivrutinen för delade projekt (merge_project_file) innan du slår ihop igen
 {} is a built-in function definition	{} är en inbyggd funktionsdefinition
 {} is a built-in property	{} är en inbyggd egenskap
 {} is a built-in scheme	{} är ett inbyggt schema

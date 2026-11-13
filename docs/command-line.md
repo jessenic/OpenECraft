@@ -55,10 +55,21 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
 
   Where both sides changed the same value, the file keeps the value of the current
   branch, the command names the places and git marks the file as conflicted: open the
-  project, set what is right and `git add` the file. Object ids are not coordinated
-  between branches, so two branches that each added an object can give it the same
-  id; after a merge run `openecraft-cli -p plant/plant.oecp check_project_data` and,
-  if it reports ids used more than once, again with `--repair`.
+  project, set what is right and `git add` the file. Without the driver git merges
+  the files as text and writes both versions into them; such a file is named when the
+  project is opened: take one version (`git checkout --ours` or `--theirs`) and set
+  up the driver.
+- **Ids of new objects.** Every copy of a split project starts the ids of its new
+  objects at a random place above the ids in use, so that two people who add objects
+  on their branches do not give them the same ids (the chance is about 1 in 30 000
+  for two copies edited at the same time; ids therefore grow in steps). Should it
+  happen, `openecraft-cli -p plant/plant.oecp check_project_data` reports ids used
+  more than once and `--repair` renumbers them: run it after a merge.
+- **Changes of another program while the project is open** (a `git pull`, a second
+  editor): saving writes only the files this side changed and keeps the others; the
+  editor and an MCP session then read the project again, so that it shows both. A
+  file changed on both sides is not overwritten: the save fails and names the files.
+  Save under another name, or open the project again and repeat the changes.
 - Parameters are `--name value` (also `--name=value`, or all at once with `--json '{…}'`);
   lists as `--ids 3,4` and points as `--points "0,0 40,0"`; lists of codes, tags or
   languages are separated by commas or blanks. Values outside their range are refused

@@ -184,6 +184,19 @@ fn broken_folders_are_refused() {
 }
 
 #[test]
+fn files_merged_as_text_are_named() {
+    let mut files = split(&demo_project());
+    let page = files.keys().find(|p| p.starts_with("pages/")).unwrap().clone();
+    let content = String::from_utf8(files[&page].clone()).unwrap();
+    files.insert(page.clone(), format!("<<<<<<< HEAD\n{content}=======\n{content}>>>>>>> theirs\n").into_bytes());
+    let err = join(&files).unwrap_err();
+    assert!(err.contains(&page) && err.contains("merge conflict"), "{err}");
+    // Other broken files are reported as before.
+    files.insert(page.clone(), b"{ <<<<<<< nope".to_vec());
+    assert!(join(&files).unwrap_err().starts_with("Not a valid project file"));
+}
+
+#[test]
 fn older_project_formats_are_converted() {
     let mut files = split(&demo_project());
     let mut index: serde_json::Value = serde_json::from_slice(&files[INDEX]).unwrap();

@@ -25,15 +25,27 @@ fn projects_are_read_and_written_by_the_kind_of_their_file() {
     let prj = demo_project();
 
     let file = dir.join("demo.oec").display().to_string();
-    write_project(&io, &file, &prj).unwrap();
+    assert_eq!(write_project(&io, &file, &prj, &mut None), Ok(0));
     let bytes = std::fs::read(&file).unwrap();
     let (back, _, archive) = read_project(&file, &bytes).unwrap();
     assert!(back == prj && !archive);
 
     // A split project is read from the folder of its index, whatever was loaded.
     let index = dir.join("split").join("demo.oecp").display().to_string();
-    write_project(&io, &index, &prj).unwrap();
-    assert!(dir.join("split").join("pages").is_dir());
+    let mut tracked = None;
+    assert_eq!(write_project(&io, &index, &prj, &mut tracked), Ok(0));
+    assert!(dir.join("split").join("pages").is_dir() && tracked.is_some());
+    // A file another program changed meanwhile is kept and counted.
+    let page = dir.join("split").join("pages").join(format!("{}.json", prj.pages[0].id));
+    let mut theirs = prj.clone();
+    theirs.pages[0].description = "Theirs".into();
+    std::fs::write(&page, &openecraft_core::storage::split(&theirs)[&format!("pages/{}.json", prj.pages[0].id)]).unwrap();
+    let mut ours = prj.clone();
+    ours.info.name = "Ours".into();
+    assert_eq!(write_project(&io, &index, &ours, &mut tracked), Ok(1));
+    let merged = folder::open(Path::new(&index)).unwrap().0;
+    assert_eq!((merged.info.name.as_str(), merged.pages[0].description.as_str()), ("Ours", "Theirs"));
+    let prj = merged;
     let (back, conv, archive) = read_project(&index, &std::fs::read(&index).unwrap()).unwrap();
     assert!(back == prj && !archive && !conv.converted());
     assert!(read_project(&dir.join("none.oecp").display().to_string(), b"").is_err());

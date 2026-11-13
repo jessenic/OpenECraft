@@ -1925,11 +1925,13 @@ yellow	sárga
 {} cannot be renamed	{} nem nevezhető át
 {} differences taken over	{} különbség átvéve
 {} duplicate ids renumbered	{} ismétlődő azonosító újraszámozva
+{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} fájlt a projektmappában egy másik program és a megnyitott projekt is módosított: {}{}. Mentse a projektet más néven, vagy nyissa meg újra, és ismételje meg a módosításokat
 {} fits none of the parts of {}	{0} nem illeszkedik a(z) {1} egyik cikkéhez sem
 {} frozen routes changed their length	{} rögzített nyomvonal hossza megváltozott
 {} has no MTTFd, B10d, PL or PFHd	{} esetén nincs MTTFd, B10d, PL vagy PFHd
 {} has no door or window {}	{0} nem tartalmaz {1} ajtót vagy ablakot
 {} has nothing to manufacture	{} esetén nincs mit gyártani
+{} holds an unresolved merge conflict of git: the file was merged as text. Take one version of the file (git checkout --ours or --theirs), then set up the merge driver for split projects (merge_project_file) before merging again	A(z) {} feloldatlan git egyesítési ütközést tartalmaz: a fájl szövegként lett egyesítve. Vegye át a fájl egyik verzióját (git checkout --ours vagy --theirs), majd az újabb egyesítés előtt állítsa be a felosztott projektek egyesítő illesztőjét (merge_project_file)
 {} is a built-in function definition	{} beépített funkciódefiníció
 {} is a built-in property	{} beépített tulajdonság
 {} is a built-in scheme	{} beépített séma

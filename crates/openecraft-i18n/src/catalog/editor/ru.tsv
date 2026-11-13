@@ -1701,6 +1701,7 @@ Save workspace…	Сохранить рабочее пространство…
 Saved to	Сохранено в
 Saved to the project server (revision {})	Сохранено на сервере проектов (ревизия {})
 Saved workspaces	Сохранённые рабочие пространства
+Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	Сохранено: {}. Файлов проекта, изменённых тем временем другой программой: {}; проект прочитан заново с их изменениями
 Saves the placed properties as a placement scheme of the project	Сохраняет размещённые свойства как схему размещения проекта
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Сохраняет проект без ревизий, базовых версий, рецензирования и отметок проводки как шаблон для новых проектов
 Saves the project's own properties, function definitions and schemes for other projects	Сохраняет собственные свойства, определения функций и схемы проекта для других проектов

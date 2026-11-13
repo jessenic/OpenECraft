@@ -57,6 +57,46 @@ fn split_projects_are_saved_in_place() {
 }
 
 #[test]
+fn a_save_keeps_the_changes_another_program_made_to_a_split_project() {
+    let dir = temp_dir("session-foreign");
+    let index = dir.join("demo.oecp");
+    let mut mine = session();
+    mine.replace(openecraft_core::sample::demo_project(), None);
+    mine.save(Some(index.to_str().unwrap())).unwrap();
+    // A colleague's change arrives while the project is open (git pull).
+    let mut theirs = session();
+    theirs.open(index.to_str().unwrap()).unwrap();
+    theirs.project_mut().unwrap().pages[1].description = "Theirs".into();
+    theirs.save(None).unwrap();
+
+    mine.project_mut().unwrap().pages[2].description = "Mine".into();
+    mine.save(None).unwrap();
+    // Both changes are in the folder, and in the project that was read again.
+    let pages = &mine.project().unwrap().pages;
+    assert_eq!((pages[1].description.as_str(), pages[2].description.as_str()), ("Theirs", "Mine"));
+    assert!(!mine.unsaved());
+    let mut check = session();
+    check.open(index.to_str().unwrap()).unwrap();
+    assert!(check.project().unwrap() == mine.project().unwrap());
+
+    // The same page changed by both: nothing is overwritten.
+    theirs.open(index.to_str().unwrap()).unwrap();
+    theirs.project_mut().unwrap().pages[1].description = "Theirs again".into();
+    theirs.save(None).unwrap();
+    mine.project_mut().unwrap().pages[1].description = "Mine too".into();
+    let err = mine.save(None).unwrap_err();
+    assert!(err.contains("pages/"), "{err}");
+    check.open(index.to_str().unwrap()).unwrap();
+    assert_eq!(check.project().unwrap().pages[1].description, "Theirs again");
+    // Under another name the project can still be saved.
+    mine.save(Some(dir.join("mine").join("demo.oecp").to_str().unwrap())).unwrap();
+
+    // New objects of two copies get different ids.
+    let (a, b) = (mine.project_mut().unwrap().new_id(), theirs.project_mut().unwrap().new_id());
+    assert_ne!(a, b);
+}
+
+#[test]
 fn open_reports_unreadable_and_invalid_files() {
     let dir = temp_dir("session-open");
     let mut s = session();

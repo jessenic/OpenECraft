@@ -201,7 +201,19 @@ fn missing_file(path: &str) -> String {
 
 fn parse<'a, T: Deserialize<'a>>(files: &'a Files, path: &str) -> Result<T, String> {
     let bytes = files.get(path).ok_or_else(|| missing_file(path))?;
-    serde_json::from_slice(bytes).map_err(|e| tr_fmt!("Not a valid project file: {}", format!("{path}: {e}")))
+    serde_json::from_slice(bytes).map_err(|e| {
+        if conflict_markers(bytes) {
+            tr_fmt!("{} holds an unresolved merge conflict of git: the file was merged as text. Take one version of the file (git checkout --ours or --theirs), then set up the merge driver for split projects (merge_project_file) before merging again", path)
+        } else {
+            tr_fmt!("Not a valid project file: {}", format!("{path}: {e}"))
+        }
+    })
+}
+
+/// Git wrote both versions of a conflict into the file.
+fn conflict_markers(bytes: &[u8]) -> bool {
+    let mut lines = bytes.split(|b| *b == b'\n');
+    lines.any(|l| l.starts_with(b"<<<<<<< ")) && bytes.split(|b| *b == b'\n').any(|l| l.starts_with(b">>>>>>> "))
 }
 
 fn raw<T: Serialize>(value: &T) -> Raw {

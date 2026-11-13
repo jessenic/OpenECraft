@@ -1702,6 +1702,7 @@ Save workspace…	Spara arbetsyta…
 Saved to	Sparat i
 Saved to the project server (revision {})	Sparat på projektservern (revision {})
 Saved workspaces	Sparade arbetsytor
+Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	{} sparades. {} filer i projektet har under tiden ändrats av ett annat program: projektet lästes in igen med deras ändringar
 Saves the placed properties as a placement scheme of the project	Sparar de placerade egenskaperna som ett placeringsschema i projektet
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Sparar projektet utan revisioner, baslinjer, granskning och inkopplingsmarkeringar som en mall för nya projekt
 Saves the project's own properties, function definitions and schemes for other projects	Sparar projektets egna egenskaper, funktionsdefinitioner och scheman för andra projekt

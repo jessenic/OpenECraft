@@ -38,13 +38,13 @@ impl App {
         }
         let filter = (tr("OpenECraft project"), PROJECT_EXT);
         let result = match (&self.session.file_name, save_as) {
-            (Some(path), false) if FileIo::can_save_in_place() => io::write_project(&self.io, path, &self.session.prj).map(|_| Some(path.clone())),
+            (Some(path), false) if FileIo::can_save_in_place() => io::write_project(&self.io, path, &self.session.prj, &mut self.session.tracked).map(|foreign| Some((path.clone(), foreign))),
             // On the desktop the file name decides: an index file saves a split project.
             _ if FileIo::can_save_in_place() => match self.io.pick_save(&self.save_name(PROJECT_EXT), filter) {
                 Some(path) => self.write_project_as(path).map(Some),
                 None => Ok(None),
             },
-            _ => self.io.save_as(&self.save_name(PROJECT_EXT), filter, &self.session.prj.to_json()),
+            _ => self.io.save_as(&self.save_name(PROJECT_EXT), filter, &self.session.prj.to_json()).map(|path| path.map(|p| (p, 0))),
         };
         self.saved(ctx, result);
     }
@@ -68,17 +68,35 @@ impl App {
 
     /// Writes the project to a path the user chose; returns where it went (a split
     /// project chosen among other files gets a folder of its own).
-    fn write_project_as(&self, path: String) -> Result<String, String> {
+    fn write_project_as(&mut self, path: String) -> Result<(String, usize), String> {
         let path = if io::is_split(&path) { openecraft_core::storage::folder::place(std::path::Path::new(&path)).display().to_string() } else { path };
-        io::write_project(&self.io, &path, &self.session.prj).map(|_| path)
+        io::write_project(&self.io, &path, &self.session.prj, &mut self.session.tracked).map(|foreign| (path, foreign))
     }
 
-    /// The project was saved to a file (none: the user cancelled).
-    fn saved(&mut self, ctx: &egui::Context, result: Result<Option<String>, String>) {
+    /// The project was saved to a file (none: the user cancelled). With files of a
+    /// split project that another program changed meanwhile (git), the project is
+    /// read again: it then holds their changes next to those just saved.
+    fn saved(&mut self, ctx: &egui::Context, result: Result<Option<(String, usize)>, String>) {
+        let result = match result {
+            Ok(Some((path, foreign))) if foreign > 0 => match openecraft_core::storage::folder::open(std::path::Path::new(&path)) {
+                Ok((prj, _)) => {
+                    self.replace_project(prj, Some(path.clone()));
+                    self.notify_ok(ctx, tr_fmt!("Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes", io::short_name(&path), foreign));
+                    return;
+                }
+                Err(e) => Err(e),
+            },
+            Ok(saved) => Ok(saved.map(|(path, _)| path)),
+            Err(e) => Err(e),
+        };
         match result {
             Ok(Some(path)) => {
                 self.notify_ok(ctx, tr_fmt!("Saved {}", io::short_name(&path)));
                 self.remember_recent(&path);
+                if io::is_split(&path) {
+                    // Other copies of the folder may be edited from now on.
+                    self.session.prj.scatter_ids();
+                }
                 self.session.file_name = Some(path);
                 self.session.mark_saved();
                 // Saved locally: no longer a copy of the server project.

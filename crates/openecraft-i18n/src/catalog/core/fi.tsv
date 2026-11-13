@@ -1925,11 +1925,13 @@ yellow	keltainen
 {} cannot be renamed	Kohdetta {} ei voi nimetä uudelleen
 {} differences taken over	{} eroa otettu käyttöön
 {} duplicate ids renumbered	{} päällekkäistä tunnusta numeroitiin uudelleen
+{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} tiedostoa on muutettu projektikansiossa toisella ohjelmalla ja avoimessa projektissa: {}{}. Tallenna projekti toisella nimellä tai avaa se uudelleen ja toista muutokset
 {} fits none of the parts of {}	{} ei sovi mihinkään laitteen {} osaan
 {} frozen routes changed their length	{} lukittua reittiä muutti pituuttaan
 {} has no MTTFd, B10d, PL or PFHd	Kohteella {} ei ole MTTFd-, B10d-, PL- eikä PFHd-arvoa
 {} has no door or window {}	Kohteessa {} ei ole ovea tai ikkunaa {}
 {} has nothing to manufacture	Kohteella {} ei ole mitään valmistettavaa
+{} holds an unresolved merge conflict of git: the file was merged as text. Take one version of the file (git checkout --ours or --theirs), then set up the merge driver for split projects (merge_project_file) before merging again	{} sisältää ratkaisemattoman gitin yhdistämisristiriidan: tiedosto yhdistettiin tekstinä. Ota tiedostosta yksi versio (git checkout --ours tai --theirs) ja määritä sitten jaettujen projektien yhdistämisajuri (merge_project_file) ennen uutta yhdistämistä
 {} is a built-in function definition	{} on sisäinen toimintomäärittely
 {} is a built-in property	{} on sisäinen ominaisuus
 {} is a built-in scheme	{} on sisäinen skeema
