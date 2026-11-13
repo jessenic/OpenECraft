@@ -22,8 +22,11 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   written in version 2**: they hold the files of a split project instead of one
   `project.oec`, so an embedded file used several times is stored once; the manifest
   names the version (`version`), archives of version 1 are still read, and versions
-  of OpenECraft before this one cannot read the new archives. The `.oec` file stays
-  the default (#149).
+  of OpenECraft before this one cannot read the new archives. The **project server
+  stores its projects as split projects** (`<name>/<name>.oecp` in the data
+  directory) and writes only the files a save changed; project files of earlier
+  versions are converted at the first start and kept as `<name>.oec.bak`. The `.oec`
+  file stays the default (#149).
 - **Parts server: groups, catalog permissions, directories and a dashboard.** Users
   are gathered in **groups** of the server (*Administration › Groups*, `/api/v1/groups`;
   the groups of local accounts become such groups at startup), and grants to a group

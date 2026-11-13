@@ -22,8 +22,12 @@ As a container: `docker run -d -p 127.0.0.1:8091:8091 -e OPENECRAFT_PROJECT_TOKE
 - Project names differing only in case are one name (Windows and macOS do not tell
   their files apart): requests find a project under any case of its name; Windows device names (`CON`, `NUL`, `COM1` …) and names ending
   with a dot are refused.
-- Each project is stored as `<name>.oec` (a normal project file) next to
-  `<name>.state.json` (revision, id counter) in the data directory.
+- Each project is stored as a split project in a folder of its own
+  (`<name>/<name>.oecp` with one small file per page, device and part; it opens in the
+  desktop editor and can be kept under version control) next to `<name>.state.json`
+  (revision, id counter) in the data directory. A save writes only the files that
+  changed. Project files of earlier versions (`<name>.oec`) are converted at the
+  first start and kept as `<name>.oec.bak`.
 - With `--token` (or `OPENECRAFT_PROJECT_TOKEN`) every request needs
   `Authorization: Bearer <token>`; without it, user accounts and directories everyone
   who reaches the server can change its projects, but only clients on the server's own
