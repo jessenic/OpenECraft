@@ -47,12 +47,14 @@ Altitude of the site in m	Asennuspaikan korkeus merenpinnasta m
 Ambient temperature of the conductors in °C	Johtimien ympäristön lämpötila °C:na
 An outline needs {} points at least	Ääriviiva tarvitsee vähintään {} pistettä
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Ankkuri akselin suuntaisesti: free, start:<mm>, center:<mm>, end:<mm> tai stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Kulma asteina, vastapäivään
 Aspects separated by commas, e.g. function,location	Aspektit pilkuin erotettuina, esim. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Määrittää toimintomäärittelyn sijoitetulle symbolille (nimitykset ja skeema otetaan käyttöön)
 Asynchronous motors add to the short-circuit current	Epätahtimoottorit lisäävät oikosulkuvirtaa
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Automaattinen laitteistokokoonpano: asemat CPU:ille ja väyläliittimille, väyläjärjestelmät, kortit asemiin, korttipaikat, aloitusosoitteet, pisteiden osoitteet, IP-osoitteet ja linjatopologia
 Back to the default rules first	Palauta ensin oletussäännöt
 Back to the default strategy first	Palauta ensin oletusstrategia
+Back to the place above the project name	Takaisin paikalleen projektin nimen yläpuolelle
 Back-up protection up to this short-circuit current in kA (0: not given)	Varasuojaus tähän oikosulkuvirtaan asti kA (0: ei annettu)
 Bar id	Kiskon ID
 Bar thickness, mm (default 5)	Kiskon paksuus, mm (oletus 5)
@@ -101,6 +103,7 @@ Chosen value	Valittu arvo
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Kaappiasennuksen etäisyydet, huoltotila, korkeudet, törmäysluokat, lämpösimulaatio ja valmistettavuus
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Kotelojen ilmastointi (IEC/TR 60890): häviöteho, sisälämpötila, tarvittava tuuletin tai jäähdytyslaite ja lämmitys; muuttaa valinnaisesti yhden kotelon asetuksia
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Törmäysluokka: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, oma luokka tai * mille tahansa
+Colour as #RRGGBB	Väri muodossa #RRGGBB
 Column and row strips	Sarake- ja rivinauhat
 Column mapping {field code: column name}	Sarakemääritys {kenttäkoodi: sarakkeen nimi}
 Column name, e.g. Description	Sarakkeen nimi, esim. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Luo tai muuttaa konfiguraattorin vaihto
 Creates or changes a fluid device group	Luo tai muuttaa fluidilaiteryhmän
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Luo tai muuttaa projektin piirustuskehyksen (sisäiset kehykset kopioidaan uudella nimellä)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Luo tai muuttaa potentiaalin määrityksen; sen johdot saavat värin ja poikkipinta-alan, ellei niitä ole asetettu johtoon
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Luo tai muuttaa projektin nimiön (sisäänrakennetut kopioidaan uudella nimellä)
 Creates or changes a work area: only the pages and devices of its structure are shown	Luo tai muuttaa työalueen: vain sen rakenteen sivut ja laitteet näytetään
 Cross reference placed by hand: X offset from the insertion point in mm	Käsin sijoitettu ristiviittaus: X-siirtymä lisäyspisteestä mm
 Cross reference placed by hand: Y offset from the insertion point in mm	Käsin sijoitettu ristiviittaus: Y-siirtymä lisäyspisteestä mm
@@ -171,6 +175,7 @@ Deletes a page	Poistaa sivun
 Deletes a page template of the project	Poistaa projektin sivumallin
 Deletes a plot frame of the project that no page uses	Poistaa projektin piirustuskehyksen, jota mikään sivu ei käytä
 Deletes a potential definition	Poistaa potentiaalin määrityksen
+Deletes a title block of the project; pages using it get the project default	Poistaa projektin nimiön; sitä käyttävät sivut saavat projektin oletuksen
 Deletes a work area	Poistaa työalueen
 Deletes symbols, wires, texts and shapes	Poistaa symboleja, johtoja, tekstejä ja muotoja
 Depth in mm	Syvyys millimetreinä
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Reititysruudukon sivun pituus millimetreinä
 Electrical device tags separated by commas or blanks (empty = remove the links)	Sähkölaitteiden tunnukset pilkuilla tai välilyönneillä erotettuina (tyhjä = poista linkit)
 Electrical engineering	Sähkötekniikka
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Elementit (Line, Rect, Text, Image) millimetreinä nimiöalueen vasemmasta yläkulmasta taulukossa items
 Enclosure (location, e.g. +CAB1)	Kotelo (sijainti, esim. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Kotelo (sijainti, esim. +CAB1), jonka asetukset muuttuvat
 Enclosure climate and electrical sizing	Kaapin ilmasto ja sähköinen mitoitus
@@ -273,6 +279,7 @@ Height above the floor in metres	Korkeus lattiasta metreinä
 Height above the mounting plate in mm (default 50)	Korkeus asennuslevyn yläpuolella millimetreinä (oletus 50)
 Height in mm	Korkeus millimetreinä
 Height in mm without plinth; negative: unknown (wall mounted)	Korkeus mm ilman sokkelia; negatiivinen: tuntematon (seinäasennus)
+Height in mm; the logo keeps its aspect ratio inside	Korkeus millimetreinä; logo säilyttää sen sisällä kuvasuhteensa
 Higher-level product aspect (-) of the page; the devices on the page move along	Sivun ylemmän tason tuote -aspekti (-); sivun laitteet siirtyvät mukana
 Highest actuator on the door above the floor (0: not checked)	Oven ylin käyttöelin lattiasta (0: ei tarkisteta)
 Highest air temperature at devices without data (0: not checked)	Korkein ilman lämpötila laitteilla, joilla ei ole tietoja (0: ei tarkisteta)
@@ -311,6 +318,7 @@ Integration profiles and status	Integraatioprofiilit ja -tila
 Interruption points refer to: all (default), star or pairs	Katkoskohdat viittaavat: all (oletus), star tai pairs
 Invalid answer of the plugin: {}	Laajennuksen virheellinen vastaus: {}
 Invalid segment name: {}	Virheellinen segmentin nimi: {}
+Invalid title block elements: {}	Virheelliset nimiön elementit: {}
 Item id	Kohteen tunniste
 Item ids	Kohteiden tunnisteet
 Jumper number	Siltanumero
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Kieli, jolla projektin teksti
 Larger round holes are milled, mm	Suuremmat pyöreät reiät jyrsitään, mm
 Largest difference between hole and tool, mm	Suurin ero reiän ja työkalun välillä, mm
 Left edge from the left end of the wall (seen from inside) in mm	Vasen reuna seinän vasemmasta päästä (sisältä katsottuna), mm
+Left edge in mm	Vasen reuna millimetreinä
 Left edge on the face in mm	Vasen reuna pinnalla millimetreinä
 Left edge on the mounting plate in mm	Vasen reuna asennuslevyllä millimetreinä
 Left side bayed (no side panel)	Vasen puoli rivitetty (ei sivuseinää)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Luettelee sijoitettavat symbolit liitäntäpisteineen suhteessa lisäyspisteeseen
 Lists the terminal strips with their number of terminals and length on the rail	Luettelee riviliitinrimat sekä niiden riviliittimien määrän ja pituuden kiskolla
 Lists the terminations chosen for wire ends and the kinds there are	Luettelee johdinten päille valitut päätteet ja käytettävissä olevat tyypit
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Luettelee nimiöt (sisäänrakennetut ja projektin omat) elementteineen, projektin oletuksen ja paikkamerkit
 Lists the translation dictionary of the project texts (source line and translations)	Luettelee projektin tekstien käännössanakirjan (lähderivi ja käännökset)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Luettelee sivuille sijoitetut ikkunamakrot (makrolaatikot) makron, variantin, paikkamerkkien arvojen ja kohteiden määrän kanssa
 Load losses of the transformer in W (0: typical)	Muuntajan kuormitushäviöt W (0: tyypillinen)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Päämaadoituskiskon nimi
 Name of the safety function to remove	Poistettavan turvatoiminnon nimi
 Name of the segment	Segmentin nimi
 Name of the template	Mallin nimi
+Name of the title block	Nimiön nimi
+Name of the title block (with page_type: empty removes the choice)	Nimiön nimi (page_type-arvon kanssa: tyhjä poistaa valinnan)
 Name of the work area	Työalueen nimi
 Name or id; the tag for places	Nimi tai ID; sijoituksille tunnus
 Name placed by hand: X offset from the insertion point in mm	Käsin sijoitettu nimi: X-siirtymä lisäyspisteestä mm
@@ -480,6 +492,7 @@ No terminal strip {}	Riviliitinrimaa {} ei ole
 No terminal {} on strip {}	Riviliitintä {} ei ole rimassa {}
 No text with id {}	Tekstiä tunnuksella {} ei ole
 No three wires meet at {} / {} mm: give the direction of the stem	Kohdassa {} / {} mm ei kohtaa kolmea johdinta: anna rungon suunta
+No title block named {}	Nimiötä {} ei ole
 No transformer: set {} first	Ei muuntajaa: aseta ensin {}
 No wire at {} / {} mm	Kohdassa {} / {} mm ei ole johdinta
 No wire with id {}	Ei johtoa tunnisteella {}
@@ -489,6 +502,7 @@ Node {} exists already	Solmu {} on jo olemassa
 Nodes to pass in this order, comma separated	Läpikuljettavat solmut tässä järjestyksessä pilkuilla erotettuina
 Nominal size, e.g. 8 mm or DN25	Nimelliskoko, esim. 8 mm tai DN25
 None of the items is an interruption point	Mikään kohteista ei ole katkospiste
+Not a colour (#RRGGBB): {}	Ei väri (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Ei poikkipinta-ala: {} (esim. 1.5 mm²)
 Not a valid safety function: {}	Ei kelvollinen turvatoiminto: {}
 Note, e.g. what the problem is	Huomautus, esim. mikä ongelma on
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Ensimmäinen pää, esim. -K1:A1
 One row per printed label instead of a count	Yksi rivi tulostettua merkintäkilpeä kohden määrän sijaan
 Only devices on these pages (names separated by commas)	Vain näiden sivujen laitteet (nimet pilkuilla erotettuina)
 Only doors and windows open	Vain ovet ja ikkunat avautuvat
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Vain tämän tyyppisille sivuille: schematic, cover, report, mounting, overview, graphic tai document
 Only lines without a translation into this language	Vain rivit, joilla ei ole käännöstä tälle kielelle
 Only list the new tags, change nothing	Luettele vain uudet tunnukset, älä muuta mitään
 Only shows the package, no job is recorded	Näyttää vain paketin, työtä ei kirjata
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Ryhmän paikat (0 = ei rajoitettu)
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Sijoittaa symbolin liitäntäpisteen merkinnän sen vasemmalle, oikealle, yläpuolelle tai alapuolelle ja siirtää sitä; ilman puolta ja siirtoa se sijoitetaan taas automaattisesti
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Sijoittaa kotelon kaappirivin huoneeseen (kaikkien koteloiden 3D-näkymä); ilman x- ja z-arvoa se sijoitetaan laitoksen sijoituskuvan mukaan tai muiden kaappirivien viereen
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Sijoittaa katkospisteiden nimen ja ristiviittauksen nuolen yhdelle puolelle tai käsin siirtymällä lisäyspisteestä
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Sijoittaa projektin logon kansilehdelle (millimetreinä piirustusalueen vasemmasta yläkulmasta); ilman parametreja näyttää paikan
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Sijoittaa skeeman ominaisuudet symboleihin; ilman tunnuksia se sijoitetaan uudelleen kaikkiin sitä käyttäviin symboleihin
 Planned part number	Suunniteltu osanumero
 Planned power in kW	Suunniteltu teho kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Laitoksen segmentit suunniteltuine laitteineen ennen piirikaaviota: mallit, tehotase, tila piirikaavioon verrattuna, siirto CSV- / Excel-muodossa
 Plinth height in mm, 0 without plinth	Sokkelin korkeus millimetreinä, 0 ilman sokkelia
 Plot frame (list_frames); empty = the project default	Piirustuskehys (list_frames); tyhjä = projektin oletus
-Plot frames and page templates of the project	Projektin piirustuskehykset ja sivumallit
+Plot frames, title blocks and page templates of the project	Projektin piirustuskehykset, nimiöt ja sivumallit
 Plug tag, e.g. -X10	Pistoliittimen tunnus, esim. -X10
 Plugin id '{}' is not snake_case	Laajennuksen ID '{}' ei ole snake_case-muotoinen
 Plugin {} is loaded twice	Laajennus {} on ladattu kahdesti
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Asettaa piirustuskehykse
 Sets the shield and the outer diameter of a cable	Asettaa kaapelin suojavaipan ja ulkohalkaisijan
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Asettaa projektin tekstien lähdekielen ja kohdekielet (ISO 639-1 -koodit)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Asettaa riman varariviliittimet ja sen, lisätäänkö sen tarvikkeet automaattisesti
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Asettaa kaikkien sivujen poikki piirrettävän leiman revisioprosessin tilan mukaan (esim. LUONNOS); ilman parametreja näyttää leiman
+Sets the title block of all pages that do not choose one, or of the pages of one type	Asettaa nimiön kaikille sivuille, jotka eivät valitse omaa, tai yhden tyypin sivuille
 Sets the translation of a line of the project texts (empty removes it)	Asettaa projektin tekstien rivin käännöksen (tyhjä poistaa sen)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Asettaa johtovärin ja poikkipinta-alan verkoille, joilla ei ole määritettyä potentiaalia (tyhjä = ei mitään)
 Share of the capacity kept free in percent	Vapaaksi jätettävä kapasiteetin osuus prosentteina
@@ -791,11 +809,16 @@ Terminal designation	Riviliittimen nimitys
 Terminal designations in strip order, separated by commas	Riviliittimien nimitykset riman järjestyksessä pilkuilla erotettuina
 Terminal order, levels, jumpers, spare terminals and accessories	Riviliittimien järjestys, kerrokset, sillat, varariviliittimet ja tarvikkeet
 Text height in mm	Tekstin korkeus (mm)
+Text height in mm (0: fitted to the page)	Tekstin korkeus millimetreinä (0: sovitettu sivulle)
 Text height in mm (default 3.5)	Tekstin korkeus millimetreinä (oletus 3.5)
 Text in id, name or order number	Teksti tunnisteessa, nimessä tai tilausnumerossa
 Text in the key or name	Teksti avaimessa tai nimessä
 Text in the line or a translation	Teksti rivillä tai käännöksessä
 Text to find; empty: fill	Etsittävä teksti; tyhjä: täytä
+Text when everything is released, e.g. AS BUILT	Teksti, kun kaikki on julkaistu, esim. TOTEUTUNUT
+Text when the revision is approved but not released	Teksti, kun revisio on hyväksytty mutta ei julkaistu
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Teksti, kun revisio on luonnos tai mitään ei ole vielä julkaistu (paikkamerkit sallittu; tyhjä: ei mitään)
+Text while a revision is in review or was rejected	Teksti, kun revisio on tarkastettavana tai se hylättiin
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Teksti; paikkamerkit, kuten {page} tai {prop:Name}, täytetään piirrettäessä
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	Kulman haarat ovat yksi pysty- ja yksi vaakasuunta, esim. down left, ei {}
 The cable definition line crosses no wire	Kaapelimäärittelyviiva ei leikkaa yhtään johdinta
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Paksuin levy tai kisko, mm
 Time per drilling, punching or bending operation, s	Aika poraus-, lävistys- tai taivutustoimenpidettä kohden, s
 Time per tool change, s	Aika työkalunvaihtoa kohden, s
+Title block (list_title_blocks); empty = the project default	Nimiö (list_title_blocks); tyhjä = projektin oletus
+Title block of the pages with this frame that do not choose one; empty: the project default	Tämän kehyksen sivujen nimiö, kun ne eivät valitse omaa; tyhjä: projektin oletus
+Title block to start from when it is new (default: Standard)	Nimiö, josta aloitetaan, kun se on uusi (oletus: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Työkalut, esim. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Yläreuna millimetreinä
 Top edge on the face in mm	Yläreuna pinnalla millimetreinä
 Top edge on the mounting plate in mm	Yläreuna asennuslevyllä millimetreinä
 Translated line	Käännetty rivi
@@ -876,6 +903,7 @@ Unknown node: {}	Tuntematon solmu: {}
 Unknown numbering scheme: {}	Tuntematon numerointiskeema: {}
 Unknown object class: {}	Tuntematon objektiluokka: {}
 Unknown order: {}	Tuntematon järjestys: {}
+Unknown page type: {}	Tuntematon sivutyyppi: {}
 Unknown paper format: {}	Tuntematon paperikoko: {}
 Unknown path kind: {}	Tuntematon polun laji: {}
 Unknown placeholder {}: possible are {}	Tuntematon paikkamerkki {}: mahdollisia ovat {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	Millä rivil
 Who accepted it	Kuka sen hyväksyi
 Whole words only	Vain kokonaiset sanat
 Why the message is accepted	Miksi ilmoitus on hyväksytty
-Width in mm	Leveys millimetreinä
 Width of the path in mm (default 50)	Polun leveys millimetreinä (oletus 50)
 Width, depth and height of a room are at least {} mm	Tilan leveys, syvyys ja korkeus ovat vähintään {} mm
 Width, height and depth of an enclosure are at least {} mm	Kotelon leveys, korkeus ja syvyys ovat vähintään {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem tai open
 {} has no enclosure bayed to its right side	Kohteen {} oikealle puolelle ei ole rivitetty koteloa
 {} has no enclosure system; give one	Kohteella {} ei ole kotelojärjestelmää; anna sellainen
 {} is a built-in frame; give the frame a new name	{} on sisäinen kehys; anna kehykselle uusi nimi
+{} is a built-in title block; give the title block a new name	{} on sisäänrakennettu nimiö; anna nimiölle uusi nimi
 {} is a room already	{} on jo tila
 {} is ambiguous: use #id:pin	{} on moniselitteinen: käytä muotoa #id:pin
 {} is an enclosure already	{} on jo kotelo

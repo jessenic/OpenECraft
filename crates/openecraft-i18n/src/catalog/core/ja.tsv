@@ -333,6 +333,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC 制御回路は青にし
 DC/DC converter	DC/DC コンバーター
 DWG export failed: {}	DWG のエクスポートに失敗しました: {}
 Data sheet	データシート
+Date of the approval of the last revision	最終リビジョンの承認日
 Date of the last revision	最終リビジョンの日付
 Degree of protection	保護等級
 Delete projects	プロジェクトの削除
@@ -765,7 +766,6 @@ Limit switch NO (NFPA)	リミットスイッチ a接点 (NFPA)
 Line reactor	入力リアクトル
 Linear motor 3-phase	三相リニアモーター
 Literal braces	波かっこ (リテラル)
-Load	負荷
 Load calculation	負荷計算
 Loads and power supplies	負荷と電源
 Loads behind it: {}	下位の負荷: {}
@@ -1265,6 +1265,7 @@ Push button with key NO, latching	キー付き押しボタン a接点 (保持形
 Pushbutton NC	押しボタン b接点
 Pushbutton NO	押しボタン a接点
 Pyramid roof	方形屋根
+QR code	QR コード
 Qty	数量
 RCD {} mA	RCD {} mA
 Radiation	放射線
@@ -1310,7 +1311,6 @@ Relay coil, remanent	リレーコイル (残留磁気)
 Relay coil, resonant	リレーコイル (共振)
 Relay coil, thermal	リレーコイル (熱動)
 Relays, contactors	リレー、電磁接触器
-Released	リリース済み
 Released pages cannot be deleted	リリース済みのページは削除できません
 Remote I/O	リモート I/O
 Remote I/O {} has no controller	リモート I/O {} にコントローラーがありません
@@ -1329,6 +1329,10 @@ Result	結果
 Return / exhaust line	戻り / 排気ライン
 Reviewer	レビュー担当者
 Revision overview (changes)	リビジョン概要 (変更)
+Revision table: author of the last revision (2: the one before …)	リビジョン表: 最終リビジョンの作成者（2: その前 …）
+Revision table: date of the last revision (2: the one before …)	リビジョン表: 最終リビジョンの日付（2: その前 …）
+Revision table: description of the last revision (2: the one before …)	リビジョン表: 最終リビジョンの説明（2: その前 …）
+Revision table: index of the last revision (2: the one before …)	リビジョン表: 最終リビジョンの記号（2: その前 …）
 Right side	右側
 Right side panel	右側板
 Ring terminal	丸形端子
@@ -1475,6 +1479,7 @@ Start date	開始日
 Started	開始済み
 Starting current ratio	始動電流比
 Starting torque	始動トルク
+State of the project: draft, in review, approved, released	プロジェクトの状態: ドラフト、レビュー中、承認済み、リリース済み
 Station name (PROFINET)	ステーション名 (PROFINET)
 Station name {} is used {} times	ステーション名 {} が {} 回使用されています
 Station {} is not connected to bus {}	ステーション {} がバス {} に接続されていません
@@ -1648,7 +1653,6 @@ Timer relay coil, off-delay	タイマーリレーコイル (オフディレー)
 Timer relay coil, on-delay	タイマーリレーコイル (オンディレー)
 Title blocks and report forms	表題欄とレポートフォーム
 To order	発注数
-Total	合計
 Total length (m)	全長 (m)
 Total price	合計価格
 Total weight	総重量
@@ -1769,6 +1773,7 @@ Wavemeter	波長計
 Wearing part	消耗部品
 Weld stud	溶接スタッド
 Wetted material	接液部材質
+Who approved the last revision (review); {rev.2.approved_by}: the one before	最終リビジョンの承認者（レビュー）。{rev.2.approved_by}: その前
 Width (mm)	幅 (mm)
 Winding connection	巻線結線
 Wire assigned to unknown cable {}	電線が不明なケーブル {} に割り当てられています

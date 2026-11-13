@@ -195,6 +195,7 @@ Light	Luminos
 Line	Linie
 Link	Legătură
 Linked	Legat
+Load	Consumator
 Loaded circuits bunched together	Circuite încărcate grupate împreună
 Location	Loc de montare
 Location (+)	Loc de montare (+)
@@ -230,6 +231,7 @@ Name of the scheme	Numele schemei
 Net	Rețea
 Never	Niciodată
 New name	Nume nou
+Next page	Pagina următoare
 No	Nu
 No Vault item matches a part of the project	Niciun element Vault nu corespunde unui articol al proiectului
 No cable {}	Niciun cablu {}
@@ -252,10 +254,12 @@ No station {}	Nicio stație {}
 No such page	Pagina nu există
 No such section	Secțiunea nu există
 No symbol with id {}	Niciun simbol cu ID-ul {}
+No title block of the project named {}	Niciun cartuș al proiectului numit {}
 Nominal size	Diametru nominal
 Not a language code: {}	Nu este un cod de limbă: {}
 Not a macro file: {}	Nu este un fișier de macro-uri: {}
 Not a symbol id: {}	Nu este un ID de simbol: {}
+Not a title block file: {}	Nu este un fișier de cartușe: {}
 Not a valid rule set file: {}	Nu este un fișier valid de set de reguli: {}
 Not in the schematic	Nu este în schemă
 Note	Notă
@@ -298,6 +302,7 @@ Parts	Articole
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Articole (CSV, JSON, BMEcat, XML EPLAN, EDZ)
 Parts import failed: {}	Importul articolelor nu a reușit: {}
 Password	Parolă
+Picture	Imagine
 Pieces	Bucăți
 Pin	Pin
 Pin layout: {}	Dispunerea pinilor: {}
@@ -321,6 +326,7 @@ Power (kW)	Putere (kW)
 Power loss	Putere disipată
 Pre-planning	Preplanificare
 Press	Presă
+Previous page	Pagina anterioară
 Price	Preț
 Price unit	Unitate de preț
 Process engineering	Inginerie de proces
@@ -330,6 +336,7 @@ Product top group	Grupă principală de produse
 Profile	Profil
 Project	Proiect
 Project languages	Limbile proiectului
+Project logo	Sigla proiectului
 Project management	Gestionarea proiectelor
 Project name	Nume proiect
 Project properties	Proprietăți proiect
@@ -349,6 +356,7 @@ Rectangular	Dreptunghiular
 Reject	Respingere
 Relative humidity	Umiditate relativă
 Relay	Releu
+Released	Aprobat
 Released pages cannot be moved	Paginile aprobate nu pot fi mutate
 Remove	Eliminare
 Remove from favorites	Eliminare din favorite
@@ -441,6 +449,7 @@ Time	Timp
 Title block	Cartuș
 To	Către
 Tools	Scule
+Total	Total
 Transformer	Transformator
 Type	Tip
 Type number	Număr de tip
@@ -471,6 +480,7 @@ Warning	Avertisment
 Warnings	Avertismente
 Weight	Greutate
 Width	Lățime
+Width in mm	Lățime în mm
 Window	Fereastră
 Wire	Conductor
 Wire colours	Culori de conductor
@@ -503,6 +513,7 @@ yes	da
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} nu stă pe pardoseală: alegeți un articol marcat pentru montaj pe pardoseală
 {} exists already	{} există deja
+{} is not a PNG or JPEG image	{} nu este o imagine PNG sau JPEG
 {} parts	{} articole
 {} wires	{} conductoare
 {}, together with the wire to {}	{}, împreună cu conductorul spre {}

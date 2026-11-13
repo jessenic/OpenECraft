@@ -24,6 +24,8 @@ pub enum PartsAction {
     Export { name: String, filter: (&'static str, &'static str), content: String },
     /// A file downloaded from the data portal.
     SaveFile { name: String, data: Vec<u8> },
+    /// The company's form library (JSON) of the parts server.
+    ImportForms(String),
     /// A macro library (JSON) downloaded from the data portal.
     ImportMacros(String),
     Message(String),
@@ -144,6 +146,7 @@ impl PartsUi {
                     Err(_) => self.server.status = tr_fmt!("Not a macro file: {}", name),
                 },
                 Reply::SignedIn(Ok(_)) => self.server.favorites(ctx),
+                Reply::Library(name, Ok(Some(json))) if name == openecraft_parts::api::FORMS_LIBRARY => actions.push(PartsAction::ImportForms(json)),
                 _ => {}
             }
             // Searches and other background requests of the browser are not reported.

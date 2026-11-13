@@ -67,3 +67,35 @@ fn files_are_embedded_and_written_again() {
     assert_eq!(std::fs::read(&out).unwrap(), b"%PDF-1.4 manual");
     assert!(run(&mut s, "export_document", json!({ "page": "1", "path": out.to_str().unwrap() })).unwrap_err().contains("no embedded document"));
 }
+
+#[test]
+fn logos_are_added_to_title_blocks_and_the_project() {
+    let mut s = new_session();
+    let dir = temp_dir("logos");
+    let mut png = b"\x89PNG\r\n\x1a\n\0\0\0\rIHDR".to_vec();
+    png.extend_from_slice(&120u32.to_be_bytes());
+    png.extend_from_slice(&40u32.to_be_bytes());
+    let file = dir.join("company.png");
+    std::fs::write(&file, &png).unwrap();
+    let text = dir.join("notes.txt");
+    std::fs::write(&text, b"no image").unwrap();
+    let path = file.to_str().unwrap();
+
+    run(&mut s, "set_title_block", json!({ "name": "Company", "based_on": "Standard" })).unwrap();
+    let place = json!({ "title_block": "Company", "x": 2.0, "y": 2.0, "width": 70.0, "height": 12.0 });
+    let with = |k: &str, v: serde_json::Value| { let mut a = place.clone(); a[k] = v; a };
+    let added = run(&mut s, "add_title_block_image", with("path", json!(path))).unwrap();
+    assert_eq!(added["file"], "company.png");
+    let added = run(&mut s, "add_title_block_image", place.clone()).unwrap();
+    assert!(added["file"].is_null(), "the project logo");
+    assert!(run(&mut s, "add_title_block_image", with("path", json!(text.to_str().unwrap()))).unwrap_err().contains("not a PNG or JPEG"));
+    assert!(run(&mut s, "add_title_block_image", with("width", json!(0.0))).unwrap_err().contains("greater than 0"));
+    assert!(run(&mut s, "add_title_block_image", with("title_block", json!("Standard"))).unwrap_err().contains("No title block of the project"));
+
+    let info = run(&mut s, "set_project_info", json!({ "logo": path })).unwrap();
+    assert_eq!((info["logo"]["name"].as_str(), info["logo"]["px"][0].as_u64()), (Some("company.png"), Some(120)));
+    run(&mut s, "set_default_title_block", json!({ "name": "Company" })).unwrap();
+    let svg = run(&mut s, "export", json!({ "format": "svg", "page": "1" })).unwrap().to_string();
+    assert_eq!(svg.matches("data:image/png;base64,").count(), 2);
+    assert!(run(&mut s, "set_project_info", json!({ "logo": "" })).unwrap()["logo"].is_null());
+}

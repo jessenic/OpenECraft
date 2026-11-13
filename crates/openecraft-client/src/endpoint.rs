@@ -102,6 +102,18 @@ impl Endpoint {
         self.authorized(ehttp::Request::delete(&self.url(&api::catalog_path(id))))
     }
 
+    /// GET /api/v1/libraries/{name}: a library shared by all projects (404: none yet).
+    pub fn library(&self, name: &str) -> ehttp::Request {
+        self.authorized(ehttp::Request::get(self.url(&api::library_path(name))))
+    }
+
+    /// PUT /api/v1/libraries/{name} with the library (a JSON object).
+    pub fn save_library(&self, name: &str, json: &str) -> ehttp::Request {
+        let mut req = ehttp::Request::post(self.url(&api::library_path(name)), json.as_bytes().to_vec());
+        req.method = ehttp::Method::PUT;
+        self.authorized(with_content_type(req, "application/json"))
+    }
+
     /// POST /api/v1/login (no token needed) → [`api::Session`]
     pub fn login(&self, name: &str, password: &str) -> ehttp::Request {
         let body = api::Login { name: name.trim().into(), password: password.into(), ..Default::default() };

@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC kumanda devreleri mavi o
 DC/DC converter	DC/DC dönüştürücü
 DWG export failed: {}	DWG dışa aktarımı başarısız oldu: {}
 Data sheet	Veri sayfası
+Date of the approval of the last revision	Son revizyonun onay tarihi
 Date of the last revision	Son revizyonun tarihi
 Degree of protection	Koruma derecesi
 Delete projects	Projeleri sil
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Limit şalteri NA (NFPA)
 Line reactor	Şebeke reaktörü
 Linear motor 3-phase	Lineer motor 3 fazlı
 Literal braces	Süslü parantezler (değişmez)
-Load	Yük
 Load calculation	Yük hesabı
 Loads and power supplies	Yükler ve güç kaynakları
 Loads behind it: {}	Arkasındaki yükler: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Anahtarlı buton NA, kalıcı
 Pushbutton NC	Buton NK
 Pushbutton NO	Buton NA
 Pyramid roof	Piramit çatı
+QR code	QR kodu
 Qty	Miktar
 RCD {} mA	RCD {} mA
 Radiation	Radyasyon
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Röle bobini, remanans
 Relay coil, resonant	Röle bobini, rezonanslı
 Relay coil, thermal	Röle bobini, termik
 Relays, contactors	Röleler, kontaktörler
-Released	Yayımlanmış
 Released pages cannot be deleted	Yayımlanmış sayfalar silinemez
 Remote I/O	Uzak I/O
 Remote I/O {} has no controller	Uzak I/O {} için kontrolör yok
@@ -1340,6 +1340,10 @@ Result	Sonuç
 Return / exhaust line	Dönüş / egzoz hattı
 Reviewer	İncelemeci
 Revision overview (changes)	Revizyon genel bakışı (değişiklikler)
+Revision table: author of the last revision (2: the one before …)	Revizyon tablosu: son revizyonun yazarı (2: bir öncekinin …)
+Revision table: date of the last revision (2: the one before …)	Revizyon tablosu: son revizyonun tarihi (2: bir öncekinin …)
+Revision table: description of the last revision (2: the one before …)	Revizyon tablosu: son revizyonun açıklaması (2: bir öncekinin …)
+Revision table: index of the last revision (2: the one before …)	Revizyon tablosu: son revizyonun indeksi (2: bir öncekinin …)
 Right side	Sağ taraf
 Right side panel	Sağ yan panel
 Ring terminal	Halka kablo pabucu
@@ -1487,6 +1491,7 @@ Start date	Başlangıç tarihi
 Started	Başladı
 Starting current ratio	Kalkış akımı oranı
 Starting torque	Kalkış momenti
+State of the project: draft, in review, approved, released	Projenin durumu: taslak, incelemede, onaylandı, yayımlandı
 Station name (PROFINET)	İstasyon adı (PROFINET)
 Station name {} is used {} times	İstasyon adı {} {} kez kullanılıyor
 Station {} is not connected to bus {}	İstasyon {}, {} bus'ına bağlı değil
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Zaman rölesi bobini, düşmede gecikmeli
 Timer relay coil, on-delay	Zaman rölesi bobini, çekmede gecikmeli
 Title blocks and report forms	Antetler ve rapor formları
 To order	Sipariş edilecek
-Total	Genel toplam
 Total length (m)	Toplam uzunluk (m)
 Total price	Toplam fiyat
 Total weight	Toplam ağırlık
@@ -1781,6 +1785,7 @@ Wavemeter	Dalga ölçer
 Wearing part	Aşınan parça
 Weld stud	Kaynak saplaması
 Wetted material	Akışkanla temas eden malzeme
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Son revizyonu kim onayladı (inceleme); {rev.2.approved_by}: bir öncekini
 Width (mm)	Genişlik (mm)
 Winding connection	Sargı bağlantısı
 Wire assigned to unknown cable {}	Tel bilinmeyen bir kabloya atanmış: {}

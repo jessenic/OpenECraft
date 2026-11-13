@@ -22,6 +22,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = ein einzelner Wert; sonst Werte [1] … [n]	0 = une seule valeur ; sinon valeurs [1] … [n]	0 = un solo valor; si no, valores [1] … [n]
 0 = all approvers	0 = alle Genehmiger	0 = tous les approbateurs	0 = todos los aprobadores
 0 = estimated from cores and cross-section	0 = aus Adern und Querschnitt geschätzt	0 = estimé à partir des conducteurs et de la section	0 = estimado a partir de los conductores y la sección
+0 = fitted to the page	0 = an die Seite angepasst	0 = ajusté à la page	0 = ajustado a la página
 0 = fitted to the rows per page	0 = an die Zeilen pro Seite angepasst	0 = adaptée au nombre de lignes par page	0 = ajustado a las filas por página
 0 = from the DC of the devices ({} %)	0 = aus dem DC der Geräte ({} %)	0 = d'après le DC des appareils ({} %)	0 = a partir del DC de los aparatos ({} %)
 0 = from the devices	0 = aus den Betriebsmitteln	0 = à partir des appareils	0 = a partir de los equipos
@@ -78,6 +79,7 @@ A cable of the bus type for every connection without cable	Ein Kabel des Bustyps
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Ein gleich großer Ausschnitt an derselben Stelle in der Seitenwand des Nachbarn: zusammen bilden sie eine Kabeldurchführung	Une découpe de même taille au même endroit dans la paroi latérale de la voisine : ensemble elles forment un passage de câbles	Un recorte del mismo tamaño en el mismo lugar de la pared lateral del vecino: juntos forman un paso de cables
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Eine gleichnamige Datei im Ordner erhält eine neue Version (aus- und eingecheckt), sonst wird die Datei hinzugefügt	Un fichier du même nom dans le dossier reçoit une nouvelle version (extrait puis archivé), sinon le fichier est ajouté	Un archivo con el mismo nombre en la carpeta recibe una nueva versión (desprotegido y protegido), si no el archivo se añade
 A hidden or locked layer cannot take new items	Eine ausgeblendete oder gesperrte Ebene nimmt keine neuen Elemente auf	Un calque masqué ou verrouillé ne peut pas recevoir de nouveaux éléments	Una capa oculta o bloqueada no puede recibir elementos nuevos
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Ein großer Text quer über jede Seite, z. B. ENTWURF, während eine Revision vorbereitet wird; Texte nehmen Platzhalter, leer: kein Stempel.	Un grand texte en travers de chaque page, p. ex. BROUILLON pendant la préparation d'une révision ; les textes acceptent des variables, vide : pas de tampon.	Un texto grande a través de cada página, p. ej. BORRADOR mientras se prepara una revisión; los textos admiten marcadores, vacío: sin sello.
 A level below the lowest one	Eine Ebene unter der untersten	Un niveau sous le plus bas	Un nivel bajo el más bajo
 A level on top of the highest one	Eine Ebene über der höchsten	Un niveau au-dessus du plus haut	Un nivel encima del más alto
 A link joins two building entries: add building entries to the outer walls of rooms in different buildings (Layout space › Building entry).	Eine Verbindung verbindet zwei Gebäudeeinführungen: Gebäudeeinführungen in Außenwände von Räumen verschiedener Gebäude setzen (Layoutraum › Gebäudeeinführung).	Une liaison relie deux entrées de bâtiment : ajoutez des entrées de bâtiment aux murs extérieurs de pièces de bâtiments différents (Espace de montage › Entrée de bâtiment).	Un enlace une dos entradas de edificio: añada entradas de edificio a los muros exteriores de salas de distintos edificios (Espacio de montaje › Entrada de edificio).
@@ -87,6 +89,7 @@ A new project	Ein neues Projekt	Un nouveau projet	Un proyecto nuevo
 A new release is downloaded in the background and installed when you close OpenECraft.	Eine neue Version wird im Hintergrund heruntergeladen und beim Schließen von OpenECraft installiert.	Une nouvelle version est téléchargée en arrière-plan et installée à la fermeture d'OpenECraft.	Una nueva versión se descarga en segundo plano y se instala al cerrar OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Eine neue Version wird im Hintergrund heruntergeladen und ersetzt diese Installation; sie gilt ab dem nächsten Start.	Une nouvelle version est téléchargée en arrière-plan et remplace cette installation ; elle est utilisée dès le prochain démarrage.	Una nueva versión se descarga en segundo plano y sustituye esta instalación; se usa a partir del próximo inicio.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Ein nummerierter Abschnitt, der Seiten wie ein Verzeichnis enthält; die Seitennamen beginnen mit seiner Nummer (2.3.1)	Une section numérotée qui contient des pages comme un dossier ; les noms des pages commencent par son numéro (2.3.1)	Una sección numerada que contiene páginas como un directorio; los nombres de las páginas empiezan por su número (2.3.1)
+A picture kept in the form, e.g. the company logo	Ein im Formular gespeichertes Bild, z. B. das Firmenlogo	Une image conservée dans le formulaire, p. ex. le logo de l'entreprise	Una imagen guardada en el formulario, p. ej. el logotipo de la empresa
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Ein Profil ordnet die neutralen Felder den Spaltennamen eines bestimmten Systems zu (z. B. MATNR für die ERP-Nummer in SAP). Ohne Zuordnung werden übliche englische und deutsche Namen erkannt.	Un profil affecte les champs neutres aux noms de colonnes d'un système donné (p. ex. MATNR pour le numéro ERP dans SAP). Sans affectation, les noms courants en anglais et en allemand sont reconnus.	Un perfil asigna los campos neutros a los nombres de columna de un sistema concreto (p. ej. MATNR para el número ERP en SAP). Sin asignación se reconocen los nombres habituales en inglés y alemán.
 A project definition based on this one, with its own defaults and scheme	Eine Projektdefinition auf Basis dieser, mit eigenen Vorgabewerten und Schema	Une définition de projet basée sur celle-ci, avec ses propres valeurs par défaut et son schéma	Una definición de proyecto basada en esta, con sus propios valores predeterminados y esquema
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Eine aus dem Dateimanager geöffnete Projektdatei öffnet stattdessen. Ungespeicherte Änderungen der letzten Sitzung werden nie ohne Rückfrage verworfen.	Un fichier de projet ouvert depuis le gestionnaire de fichiers s'ouvre à la place. Les modifications non enregistrées de la dernière session ne sont jamais abandonnées sans demander.	En su lugar se abre un archivo de proyecto abierto desde el explorador de archivos. Los cambios sin guardar de la última sesión nunca se descartan sin preguntar.
@@ -100,8 +103,10 @@ A template of this name is replaced.	Eine Vorlage mit diesem Namen wird ersetzt.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Eine Vorlage legt Seitentyp, Plotrahmen, Schriftfeld, Struktur und Beschreibung einer neuen Seite fest und platziert ihren Inhalt.	Un modèle définit le type, le cadre, le cartouche, la structure et la description d'une nouvelle page et place son contenu.	Una plantilla fija el tipo, el marco, el cajetín, la estructura y la descripción de una página nueva y coloca su contenido.
 A way through free air costs this many times the way in a duct or routing path	Ein Weg durch freien Raum kostet so viel mal mehr als im Kanal oder Verlegeweg	Un chemin à l'air libre coûte autant de fois plus que dans une goulotte ou un chemin de routage	Un recorrido por aire libre cuesta tantas veces más que en una canaleta o ruta de tendido
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Ein Arbeitsbereich beschränkt die Seiten und Betriebsmittel im Navigator auf einen Teil des Projekts. Filter: leer = beliebig, * = beliebige Zeichen; A1 umfasst auch A1.2.	Une zone de travail limite les pages et appareils du navigateur à une partie du projet. Filtres : vide = tout, * = caractères quelconques ; A1 couvre aussi A1.2.	Un área de trabajo limita las páginas y dispositivos del navegador a una parte del proyecto. Filtros: vacío = cualquiera, * = cualquier carácter; A1 incluye también A1.2.
+APPROVED	FREIGEGEBEN	APPROUVÉ	APROBADO
 About OpenECraft	Über OpenECraft	À propos d'OpenECraft	Acerca de OpenECraft
 Above the floor	Über dem Boden	Au-dessus du sol	Sobre el suelo
+Above the project name	Über dem Projektnamen	Au-dessus du nom du projet	Encima del nombre del proyecto
 Accept as checked	Als geprüft akzeptieren	Accepter comme vérifié	Aceptar como revisado
 Accepted ({})	Akzeptiert ({})	Acceptés ({})	Aceptados ({})
 Accepted messages ({})	Akzeptierte Meldungen ({})	Messages acceptés ({})	Mensajes aceptados ({})
@@ -188,6 +193,7 @@ Apply to the connection	Auf die Verbindung anwenden	Appliquer à la liaison	Apli
 Apply to {} projects	Auf {} Projekte anwenden	Appliquer à {} projets	Aplicar a {} proyectos
 Approval workflow	Genehmigungsablauf	Circuit d'approbation	Flujo de aprobación
 Approvals needed	Benötigte Genehmigungen	Approbations nécessaires	Aprobaciones necesarias
+Approved	Freigegeben	Approuvé	Aprobado
 Approving needs an approver; you are \"{}\".	Genehmigen kann nur ein Genehmiger; Sie sind \"{}\".	Seul un approbateur peut approuver ; vous êtes \"{}\".	Solo un aprobador puede aprobar; usted es \"{}\".
 Arc	Bogen	Arc	Arco
 Archive and version	Archiv und Version	Archive et version	Archivo y versión
@@ -344,6 +350,7 @@ Choose a room first: outlets, switches and heating circuit manifolds go on its w
 Choose a room first: wall-mounted parts go on its walls and ceiling.	Zuerst einen Raum wählen: Wandmontage-Artikel kommen an seine Wände und Decke.	Choisissez d'abord une salle : les articles à montage mural vont sur ses murs et son plafond.	Elija primero una sala: los artículos de montaje mural van en sus paredes y techo.
 Choose another project	Anderes Projekt wählen	Choisir un autre projet	Elegir otro proyecto
 Choose file…	Datei wählen…	Choisir un fichier…	Elegir archivo…
+Choose image…	Bild wählen…	Choisir une image…	Elegir imagen…
 Choose pages	Seiten wählen	Choisir les pages	Elegir páginas
 Chooses the pages whose structure starts with this	Wählt die Seiten, deren Struktur damit beginnt	Choisit les pages dont la structure commence par ceci	Elige las páginas cuya estructura empieza por esto
 Circle	Kreis	Cercle	Círculo
@@ -445,6 +452,7 @@ Comments ({} open)	Kommentare ({} offen)	Commentaires ({} ouverts)	Comentarios (
 Comments ({})	Kommentare ({})	Commentaires ({})	Comentarios ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Kommentare, die ein Prüfer in einem PDF-Export des Projekts gemacht hat (Acrobat oder ein anderer PDF-Betrachter)	Commentaires qu'un réviseur a faits dans un export PDF du projet (Acrobat ou une autre visionneuse PDF)	Comentarios que un revisor hizo en una exportación PDF del proyecto (Acrobat u otro visor de PDF)
 Comments and markup	Kommentare und Markierungen	Commentaires et annotations	Comentarios y marcados
+Company library	Firmenbibliothek	Bibliothèque de l'entreprise	Biblioteca de la empresa
 Compare and baselines	Vergleichen und Baselines	Comparer et références	Comparar y líneas base
 Compare with	Vergleichen mit	Comparer avec	Comparar con
 Compare with a baseline, a revision or another project file and take differences over	Mit einer Baseline, einer Revision oder einer anderen Projektdatei vergleichen und Unterschiede übernehmen	Comparer avec une référence, une révision ou un autre fichier de projet et reprendre les différences	Comparar con una línea base, una revisión u otro archivo de proyecto y adoptar diferencias
@@ -491,6 +499,7 @@ Core labels placed by hand	Aderbeschriftung von Hand platziert	Repères d'âmes 
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Adern 1, 2, 3 … für die gekreuzten Verbindungen, dazu GNYE	Conducteurs 1, 2, 3 … pour les fils croisés, plus GNYE	Conductores 1, 2, 3 … para los cables cruzados, más GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Ecke: zwei Verbindungslinien im rechten Winkel; bei eingeschaltetem Auto-Connect werden Anschlusspunkte, die ihren Armen gegenüberliegen, mit ihr verdrahtet	Coin : deux fils à angle droit ; avec l'auto-connexion activée, les points de connexion face à ses bras y sont reliés	Esquina: dos cables en ángulo recto; con la autoconexión activada, los puntos de conexión enfrentados a sus brazos se cablean a ella
 Could not prepare the recovery data.	Die Wiederherstellungsdaten konnten nicht vorbereitet werden.	Impossible de préparer les données de récupération.	No se pudieron preparar los datos de recuperación.
+Counter-clockwise, e.g. 90 for texts running upwards	Gegen den Uhrzeigersinn, z. B. 90 für nach oben laufende Texte	Dans le sens antihoraire, p. ex. 90 pour des textes montants	En sentido antihorario, p. ej. 90 para textos que suben
 Cover sheet, overview, graphics, report, mounting layout or a page template	Deckblatt, Übersicht, Grafik, Bericht, Montageaufbau oder eine Seitenvorlage	Page de garde, vue d'ensemble, graphique, rapport, implantation ou modèle de page	Portada, vista general, gráficos, informe, montaje o una plantilla de página
 Covers	Überdeckt	Couvre	Cubre
 Covers what is behind the text	Deckt ab, was hinter dem Text liegt	Couvre ce qui se trouve derrière le texte	Cubre lo que hay detrás del texto
@@ -517,6 +526,8 @@ Cut length step tubes	Ablängschritt Schläuche	Pas de coupe tuyaux	Paso de cort
 Cut length step wires	Ablängschritt Drähte	Pas de coupe fils	Paso de corte cables
 Cutout {} × {} mm	Ausschnitt {} × {} mm	Découpe {} × {} mm	Recorte {} × {} mm
 Cutting allowance per end	Schnittzugabe je Ende	Surlongueur de coupe par extrémité	Margen de corte por extremo
+DRAFT	ENTWURF	BROUILLON	BORRADOR
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	ENTWURF, ZUR FREIGABE und FREIGEGEBEN in der aktuellen Sprache; nichts nach der Freigabe	BROUILLON, POUR APPROBATION et APPROUVÉ dans la langue actuelle ; rien une fois publié	BORRADOR, PARA APROBACIÓN y APROBADO en el idioma actual; nada una vez publicado
 DWG import failed: {}	DWG-Import fehlgeschlagen: {}	Échec de l'import DWG : {}	Error al importar el DWG: {}
 DWG imported as page {}: {} lines, {} texts	DWG als Seite {} importiert: {} Linien, {} Texte	DWG importé comme page {} : {} lignes, {} textes	DWG importado como página {}: {} líneas, {} textos
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG als Seite {} importiert: {} Linien, {} Texte (nicht importiert: {})	DWG importé comme page {} : {} lignes, {} textes (non importé : {})	DWG importado como página {}: {} líneas, {} textos (no importado: {})
@@ -666,6 +677,7 @@ Downloaded {} (version {})	{} heruntergeladen (Version {})	{} téléchargé (ver
 Downloaded {} parts (revision {}): {} new, {} updated	{} Artikel heruntergeladen (Revision {}): {} neu, {} aktualisiert	{} articles téléchargés (révision {}) : {} nouveaux, {} mis à jour	{} artículos descargados (revisión {}): {} nuevos, {} actualizados
 Downloading OpenECraft {}	OpenECraft {} wird heruntergeladen	Téléchargement d'OpenECraft {}	Descargando OpenECraft {}
 Downstream part	Nachgeschalteter Artikel	Article aval	Artículo aguas abajo
+Draft	Entwurf	Brouillon	Borrador
 Draft of revision {} created	Entwurf der Revision {} angelegt	Brouillon de la révision {} créé	Borrador de la revisión {} creado
 Draft of revision {} discarded	Entwurf der Revision {} verworfen	Brouillon de la révision {} abandonné	Borrador de la revisión {} descartado
 Drag	Ziehen	Glisser	Arrastrar
@@ -787,6 +799,7 @@ Extend guides to canvas edges	Führungslinien bis zu den Zeichenflächenrändern
 Extension	Erweiterung	Extension	Extensión
 Extent of the floor plan; change it by its walls	Ausdehnung des Grundrisses; über seine Wände ändern	Étendue du plan ; à modifier par ses murs	Extensión del plano; se cambia mediante sus paredes
 Extras	Extras	Extras	Extras
+FOR APPROVAL	ZUR FREIGABE	POUR APPROBATION	PARA APROBACIÓN
 Facing	Ausrichtung	Orientation	Orientación
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Lüfter, Filter, Kabelverschraubungen, Leuchten, Griffe: eins wählen, dann an die Einbaustelle klicken	Ventilateurs, filtres, presse-étoupes, éclairages, poignées : en choisir un, puis cliquer à son emplacement	Ventiladores, filtros, prensaestopas, luces, manetas: elija uno y haga clic donde va
 Fastening hardware in the bill of materials	Befestigungsmaterial in der Stückliste	Visserie de fixation dans la nomenclature	Tornillería de fijación en la lista de materiales
@@ -824,6 +837,7 @@ First row	Erste Zeile	Première ligne	Primera fila
 Fit	Einpassen	Ajuster	Ajustar
 Fit page	Seite einpassen	Ajuster la page	Ajustar página
 Fits {}	Passt zu {}	Compatible avec {}	Compatible con {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	In das Rechteck eingepasst, Seitenverhältnis bleibt erhalten (PNG, JPEG)	Ajustée au rectangle en conservant ses proportions (PNG, JPEG)	Ajustada al rectángulo manteniendo su relación de aspecto (PNG, JPEG)
 Fixing	Befestigung	Fixation	Fijación
 Float	Abdocken	Détacher	Desacoplar
 Floor above ground	Boden über Gelände	Sol au-dessus du terrain	Suelo sobre el terreno
@@ -836,8 +850,10 @@ Fluid and process	Fluid und Verfahrenstechnik	Fluide et procédé	Fluidos y proc
 Flush-mounted lines run in slots in the walls along the installation zones, or down into the floor and along its zone	Unterputzleitungen verlaufen in Schlitzen der Wände entlang der Installationszonen oder hinab in den Fußboden und entlang seiner Zone	Les lignes encastrées passent dans des saignées des murs le long des zones d'installation, ou descendent dans le sol et suivent sa zone	Las líneas empotradas van en rozas de las paredes a lo largo de las zonas de instalación, o bajan al suelo y siguen su zona
 Folder containing plugin subfolders with plugin.json files	Ordner mit Plugin-Unterordnern und plugin.json-Dateien	Dossier contenant des sous-dossiers de plugins avec des fichiers plugin.json	Carpeta que contiene subcarpetas de plugins con archivos plugin.json
 Follows its condition: use Apply conditions	Folgt ihrer Bedingung: Verwenden Sie Bedingungen anwenden	Suit sa condition : utilisez Appliquer les conditions	Sigue su condición: use Aplicar condiciones
+Font	Schrift	Police	Fuente
 Foot	Antritt	Départ	Arranque
 For	Für	Pour	Para
+For pages that choose none; before the plot frame's title block and the project default.	Für Seiten, die keines wählen; vor dem Schriftfeld des Zeichnungsrahmens und dem Projektstandard.	Pour les pages qui n'en choisissent pas ; avant le cartouche du cadre de dessin et celui par défaut du projet.	Para las páginas que no eligen ninguno; antes del cajetín del marco de dibujo y del predeterminado del proyecto.
 For parts without Stock length; longer profiles have to be joined	Für Artikel ohne Stock length; längere Profile müssen gestoßen werden	Pour les articles sans Stock length ; les profilés plus longs doivent être raboutés	Para artículos sin Stock length; los perfiles más largos deben empalmarse
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Für Artikel ohne Temperaturangaben (Max temperature, Operating temperature); 0: nicht geprüft	Pour les articles sans données de température (Max temperature, Operating temperature) ; 0 : non contrôlé	Para artículos sin datos de temperatura (Max temperature, Operating temperature); 0: no se comprueba
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Für den Import in die EPLAN-Artikelverwaltung (P_ARTICLE_*-Attribute, Texte in en_US)	Pour l'import dans la gestion d'articles EPLAN (attributs P_ARTICLE_*, textes en en_US)	Para importar en la gestión de artículos de EPLAN (atributos P_ARTICLE_*, textos en en_US)
@@ -864,6 +880,7 @@ From row to row; 0: free of shade in winter	Von Reihe zu Reihe; 0: im Winter ver
 From the function definition	Aus der Funktionsdefinition	De la définition de fonction	De la definición de función
 From the left end	Vom linken Ende	Depuis l'extrémité gauche	Desde el extremo izquierdo
 From the lowest level up to the next one; move it to its place in the building's floor plan	Von der untersten Ebene hinauf zur nächsten; an ihren Platz im Grundriss des Gebäudes verschieben	Du niveau le plus bas au suivant ; déplacez-le à sa place dans le plan du bâtiment	Desde el nivel más bajo hasta el siguiente; muévala a su lugar en la planta del edificio
+From the top left corner of the drawing area	Von der linken oberen Ecke des Zeichenbereichs	Depuis le coin supérieur gauche de la zone de dessin	Desde la esquina superior izquierda del área de dibujo
 From – to	Von – bis	De – à	De – a
 Front	Vorne	Avant	Frente
 Fullest stretch	Vollster Abschnitt	Tronçon le plus rempli	Tramo más lleno
@@ -996,6 +1013,7 @@ Imported {} title blocks and {} report schemes	{} Schriftfelder und {} Auswertun
 Importing {} from the parts server…	{} wird vom Artikelserver übernommen…	Importation de {} depuis le serveur d'articles…	Importando {} desde el servidor de artículos…
 Import…	Importieren…	Importer…	Importar…
 In every section counting starts again after the section number (2.3.1).	In jedem Abschnitt beginnt die Zählung nach der Abschnittsnummer neu (2.3.1).	Dans chaque section, le comptage recommence après le numéro de la section (2.3.1).	En cada sección, la numeración vuelve a empezar tras el número de la sección (2.3.1).
+In review	In Prüfung	En revue	En revisión
 In strip order; PE and other non-numeric terminals keep their designation	In Leistenreihenfolge; PE und andere nicht numerische Klemmen behalten ihre Bezeichnung	Dans l'ordre du bornier ; PE et les autres bornes non numériques conservent leur désignation	En el orden de la regleta; PE y otros bornes no numéricos conservan su designación
 In the filtered rows	In den gefilterten Zeilen	Dans les lignes filtrées	En las filas filtradas
 In the middle of the first wire	In der Mitte des ersten Verbindungsstücks	Au milieu du premier fil	En el centro del primer cable
@@ -1140,6 +1158,8 @@ Locked by {} on the project server – read only	Auf dem Projektserver von {} ge
 Locked by {} – read only	Gesperrt von {} – schreibgeschützt	Verrouillé par {} – lecture seule	Bloqueado por {} – solo lectura
 Locking…	Sperren…	Verrouillage…	Bloqueando…
 Logic	Logik	Logique	Lógica
+Logo	Logo	Logo	Logotipo
+Logo on the cover page	Logo auf dem Deckblatt	Logo sur la page de garde	Logotipo en la portada
 Longer values are drawn smaller (0 = no limit)	Längere Werte werden kleiner gezeichnet (0 = keine Begrenzung)	Les valeurs plus longues sont dessinées plus petites (0 = sans limite)	Los valores más largos se dibujan más pequeños (0 = sin límite)
 Look for updates when OpenECraft starts	Beim Start von OpenECraft nach Updates suchen	Rechercher des mises à jour au démarrage d'OpenECraft	Buscar actualizaciones al iniciar OpenECraft
 Looking for updates…	Suche nach Updates…	Recherche de mises à jour…	Buscando actualizaciones…
@@ -1298,7 +1318,6 @@ New zone	Neue Zone	Nouvelle zone	Nueva zona
 New, empty placement scheme	Neues, leeres Platzierungsschema	Nouveau schéma de placement vide	Nuevo esquema de colocación vacío
 Next free contact numbers on this device	Nächste freie Kontaktnummern an diesem Betriebsmittel	Prochains numéros de contact libres sur cet appareil	Próximos números de contacto libres en este dispositivo
 Next item	Nächstes Teil	Élément suivant	Elemento siguiente
-Next page	Nächste Seite	Page suivante	Página siguiente
 Next page tab	Nächste Seitenregisterkarte	Onglet de page suivant	Pestaña de página siguiente
 Next pane	Nächstes Fenster	Panneau suivant	Panel siguiente
 Next routing of the connection symbol to place	Nächste Verlegung des zu platzierenden Verbindungssymbols	Cheminement suivant du symbole de liaison à placer	Siguiente tendido del símbolo de conexión que se va a colocar
@@ -1369,7 +1388,6 @@ None – editing a page or the project data locks it.	Keine – das Bearbeiten e
 Not a page template file: {}	Keine Seitenvorlagen-Datei: {}	Pas un fichier de modèles de page : {}	No es un archivo de plantillas de página: {}
 Not a point: type x y or @dx dy	Kein Punkt: x y oder @dx dy eingeben	Pas un point : saisir x y ou @dx dy	No es un punto: escriba x y o @dx dy
 Not a symbol library: {}	Keine Symbolbibliothek: {}	Ce n'est pas une bibliothèque de symboles : {}	No es una biblioteca de símbolos: {}
-Not a title block file: {}	Keine Schriftfelddatei: {}	Ce n'est pas un fichier de cartouches : {}	No es un archivo de cajetines: {}
 Not changed: {}	Nicht geändert: {}	Non modifié : {}	No modificado: {}
 Not found: {}	Nicht gefunden: {}	Introuvable : {}	No encontrado: {}
 Not in the project parts – synchronize in parts management	Nicht in den Projektartikeln – in der Artikelverwaltung synchronisieren	Absent des articles du projet – synchroniser dans la gestion des articles	No está en los artículos del proyecto – sincroniza en la gestión de artículos
@@ -1404,9 +1422,11 @@ One row per label	Eine Zeile je Schild	Une ligne par repère	Una fila por etique
 Only devices on the current page	Nur Betriebsmittel auf der aktuellen Seite	Seulement les appareils de la page courante	Solo los dispositivos de la página actual
 Only frames no page uses can be deleted	Nur Rahmen, die keine Seite verwendet, sind löschbar	Seuls les cadres qu'aucune page n'utilise peuvent être supprimés	Solo se pueden eliminar marcos que ninguna página usa
 Only messages of the current page	Nur Meldungen der aktuellen Seite	Seulement les messages de la page courante	Solo los mensajes de la página actual
+Only on pages of these types (none ticked: on all)	Nur auf Seiten dieser Typen (keiner angehakt: auf allen)	Uniquement sur les pages de ces types (aucun coché : sur toutes)	Solo en páginas de estos tipos (ninguno marcado: en todas)
 Only parts whose function template provides the device's main function	Nur Artikel, deren Funktionsvorlage die Hauptfunktion des Betriebsmittels bietet	Uniquement les articles dont le modèle de fonction fournit la fonction principale de l'appareil	Solo artículos cuya plantilla de función ofrece la función principal del dispositivo
 Only rows that pass all filters are shown	Nur Zeilen, die alle Filter erfüllen, werden angezeigt	Seules les lignes qui passent tous les filtres sont affichées	Solo se muestran las filas que cumplen todos los filtros
 Only web and e-mail addresses (http, https, mailto) are links	Nur Web- und E-Mail-Adressen (http, https, mailto) sind Links	Seules les adresses web et e-mail (http, https, mailto) sont des liens	Solo las direcciones web y de correo (http, https, mailto) son enlaces
+Only when filled	Nur wenn gefüllt	Uniquement si rempli	Solo si está lleno
 Open a specific project	Ein bestimmtes Projekt öffnen	Ouvrir un projet précis	Abrir un proyecto concreto
 Open and save shared projects, lock pages	Gemeinsame Projekte öffnen und speichern, Seiten sperren	Ouvrir et enregistrer des projets partagés, verrouiller des pages	Abrir y guardar proyectos compartidos, bloquear páginas
 Open archive…	Archiv öffnen…	Ouvrir une archive…	Abrir archivo comprimido…
@@ -1483,6 +1503,8 @@ Overhang	Überstand	Débord	Vuelo
 Own colour	Eigene Farbe	Couleur propre	Color propio
 Own drawn form	Eigenes gezeichnetes Formular	Formulaire dessiné personnalisé	Formulario dibujado propio
 Own groups	Eigene Gruppen	Groupes personnels	Grupos propios
+Own picture	Eigenes Bild	Image propre	Imagen propia
+Own place	Eigene Stelle	Place propre	Lugar propio
 PCT loops (pre-planning)	PLT-Stellen (Vorplanung)	Boucles CCP (pré-étude)	Lazos PCT (preplanificación)
 PDF with comments	PDF mit Kommentaren	PDF avec commentaires	PDF con comentarios
 PDF {}	PDF {}	PDF {}	PDF {}
@@ -1568,6 +1590,7 @@ Placed by hand; choosing a side places them anew.	Von Hand platziert; die Wahl e
 Placed here: {}	Hier platziert: {}	Placé ici : {}	Colocado aquí: {}
 Placed {}× in the project	{}× im Projekt platziert	Placé {}× dans le projet	Colocado {}× en el proyecto
 Placeholders	Platzhalter	Variables	Marcadores
+Placeholders are filled, e.g. a link with {project} and {page}	Platzhalter werden gefüllt, z. B. ein Link mit {project} und {page}	Les variables sont remplies, p. ex. un lien avec {project} et {page}	Los marcadores se rellenan, p. ej. un enlace con {project} y {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Platzhalter wie {MOTOR} in Kennzeichen, Texten und Funktionstexten werden beim Einfügen gefüllt.	Les variables comme {MOTOR} dans les repères, textes et textes de fonction sont remplies à l'insertion.	Los marcadores como {MOTOR} en designaciones, textos y textos de función se rellenan al insertar.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Platzhalter: {letter} Kennbuchstabe, {n} Zähler, {page} Seite, {column} / {row} Ort der Hauptfunktion	Espaces réservés : {letter} lettre repère, {n} compteur, {page} page, {column} / {row} emplacement de la fonction principale	Marcadores: {letter} letra de código, {n} contador, {page} página, {column} / {row} donde está la función principal
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Platzhalter: {n} Zähler (je Wert des übrigen Texts gezählt), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Ohne {n} teilen sich Verbindungen mit gleichem Text die Nummer.	Espaces réservés : {n} compteur (compté par valeur du reste), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Sans {n}, les liaisons au même texte partagent le numéro.	Marcadores: {n} contador (contado por valor del resto), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Sin {n}, las conexiones con el mismo texto comparten el número.
@@ -1615,7 +1638,6 @@ Preserve junction target paths	Zielpfade des Verbindungsknotens beibehalten	Cons
 Press a key…	Taste drücken…	Appuyez sur une touche…	Pulse una tecla…
 Preview	Vorschau	Aperçu	Vista previa
 Previous item	Vorheriges Teil	Élément précédent	Elemento anterior
-Previous page	Vorherige Seite	Page précédente	Página anterior
 Previous page tab	Vorherige Seitenregisterkarte	Onglet de page précédent	Pestaña de página anterior
 Previous pane	Vorheriges Fenster	Panneau précédent	Panel anterior
 Previous wire	Vorheriger Draht	Fil précédent	Cable anterior
@@ -1663,6 +1685,7 @@ Property groups	Eigenschaftsgruppen	Groupes de propriétés	Grupos de propiedade
 Property placement	Eigenschaftsplatzierung	Placement des propriétés	Colocación de propiedades
 Property removed with {} values	Eigenschaft mit {} Werten entfernt	Propriété supprimée avec {} valeurs	Propiedad eliminada con {} valores
 Protections and fixings ({})	Schutz und Befestigungen ({})	Protections et fixations ({})	Protecciones y fijaciones ({})
+Publish	Veröffentlichen	Publier	Publicar
 Put a room here	Raum hierher stellen	Placer une pièce ici	Colocar una sala aquí
 Put into the vault	Im Vault ablegen	Placer dans le Vault	Colocar en el Vault
 Put the pane back into the workspace	Das Fenster wieder im Arbeitsbereich andocken	Remettre le panneau dans l'espace de travail	Volver a acoplar el panel en el espacio de trabajo
@@ -1762,6 +1785,7 @@ Replace with	Ersetzen durch	Remplacer par	Reemplazar por
 Replaced when the configurator generates again; switch off to keep the page	Wird beim nächsten Erzeugen ersetzt; ausschalten, um die Seite zu behalten	Remplacée lors de la prochaine génération ; désactiver pour garder la page	Se reemplaza al volver a generar; desactivar para conservar la página
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Ersetzt in freien Texten, Funktionstexten, Seiten-, Betriebsmittel- und Kabelbeschreibungen; freigegebene Seiten bleiben	Remplace dans les textes libres, textes de fonction, descriptions de pages, d'appareils et de câbles ; les pages validées restent	Reemplaza en textos libres, textos de función, descripciones de páginas, dispositivos y cables; las páginas liberadas se mantienen
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Ersetzt die GEN.*-Artikel in der Datenbank durch den aktuellen Beispielkatalog (inklusive Modelle)	Remplace les articles GEN.* de la base par le catalogue d'exemple actuel (modèles inclus)	Reemplaza los artículos GEN.* de la base de datos por el catálogo de ejemplo actual (incluidos los modelos)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Ersetzt die Firmenbibliothek durch die eigenen Schriftfelder, Auswertungsschemata und Zeichnungsrahmen des Projekts (Bearbeiter des Artikelservers)	Remplace la bibliothèque de l'entreprise par les cartouches, schémas d'évaluation et cadres de dessin du projet (éditeurs du serveur d'articles)	Sustituye la biblioteca de la empresa por los cajetines, esquemas de informe y marcos de dibujo propios del proyecto (editores del servidor de artículos)
 Replaces the content of the macro boxes whose macro changed in the library	Ersetzt den Inhalt der Makrokästen, deren Makro sich in der Bibliothek geändert hat	Remplace le contenu des boîtes de macro dont la macro a changé dans la bibliothèque	Sustituye el contenido de las cajas de macro cuya macro cambió en la biblioteca
 Replaces the pages of this block	Ersetzt die Seiten dieses Blocks	Remplace les pages de ce bloc	Reemplaza las páginas de este bloque
 Reply	Antworten	Répondre	Responder
@@ -1964,6 +1988,7 @@ Settings scheme	Einstellungsschema	Schéma de paramètres	Esquema de ajustes
 Settings scheme (JSON)	Einstellungsschema (JSON)	Schéma de paramètres (JSON)	Esquema de ajustes (JSON)
 Settings taken over: {}	Einstellungen übernommen: {}	Paramètres repris : {}	Ajustes aplicados: {}
 Settings…	Einstellungen…	Paramètres…	Ajustes…
+Shade every second row	Jede zweite Zeile hinterlegen	Ombrer une ligne sur deux	Sombrear una fila de cada dos
 Shafts	Schächte	Gaines	Patinillos
 Share of the capacity kept free for later additions	Anteil der Kapazität, der für spätere Erweiterungen frei bleibt	Part de la capacité gardée libre pour des ajouts ultérieurs	Parte de la capacidad reservada para ampliaciones posteriores
 Shared project {} – revision {}, user {}	Gemeinsames Projekt {} – Revision {}, Benutzer {}	Projet partagé {} – révision {}, utilisateur {}	Proyecto compartido {} – revisión {}, usuario {}
@@ -2007,9 +2032,12 @@ Show the whole building of the room in the 3D view: all its levels and rooms, th
 Show this cabinet; its place in the room is in its properties	Diesen Schaltschrank zeigen; sein Platz im Raum steht in seinen Eigenschaften	Afficher cette armoire ; son emplacement dans la salle se trouve dans ses propriétés	Mostrar este armario; su ubicación en la sala está en sus propiedades
 Show this wire	Diese Leitung anzeigen	Afficher ce fil	Mostrar este hilo
 Show who may use the project	Anzeigen, wer das Projekt nutzen darf	Afficher qui peut utiliser le projet	Mostrar quién puede usar el proyecto
+Shown	Angezeigt	Affiché	Mostrado
 Shown as \"Name: value\"	Angezeigt als \"Name: Wert\"	Affiché comme \"Nom : valeur\"	Se muestra como \"Nombre: valor\"
 Shown in title blocks with {prop:Name}	Wird in Schriftfeldern mit {prop:Name} angezeigt	Affiché dans les cartouches avec {prop:Name}	Se muestra en los cajetines con {prop:Name}
 Shown instead of the measured value	Wird statt des gemessenen Werts angezeigt	Affiché à la place de la valeur mesurée	Se muestra en lugar del valor medido
+Shown now: {}	Jetzt angezeigt: {}	Affiché actuellement : {}	Mostrado ahora: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Wird auf dem Deckblatt und von den Bildelementen der Schriftfelder gezeigt, die das Projektlogo zeigen	Affiché sur la page de garde et par les éléments image des cartouches qui affichent le logo du projet	Se muestra en la portada y en los elementos de imagen de los cajetines que muestran el logotipo del proyecto
 Shows	Zeigt	Affiche	Muestra
 Side contact directions	Seitliche Kontaktrichtungen	Directions des contacts latéraux	Direcciones de contacto lateral
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Seitenwände, Rückwand, Dach und Boden von außen gesehen: Lüfter, Kabelverschraubungen, Ausschnitte	Parois latérales, paroi arrière, toit et fond vus de l'extérieur : ventilateurs, presse-étoupes, découpes	Paredes laterales, pared trasera, techo y fondo vistos desde fuera: ventiladores, prensaestopas, recortes
@@ -2042,6 +2070,7 @@ Spare terminals	Reserveklemmen	Bornes de réserve	Bornes de reserva
 Special text	Sondertext	Texte spécial	Texto especial
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Sondertext: Projekt- und Seiteneigenschaften wie {page} oder {prop:Name} werden beim Zeichnen der Seite eingesetzt	Texte spécial : les propriétés du projet et de la page telles que {page} ou {prop:Name} sont remplies au dessin de la page	Texto especial: las propiedades del proyecto y de la página como {page} o {prop:Name} se rellenan al dibujar la página
 Stairs	Treppen	Escaliers	Escaleras
+Stamp	Stempel	Tampon	Sello
 Standard form of the report	Standardformular der Auswertung	Formulaire standard du rapport	Formulario estándar del informe
 Standard size	Standardgröße	Taille standard	Tamaño estándar
 Standard workspaces	Standard-Arbeitsbereiche	Espaces de travail standard	Espacios de trabajo estándar
@@ -2090,6 +2119,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Teilprojekt al
 Subproject {} inserted: {} pages replaced by {}	Teilprojekt {} eingefügt: {} Seiten durch {} ersetzt	Sous-projet {} inséré : {} pages remplacées par {}	Subproyecto {} insertado: {} páginas sustituidas por {}
 Subprojects	Teilprojekte	Sous-projets	Subproyectos
 Subsystem {}	Teilsystem {}	Sous-système {}	Subsistema {}
+Suggested texts	Vorgeschlagene Texte	Textes suggérés	Textos sugeridos
+Sums the column in a row below the last row of the report	Summiert die Spalte in einer Zeile unter der letzten Zeile der Auswertung	Additionne la colonne dans une ligne sous la dernière ligne du rapport	Suma la columna en una fila bajo la última fila del informe
 Supply and conditions	Einspeisung und Bedingungen	Alimentation et conditions	Alimentación y condiciones
 Surge protection	Überspannungsschutz	Protection contre les surtensions	Protección contra sobretensiones
 Swing the enclosure door open or shut (door devices and their wires move with it)	Gehäusetür auf- oder zuschwenken (Türgeräte und ihre Drähte schwenken mit)	Ouvrir ou fermer la porte de l'armoire (les appareils de porte et leurs fils pivotent avec elle)	Abrir o cerrar la puerta del armario (los equipos de la puerta y sus cables giran con ella)
@@ -2165,12 +2196,15 @@ The devices do not fit onto the rail	Die Geräte passen nicht auf die Schiene	Le
 The dictionary is empty: collect the texts from the project.	Das Wörterbuch ist leer: Sammeln Sie die Texte aus dem Projekt.	Le dictionnaire est vide : collectez les textes du projet.	El diccionario está vacío: recopile los textos del proyecto.
 The door seen from the front: door devices and cutouts	Die Tür von vorn: Türgeräte und Ausschnitte	La porte vue de face : appareils de porte et découpes	La puerta vista de frente: equipos de la puerta y recortes
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Die Tür von innen (Scharniere rechts): Kabelkanäle und die Verdrahtung hinter der Tür	La porte vue de l'intérieur (charnières à droite) : goulottes et câblage derrière la porte	La puerta vista desde dentro (bisagras a la derecha): canaletas y cableado detrás de la puerta
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Das Element wird nur gezeichnet, wenn dieser Text mit seinen Platzhaltern nicht leer ist, z. B. die Zeilen einer Revisionstabelle	L'élément n'est dessiné que si ce texte avec ses variables n'est pas vide, p. ex. les lignes d'un tableau des révisions	El elemento solo se dibuja si este texto con sus marcadores no está vacío, p. ej. las filas de una tabla de revisiones
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Der Schrank steht mit seiner linken Seite an der rechten Seite des gewählten; Drähte laufen durch Kabeldurchführungen hinüber	L'armoire est placée avec son côté gauche contre le côté droit de celle choisie ; les fils passent par des passages de câbles	El armario se coloca con su lado izquierdo contra el lado derecho del elegido; los cables pasan por pasos de cables
 The file could not be opened as an OpenECraft project.	Die Datei konnte nicht als OpenECraft-Projekt geöffnet werden.	Le fichier n'a pas pu être ouvert comme projet OpenECraft.	El archivo no se ha podido abrir como proyecto de OpenECraft.
 The first hour	Die erste Stunde	La première heure	La primera hora
 The horizontal wire	Die waagerechte Leitung	Le fil horizontal	El cable horizontal
 The items are selected and moved together	Die Elemente werden gemeinsam ausgewählt und verschoben	Les éléments sont sélectionnés et déplacés ensemble	Los elementos se seleccionan y se mueven juntos
 The level of a building the room is on (Layout space › Buildings); it moves with the building and its level	Die Ebene eines Gebäudes, auf der der Raum liegt (Layoutraum › Gebäude); er bewegt sich mit dem Gebäude und seiner Ebene	Le niveau d'un bâtiment sur lequel se trouve la pièce (Espace de montage › Bâtiments) ; elle suit le bâtiment et son niveau	El nivel de un edificio en el que está la sala (Espacio de montaje › Edificios); se mueve con el edificio y su nivel
+The logo is fitted into this area keeping its aspect ratio	Das Logo wird mit seinem Seitenverhältnis in diesen Bereich eingepasst	Le logo est ajusté à cette zone en conservant ses proportions	El logotipo se ajusta a esta área manteniendo su relación de aspecto
+The logo of the project properties, e.g. the customer's	Das Logo aus den Projekteigenschaften, z. B. das des Kunden	Le logo des propriétés du projet, p. ex. celui du client	El logotipo de las propiedades del proyecto, p. ej. el del cliente
 The low eaves at the rear or left instead of the front or right	Die niedrige Traufe hinten oder links statt vorne oder rechts	L'égout bas à l'arrière ou à gauche au lieu de l'avant ou de la droite	El alero bajo detrás o a la izquierda en lugar de delante o a la derecha
 The macro library has no page macros (Macros › Save page as macro…).	Die Makrobibliothek hat keine Seitenmakros (Makros › Seite als Makro speichern…).	La bibliothèque de macros n'a pas de macros de page (Macros › Enregistrer la page comme macro…).	La biblioteca de macros no tiene macros de página (Macros › Guardar página como macro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Die Zusatztasten, mit denen das Mausrad seitwärts verschiebt oder zoomt, werden unter Zusatztasten eingestellt.	Les touches de modification qui font défiler la molette latéralement ou zoomer se règlent sous Touches de modification.	Las teclas modificadoras que hacen que la rueda desplace hacia los lados o haga zoom se ajustan en Teclas modificadoras.
@@ -2230,8 +2264,11 @@ Through all levels; move it to its place in the building's floor plan	Durch alle
 Tilt	Neigung	Inclinaison	Inclinación
 Title	Titel	Titre	Título
 Title bar	Titelleiste	Barre de titre	Barra de título
+Title block by page type	Schriftfeld nach Seitentyp	Cartouche par type de page	Cajetín por tipo de página
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Schriftfeld der Seiten mit diesem Rahmen, die keines wählen, z. B. ein schmaleres für A4 hoch	Cartouche des pages avec ce cadre qui n'en choisissent pas, p. ex. un plus étroit pour A4 portrait	Cajetín de las páginas con este marco que no eligen ninguno, p. ej. uno más estrecho para A4 vertical
 Title blocks	Schriftfelder	Cartouches	Cajetines
 Title blocks, plot frames and page templates	Schriftfelder, Plotrahmen und Seitenvorlagen	Cartouches, cadres et modèles de page	Cajetines, marcos y plantillas de página
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Schriftfelder, Auswertungsschemata und Zeichnungsrahmen, die alle Projekte auf dem Artikelserver teilen (Artikel › Artikelserver)	Cartouches, schémas d'évaluation et cadres de dessin partagés par tous les projets sur le serveur d'articles (Articles › Serveur d'articles)	Cajetines, esquemas de informe y marcos de dibujo compartidos por todos los proyectos en el servidor de artículos (Artículos › Servidor de artículos)
 To do	Offen	À faire	Pendiente
 Toggle corner direction while drawing wires	Eckrichtung beim Zeichnen von Leitungen umschalten	Changer le sens du coin pendant le tracé des fils	Cambiar la dirección de la esquina al dibujar hilos
 Toggle routing around symbols (wire tool)	Führung um Symbole ein / aus (Verbindungswerkzeug)	Activer / désactiver le contournement des symboles (outil fil)	Activar / desactivar el trazado alrededor de símbolos (herramienta de cable)
@@ -2593,7 +2630,6 @@ x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm
 {} has unsaved changes. Discard them?	{} hat ungespeicherte Änderungen. Verwerfen?	{} contient des modifications non enregistrées. Les abandonner ?	{} tiene cambios sin guardar. ¿Descartarlos?
 {} imported into the parts database and placed as {}	{} in die Artikeldatenbank übernommen und als {} platziert	{} importé dans la base d'articles et placé comme {}	{} importado a la base de datos de artículos y colocado como {}
 {} is neither in the parts database nor on the parts server	{} ist weder in der Artikeldatenbank noch auf dem Artikelserver	{} n'est ni dans la base d'articles ni sur le serveur d'articles	{} no está ni en la base de datos de artículos ni en el servidor de artículos
-{} is not a PNG or JPEG image	{} ist kein PNG- oder JPEG-Bild	{} n'est pas une image PNG ou JPEG	{} no es una imagen PNG o JPEG
 {} is not an OpenECraft project template.	{} ist keine OpenECraft-Projektvorlage.	{} n'est pas un modèle de projet OpenECraft.	{} no es una plantilla de proyecto de OpenECraft.
 {} is not in the disk image	{} ist nicht im Disk-Image	{} n'est pas dans l'image disque	{} no está en la imagen de disco
 {} is not made for wall mounting: place it on a mounting rail	{} ist nicht für Wandmontage vorgesehen: auf eine Tragschiene setzen	{} n'est pas prévu pour le montage mural : placez-le sur un rail	{} no está previsto para montaje mural: colóquelo sobre un carril
@@ -2717,6 +2753,7 @@ x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm
 ✔ The project data is consistent.	✔ Die Projektdaten sind konsistent.	✔ Les données du projet sont cohérentes.	✔ Los datos del proyecto son coherentes.
 ✔ Wired	✔ Verdrahtet	✔ Câblé	✔ Cableado
 ➕ Default value	➕ Vorgabewert	➕ Valeur par défaut	➕ Valor predeterminado
+➕ Image	➕ Bild	➕ Image	➕ Imagen
 ➕ Insert (click into the page)	➕ Einfügen (in die Seite klicken)	➕ Insérer (cliquer dans la page)	➕ Insertar (clic en la página)
 ➕ Insert as new page	➕ Als neue Seite einfügen	➕ Insérer comme nouvelle page	➕ Insertar como página nueva
 ➕ Label	➕ Beschriftung	➕ Libellé	➕ Etiqueta
@@ -2724,6 +2761,7 @@ x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm	x {} mm, z {} mm
 ➕ Place property	➕ Eigenschaft platzieren	➕ Placer une propriété	➕ Colocar propiedad
 ➕ Property	➕ Eigenschaft	➕ Propriété	➕ Propiedad
 ➕ Put a cabinet into the room	➕ Schaltschrank in den Raum stellen	➕ Placer une armoire dans la salle	➕ Colocar un armario en la sala
+➕ QR code	➕ QR-Code	➕ Code QR	➕ Código QR
 ➕ Rectangle	➕ Rechteck	➕ Rectangle	➕ Rectángulo
 ➕ Text	➕ Text	➕ Texte	➕ Texto
 ⬇ 3D (glTF)…	⬇ 3D (glTF)…	⬇ 3D (glTF)…	⬇ 3D (glTF)…

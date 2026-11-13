@@ -47,8 +47,9 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   Data Portal instead (the token is the personal access token; searching, `parts_get`,
   `parts_file` and `parts_check_updates` only). The data portal tools search with facets
   (`parts_search`), manage catalogs, files, favorites and users (`parts_catalog_save`,
-  `parts_attach`, `parts_favorites`, `parts_user_save`, …) and compare the project parts
-  with the server (`parts_check_updates`).
+  `parts_attach`, `parts_favorites`, `parts_user_save`, …), compare the project parts
+  with the server (`parts_check_updates`) and share the company's forms
+  (`parts_company_forms` (`publish`)).
 - Help and messages follow `--lang` or the system language; the MCP server answers in
   English unless `--lang` is given.
 

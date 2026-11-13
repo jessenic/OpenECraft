@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	A DC vezérlőáramkörökn
 DC/DC converter	DC/DC átalakító
 DWG export failed: {}	A DWG-exportálás sikertelen: {}
 Data sheet	Adatlap
+Date of the approval of the last revision	Az utolsó revízió jóváhagyásának dátuma
 Date of the last revision	Az utolsó revízió dátuma
 Degree of protection	Védettségi fokozat
 Delete projects	Projektek törlése
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Végálláskapcsoló, záróérintkező (NFPA)
 Line reactor	Hálózati fojtó
 Linear motor 3-phase	Lineáris motor, háromfázisú
 Literal braces	Kapcsos zárójelek (szó szerint)
-Load	Fogyasztó
 Load calculation	Terhelésszámítás
 Loads and power supplies	Fogyasztók és tápellátás
 Loads behind it: {}	Utána kapcsolt fogyasztók: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Kulcsos nyomógomb, záróérintkező, retesze
 Pushbutton NC	Nyomógomb, nyitóérintkező
 Pushbutton NO	Nyomógomb, záróérintkező
 Pyramid roof	Sátortető
+QR code	QR-kód
 Qty	Menny.
 RCD {} mA	RCD {} mA
 Radiation	Sugárzás
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Relétekercs, remanens
 Relay coil, resonant	Relétekercs, rezonáns
 Relay coil, thermal	Relétekercs, termikus
 Relays, contactors	Relék, mágneskapcsolók
-Released	Kiadva
 Released pages cannot be deleted	A kiadott oldalak nem törölhetők
 Remote I/O	Decentralizált periféria
 Remote I/O {} has no controller	A(z) {} decentralizált perifériának nincs vezérlője
@@ -1340,6 +1340,10 @@ Result	Eredmény
 Return / exhaust line	Visszafolyó / kipufogó vezeték
 Reviewer	Véleményező
 Revision overview (changes)	Revízió-áttekintés (változások)
+Revision table: author of the last revision (2: the one before …)	Revíziós táblázat: az utolsó revízió szerzője (2: az azt megelőzőé …)
+Revision table: date of the last revision (2: the one before …)	Revíziós táblázat: az utolsó revízió dátuma (2: az azt megelőzőé …)
+Revision table: description of the last revision (2: the one before …)	Revíziós táblázat: az utolsó revízió leírása (2: az azt megelőzőé …)
+Revision table: index of the last revision (2: the one before …)	Revíziós táblázat: az utolsó revízió indexe (2: az azt megelőzőé …)
 Right side	Jobb oldal
 Right side panel	Jobb oldalfal
 Ring terminal	Gyűrűs saru
@@ -1487,6 +1491,7 @@ Start date	Kezdés dátuma
 Started	Elkezdve
 Starting current ratio	Indítási áramviszony
 Starting torque	Indítónyomaték
+State of the project: draft, in review, approved, released	A projekt állapota: tervezet, ellenőrzés alatt, jóváhagyva, kiadva
 Station name (PROFINET)	Állomásnév (PROFINET)
 Station name {} is used {} times	A(z) {} állomásnév {}-szor van használva
 Station {} is not connected to bus {}	A(z) {} állomás nincs csatlakoztatva a(z) {} buszhoz
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Időrelé tekercse, elengedéskésleltetett
 Timer relay coil, on-delay	Időrelé tekercse, meghúzáskésleltetett
 Title blocks and report forms	Szövegmezők és kimutatás-űrlapok
 To order	Rendelendő
-Total	Összesen
 Total length (m)	Teljes hossz (m)
 Total price	Összár
 Total weight	Össztömeg
@@ -1781,6 +1785,7 @@ Wavemeter	Hullámhosszmérő
 Wearing part	Kopóalkatrész
 Weld stud	Hegesztőcsap
 Wetted material	Közeggel érintkező anyag
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Ki hagyta jóvá az utolsó revíziót (ellenőrzés); {rev.2.approved_by}: az azt megelőzőt
 Width (mm)	Szélesség (mm)
 Winding connection	Tekercskapcsolás
 Wire assigned to unknown cable {}	A vezeték ismeretlen kábelhez van rendelve: {}

@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = o singură valoare; altfel valorile [1] … [n]
 0 = all approvers	0 = toți avizatorii
 0 = estimated from cores and cross-section	0 = estimat din fire și secțiune
+0 = fitted to the page	0 = potrivit paginii
 0 = fitted to the rows per page	0 = ajustat la rândurile pe pagină
 0 = from the DC of the devices ({} %)	0 = din DC-ul dispozitivelor ({} %)
 0 = from the devices	0 = din dispozitive
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Un cablu de tipul magistralei pentru fiecare conexiune fără cablu
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Un decupaj de aceeași dimensiune în același loc în peretele lateral al vecinului: împreună formează o trecere de cabluri
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Un fișier cu același nume din folder primește o versiune nouă (check-out și check-in), altfel fișierul este adăugat
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Un text mare peste fiecare pagină, de ex. CIORNĂ cât timp se pregătește o revizie; textele acceptă substituenți, gol: fără ștampilă.
 A level on top of the highest one	Un nivel deasupra celui mai înalt
 A local file opens locally, a server project is opened on the project server again	Un fișier local se deschide local, un proiect de pe server este redeschis pe serverul de proiecte
 A local file or a project on the project server	Un fișier local sau un proiect de pe serverul de proiecte
@@ -55,6 +57,7 @@ A new project	Un proiect nou
 A new release is downloaded in the background and installed when you close OpenECraft.	O versiune nouă se descarcă în fundal și se instalează când închideți OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	O versiune nouă se descarcă în fundal și înlocuiește această instalare; este folosită de la următoarea pornire.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	O secțiune numerotată care conține pagini ca un director; numele paginilor încep cu numărul ei (2.3.1)
+A picture kept in the form, e.g. the company logo	O imagine păstrată în formular, de ex. sigla firmei
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Un profil mapează câmpurile neutre la numele de coloane ale unui anumit sistem (de ex. MATNR pentru numărul ERP în SAP). Fără mapare, sunt recunoscute numele uzuale în engleză și germană.
 A project definition based on this one, with its own defaults and scheme	O definiție de proiect bazată pe aceasta, cu propriile valori implicite și schemă
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	În schimb se deschide un fișier de proiect deschis din managerul de fișiere. Modificările nesalvate ale ultimei sesiuni nu sunt niciodată renunțate fără întrebare.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Un șablon cu acest nume va fi înlocuit.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Un șablon setează tipul paginii, chenarul, cartușul, structura și descrierea unei pagini noi și îi plasează conținutul.
 A way through free air costs this many times the way in a duct or routing path	Un traseu prin aer liber costă de atâtea ori mai mult decât un traseu într-un canal sau pe o cale de pozare
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	O zonă de lucru limitează paginile și dispozitivele din navigator la o parte a proiectului. Filtre: gol = oricare, * = orice caractere; A1 include și A1.2.
+APPROVED	APROBAT
 About OpenECraft	Despre OpenECraft
 Above the floor	Deasupra podelei
+Above the project name	Deasupra numelui proiectului
 Accept as checked	Acceptare ca verificat
 Accepted messages ({})	Mesaje acceptate ({})
 Active	Activă
@@ -144,6 +149,7 @@ Apply to the connection	Aplicare la conexiune
 Apply to {} projects	Aplicare la {} proiecte
 Approval workflow	Flux de avizare
 Approvals needed	Avize necesare
+Approved	Aprobat
 Approving needs an approver; you are \"{}\".	Doar un avizator poate aviza; sunteți \"{}\".
 Arc	Arc
 Archive and version	Arhivă și versiune
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Alegeți mai întâi o încăpere: articolele care stau pe pardoseală se pun pe pardoseala ei.
 Choose another project	Alege alt proiect
 Choose file…	Alegere fișier…
+Choose image…	Alege imaginea…
 Choose pages	Alegere pagini
 Chooses the pages whose structure starts with this	Alege paginile a căror structură începe cu aceasta
 Circle	Cerc
@@ -362,6 +369,7 @@ Comments ({} open)	Comentarii ({} deschise)
 Comments ({})	Comentarii ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Comentarii făcute de un examinator într-un export PDF al proiectului (Acrobat sau alt vizualizator PDF)
 Comments and markup	Comentarii și marcaje
+Company library	Biblioteca firmei
 Compare and baselines	Comparare și versiuni de referință
 Compare with	Comparare cu
 Compare with a baseline, a revision or another project file and take differences over	Comparare cu o versiune de referință, o revizie sau alt fișier de proiect și preluarea diferențelor
@@ -405,6 +413,7 @@ Core designations separated by blanks	Denumirile firelor, separate prin spații
 Core labels placed by hand	Etichetele firelor plasate manual
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Fire 1, 2, 3 … pentru conductoarele intersectate, plus GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Colț: două fire în unghi drept; cu conectarea automată activă, punctele de conexiune aflate în fața brațelor sale sunt cablate la el
+Counter-clockwise, e.g. 90 for texts running upwards	În sens antiorar, de ex. 90 pentru texte orientate în sus
 Cover sheet, overview, graphics, report, mounting layout or a page template	Copertă, prezentare generală, grafică, raport, amplasare de montaj sau un șablon de pagină
 Covers	Acoperă
 Covers what is behind the text	Acoperă ce se află în spatele textului
@@ -431,6 +440,8 @@ Cut length step tubes	Pas de lungime de tăiere tuburi
 Cut length step wires	Pas de lungime de tăiere conductoare
 Cutout {} × {} mm	Decupaj {} × {} mm
 Cutting allowance per end	Adaos de tăiere pe capăt
+DRAFT	CIORNĂ
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	CIORNĂ, PENTRU APROBARE și APROBAT în limba curentă; nimic după eliberare
 DWG import failed: {}	Importul DWG nu a reușit: {}
 DWG imported as page {}: {} lines, {} texts	DWG importat ca pagina {}: {} linii, {} texte
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importat ca pagina {}: {} linii, {} texte (neimportate: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	{} descărcat (versiunea {})
 Downloaded {} parts (revision {}): {} new, {} updated	S-au descărcat {} articole (revizia {}): {} noi, {} actualizate
 Downloading OpenECraft {}	Se descarcă OpenECraft {}
 Downstream part	Articol din aval
+Draft	Ciornă
 Draft of revision {} created	Ciorna reviziei {} a fost creată
 Draft of revision {} discarded	Ciorna reviziei {} a fost eliminată
 Drag	Tragere
@@ -665,6 +677,7 @@ Exporting {}	Se exportă {}
 Export…	Export…
 Extend guides to canvas edges	Extinde ghidajele până la marginile zonei de desen
 Extras	Extra
+FOR APPROVAL	PENTRU APROBARE
 Facing	Orientare
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Ventilatoare, filtre, presetupe, lămpi, mânere: alegeți unul, apoi faceți clic unde trebuie montat
 Fastening hardware in the bill of materials	Elemente de fixare în lista de materiale
@@ -700,6 +713,7 @@ First row	Primul rând
 Fit	Încadrare
 Fit page	Încadrare pagină
 Fits {}	Compatibil cu {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	Încadrată în dreptunghi păstrând proporțiile (PNG, JPEG)
 Float	Detașare
 Floor above ground	Pardoseală peste teren
 Floor plan	Plan
@@ -707,8 +721,10 @@ Floor plan with {} walls	Plan cu {} pereți
 Floor-standing part	Articol care stă pe pardoseală
 Fluid and process	Fluide și procese
 Follows its condition: use Apply conditions	Urmează condiția sa: utilizați Aplicare condiții
+Font	Font
 Foot	Pornire
 For	Pentru
+For pages that choose none; before the plot frame's title block and the project default.	Pentru paginile care nu aleg unul; înaintea cartușului chenarului și a celui implicit al proiectului.
 For parts without Stock length; longer profiles have to be joined	Pentru articole fără Stock length; profilele mai lungi trebuie îmbinate
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Pentru articole fără date de temperatură (Max temperature, Operating temperature); 0: neverificat
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Pentru importul în administrarea articolelor EPLAN (atribute P_ARTICLE_*, texte în en_US)
@@ -730,6 +746,7 @@ From a template file…	Dintr-un fișier șablon…
 From row to row; 0: free of shade in winter	De la rând la rând; 0: fără umbrire iarna
 From the function definition	Din definiția de funcție
 From the left end	De la capătul stâng
+From the top left corner of the drawing area	De la colțul stânga sus al zonei de desen
 From – to	De la – până la
 Fullest stretch	Porțiunea cea mai plină
 Function definitions	Definiții de funcție
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	S-au importat {} cartușe și {} 
 Importing {} from the parts server…	Se importă {} de pe serverul de articole…
 Import…	Import…
 In every section counting starts again after the section number (2.3.1).	În fiecare secțiune numărarea reîncepe după numărul secțiunii (2.3.1).
+In review	În verificare
 In strip order; PE and other non-numeric terminals keep their designation	În ordinea din șir; PE și alte borne nenumerice își păstrează denumirea
 In the filtered rows	În rândurile filtrate
 In the middle of the first wire	În mijlocul primului conductor
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	Blocat de {} pe serverul de pro
 Locked by {} – read only	Blocat de {} – doar în citire
 Locking…	Se blochează…
 Logic	Logică
+Logo	Siglă
+Logo on the cover page	Sigla pe copertă
 Longer values are drawn smaller (0 = no limit)	Valorile mai lungi se desenează mai mic (0 = fără limită)
 Look for updates when OpenECraft starts	Caută actualizări la pornirea OpenECraft
 Looking for updates…	Se caută actualizări…
@@ -1135,7 +1155,6 @@ New zone	Zonă nouă
 New, empty placement scheme	Schemă de plasare nouă, goală
 Next free contact numbers on this device	Următoarele numere de contact libere ale acestui dispozitiv
 Next item	Elementul următor
-Next page	Pagina următoare
 Next page tab	Fila de pagină următoare
 Next pane	Panoul următor
 Next row	Rândul următor
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Niciuna – editarea unei 
 Not a page template file: {}	Nu este un fișier de șabloane de pagină: {}
 Not a point: type x y or @dx dy	Nu este un punct: introduceți x y sau @dx dy
 Not a symbol library: {}	Nu este o bibliotecă de simboluri: {}
-Not a title block file: {}	Nu este un fișier de cartușe: {}
 Not changed: {}	Nemodificat: {}
 Not found: {}	Negăsit: {}
 Not in the project parts – synchronize in parts management	Nu se află în articolele proiectului – sincronizați în gestionarea articolelor
@@ -1226,9 +1244,11 @@ One row per label	Un rând per etichetă
 Only devices on the current page	Numai dispozitivele de pe pagina curentă
 Only frames no page uses can be deleted	Pot fi șterse doar chenarele pe care nu le folosește nicio pagină
 Only messages of the current page	Numai mesajele paginii curente
+Only on pages of these types (none ticked: on all)	Doar pe paginile acestor tipuri (niciunul bifat: pe toate)
 Only parts whose function template provides the device's main function	Doar articolele al căror șablon de funcție oferă funcția principală a dispozitivului
 Only rows that pass all filters are shown	Se afișează doar rândurile care trec de toate filtrele
 Only web and e-mail addresses (http, https, mailto) are links	Doar adresele web și de e-mail (http, https, mailto) sunt linkuri
+Only when filled	Doar dacă este completat
 Open a specific project	Deschide un anumit proiect
 Open and save shared projects, lock pages	Deschiderea și salvarea proiectelor partajate, blocarea paginilor
 Open archive…	Deschidere arhivă…
@@ -1301,6 +1321,8 @@ Overhang	Consolă
 Own colour	Culoare proprie
 Own drawn form	Formular desenat propriu
 Own groups	Grupuri proprii
+Own picture	Imagine proprie
+Own place	Loc propriu
 PCT loops (pre-planning)	Bucle AMC (preplanificare)
 PDF with comments	PDF cu comentarii
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Plasate manual; alegerea unei 
 Placed here: {}	Plasat aici: {}
 Placed {}× in the project	Plasat {}× în proiect
 Placeholders	Substituenți
+Placeholders are filled, e.g. a link with {project} and {page}	Substituenții sunt completați, de ex. un link cu {project} și {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Substituenții precum {MOTOR} din identificatori, texte și texte de funcție se completează la inserare.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Substituenți: {letter} literă de identificare, {n} contor, {page} pagină, {column} / {row} locul funcției principale
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Substituenți: {n} contor (numărat pentru fiecare valoare a restului), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Fără {n}, conexiunile cu același text au același număr.
@@ -1424,7 +1447,6 @@ Prefix	Prefix
 Press a key…	Apăsați o tastă…
 Preview	Previzualizare
 Previous item	Elementul anterior
-Previous page	Pagina anterioară
 Previous page tab	Fila de pagină anterioară
 Previous pane	Panoul anterior
 Previous wire	Conductorul anterior
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Grupuri de proprietăți
 Property placement	Plasarea proprietăților
 Property removed with {} values	Proprietate eliminată împreună cu {} valori
+Publish	Publică
 Put a room here	Pune o încăpere aici
 Put into the vault	Plasare în vault
 Put the pane back into the workspace	Readucerea panoului în spațiul de lucru
@@ -1556,6 +1579,7 @@ Replace with	Înlocuire cu
 Replaced when the configurator generates again; switch off to keep the page	Se înlocuiește când configuratorul generează din nou; dezactivați pentru a păstra pagina
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Înlocuiește în textele libere, textele de funcție, descrierile paginilor, dispozitivelor și cablurilor; paginile aprobate rămân neschimbate
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Înlocuiește articolele GEN.* din baza de date cu catalogul exemplu actual (inclusiv modelele)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Înlocuiește biblioteca firmei cu cartușele, schemele de rapoarte și chenarele proprii ale proiectului (editorii serverului de piese)
 Replaces the content of the macro boxes whose macro changed in the library	Înlocuiește conținutul casetelor macro al căror macro s-a modificat în bibliotecă
 Replaces the pages of this block	Înlocuiește paginile acestui bloc
 Reply	Răspuns
@@ -1745,6 +1769,7 @@ Settings scheme	Schemă de setări
 Settings scheme (JSON)	Schemă de setări (JSON)
 Settings taken over: {}	Setări preluate: {}
 Settings…	Setări…
+Shade every second row	Umbrește fiecare al doilea rând
 Shafts	Puțuri
 Share of the capacity kept free for later additions	Cota din capacitate păstrată liberă pentru extinderi ulterioare
 Shared project {} – revision {}, user {}	Proiect partajat {} – revizia {}, utilizator {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	Afișarea panoului ca fereastră
 Show the ribbon	Afișarea panglicii
 Show this wire	Afișare acest conductor
 Show who may use the project	Afișați cine poate folosi proiectul
+Shown	Afișat
 Shown as \"Name: value\"	Afișat ca \"Nume: valoare\"
 Shown in title blocks with {prop:Name}	Afișat în cartușe cu {prop:Name}
 Shown instead of the measured value	Afișat în locul valorii măsurate
+Shown now: {}	Afișat acum: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Afișată pe copertă și de elementele imagine ale cartușelor care arată sigla proiectului
 Shows	Afișează
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Pereții laterali, peretele din spate, plafonul și baza văzute din exterior: ventilatoare, presetupe, decupaje
 Sign in in the Project server pane; the project opens afterwards	Autentificați-vă în panoul Server de proiecte; apoi proiectul se deschide
@@ -1812,6 +1840,7 @@ Spare terminals	Borne de rezervă
 Special text	Text special
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Text special: proprietățile proiectului și ale paginii, cum ar fi {page} sau {prop:Name}, sunt completate la desenarea paginii
 Stairs	Scări
+Stamp	Ștampilă
 Standard form of the report	Formularul standard al raportului
 Standard size	Dimensiune standard
 Standard workspaces	Spații de lucru standard
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Subproiect sal
 Subproject {} inserted: {} pages replaced by {}	Subproiectul {} a fost inserat: {} pagini înlocuite cu {}
 Subprojects	Subproiecte
 Subsystem {}	Subsistemul {}
+Suggested texts	Texte sugerate
+Sums the column in a row below the last row of the report	Însumează coloana într-un rând sub ultimul rând al raportului
 Supply and conditions	Alimentare și condiții
 Surge protection	Protecție la supratensiune
 Swing the enclosure door open or shut (door devices and their wires move with it)	Deschiderea sau închiderea ușii carcasei (dispozitivele de pe ușă și conductoarele lor se rotesc odată cu ea)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	Dispozitivele nu încap pe șină
 The dictionary is empty: collect the texts from the project.	Dicționarul este gol: colectați textele din proiect.
 The door seen from the front: door devices and cutouts	Ușa văzută din față: dispozitive de ușă și decupaje
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Ușa văzută din interior (balamale în dreapta): canale de cablu și cablarea din spatele ușii
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Elementul este desenat doar când acest text cu substituenții săi nu este gol, de ex. rândurile unui tabel de revizii
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Carcasa stă cu partea stângă lipită de partea dreaptă a celei alese; conductoarele trec între ele prin treceri de cabluri
 The horizontal wire	Firul orizontal
 The items are selected and moved together	Elementele se selectează și se mută împreună
+The logo is fitted into this area keeping its aspect ratio	Sigla este încadrată în această zonă păstrând proporțiile
+The logo of the project properties, e.g. the customer's	Sigla din proprietățile proiectului, de ex. cea a clientului
 The macro library has no page macros (Macros › Save page as macro…).	Biblioteca de macro-uri nu are macro-uri de pagină (Macro-uri › Salvare pagină ca macro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Tastele modificatoare cu care rotița deplasează lateral sau mărește se setează la Taste modificatoare.
 The modules no string takes yet in series, on the first inverter	Modulele pe care încă nu le ia niciun șir, în serie, pe primul invertor
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Curent de scurtcircuit trifazat în punctul de alimentare
 Tilt	Înclinare
 Title	Titlu
+Title block by page type	Cartuș după tipul paginii
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Cartușul paginilor cu acest chenar care nu aleg unul, de ex. unul mai îngust pentru A4 portret
 Title blocks	Cartușe
 Title blocks, plot frames and page templates	Cartușe, chenare și șabloane de pagină
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Cartușe, scheme de rapoarte și chenare partajate de toate proiectele pe serverul de piese (Piese › Server de piese)
 To do	De făcut
 Toggle corner direction while drawing wires	Comutare direcție colț la desenarea conductoarelor
 Toggle routing around symbols (wire tool)	Comutare pozare în jurul simbolurilor (instrument conductor)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} are modificări nesalvate. Renunțați la ele?
 {} imported into the parts database and placed as {}	{} importat în baza de date de articole și plasat ca {}
 {} is neither in the parts database nor on the parts server	{} nu se află nici în baza de date de articole, nici pe serverul de articole
-{} is not a PNG or JPEG image	{} nu este o imagine PNG sau JPEG
 {} is not in the disk image	{} nu este în imaginea de disc
 {} is not made for wall mounting: place it on a mounting rail	{} nu este destinat montajului pe perete: așezați-l pe o șină
 {} is used by: {}	{} este folosit de: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ Datele proiectului sunt consecvente.
 ✔ Wired	✔ Cablat
 ➕ Default value	➕ Valoare implicită
+➕ Image	➕ Imagine
 ➕ Insert (click into the page)	➕ Inserare (faceți clic în pagină)
 ➕ Insert as new page	➕ Inserare ca pagină nouă
 ➕ Label	➕ Etichetă
 ➕ Line	➕ Linie
 ➕ Place property	➕ Plasare proprietate
 ➕ Property	➕ Proprietate
+➕ QR code	➕ Cod QR
 ➕ Rectangle	➕ Dreptunghi
 ➕ Text	➕ Text
 ⬉ Select	⬉ Selectare

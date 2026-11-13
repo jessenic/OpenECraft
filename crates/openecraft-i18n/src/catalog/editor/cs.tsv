@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = jediná hodnota; jinak hodnoty [1] … [n]
 0 = all approvers	0 = všichni schvalovatelé
 0 = estimated from cores and cross-section	0 = odhadnuto ze žil a průřezu
+0 = fitted to the page	0 = přizpůsobeno stránce
 0 = fitted to the rows per page	0 = přizpůsobeno počtu řádků na stránku
 0 = from the DC of the devices ({} %)	0 = z DC přístrojů ({} %)
 0 = from the devices	0 = z přístrojů
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Kabel typu sběrnice pro každé spojení bez kabelu
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Výřez stejné velikosti na stejném místě v boční stěně souseda: společně tvoří kabelovou průchodku
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Soubor se stejným názvem ve složce dostane novou verzi (rezervace a vrácení se změnami), jinak se soubor přidá
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Velký text přes každou stránku, např. NÁVRH, když se připravuje revize; texty přijímají zástupné symboly, prázdné: žádné razítko.
 A level on top of the highest one	Podlaží nad nejvyšším
 A local file opens locally, a server project is opened on the project server again	Místní soubor se otevře místně, projekt ze serveru se znovu otevře na serveru projektů
 A local file or a project on the project server	Místní soubor nebo projekt na serveru projektů
@@ -55,6 +57,7 @@ A new project	Nový projekt
 A new release is downloaded in the background and installed when you close OpenECraft.	Nová verze se stáhne na pozadí a nainstaluje se po zavření OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Nová verze se stáhne na pozadí a nahradí tuto instalaci; použije se od příštího spuštění.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Číslovaný oddíl, který obsahuje stránky jako složka; názvy stránek začínají jeho číslem (2.3.1)
+A picture kept in the form, e.g. the company logo	Obrázek uložený ve formuláři, např. logo firmy
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil mapuje neutrální pole na názvy sloupců konkrétního systému (např. MATNR pro číslo ERP v SAP). Bez mapování se rozpoznají běžné anglické a německé názvy.
 A project definition based on this one, with its own defaults and scheme	Definice projektu založená na této, s vlastními výchozími hodnotami a schématem
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Místo toho se otevře soubor projektu otevřený ze správce souborů. Neuložené změny z poslední relace se nikdy nezahodí bez dotazu.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Šablona s tímto názvem bude nahrazena.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Šablona určuje typ stránky, rámeček výkresu, rohové razítko, strukturu a popis nové stránky a umístí její obsah.
 A way through free air costs this many times the way in a duct or routing path	Cesta volným prostorem stojí tolikrát více než cesta v kanálu nebo trase vedení
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Pracovní oblast omezí stránky a přístroje v navigátoru na část projektu. Filtry: prázdné = libovolné, * = libovolné znaky; A1 zahrnuje i A1.2.
+APPROVED	SCHVÁLENO
 About OpenECraft	O aplikaci OpenECraft
 Above the floor	Nad podlahou
+Above the project name	Nad názvem projektu
 Accept as checked	Přijmout jako zkontrolované
 Accepted messages ({})	Přijatá hlášení ({})
 Active	Aktivní
@@ -144,6 +149,7 @@ Apply to the connection	Použít na spojení
 Apply to {} projects	Použít na {} projektů
 Approval workflow	Schvalovací postup
 Approvals needed	Potřebná schválení
+Approved	Schváleno
 Approving needs an approver; you are \"{}\".	Schvalovat může jen schvalovatel; vy jste \"{}\".
 Arc	Oblouk
 Archive and version	Archiv a verze
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Nejprve zvolte místnost: artikly stojící na podlaze patří na její podlahu.
 Choose another project	Vybrat jiný projekt
 Choose file…	Vybrat soubor…
+Choose image…	Vybrat obrázek…
 Choose pages	Vybrat stránky
 Chooses the pages whose structure starts with this	Vybere stránky, jejichž struktura tímto začíná
 Circle	Kružnice
@@ -362,6 +369,7 @@ Comments ({} open)	Komentáře ({} otevřených)
 Comments ({})	Komentáře ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Komentáře, které kontrolor vytvořil v exportu PDF projektu (Acrobat nebo jiný prohlížeč PDF)
 Comments and markup	Komentáře a značky
+Company library	Knihovna firmy
 Compare and baselines	Porovnání a základní verze
 Compare with	Porovnat s
 Compare with a baseline, a revision or another project file and take differences over	Porovnat se základní verzí, revizí nebo jiným souborem projektu a převzít rozdíly
@@ -405,6 +413,7 @@ Core designations separated by blanks	Označení žil oddělená mezerami
 Core labels placed by hand	Popisy žil umístěny ručně
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Žíly 1, 2, 3 … pro překřížené vodiče, plus GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Roh: dva vodiče v pravém úhlu; při zapnutém automatickém spojování se k němu připojí připojovací body naproti jeho ramenům
+Counter-clockwise, e.g. 90 for texts running upwards	Proti směru hodinových ručiček, např. 90 pro texty směřující nahoru
 Cover sheet, overview, graphics, report, mounting layout or a page template	Titulní list, přehled, grafika, výkaz, montážní rozvržení nebo šablona stránky
 Covers	Zakrývá
 Covers what is behind the text	Zakryje to, co je za textem
@@ -431,6 +440,8 @@ Cut length step tubes	Krok délky řezu trubek
 Cut length step wires	Krok délky řezu vodičů
 Cutout {} × {} mm	Výřez {} × {} mm
 Cutting allowance per end	Přídavek na řez na každý konec
+DRAFT	NÁVRH
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	NÁVRH, KE SCHVÁLENÍ a SCHVÁLENO v aktuálním jazyce; po uvolnění nic
 DWG import failed: {}	Import DWG selhal: {}
 DWG imported as page {}: {} lines, {} texts	DWG importován jako stránka {}: čáry {}, texty {}
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importován jako stránka {}: čáry {}, texty {} (neimportováno: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	Staženo {} (verze {})
 Downloaded {} parts (revision {}): {} new, {} updated	Staženo {} artiklů (revize {}): {} nových, {} aktualizovaných
 Downloading OpenECraft {}	Stahování OpenECraft {}
 Downstream part	Následný artikl
+Draft	Návrh
 Draft of revision {} created	Koncept revize {} vytvořen
 Draft of revision {} discarded	Koncept revize {} zahozen
 Drag	Tažení
@@ -665,6 +677,7 @@ Exporting {}	Export {}
 Export…	Exportovat…
 Extend guides to canvas edges	Rozšiř vodicí čáry až k okrajům plátna
 Extras	Doplňky
+FOR APPROVAL	KE SCHVÁLENÍ
 Facing	Orientace
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Ventilátory, filtry, kabelové vývodky, svítidla, rukojeti: jedno vyberte a pak klikněte na místo montáže
 Fastening hardware in the bill of materials	Spojovací materiál v kusovníku
@@ -700,6 +713,7 @@ First row	První řádek
 Fit	Přizpůsobit
 Fit page	Přizpůsobit stránku
 Fits {}	Hodí se k {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	Vepsáno do obdélníku se zachováním poměru stran (PNG, JPEG)
 Float	Uvolnit
 Floor above ground	Podlaha nad terénem
 Floor plan	Půdorys
@@ -707,8 +721,10 @@ Floor plan with {} walls	Půdorys s {} stěnami
 Floor-standing part	Díl na podlahu
 Fluid and process	Tekutiny a procesní technika
 Follows its condition: use Apply conditions	Řídí se svou podmínkou: použijte Použít podmínky
+Font	Písmo
 Foot	Nástup
 For	Pro
+For pages that choose none; before the plot frame's title block and the project default.	Pro stránky, které žádné nevybírají; před razítkem rámečku výkresu a výchozím razítkem projektu.
 For parts without Stock length; longer profiles have to be joined	Pro artikly bez Stock length; delší profily se musí nastavovat
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Pro artikly bez teplotních údajů (Max temperature, Operating temperature); 0: nekontroluje se
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Pro import do správy artiklů EPLAN (atributy P_ARTICLE_*, texty v en_US)
@@ -730,6 +746,7 @@ From a template file…	Ze souboru šablony…
 From row to row; 0: free of shade in winter	Od řady k řadě; 0: bez zastínění v zimě
 From the function definition	Z definice funkce
 From the left end	Od levého konce
+From the top left corner of the drawing area	Od levého horního rohu kreslicí plochy
 From – to	Od – do
 Fullest stretch	Nejplnější úsek
 Function definitions	Definice funkcí
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	Importováno rohových razítek: 
 Importing {} from the parts server…	Import {} ze serveru artiklů…
 Import…	Importovat…
 In every section counting starts again after the section number (2.3.1).	V každém oddílu začíná číslování znovu za číslem oddílu (2.3.1).
+In review	V kontrole
 In strip order; PE and other non-numeric terminals keep their designation	V pořadí na svorkovnici; PE a ostatní nečíselné svorky si ponechají své označení
 In the filtered rows	Ve filtrovaných řádcích
 In the middle of the first wire	Uprostřed prvního vodiče
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	Uzamčeno uživatelem {} na pro
 Locked by {} – read only	Uzamkl {} – jen pro čtení
 Locking…	Zamykání…
 Logic	Logika
+Logo	Logo
+Logo on the cover page	Logo na titulním listu
 Longer values are drawn smaller (0 = no limit)	Delší hodnoty se kreslí menší (0 = bez omezení)
 Look for updates when OpenECraft starts	Hledat aktualizace při spuštění OpenECraft
 Looking for updates…	Hledání aktualizací…
@@ -1135,7 +1155,6 @@ New zone	Nová zóna
 New, empty placement scheme	Nové prázdné schéma umístění
 Next free contact numbers on this device	Další volná čísla kontaktů na tomto přístroji
 Next item	Další prvek
-Next page	Další stránka
 Next page tab	Další karta stránky
 Next pane	Další panel
 Next row	Další řádek
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Žádné – úprava strá
 Not a page template file: {}	Nejde o soubor šablon stránek: {}
 Not a point: type x y or @dx dy	Není bod: zadejte x y nebo @dx dy
 Not a symbol library: {}	Nejde o knihovnu symbolů: {}
-Not a title block file: {}	Nejde o soubor rohových razítek: {}
 Not changed: {}	Nezměněno: {}
 Not found: {}	Nenalezeno: {}
 Not in the project parts – synchronize in parts management	Není mezi artikly projektu – synchronizujte ve správě artiklů
@@ -1226,9 +1244,11 @@ One row per label	Jeden řádek na štítek
 Only devices on the current page	Pouze přístroje na aktuální stránce
 Only frames no page uses can be deleted	Odstranit lze jen rámečky, které nepoužívá žádná stránka
 Only messages of the current page	Pouze hlášení aktuální stránky
+Only on pages of these types (none ticked: on all)	Jen na stránkách těchto typů (nic nezaškrtnuto: na všech)
 Only parts whose function template provides the device's main function	Jen artikly, jejichž šablona funkce poskytuje hlavní funkci přístroje
 Only rows that pass all filters are shown	Zobrazí se jen řádky, které splňují všechny filtry
 Only web and e-mail addresses (http, https, mailto) are links	Odkazy jsou pouze webové a e-mailové adresy (http, https, mailto)
+Only when filled	Jen když je vyplněno
 Open a specific project	Otevřít určitý projekt
 Open and save shared projects, lock pages	Otevírat a ukládat sdílené projekty, zamykat stránky
 Open archive…	Otevřít archiv…
@@ -1301,6 +1321,8 @@ Overhang	Přesah
 Own colour	Vlastní barva
 Own drawn form	Vlastní kreslený formulář
 Own groups	Vlastní skupiny
+Own picture	Vlastní obrázek
+Own place	Vlastní místo
 PCT loops (pre-planning)	Smyčky MaR (předběžný návrh)
 PDF with comments	PDF s komentáři
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Umístěno ručně; volba stra
 Placed here: {}	Zde umístěno: {}
 Placed {}× in the project	V projektu umístěno {}×
 Placeholders	Zástupné symboly
+Placeholders are filled, e.g. a link with {project} and {page}	Zástupné symboly se vyplní, např. odkaz s {project} a {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Zástupné symboly jako {MOTOR} v označeních, textech a textech funkcí se vyplní při vkládání.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Zástupné symboly: {letter} identifikační písmeno, {n} čítač, {page} stránka, {column} / {row} umístění hlavní funkce
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Zástupné symboly: {n} čítač (počítá se pro každou hodnotu zbytku), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Bez {n} sdílejí spojení se stejným textem stejné číslo.
@@ -1424,7 +1447,6 @@ Prefix	Předpona
 Press a key…	Stiskněte klávesu…
 Preview	Náhled
 Previous item	Předchozí prvek
-Previous page	Předchozí stránka
 Previous page tab	Předchozí karta stránky
 Previous pane	Předchozí panel
 Previous wire	Předchozí vodič
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Skupiny vlastností
 Property placement	Umístění vlastností
 Property removed with {} values	Vlastnost odebrána s {} hodnotami
+Publish	Publikovat
 Put a room here	Umístit sem místnost
 Put into the vault	Uložit do trezoru Vault
 Put the pane back into the workspace	Vrátit panel do pracovního prostoru
@@ -1556,6 +1579,7 @@ Replace with	Nahradit čím
 Replaced when the configurator generates again; switch off to keep the page	Při dalším generování se nahradí; vypněte, chcete-li stránku zachovat
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Nahradí ve volných textech, textech funkcí, popisech stránek, přístrojů a kabelů; uvolněné stránky zůstanou beze změny
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Nahradí artikly GEN.* v databázi aktuálním ukázkovým katalogem (včetně modelů)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Nahradí knihovnu firmy vlastními razítky, schématy sestav a rámečky projektu (editoři serveru dílů)
 Replaces the content of the macro boxes whose macro changed in the library	Nahradí obsah rámečků maker, jejichž makro se změnilo v knihovně
 Replaces the pages of this block	Nahradí stránky tohoto bloku
 Reply	Odpovědět
@@ -1745,6 +1769,7 @@ Settings scheme	Schéma nastavení
 Settings scheme (JSON)	Schéma nastavení (JSON)
 Settings taken over: {}	Nastavení převzata: {}
 Settings…	Nastavení…
+Shade every second row	Stínovat každý druhý řádek
 Shafts	Šachty
 Share of the capacity kept free for later additions	Podíl kapacity ponechaný volný pro pozdější rozšíření
 Shared project {} – revision {}, user {}	Sdílený projekt {} – revize {}, uživatel {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	Zobrazit panel jako okno
 Show the ribbon	Zobrazit pás karet
 Show this wire	Zobrazit tento vodič
 Show who may use the project	Zobrazit, kdo smí projekt používat
+Shown	Zobrazeno
 Shown as \"Name: value\"	Zobrazeno jako \"Název: hodnota\"
 Shown in title blocks with {prop:Name}	Zobrazuje se v rohových razítkách pomocí {prop:Name}
 Shown instead of the measured value	Zobrazí se místo naměřené hodnoty
+Shown now: {}	Nyní zobrazeno: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Zobrazuje se na titulním listu a v obrázkových prvcích razítek, které zobrazují logo projektu
 Shows	Zobrazuje
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Boční stěny, zadní stěna, střecha a dno při pohledu zvenku: ventilátory, kabelové vývodky, výřezy
 Sign in in the Project server pane; the project opens afterwards	Přihlaste se v podokně Server projektů; poté se projekt otevře
@@ -1812,6 +1840,7 @@ Spare terminals	Rezervní svorky
 Special text	Speciální text
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Speciální text: vlastnosti projektu a stránky jako {page} nebo {prop:Name} se doplní při vykreslení stránky
 Stairs	Schodiště
+Stamp	Razítko
 Standard form of the report	Standardní formulář výkazu
 Standard size	Standardní velikost
 Standard workspaces	Standardní pracovní prostory
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Podprojekt ulo
 Subproject {} inserted: {} pages replaced by {}	Podprojekt {} vložen: {} stránek nahrazeno {}
 Subprojects	Podprojekty
 Subsystem {}	Subsystém {}
+Suggested texts	Navržené texty
+Sums the column in a row below the last row of the report	Sečte sloupec v řádku pod posledním řádkem sestavy
 Supply and conditions	Napájení a podmínky
 Surge protection	Přepěťová ochrana
 Swing the enclosure door open or shut (door devices and their wires move with it)	Otevřít nebo zavřít dveře skříně (přístroje ve dveřích a jejich vodiče se otáčejí s nimi)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	Přístroje se na lištu nevejdou
 The dictionary is empty: collect the texts from the project.	Slovník je prázdný: shromážděte texty z projektu.
 The door seen from the front: door devices and cutouts	Dveře zepředu: přístroje ve dveřích a výřezy
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Dveře zevnitř (závěsy vpravo): kabelové kanály a zapojení za dveřmi
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Prvek se kreslí jen tehdy, když tento text se zástupnými symboly není prázdný, např. řádky tabulky revizí
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Skříň stojí levou stranou u pravé strany zvolené skříně; vodiče mezi nimi vedou kabelovými průchodkami
 The horizontal wire	Vodorovný vodič
 The items are selected and moved together	Prvky se vybírají a přesouvají společně
+The logo is fitted into this area keeping its aspect ratio	Logo se vepíše do této oblasti se zachováním poměru stran
+The logo of the project properties, e.g. the customer's	Logo z vlastností projektu, např. logo zákazníka
 The macro library has no page macros (Macros › Save page as macro…).	Knihovna maker neobsahuje žádná makra stránek (Makra › Uložit stránku jako makro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Modifikační klávesy, se kterými kolečko posouvá do strany nebo přibližuje, se nastavují v části Modifikační klávesy.
 The modules no string takes yet in series, on the first inverter	Moduly, které ještě žádný string nebere, v sérii, na prvním střídači
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Třífázový zkratový proud v místě přívodu
 Tilt	Sklon
 Title	Název
+Title block by page type	Razítko podle typu stránky
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Razítko stránek s tímto rámečkem, které žádné nevybírají, např. užší pro A4 na výšku
 Title blocks	Rohová razítka
 Title blocks, plot frames and page templates	Rohová razítka, rámečky výkresů a šablony stránek
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Razítka, schémata sestav a rámečky sdílené všemi projekty na serveru dílů (Díly › Server dílů)
 To do	K provedení
 Toggle corner direction while drawing wires	Přepnout směr rohu při kreslení vodičů
 Toggle routing around symbols (wire tool)	Přepnout vedení kolem symbolů (nástroj pro vodiče)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} obsahuje neuložené změny. Zahodit je?
 {} imported into the parts database and placed as {}	{} importován do databáze artiklů a umístěn jako {}
 {} is neither in the parts database nor on the parts server	{} není v databázi artiklů ani na serveru artiklů
-{} is not a PNG or JPEG image	{} není obrázek PNG ani JPEG
 {} is not in the disk image	{} není v obrazu disku
 {} is not made for wall mounting: place it on a mounting rail	{} není určen pro montáž na stěnu: umístěte jej na lištu
 {} is used by: {}	{} používá: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ Data projektu jsou konzistentní.
 ✔ Wired	✔ Zapojeno
 ➕ Default value	➕ Výchozí hodnota
+➕ Image	➕ Obrázek
 ➕ Insert (click into the page)	➕ Vložit (klikněte do stránky)
 ➕ Insert as new page	➕ Vložit jako novou stránku
 ➕ Label	➕ Popisek
 ➕ Line	➕ Čára
 ➕ Place property	➕ Umístit vlastnost
 ➕ Property	➕ Vlastnost
+➕ QR code	➕ QR kód
 ➕ Rectangle	➕ Obdélník
 ➕ Text	➕ Text
 ⬉ Select	⬉ Vybrat

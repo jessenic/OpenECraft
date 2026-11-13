@@ -31,6 +31,7 @@ CREATE INDEX IF NOT EXISTS history_number ON history(number, id);
 CREATE TABLE IF NOT EXISTS catalogs (id TEXT PRIMARY KEY COLLATE NOCASE, data TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS accounts (name TEXT PRIMARY KEY, data TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS favorites (user TEXT PRIMARY KEY, data TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS libraries (name TEXT PRIMARY KEY, data TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS files (id TEXT PRIMARY KEY, name TEXT NOT NULL, data BLOB NOT NULL);
 ";
 
@@ -161,6 +162,10 @@ impl Backend for SqliteBackend {
         Ok(self.rows::<Vec<String>>("SELECT data FROM favorites WHERE user = ?", &[&user])?.pop().unwrap_or_default())
     }
 
+    fn library(&self, name: &str) -> io::Result<Option<String>> {
+        self.conn.query_row("SELECT data FROM libraries WHERE name = ?", [name], |r| r.get(0)).optional().map_err(err)
+    }
+
     fn file(&self, id: &str) -> io::Result<Option<StoredFile>> {
         self.conn
             .query_row("SELECT name, data FROM files WHERE id = ?", [id], |r| Ok(StoredFile { id: id.into(), name: r.get(0)?, data: r.get(1)? }))
@@ -230,6 +235,9 @@ impl Backend for SqliteBackend {
         }
         for (user, numbers) in &change.favorites {
             tx.execute("INSERT OR REPLACE INTO favorites (user, data) VALUES (?, ?)", params![user, json(numbers)?]).map_err(err)?;
+        }
+        for (name, data) in &change.libraries {
+            tx.execute("INSERT OR REPLACE INTO libraries (name, data) VALUES (?, ?)", params![name, data]).map_err(err)?;
         }
         for f in &change.files {
             tx.execute("INSERT OR IGNORE INTO files (id, name, data) VALUES (?, ?, ?)", params![f.id, f.name, f.data]).map_err(err)?;

@@ -94,6 +94,7 @@ impl Default for PlotFrame {
             column_labels: Labels::Numbers,
             row_labels: Labels::Letters,
             strips: true,
+            title_block: String::new(),
         }
     }
 }

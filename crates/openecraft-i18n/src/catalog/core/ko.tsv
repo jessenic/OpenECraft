@@ -333,6 +333,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC 제어 회로는 파란�
 DC/DC converter	DC/DC 컨버터
 DWG export failed: {}	DWG 내보내기 실패: {}
 Data sheet	데이터시트
+Date of the approval of the last revision	마지막 개정의 승인 날짜
 Date of the last revision	마지막 개정 날짜
 Degree of protection	보호 등급
 Delete projects	프로젝트 삭제
@@ -765,7 +766,6 @@ Limit switch NO (NFPA)	리밋 스위치 a접점(NFPA)
 Line reactor	라인 리액터
 Linear motor 3-phase	3상 리니어 모터
 Literal braces	중괄호(리터럴)
-Load	부하
 Load calculation	부하 계산
 Loads and power supplies	부하 및 전원 공급 장치
 Loads behind it: {}	하위 부하: {}
@@ -1265,6 +1265,7 @@ Push button with key NO, latching	키 푸시버튼 a접점, 래칭
 Pushbutton NC	푸시 버튼 b접점
 Pushbutton NO	푸시 버튼 a접점
 Pyramid roof	피라미드 지붕
+QR code	QR 코드
 Qty	수량
 RCD {} mA	RCD {} mA
 Radiation	방사선
@@ -1310,7 +1311,6 @@ Relay coil, remanent	릴레이 코일, 잔류 자기
 Relay coil, resonant	릴레이 코일, 공진
 Relay coil, thermal	릴레이 코일, 열동
 Relays, contactors	릴레이, 접촉기
-Released	릴리스됨
 Released pages cannot be deleted	릴리스된 페이지는 삭제할 수 없습니다
 Remote I/O	원격 I/O
 Remote I/O {} has no controller	원격 I/O {}에 컨트롤러가 없습니다
@@ -1329,6 +1329,10 @@ Result	결과
 Return / exhaust line	리턴 / 배기 라인
 Reviewer	검토자
 Revision overview (changes)	개정 개요(변경 내용)
+Revision table: author of the last revision (2: the one before …)	개정 표: 마지막 개정의 작성자(2: 그 이전 …)
+Revision table: date of the last revision (2: the one before …)	개정 표: 마지막 개정의 날짜(2: 그 이전 …)
+Revision table: description of the last revision (2: the one before …)	개정 표: 마지막 개정의 설명(2: 그 이전 …)
+Revision table: index of the last revision (2: the one before …)	개정 표: 마지막 개정의 색인(2: 그 이전 …)
 Right side	오른쪽 측면
 Right side panel	오른쪽 측면 패널
 Ring terminal	링 단자
@@ -1475,6 +1479,7 @@ Start date	시작일
 Started	시작됨
 Starting current ratio	기동 전류비
 Starting torque	기동 토크
+State of the project: draft, in review, approved, released	프로젝트 상태: 초안, 검토 중, 승인됨, 릴리스됨
 Station name (PROFINET)	스테이션 이름(PROFINET)
 Station name {} is used {} times	스테이션 이름 {}이(가) {}번 사용됨
 Station {} is not connected to bus {}	스테이션 {0}이(가) 버스 {1}에 연결되어 있지 않습니다
@@ -1648,7 +1653,6 @@ Timer relay coil, off-delay	타이머 릴레이 코일, 오프 딜레이
 Timer relay coil, on-delay	타이머 릴레이 코일, 온 딜레이
 Title blocks and report forms	표제란 및 보고서 양식
 To order	주문 필요
-Total	총계
 Total length (m)	총 길이(m)
 Total price	총 가격
 Total weight	총 중량
@@ -1769,6 +1773,7 @@ Wavemeter	파장계
 Wearing part	소모품
 Weld stud	용접 스터드
 Wetted material	접액부 재질
+Who approved the last revision (review); {rev.2.approved_by}: the one before	마지막 개정 승인자(검토). {rev.2.approved_by}: 그 이전
 Width (mm)	너비(mm)
 Winding connection	권선 결선
 Wire assigned to unknown cable {}	알 수 없는 케이블 {}에 지정된 전선

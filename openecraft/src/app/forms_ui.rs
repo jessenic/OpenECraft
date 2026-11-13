@@ -4,8 +4,8 @@
 use openecraft_ui::icons::{self, Icon};
 use openecraft_i18n::{tr, tr_fmt};
 use super::App;
-use crate::editor::{EguiDraw, Palette};
-use openecraft_core::forms::{self, Form, FormItem, FormLibrary, ReportForm};
+use crate::editor::{EguiDraw, Palette, Textures};
+use openecraft_core::forms::{self, Form, FormItem, FormLibrary, Picture, ReportForm};
 use openecraft_core::geom::{p, P};
 use crate::io::Purpose;
 use openecraft_core::model::{ReportId, ReportKind};
@@ -36,6 +36,12 @@ pub struct FormsUi {
     scheme: String,
     /// Part of a drawn report form being edited: the row drawing (or the page graphics).
     pub(super) layout_row: bool,
+    /// Textures of the pictures in the previews.
+    pub(super) textures: Textures,
+    /// The selected image element asks for a file.
+    choose_picture: bool,
+    /// File chosen for the selected image element.
+    picture: Option<Picture>,
 }
 
 impl FormsUi {
@@ -51,6 +57,11 @@ impl FormsUi {
         self.drag.is_some()
     }
 
+    /// A file was chosen for the selected image element.
+    pub fn picture_loaded(&mut self, pic: Picture) {
+        self.picture = Some(pic);
+    }
+
     /// Opens the report form of a report.
     pub fn open_report(&mut self, kind: ReportId) {
         self.open = true;
@@ -62,6 +73,10 @@ impl FormsUi {
 enum Action {
     Import,
     Export,
+    /// Load the company's form library of the parts server.
+    LoadCompany,
+    /// Store the project's own forms as the company's form library.
+    PublishCompany,
 }
 
 impl App {
@@ -87,10 +102,18 @@ impl App {
         if let Some(a) = template_action {
             self.template_action(ctx, a);
         }
+        if std::mem::take(&mut self.forms_ui.choose_picture) {
+            self.io.open(ctx, Purpose::FormImage);
+        }
         match action {
+            Some(Action::LoadCompany) => self.parts_ui.server.library(ctx, openecraft_parts::api::FORMS_LIBRARY),
+            Some(Action::PublishCompany) => {
+                let json = serde_json::to_string(&FormLibrary::of(&self.session.prj)).unwrap_or_default();
+                self.parts_ui.server.save_library(ctx, openecraft_parts::api::FORMS_LIBRARY, &json);
+            }
             Some(Action::Import) => self.io.open(ctx, Purpose::Forms),
             Some(Action::Export) => {
-                let lib = FormLibrary { title_blocks: self.session.prj.forms.title_blocks.clone(), schemes: self.session.prj.forms.schemes.clone() };
+                let lib = FormLibrary::of(&self.session.prj);
                 let json = serde_json::to_string_pretty(&lib).unwrap_or_default();
                 self.export(ctx, "title_blocks.json".into(), (tr("OpenECraft title blocks"), "json"), json);
             }
@@ -102,6 +125,7 @@ impl App {
     fn title_block_tab(&mut self, ui: &mut egui::Ui) -> Option<Action> {
         let mut action = None;
         let names = forms::names(&self.session.prj);
+        let server_ok = !self.parts_ui.server.read_only() && !self.parts_ui.server.busy();
         let fu = &mut self.forms_ui;
         let prj = &mut self.session.prj;
         if !names.contains(&fu.form) {
@@ -136,7 +160,7 @@ impl App {
                 while names.contains(&name) {
                     name.push('+');
                 }
-                let line = FormItem::Line { a: p(0.0, 0.0), b: p(forms::AREA_W, 0.0), width: 0.5 };
+                let line = FormItem::line(p(0.0, 0.0), p(forms::AREA_W, 0.0), 0.5);
                 prj.forms.title_blocks.push(Form { name: name.clone(), items: vec![line] });
                 fu.form = name;
                 fu.item = None;
@@ -165,7 +189,39 @@ impl App {
             if ui.add_enabled_ui(!prj.forms.title_blocks.is_empty(), |ui| icons::text_button(ui, Icon::Download, tr("Export…"))).inner.on_hover_text(tr("The project's own title blocks")).clicked() {
                 action = Some(Action::Export);
             }
+            ui.separator();
+            ui.label(tr("Company library"));
+            let tip = tr("Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)");
+            if ui.add_enabled(server_ok, egui::Button::new(tr("Load"))).on_hover_text(tip).clicked() {
+                action = Some(Action::LoadCompany);
+            }
+            let own = !FormLibrary::of(prj).is_empty();
+            if ui.add_enabled(server_ok && own, egui::Button::new(tr("Publish"))).on_hover_text(tr("Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)")).clicked() {
+                action = Some(Action::PublishCompany);
+            }
         });
+        egui::CollapsingHeader::new(tr("Title block by page type")).id_salt("tbtypes").show(ui, |ui| {
+            ui.weak(tr("For pages that choose none; before the plot frame's title block and the project default."));
+            egui::Grid::new("tbtypegrid").num_columns(2).show(ui, |ui| {
+                for (key, title) in forms::PAGE_TYPES {
+                    ui.label(tr(title));
+                    let current = prj.forms.page_type_title_blocks.get(key).cloned().unwrap_or_default();
+                    let shown = if current.is_empty() { tr("(project default)").to_string() } else { current.clone() };
+                    egui::ComboBox::from_id_salt(("tbtype", key)).selected_text(shown).width(200.0).show_ui(ui, |ui| {
+                        if ui.selectable_label(current.is_empty(), tr("(project default)")).clicked() {
+                            prj.forms.page_type_title_blocks.remove(key);
+                        }
+                        for n in &names {
+                            if ui.selectable_label(&current == n, n).clicked() {
+                                prj.forms.page_type_title_blocks.insert(key.to_string(), n.clone());
+                            }
+                        }
+                    });
+                    ui.end_row();
+                }
+            });
+        });
+        egui::CollapsingHeader::new(tr("Stamp")).id_salt("tbstamp").show(ui, |ui| stamp_editor(ui, prj));
         let used = (0..prj.pages.len()).filter(|&i| forms::title_block(prj, i).name == fu.form).count();
         ui.weak(tr_fmt!("Used on {} of {} pages", used, prj.pages.len()));
         let custom = prj.forms.title_blocks.iter().position(|f| f.name == fu.form);
@@ -341,6 +397,9 @@ impl App {
                 ui.checkbox(&mut form.blank_repeats, tr("Leave repeated values of the first column blank"));
                 ui.end_row();
                 ui.label("");
+                ui.checkbox(&mut form.shade_rows, tr("Shade every second row"));
+                ui.end_row();
+                ui.label("");
                 let mut drawn = form.layout.is_some();
                 if ui.checkbox(&mut drawn, tr("Own drawn form")).on_hover_text(tr("Draw the page yourself: graphics for every page and a row drawing repeated for every row; texts take the columns as placeholders")).changed() {
                     let width = openecraft_core::frame::of_page(&self.session.prj, self.session.page).area().width() - 17.0;
@@ -420,6 +479,31 @@ fn columns_editor(ui: &mut egui::Ui, form: &mut ReportForm, headers: &[&str], ti
                     form.widths.remove(h);
                 } else {
                     form.widths.insert(h.to_string(), w);
+                }
+            }
+            let title = |a: Anchor| match a {
+                Anchor::Left => tr("Left"),
+                Anchor::Center => tr("Centre"),
+                Anchor::Right => tr("Right"),
+            };
+            let mut align = form.align.get(h).copied().unwrap_or(Anchor::Left);
+            egui::ComboBox::from_id_salt(("rfalign", *c)).selected_text(title(align)).width(72.0).show_ui(ui, |ui| {
+                for a in [Anchor::Left, Anchor::Center, Anchor::Right] {
+                    ui.selectable_value(&mut align, a, title(a));
+                }
+            });
+            if align != form.align.get(h).copied().unwrap_or(Anchor::Left) {
+                if align == Anchor::Left {
+                    form.align.remove(h);
+                } else {
+                    form.align.insert(h.to_string(), align);
+                }
+            }
+            let mut total = form.totals.iter().any(|t| t == h);
+            if ui.checkbox(&mut total, tr("Total")).on_hover_text(tr("Sums the column in a row below the last row of the report")).changed() {
+                form.totals.retain(|t| t != h);
+                if total {
+                    form.totals.push(h.to_string());
                 }
             }
             changed |= ui.checkbox(on, titles[*c]).changed();
@@ -504,15 +588,90 @@ fn preview(ui: &mut egui::Ui, fu: &mut FormsUi, prj: &openecraft_core::model::Pr
     if edit {
         pick(fu, &resp, ui, &mut form.items, origin, zoom);
     }
-    let mut d = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: None, mirror: None, textures: None };
+    load_pictures(ui.ctx(), fu, prj, &form.items);
+    let mut d = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: None, mirror: None, textures: Some(&fu.textures) };
     forms::draw_at(&mut d, form, prj, page, p(0.0, 0.0), 1.0);
+    image_outlines(&painter, &pal, &form.items, prj, origin, zoom);
     if let Some(item) = fu.item.and_then(|i| form.items.get(i)) {
-        let mut s = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: Some(Ink::Selected), mirror: None, textures: None };
-        forms::draw_at(&mut s, &Form { name: String::new(), items: vec![item.clone()] }, prj, page, p(0.0, 0.0), 1.0);
-        if let FormItem::Text { pos, .. } = item {
-            let c = origin + vec2(pos.x, pos.y) * zoom;
-            painter.circle_stroke(c, 3.0, Stroke::new(1.0, pal.selected));
+        // Also when its condition hides it on this page.
+        let ctx = forms::Context { logo: prj.info.logo.as_ref(), page_type: None, value: &|t| forms::fill(t, prj, page) };
+        mark_selected(&painter, &pal, item, origin, zoom, &|s| forms::draw_items(s, std::slice::from_ref(item), p(0.0, 0.0), 1.0, &ctx));
+    }
+}
+
+/// The stamp drawn across all pages by the state of the revision workflow.
+fn stamp_editor(ui: &mut egui::Ui, prj: &mut openecraft_core::model::Project) {
+    ui.weak(tr("A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp."));
+    let s = &mut prj.forms.stamp;
+    egui::Grid::new("stampgrid").num_columns(2).show(ui, |ui| {
+        for (label, text) in [(tr("Draft"), &mut s.draft), (tr("In review"), &mut s.review), (tr("Approved"), &mut s.approved), (tr("Released"), &mut s.released)] {
+            ui.label(label);
+            ui.add(egui::TextEdit::singleline(text).desired_width(240.0));
+            ui.end_row();
         }
+        ui.label(tr("Size"));
+        ui.add(egui::DragValue::new(&mut s.size).speed(0.5).range(0.0..=200.0).suffix(" mm")).on_hover_text(tr("0 = fitted to the page"));
+        ui.end_row();
+        ui.label(tr("Angle"));
+        ui.add(egui::DragValue::new(&mut s.angle).speed(1.0).range(-90.0..=90.0).suffix(" °"));
+        ui.end_row();
+        ui.label(tr("Colour"));
+        ui.color_edit_button_srgb(&mut s.color);
+        ui.end_row();
+    });
+    let now = forms::stamp_text(prj).map(str::to_string).unwrap_or_else(|| tr("(none)").to_string());
+    let s = &mut prj.forms.stamp;
+    ui.horizontal(|ui| {
+        if ui.button(tr("Suggested texts")).on_hover_text(tr("DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released")).clicked() {
+            s.draft = tr("DRAFT").into();
+            s.review = tr("FOR APPROVAL").into();
+            s.approved = tr("APPROVED").into();
+            s.released.clear();
+        }
+        ui.weak(tr_fmt!("Shown now: {}", now));
+    });
+}
+
+/// Loads the textures of the pictures of `items` and of the project logo.
+pub(super) fn load_pictures(ctx: &egui::Context, fu: &mut FormsUi, prj: &openecraft_core::model::Project, items: &[FormItem]) {
+    let mut pics: Vec<Picture> = prj.info.logo.iter().cloned().collect();
+    pics.extend(items.iter().filter_map(|it| match it {
+        FormItem::Image { picture: Some(pic), .. } => Some(pic.clone()),
+        _ => None,
+    }));
+    crate::editor::load_pictures(ctx, &mut fu.textures, &pics);
+}
+
+/// Outlines of the image elements that show nothing (project logo not set), so
+/// that they can be found and picked.
+pub(super) fn image_outlines(painter: &egui::Painter, pal: &Palette, items: &[FormItem], prj: &openecraft_core::model::Project, origin: egui::Pos2, zoom: f32) {
+    for it in items {
+        if let FormItem::Image { a, b, picture: None, .. } = it {
+            if prj.info.logo.is_none() {
+                let r = egui::Rect::from_two_pos(origin + vec2(a.x, a.y) * zoom, origin + vec2(b.x, b.y) * zoom);
+                painter.rect_stroke(r, 0.0, Stroke::new(1.0, pal.frame), egui::StrokeKind::Inside);
+                painter.text(r.center(), egui::Align2::CENTER_CENTER, tr("Project logo"), egui::FontId::proportional(11.0), pal.frame);
+            }
+        }
+    }
+}
+
+/// Highlights the selected element: texts and lines drawn in the selection colour
+/// (`draw`), images and QR codes by a frame.
+pub(super) fn mark_selected(painter: &egui::Painter, pal: &Palette, item: &FormItem, origin: egui::Pos2, zoom: f32, draw: &dyn Fn(&mut EguiDraw)) {
+    let at = |q: P| origin + vec2(q.x, q.y) * zoom;
+    match item {
+        FormItem::Image { .. } | FormItem::Qr { .. } => {
+            let (a, b) = forms::items_bounds(std::slice::from_ref(item)).unwrap_or_default();
+            painter.rect_stroke(egui::Rect::from_two_pos(at(a), at(b)), 0.0, Stroke::new(1.5, pal.selected), egui::StrokeKind::Outside);
+        }
+        _ => {
+            let mut s = EguiDraw { painter, origin, zoom, pal, force: Some(Ink::Selected), mirror: None, textures: None };
+            draw(&mut s);
+        }
+    }
+    if let FormItem::Text { pos, .. } = item {
+        painter.circle_stroke(at(*pos), 3.0, Stroke::new(1.0, pal.selected));
     }
 }
 
@@ -522,10 +681,12 @@ pub(super) fn add_buttons(ui: &mut egui::Ui, items: &mut Vec<FormItem>, mid: P, 
     let mut added = None;
     ui.horizontal_wrapped(|ui| {
         let new = [
-            (tr("➕ Line"), FormItem::Line { a: mid - p(20.0, 0.0), b: mid + p(20.0, 0.0), width: 0.25 }),
-            (tr("➕ Rectangle"), FormItem::Rect { a: mid - p(20.0, 8.0), b: mid + p(20.0, 8.0), width: 0.25, fill: false }),
-            (tr("➕ Text"), FormItem::Text { pos: mid, text: text.into(), size: 2.5, anchor: Anchor::Left, label: false, max_width: 0.0 }),
-            (tr("➕ Label"), FormItem::Text { pos: mid, text: "Label".into(), size: 1.6, anchor: Anchor::Left, label: true, max_width: 0.0 }),
+            (tr("➕ Line"), FormItem::line(mid - p(20.0, 0.0), mid + p(20.0, 0.0), 0.25)),
+            (tr("➕ Rectangle"), FormItem::rect(mid - p(20.0, 8.0), mid + p(20.0, 8.0), 0.25, false)),
+            (tr("➕ Text"), FormItem::text(mid, text, 2.5, Anchor::Left)),
+            (tr("➕ Label"), FormItem::label(mid, "Label", 1.6, 0.0)),
+            (tr("➕ Image"), FormItem::image(mid - p(15.0, 8.0), mid + p(15.0, 8.0), None)),
+            (tr("➕ QR code"), FormItem::qr(mid - p(10.0, 10.0), 20.0, "{project} {page}")),
         ];
         for (label, item) in new {
             if ui.button(label).clicked() {
@@ -543,8 +704,8 @@ pub(super) fn item_list(ui: &mut egui::Ui, id: &str, items: &[FormItem], selecte
     egui::ScrollArea::vertical().id_salt(id).max_height(220.0).show(ui, |ui| {
         for (i, it) in items.iter().enumerate() {
             let summary = match it {
-                FormItem::Text { text, .. } => format!("{}: {text}", it.kind_name()),
-                FormItem::Line { a, b, .. } | FormItem::Rect { a, b, .. } => format!("{}: {:.1},{:.1} – {:.1},{:.1}", it.kind_name(), a.x, a.y, b.x, b.y),
+                FormItem::Text { text, .. } | FormItem::Qr { text, .. } => format!("{}: {text}", it.kind_name()),
+                FormItem::Line { a, b, .. } | FormItem::Rect { a, b, .. } | FormItem::Image { a, b, .. } => format!("{}: {:.1},{:.1} – {:.1},{:.1}", it.kind_name(), a.x, a.y, b.x, b.y),
             };
             if ui.selectable_label(selected == Some(i), summary).clicked() {
                 clicked = Some(i);
@@ -560,6 +721,9 @@ pub(super) fn item_properties(ui: &mut egui::Ui, fu: &mut FormsUi, items: &mut V
         ui.weak(tr("Select an element in the list or the drawing."));
         return;
     };
+    if let (Some(pic), FormItem::Image { picture, .. }) = (fu.picture.take(), &mut items[i]) {
+        *picture = Some(pic);
+    }
     let mut delete = false;
     let mut duplicate = false;
     let pt = |ui: &mut egui::Ui, label: &str, q: &mut P| {
@@ -572,14 +736,18 @@ pub(super) fn item_properties(ui: &mut egui::Ui, fu: &mut FormsUi, items: &mut V
     };
     ui.label(RichText::new(items[i].kind_name()).strong());
     egui::Grid::new("tbitem").num_columns(2).spacing([8.0, 4.0]).show(ui, |ui| match &mut items[i] {
-        FormItem::Line { a, b, width } => {
+        FormItem::Line { a, b, width, color, dashed, .. } => {
             pt(ui, tr("Start"), a);
             pt(ui, tr("End"), b);
             ui.label(tr("Line width"));
             ui.add(egui::DragValue::new(width).speed(0.05).range(0.05..=2.0).suffix(" mm"));
             ui.end_row();
+            color_row(ui, color);
+            ui.label(tr("Dashed"));
+            ui.checkbox(dashed, "");
+            ui.end_row();
         }
-        FormItem::Rect { a, b, width, fill } => {
+        FormItem::Rect { a, b, width, fill, color, dashed, .. } => {
             pt(ui, tr("Corner"), a);
             pt(ui, tr("Corner"), b);
             ui.label(tr("Line width"));
@@ -588,8 +756,21 @@ pub(super) fn item_properties(ui: &mut egui::Ui, fu: &mut FormsUi, items: &mut V
             ui.label(tr("Filled"));
             ui.checkbox(fill, "");
             ui.end_row();
+            color_row(ui, color);
+            ui.label(tr("Dashed"));
+            ui.checkbox(dashed, "");
+            ui.end_row();
         }
-        FormItem::Text { pos, text, size, anchor, label, max_width } => {
+        FormItem::Qr { a, size, text, .. } => {
+            ui.label(tr("Text"));
+            ui.add(egui::TextEdit::multiline(text).desired_rows(2).desired_width(220.0)).on_hover_text(tr("Placeholders are filled, e.g. a link with {project} and {page}"));
+            ui.end_row();
+            pt(ui, tr("Corner"), a);
+            ui.label(tr("Size"));
+            ui.add(egui::DragValue::new(size).speed(0.5).range(5.0..=200.0).suffix(" mm"));
+            ui.end_row();
+        }
+        FormItem::Text { pos, text, size, anchor, label, max_width, bold, italic, angle, color, .. } => {
             ui.label(tr("Text"));
             ui.add(egui::TextEdit::multiline(text).desired_rows(2).desired_width(220.0));
             ui.end_row();
@@ -614,8 +795,46 @@ pub(super) fn item_properties(ui: &mut egui::Ui, fu: &mut FormsUi, items: &mut V
             ui.add(egui::DragValue::new(max_width).speed(0.5).range(0.0..=max.x).suffix(" mm"))
                 .on_hover_text(tr("Longer values are drawn smaller (0 = no limit)"));
             ui.end_row();
+            ui.label(tr("Font"));
+            ui.horizontal(|ui| {
+                ui.checkbox(bold, tr("Bold"));
+                ui.checkbox(italic, tr("Italic"));
+            });
+            ui.end_row();
+            ui.label(tr("Angle"));
+            ui.add(egui::DragValue::new(angle).speed(1.0).range(-360.0..=360.0).suffix(" °")).on_hover_text(tr("Counter-clockwise, e.g. 90 for texts running upwards"));
+            ui.end_row();
+            color_row(ui, color);
+        }
+        FormItem::Image { a, b, picture, .. } => {
+            pt(ui, tr("Corner"), a);
+            pt(ui, tr("Corner"), b);
+            ui.label(tr("Picture"));
+            ui.vertical(|ui| {
+                // Choosing "Own picture" asks for the file; it stays the project logo until one is chosen.
+                let mut own = picture.is_some();
+                ui.horizontal(|ui| {
+                    ui.selectable_value(&mut own, false, tr("Project logo")).on_hover_text(tr("The logo of the project properties, e.g. the customer's"));
+                    ui.selectable_value(&mut own, true, tr("Own picture")).on_hover_text(tr("A picture kept in the form, e.g. the company logo"));
+                });
+                if !own {
+                    *picture = None;
+                }
+                if let Some(pic) = picture {
+                    ui.weak(&pic.file.name);
+                }
+                let choose = own && picture.is_none();
+                if ui.button(tr("Choose image…")).clicked() || choose {
+                    fu.choose_picture = true;
+                }
+            });
+            ui.end_row();
+            ui.label("");
+            ui.weak(tr("Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)"));
+            ui.end_row();
         }
     });
+    show_editor(ui, items[i].show_mut());
     ui.horizontal(|ui| {
         duplicate = ui.button(tr("Duplicate")).clicked();
         delete = icons::text_button(ui, Icon::Delete, tr("Delete")).clicked();
@@ -630,6 +849,47 @@ pub(super) fn item_properties(ui: &mut egui::Ui, fu: &mut FormsUi, items: &mut V
         items.remove(i);
         fu.item = None;
     }
+}
+
+/// Own colour of an element instead of the frame or text colour.
+fn color_row(ui: &mut egui::Ui, color: &mut Option<[u8; 3]>) {
+    ui.label(tr("Colour"));
+    ui.horizontal(|ui| {
+        let mut own = color.is_some();
+        if ui.checkbox(&mut own, tr("Own colour")).changed() {
+            *color = own.then_some([200, 30, 30]);
+        }
+        if let Some(c) = color {
+            ui.color_edit_button_srgb(c);
+        }
+    });
+    ui.end_row();
+}
+
+/// A placeholder that is empty for the rows of a revision table without revision.
+const FILLED_EXAMPLE: &str = "{rev.2.name}";
+
+/// Where an element is drawn: only when a text is not empty, only on some page types.
+fn show_editor(ui: &mut egui::Ui, show: &mut forms::Show) {
+    egui::CollapsingHeader::new(tr("Shown")).id_salt("itemshow").default_open(!show.is_always()).show(ui, |ui| {
+        ui.horizontal(|ui| {
+            ui.label(tr("Only when filled"));
+            ui.add(egui::TextEdit::singleline(&mut show.filled).hint_text(FILLED_EXAMPLE).desired_width(160.0))
+                .on_hover_text(tr("The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table"));
+        });
+        ui.label(tr("Only on pages of these types (none ticked: on all)"));
+        ui.horizontal_wrapped(|ui| {
+            for (key, title) in forms::PAGE_TYPES {
+                let mut on = show.page_types.iter().any(|t| t == key);
+                if ui.checkbox(&mut on, tr(title)).changed() {
+                    show.page_types.retain(|t| t != key);
+                    if on {
+                        show.page_types.push(key.to_string());
+                    }
+                }
+            }
+        });
+    });
 }
 
 /// Picking and dragging in the editable preview (`origin`: screen position of the

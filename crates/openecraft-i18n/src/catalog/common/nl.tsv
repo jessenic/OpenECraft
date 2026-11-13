@@ -195,6 +195,7 @@ Light	Licht
 Line	Lijn
 Link	Koppeling
 Linked	Gekoppeld
+Load	Belasting
 Loaded circuits bunched together	Gebundelde belaste stroomkringen
 Location	Locatie
 Location (+)	Plaats (+)
@@ -230,6 +231,7 @@ Name of the scheme	Naam van het schema
 Net	Net
 Never	Nooit
 New name	Nieuwe naam
+Next page	Volgende pagina
 No	Nee
 No Vault item matches a part of the project	Geen Vault-item komt overeen met een artikel van het project
 No cable {}	Geen kabel {}
@@ -252,10 +254,12 @@ No station {}	Geen station {}
 No such page	Deze pagina bestaat niet
 No such section	Sectie bestaat niet
 No symbol with id {}	Geen symbool met id {}
+No title block of the project named {}	Geen titelblok van het project met de naam {}
 Nominal size	Nominale diameter
 Not a language code: {}	Geen taalcode: {}
 Not a macro file: {}	Geen macrobestand: {}
 Not a symbol id: {}	Geen symbool-ID: {}
+Not a title block file: {}	Geen titelblokbestand: {}
 Not a valid rule set file: {}	Geen geldig regelsetbestand: {}
 Not in the schematic	Niet in het schema
 Note	Opmerking
@@ -298,6 +302,7 @@ Parts	Artikelen
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Artikelen (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	Artikelen importeren mislukt: {}
 Password	Wachtwoord
+Picture	Afbeelding
 Pieces	Stuks
 Pin	Pen
 Pin layout: {}	Pinindeling: {}
@@ -321,6 +326,7 @@ Power (kW)	Vermogen (kW)
 Power loss	Vermogensverlies
 Pre-planning	Voorplanning
 Press	Pers
+Previous page	Vorige pagina
 Price	Prijs
 Price unit	Prijseenheid
 Process engineering	Procestechniek
@@ -330,6 +336,7 @@ Product top group	Producthoofdgroep
 Profile	Profiel
 Project	Project
 Project languages	Projecttalen
+Project logo	Projectlogo
 Project management	Projectbeheer
 Project name	Projectnaam
 Project properties	Projecteigenschappen
@@ -349,6 +356,7 @@ Rectangular	Rechthoekig
 Reject	Afwijzen
 Relative humidity	Relatieve luchtvochtigheid
 Relay	Relais
+Released	Vrijgegeven
 Released pages cannot be moved	Vrijgegeven pagina's kunnen niet worden verplaatst
 Remove	Verwijderen
 Remove from favorites	Verwijderen uit favorieten
@@ -441,6 +449,7 @@ Time	Tijd
 Title block	Titelblok
 To	Naar
 Tools	Gereedschappen
+Total	Totaal
 Transformer	Transformator
 Type	Type
 Type number	Typenummer
@@ -471,6 +480,7 @@ Warning	Waarschuwing
 Warnings	Waarschuwingen
 Weight	Gewicht
 Width	Breedte
+Width in mm	Breedte in mm
 Window	Raam
 Wire	Draad
 Wire colours	Draadkleuren
@@ -503,6 +513,7 @@ yes	ja
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} staat niet op de vloer: kies een artikel dat voor vloermontage is gemarkeerd
 {} exists already	{} bestaat al
+{} is not a PNG or JPEG image	{} is geen PNG- of JPEG-afbeelding
 {} parts	{} artikelen
 {} wires	{} draden
 {}, together with the wire to {}	{}, samen met de draad naar {}

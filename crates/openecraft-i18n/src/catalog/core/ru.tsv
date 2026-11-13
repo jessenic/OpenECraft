@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Цепи управлени
 DC/DC converter	Преобразователь DC/DC
 DWG export failed: {}	Сбой экспорта DWG: {}
 Data sheet	Технический паспорт
+Date of the approval of the last revision	Дата утверждения последнего изменения
 Date of the last revision	Дата последней ревизии
 Degree of protection	Степень защиты
 Delete projects	Удаление проектов
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Концевой выключатель, замыкающ
 Line reactor	Сетевой дроссель
 Linear motor 3-phase	Линейный двигатель трёхфазный
 Literal braces	Фигурные скобки (буквально)
-Load	Нагрузка
 Load calculation	Расчёт нагрузок
 Loads and power supplies	Нагрузки и источники питания
 Loads behind it: {}	Нижестоящие нагрузки: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Кнопка с ключом, замыкающ
 Pushbutton NC	Кнопка, размыкающая
 Pushbutton NO	Кнопка, замыкающая
 Pyramid roof	Шатровая крыша
+QR code	QR-код
 Qty	Кол-во
 RCD {} mA	УЗО {} mA
 Radiation	Излучение
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Катушка реле, реманентная
 Relay coil, resonant	Катушка реле, резонансная
 Relay coil, thermal	Катушка реле, тепловая
 Relays, contactors	Реле, контакторы
-Released	Выпущено
 Released pages cannot be deleted	Выпущенные листы нельзя удалить
 Remote I/O	Распределённый ввод-вывод
 Remote I/O {} has no controller	У распределённого ввода-вывода {} нет контроллера
@@ -1340,6 +1340,10 @@ Result	Результат
 Return / exhaust line	Линия возврата / выпуска
 Reviewer	Рецензент
 Revision overview (changes)	Обзор ревизий (изменения)
+Revision table: author of the last revision (2: the one before …)	Таблица изменений: автор последнего изменения (2: предыдущего …)
+Revision table: date of the last revision (2: the one before …)	Таблица изменений: дата последнего изменения (2: предыдущего …)
+Revision table: description of the last revision (2: the one before …)	Таблица изменений: описание последнего изменения (2: предыдущего …)
+Revision table: index of the last revision (2: the one before …)	Таблица изменений: индекс последнего изменения (2: предыдущего …)
 Right side	Правая сторона
 Right side panel	Правая боковая стенка
 Ring terminal	Кольцевой наконечник
@@ -1487,6 +1491,7 @@ Start date	Дата начала
 Started	Начато
 Starting current ratio	Кратность пускового тока
 Starting torque	Пусковой момент
+State of the project: draft, in review, approved, released	Состояние проекта: черновик, на проверке, утверждено, выпущено
 Station name (PROFINET)	Имя устройства (PROFINET)
 Station name {} is used {} times	Имя станции {} используется {} раз
 Station {} is not connected to bus {}	Станция {} не подключена к шине {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Катушка реле времени, с заде�
 Timer relay coil, on-delay	Катушка реле времени, с задержкой срабатывания
 Title blocks and report forms	Основные надписи и формы отчётов
 To order	Заказать
-Total	Итого
 Total length (m)	Общая длина (м)
 Total price	Общая стоимость
 Total weight	Общая масса
@@ -1781,6 +1785,7 @@ Wavemeter	Волномер
 Wearing part	Быстроизнашивающаяся деталь
 Weld stud	Приварная шпилька
 Wetted material	Материал, контактирующий со средой
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Кто утвердил последнее изменение (проверка); {rev.2.approved_by}: предыдущее
 Width (mm)	Ширина (мм)
 Winding connection	Схема соединения обмоток
 Wire assigned to unknown cable {}	Провод назначен неизвестному кабелю {}

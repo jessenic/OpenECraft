@@ -5,6 +5,8 @@ Access token for changes	変更用のアクセストークン
 Access token of a Vault session or an Autodesk account instead of user and password	ユーザーとパスワードの代わりに使用する、Vault セッションまたは Autodesk アカウントのアクセストークン
 Address of the Vault server, e.g. https://vault.example.com	Vault サーバーのアドレス (例: https://vault.example.com)
 Adds a page	ページを追加します
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	プロジェクトの表題欄に画像（例: 会社のロゴ）を追加します。ファイルがない場合はプロジェクトのロゴを表示します
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	部品サーバーの会社のフォームライブラリ（表題欄、レポートスキーム、図枠）をプロジェクトに追加します
 Adds the definitions and schemes of a property library file to the project	プロパティライブラリファイルの定義とスキームをプロジェクトに追加します
 All project files of a folder	フォルダー内のすべてのプロジェクトファイル
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	ファセット (グループ、メーカー、カタログ、ライフサイクル、技術データの値とその件数) も返す
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	フォルダー ID (既定 root)
 Folder with project files	プロジェクトファイルのあるフォルダー
 Folder with project files (instead of a database; default: the current folder)	プロジェクトファイルのあるフォルダー (データベースの代わり、既定: 現在のフォルダー)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	フォーム: title、columns、rows、filters [{column, op, value}]、sort [{column, descending}]、group、blank_repeats、widths、text_size、graphic (端子図とケーブル図を図面として出力)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	フォーム: title、columns、rows、filters [{column, op, value}]、sort [{column, descending}]、group、blank_repeats、widths、text_size、graphic (端子図とケーブル図を図面として出力), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	生成されるページの機能 (=)
 Further parameters of the export as name=value, separated by commas	エクスポートの追加パラメーター (名前=値、カンマ区切り)
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	エクスポートの追加パラメーター (名前=値、カンマ区切り、list_exports を参照) (例: harness=-WH1)
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	template または path のいずれかを指定してください
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	ユーザーまたはグループに部品サーバーのメーカー (スコープ) に対するロールを付与します。deny で権限を取り消し、revoke で付与を削除します (管理者のみ)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	生成するグループ。ワイルドカード使用可 (-X*、-W1)。空: すべて
+Height in mm; the image keeps its aspect ratio inside	高さ（mm）。画像はその中で縦横比を保ちます
 Id of a file (file_id of vault_browse) that gets a new version	新しいバージョンにするファイルの ID (vault_browse の file_id)
 Id of the file version (version_id of vault_browse)	ファイルバージョンの ID (vault_browse の version_id)
 Id of the knowledge vault (taken from the session if not given)	ナレッジ Vault の ID (省略時はセッションから取得)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	チェックイン後もファイ�
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	サーバーの種類: OpenECraft (部品サーバー) または Eplan (EPLAN Data Portal: 検索と読み取りのみ。トークンは EPLAN アカウントの個人用アクセストークン)
 Language of the export (a project language)	エクスポートの言語 (プロジェクト言語のいずれか)
 Language of the project texts and reports (a project language, default the source language)	プロジェクトテキストとレポートの言語 (プロジェクト言語のいずれか、既定はソース言語)
+Left edge in mm from the left of the title block area	左端。表題欄領域の左端からの mm
 Library file	ライブラリファイル
 Lifecycle: Active, PhaseOut or Discontinued	ライフサイクル: Active、PhaseOut または Discontinued
 Lists the built-in structure templates	組み込みの構造テンプレートを一覧表示します
@@ -159,6 +163,8 @@ Output file (JSON)	出力ファイル (JSON)
 Output file; without it the content is returned	出力ファイル。指定しない場合は内容が返されます
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	レポートページを固定ページとして別のプロジェクトファイルに出力します。以前にこのプロジェクトから出力したページは置き換えられます
 PDF file with comments	コメント付き PDF ファイル
+PNG or JPEG file kept in the title block (default: the project logo)	表題欄に保存される PNG または JPEG ファイル（既定: プロジェクトのロゴ）
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	プロジェクトのロゴの PNG または JPEG ファイル（表紙、表題欄）。空にすると削除します
 Page (svg: required, dxf, dwg: default all pages)	ページ (svg: 必須、dxf、dwg: 既定はすべてのページ)
 Page name (default: next number)	ページ名 (既定: 次の番号)
 Page of the export	エクスポートのページ
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	サンプルプロジェクトから開始（名前：list_examples）
 Start from the demo project	デモプロジェクトから開始
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	ファイル (データシート、画像、モデル、マクロ …) を部品サーバー上の部品とともに保存します
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	プロジェクト独自の表題欄、レポートスキーム、図枠を部品サーバーの会社のフォームライブラリとして保存します（編集者）
 Subproject file (.oec)	サブプロジェクトファイル (.oec)
 Subproject file to write (.oec)	書き込むサブプロジェクトファイル (.oec)
 Take the changes over (otherwise only a preview)	変更を反映 (指定しない場合はプレビューのみ)
@@ -247,9 +254,13 @@ The catalog needs a name	カタログには名前が必要です
 The format xlsx needs a path	形式 xlsx にはパスが必要です
 The open project has unsaved changes: save it first or pass discard	開いているプロジェクトに未保存の変更があります: 先に保存するか、discard を指定してください
 The part number must not be empty	部品番号は空にできません
+The parts server has no form library yet	部品サーバーにはまだフォームライブラリがありません
 The project has no file yet: pass a path	プロジェクトにはまだファイルがありません: パスを指定してください
+The project has no title blocks, report schemes or plot frames of its own	プロジェクトに独自の表題欄、レポートスキーム、図枠はありません
 This command needs a project: --project <file>	このコマンドにはプロジェクトが必要です: --project <ファイル>
 This format needs an output file (path)	この形式には出力ファイル (path) が必要です
+Title block of the project (list_title_blocks)	プロジェクトの表題欄（list_title_blocks）
+Top edge in mm from the top of the title block area	上端。表題欄領域の上端からの mm
 Undoes the last change	最後の変更を元に戻します
 Unexpected argument: {}	予期しない引数: {}
 Unknown command: {}. Run openecraft-cli help for a list.	不明なコマンド: {}。一覧は openecraft-cli help で表示できます。
@@ -268,6 +279,7 @@ User name to sign in with	サインインに使用するユーザー名
 User or group name (wildcards; directory groups as directory:group)	ユーザー名またはグループ名 (ワイルドカード可。ディレクトリのグループは ディレクトリ:グループ)
 Values to set (name: value; an empty value removes a property)	設定する値 (名前: 値。空の値を指定するとプロパティが削除されます)
 Vault user name (signs in)	Vault のユーザー名 (サインイン)
+Width and height must be greater than 0	幅と高さは 0 より大きくなければなりません
 Write the table as CSV to this file	表を CSV としてこのファイルに書き込む
 Writes the check scheme of the project (checks switched off, message levels) to a file	プロジェクトのチェックスキーム (オフにしたチェック、メッセージレベル) をファイルに書き込みます
 Writes the embedded file of a document page	ドキュメントページの埋め込みファイルを書き出します

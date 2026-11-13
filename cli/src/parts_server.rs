@@ -143,6 +143,16 @@ impl Server {
         Ok(session)
     }
 
+    /// A library of the server as JSON text; `None` when none was stored yet.
+    pub fn library(&self, name: &str) -> Result<Option<String>, String> {
+        let v: Option<serde_json::Value> = decode_found(self.fetch(self.full()?.library(name)))?;
+        Ok(v.map(|v| v.to_string()))
+    }
+
+    pub fn save_library(&self, name: &str, json: &str) -> Result<(), String> {
+        check(self.fetch(self.full()?.save_library(name, json))).map(|_| ())
+    }
+
     pub fn favorites(&self) -> Result<Vec<String>, String> {
         decode(self.fetch(self.full()?.favorites()))
     }

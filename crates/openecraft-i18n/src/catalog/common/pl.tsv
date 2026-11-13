@@ -195,6 +195,7 @@ Light	Jasny
 Line	Linia
 Link	Łącze
 Linked	Powiązane
+Load	Odbiornik
 Loaded circuits bunched together	Obciążone obwody ułożone wspólnie
 Location	Miejsce montażu
 Location (+)	Miejsce montażu (+)
@@ -230,6 +231,7 @@ Name of the scheme	Nazwa wzorca
 Net	Sieć
 Never	Nigdy
 New name	Nowa nazwa
+Next page	Następna strona
 No	Nie
 No Vault item matches a part of the project	Żaden element Vault nie pasuje do artykułu projektu
 No cable {}	Brak kabla {}
@@ -252,10 +254,12 @@ No station {}	Brak stacji {}
 No such page	Taka strona nie istnieje
 No such section	Nie ma takiej sekcji
 No symbol with id {}	Brak symbolu o identyfikatorze {}
+No title block of the project named {}	Brak tabliczki rysunkowej projektu o nazwie {}
 Nominal size	Średnica nominalna
 Not a language code: {}	To nie jest kod języka: {}
 Not a macro file: {}	To nie jest plik makr: {}
 Not a symbol id: {}	To nie jest identyfikator symbolu: {}
+Not a title block file: {}	To nie jest plik tabliczek rysunkowych: {}
 Not a valid rule set file: {}	To nie jest prawidłowy plik zestawu reguł: {}
 Not in the schematic	Nie na schemacie
 Note	Uwaga
@@ -298,6 +302,7 @@ Parts	Artykuły
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Artykuły (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	Import artykułów nie powiódł się: {}
 Password	Hasło
+Picture	Obraz
 Pieces	Sztuki
 Pin	Pin
 Pin layout: {}	Układ pinów: {}
@@ -321,6 +326,7 @@ Power (kW)	Moc (kW)
 Power loss	Straty mocy
 Pre-planning	Planowanie wstępne
 Press	Prasa
+Previous page	Poprzednia strona
 Price	Cena
 Price unit	Jednostka ceny
 Process engineering	Inżynieria procesowa
@@ -330,6 +336,7 @@ Product top group	Grupa główna produktów
 Profile	Profil
 Project	Projekt
 Project languages	Języki projektu
+Project logo	Logo projektu
 Project management	Zarządzanie projektami
 Project name	Nazwa projektu
 Project properties	Właściwości projektu
@@ -349,6 +356,7 @@ Rectangular	Prostokątny
 Reject	Odrzuć
 Relative humidity	Wilgotność względna
 Relay	Przekaźnik
+Released	Wydane
 Released pages cannot be moved	Nie można przenosić wydanych stron
 Remove	Usuń
 Remove from favorites	Usuń z ulubionych
@@ -441,6 +449,7 @@ Time	Czas
 Title block	Tabliczka rysunkowa
 To	Do
 Tools	Narzędzia
+Total	Razem
 Transformer	Transformator
 Type	Typ
 Type number	Numer typu
@@ -471,6 +480,7 @@ Warning	Ostrzeżenie
 Warnings	Ostrzeżenia
 Weight	Masa
 Width	Szerokość
+Width in mm	Szerokość w mm
 Window	Okno
 Wire	Przewód
 Wire colours	Kolory przewodów
@@ -503,6 +513,7 @@ yes	tak
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} nie stoi na podłodze: wybierz artykuł oznaczony do montażu na podłodze
 {} exists already	{} już istnieje
+{} is not a PNG or JPEG image	{} nie jest obrazem PNG ani JPEG
 {} parts	Artykuły: {}
 {} wires	Przewody: {}
 {}, together with the wire to {}	{}, razem z przewodem do {}

@@ -65,6 +65,11 @@ ghcr.io/nilres/openecraft-parts-server` (see [installation](installation.md)).
   without models get generated ones from their mounting dimensions. Only add data
   that may be redistributed (facts from public data sheets, no copied texts, images
   or models).
+- Libraries: JSON documents shared by all projects (`GET` / `PUT /api/v1/libraries/{name}`),
+  so far `forms`, the company's title blocks, report schemes and plot frames that the
+  editor (*Forms › Title blocks › Company library*) and the command line publish and
+  load. Everybody who may read parts reads them; changing them needs the right to edit
+  catalogs for the whole server (editors, administrators).
 - Users: readers keep favorites, manufacturers change the parts and catalogs of their
   own manufacturer, editors all parts, administrators also manage the users. The
   `--token` (or `OPENECRAFT_TOKEN`) is the administrator token; `--admin-user <name>`

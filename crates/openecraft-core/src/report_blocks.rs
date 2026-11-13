@@ -155,6 +155,15 @@ pub fn page_table(prj: &Project, an: &Analysis, page_i: usize) -> Option<PageTab
         _ => base.to_string(),
     };
     let lineup = if kind == ReportId::from(ReportKind::TerminalLineup) { lineup_boxes(&table, &shown) } else { Vec::new() };
+    let table_form = form.filter(|_| !graphic && layout.is_none());
+    let totals = match table_form {
+        Some(f) if !f.totals.is_empty() && more == 0 => total_row(&table, &rows, &cols, &f.totals),
+        _ => Vec::new(),
+    };
+    let align = table_form
+        .filter(|f| !f.align.is_empty())
+        .map(|f| cols.iter().map(|&c| forms::header_value(&f.align, &table.headers[c]).copied().unwrap_or(crate::symbols::Anchor::Left)).collect())
+        .unwrap_or_default();
     Some(PageTable {
         title,
         headers: cols.iter().map(|&c| table.header_text(c).to_string()).collect(),
@@ -170,7 +179,44 @@ pub fn page_table(prj: &Project, an: &Analysis, page_i: usize) -> Option<PageTab
         graphic,
         keys: if layout.is_some() { table.header_keys().into_iter().map(String::from).collect() } else { Vec::new() },
         layout,
+        totals,
+        shade_rows: table_form.is_some_and(|f| f.shade_rows),
+        align,
     })
+}
+
+/// The leading number of a cell (`1.5 m`, `2,5`) and the text after it.
+pub fn cell_number(cell: &str) -> Option<(f64, &str)> {
+    let cell = cell.trim();
+    let end = cell.char_indices().find(|(i, c)| !(c.is_ascii_digit() || *c == '.' || *c == ',' || (*i == 0 && (*c == '-' || *c == '+')))).map(|(i, _)| i).unwrap_or(cell.len());
+    let n: f64 = cell[..end].replace(',', ".").parse().ok()?;
+    Some((n, cell[end..].trim()))
+}
+
+/// Total row of the rows `rows` of `table` for the shown columns `cols`: the sums
+/// of the columns named in `summed` (with the unit of their first value), "Total"
+/// in the first column when it is not summed.
+pub fn total_row(table: &Table, rows: &[usize], cols: &[usize], summed: &[String]) -> Vec<String> {
+    let mut out: Vec<String> = cols
+        .iter()
+        .map(|&c| {
+            if !summed.iter().any(|s| crate::table::header_matches(&table.headers[c], s)) {
+                return String::new();
+            }
+            let values: Vec<(f64, &str)> = rows.iter().filter_map(|&i| cell_number(table.rows[i].get(c)?)).collect();
+            let sum: f64 = values.iter().map(|v| v.0).sum();
+            let unit = values.first().map(|v| v.1).unwrap_or("");
+            let mut s = format!("{:.3}", sum).trim_end_matches('0').trim_end_matches('.').to_string();
+            if s == "-0" {
+                s = "0".into();
+            }
+            if unit.is_empty() { s } else { format!("{s} {unit}") }
+        })
+        .collect();
+    if out.iter().any(|c| !c.is_empty()) && out.first().is_some_and(String::is_empty) {
+        out[0] = tr("Total").into();
+    }
+    out
 }
 
 /// Drawing elements of the terminal line-up rows (all columns of the report).

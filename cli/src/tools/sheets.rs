@@ -1,11 +1,12 @@
-//! Sheet tools: plot frames (paper format, orientation, columns / rows), page
-//! templates and document pages with embedded files.
+//! Sheet tools: document pages with embedded files and pictures of title blocks.
 
 use super::common::*;
 use super::{optional, param, Args, Kind, Tool};
 use crate::session::Session;
 use openecraft_core::document;
-use openecraft_i18n::{tr_const, tr_fmt};
+use openecraft_core::forms::{self, FormItem, Picture};
+use openecraft_core::geom::p;
+use openecraft_i18n::{tr, tr_const, tr_fmt};
 use serde_json::{json, Value};
 
 pub static TOOLS: &[Tool] = &[
@@ -27,7 +28,45 @@ pub static TOOLS: &[Tool] = &[
         needs_project: true,
         run: export_document,
     },
+    Tool {
+        name: "add_title_block_image",
+        help: tr_const!("Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo"),
+        params: &[
+            param("title_block", Kind::Str, tr_const!("Title block of the project (list_title_blocks)")),
+            optional("path", Kind::Str, tr_const!("PNG or JPEG file kept in the title block (default: the project logo)")),
+            param("x", Kind::Num, tr_const!("Left edge in mm from the left of the title block area")),
+            param("y", Kind::Num, tr_const!("Top edge in mm from the top of the title block area")),
+            param("width", Kind::Num, tr_const!("Width in mm")),
+            param("height", Kind::Num, tr_const!("Height in mm; the image keeps its aspect ratio inside")),
+        ],
+        needs_project: true,
+        run: add_title_block_image,
+    },
 ];
+
+/// A PNG or JPEG file as a picture of a title block or the project logo.
+pub fn read_picture(path: &str) -> Result<Picture, String> {
+    let bytes = std::fs::read(path).map_err(|e| tr_fmt!("Cannot read {}: {}", path, openecraft_i18n::io_error(&e)))?;
+    let name = path.rsplit(['/', '\\']).next().unwrap_or(path);
+    forms::picture(name, &bytes).ok_or_else(|| tr_fmt!("{} is not a PNG or JPEG image", name))
+}
+
+fn add_title_block_image(s: &mut Session, a: &Args) -> Result<Value, String> {
+    let picture = a.str("path").filter(|p| !p.is_empty()).map(read_picture).transpose()?;
+    let num = |k: &str| a.num(k).unwrap_or(0.0);
+    let (x, y, w, h) = (num("x"), num("y"), num("width"), num("height"));
+    if w <= 0.0 || h <= 0.0 {
+        return Err(tr("Width and height must be greater than 0").into());
+    }
+    let prj = s.project_mut()?;
+    let name = a.req("title_block");
+    let Some(f) = prj.forms.title_blocks.iter_mut().find(|f| f.name == name) else {
+        return Err(tr_fmt!("No title block of the project named {}", name));
+    };
+    let file = picture.as_ref().map(|p| p.file.name.clone());
+    f.items.push(FormItem::image(p(x, y), p(x + w, y + h), picture));
+    Ok(json!({ "title_block": name, "items": f.items.len(), "file": file }))
+}
 
 fn add_document_page(s: &mut Session, a: &Args) -> Result<Value, String> {
     let path = a.req("path");

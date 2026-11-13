@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-ohjauspiirien tulisi oll
 DC/DC converter	DC/DC-muuttaja
 DWG export failed: {}	DWG-vienti epäonnistui: {}
 Data sheet	Tietolehti
+Date of the approval of the last revision	Viimeisimmän revision hyväksymispäivä
 Date of the last revision	Viimeisimmän revision päivämäärä
 Degree of protection	Kotelointiluokka
 Delete projects	Poista projekteja
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Rajakytkin sulkeutuva (NFPA)
 Line reactor	Verkkokuristin
 Linear motor 3-phase	Lineaarimoottori, 3-vaiheinen
 Literal braces	Aaltosulkeet (kirjaimellisesti)
-Load	Kuorma
 Load calculation	Kuormituslaskenta
 Loads and power supplies	Kuormat ja virtalähteet
 Loads behind it: {}	Sen jälkeiset kuormat: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Avainpainike, sulkeutuva, lukittuva
 Pushbutton NC	Painike avautuva
 Pushbutton NO	Painike sulkeutuva
 Pyramid roof	Telttakatto
+QR code	QR-koodi
 Qty	Määrä
 RCD {} mA	Vikavirtasuoja {} mA
 Radiation	Säteily
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Releen kela, remanenssi
 Relay coil, resonant	Releen kela, resonanssi
 Relay coil, thermal	Releen kela, terminen
 Relays, contactors	Releet, kontaktorit
-Released	Vapautettu
 Released pages cannot be deleted	Vapautettuja sivuja ei voi poistaa
 Remote I/O	Hajautettu I/O
 Remote I/O {} has no controller	Hajautetulla I/O:lla {} ei ole ohjainta
@@ -1340,6 +1340,10 @@ Result	Tulos
 Return / exhaust line	Paluu- / poistolinja
 Reviewer	Tarkastaja
 Revision overview (changes)	Revisioiden yleiskatsaus (muutokset)
+Revision table: author of the last revision (2: the one before …)	Revisiotaulukko: viimeisimmän revision tekijä (2: sitä edellisen …)
+Revision table: date of the last revision (2: the one before …)	Revisiotaulukko: viimeisimmän revision päivämäärä (2: sitä edellisen …)
+Revision table: description of the last revision (2: the one before …)	Revisiotaulukko: viimeisimmän revision kuvaus (2: sitä edellisen …)
+Revision table: index of the last revision (2: the one before …)	Revisiotaulukko: viimeisimmän revision tunnus (2: sitä edellisen …)
 Right side	Oikea puoli
 Right side panel	Oikea sivuseinä
 Ring terminal	Rengaskaapelikenkä
@@ -1487,6 +1491,7 @@ Start date	Aloituspäivä
 Started	Aloitettu
 Starting current ratio	Käynnistysvirtasuhde
 Starting torque	Käynnistysmomentti
+State of the project: draft, in review, approved, released	Projektin tila: luonnos, tarkastettavana, hyväksytty, julkaistu
 Station name (PROFINET)	Aseman nimi (PROFINET)
 Station name {} is used {} times	Aseman nimeä {} käytetään {} kertaa
 Station {} is not connected to bus {}	Asemaa {} ei ole yhdistetty väylään {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Aikareleen kela, poiskytkentäviive
 Timer relay coil, on-delay	Aikareleen kela, vetoviive
 Title blocks and report forms	Nimiöt ja raporttilomakkeet
 To order	Tilattava
-Total	Yhteensä
 Total length (m)	Kokonaispituus (m)
 Total price	Kokonaishinta
 Total weight	Kokonaispaino
@@ -1781,6 +1785,7 @@ Wavemeter	Aallonpituusmittari
 Wearing part	Kulutusosa
 Weld stud	Hitsauspultti
 Wetted material	Väliaineen kanssa kosketuksissa oleva materiaali
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Kuka hyväksyi viimeisimmän revision (tarkastus); {rev.2.approved_by}: sitä edellisen
 Width (mm)	Leveys (mm)
 Winding connection	Käämityksen kytkentä
 Wire assigned to unknown cable {}	Johto määritetty tuntemattomaan kaapeliin {}

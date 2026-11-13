@@ -376,6 +376,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-Steuerstromkreise sollte
 DC/DC converter	Gleichspannungswandler DC/DC	Convertisseur DC/DC	Convertidor DC/DC
 DWG export failed: {}	DWG-Export fehlgeschlagen: {}	Échec de l'export DWG : {}	Error al exportar el DWG: {}
 Data sheet	Datenblatt	Fiche technique	Hoja de datos
+Date of the approval of the last revision	Datum der Freigabe der letzten Revision	Date de l'approbation de la dernière révision	Fecha de la aprobación de la última revisión
 Date of the last revision	Datum der letzten Revision	Date de la dernière révision	Fecha de la última revisión
 Degree of protection	Schutzart	Indice de protection	Grado de protección
 Delete projects	Projekte löschen	Supprimer des projets	Eliminar proyectos
@@ -848,7 +849,6 @@ Linear motor 3-phase	Linearmotor 3-phasig	Moteur linéaire triphasé	Motor linea
 Link {} joins two building entries of the same room	Verbindung {} verbindet zwei Gebäudeeinführungen desselben Raums	La liaison {} relie deux entrées de bâtiment de la même pièce	El enlace {} une dos entradas de edificio de la misma sala
 Link {}: a building entry it joins no longer exists	Verbindung {}: eine verbundene Gebäudeeinführung existiert nicht mehr	Liaison {} : une entrée de bâtiment qu'elle relie n'existe plus	Enlace {}: una entrada de edificio que une ya no existe
 Literal braces	Geschweifte Klammern (wörtlich)	Accolades littérales	Llaves literales
-Load	Verbraucher	Charge	Carga
 Load calculation	Lastberechnung	Bilan de puissance	Cálculo de cargas
 Loads and power supplies	Verbraucher und Stromversorgungen	Charges et alimentations	Cargas y fuentes de alimentación
 Loads behind it: {}	Nachgeschaltete Verbraucher: {}	Charges en aval : {}	Cargas aguas abajo: {}
@@ -1378,6 +1378,7 @@ Push button with key NO, latching	Taster mit Schlüssel Schließer, rastend	Bout
 Pushbutton NC	Taster Öffner	Bouton-poussoir NF	Pulsador NC
 Pushbutton NO	Taster Schließer	Bouton-poussoir NO	Pulsador NA
 Pyramid roof	Zeltdach	Toit en pavillon	Cubierta piramidal
+QR code	QR-Code	Code QR	Código QR
 Qty	Menge	Qté	Cant.
 Quick coupling (outlet)	Schnellkupplung (Entnahmestelle)	Raccord rapide (prise)	Acoplamiento rápido (toma)
 RCD {} mA	RCD {} mA	DDR {} mA	DDR {} mA
@@ -1424,7 +1425,6 @@ Relay coil, remanent	Relaisspule, remanent	Bobine de relais, à rémanence	Bobin
 Relay coil, resonant	Relaisspule, Resonanz	Bobine de relais, à résonance	Bobina de relé, de resonancia
 Relay coil, thermal	Relaisspule, thermisch	Bobine de relais, thermique	Bobina de relé, térmica
 Relays, contactors	Relais, Schütze	Relais, contacteurs	Relés, contactores
-Released	Freigegeben	Validé	Liberado
 Released pages cannot be deleted	Freigegebene Seiten können nicht gelöscht werden	Les pages validées ne peuvent pas être supprimées	Las páginas liberadas no se pueden eliminar
 Remote I/O	Dezentrale Peripherie	E/S déportées	E/S remotas
 Remote I/O {} has no controller	Dezentrale Peripherie {} hat keine Steuerung	Les E/S déportées {} n'ont pas de contrôleur	Las E/S remotas {} no tienen controlador
@@ -1444,6 +1444,10 @@ Result	Ergebnis	Résultat	Resultado
 Return / exhaust line	Rücklauf- / Abluftleitung	Conduite de retour / d'échappement	Línea de retorno / escape
 Reviewer	Prüfer	Réviseur	Revisor
 Revision overview (changes)	Revisionsübersicht (Änderungen)	Vue d'ensemble des révisions (modifications)	Resumen de revisiones (cambios)
+Revision table: author of the last revision (2: the one before …)	Revisionstabelle: Autor der letzten Revision (2: die davor …)	Tableau des révisions : auteur de la dernière révision (2 : la précédente …)	Tabla de revisiones: autor de la última revisión (2: la anterior …)
+Revision table: date of the last revision (2: the one before …)	Revisionstabelle: Datum der letzten Revision (2: die davor …)	Tableau des révisions : date de la dernière révision (2 : la précédente …)	Tabla de revisiones: fecha de la última revisión (2: la anterior …)
+Revision table: description of the last revision (2: the one before …)	Revisionstabelle: Beschreibung der letzten Revision (2: die davor …)	Tableau des révisions : description de la dernière révision (2 : la précédente …)	Tabla de revisiones: descripción de la última revisión (2: la anterior …)
+Revision table: index of the last revision (2: the one before …)	Revisionstabelle: Index der letzten Revision (2: die davor …)	Tableau des révisions : indice de la dernière révision (2 : la précédente …)	Tabla de revisiones: índice de la última revisión (2: la anterior …)
 Right side	Rechte Seite	Côté droit	Lado derecho
 Right side panel	Rechte Seitenwand	Paroi latérale droite	Panel lateral derecho
 Ring terminal	Ringkabelschuh	Cosse à œillet	Terminal de ojal
@@ -1599,6 +1603,7 @@ Start date	Startdatum	Date de début	Fecha de inicio
 Started	Begonnen	Commencé	Iniciado
 Starting current ratio	Anlaufstromverhältnis	Rapport du courant de démarrage	Relación de corriente de arranque
 Starting torque	Anlaufmoment	Couple de démarrage	Par de arranque
+State of the project: draft, in review, approved, released	Stand des Projekts: Entwurf, in Prüfung, freigegeben, veröffentlicht	État du projet : brouillon, en revue, approuvé, publié	Estado del proyecto: borrador, en revisión, aprobado, publicado
 Station name (PROFINET)	Gerätename (PROFINET)	Nom de station (PROFINET)	Nombre de estación (PROFINET)
 Station name {} is used {} times	Stationsname {} wird {}-mal verwendet	Le nom de station {} est utilisé {} fois	El nombre de estación {} se usa {} veces
 Station {} is not connected to bus {}	Station {} ist nicht mit Bus {} verbunden	La station {} n'est pas reliée au bus {}	La estación {} no está conectada al bus {}
@@ -1786,7 +1791,6 @@ Timer relay coil, off-delay	Spule Zeitrelais, rückfallverzögert	Bobine de rela
 Timer relay coil, on-delay	Spule Zeitrelais, anzugsverzögert	Bobine de relais temporisé, retardé à l'appel	Bobina de relé temporizado, retardo a la conexión
 Title blocks and report forms	Schriftfelder und Auswertungsformulare	Cartouches et formulaires de rapports	Cajetines y formularios de informes
 To order	Zu bestellen	À commander	A pedir
-Total	Gesamt	Total	Total
 Total length (m)	Gesamtlänge (m)	Longueur totale (m)	Longitud total (m)
 Total price	Gesamtpreis	Prix total	Precio total
 Total weight	Gesamtgewicht	Poids total	Peso total
@@ -1917,6 +1921,7 @@ Wavemeter	Wellenlängenmesser	Ondemètre	Ondámetro
 Wearing part	Verschleißteil	Pièce d'usure	Pieza de desgaste
 Weld stud	Schweißbolzen	Goujon soudé	Espárrago soldado
 Wetted material	Werkstoff medienberührt	Matériau en contact avec le fluide	Material en contacto con el medio
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Wer die letzte Revision freigegeben hat (Prüfung); {rev.2.approved_by}: die davor	Qui a approuvé la dernière révision (revue) ; {rev.2.approved_by} : la précédente	Quién aprobó la última revisión (revisión); {rev.2.approved_by}: la anterior
 Width (mm)	Breite (mm)	Largeur (mm)	Ancho (mm)
 Winding connection	Wicklungsschaltung	Couplage des enroulements	Conexión del devanado
 Wire assigned to unknown cable {}	Leitung einem unbekannten Kabel zugewiesen {}	Fil affecté à un câble inconnu {}	Hilo asignado a un cable desconocido {}

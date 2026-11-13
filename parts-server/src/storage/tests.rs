@@ -298,3 +298,25 @@ fn new_databases_get_the_bundled_catalogs() {
     assert_eq!(Store::open(StorageKind::Sqlite, &path).unwrap().revision, rev);
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }
+
+#[test]
+fn libraries_are_stored_by_name() {
+    for mut store in stores() {
+        let revision = store.revision;
+        assert_eq!(store.library("forms").unwrap(), None);
+        store.put_library("forms", r#"{"title_blocks":[{"name":"Company"}]}"#.into()).unwrap();
+        store.put_library("forms", r#"{"title_blocks":[{"name":"Company 2"}]}"#.into()).unwrap();
+        let v: serde_json::Value = serde_json::from_str(&store.library("forms").unwrap().unwrap()).unwrap();
+        assert_eq!(v["title_blocks"][0]["name"], "Company 2");
+        assert_eq!(store.library("other").unwrap(), None);
+        assert_eq!(store.revision, revision, "libraries do not change the parts revision");
+    }
+    // The JSON file keeps them.
+    let path = temp_file("libraries.json");
+    std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+    let mut store = Store::open(StorageKind::Json, &path).unwrap();
+    store.put_library("forms", r#"{"frames":[]}"#.into()).unwrap();
+    drop(store);
+    let store = Store::open(StorageKind::Json, &path).unwrap();
+    assert_eq!(store.library("forms").unwrap().as_deref(), Some(r#"{"frames":[]}"#));
+}

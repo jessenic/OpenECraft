@@ -58,6 +58,15 @@ pub struct PageTable {
     /// Column names as stored in forms (English), for the placeholders of `layout`.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub keys: Vec<String>,
+    /// Total row below the last row (a cell per column); empty: none.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub totals: Vec<String>,
+    /// Every second row shaded.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub shade_rows: bool,
+    /// Alignment per column; empty: all left.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub align: Vec<crate::symbols::Anchor>,
 }
 
 /// One element of the terminal line-up drawing.

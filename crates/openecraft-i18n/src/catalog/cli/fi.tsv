@@ -5,6 +5,8 @@ Access token for changes	Käyttöoikeustokeni muutoksia varten
 Access token of a Vault session or an Autodesk account instead of user and password	Vault-istunnon tai Autodesk-tilin käyttöoikeustokeni käyttäjän ja salasanan sijaan
 Address of the Vault server, e.g. https://vault.example.com	Vault-palvelimen osoite, esim. https://vault.example.com
 Adds a page	Lisää sivun
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	Lisää kuvan (esim. yrityksen logon) projektin nimiöön; ilman tiedostoa se näyttää projektin logon
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	Lisää projektiin osapalvelimen yrityksen lomakekirjaston (nimiöt, raporttimallit, piirustuskehykset)
 Adds the definitions and schemes of a property library file to the project	Lisää ominaisuuskirjastotiedoston määrittelyt ja skeemat projektiin
 All project files of a folder	Kansion kaikki projektitiedostot
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	Palauta myös fasetit: ryhmien, valmistajien, luetteloiden, elinkaaren ja teknisten tietojen arvot lukumäärineen
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	Kansion ID (oletus root)
 Folder with project files	Projektitiedostojen kansio
 Folder with project files (instead of a database; default: the current folder)	Projektitiedostojen kansio (tietokannan sijaan; oletus: nykyinen kansio)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	Lomake: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (riviliitin- ja kaapelikaaviot piirroksina)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	Lomake: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (riviliitin- ja kaapelikaaviot piirroksina), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	Luotujen sivujen toiminto (=)
 Further parameters of the export as name=value, separated by commas	Viennin muut parametrit muodossa nimi=arvo pilkuilla erotettuina
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	Viennin muut parametrit muodossa nimi=arvo pilkuilla erotettuina (katso list_exports), esim. harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	Anna joko template tai path
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	Antaa käyttäjälle tai ryhmälle roolin osapalvelimen valmistajaan (laajuus), valinnalla deny poistaa sen oikeudet, valinnalla revoke poistaa myönnöt (vain järjestelmänvalvojat)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	Luotavat ryhmät, jokerimerkit sallittu (-X*, -W1); tyhjä: kaikki
+Height in mm; the image keeps its aspect ratio inside	Korkeus millimetreinä; kuva säilyttää sen sisällä kuvasuhteensa
 Id of a file (file_id of vault_browse) that gets a new version	Sen tiedoston ID (vault_browse-komennon file_id), joka saa uuden version
 Id of the file version (version_id of vault_browse)	Tiedostoversion ID (vault_browse-komennon version_id)
 Id of the knowledge vault (taken from the session if not given)	Vaultin ID (otetaan istunnosta, jos ei annettu)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	Pidä tiedosto uloskirjattuna sisä
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	Palvelimen laji: OpenECraft (osapalvelin) tai Eplan (EPLAN Data Portal: vain haku ja lukeminen, tokeni on EPLAN-tilin henkilökohtainen käyttöoikeustokeni)
 Language of the export (a project language)	Viennin kieli (projektin kieli)
 Language of the project texts and reports (a project language, default the source language)	Projektin tekstien ja raporttien kieli (projektin kieli, oletus lähdekieli)
+Left edge in mm from the left of the title block area	Vasen reuna millimetreinä nimiöalueen vasemmasta reunasta
 Library file	Kirjastotiedosto
 Lifecycle: Active, PhaseOut or Discontinued	Elinkaari: Active, PhaseOut tai Discontinued
 Lists the built-in structure templates	Luettelee sisäiset rakennemallit
@@ -159,6 +163,8 @@ Output file (JSON)	Tulostetiedosto (JSON)
 Output file; without it the content is returned	Tulostiedosto; ilman sitä sisältö palautetaan
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	Tulostaa raporttisivut kiinteinä sivuina toiseen projektitiedostoon; tästä projektista aiemmin tulostetut sivut korvataan
 PDF file with comments	PDF-tiedosto kommentteineen
+PNG or JPEG file kept in the title block (default: the project logo)	Nimiöön tallennettava PNG- tai JPEG-tiedosto (oletus: projektin logo)
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	Projektin logon PNG- tai JPEG-tiedosto (kansilehti, nimiöt); tyhjä poistaa sen
 Page (svg: required, dxf, dwg: default all pages)	Sivu (svg: pakollinen, dxf, dwg: oletuksena kaikki sivut)
 Page name (default: next number)	Sivun nimi (oletus: seuraava numero)
 Page of the export	Viennin sivu
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	Aloita esimerkkiprojektista (nimet: list_examples)
 Start from the demo project	Aloita esittelyprojektista
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	Tallentaa tiedoston (tietolehti, kuva, malli, makro …) osan yhteyteen osapalvelimelle
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	Tallentaa projektin omat nimiöt, raporttimallit ja piirustuskehykset yrityksen lomakekirjastoksi osapalvelimelle (muokkaajat)
 Subproject file (.oec)	Aliprojektitiedosto (.oec)
 Subproject file to write (.oec)	Kirjoitettava aliprojektitiedosto (.oec)
 Take the changes over (otherwise only a preview)	Ota muutokset käyttöön (muuten vain esikatselu)
@@ -247,9 +254,13 @@ The catalog needs a name	Luettelo tarvitsee nimen
 The format xlsx needs a path	Muoto xlsx vaatii polun
 The open project has unsaved changes: save it first or pass discard	Avoimessa projektissa on tallentamattomia muutoksia: tallenna se ensin tai anna discard
 The part number must not be empty	Osanumero ei saa olla tyhjä
+The parts server has no form library yet	Osapalvelimella ei ole vielä lomakekirjastoa
 The project has no file yet: pass a path	Projektilla ei ole vielä tiedostoa: anna polku
+The project has no title blocks, report schemes or plot frames of its own	Projektilla ei ole omia nimiöitä, raporttimalleja tai piirustuskehyksiä
 This command needs a project: --project <file>	Tämä komento vaatii projektin: --project <tiedosto>
 This format needs an output file (path)	Tämä muoto vaatii tulostiedoston (path)
+Title block of the project (list_title_blocks)	Projektin nimiö (list_title_blocks)
+Top edge in mm from the top of the title block area	Yläreuna millimetreinä nimiöalueen yläreunasta
 Undoes the last change	Kumoaa viimeisimmän muutoksen
 Unexpected argument: {}	Odottamaton argumentti: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Tuntematon komento: {}. Saat luettelon komennolla openecraft-cli help.
@@ -268,6 +279,7 @@ User name to sign in with	Kirjautumisessa käytettävä käyttäjänimi
 User or group name (wildcards; directory groups as directory:group)	Käyttäjän tai ryhmän nimi (yleismerkit; hakemistopalvelun ryhmät muodossa hakemisto:ryhmä)
 Values to set (name: value; an empty value removes a property)	Asetettavat arvot (nimi: arvo; tyhjä arvo poistaa ominaisuuden)
 Vault user name (signs in)	Vault-käyttäjänimi (kirjautuu sisään)
+Width and height must be greater than 0	Leveyden ja korkeuden on oltava suurempia kuin 0
 Write the table as CSV to this file	Kirjoita taulukko CSV-muodossa tähän tiedostoon
 Writes the check scheme of the project (checks switched off, message levels) to a file	Kirjoittaa projektin tarkistusskeeman (käytöstä poistetut tarkistukset, ilmoitustasot) tiedostoon
 Writes the embedded file of a document page	Kirjoittaa dokumenttisivun upotetun tiedoston

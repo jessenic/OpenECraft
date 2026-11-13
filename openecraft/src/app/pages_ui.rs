@@ -41,6 +41,7 @@ fn frame_preview(ui: &mut egui::Ui, f: &PlotFrame, prj: &openecraft_core::model:
 }
 
 impl App {
+    #[allow(clippy::too_many_lines)]
     pub(super) fn frame_tab(&mut self, ui: &mut egui::Ui) {
         let names = frame::names(&self.session.prj);
         let pu = &mut self.pages_ui;
@@ -51,6 +52,7 @@ impl App {
         }
         let default = if prj.forms.default_frame.is_empty() { frame::DEFAULT.to_string() } else { prj.forms.default_frame.clone() };
         let custom = prj.forms.frames.iter().position(|f| f.name == pu.frame);
+        let title_blocks = openecraft_core::forms::names(prj);
         ui.horizontal_wrapped(|ui| {
             ui.label(tr("Plot frame"));
             egui::ComboBox::from_id_salt("frame_sel").selected_text(frame::display_name(&pu.frame)).width(200.0).show_ui(ui, |ui| {
@@ -164,6 +166,17 @@ impl App {
                             });
                             ui.end_row();
                         }
+                        ui.label(tr("Title block"));
+                        let shown = if f.title_block.is_empty() { tr("(project default)").to_string() } else { f.title_block.clone() };
+                        egui::ComboBox::from_id_salt("frame_tb").selected_text(shown).width(180.0).show_ui(ui, |ui| {
+                            ui.selectable_value(&mut f.title_block, String::new(), tr("(project default)"));
+                            for n in &title_blocks {
+                                ui.selectable_value(&mut f.title_block, n.clone(), n);
+                            }
+                        })
+                        .response
+                        .on_hover_text(tr("Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait"));
+                        ui.end_row();
                     });
                 });
                 if custom.is_none() {

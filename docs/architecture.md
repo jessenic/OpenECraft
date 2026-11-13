@@ -47,7 +47,8 @@ exceptions, to be removed over time.
 
 Layers, bottom up (a module may use its own layer and the layers below):
 
-1. Foundations without dependencies: `geom`, `xml`, `zip`, `xlsx` (Excel workbooks),
+1. Foundations without dependencies: `geom`, `xml`, `zip`, `xlsx` (Excel workbooks), `qr`
+   (QR codes),
    `ttf` (TrueType reader and
    subsetter for PDF fonts), `params` (typed parameters and
    `Text`), `table` (report tables), `parallel` (work spread over the threads), `issue` (`Issue`, `Severity`; a built-in check's

@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	În ușă, când diferă de decup
 Internal values of the EPLAN part exchange (0: undefined)	Valori interne ale schimbului de articole EPLAN (0: nedefinit)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Funcționează doar montat pe unul dintre articolele cu care se potrivește; verificarea proiectului îl semnalează la un aparat fără un astfel de articol
 Largest conductor the clamp takes (0: not known)	Cel mai mare conductor pe care îl primește clema (0: necunoscut)
+Loaded the library {}	Biblioteca {} a fost încărcată
 Loaded {} parts (revision {})	S-au încărcat {} articole (revizia {})
 Loading catalogs…	Se încarcă cataloagele…
 Loading favorites…	Se încarcă favoritele…
 Loading the history…	Se încarcă istoricul…
 Loading users…	Se încarcă utilizatorii…
+Loading {}…	Se încarcă {}…
 Mark for adding to the parts database	Marcare pentru adăugare în baza de date de articole
 Max. mm²	Max. mm²
 Min. mm²	Min. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Deplasează (touchpad)
 Parts server: {}	Server de articole: {}
 Parts this part is assembled from; the bill of materials lists them under it	Articolele din care este asamblat acest articol; lista de materiale le listează sub el
 Personal access token	Token de acces personal
-Picture	Imagine
 Place by clicking into the view	Plasare prin clic în vedere
 Prices / other	Prețuri / altele
 Remove all	Eliminare toate
@@ -92,6 +93,7 @@ Reset filter	Resetare filtru
 Rotate 90°:	Rotire cu 90°:
 Save the file	Salvare fișier
 Saved part {}	Articolul {} a fost salvat
+Saved the library {}	Biblioteca {} a fost salvată
 Saving favorites…	Se salvează favoritele…
 Saving {}…	Se salvează {}…
 Scale ×	Scară ×
@@ -107,6 +109,7 @@ Successor {}	Succesor {}
 Take {} values from the technical data	Preluare {} valori din datele tehnice
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	Vederea frontală 2D se folosește în vederea frontală a tabloului și pe paginile de plan de montaj, modelul 3D în vederea 3D a tabloului. Ambele se ajustează la datele de montaj (lățime × înălțime × adâncime).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Modelul ({} × {} × {}) diferă de datele de montaj ({} × {} × {}); este întins la datele de montaj.
+The parts server has no library {} yet	Serverul de piese nu are încă biblioteca {}
 The price refers to this many units	Prețul se referă la acest număr de unități
 The successor is not in this parts list	Succesorul nu se află în această listă de articole
 This part is an accessory	Acest articol este un accesoriu

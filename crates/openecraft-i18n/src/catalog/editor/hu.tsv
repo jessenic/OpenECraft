@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = egyetlen érték; egyébként [1] … [n] értékek
 0 = all approvers	0 = az összes jóváhagyó
 0 = estimated from cores and cross-section	0 = az erekből és a keresztmetszetből becsülve
+0 = fitted to the page	0 = az oldalhoz igazítva
 0 = fitted to the rows per page	0 = az oldalankénti sorokhoz igazítva
 0 = from the DC of the devices ({} %)	0 = a készülékek DC-értékéből ({} %)
 0 = from the devices	0 = a készülékekből
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Bustípusú kábel minden kábel nélküli kapcsolathoz
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Azonos méretű kivágás ugyanott a szomszéd oldalfalában: együtt kábelátvezetést alkotnak
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	A mappában lévő azonos nevű fájl új verziót kap (kivétel és beadás), különben a fájl hozzáadódik
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Nagy szöveg minden oldalon keresztben, pl. TERVEZET, amíg egy revízió készül; a szövegek helyőrzőket fogadnak, üres: nincs bélyegző.
 A level on top of the highest one	Egy szint a legfelső fölé
 A local file opens locally, a server project is opened on the project server again	A helyi fájl helyben nyílik meg, a kiszolgálóprojekt újra a projektkiszolgálón nyílik meg
 A local file or a project on the project server	Helyi fájl vagy projekt a projektkiszolgálón
@@ -55,6 +57,7 @@ A new project	Új projekt
 A new release is downloaded in the background and installed when you close OpenECraft.	Az új verzió a háttérben töltődik le, és az OpenECraft bezárásakor települ.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Az új verzió a háttérben töltődik le, és lecseréli ezt a telepítést; a következő indítástól használatos.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Számozott szakasz, amely mappaként tartalmazza az oldalakat; az oldalnevek a számával kezdődnek (2.3.1)
+A picture kept in the form, e.g. the company logo	Az űrlapban tárolt kép, pl. a cég logója
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	A profil a semleges mezőket egy adott rendszer oszlopneveihez rendeli (pl. MATNR az ERP-számhoz SAP-ban). Hozzárendelés nélkül a szokásos angol és német nevek felismerésre kerülnek.
 A project definition based on this one, with its own defaults and scheme	Erre épülő projektdefiníció saját alapértékekkel és sémával
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Ehelyett a fájlkezelőből megnyitott projektfájl nyílik meg. Az utolsó munkamenet nem mentett módosításait soha nem veti el kérdés nélkül.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Az ilyen nevű sablon lecserélődik.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	A sablon meghatározza egy új oldal típusát, rajzkeretét, szövegmezőjét, struktúráját és leírását, és elhelyezi a tartalmát.
 A way through free air costs this many times the way in a duct or routing path	A szabad téren át vezető út ennyiszer többe kerül, mint a csatornában vagy fektetési úton vezető
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	A munkaterület a navigátorban az oldalakat és készülékeket a projekt egy részére korlátozza. Szűrők: üres = bármi, * = tetszőleges karakterek; az A1 az A1.2-t is lefedi.
+APPROVED	JÓVÁHAGYVA
 About OpenECraft	Az OpenECraft névjegye
 Above the floor	A padló felett
+Above the project name	A projekt neve fölött
 Accept as checked	Elfogadás ellenőrzöttként
 Accepted messages ({})	Elfogadott üzenetek ({})
 Active	Aktív
@@ -144,6 +149,7 @@ Apply to the connection	Alkalmazás az összeköttetésre
 Apply to {} projects	Alkalmazás {} projektre
 Approval workflow	Jóváhagyási munkafolyamat
 Approvals needed	Szükséges jóváhagyások
+Approved	Jóváhagyva
 Approving needs an approver; you are \"{}\".	Jóváhagyni csak jóváhagyó tud; Ön: \"{}\".
 Arc	Ív
 Archive and version	Archívum és verzió
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Először válasszon helyiséget: a padlón álló alkatrészek a padlójára kerülnek.
 Choose another project	Másik projekt választása
 Choose file…	Fájl kiválasztása…
+Choose image…	Kép kiválasztása…
 Choose pages	Oldalak kiválasztása
 Chooses the pages whose structure starts with this	Kiválasztja azokat az oldalakat, amelyek struktúrája ezzel kezdődik
 Circle	Kör
@@ -362,6 +369,7 @@ Comments ({} open)	Megjegyzések ({} nyitott)
 Comments ({})	Megjegyzések ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Egy véleményező által a projekt PDF-exportjában készített megjegyzések (Acrobat vagy más PDF-megjelenítő)
 Comments and markup	Megjegyzések és jelölések
+Company library	Céges könyvtár
 Compare and baselines	Összehasonlítás és alapállapotok
 Compare with	Összehasonlítás ezzel
 Compare with a baseline, a revision or another project file and take differences over	Összehasonlítás egy alapállapottal, revízióval vagy másik projektfájllal, és a különbségek átvétele
@@ -405,6 +413,7 @@ Core designations separated by blanks	Érmegnevezések szóközzel elválasztva
 Core labels placed by hand	Kézzel elhelyezett érfeliratok
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	1, 2, 3 … erek a keresztezett vezetékekhez, továbbá GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Sarok: két vezeték derékszögben; bekapcsolt automatikus csatlakoztatással a karjaival szemközti csatlakozási pontok hozzá vezetékeződnek
+Counter-clockwise, e.g. 90 for texts running upwards	Az óramutató járásával ellentétesen, pl. 90 a felfelé futó szövegekhez
 Cover sheet, overview, graphics, report, mounting layout or a page template	Fedőlap, áttekintés, grafika, kimutatás, szerelési elrendezés vagy oldalsablon
 Covers	Lefed
 Covers what is behind the text	Eltakarja, ami a szöveg mögött van
@@ -431,6 +440,8 @@ Cut length step tubes	Vágási hossz lépésköze, csövek
 Cut length step wires	Vágási hossz lépésköze, vezetékek
 Cutout {} × {} mm	Kivágás {} × {} mm
 Cutting allowance per end	Vágási ráhagyás végenként
+DRAFT	TERVEZET
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	TERVEZET, JÓVÁHAGYÁSRA és JÓVÁHAGYVA az aktuális nyelven; kiadás után semmi
 DWG import failed: {}	A DWG-importálás sikertelen: {}
 DWG imported as page {}: {} lines, {} texts	DWG importálva {} oldalként: {} vonal, {} szöveg
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importálva {} oldalként: {} vonal, {} szöveg (nem importált: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	{} letöltve ({} verzió)
 Downloaded {} parts (revision {}): {} new, {} updated	{} alkatrész letöltve ({}. revízió): {} új, {} frissítve
 Downloading OpenECraft {}	Az OpenECraft {} letöltése
 Downstream part	Utána kapcsolt alkatrész
+Draft	Tervezet
 Draft of revision {} created	A(z) {} revízió piszkozata létrehozva
 Draft of revision {} discarded	A(z) {} revízió piszkozata elvetve
 Drag	Húzás
@@ -665,6 +677,7 @@ Exporting {}	{} exportálása
 Export…	Exportálás…
 Extend guides to canvas edges	Segédvonalak kiterjesztése a vászon széléig
 Extras	Extrák
+FOR APPROVAL	JÓVÁHAGYÁSRA
 Facing	Tájolás
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Ventilátorok, szűrők, kábeltömszelencék, lámpák, fogantyúk: válasszon egyet, majd kattintson a beépítés helyére
 Fastening hardware in the bill of materials	Rögzítőelemek az anyagjegyzékben
@@ -700,6 +713,7 @@ First row	Első sor
 Fit	Illesztés
 Fit page	Oldal méretre igazítása
 Fits {}	Illeszkedik ehhez: {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	A téglalapba illesztve, a méretarány megtartásával (PNG, JPEG)
 Float	Leválasztás
 Floor above ground	Padló a terep felett
 Floor plan	Alaprajz
@@ -707,8 +721,10 @@ Floor plan with {} walls	Alaprajz {} fallal
 Floor-standing part	Padlón álló cikk
 Fluid and process	Fluid- és folyamattechnika
 Follows its condition: use Apply conditions	A feltételét követi: használja a Feltételek alkalmazása parancsot
+Font	Betűtípus
 Foot	Indulás
 For	Ehhez
+For pages that choose none; before the plot frame's title block and the project default.	Azokhoz az oldalakhoz, amelyek nem választanak; a rajzkeret szövegmezője és a projekt alapértelmezése előtt.
 For parts without Stock length; longer profiles have to be joined	Stock length nélküli alkatrészekhez; a hosszabb profilokat toldani kell
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Hőmérsékleti adatok nélküli alkatrészekhez (Max temperature, Operating temperature); 0: nincs ellenőrzés
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Az EPLAN alkatrészkezelésbe való importáláshoz (P_ARTICLE_* attribútumok, en_US nyelvű szövegek)
@@ -730,6 +746,7 @@ From a template file…	Sablonfájlból…
 From row to row; 0: free of shade in winter	Sortól sorig; 0: télen árnyékmentes
 From the function definition	A funkciódefinícióból
 From the left end	A bal végtől
+From the top left corner of the drawing area	A rajzterület bal felső sarkától
 From – to	Tól – ig
 Fullest stretch	Legtelibb szakasz
 Function definitions	Funkciódefiníciók
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	{} szövegmező és {} kimutatás
 Importing {} from the parts server…	{} importálása az alkatrészkiszolgálóról…
 Import…	Importálás…
 In every section counting starts again after the section number (2.3.1).	Minden szakaszban a számozás újrakezdődik a szakasz száma után (2.3.1).
+In review	Ellenőrzés alatt
 In strip order; PE and other non-numeric terminals keep their designation	Lécsorrendben; a PE és más nem numerikus sorkapcsok megtartják a megnevezésüket
 In the filtered rows	A szűrt sorokban
 In the middle of the first wire	Az első vezeték közepén
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	{} zárolta a projektkiszolgál
 Locked by {} – read only	Zárolta: {} – csak olvasható
 Locking…	Zárolás…
 Logic	Logika
+Logo	Logó
+Logo on the cover page	Logó a fedlapon
 Longer values are drawn smaller (0 = no limit)	A hosszabb értékek kisebben jelennek meg (0 = nincs korlát)
 Look for updates when OpenECraft starts	Frissítések keresése az OpenECraft indításakor
 Looking for updates…	Frissítések keresése…
@@ -1135,7 +1155,6 @@ New zone	Új zóna
 New, empty placement scheme	Új, üres elhelyezési séma
 Next free contact numbers on this device	A készülék következő szabad érintkezőszámai
 Next item	Következő elem
-Next page	Következő oldal
 Next page tab	Következő oldallap
 Next pane	Következő panel
 Next row	Következő sor
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Nincs – egy oldal vagy a
 Not a page template file: {}	Nem oldalsablonfájl: {}
 Not a point: type x y or @dx dy	Nem pont: írja be: x y vagy @dx dy
 Not a symbol library: {}	Nem szimbólumkönyvtár: {}
-Not a title block file: {}	Nem szövegmezőfájl: {}
 Not changed: {}	Nem módosult: {}
 Not found: {}	Nem található: {}
 Not in the project parts – synchronize in parts management	Nincs a projekt alkatrészei között – szinkronizálja az alkatrészkezelésben
@@ -1226,9 +1244,11 @@ One row per label	Címkénként egy sor
 Only devices on the current page	Csak az aktuális oldalon lévő készülékek
 Only frames no page uses can be deleted	Csak az egyetlen oldal által sem használt keretek törölhetők
 Only messages of the current page	Csak az aktuális oldal üzenetei
+Only on pages of these types (none ticked: on all)	Csak ilyen típusú oldalakon (nincs bejelölve: mindegyiken)
 Only parts whose function template provides the device's main function	Csak olyan alkatrészek, amelyek funkciósablonja biztosítja a készülék főfunkcióját
 Only rows that pass all filters are shown	Csak az összes szűrőnek megfelelő sorok jelennek meg
 Only web and e-mail addresses (http, https, mailto) are links	Csak webes és e-mail-címek (http, https, mailto) lehetnek hivatkozások
+Only when filled	Csak ha ki van töltve
 Open a specific project	Adott projekt megnyitása
 Open and save shared projects, lock pages	Megosztott projektek megnyitása és mentése, oldalak zárolása
 Open archive…	Archívum megnyitása…
@@ -1301,6 +1321,8 @@ Overhang	Túlnyúlás
 Own colour	Saját szín
 Own drawn form	Saját rajzolt űrlap
 Own groups	Saját csoportok
+Own picture	Saját kép
+Own place	Saját hely
 PCT loops (pre-planning)	PCT-körök (előtervezés)
 PDF with comments	PDF megjegyzésekkel
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Kézzel elhelyezve; egy oldal 
 Placed here: {}	Itt elhelyezve: {}
 Placed {}× in the project	{}× elhelyezve a projektben
 Placeholders	Helyőrzők
+Placeholders are filled, e.g. a link with {project} and {page}	A helyőrzők kitöltődnek, pl. egy hivatkozás {project} és {page} értékkel
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Az azonosítókban, szövegekben és funkciószövegekben lévő helyőrzők, például {MOTOR}, beszúráskor töltődnek ki.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Helyőrzők: {letter} kódbetű, {n} számláló, {page} oldal, {column} / {row} a főfunkció helye
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Helyőrzők: {n} számláló (a szöveg többi részének értékenként számolva), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. {n} nélkül az azonos szövegű összeköttetések ugyanazt a számot kapják.
@@ -1424,7 +1447,6 @@ Prefix	Előtag
 Press a key…	Nyomjon le egy billentyűt…
 Preview	Előnézet
 Previous item	Előző elem
-Previous page	Előző oldal
 Previous page tab	Előző oldallap
 Previous pane	Előző panel
 Previous wire	Előző vezeték
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Tulajdonságcsoportok
 Property placement	Tulajdonságok elhelyezése
 Property removed with {} values	Tulajdonság eltávolítva {} értékkel
+Publish	Közzététel
 Put a room here	Helyiség ide
 Put into the vault	Elhelyezés a vaultban
 Put the pane back into the workspace	A panel visszahelyezése a munkaterületre
@@ -1556,6 +1579,7 @@ Replace with	Csere erre
 Replaced when the configurator generates again; switch off to keep the page	A konfigurátor következő generálásakor lecserélődik; kapcsolja ki az oldal megtartásához
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Csere a szabad szövegekben, funkciószövegekben, valamint az oldal-, készülék- és kábelleírásokban; a kiadott oldalak változatlanok maradnak
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Lecseréli az adatbázis GEN.* alkatrészeit az aktuális példakatalógusra (a modellekkel együtt)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	A céges könyvtárat a projekt saját szövegmezőire, jelentéssémáira és rajzkereteire cseréli (az alkatrészkiszolgáló szerkesztői)
 Replaces the content of the macro boxes whose macro changed in the library	Lecseréli azoknak a makródobozoknak a tartalmát, amelyek makrója megváltozott a könyvtárban
 Replaces the pages of this block	Lecseréli a blokk oldalait
 Reply	Válasz
@@ -1745,6 +1769,7 @@ Settings scheme	Beállításséma
 Settings scheme (JSON)	Beállításséma (JSON)
 Settings taken over: {}	Beállítások átvéve: {}
 Settings…	Beállítások…
+Shade every second row	Minden második sor árnyékolása
 Shafts	Aknák
 Share of the capacity kept free for later additions	A kapacitás későbbi bővítésre szabadon hagyott része
 Shared project {} – revision {}, user {}	{} megosztott projekt – {}. revízió, felhasználó: {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	A panel megjelenítése ablakként
 Show the ribbon	A menüszalag megjelenítése
 Show this wire	A vezeték megjelenítése
 Show who may use the project	Annak megjelenítése, hogy ki használhatja a projektet
+Shown	Megjelenik
 Shown as \"Name: value\"	Megjelenítve: \"Név: érték\"
 Shown in title blocks with {prop:Name}	A szövegmezőkben a {prop:Name} jelenik meg
 Shown instead of the measured value	A mért érték helyett jelenik meg
+Shown now: {}	Most megjelenik: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	A fedlapon és azon szövegmezők képelemeiben jelenik meg, amelyek a projekt logóját mutatják
 Shows	Megjelenítés
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Oldalfalak, hátfal, tető és fenék kívülről nézve: ventilátorok, kábeltömszelencék, kivágások
 Sign in in the Project server pane; the project opens afterwards	Jelentkezzen be a Projektkiszolgáló panelen; utána megnyílik a projekt
@@ -1812,6 +1840,7 @@ Spare terminals	Tartalék sorkapcsok
 Special text	Speciális szöveg
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Speciális szöveg: a projekt- és oldaltulajdonságok, például {page} vagy {prop:Name}, az oldal rajzolásakor töltődnek ki
 Stairs	Lépcsők
+Stamp	Bélyegző
 Standard form of the report	A kimutatás szabványos űrlapja
 Standard size	Szabványos méret
 Standard workspaces	Alapértelmezett munkaterületek
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Alprojekt ment
 Subproject {} inserted: {} pages replaced by {}	A(z) {} alprojekt beillesztve: {} oldal lecserélve erre: {}
 Subprojects	Alprojektek
 Subsystem {}	{} alrendszer
+Suggested texts	Javasolt szövegek
+Sums the column in a row below the last row of the report	Összegzi az oszlopot a jelentés utolsó sora alatti sorban
 Supply and conditions	Betáplálás és feltételek
 Surge protection	Túlfeszültség-védelem
 Swing the enclosure door open or shut (door devices and their wires move with it)	A szekrényajtó kinyitása vagy becsukása (az ajtókészülékek és vezetékeik vele együtt mozognak)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	A készülékek nem férnek el a sínen
 The dictionary is empty: collect the texts from the project.	A szótár üres: gyűjtse össze a szövegeket a projektből.
 The door seen from the front: door devices and cutouts	Az ajtó elölről nézve: ajtókészülékek és kivágások
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Az ajtó belülről nézve (zsanérok jobbra): kábelcsatornák és az ajtó mögötti huzalozás
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Az elem csak akkor jelenik meg, ha ez a szöveg a helyőrzőivel nem üres, pl. egy revíziós táblázat sorai
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	A szekrény bal oldalával a kiválasztott szekrény jobb oldalához áll; a vezetékek kábelátvezetéseken át futnak közöttük
 The horizontal wire	A vízszintes vezeték
 The items are selected and moved together	Az elemek kijelölése és mozgatása együtt történik
+The logo is fitted into this area keeping its aspect ratio	A logó a méretarány megtartásával illeszkedik erre a területre
+The logo of the project properties, e.g. the customer's	A projekt tulajdonságaiban megadott logó, pl. az ügyfélé
 The macro library has no page macros (Macros › Save page as macro…).	A makrókönyvtárban nincsenek oldalmakrók (Makrók › Oldal mentése makróként…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	A módosítóbillentyűk, amelyekkel a görgő oldalra mozgat vagy nagyít, a Módosítóbillentyűk részben állíthatók be.
 The modules no string takes yet in series, on the first inverter	A még egy stringhez sem tartozó modulok sorba kötve, az első inverteren
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Háromfázisú zárlati áram a betáplálási pontnál
 Tilt	Dőlésszög
 Title	Cím
+Title block by page type	Szövegmező oldaltípus szerint
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Az e kerettel rendelkező, saját szövegmezőt nem választó oldalak szövegmezője, pl. keskenyebb A4 állóhoz
 Title blocks	Szövegmezők
 Title blocks, plot frames and page templates	Szövegmezők, rajzkeretek és oldalsablonok
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Az összes projekt által megosztott szövegmezők, jelentéssémák és rajzkeretek az alkatrészkiszolgálón (Alkatrészek › Alkatrészkiszolgáló)
 To do	Teendő
 Toggle corner direction while drawing wires	Sarokirány váltása vezetékrajzolás közben
 Toggle routing around symbols (wire tool)	Szimbólumok kikerülésének be- és kikapcsolása (vezetékeszköz)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	A(z) {} nem mentett módosításokat tartalmaz. Elveti őket?
 {} imported into the parts database and placed as {}	{} bekerült az alkatrész-adatbázisba, elhelyezve: {}
 {} is neither in the parts database nor on the parts server	{} sem az alkatrész-adatbázisban, sem az alkatrészkiszolgálón nem található
-{} is not a PNG or JPEG image	{} nem PNG- vagy JPEG-kép
 {} is not in the disk image	A(z) {} nincs a lemezképben
 {} is not made for wall mounting: place it on a mounting rail	{} nem falra szerelésre készült: helyezze szerelősínre
 {} is used by: {}	{} használja: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ A projektadatok konzisztensek.
 ✔ Wired	✔ Bekötve
 ➕ Default value	➕ Alapértelmezett érték
+➕ Image	➕ Kép
 ➕ Insert (click into the page)	➕ Beszúrás (kattintson az oldalra)
 ➕ Insert as new page	➕ Beszúrás új oldalként
 ➕ Label	➕ Felirat
 ➕ Line	➕ Vonal
 ➕ Place property	➕ Tulajdonság elhelyezése
 ➕ Property	➕ Tulajdonság
+➕ QR code	➕ QR-kód
 ➕ Rectangle	➕ Téglalap
 ➕ Text	➕ Szöveg
 ⬉ Select	⬉ Kijelölés

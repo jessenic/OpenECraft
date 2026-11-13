@@ -47,12 +47,14 @@ Altitude of the site in m	設置場所の標高 (m)
 Ambient temperature of the conductors in °C	導体の周囲温度 (°C)
 An outline needs {} points at least	輪郭には {} 点以上が必要です
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	軸方向のアンカー: free、start:<mm>、center:<mm>、end:<mm>、または stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	角度（度）、反時計回り
 Aspects separated by commas, e.g. function,location	アスペクト (カンマ区切り、例: function,location)
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	配置済みのシンボルに機能定義を割り当てます (名称とスキームが引き継がれます)
 Asynchronous motors add to the short-circuit current	誘導電動機が短絡電流に寄与する
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	自動ハードウェア構成: CPU とバスカプラーのステーション、バスシステム、カードのステーションへの割り当て、スロット、開始アドレス、ポイントアドレス、IP アドレス、ライントポロジー
 Back to the default rules first	先に既定のルールに戻す
 Back to the default strategy first	先に既定の加工方針に戻す
+Back to the place above the project name	プロジェクト名の上の位置に戻す
 Back-up protection up to this short-circuit current in kA (0: not given)	この短絡電流 (kA) までバックアップ保護 (0: 指定なし)
 Bar id	バー ID
 Bar thickness, mm (default 5)	バーの厚さ (mm) (既定 5)
@@ -101,6 +103,7 @@ Chosen value	選択した値
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	盤レイアウトのクリアランス、サービススペース、高さ、干渉クラス、熱シミュレーション、製造性
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	エンクロージャーの温度管理 (IEC/TR 60890): 損失電力、内部温度、必要なファンまたはクーラーとヒーター。必要に応じてエンクロージャーの設定を変更します
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	干渉クラス: power、drive、control、signal、terminal、rail、duct、busbar、cutout、accessory、独自のクラス、またはすべての場合は *
+Colour as #RRGGBB	色（#RRGGBB）
 Column and row strips	列と行の区域帯
 Column mapping {field code: column name}	列マッピング {フィールドコード: 列名}
 Column name, e.g. Description	列名 (例: Description)
@@ -137,6 +140,7 @@ Creates or changes a configurator option	コンフィギュレーターオプシ
 Creates or changes a fluid device group	流体デバイスグループを作成または変更します
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	プロジェクトの図枠を作成または変更します (組み込みの図枠は新しい名前でコピーされます)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	電位定義を作成または変更します。電線に設定がない限り、その電線は色と断面積を引き継ぎます
+Creates or changes a title block of the project (built-in ones are copied under a new name)	プロジェクトの表題欄を作成または変更します（組み込みのものは新しい名前でコピーされます）
 Creates or changes a work area: only the pages and devices of its structure are shown	作業領域を作成または変更します: その構造のページとデバイスのみが表示されます
 Cross reference placed by hand: X offset from the insertion point in mm	手動で配置した相互参照：挿入点からの X オフセット（mm）
 Cross reference placed by hand: Y offset from the insertion point in mm	手動で配置した相互参照：挿入点からの Y オフセット（mm）
@@ -171,6 +175,7 @@ Deletes a page	ページを削除します
 Deletes a page template of the project	プロジェクトのページテンプレートを削除します
 Deletes a plot frame of the project that no page uses	どのページでも使用されていないプロジェクトの図枠を削除します
 Deletes a potential definition	電位定義を削除します
+Deletes a title block of the project; pages using it get the project default	プロジェクトの表題欄を削除します。それを使うページはプロジェクトの既定を使います
 Deletes a work area	作業領域を削除します
 Deletes symbols, wires, texts and shapes	シンボル、電線、テキスト、図形を削除します
 Depth in mm	奥行き (mm)
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	配線グリッドの辺の長さ (mm)
 Electrical device tags separated by commas or blanks (empty = remove the links)	電気デバイスのタグ (カンマまたはスペース区切り、空 = リンクを削除)
 Electrical engineering	電気工学
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	要素（Line、Rect、Text、Image）。表題欄領域の左上隅からの mm 単位で、items 配列に指定します
 Enclosure (location, e.g. +CAB1)	エンクロージャー (取付場所、例: +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	設定を変更するエンクロージャー (取付場所、例: +CAB1)
 Enclosure climate and electrical sizing	盤内温度と電気的サイジング
@@ -273,6 +279,7 @@ Height above the floor in metres	床面からの高さ (m)
 Height above the mounting plate in mm (default 50)	取付板からの高さ (mm、既定値 50)
 Height in mm	高さ (mm)
 Height in mm without plinth; negative: unknown (wall mounted)	台座を除く高さ (mm)。負の値: 不明 (壁掛け)
+Height in mm; the logo keeps its aspect ratio inside	高さ（mm）。ロゴはその中で縦横比を保ちます
 Higher-level product aspect (-) of the page; the devices on the page move along	ページの上位製品アスペクト (-)。ページ上のデバイスも一緒に移動します
 Highest actuator on the door above the floor (0: not checked)	床面からの扉の操作部の最高高さ (0: チェックしない)
 Highest air temperature at devices without data (0: not checked)	データのないデバイス周囲の最高空気温度 (0: チェックしない)
@@ -311,6 +318,7 @@ Integration profiles and status	統合プロファイルとステータス
 Interruption points refer to: all (default), star or pairs	中断ポイントの参照先: all (既定)、star または pairs
 Invalid answer of the plugin: {}	プラグインの応答が無効です: {}
 Invalid segment name: {}	無効なセグメント名: {}
+Invalid title block elements: {}	無効な表題欄要素: {}
 Item id	アイテム ID
 Item ids	アイテム ID
 Jumper number	ジャンパー番号
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	プロジェクトテキス�
 Larger round holes are milled, mm	これより大きい丸穴はフライス加工 (mm)
 Largest difference between hole and tool, mm	穴と工具の最大差 (mm)
 Left edge from the left end of the wall (seen from inside) in mm	壁の左端からの左端位置（内側から見て）、mm
+Left edge in mm	左端（mm）
 Left edge on the face in mm	面上の左端の位置 (mm)
 Left edge on the mounting plate in mm	取付板上の左端の位置 (mm)
 Left side bayed (no side panel)	左側を連結 (側板なし)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	配置可能なシンボルを、挿入点からの相対位置で表した接続ポイントと共に一覧表示します
 Lists the terminal strips with their number of terminals and length on the rail	端子台を端子数とレール上の長さとともに一覧表示します
 Lists the terminations chosen for wire ends and the kinds there are	電線端末に選んだ端末処理と使用できる種類を一覧表示します
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	表題欄（組み込みとプロジェクト独自）を要素、プロジェクトの既定、プレースホルダーとともに一覧表示します
 Lists the translation dictionary of the project texts (source line and translations)	プロジェクトテキストの翻訳辞書 (ソース行と翻訳) を一覧表示します
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	ページに配置されたウィンドウマクロ (マクロボックス) を、マクロ、バリアント、プレースホルダー値、アイテム数とともに一覧表示します
 Load losses of the transformer in W (0: typical)	変圧器の負荷損 (W) (0: 標準値)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	主接地端子の名前
 Name of the safety function to remove	削除する安全機能の名前
 Name of the segment	セグメントの名前
 Name of the template	テンプレートの名前
+Name of the title block	表題欄の名前
+Name of the title block (with page_type: empty removes the choice)	表題欄の名前（page_type と一緒の場合: 空で選択を削除）
 Name of the work area	作業領域の名前
 Name or id; the tag for places	名前または ID (配置の場合はタグ)
 Name placed by hand: X offset from the insertion point in mm	手動で配置した名前：挿入点からの X オフセット（mm）
@@ -480,6 +492,7 @@ No terminal strip {}	端子台 {} がありません
 No terminal {} on strip {}	端子台 {1} に端子 {0} がありません
 No text with id {}	ID {} のテキストがありません
 No three wires meet at {} / {} mm: give the direction of the stem	{} / {} mm に3本の接続線が交わっていません：軸の方向を指定してください
+No title block named {}	{} という名前の表題欄はありません
 No transformer: set {} first	変圧器がありません: 先に {} を設定してください
 No wire at {} / {} mm	{} / {} mm に電線はありません
 No wire with id {}	ID {} の電線はありません
@@ -489,6 +502,7 @@ Node {} exists already	ノード {} はすでに存在します
 Nodes to pass in this order, comma separated	この順序で通過するノード (カンマ区切り)
 Nominal size, e.g. 8 mm or DN25	呼び径 (例: 8 mm または DN25)
 None of the items is an interruption point	中断ポイントである要素がありません
+Not a colour (#RRGGBB): {}	色ではありません（#RRGGBB）: {}
 Not a cross-section: {} (e.g. 1.5 mm²)	断面積ではありません: {} (例: 1.5 mm²)
 Not a valid safety function: {}	有効な安全機能ではありません: {}
 Note, e.g. what the problem is	注記 (例: 問題の内容)
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	一方の端 (例: -K1:A1)
 One row per printed label instead of a count	数量の代わりに印刷するラベルごとに 1 行
 Only devices on these pages (names separated by commas)	これらのページのデバイスのみ (名前をカンマ区切りで指定)
 Only doors and windows open	開くのはドアと窓だけです
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	この種類のページのみ: schematic、cover、report、mounting、overview、graphic、document
 Only lines without a translation into this language	この言語への翻訳がない行のみ
 Only list the new tags, change nothing	新しいタグを一覧表示するだけで何も変更しない
 Only shows the package, no job is recorded	パッケージを表示するだけで、ジョブは記録しません
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	グループの位置数 (0 = 制限なし
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	シンボルの接続ポイントの名称を左、右、上または下に配置してずらします。位置とずれを指定しない場合は再び自動で配置します
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	エンクロージャーの列盤を室内に配置します (すべてのエンクロージャーの 3D ビュー)。x と z を省略した場合は、プラントレイアウトに従って、または他の列盤の隣に配置されます
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	中断ポイントの名前と相互参照を矢印の側に、または挿入点からのオフセットで手動で配置します
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	プロジェクトのロゴを表紙に配置します（図面領域の左上隅からの mm）。パラメーターなしで位置を表示します
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	スキームのプロパティをシンボルに配置します。ID を指定しない場合は、使用しているすべてのシンボルに再配置します
 Planned part number	計画部品番号
 Planned power in kW	計画電力 (kW)
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	回路図作成前の、計画済みデバイスを含むプラントセグメント: テンプレート、電力収支、回路図との比較状態、CSV / Excel での交換
 Plinth height in mm, 0 without plinth	台座の高さ (mm、0 は台座なし)
 Plot frame (list_frames); empty = the project default	図枠 (list_frames)。空 = プロジェクトの既定値
-Plot frames and page templates of the project	プロジェクトの図枠とページテンプレート
+Plot frames, title blocks and page templates of the project	プロジェクトの図枠、表題欄、ページテンプレート
 Plug tag, e.g. -X10	プラグタグ (例: -X10)
 Plugin id '{}' is not snake_case	プラグイン ID「{}」は snake_case ではありません
 Plugin {} is loaded twice	プラグイン {} が 2 回読み込まれています
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	図枠を選択してい
 Sets the shield and the outer diameter of a cable	ケーブルのシールドと外径を設定します
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	プロジェクトテキストのソース言語とターゲット言語 (ISO 639-1 コード) を設定します
 Sets the spare terminals of a strip and whether its accessories are added automatically	端子台の予備端子と、付属品を自動的に追加するかどうかを設定します
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	リビジョンの流れの状態に応じて全ページに描く印を設定します（例: ドラフト）。パラメーターなしで現在の印を表示します
+Sets the title block of all pages that do not choose one, or of the pages of one type	表題欄を選んでいないすべてのページ、またはある種類のページの表題欄を設定します
 Sets the translation of a line of the project texts (empty removes it)	プロジェクトテキストの行の翻訳を設定します (空の場合は削除)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	電位が定義されていないネットの電線色と断面積を設定します (空 = なし)
 Share of the capacity kept free in percent	空けておく容量の割合 (%)
@@ -791,11 +809,16 @@ Terminal designation	端子の名称
 Terminal designations in strip order, separated by commas	端子台の順序の端子の名称 (カンマ区切り)
 Terminal order, levels, jumpers, spare terminals and accessories	端子の順序、段、ジャンパー、予備端子、付属品
 Text height in mm	テキストの高さ (mm)
+Text height in mm (0: fitted to the page)	文字の高さ（mm）（0: ページに合わせる）
 Text height in mm (default 3.5)	テキストの高さ (mm、既定値 3.5)
 Text in id, name or order number	ID、名前、または注文番号内のテキスト
 Text in the key or name	キーまたは名前内のテキスト
 Text in the line or a translation	行または翻訳内のテキスト
 Text to find; empty: fill	検索するテキスト。空: 入力
+Text when everything is released, e.g. AS BUILT	すべてリリースされたときの文字（例: 完成）
+Text when the revision is approved but not released	リビジョンが承認済みでリリース前のときの文字
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	リビジョンがドラフトのとき、またはまだ何もリリースされていないときの文字（プレースホルダー可、空 = なし）
+Text while a revision is in review or was rejected	リビジョンがレビュー中または却下されたときの文字
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	テキスト。{page} や {prop:Name} などのプレースホルダーは描画時に埋め込まれます
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	コーナーの側は縦方向と横方向の各1つです（例：down left）。{} は無効です
 The cable definition line crosses no wire	ケーブル定義線がどの電線とも交差していません
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	最大の板厚またはバー厚 (mm)
 Time per drilling, punching or bending operation, s	穴あけ、パンチング、曲げ 1 回あたりの時間 (s)
 Time per tool change, s	工具交換 1 回あたりの時間 (s)
+Title block (list_title_blocks); empty = the project default	表題欄（list_title_blocks）。空 = プロジェクトの既定
+Title block of the pages with this frame that do not choose one; empty: the project default	この図枠で表題欄を選んでいないページの表題欄。空 = プロジェクトの既定
+Title block to start from when it is new (default: Standard)	新規の場合に元にする表題欄（既定: Standard）
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	工具 (例: D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120)
+Top edge in mm	上端（mm）
 Top edge on the face in mm	面上の上端の位置 (mm)
 Top edge on the mounting plate in mm	取付板上の上端の位置 (mm)
 Translated line	翻訳された行
@@ -876,6 +903,7 @@ Unknown node: {}	不明なノード: {}
 Unknown numbering scheme: {}	不明な番号付けスキーム: {}
 Unknown object class: {}	不明なオブジェクトクラス: {}
 Unknown order: {}	不明な順序: {}
+Unknown page type: {}	不明なページの種類: {}
 Unknown paper format: {}	不明な用紙サイズ: {}
 Unknown path kind: {}	不明な経路の種類: {}
 Unknown placeholder {}: possible are {}	不明なプレースホルダー {}: 使用できるのは {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	位置に合
 Who accepted it	承認者
 Whole words only	単語単位のみ
 Why the message is accepted	メッセージを承認する理由
-Width in mm	幅 (mm)
 Width of the path in mm (default 50)	経路の幅 (mm、既定値 50)
 Width, depth and height of a room are at least {} mm	部屋の幅、奥行き、高さは {} mm 以上です
 Width, height and depth of an enclosure are at least {} mm	エンクロージャーの幅、高さ、奥行きは {} mm 以上です
@@ -980,6 +1007,7 @@ wired, problem or open	wired、problem、または open
 {} has no enclosure bayed to its right side	{} の右側に連結されたエンクロージャーはありません
 {} has no enclosure system; give one	{} にはエンクロージャーシステムがありません。指定してください
 {} is a built-in frame; give the frame a new name	{} は組み込みの図枠です。図枠に新しい名前を付けてください
+{} is a built-in title block; give the title block a new name	{} は組み込みの表題欄です。表題欄に新しい名前を付けてください
 {} is a room already	{} は既に部屋です
 {} is ambiguous: use #id:pin	{} があいまいです: #id:pin を使用してください
 {} is an enclosure already	{} は既にエンクロージャーです

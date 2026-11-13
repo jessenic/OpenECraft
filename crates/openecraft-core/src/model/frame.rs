@@ -26,6 +26,10 @@ pub struct PlotFrame {
     pub row_labels: Labels,
     /// Column / row strips (cross references) on schematic and overview pages.
     pub strips: bool,
+    /// Title block of the pages with this frame that do not choose one (e.g. a
+    /// narrower one for A4 portrait); empty: the project default.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    pub title_block: String,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]

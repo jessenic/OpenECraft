@@ -283,6 +283,26 @@ fn eplan_data_portal() {
 }
 
 #[test]
+fn company_forms_are_published_and_added_to_projects() {
+    let srv = server();
+    let mut s = session_with(&srv);
+    run(&mut s, "new_project", json!({})).unwrap();
+    assert!(run(&mut s, "parts_company_forms", json!({})).unwrap_err().contains("no form library"));
+    assert!(run(&mut s, "parts_company_forms", json!({ "publish": true })).unwrap_err().contains("no title blocks"));
+    run(&mut s, "set_title_block", json!({ "name": "Company", "based_on": "Compact" })).unwrap();
+    run(&mut s, "set_frame", json!({ "name": "Company A4", "based_on": "A4 portrait" })).unwrap();
+    let sent = run(&mut s, "parts_company_forms", json!({ "publish": true })).unwrap();
+    assert_eq!((sent["title_blocks"].as_u64(), sent["frames"].as_u64()), (Some(1), Some(1)));
+    assert!(srv.libraries.borrow()["forms"].contains("Company A4"));
+
+    run(&mut s, "new_project", json!({ "discard": true })).unwrap();
+    let got = run(&mut s, "parts_company_forms", json!({})).unwrap();
+    assert_eq!((got["title_blocks"].as_u64(), got["frames"].as_u64()), (Some(1), Some(1)));
+    let prj = s.project().unwrap();
+    assert_eq!((prj.forms.title_blocks[0].name.as_str(), prj.forms.frames[0].name.as_str()), ("Company", "Company A4"));
+}
+
+#[test]
 fn eplan_uses_shared_pat_without_caching_it_or_requiring_a_token_argument() {
     struct SharedCredentials(std::sync::Arc<std::sync::Mutex<String>>);
     impl openecraft_client::credentials::CredentialStore for SharedCredentials {

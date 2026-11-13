@@ -1,14 +1,13 @@
 //! Editor of a drawn report form (Forms › Report forms › Own drawn form): the page
 //! graphics and the row drawing on a preview of the report page with its first rows.
 
-use super::forms_ui::{add_buttons, item_list, item_properties, pick, FormsUi};
+use super::forms_ui::{add_buttons, image_outlines, item_list, item_properties, load_pictures, mark_selected, pick, FormsUi};
 use crate::editor::{EguiDraw, Palette};
 use egui::{vec2, RichText, Sense, Stroke};
 use openecraft_core::forms::{self, FormItem, FormLayout};
 use openecraft_core::geom::{p, P};
 use openecraft_core::model::report_blocks::PageTable;
 use openecraft_core::model::Project;
-use openecraft_core::render::Ink;
 use openecraft_core::table::Table;
 use openecraft_i18n::tr;
 
@@ -51,15 +50,15 @@ pub(super) fn layout_editor(ui: &mut egui::Ui, fu: &mut FormsUi, prj: &Project, 
     let items_origin = origin + vec2(offset.x, offset.y) * zoom;
     let items = if fu.layout_row { &mut layout.row } else { &mut layout.header };
     pick(fu, &resp, ui, items, items_origin, zoom);
-    let mut d = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: None, mirror: None, textures: None };
+    let all: Vec<FormItem> = layout.header.iter().chain(&layout.row).cloned().collect();
+    load_pictures(ui.ctx(), fu, prj, &all);
+    let mut d = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: None, mirror: None, textures: Some(&fu.textures) };
     forms::draw_layout(&mut d, layout, &t, prj, page, p(0.0, 0.0));
     let items = if fu.layout_row { &layout.row } else { &layout.header };
+    image_outlines(&painter, &pal, items, prj, items_origin, zoom);
     if let Some(item) = fu.selected().and_then(|i| items.get(i)) {
-        let mut s = EguiDraw { painter: &painter, origin, zoom, pal: &pal, force: Some(Ink::Selected), mirror: None, textures: None };
-        forms::draw_items(&mut s, std::slice::from_ref(item), offset, 1.0, &|text| text.to_string());
-        if let FormItem::Text { pos, .. } = item {
-            painter.circle_stroke(items_origin + vec2(pos.x, pos.y) * zoom, 3.0, Stroke::new(1.0, pal.selected));
-        }
+        let ctx = forms::Context { logo: prj.info.logo.as_ref(), page_type: None, value: &|text| text.to_string() };
+        mark_selected(&painter, &pal, item, items_origin, zoom, &|s| forms::draw_items(s, std::slice::from_ref(item), p(0.0, 0.0), 1.0, &ctx));
     }
     if fu.layout_row {
         // Where the row drawing of the first row starts.

@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	I dörren, när de skiljer sig fr
 Internal values of the EPLAN part exchange (0: undefined)	Interna värden för EPLAN-artikelutbytet (0: odefinierat)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Det fungerar bara monterat på en av de artiklar det passar till; projektkontrollen rapporterar det på en enhet utan en sådan artikel
 Largest conductor the clamp takes (0: not known)	Största ledare som klämman tar (0: okänt)
+Loaded the library {}	Biblioteket {} har lästs in
 Loaded {} parts (revision {})	{} artiklar inlästa (revision {})
 Loading catalogs…	Läser in kataloger…
 Loading favorites…	Läser in favoriter…
 Loading the history…	Läser in historiken…
 Loading users…	Läser in användare…
+Loading {}…	Läser in {}…
 Mark for adding to the parts database	Markera för att lägga till i artikeldatabasen
 Max. mm²	Max. mm²
 Min. mm²	Min. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Panorerar (styrplatta)
 Parts server: {}	Artikelserver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artiklar som den här artikeln är sammansatt av; stycklistan listar dem under den
 Personal access token	Personlig åtkomsttoken
-Picture	Bild
 Place by clicking into the view	Placera genom att klicka i vyn
 Prices / other	Priser / övrigt
 Remove all	Ta bort alla
@@ -92,6 +93,7 @@ Reset filter	Återställ filter
 Rotate 90°:	Rotera 90°:
 Save the file	Spara filen
 Saved part {}	Artikel {} sparad
+Saved the library {}	Biblioteket {} har sparats
 Saving favorites…	Sparar favoriter…
 Saving {}…	Sparar {}…
 Scale ×	Skala ×
@@ -107,6 +109,7 @@ Successor {}	Efterföljare {}
 Take {} values from the technical data	Överför {} värden från de tekniska data
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	2D-frontvyn används i skåpets frontvy och på monteringslayoutsidor, 3D-modellen i 3D-skåpvyn. Båda anpassas till monteringsdata (bredd × höjd × djup).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Modellen ({} × {} × {}) avviker från monteringsdata ({} × {} × {}); den sträcks ut till monteringsdata.
+The parts server has no library {} yet	Artikelservern har inget bibliotek {} än
 The price refers to this many units	Priset avser så här många enheter
 The successor is not in this parts list	Efterföljaren finns inte i den här artikellistan
 This part is an accessory	Den här artikeln är ett tillbehör

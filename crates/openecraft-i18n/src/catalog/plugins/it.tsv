@@ -47,12 +47,14 @@ Altitude of the site in m	Altitudine del sito in m
 Ambient temperature of the conductors in °C	Temperatura ambiente dei conduttori in °C
 An outline needs {} points at least	Un contorno richiede almeno {} punti
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Ancoraggio lungo l'asse: free, start:<mm>, center:<mm>, end:<mm> o stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Angolo in gradi, in senso antiorario
 Aspects separated by commas, e.g. function,location	Aspetti separati da virgole, ad es. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Assegna una definizione di funzione a un simbolo posizionato (designazioni e schema vengono acquisiti)
 Asynchronous motors add to the short-circuit current	I motori asincroni contribuiscono alla corrente di cortocircuito
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Configurazione hardware automatica: stazioni per CPU e accoppiatori bus, sistemi bus, schede alle stazioni, slot, indirizzi iniziali, indirizzi dei punti, indirizzi IP e una topologia in linea
 Back to the default rules first	Ripristina prima le regole predefinite
 Back to the default strategy first	Ripristina prima la strategia predefinita
+Back to the place above the project name	Torna al posto sopra il nome del progetto
 Back-up protection up to this short-circuit current in kA (0: not given)	Protezione di back-up fino a questa corrente di cortocircuito in kA (0: non indicata)
 Bar id	ID barra
 Bar thickness, mm (default 5)	Spessore della barra, mm (predefinito 5)
@@ -101,6 +103,7 @@ Chosen value	Valore scelto
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Distanze, spazio di servizio, altezze, classi di collisione, simulazione termica e producibilità del layout del quadro
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Climatizzazione degli armadi (IEC/TR 60890): potenza dissipata, temperatura interna, ventilatore o condizionatore e riscaldamento necessari; facoltativamente modifica le impostazioni di un armadio
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Classe di collisione: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, una classe propria o * per qualsiasi
+Colour as #RRGGBB	Colore come #RRGGBB
 Column and row strips	Bande di colonne e righe
 Column mapping {field code: column name}	Mappatura delle colonne {codice campo: nome colonna}
 Column name, e.g. Description	Nome colonna, ad es. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Crea o modifica un'opzione del configur
 Creates or changes a fluid device group	Crea o modifica un gruppo di dispositivi fluidici
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Crea o modifica una cornice di stampa del progetto (le cornici integrate vengono copiate con un nuovo nome)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Crea o modifica una definizione di potenziale; i suoi conduttori ne prendono colore e sezione, se non impostati sul conduttore
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Crea o modifica un cartiglio del progetto (quelli integrati vengono copiati con un nuovo nome)
 Creates or changes a work area: only the pages and devices of its structure are shown	Crea o modifica un'area di lavoro: vengono mostrati solo le pagine e i dispositivi della sua struttura
 Cross reference placed by hand: X offset from the insertion point in mm	Riferimento incrociato posizionato manualmente: scostamento X dal punto di inserimento in mm
 Cross reference placed by hand: Y offset from the insertion point in mm	Riferimento incrociato posizionato manualmente: scostamento Y dal punto di inserimento in mm
@@ -171,6 +175,7 @@ Deletes a page	Elimina una pagina
 Deletes a page template of the project	Elimina un modello di pagina del progetto
 Deletes a plot frame of the project that no page uses	Elimina una cornice di stampa del progetto non utilizzata da alcuna pagina
 Deletes a potential definition	Elimina una definizione di potenziale
+Deletes a title block of the project; pages using it get the project default	Elimina un cartiglio del progetto; le pagine che lo usano ricevono quello predefinito del progetto
 Deletes a work area	Elimina un'area di lavoro
 Deletes symbols, wires, texts and shapes	Elimina simboli, conduttori, testi e forme
 Depth in mm	Profondità in mm
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Lato della griglia di instradamento in mm
 Electrical device tags separated by commas or blanks (empty = remove the links)	Sigle dei dispositivi elettrici separate da virgole o spazi (vuoto = rimuovi i collegamenti)
 Electrical engineering	Elettrotecnica
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Elementi (Line, Rect, Text, Image) in mm dall'angolo superiore sinistro dell'area del cartiglio in un array items
 Enclosure (location, e.g. +CAB1)	Armadio (luogo, ad es. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Armadio (luogo, ad es. +CAB1) di cui modificare le impostazioni
 Enclosure climate and electrical sizing	Climatizzazione dell'armadio e dimensionamento elettrico
@@ -273,6 +279,7 @@ Height above the floor in metres	Altezza dal pavimento in metri
 Height above the mounting plate in mm (default 50)	Altezza sopra la piastra di montaggio in mm (predefinito 50)
 Height in mm	Altezza in mm
 Height in mm without plinth; negative: unknown (wall mounted)	Altezza in mm senza zoccolo; negativa: sconosciuta (montaggio a parete)
+Height in mm; the logo keeps its aspect ratio inside	Altezza in mm; il logo vi mantiene le proporzioni
 Higher-level product aspect (-) of the page; the devices on the page move along	Aspetto prodotto di livello superiore (-) della pagina; i dispositivi della pagina lo seguono
 Highest actuator on the door above the floor (0: not checked)	Attuatore più alto sulla porta dal pavimento (0: non verificato)
 Highest air temperature at devices without data (0: not checked)	Temperatura dell'aria massima sui dispositivi senza dati (0: non verificato)
@@ -311,6 +318,7 @@ Integration profiles and status	Profili e stato dell'integrazione
 Interruption points refer to: all (default), star or pairs	I punti di interruzione rimandano a: all (predefinito), star o pairs
 Invalid answer of the plugin: {}	Risposta del plugin non valida: {}
 Invalid segment name: {}	Nome del segmento non valido: {}
+Invalid title block elements: {}	Elementi del cartiglio non validi: {}
 Item id	ID elemento
 Item ids	ID elementi
 Jumper number	Numero di ponticello
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Lingua in cui sono scritti i 
 Larger round holes are milled, mm	I fori tondi più grandi vengono fresati, mm
 Largest difference between hole and tool, mm	Differenza massima tra foro e utensile, mm
 Left edge from the left end of the wall (seen from inside) in mm	Bordo sinistro dall'estremità sinistra della parete (visto dall'interno) in mm
+Left edge in mm	Bordo sinistro in mm
 Left edge on the face in mm	Bordo sinistro sulla faccia in mm
 Left edge on the mounting plate in mm	Bordo sinistro sulla piastra di montaggio in mm
 Left side bayed (no side panel)	Lato sinistro affiancato (senza parete laterale)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Elenca i simboli posizionabili, con i loro punti di connessione relativi al punto di inserimento
 Lists the terminal strips with their number of terminals and length on the rail	Elenca le morsettiere con il numero di morsetti e la lunghezza sulla guida
 Lists the terminations chosen for wire ends and the kinds there are	Elenca le terminazioni scelte per le estremità dei fili e i tipi disponibili
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Elenca i cartigli (integrati e quelli del progetto) con i loro elementi, quello predefinito del progetto e i segnaposto
 Lists the translation dictionary of the project texts (source line and translations)	Elenca il dizionario di traduzione dei testi del progetto (riga di origine e traduzioni)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Elenca le macro finestra posizionate sulle pagine (riquadri macro) con macro, variante, valori dei segnaposto e numero di elementi
 Load losses of the transformer in W (0: typical)	Perdite a carico del trasformatore in W (0: tipiche)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Nome del collettore principale di terra
 Name of the safety function to remove	Nome della funzione di sicurezza da rimuovere
 Name of the segment	Nome del segmento
 Name of the template	Nome del modello
+Name of the title block	Nome del cartiglio
+Name of the title block (with page_type: empty removes the choice)	Nome del cartiglio (con page_type: vuoto rimuove la scelta)
 Name of the work area	Nome dell'area di lavoro
 Name or id; the tag for places	Nome o ID; per i posizionamenti la sigla
 Name placed by hand: X offset from the insertion point in mm	Nome posizionato manualmente: scostamento X dal punto di inserimento in mm
@@ -480,6 +492,7 @@ No terminal strip {}	Nessuna morsettiera {}
 No terminal {} on strip {}	Nessun morsetto {} sulla morsettiera {}
 No text with id {}	Nessun testo con ID {}
 No three wires meet at {} / {} mm: give the direction of the stem	In {} / {} mm non si incontrano tre conduttori: indicare la direzione del gambo
+No title block named {}	Nessun cartiglio di nome {}
 No transformer: set {} first	Nessun trasformatore: imposta prima {}
 No wire at {} / {} mm	Nessun conduttore a {} / {} mm
 No wire with id {}	Nessun conduttore con ID {}
@@ -489,6 +502,7 @@ Node {} exists already	Il nodo {} esiste già
 Nodes to pass in this order, comma separated	Nodi da attraversare in questo ordine, separati da virgola
 Nominal size, e.g. 8 mm or DN25	Diametro nominale, ad es. 8 mm o DN25
 None of the items is an interruption point	Nessuno degli elementi è un punto di interruzione
+Not a colour (#RRGGBB): {}	Non è un colore (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Non è una sezione: {} (ad es. 1.5 mm²)
 Not a valid safety function: {}	Funzione di sicurezza non valida: {}
 Note, e.g. what the problem is	Nota, ad es. in cosa consiste il problema
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Un'estremità, ad es. -K1:A1
 One row per printed label instead of a count	Una riga per ogni etichetta stampata invece di un conteggio
 Only devices on these pages (names separated by commas)	Solo i dispositivi su queste pagine (nomi separati da virgole)
 Only doors and windows open	Solo porte e finestre si aprono
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Solo per pagine di questo tipo: schematic, cover, report, mounting, overview, graphic o document
 Only lines without a translation into this language	Solo righe senza traduzione in questa lingua
 Only list the new tags, change nothing	Elenca solo le nuove sigle, non modificare nulla
 Only shows the package, no job is recorded	Mostra solo il pacchetto, nessuna commessa viene registrata
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Posti del gruppo (0 = illimitato)
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Posiziona la designazione di un punto di connessione di un simbolo a sinistra, a destra, sopra o sotto di esso e la sposta; senza lato né spostamento viene di nuovo posizionata automaticamente
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Posiziona la fila di armadi di un armadio nella stanza (vista 3D di tutti gli armadi); senza x e z viene posizionata in base al layout dell'impianto o accanto alle altre file di armadi
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Posiziona il nome e il riferimento incrociato dei punti di interruzione su un lato della freccia o manualmente con uno scostamento dal punto di inserimento
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Posiziona il logo del progetto nel frontespizio (mm dall'angolo superiore sinistro dell'area di disegno); senza parametri mostra la posizione
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Posiziona le proprietà di uno schema sui simboli; senza ID viene posizionato di nuovo su tutti i simboli che lo utilizzano
 Planned part number	Codice articolo pianificato
 Planned power in kW	Potenza pianificata in kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Segmenti dell'impianto con dispositivi pianificati prima dello schema: modelli, bilancio di potenza, stato rispetto allo schema, scambio come CSV / Excel
 Plinth height in mm, 0 without plinth	Altezza dello zoccolo in mm, 0 senza zoccolo
 Plot frame (list_frames); empty = the project default	Cornice di stampa (list_frames); vuoto = predefinito del progetto
-Plot frames and page templates of the project	Cornici di stampa e modelli di pagina del progetto
+Plot frames, title blocks and page templates of the project	Cornici di stampa, cartigli e modelli di pagina del progetto
 Plug tag, e.g. -X10	Sigla connettore, ad es. -X10
 Plugin id '{}' is not snake_case	L'ID del plugin '{}' non è in snake_case
 Plugin {} is loaded twice	Il plugin {} è caricato due volte
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Imposta la cornice di st
 Sets the shield and the outer diameter of a cable	Imposta lo schermo e il diametro esterno di un cavo
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Imposta la lingua di origine dei testi del progetto e le lingue di destinazione (codici ISO 639-1)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Imposta i morsetti di riserva di una morsettiera e se i suoi accessori vengono aggiunti automaticamente
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Imposta il timbro disegnato su tutte le pagine in base allo stato del flusso di revisione (ad es. BOZZA); senza parametri mostra il timbro
+Sets the title block of all pages that do not choose one, or of the pages of one type	Imposta il cartiglio di tutte le pagine che non ne scelgono uno, o delle pagine di un tipo
 Sets the translation of a line of the project texts (empty removes it)	Imposta la traduzione di una riga dei testi del progetto (vuoto la rimuove)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Imposta colore e sezione dei conduttori per le reti senza potenziale definito (vuoto = nessuno)
 Share of the capacity kept free in percent	Quota della capacità lasciata libera in percentuale
@@ -791,11 +809,16 @@ Terminal designation	Designazione del morsetto
 Terminal designations in strip order, separated by commas	Designazioni dei morsetti nell'ordine della morsettiera, separate da virgole
 Terminal order, levels, jumpers, spare terminals and accessories	Ordine dei morsetti, livelli, ponticelli, morsetti di riserva e accessori
 Text height in mm	Altezza del testo in mm
+Text height in mm (0: fitted to the page)	Altezza del testo in mm (0: adattata alla pagina)
 Text height in mm (default 3.5)	Altezza del testo in mm (predefinito 3.5)
 Text in id, name or order number	Testo in ID, nome o codice d'ordine
 Text in the key or name	Testo nella chiave o nel nome
 Text in the line or a translation	Testo nella riga o in una traduzione
 Text to find; empty: fill	Testo da trovare; vuoto: compila
+Text when everything is released, e.g. AS BUILT	Testo quando tutto è rilasciato, ad es. COME COSTRUITO
+Text when the revision is approved but not released	Testo quando la revisione è approvata ma non rilasciata
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Testo mentre una revisione è una bozza o non è ancora stato rilasciato nulla (segnaposto ammessi; vuoto: nessuno)
+Text while a revision is in review or was rejected	Testo mentre una revisione è in revisione o è stata respinta
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Testo; i segnaposto come {page} o {prop:Name} vengono compilati al momento del disegno
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	I bracci di un angolo sono una direzione verticale e una orizzontale, ad es. down left, non {}
 The cable definition line crosses no wire	La linea di definizione cavo non incrocia alcun conduttore
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Lamiera o barra più spessa, mm
 Time per drilling, punching or bending operation, s	Tempo per operazione di foratura, punzonatura o piegatura, s
 Time per tool change, s	Tempo per cambio utensile, s
+Title block (list_title_blocks); empty = the project default	Cartiglio (list_title_blocks); vuoto = quello predefinito del progetto
+Title block of the pages with this frame that do not choose one; empty: the project default	Cartiglio delle pagine con questa cornice che non ne scelgono uno; vuoto: quello predefinito del progetto
+Title block to start from when it is new (default: Standard)	Cartiglio da cui partire se è nuovo (predefinito: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Utensili, ad es. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Bordo superiore in mm
 Top edge on the face in mm	Bordo superiore sulla faccia in mm
 Top edge on the mounting plate in mm	Bordo superiore sulla piastra di montaggio in mm
 Translated line	Riga tradotta
@@ -876,6 +903,7 @@ Unknown node: {}	Nodo sconosciuto: {}
 Unknown numbering scheme: {}	Schema di numerazione sconosciuto: {}
 Unknown object class: {}	Classe di oggetto sconosciuta: {}
 Unknown order: {}	Ordine sconosciuto: {}
+Unknown page type: {}	Tipo di pagina sconosciuto: {}
 Unknown paper format: {}	Formato carta sconosciuto: {}
 Unknown path kind: {}	Tipo di percorso sconosciuto: {}
 Unknown placeholder {}: possible are {}	Segnaposto sconosciuto {}: possibili sono {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	Riga su cui 
 Who accepted it	Chi lo ha accettato
 Whole words only	Solo parole intere
 Why the message is accepted	Perché il messaggio viene accettato
-Width in mm	Larghezza in mm
 Width of the path in mm (default 50)	Larghezza del percorso in mm (predefinito 50)
 Width, depth and height of a room are at least {} mm	Larghezza, profondità e altezza di un locale sono di almeno {} mm
 Width, height and depth of an enclosure are at least {} mm	Larghezza, altezza e profondità di un armadio sono di almeno {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem o open
 {} has no enclosure bayed to its right side	{} non ha alcun armadio affiancato sul lato destro
 {} has no enclosure system; give one	{} non ha un sistema di armadi; indicane uno
 {} is a built-in frame; give the frame a new name	{} è una cornice integrata; assegna alla cornice un nuovo nome
+{} is a built-in title block; give the title block a new name	{} è un cartiglio integrato; assegna un nuovo nome al cartiglio
 {} is a room already	{} è già un locale
 {} is ambiguous: use #id:pin	{} è ambiguo: usa #id:pin
 {} is an enclosure already	{} è già un armadio

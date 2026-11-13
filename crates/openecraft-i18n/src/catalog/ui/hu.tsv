@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	Az ajtóban, ha eltérnek a kivá
 Internal values of the EPLAN part exchange (0: undefined)	Az EPLAN-alkatrészcsere belső értékei (0: nem definiált)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Csak az egyik illeszkedő cikkre szerelve működik; a projektellenőrzés jelzi az ilyen cikk nélküli készüléknél
 Largest conductor the clamp takes (0: not known)	A kapocs által befogadott legnagyobb vezető (0: ismeretlen)
+Loaded the library {}	{} könyvtár betöltve
 Loaded {} parts (revision {})	{} alkatrész betöltve ({}. revízió)
 Loading catalogs…	Katalógusok betöltése…
 Loading favorites…	Kedvencek betöltése…
 Loading the history…	Előzmények betöltése…
 Loading users…	Felhasználók betöltése…
+Loading {}…	{} betöltése…
 Mark for adding to the parts database	Megjelölés az alkatrész-adatbázisba való felvételhez
 Max. mm²	Max. mm²
 Min. mm²	Min. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Mozgat (érintőpad)
 Parts server: {}	Alkatrészszerver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Alkatrészek, amelyekből ez az alkatrész össze van állítva; az anyagjegyzék alatta sorolja fel őket
 Personal access token	Személyes hozzáférési token
-Picture	Kép
 Place by clicking into the view	Elhelyezés a nézetbe kattintással
 Prices / other	Árak / egyéb
 Remove all	Összes eltávolítása
@@ -92,6 +93,7 @@ Reset filter	Szűrő alaphelyzetbe állítása
 Rotate 90°:	Forgatás 90°-kal:
 Save the file	A fájl mentése
 Saved part {}	A(z) {} alkatrész mentve
+Saved the library {}	{} könyvtár mentve
 Saving favorites…	Kedvencek mentése…
 Saving {}…	{} mentése…
 Scale ×	Lépték ×
@@ -107,6 +109,7 @@ Successor {}	Utód: {}
 Take {} values from the technical data	{} érték átvétele a műszaki adatokból
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	A 2D elölnézet a szekrény elölnézetében és a szerelésiterv-oldalakon, a 3D-modell a 3D szekrénynézetben használatos. Mindkettő a szerelési adatokhoz (szélesség × magasság × mélység) igazodik.
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	A modell ({} × {} × {}) eltér a szerelési adatoktól ({} × {} × {}); a szerelési adatokra nyújtjuk.
+The parts server has no library {} yet	Az alkatrészkiszolgálón még nincs {} könyvtár
 The price refers to this many units	Az ár ennyi egységre vonatkozik
 The successor is not in this parts list	Az utód nem szerepel ebben az alkatrészlistában
 This part is an accessory	Ez a cikk tartozék

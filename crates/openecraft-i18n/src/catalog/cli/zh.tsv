@@ -5,6 +5,8 @@ Access token for changes	用于更改的访问令牌
 Access token of a Vault session or an Autodesk account instead of user and password	Vault 会话或 Autodesk 帐户的访问令牌，代替用户和密码
 Address of the Vault server, e.g. https://vault.example.com	Vault 服务器地址，例如 https://vault.example.com
 Adds a page	添加页
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	向项目的标题栏添加图像（例如公司标志）；没有文件时显示项目标志
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	将零件服务器上的公司表单库（标题栏、报表方案、图框）添加到项目中
 Adds the definitions and schemes of a property library file to the project	将属性库文件的定义和方案添加到项目中
 All project files of a folder	文件夹中的所有项目文件
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	同时返回分面：组、制造商、目录、生命周期和技术数据的值及其数量
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	文件夹 ID（默认 root）
 Folder with project files	包含项目文件的文件夹
 Folder with project files (instead of a database; default: the current folder)	包含项目文件的文件夹（代替数据库；默认：当前文件夹）
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	表格：title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic（以图形方式绘制的端子图和电缆图）
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	表格：title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic（以图形方式绘制的端子图和电缆图）, totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	生成页的功能 (=)
 Further parameters of the export as name=value, separated by commas	导出的其他参数，格式为 name=value，以逗号分隔
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	导出的其他参数，格式为 name=value，以逗号分隔（参见 list_exports），例如 harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	请指定 template 或 path 之一
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	为用户或组授予部件服务器某制造商（范围）上的角色，使用 deny 时收回其权限，使用 revoke 时删除授权（仅限管理员）
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	要生成的组，允许使用通配符（-X*、-W1）；空：全部
+Height in mm; the image keeps its aspect ratio inside	高度（毫米）；图像在其中保持原比例
 Id of a file (file_id of vault_browse) that gets a new version	要获得新版本的文件的 ID（vault_browse 的 file_id）
 Id of the file version (version_id of vault_browse)	文件版本的 ID（vault_browse 的 version_id）
 Id of the knowledge vault (taken from the session if not given)	知识库 ID（未指定时从会话中获取）
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	签入后保持文件签出
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	服务器类型：OpenECraft（部件服务器）或 Eplan（EPLAN Data Portal：仅搜索和读取，令牌为 EPLAN 帐户的个人访问令牌）
 Language of the export (a project language)	导出的语言（项目语言之一）
 Language of the project texts and reports (a project language, default the source language)	项目文本和报表的语言（项目语言之一，默认为源语言）
+Left edge in mm from the left of the title block area	左边缘，从标题栏区域左侧起（毫米）
 Library file	库文件
 Lifecycle: Active, PhaseOut or Discontinued	生命周期：Active, PhaseOut 或 Discontinued
 Lists the built-in structure templates	列出内置结构模板
@@ -159,6 +163,8 @@ Output file (JSON)	输出文件 (JSON)
 Output file; without it the content is returned	输出文件；如果不指定，则返回内容
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	将报表页作为固定页输出到另一个项目文件中；之前从此项目输出的页将被替换
 PDF file with comments	带批注的 PDF 文件
+PNG or JPEG file kept in the title block (default: the project logo)	保存在标题栏中的 PNG 或 JPEG 文件（默认：项目标志）
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	项目标志的 PNG 或 JPEG 文件（封面、标题栏）；留空则删除
 Page (svg: required, dxf, dwg: default all pages)	页（svg：必需；dxf、dwg：默认所有页）
 Page name (default: next number)	页名（默认：下一个编号）
 Page of the export	导出的页
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	从示例项目开始（名称：list_examples）
 Start from the demo project	从演示项目开始
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	在部件服务器上为部件存储文件（数据手册、图像、模型、宏 …）
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	将项目自有的标题栏、报表方案和图框保存为零件服务器上的公司表单库（编辑者）
 Subproject file (.oec)	子项目文件 (.oec)
 Subproject file to write (.oec)	要写入的子项目文件 (.oec)
 Take the changes over (otherwise only a preview)	采用更改（否则仅预览）
@@ -247,9 +254,13 @@ The catalog needs a name	目录需要名称
 The format xlsx needs a path	xlsx 格式需要路径
 The open project has unsaved changes: save it first or pass discard	已打开的项目有未保存的更改：请先保存或传递 discard
 The part number must not be empty	部件编号不能为空
+The parts server has no form library yet	零件服务器上还没有表单库
 The project has no file yet: pass a path	项目尚无文件：请传递路径
+The project has no title blocks, report schemes or plot frames of its own	项目没有自有的标题栏、报表方案或图框
 This command needs a project: --project <file>	此命令需要一个项目：--project <文件>
 This format needs an output file (path)	此格式需要输出文件 (path)
+Title block of the project (list_title_blocks)	项目的标题栏（list_title_blocks）
+Top edge in mm from the top of the title block area	上边缘，从标题栏区域顶部起（毫米）
 Undoes the last change	撤消上次更改
 Unexpected argument: {}	意外的参数：{}
 Unknown command: {}. Run openecraft-cli help for a list.	未知命令：{}。运行 openecraft-cli help 查看列表。
@@ -268,6 +279,7 @@ User name to sign in with	用于登录的用户名
 User or group name (wildcards; directory groups as directory:group)	用户名或组名（可用通配符；目录服务组写作 directory:group）
 Values to set (name: value; an empty value removes a property)	要设置的值（名称: 值；值为空时删除属性）
 Vault user name (signs in)	Vault 用户名（用于登录）
+Width and height must be greater than 0	宽度和高度必须大于 0
 Write the table as CSV to this file	将表格以 CSV 格式写入此文件
 Writes the check scheme of the project (checks switched off, message levels) to a file	将项目的检查方案（已关闭的检查、消息级别）写入文件
 Writes the embedded file of a document page	写出文档页的嵌入文件

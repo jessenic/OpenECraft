@@ -5,6 +5,8 @@ Access token for changes	Değişiklikler için erişim belirteci
 Access token of a Vault session or an Autodesk account instead of user and password	Kullanıcı ve parola yerine bir Vault oturumunun veya Autodesk hesabının erişim belirteci
 Address of the Vault server, e.g. https://vault.example.com	Vault sunucusunun adresi, ör. https://vault.example.com
 Adds a page	Bir sayfa ekler
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	Projenin bir antedine bir görüntü (ör. şirket logosu) ekler; dosya olmadan proje logosunu gösterir
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	Parça sunucusundaki şirket form kütüphanesini (antetler, rapor şemaları, çizim çerçeveleri) projeye ekler
 Adds the definitions and schemes of a property library file to the project	Bir özellik kütüphanesi dosyasının tanımlarını ve şemalarını projeye ekler
 All project files of a folder	Bir klasörün tüm proje dosyaları
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	Fasetleri de döndür: grupların, üreticilerin, katalogların, yaşam döngüsünün ve teknik verilerin değerleri ile sayıları
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	Klasör kimliği (varsayılan root)
 Folder with project files	Proje dosyalarını içeren klasör
 Folder with project files (instead of a database; default: the current folder)	Proje dosyalarını içeren klasör (veritabanı yerine; varsayılan: geçerli klasör)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (çizim olarak klemens ve kablo şemaları)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (çizim olarak klemens ve kablo şemaları), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	Oluşturulan sayfaların fonksiyonu (=)
 Further parameters of the export as name=value, separated by commas	Dışa aktarımın ek parametreleri ad=değer biçiminde, virgülle ayrılmış
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	Dışa aktarımın ek parametreleri ad=değer biçiminde, virgülle ayrılmış (bkz. list_exports), ör. harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	template veya path parametrelerinden birini verin
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	Bir kullanıcıya veya gruba parça sunucusunun bir üreticisi (kapsam) için bir rol verir, deny ile haklarını geri alır, revoke ile yetki atamalarını kaldırır (yalnızca yöneticiler)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	Oluşturulacak gruplar, joker karakterlere izin verilir (-X*, -W1); boş: tümü
+Height in mm; the image keeps its aspect ratio inside	mm cinsinden yükseklik; görüntü içinde en boy oranını korur
 Id of a file (file_id of vault_browse) that gets a new version	Yeni sürüm alan bir dosyanın kimliği (vault_browse çıktısındaki file_id)
 Id of the file version (version_id of vault_browse)	Dosya sürümünün kimliği (vault_browse çıktısındaki version_id)
 Id of the knowledge vault (taken from the session if not given)	Bilgi kasasının kimliği (verilmezse oturumdan alınır)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	İadeden sonra dosyayı kullanımda
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	Sunucu türü: OpenECraft (parça sunucusu) veya Eplan (EPLAN Data Portal: yalnızca arama ve okuma, belirteç EPLAN hesabının kişisel erişim belirtecidir)
 Language of the export (a project language)	Dışa aktarımın dili (bir proje dili)
 Language of the project texts and reports (a project language, default the source language)	Proje metinlerinin ve raporların dili (bir proje dili, varsayılan kaynak dil)
+Left edge in mm from the left of the title block area	Antet alanının solundan mm cinsinden sol kenar
 Library file	Kütüphane dosyası
 Lifecycle: Active, PhaseOut or Discontinued	Yaşam döngüsü: Active, PhaseOut veya Discontinued
 Lists the built-in structure templates	Yerleşik yapı şablonlarını listeler
@@ -159,6 +163,8 @@ Output file (JSON)	Çıktı dosyası (JSON)
 Output file; without it the content is returned	Çıktı dosyası; verilmezse içerik döndürülür
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	Rapor sayfalarını sabit sayfalar olarak başka bir proje dosyasına çıktı olarak verir; bu projeden daha önce çıktısı alınan sayfalar değiştirilir
 PDF file with comments	Yorumlu PDF dosyası
+PNG or JPEG file kept in the title block (default: the project logo)	Antette saklanan PNG veya JPEG dosyası (varsayılan: proje logosu)
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	Proje logosunun PNG veya JPEG dosyası (kapak sayfası, antetler); boş bırakmak onu kaldırır
 Page (svg: required, dxf, dwg: default all pages)	Sayfa (svg: zorunlu, dxf, dwg: varsayılan tüm sayfalar)
 Page name (default: next number)	Sayfa adı (varsayılan: sonraki numara)
 Page of the export	Dışa aktarımın sayfası
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	Bir örnek projeden başla (adlar: list_examples)
 Start from the demo project	Demo projeyle başla
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	Parça sunucusunda bir parçayla birlikte bir dosya (veri sayfası, görüntü, model, makro …) saklar
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	Projenin kendi antetlerini, rapor şemalarını ve çizim çerçevelerini parça sunucusunda şirket form kütüphanesi olarak kaydeder (düzenleyiciler)
 Subproject file (.oec)	Alt proje dosyası (.oec)
 Subproject file to write (.oec)	Yazılacak alt proje dosyası (.oec)
 Take the changes over (otherwise only a preview)	Değişiklikleri devral (aksi halde yalnızca önizleme)
@@ -247,9 +254,13 @@ The catalog needs a name	Katalog için bir ad gerekli
 The format xlsx needs a path	xlsx formatı için bir yol gerekli
 The open project has unsaved changes: save it first or pass discard	Açık projede kaydedilmemiş değişiklikler var: önce kaydedin veya discard verin
 The part number must not be empty	Parça numarası boş olamaz
+The parts server has no form library yet	Parça sunucusunda henüz form kütüphanesi yok
 The project has no file yet: pass a path	Projenin henüz dosyası yok: bir yol verin
+The project has no title blocks, report schemes or plot frames of its own	Projenin kendi antetleri, rapor şemaları veya çizim çerçeveleri yok
 This command needs a project: --project <file>	Bu komut bir proje gerektirir: --project <dosya>
 This format needs an output file (path)	Bu biçim bir çıktı dosyası (path) gerektirir
+Title block of the project (list_title_blocks)	Projenin antedi (list_title_blocks)
+Top edge in mm from the top of the title block area	Antet alanının üstünden mm cinsinden üst kenar
 Undoes the last change	Son değişikliği geri alır
 Unexpected argument: {}	Beklenmeyen bağımsız değişken: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Bilinmeyen komut: {}. Liste için openecraft-cli help komutunu çalıştırın.
@@ -268,6 +279,7 @@ User name to sign in with	Oturum açmak için kullanıcı adı
 User or group name (wildcards; directory groups as directory:group)	Kullanıcı veya grup adı (joker karakterler; dizin hizmeti grupları dizin:grup olarak)
 Values to set (name: value; an empty value removes a property)	Ayarlanacak değerler (ad: değer; boş değer bir özelliği kaldırır)
 Vault user name (signs in)	Vault kullanıcı adı (oturum açar)
+Width and height must be greater than 0	Genişlik ve yükseklik 0'dan büyük olmalıdır
 Write the table as CSV to this file	Tabloyu CSV olarak bu dosyaya yaz
 Writes the check scheme of the project (checks switched off, message levels) to a file	Projenin kontrol şemasını (kapatılan kontroller, mesaj seviyeleri) bir dosyaya yazar
 Writes the embedded file of a document page	Bir belge sayfasının gömülü dosyasını yazar

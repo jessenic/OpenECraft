@@ -195,6 +195,7 @@ Light	Açık
 Line	Çizgi
 Link	Bağlantı
 Linked	İlişkilendirilmiş
+Load	Yük
 Loaded circuits bunched together	Bir arada gruplanmış yüklü devreler
 Location	Konum
 Location (+)	Konum (+)
@@ -230,6 +231,7 @@ Name of the scheme	Düzenin adı
 Net	Ağ
 Never	Hiçbir zaman
 New name	Yeni ad
+Next page	Sonraki sayfa
 No	Hayır
 No Vault item matches a part of the project	Hiçbir Vault öğesi projenin bir parçasıyla eşleşmiyor
 No cable {}	{} kablosu yok
@@ -252,10 +254,12 @@ No station {}	{} istasyonu yok
 No such page	Böyle bir sayfa yok
 No such section	Böyle bir bölüm yok
 No symbol with id {}	{} kimlikli sembol yok
+No title block of the project named {}	Projede {} adında antet yok
 Nominal size	Nominal çap
 Not a language code: {}	Dil kodu değil: {}
 Not a macro file: {}	Makro dosyası değil: {}
 Not a symbol id: {}	Sembol kimliği değil: {}
+Not a title block file: {}	Antet dosyası değil: {}
 Not a valid rule set file: {}	Geçerli bir kural seti dosyası değil: {}
 Not in the schematic	Şemada değil
 Note	Not
@@ -298,6 +302,7 @@ Parts	Parçalar
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Parçalar (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	Parça içe aktarma başarısız oldu: {}
 Password	Parola
+Picture	Resim
 Pieces	Adet
 Pin	Pin
 Pin layout: {}	Pin düzeni: {}
@@ -321,6 +326,7 @@ Power (kW)	Güç (kW)
 Power loss	Güç kaybı
 Pre-planning	Ön planlama
 Press	Pres
+Previous page	Önceki sayfa
 Price	Fiyat
 Price unit	Fiyat birimi
 Process engineering	Proses mühendisliği
@@ -330,6 +336,7 @@ Product top group	Ürün ana grubu
 Profile	Profil
 Project	Proje
 Project languages	Proje dilleri
+Project logo	Proje logosu
 Project management	Proje yönetimi
 Project name	Proje adı
 Project properties	Proje özellikleri
@@ -349,6 +356,7 @@ Rectangular	Dikdörtgen
 Reject	Reddet
 Relative humidity	Bağıl nem
 Relay	Röle
+Released	Yayımlanmış
 Released pages cannot be moved	Yayımlanmış sayfalar taşınamaz
 Remove	Kaldır
 Remove from favorites	Sık kullanılanlardan kaldır
@@ -441,6 +449,7 @@ Time	Zaman
 Title block	Antet
 To	Hedef
 Tools	Takımlar
+Total	Genel toplam
 Transformer	Transformatör
 Type	Tip
 Type number	Tip numarası
@@ -471,6 +480,7 @@ Warning	Uyarı
 Warnings	Uyarılar
 Weight	Ağırlık
 Width	Genişlik
+Width in mm	mm cinsinden genişlik
 Window	Pencere
 Wire	Tel
 Wire colours	Tel renkleri
@@ -503,6 +513,7 @@ yes	evet
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} zemine konmaz: zemine montaj için işaretlenmiş bir parça seçin
 {} exists already	{} zaten var
+{} is not a PNG or JPEG image	{} bir PNG veya JPEG görüntüsü değil
 {} parts	{} parça
 {} wires	{} tel
 {}, together with the wire to {}	{}, {} yönündeki telle birlikte

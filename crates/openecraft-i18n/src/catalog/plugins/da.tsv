@@ -47,12 +47,14 @@ Altitude of the site in m	Opstillingsstedets højde i m
 Ambient temperature of the conductors in °C	Ledernes omgivelsestemperatur i °C
 An outline needs {} points at least	Et omrids skal have mindst {} punkter
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Anker langs aksen: free, start:<mm>, center:<mm>, end:<mm> eller stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Vinkel i grader, mod uret
 Aspects separated by commas, e.g. function,location	Aspekter adskilt af kommaer, f.eks. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Tildeler en funktionsdefinition til et placeret symbol (betegnelser og skema overtages)
 Asynchronous motors add to the short-circuit current	Asynkronmotorer bidrager til kortslutningsstrømmen
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Automatisk hardwarekonfiguration: stationer for CPU'er og buskoblere, bussystemer, kort til stationer, slots, startadresser, punktadresser, IP-adresser og en linjetopologi
 Back to the default rules first	Nulstil først til standardreglerne
 Back to the default strategy first	Nulstil først til standardstrategien
+Back to the place above the project name	Tilbage til pladsen over projektnavnet
 Back-up protection up to this short-circuit current in kA (0: not given)	Backupbeskyttelse op til denne kortslutningsstrøm i kA (0: ikke angivet)
 Bar id	Skinne-id
 Bar thickness, mm (default 5)	Skinnetykkelse, mm (standard 5)
@@ -101,6 +103,7 @@ Chosen value	Valgt værdi
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Afstande, serviceområde, højder, kollisionsklasser, termisk simulering og producerbarhed af tavlelayoutet
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Klimatisering af kapslingerne (IEC/TR 60890): effekttab, indvendig temperatur, nødvendig ventilator eller køleaggregat og opvarmning; ændrer eventuelt indstillingerne for en af dem
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Kollisionsklasse: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, en egen klasse eller * for alle
+Colour as #RRGGBB	Farve som #RRGGBB
 Column and row strips	Kolonne- og rækkelister
 Column mapping {field code: column name}	Kolonnetilknytning {feltkode: kolonnenavn}
 Column name, e.g. Description	Kolonnenavn, f.eks. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Opretter eller ændrer en konfiguratori
 Creates or changes a fluid device group	Opretter eller ændrer en fluidenhedsgruppe
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Opretter eller ændrer en plotramme i projektet (indbyggede rammer kopieres under et nyt navn)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Opretter eller ændrer en potentialedefinition; dens ledninger overtager farve og tværsnit, medmindre de er angivet på ledningen
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Opretter eller ændrer et tegningshoved i projektet (indbyggede kopieres under et nyt navn)
 Creates or changes a work area: only the pages and devices of its structure are shown	Opretter eller ændrer et arbejdsområde: Kun siderne og enhederne i dets struktur vises
 Cross reference placed by hand: X offset from the insertion point in mm	Krydshenvisning placeret manuelt: X-forskydning fra indsætningspunktet i mm
 Cross reference placed by hand: Y offset from the insertion point in mm	Krydshenvisning placeret manuelt: Y-forskydning fra indsætningspunktet i mm
@@ -171,6 +175,7 @@ Deletes a page	Sletter en side
 Deletes a page template of the project	Sletter en sideskabelon i projektet
 Deletes a plot frame of the project that no page uses	Sletter en plotramme i projektet, som ingen side bruger
 Deletes a potential definition	Sletter en potentialedefinition
+Deletes a title block of the project; pages using it get the project default	Sletter et tegningshoved i projektet; sider, der bruger det, får projektets standard
 Deletes a work area	Sletter et arbejdsområde
 Deletes symbols, wires, texts and shapes	Sletter symboler, ledninger, tekster og figurer
 Depth in mm	Dybde i mm
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Kantlængde for føringsgitteret i mm
 Electrical device tags separated by commas or blanks (empty = remove the links)	Elektriske enhedsmærkninger adskilt af kommaer eller mellemrum (tom = fjern tilknytningerne)
 Electrical engineering	Elektroteknik
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Elementer (Line, Rect, Text, Image) i mm fra tegningshovedets øverste venstre hjørne i et array items
 Enclosure (location, e.g. +CAB1)	Kapsling (placering, f.eks. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Kapsling (placering, f.eks. +CAB1), hvis indstillinger ændres
 Enclosure climate and electrical sizing	Kapslingsklima og elektrisk dimensionering
@@ -273,6 +279,7 @@ Height above the floor in metres	Højde over gulvet i meter
 Height above the mounting plate in mm (default 50)	Højde over monteringspladen i mm (standard 50)
 Height in mm	Højde i mm
 Height in mm without plinth; negative: unknown (wall mounted)	Højde i mm uden sokkel; negativ: ukendt (vægmonteret)
+Height in mm; the logo keeps its aspect ratio inside	Højde i mm; logoet bevarer sit billedformat indeni
 Higher-level product aspect (-) of the page; the devices on the page move along	Aspektet overordnet produkt (-) for siden; enhederne på siden flytter med
 Highest actuator on the door above the floor (0: not checked)	Højeste betjeningselement på døren over gulvet (0: kontrolleres ikke)
 Highest air temperature at devices without data (0: not checked)	Højeste lufttemperatur ved enheder uden data (0: kontrolleres ikke)
@@ -311,6 +318,7 @@ Integration profiles and status	Integrationsprofiler og -status
 Interruption points refer to: all (default), star or pairs	Afbrydelsespunkter henviser til: all (standard), star eller pairs
 Invalid answer of the plugin: {}	Ugyldigt svar fra plugin: {}
 Invalid segment name: {}	Ugyldigt segmentnavn: {}
+Invalid title block elements: {}	Ugyldige elementer i tegningshovedet: {}
 Item id	Element-id
 Item ids	Element-id'er
 Jumper number	Bronummer
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Sprog, som projektteksterne e
 Larger round holes are milled, mm	Større runde huller fræses, mm
 Largest difference between hole and tool, mm	Største forskel mellem hul og værktøj, mm
 Left edge from the left end of the wall (seen from inside) in mm	Venstre kant fra væggens venstre ende (set indefra) i mm
+Left edge in mm	Venstre kant i mm
 Left edge on the face in mm	Venstre kant på fladen i mm
 Left edge on the mounting plate in mm	Venstre kant på monteringspladen i mm
 Left side bayed (no side panel)	Venstre side sammenbygget (ingen sideplade)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Viser de symboler, der kan placeres, med deres tilslutningspunkter i forhold til indsættelsespunktet
 Lists the terminal strips with their number of terminals and length on the rail	Viser klemrækkerne med deres antal klemmer og længde på skinnen
 Lists the terminations chosen for wire ends and the kinds there are	Viser de valgte afslutninger af lederender og de typer, der findes
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Viser tegningshovederne (indbyggede og projektets egne) med deres elementer, projektets standard og pladsholderne
 Lists the translation dictionary of the project texts (source line and translations)	Viser oversættelsesordbogen for projektteksterne (kildelinje og oversættelser)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Viser de vinduesmakroer, der er placeret på siderne (makrobokse), med makro, variant, pladsholderværdier og antal elementer
 Load losses of the transformer in W (0: typical)	Transformerens belastningstab i W (0: typisk)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Navn på hovedjordskinnen
 Name of the safety function to remove	Navn på den sikkerhedsfunktion, der skal fjernes
 Name of the segment	Segmentets navn
 Name of the template	Skabelonens navn
+Name of the title block	Tegningshovedets navn
+Name of the title block (with page_type: empty removes the choice)	Tegningshovedets navn (med page_type: tom fjerner valget)
 Name of the work area	Arbejdsområdets navn
 Name or id; the tag for places	Navn eller id; betegnelsen for placeringer
 Name placed by hand: X offset from the insertion point in mm	Navn placeret manuelt: X-forskydning fra indsætningspunktet i mm
@@ -480,6 +492,7 @@ No terminal strip {}	Ingen klemrække {}
 No terminal {} on strip {}	Ingen klemme {} på klemrække {}
 No text with id {}	Ingen tekst med id {}
 No three wires meet at {} / {} mm: give the direction of the stem	Ingen tre ledere mødes ved {} / {} mm: angiv stammens retning
+No title block named {}	Intet tegningshoved med navnet {}
 No transformer: set {} first	Ingen transformer: angiv først {}
 No wire at {} / {} mm	Ingen ledning ved {} / {} mm
 No wire with id {}	Ingen ledning med id {}
@@ -489,6 +502,7 @@ Node {} exists already	Knude {} findes allerede
 Nodes to pass in this order, comma separated	Knuder, der skal passeres i denne rækkefølge, kommasepareret
 Nominal size, e.g. 8 mm or DN25	Nominel størrelse, f.eks. 8 mm eller DN25
 None of the items is an interruption point	Ingen af elementerne er et afbrydelsespunkt
+Not a colour (#RRGGBB): {}	Ikke en farve (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Ikke et tværsnit: {} (f.eks. 1.5 mm²)
 Not a valid safety function: {}	Ikke en gyldig sikkerhedsfunktion: {}
 Note, e.g. what the problem is	Bemærkning, f.eks. hvad problemet er
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Den ene ende, f.eks. -K1:A1
 One row per printed label instead of a count	Én række pr. udskrevet mærkat i stedet for et antal
 Only devices on these pages (names separated by commas)	Kun enheder på disse sider (navne adskilt af kommaer)
 Only doors and windows open	Kun døre og vinduer åbner
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Kun for sider af denne type: schematic, cover, report, mounting, overview, graphic eller document
 Only lines without a translation into this language	Kun linjer uden oversættelse til dette sprog
 Only list the new tags, change nothing	Vis kun de nye betegnelser, ændr intet
 Only shows the package, no job is recorded	Viser kun pakken, der registreres ingen ordre
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Gruppens pladser (0 = ubegrænset)
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Placerer betegnelsen for et tilslutningspunkt på et symbol til venstre, til højre, over eller under det og forskyder den; uden side og forskydning placeres den automatisk igen
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Placerer en kapslings sammenbygning i rummet (3D-visning af alle kapslinger); uden x og z placeres den ud fra anlægslayoutet eller ved siden af de andre sammenbygninger
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Placerer navnet og krydshenvisningen for afbrydelsespunkter på en side af pilen eller manuelt med en forskydning fra indsætningspunktet
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Placerer projektets logo på forsiden (mm fra tegneområdets øverste venstre hjørne); uden parametre vises pladsen
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Placerer et skemas egenskaber ved symboler; uden id'er placeres det igen ved alle symboler, der bruger det
 Planned part number	Planlagt artikelnummer
 Planned power in kW	Planlagt effekt i kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Anlægssegmenter med planlagte enheder før diagrammet: skabeloner, effektbudget, status i forhold til diagrammet, udveksling som CSV / Excel
 Plinth height in mm, 0 without plinth	Sokkelhøjde i mm, 0 uden sokkel
 Plot frame (list_frames); empty = the project default	Plotramme (list_frames); tom = projektstandarden
-Plot frames and page templates of the project	Tegningsrammer og sideskabeloner i projektet
+Plot frames, title blocks and page templates of the project	Tegningsrammer, tegningshoveder og sideskabeloner i projektet
 Plug tag, e.g. -X10	Stikmærkning, f.eks. -X10
 Plugin id '{}' is not snake_case	Plugin-id '{}' er ikke snake_case
 Plugin {} is loaded twice	Plugin {} er indlæst to gange
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Angiver plotrammen for a
 Sets the shield and the outer diameter of a cable	Angiver skærmen og den udvendige diameter for et kabel
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Angiver projektteksternes kildesprog og målsprogene (ISO 639-1-koder)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Angiver en klemrækkes reserveklemmer, og om dens tilbehør tilføjes automatisk
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Angiver stemplet, der tegnes hen over alle sider efter revisionsforløbets status (f.eks. UDKAST); uden parametre vises stemplet
+Sets the title block of all pages that do not choose one, or of the pages of one type	Angiver tegningshovedet for alle sider, der ikke vælger et, eller for siderne af én type
 Sets the translation of a line of the project texts (empty removes it)	Angiver oversættelsen af en linje i projektteksterne (tom fjerner den)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Angiver ledningsfarve og tværsnit for net uden defineret potentiale (tom = ingen)
 Share of the capacity kept free in percent	Andel af kapaciteten, der holdes fri, i procent
@@ -791,11 +809,16 @@ Terminal designation	Klemmebetegnelse
 Terminal designations in strip order, separated by commas	Klemmebetegnelser i rækkefølge, adskilt af kommaer
 Terminal order, levels, jumpers, spare terminals and accessories	Klemmerækkefølge, etager, broer, reserveklemmer og tilbehør
 Text height in mm	Teksthøjde i mm
+Text height in mm (0: fitted to the page)	Teksthøjde i mm (0: tilpasset siden)
 Text height in mm (default 3.5)	Teksthøjde i mm (standard 3.5)
 Text in id, name or order number	Tekst i id, navn eller bestillingsnummer
 Text in the key or name	Tekst i nøglen eller navnet
 Text in the line or a translation	Tekst i linjen eller en oversættelse
 Text to find; empty: fill	Tekst, der skal søges efter; tom: udfyld
+Text when everything is released, e.g. AS BUILT	Tekst, når alt er frigivet, f.eks. SOM BYGGET
+Text when the revision is approved but not released	Tekst, når revisionen er godkendt, men ikke frigivet
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Tekst, mens en revision er et udkast, eller intet er frigivet endnu (pladsholdere tilladt; tom: ingen)
+Text while a revision is in review or was rejected	Tekst, mens en revision er til gennemgang eller er afvist
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Tekst; pladsholdere som {page} eller {prop:Name} udfyldes ved tegning
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	Et hjørnes arme er en lodret og en vandret retning, f.eks. down left, ikke {}
 The cable definition line crosses no wire	Kabeldefinitionslinjen krydser ingen ledning
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Tykkeste plade eller skinne, mm
 Time per drilling, punching or bending operation, s	Tid pr. bore-, stanse- eller bukkeoperation, s
 Time per tool change, s	Tid pr. værktøjsskift, s
+Title block (list_title_blocks); empty = the project default	Tegningshoved (list_title_blocks); tom = projektets standard
+Title block of the pages with this frame that do not choose one; empty: the project default	Tegningshoved for sider med denne ramme, der ikke vælger et; tom: projektets standard
+Title block to start from when it is new (default: Standard)	Tegningshoved at tage udgangspunkt i, når det er nyt (standard: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Værktøjer, f.eks. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Øverste kant i mm
 Top edge on the face in mm	Øverste kant på fladen i mm
 Top edge on the mounting plate in mm	Øverste kant på monteringspladen i mm
 Translated line	Oversat linje
@@ -876,6 +903,7 @@ Unknown node: {}	Ukendt knude: {}
 Unknown numbering scheme: {}	Ukendt nummereringsskema: {}
 Unknown object class: {}	Ukendt objektklasse: {}
 Unknown order: {}	Ukendt rækkefølge: {}
+Unknown page type: {}	Ukendt sidetype: {}
 Unknown paper format: {}	Ukendt papirformat: {}
 Unknown path kind: {}	Ukendt vejtype: {}
 Unknown placeholder {}: possible are {}	Ukendt pladsholder {}: mulige er {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	Hvilken linj
 Who accepted it	Hvem der har accepteret den
 Whole words only	Kun hele ord
 Why the message is accepted	Hvorfor meddelelsen er accepteret
-Width in mm	Bredde i mm
 Width of the path in mm (default 50)	Vejens bredde i mm (standard 50)
 Width, depth and height of a room are at least {} mm	Bredde, dybde og højde for et rum er mindst {} mm
 Width, height and depth of an enclosure are at least {} mm	Bredde, højde og dybde for en kapsling er mindst {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem eller open
 {} has no enclosure bayed to its right side	{} har ingen kapsling sammenbygget på sin højre side
 {} has no enclosure system; give one	{} har intet kapslingssystem; angiv et
 {} is a built-in frame; give the frame a new name	{} er en indbygget ramme; giv rammen et nyt navn
+{} is a built-in title block; give the title block a new name	{} er et indbygget tegningshoved; giv tegningshovedet et nyt navn
 {} is a room already	{} er allerede et rum
 {} is ambiguous: use #id:pin	{} er tvetydig: Brug #id:pin
 {} is an enclosure already	{} er allerede en kapsling

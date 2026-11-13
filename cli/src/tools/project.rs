@@ -67,6 +67,7 @@ pub static TOOLS: &[Tool] = &[
             optional("date", Kind::Str, tr_const!("Date")),
             optional("revision", Kind::Str, tr_const!("Revision")),
             optional("properties", Kind::Object, tr_const!("User defined properties (name: value; an empty value removes it)")),
+            optional("logo", Kind::Str, tr_const!("PNG or JPEG file of the project logo (cover page, title blocks); empty removes it")),
         ],
         needs_project: true,
         run: set_project_info,
@@ -97,6 +98,7 @@ fn summary(s: &Session) -> Result<Value, String> {
         "date": i.date,
         "revision": i.revision,
         "properties": i.properties,
+        "logo": i.logo.as_ref().map(|l| json!({ "name": l.file.name, "px": l.px })),
         "file": s.path.as_ref().map(|p| p.display().to_string()),
         "unsaved": s.unsaved(),
         "pages": prj.pages.len(),
@@ -203,6 +205,11 @@ fn set_project_info(s: &mut Session, a: &Args) -> Result<Value, String> {
                 _ => info.properties.insert(k, v),
             };
         }
+    }
+    match a.str("logo") {
+        Some("") => s.project_mut()?.info.logo = None,
+        Some(path) => s.project_mut()?.info.logo = Some(super::sheets::read_picture(path)?),
+        None => {}
     }
     summary(s)
 }

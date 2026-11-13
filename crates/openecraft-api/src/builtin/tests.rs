@@ -4,6 +4,86 @@ use openecraft_core::sample::demo_project;
 use serde_json::Map;
 
 #[test]
+fn title_blocks_are_listed_created_chosen_and_deleted() {
+    let p = Plugins::new(Vec::<String>::new());
+    let mut prj = demo_project();
+    let pages = prj.pages.len() as u64;
+    let mut run = |name: &str, args: serde_json::Value| p.run(p.command(name).unwrap(), &mut prj, args.as_object().unwrap());
+    let list = run("list_title_blocks", serde_json::json!({})).unwrap();
+    assert_eq!(list["default"], "Standard");
+    assert!(list["placeholders"].as_array().unwrap().iter().any(|v| v["placeholder"] == "{page.next}"));
+    let standard = &list["title_blocks"][0];
+    assert_eq!((standard["name"].as_str(), standard["builtin"].as_bool()), (Some("Standard"), Some(true)));
+
+    assert!(run("set_title_block", serde_json::json!({ "name": "Compact", "items": { "items": [] } })).unwrap_err().contains("built-in"));
+    assert!(run("set_title_block", serde_json::json!({ "name": "Mine", "based_on": "Nothing" })).unwrap_err().contains("No title block"));
+    let items = serde_json::json!([
+        { "type": "Text", "pos": { "x": 5.0, "y": 5.0 }, "text": "{project}", "size": 3.0, "anchor": "Left", "bold": true, "angle": 90.0 },
+        { "type": "Image", "a": { "x": 300.0, "y": 2.0 }, "b": { "x": 390.0, "y": 28.0 } },
+    ]);
+    let t = run("set_title_block", serde_json::json!({ "name": "Mine", "items": { "items": items } })).unwrap();
+    assert_eq!((t["builtin"].as_bool(), t["items"][1]["type"].as_str(), t["pages"].as_u64()), (Some(false), Some("Image"), Some(0)));
+    assert!(run("set_title_block", serde_json::json!({ "name": "Mine", "items": { "items": [{ "type": "Circle" }] } })).unwrap_err().contains("Invalid"));
+    // A copy of a built-in one keeps its elements.
+    let copy = run("set_title_block", serde_json::json!({ "name": "Copy", "based_on": "Compact" })).unwrap();
+    assert!(copy["items"].as_array().unwrap().len() > 5);
+
+    run("set_page", serde_json::json!({ "page": "2", "title_block": "Copy" })).unwrap();
+    assert!(run("set_page", serde_json::json!({ "page": "2", "title_block": "Nothing" })).unwrap_err().contains("No title block"));
+    let d = run("set_default_title_block", serde_json::json!({ "name": "Mine" })).unwrap();
+    assert_eq!(d["pages"].as_u64(), Some(pages - 1));
+    let d = run("delete_title_block", serde_json::json!({ "name": "Copy" })).unwrap();
+    assert_eq!(d["pages"], 1);
+    assert!(run("delete_title_block", serde_json::json!({ "name": "Standard" })).is_err());
+    run("set_default_title_block", serde_json::json!({ "name": "Standard" })).unwrap();
+    assert_eq!(run("list_title_blocks", serde_json::json!({})).unwrap()["default"], "Standard");
+    assert!(prj.forms.default_title_block.is_empty());
+    assert!(prj.pages.iter().all(|pg| pg.title_block.is_empty()));
+    assert!(matches!(&prj.forms.title_blocks[0].items[0], openecraft_core::forms::FormItem::Text { bold: true, angle: 90.0, .. }));
+}
+
+#[test]
+fn the_cover_logo_is_placed_by_command() {
+    let p = Plugins::new(Vec::<String>::new());
+    let mut prj = demo_project();
+    let mut run = |args: serde_json::Value| p.run(p.command("set_cover_logo").unwrap(), &mut prj, args.as_object().unwrap());
+    let auto = run(serde_json::json!({})).unwrap();
+    assert_eq!((auto["automatic"].as_bool(), auto["width"].as_f64()), (Some(true), Some(120.0)));
+    let own = run(serde_json::json!({ "x": 20.0, "height": 30.0 })).unwrap();
+    assert_eq!((own["automatic"].as_bool(), own["x"].as_f64(), own["y"].clone(), own["width"].as_f64(), own["height"].as_f64()), (Some(false), Some(20.0), auto["y"].clone(), Some(120.0), Some(30.0)));
+    assert!(run(serde_json::json!({ "width": 0.0 })).is_err());
+    assert_eq!(run(serde_json::json!({ "automatic": true })).unwrap()["automatic"], true);
+    assert!(prj.info.cover_logo.is_none());
+}
+
+#[test]
+fn stamp_and_title_blocks_by_page_type_and_frame() {
+    let p = Plugins::new(Vec::<String>::new());
+    let mut prj = demo_project();
+    let mut run = |name: &str, args: serde_json::Value| p.run(p.command(name).unwrap(), &mut prj, args.as_object().unwrap());
+    let s = run("set_stamp", serde_json::json!({})).unwrap();
+    assert_eq!((s["draft"].as_str(), s["shown"].is_null()), (Some(""), true));
+    let s = run("set_stamp", serde_json::json!({ "draft": "DRAFT", "released": "AS BUILT", "angle": 45.0, "color": "#FF8000" })).unwrap();
+    assert_eq!((s["shown"].as_str(), s["angle"].as_f64(), s["color"].as_str()), (Some("DRAFT"), Some(45.0), Some("#FF8000")));
+    assert!(run("set_stamp", serde_json::json!({ "color": "orange" })).unwrap_err().contains("#RRGGBB"));
+
+    let t = run("set_default_title_block", serde_json::json!({ "name": "Compact", "page_type": "Report" })).unwrap();
+    assert_eq!(t["page_type"], "report");
+    assert!(run("set_default_title_block", serde_json::json!({ "name": "Compact", "page_type": "plan" })).unwrap_err().contains("Unknown page type"));
+    assert_eq!(run("list_title_blocks", serde_json::json!({})).unwrap()["page_types"]["report"], "Compact");
+    let f = run("set_frame", serde_json::json!({ "name": "Portrait", "based_on": "A4 portrait", "title_block": "None" })).unwrap();
+    assert_eq!(f["title_block"], "None");
+    assert!(run("set_frame", serde_json::json!({ "name": "Portrait", "title_block": "Nothing" })).unwrap_err().contains("No title block"));
+    run("set_page", serde_json::json!({ "page": "2", "frame": "Portrait" })).unwrap();
+    let removed = run("set_default_title_block", serde_json::json!({ "name": "", "page_type": "report" })).unwrap();
+    assert_eq!(removed["removed"], true);
+    assert!(prj.forms.page_type_title_blocks.is_empty());
+    let page = prj.pages.iter().position(|pg| pg.name == "2").unwrap();
+    assert_eq!(openecraft_core::forms::title_block_name(&prj, page), "None");
+    assert_eq!(prj.forms.stamp.color, [255, 128, 0]);
+}
+
+#[test]
 fn registered_frame_commands_round_trip_artwork_and_can_restore_generated_frames() {
     let plugins=Plugins::new(Vec::<String>::new());let mut project=Project::default();
     let artwork=serde_json::json!([{"Text":{"pos":{"x":10,"y":20},"text":"Company","size":3,"anchor":"Left"}}]);

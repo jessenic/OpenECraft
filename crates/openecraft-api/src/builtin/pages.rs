@@ -45,6 +45,7 @@ pub static COMMANDS: &[Spec] = &[
             optional("name", Kind::Str, tr_const!("New page name")),
             optional("description", Kind::Str, tr_const!("Description")),
             optional("frame", Kind::Str, tr_const!("Plot frame (list_frames); empty = the project default")),
+            optional("title_block", Kind::Str, tr_const!("Title block (list_title_blocks); empty = the project default")),
             optional("function", Kind::Str, tr_const!("Function aspect (=) of the page; the devices on the page move along")),
             optional("installation", Kind::Str, tr_const!("Installation site aspect (++) of the page; the devices on the page move along")),
             optional("location", Kind::Str, tr_const!("Location aspect (+) of the page; the devices on the page move along")),
@@ -285,6 +286,12 @@ fn set_page(prj: &mut Project, a: &Args) -> Result<Value, String> {
             return Err(tr_fmt!("No plot frame named {}", f));
         }
         prj.pages[i].frame = f.into();
+    }
+    if let Some(t) = a.str("title_block") {
+        if !t.is_empty() && !openecraft_core::forms::names(prj).iter().any(|n| n == t) {
+            return Err(tr_fmt!("No title block named {}", t));
+        }
+        prj.pages[i].title_block = t.into();
     }
     if Aspect::ALL.iter().any(|asp| a.str(asp.key()).is_some()) {
         let mut dt = Dt::of_page(&prj.pages[i]);

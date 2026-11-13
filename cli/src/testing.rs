@@ -24,6 +24,8 @@ pub struct FakeServer {
     pub favorites: Rc<RefCell<Vec<String>>>,
     pub files: Rc<RefCell<Vec<FakeFile>>>,
     pub policy: Rc<RefCell<Policy<PartsRight>>>,
+    /// Libraries by name (JSON text).
+    pub libraries: Rc<RefCell<std::collections::BTreeMap<String, String>>>,
     pub registration: Rc<RefCell<Registration>>,
 }
 
@@ -139,6 +141,16 @@ impl Transport for FakeServer {
                     *self.policy.borrow_mut() = policy;
                 }
                 return Ok(json(&Settings { policy: self.policy.borrow().clone(), providers: Vec::new() }));
+            }
+            (["libraries", name], ehttp::Method::GET) => {
+                return Ok(match self.libraries.borrow().get(*name) {
+                    Some(j) => response(200, j.clone().into_bytes()),
+                    None => error(404, "library not found"),
+                });
+            }
+            (["libraries", name], ehttp::Method::PUT) => {
+                self.libraries.borrow_mut().insert(name.to_string(), String::from_utf8(req.body.clone()).map_err(|e| e.to_string())?);
+                return Ok(response(204, Vec::new()));
             }
             (["registration"], method) => {
                 if !authorized {

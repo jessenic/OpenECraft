@@ -193,6 +193,7 @@ Light	浅色
 Line	线
 Link	链接
 Linked	已关联
+Load	负载
 Loaded circuits bunched together	成束敷设的带负载回路数
 Location	位置
 Location (+)	位置 (+)
@@ -228,6 +229,7 @@ Name of the scheme	方案名称
 Net	网络
 Never	从不
 New name	新名称
+Next page	下一页
 No	否
 No Vault item matches a part of the project	没有与项目部件匹配的 Vault 项
 No cable {}	没有电缆 {}
@@ -250,10 +252,12 @@ No station {}	没有站 {}
 No such page	该页不存在
 No such section	没有此分节
 No symbol with id {}	没有 ID 为 {} 的符号
+No title block of the project named {}	项目中没有名为 {} 的标题栏
 Nominal size	公称尺寸
 Not a language code: {}	不是语言代码：{}
 Not a macro file: {}	不是宏文件：{}
 Not a symbol id: {}	不是符号 ID：{}
+Not a title block file: {}	不是标题栏文件：{}
 Not a valid rule set file: {}	不是有效的规则集文件：{}
 Not in the schematic	不在原理图中
 Note	注释
@@ -296,6 +300,7 @@ Parts	部件
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	部件 (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	部件导入失败：{}
 Password	密码
+Picture	图片
 Pieces	件数
 Pin	插针
 Pin layout: {}	引脚布局：{}
@@ -319,6 +324,7 @@ Power (kW)	功率 (kW)
 Power loss	功率损耗
 Pre-planning	预规划
 Press	压力机
+Previous page	上一页
 Price	价格
 Price unit	价格单位
 Process engineering	过程工程
@@ -328,6 +334,7 @@ Product top group	产品主组
 Profile	配置文件
 Project	项目
 Project languages	项目语言
+Project logo	项目标志
 Project management	项目管理
 Project name	项目名称
 Project properties	项目属性
@@ -347,6 +354,7 @@ Rectangular	矩形
 Reject	拒绝
 Relative humidity	相对湿度
 Relay	继电器
+Released	已发布
 Released pages cannot be moved	无法移动已发布页
 Remove	删除
 Remove from favorites	从收藏夹中删除
@@ -439,6 +447,7 @@ Time	时间
 Title block	标题栏
 To	到
 Tools	刀具
+Total	合计
 Transformer	变压器
 Type	类型
 Type number	型号
@@ -469,6 +478,7 @@ Warning	警告
 Warnings	警告
 Weight	重量
 Width	宽度
+Width in mm	宽度 (mm)
 Window	窗
 Wire	导线
 Wire colours	导线颜色
@@ -501,6 +511,7 @@ yes	是
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} 不是落地式：请选择标记为落地安装的部件
 {} exists already	{} 已存在
+{} is not a PNG or JPEG image	{} 不是 PNG 或 JPEG 图像
 {} parts	{} 个部件
 {} wires	{} 条导线
 {}, together with the wire to {}	{}，与通往 {} 的导线共用

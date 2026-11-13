@@ -193,6 +193,7 @@ Light	ライト
 Line	線
 Link	リンク
 Linked	リンク済み
+Load	負荷
 Loaded circuits bunched together	束ねられた負荷回路数
 Location	取付場所
 Location (+)	取付場所 (+)
@@ -228,6 +229,7 @@ Name of the scheme	スキームの名前
 Net	ネット
 Never	表示しない
 New name	新しい名前
+Next page	次のページ
 No	いいえ
 No Vault item matches a part of the project	プロジェクトの部品に一致する Vault アイテムはありません
 No cable {}	ケーブル {} はありません
@@ -250,10 +252,12 @@ No station {}	ステーション {} はありません
 No such page	該当するページはありません
 No such section	そのセクションはありません
 No symbol with id {}	ID {} のシンボルはありません
+No title block of the project named {}	プロジェクトに {} という名前の表題欄はありません
 Nominal size	呼び径
 Not a language code: {}	言語コードではありません: {}
 Not a macro file: {}	マクロファイルではありません: {}
 Not a symbol id: {}	シンボル ID ではありません: {}
+Not a title block file: {}	表題欄ファイルではありません: {}
 Not a valid rule set file: {}	有効なルールセットファイルではありません: {}
 Not in the schematic	回路図にありません
 Note	注記
@@ -296,6 +300,7 @@ Parts	部品
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	部品 (CSV、JSON、BMEcat、EPLAN XML、EDZ)
 Parts import failed: {}	部品のインポートに失敗しました: {}
 Password	パスワード
+Picture	画像
 Pieces	個数
 Pin	ピン
 Pin layout: {}	ピン配置: {}
@@ -319,6 +324,7 @@ Power (kW)	電力 (kW)
 Power loss	損失電力
 Pre-planning	事前計画
 Press	プレス
+Previous page	前のページ
 Price	価格
 Price unit	価格単位
 Process engineering	プロセス工学
@@ -328,6 +334,7 @@ Product top group	製品トップグループ
 Profile	プロファイル
 Project	プロジェクト
 Project languages	プロジェクト言語
+Project logo	プロジェクトのロゴ
 Project management	プロジェクト管理
 Project name	プロジェクト名
 Project properties	プロジェクトプロパティ
@@ -347,6 +354,7 @@ Rectangular	四角形
 Reject	却下
 Relative humidity	相対湿度
 Relay	リレー
+Released	リリース済み
 Released pages cannot be moved	リリース済みのページは移動できません
 Remove	削除
 Remove from favorites	お気に入りから削除
@@ -439,6 +447,7 @@ Time	時間
 Title block	表題欄
 To	接続先
 Tools	工具
+Total	合計
 Transformer	変圧器
 Type	タイプ
 Type number	型番
@@ -469,6 +478,7 @@ Warning	警告
 Warnings	警告
 Weight	重量
 Width	幅
+Width in mm	幅 (mm)
 Wire	電線
 Wire colours	電線色
 Wire number	電線番号
@@ -500,6 +510,7 @@ yes	はい
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} は床置きではありません: 床置きとしてマークされた部品を選択してください
 {} exists already	{} は既に存在します
+{} is not a PNG or JPEG image	{} は PNG または JPEG 画像ではありません
 {} parts	{} 個の部品
 {} wires	{} 本の電線
 {}, together with the wire to {}	{}、{} への電線と共用

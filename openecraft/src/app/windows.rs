@@ -277,6 +277,9 @@ impl App {
         let (window, esc) = self.dialogs.window(ctx, tr("Project properties"), "project_properties", None);
         let mut open = !esc;
         let prj_tb_names = openecraft_core::forms::names(&self.session.prj);
+        let mut choose_logo = false;
+        let cover_page = self.session.prj.pages.iter().position(|p| p.kind == PageKind::Cover).unwrap_or(0);
+        let cover_place = openecraft_core::render::cover_logo_place(&self.session.prj, &openecraft_core::frame::of_page(&self.session.prj, cover_page));
         window.open(&mut open).default_width(520.0).min_width(360.0).show(ctx, |ui| {
             let info = &mut self.session.prj.info;
             let line = |ui: &mut egui::Ui, text: &mut String| ui.add(egui::TextEdit::singleline(text).desired_width(f32::INFINITY));
@@ -299,6 +302,48 @@ impl App {
                 ui.label(tr("Revision"));
                 line(ui, &mut info.revision);
                 ui.end_row();
+                ui.label(tr("Logo")).on_hover_text(tr("Shown on the cover page and by the image elements of title blocks that show the project logo"));
+                ui.horizontal(|ui| {
+                    match &info.logo {
+                        Some(logo) => ui.label(&logo.file.name),
+                        None => ui.weak(tr("None")),
+                    };
+                    if ui.button(tr("Choose image…")).clicked() {
+                        choose_logo = true;
+                    }
+                    if info.logo.is_some() && icons::text_button(ui, Icon::Delete, tr("Remove")).clicked() {
+                        info.logo = None;
+                    }
+                });
+                ui.end_row();
+                if info.logo.is_some() {
+                    ui.label(tr("Logo on the cover page"));
+                    ui.vertical(|ui| {
+                        let mut own = info.cover_logo.is_some();
+                        ui.horizontal(|ui| {
+                            ui.selectable_value(&mut own, false, tr("Above the project name"));
+                            ui.selectable_value(&mut own, true, tr("Own place"));
+                        });
+                        if own != info.cover_logo.is_some() {
+                            info.cover_logo = own.then_some(cover_place);
+                        }
+                        if let Some(c) = &mut info.cover_logo {
+                            ui.horizontal(|ui| {
+                                ui.add(egui::DragValue::new(&mut c.x).speed(0.5).prefix("x ").suffix(" mm"));
+                                ui.add(egui::DragValue::new(&mut c.y).speed(0.5).prefix("y ").suffix(" mm"));
+                            })
+                            .response
+                            .on_hover_text(tr("From the top left corner of the drawing area"));
+                            ui.horizontal(|ui| {
+                                ui.add(egui::DragValue::new(&mut c.width).speed(0.5).range(1.0..=2000.0).prefix("↔ ").suffix(" mm"));
+                                ui.add(egui::DragValue::new(&mut c.height).speed(0.5).range(1.0..=2000.0).prefix("↕ ").suffix(" mm"));
+                            })
+                            .response
+                            .on_hover_text(tr("The logo is fitted into this area keeping its aspect ratio"));
+                        }
+                    });
+                    ui.end_row();
+                }
                 ui.label(tr("Title block"));
                 let forms = &mut self.session.prj.forms;
                 let current = if forms.default_title_block.is_empty() { openecraft_core::forms::STANDARD.to_string() } else { forms.default_title_block.clone() };
@@ -363,6 +408,9 @@ impl App {
             }
         });
         self.show_project = open;
+        if choose_logo {
+            self.io.open(ctx, crate::io::Purpose::Logo);
+        }
     }
 
     }

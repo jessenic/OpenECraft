@@ -25,11 +25,35 @@ local metadata and classifications take precedence for repeated article numbers.
 
 ## Forms
 
-Title blocks are lists of lines, rectangles and texts with placeholders
-(`{project}`, `{page}`, `{sheet}`, `{rev.date}`, user properties `{prop:Name}` …),
-edited in the title block editor and shared as files; one per project with an
-override per page (built-in: Standard, Compact, None). Report forms choose the
-columns, their order, the heading and the rows per report page.
+Title blocks are lists of lines, rectangles, texts with placeholders
+(`{project}`, `{page}`, `{sheet}`, `{page.previous}` / `{page.next}`, `{rev.date}`,
+revision tables with `{rev.1.name}`, `{rev.2.name}` …, user properties `{prop:Name}` …)
+and images, edited in the title block editor and shared as files; one per project with an
+override per page (built-in: Standard, Compact, None). Texts can be bold, italic and
+rotated (e.g. 90° for texts running upwards). An image element keeps its own picture
+(PNG, JPEG, e.g. the company logo, travelling with the title block file) or shows the
+project logo of *Project properties › Logo* (e.g. the customer's, different in every
+project), fitted into its rectangle with its aspect ratio; the cover page shows the
+project logo above the project name or at a place of its own (*Project properties ›
+Logo on the cover page*, `set_cover_logo`). Drawn report forms take the same elements.
+Every element can be limited to pages of some types (e.g. a field only on report
+pages) or to a filled placeholder (e.g. the second row of a revision table only with
+`{rev.2.name}`); lines, rectangles and texts get their own colour, lines and rectangles
+dashes. **QR codes** encode a text with placeholders (e.g. a link to the project in the
+document management with `{project}` and `{page}`). The title block of a page is its
+own, else the one of its page type (*Title block by page type*), of its plot frame
+(e.g. a narrower one for A4 portrait), the project default. `{rev.status}`,
+`{rev.approved_by}` and `{rev.approved_date}` show the state of the revision workflow
+and who approved the last revision.
+**Stamp**: a large text across every page that follows the revision workflow, e.g.
+DRAFT while a revision is prepared, FOR APPROVAL in review, nothing (or AS BUILT) when
+released (*Forms › Title blocks › Stamp*, `set_stamp`).
+**Company library**: the project's own title blocks, report schemes and plot frames are
+published to the parts server and loaded into other projects (*Title blocks › Company
+library*, `parts_company_forms` (`publish`); publishing needs the
+right to edit catalogs). Report forms choose the columns, their order, the heading and
+the rows per report page, the alignment of each column, columns summed in a total row
+below the last row (with the unit of their values) and shaded every second row.
 **Graphical forms**: a report form of the terminal, cable or plug diagram or the PLC
 assignment can switch to its graphical form – the strip drawn with a box per terminal (levels marked), end
 brackets and end plates, jumper bridges and the external and internal targets with

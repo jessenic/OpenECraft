@@ -61,11 +61,13 @@ Internal values of the EPLAN part exchange (0: undefined)	Interne Werte des EPLA
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Es funktioniert nur an einem der Artikel, zu denen es passt; die Projektprüfung meldet es an einem Gerät ohne solchen Artikel	Il ne fonctionne que fixé à l'un des articles auxquels il convient ; la vérification du projet le signale sur un appareil sans tel article	Solo funciona montado en uno de los artículos con los que es compatible; la verificación del proyecto lo indica en un equipo sin dicho artículo
 Largest conductor the clamp takes (0: not known)	Größter Leiter, den die Klemmstelle aufnimmt (0: unbekannt)	Plus gros conducteur accepté par la borne (0 : inconnu)	Conductor más grande que admite el borne (0: desconocido)
 Leave blank to use the saved token automatically. Saving a replacement requires Remember token.	Leer lassen, um das gespeicherte Token automatisch zu verwenden. Zum Ersetzen muss das Speichern aktiviert sein.	Laisser vide pour utiliser automatiquement le jeton enregistré. Activer la mémorisation pour le remplacer.	Dejar vacío para usar automáticamente el token guardado. Para sustituirlo, activar Recordar token.
+Loaded the library {}	Bibliothek {} geladen	Bibliothèque {} chargée	Biblioteca {} cargada
 Loaded {} parts (revision {})	{} Artikel geladen (Revision {})	{} articles chargés (révision {})	{} artículos cargados (revisión {})
 Loading catalogs…	Kataloge werden geladen…	Chargement des catalogues…	Cargando catálogos…
 Loading favorites…	Favoriten werden geladen…	Chargement des favoris…	Cargando favoritos…
 Loading the history…	Verlauf wird geladen…	Chargement de l'historique…	Cargando el historial…
 Loading users…	Benutzer werden geladen…	Chargement des utilisateurs…	Cargando usuarios…
+Loading {}…	{} wird geladen…	Chargement de {}…	Cargando {}…
 Mark for adding to the parts database	Zum Übernehmen in die Artikeldatenbank markieren	Marquer pour l'ajout à la base d'articles	Marcar para añadir a la base de datos de artículos
 Max. mm²	Max. mm²	Max. mm²	Máx. mm²
 Min. mm²	Min. mm²	Min. mm²	Mín. mm²
@@ -87,7 +89,6 @@ Pans (trackpad)	Verschiebt (Trackpad)	Déplace (pavé tactile)	Desplaza (panel t
 Parts server: {}	Artikelserver: {}	Serveur d'articles : {}	Servidor de artículos: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikel, aus denen dieser Artikel zusammengesetzt ist; die Stückliste führt sie darunter auf	Articles dont cet article est composé ; la nomenclature les liste en dessous	Artículos de los que se compone este artículo; la lista de materiales los muestra debajo
 Personal access token	Persönliches Zugriffstoken	Jeton d'accès personnel	Token de acceso personal
-Picture	Bild	Image	Imagen
 Place by clicking into the view	Durch Klick in die Ansicht platzieren	Placer en cliquant dans la vue	Colocar haciendo clic en la vista
 Prices / other	Preise / Sonstiges	Prix / divers	Precios / otros
 Remember token on this computer	Token auf diesem Computer speichern	Mémoriser le jeton sur cet ordinateur	Recordar el token en este equipo
@@ -100,6 +101,7 @@ Rotate 90°:	Um 90° drehen:	Pivoter de 90° :	Girar 90°:
 Save the file	Datei speichern	Enregistrer le fichier	Guardar el archivo
 Saved Data Portal token removed	Gespeichertes Data-Portal-Token entfernt	Jeton Data Portal enregistré supprimé	Token de Data Portal guardado eliminado
 Saved part {}	Artikel {} gespeichert	Article {} enregistré	Artículo {} guardado
+Saved the library {}	Bibliothek {} gespeichert	Bibliothèque {} enregistrée	Biblioteca {} guardada
 Saving favorites…	Favoriten werden gespeichert…	Enregistrement des favoris…	Guardando favoritos…
 Saving {}…	{} wird gespeichert …	Enregistrement de {}…	Guardando {}…
 Scale ×	Maßstab ×	Échelle ×	Escala ×
@@ -116,6 +118,7 @@ Successor {}	Nachfolger {}	Successeur {}	Sucesor {}
 Take {} values from the technical data	{} Werte aus den technischen Daten übernehmen	Reprendre {} valeurs des données techniques	Tomar {} valores de los datos técnicos
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	Die 2D-Frontansicht wird in der Schaltschrank-Frontansicht und auf Montageplan-Seiten verwendet, das 3D-Modell in der 3D-Schaltschrankansicht. Beide werden an die Montagedaten (Breite × Höhe × Tiefe) angepasst.	La vue de face 2D est utilisée dans la vue de face de l'armoire et sur les pages d'implantation, le modèle 3D dans la vue 3D de l'armoire. Les deux sont adaptés aux données de montage (largeur × hauteur × profondeur).	La vista frontal 2D se usa en la vista frontal del armario y en las páginas de distribución de montaje, el modelo 3D en la vista 3D del armario. Ambos se ajustan a los datos de montaje (ancho × alto × profundidad).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Das Modell ({} × {} × {}) weicht von den Montagedaten ({} × {} × {}) ab; es wird auf die Montagedaten gestreckt.	Le modèle ({} × {} × {}) diffère des données de montage ({} × {} × {}) ; il est étiré aux données de montage.	El modelo ({} × {} × {}) difiere de los datos de montaje ({} × {} × {}); se estira a los datos de montaje.
+The parts server has no library {} yet	Der Artikelserver hat noch keine Bibliothek {}	Le serveur d'articles n'a pas encore de bibliothèque {}	El servidor de artículos aún no tiene la biblioteca {}
 The price refers to this many units	Der Preis bezieht sich auf diese Anzahl Einheiten	Le prix se rapporte à ce nombre d'unités	El precio se refiere a esta cantidad de unidades
 The successor is not in this parts list	Der Nachfolger ist nicht in dieser Artikelliste	Le successeur n'est pas dans cette liste d'articles	El sucesor no está en esta lista de artículos
 This part is an accessory	Dieser Artikel ist Zubehör	Cet article est un accessoire	Este artículo es un accesorio

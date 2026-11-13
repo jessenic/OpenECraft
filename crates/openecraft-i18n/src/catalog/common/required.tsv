@@ -204,6 +204,7 @@ Line	Linie	Ligne	Línea
 Lines run in the zone	Leitungen verlaufen in der Zone	Les lignes passent dans la zone	Las líneas van por la zona
 Link	Verknüpfung	Lien	Enlace
 Linked	Verknüpft	Lié	Vinculado
+Load	Verbraucher	Charge	Carga
 Loaded circuits bunched together	Gehäufte belastete Stromkreise	Circuits chargés groupés	Circuitos cargados agrupados
 Location	Ort	Emplacement	Ubicación
 Location (+)	Einbauort (+)	Emplacement (+)	Ubicación (+)
@@ -241,6 +242,7 @@ Name of the scheme	Name des Schemas	Nom du schéma	Nombre del esquema
 Net	Netz	Réseau	Red
 Never	Nie	Jamais	Nunca
 New name	Neuer Name	Nouveau nom	Nuevo nombre
+Next page	Nächste Seite	Page suivante	Página siguiente
 No	Nein	Non	No
 No Vault item matches a part of the project	Kein Vault-Element passt zu einem Artikel des Projekts	Aucun élément Vault ne correspond à un article du projet	Ningún elemento de Vault coincide con un artículo del proyecto
 No cable {}	Kein Kabel {}	Aucun câble {}	No hay manguera {}
@@ -265,10 +267,12 @@ No such level	Keine solche Ebene	Niveau introuvable	No existe ese nivel
 No such page	Diese Seite gibt es nicht	Cette page n'existe pas	Esta página no existe
 No such section	Abschnitt nicht vorhanden	Section introuvable	No existe esa sección
 No symbol with id {}	Kein Symbol mit der ID {}	Aucun symbole avec l'ID {}	Ningún símbolo con el ID {}
+No title block of the project named {}	Kein Schriftfeld des Projekts namens {}	Aucun cartouche du projet nommé {}	No hay ningún cajetín del proyecto llamado {}
 Nominal size	Nennweite	Diamètre nominal	Diámetro nominal
 Not a language code: {}	Kein Sprachcode: {}	Pas un code de langue : {}	No es un código de idioma: {}
 Not a macro file: {}	Keine Makrodatei: {}	Ce n'est pas un fichier de macros : {}	No es un archivo de macros: {}
 Not a symbol id: {}	Keine Symbol-ID: {}	Pas un identifiant de symbole : {}	No es un id de símbolo: {}
+Not a title block file: {}	Keine Schriftfelddatei: {}	Ce n'est pas un fichier de cartouches : {}	No es un archivo de cajetines: {}
 Not a valid rule set file: {}	Keine gültige Regelwerksdatei: {}	Fichier de règles non valide : {}	Archivo de reglas no válido: {}
 Not in the schematic	Nicht im Schaltplan	Pas dans le schéma	No está en el esquema
 Note	Hinweis	Remarque	Nota
@@ -311,6 +315,7 @@ Parts	Artikel	Articles	Artículos
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Artikel (CSV, JSON, BMEcat, EPLAN-XML, EDZ)	Articles (CSV, JSON, BMEcat, XML EPLAN, EDZ)	Artículos (CSV, JSON, BMEcat, XML de EPLAN, EDZ)
 Parts import failed: {}	Artikelimport fehlgeschlagen: {}	Échec de l'import des articles : {}	Error al importar artículos: {}
 Password	Passwort	Mot de passe	Contraseña
+Picture	Bild	Image	Imagen
 Pieces	Stück	Pièces	Piezas
 Pin	Stift	Broche	Pin
 Pin layout: {}	Pinbild: {}	Disposition des broches : {}	Disposición de pines: {}
@@ -335,6 +340,7 @@ Power (kW)	Leistung (kW)	Puissance (kW)	Potencia (kW)
 Power loss	Verlustleistung	Puissance dissipée	Potencia disipada
 Pre-planning	Vorplanung	Préplanification	Preplanificación
 Press	Presse	Presse	Prensa
+Previous page	Vorherige Seite	Page précédente	Página anterior
 Price	Preis	Prix	Precio
 Price unit	Preiseinheit	Unité de prix	Unidad de precio
 Process engineering	Verfahrenstechnik	Génie des procédés	Ingeniería de procesos
@@ -344,6 +350,7 @@ Product top group	Produkthauptgruppe	Groupe de produits principal	Grupo principa
 Profile	Profil	Profil	Perfil
 Project	Projekt	Projet	Proyecto
 Project languages	Projektsprachen	Langues du projet	Idiomas del proyecto
+Project logo	Projektlogo	Logo du projet	Logotipo del proyecto
 Project management	Projektverwaltung	Gestion de projets	Gestión de proyectos
 Project name	Projektname	Nom du projet	Nombre del proyecto
 Project properties	Projekteigenschaften	Propriétés du projet	Propiedades del proyecto
@@ -363,6 +370,7 @@ Rectangular	Rechteckig	Rectangulaire	Rectangular
 Reject	Ablehnen	Refuser	Rechazar
 Relative humidity	Relative Luftfeuchte	Humidité relative	Humedad relativa
 Relay	Relais	Relais	Relé
+Released	Freigegeben	Validé	Liberado
 Released pages cannot be moved	Freigegebene Seiten können nicht verschoben werden	Les pages validées ne peuvent pas être déplacées	Las páginas liberadas no se pueden mover
 Remove	Entfernen	Retirer	Quitar
 Remove from favorites	Aus Favoriten entfernen	Retirer des favoris	Quitar de favoritos
@@ -456,6 +464,7 @@ Time	Zeit	Temps	Tiempo
 Title block	Schriftfeld	Cartouche	Cajetín
 To	Nach	Vers	A
 Tools	Werkzeuge	Outils	Herramientas
+Total	Gesamt	Total	Total
 Transformer	Transformator	Transformateur	Transformador
 Type	Typ	Type	Tipo
 Type number	Typnummer	Numéro de type	Número de tipo
@@ -487,6 +496,7 @@ Warning	Warnung	Avertissement	Advertencia
 Warnings	Warnungen	Avertissements	Advertencias
 Weight	Gewicht	Poids	Peso
 Width	Breite	Largeur	Ancho
+Width in mm	Breite in mm	Largeur en mm	Ancho en mm
 Window	Fenster	Fenêtre	Ventana
 Wire	Leitung	Fil	Hilo
 Wire colours	Aderfarben	Couleurs des fils	Colores de los hilos
@@ -521,6 +531,7 @@ yes	ja	oui	sí
 {} does not stand on the floor: choose a part marked for floor mounting	{} steht nicht auf dem Boden: einen für Bodenmontage gekennzeichneten Artikel wählen	{} ne se pose pas au sol : choisissez un article marqué pour le montage au sol	{} no se apoya en el suelo: elija un artículo marcado para montaje en suelo
 {} exists already	{} existiert bereits	{} existe déjà	{} ya existe
 {} is no 19-inch rack	{} ist kein 19-Zoll-Rack	{} n'est pas une baie 19 pouces	{} no es un rack de 19 pulgadas
+{} is not a PNG or JPEG image	{} ist kein PNG- oder JPEG-Bild	{} n'est pas une image PNG ou JPEG	{} no es una imagen PNG o JPEG
 {} is not a room	{} ist kein Raum	{} n'est pas une salle	{} no es una sala
 {} parts	{} Artikel	{} articles	{} artículos
 {} wires	{} Leitungen	{} fils	{} hilos

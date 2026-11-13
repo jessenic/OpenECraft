@@ -331,6 +331,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	直流控制电路应为蓝
 DC/DC converter	DC/DC 变换器
 DWG export failed: {}	DWG 导出失败：{}
 Data sheet	数据表
+Date of the approval of the last revision	最新修订的批准日期
 Date of the last revision	最新修订的日期
 Degree of protection	防护等级
 Delete projects	删除项目
@@ -763,7 +764,6 @@ Limit switch NO (NFPA)	限位开关 常开触点 (NFPA)
 Line reactor	进线电抗器
 Linear motor 3-phase	三相直线电机
 Literal braces	大括号（原义）
-Load	负载
 Load calculation	负载计算
 Loads and power supplies	负载和电源
 Loads behind it: {}	下游负载：{}
@@ -1263,6 +1263,7 @@ Push button with key NO, latching	带钥匙按钮，常开，自锁
 Pushbutton NC	按钮 常闭触点
 Pushbutton NO	按钮 常开触点
 Pyramid roof	攒尖屋顶
+QR code	二维码
 Qty	数量
 RCD {} mA	RCD {} mA
 Radiation	辐射
@@ -1308,7 +1309,6 @@ Relay coil, remanent	继电器线圈，剩磁
 Relay coil, resonant	继电器线圈，谐振
 Relay coil, thermal	继电器线圈，热动
 Relays, contactors	继电器、接触器
-Released	已发布
 Released pages cannot be deleted	无法删除已发布页
 Remote I/O	分布式 I/O
 Remote I/O {} has no controller	分布式 I/O {} 没有控制器
@@ -1327,6 +1327,10 @@ Result	结果
 Return / exhaust line	回流 / 排气管路
 Reviewer	审阅者
 Revision overview (changes)	修订概览（更改）
+Revision table: author of the last revision (2: the one before …)	修订表：最近一次修订的作者（2：再前一次 …）
+Revision table: date of the last revision (2: the one before …)	修订表：最近一次修订的日期（2：再前一次 …）
+Revision table: description of the last revision (2: the one before …)	修订表：最近一次修订的说明（2：再前一次 …）
+Revision table: index of the last revision (2: the one before …)	修订表：最近一次修订的索引（2：再前一次 …）
 Right side	右侧
 Right side panel	右侧板
 Ring terminal	环形端子
@@ -1473,6 +1477,7 @@ Start date	开始日期
 Started	已开始
 Starting current ratio	启动电流比
 Starting torque	启动转矩
+State of the project: draft, in review, approved, released	项目状态：草稿、审阅中、已批准、已发布
 Station name (PROFINET)	设备名称 (PROFINET)
 Station name {} is used {} times	站名 {} 被使用了 {} 次
 Station {} is not connected to bus {}	站 {} 未连接到总线 {}
@@ -1646,7 +1651,6 @@ Timer relay coil, off-delay	时间继电器线圈，断电延时
 Timer relay coil, on-delay	时间继电器线圈，通电延时
 Title blocks and report forms	标题栏和报表表单
 To order	待订购
-Total	合计
 Total length (m)	总长度 (m)
 Total price	总价
 Total weight	总重量
@@ -1767,6 +1771,7 @@ Wavemeter	波长计
 Wearing part	易损件
 Weld stud	焊接螺柱
 Wetted material	接液材料
+Who approved the last revision (review); {rev.2.approved_by}: the one before	最新修订的批准者（审阅）；{rev.2.approved_by}：再前一次
 Width (mm)	宽度 (mm)
 Winding connection	绕组接法
 Wire assigned to unknown cable {}	导线分配给了未知电缆 {}

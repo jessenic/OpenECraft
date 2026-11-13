@@ -47,12 +47,14 @@ Altitude of the site in m	安装地点海拔，单位 m
 Ambient temperature of the conductors in °C	导体的环境温度 (°C)
 An outline needs {} points at least	轮廓至少需要 {} 个点
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	沿轴的锚定：free、start:<mm>、center:<mm>、end:<mm> 或 stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	角度（度），逆时针
 Aspects separated by commas, e.g. function,location	方面，以逗号分隔，例如 function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	将功能定义分配给已放置的符号（采用标识和方案）
 Asynchronous motors add to the short-circuit current	异步电机会增大短路电流
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	自动硬件组态：CPU 和总线耦合器的站、总线系统、卡件到站的分配、插槽、起始地址、点地址、IP 地址和线形拓扑
 Back to the default rules first	先恢复为默认规则
 Back to the default strategy first	先恢复为默认策略
+Back to the place above the project name	恢复到项目名称上方的位置
 Back-up protection up to this short-circuit current in kA (0: not given)	在此短路电流（kA）以下具有后备保护（0：未给定）
 Bar id	铜排 ID
 Bar thickness, mm (default 5)	铜排厚度，mm（默认 5）
@@ -101,6 +103,7 @@ Chosen value	所选值
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	安装板布局的间距、维护空间、高度、碰撞类别、热仿真和可制造性
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	机柜温控 (IEC/TR 60890)：功率损耗、内部温度、所需的风扇或冷却装置以及加热；也可更改某一机柜的设置
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	碰撞类别：power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory、自有类别或 * 表示任意
+Colour as #RRGGBB	颜色，格式 #RRGGBB
 Column and row strips	列和行条
 Column mapping {field code: column name}	列映射 {字段代码: 列名}
 Column name, e.g. Description	列名，例如 Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	创建或更改配置器选项
 Creates or changes a fluid device group	创建或更改流体设备组
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	创建或更改项目的图框（内置图框以新名称复制）
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	创建或更改电位定义；除非在导线上另行设置，其导线将采用该颜色和截面积
+Creates or changes a title block of the project (built-in ones are copied under a new name)	创建或修改项目的标题栏（内置标题栏以新名称复制）
 Creates or changes a work area: only the pages and devices of its structure are shown	创建或更改工作区：只显示其结构中的页和设备
 Cross reference placed by hand: X offset from the insertion point in mm	手动放置的交叉引用：相对于插入点的 X 偏移（mm）
 Cross reference placed by hand: Y offset from the insertion point in mm	手动放置的交叉引用：相对于插入点的 Y 偏移（mm）
@@ -171,6 +175,7 @@ Deletes a page	删除页
 Deletes a page template of the project	删除项目的页模板
 Deletes a plot frame of the project that no page uses	删除项目中没有页使用的图框
 Deletes a potential definition	删除电位定义
+Deletes a title block of the project; pages using it get the project default	删除项目的标题栏；使用它的页改用项目默认标题栏
 Deletes a work area	删除工作区
 Deletes symbols, wires, texts and shapes	删除符号、导线、文本和形状
 Depth in mm	深度 (mm)
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	布线栅格的边长 (mm)
 Electrical device tags separated by commas or blanks (empty = remove the links)	电气设备标识符，以逗号或空格分隔（空 = 移除关联）
 Electrical engineering	电气工程
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	元素（Line、Rect、Text、Image），以毫米为单位，从标题栏区域左上角起，放在 items 数组中
 Enclosure (location, e.g. +CAB1)	机柜（位置，例如 +CAB1）
 Enclosure (location, e.g. +CAB1) whose settings change	要更改设置的机柜（位置，例如 +CAB1）
 Enclosure climate and electrical sizing	机柜温控和电气选型
@@ -273,6 +279,7 @@ Height above the floor in metres	离地高度，单位为米
 Height above the mounting plate in mm (default 50)	安装板以上高度 (mm)（默认 50）
 Height in mm	高度 (mm)
 Height in mm without plinth; negative: unknown (wall mounted)	高度，单位 mm，不含底座；负值：未知（壁挂安装）
+Height in mm; the logo keeps its aspect ratio inside	高度（毫米）；标志在其中保持原比例
 Higher-level product aspect (-) of the page; the devices on the page move along	页的上级产品方面 (-)；页上的设备随之移动
 Highest actuator on the door above the floor (0: not checked)	柜门上操作元件的最高离地高度（0：不检查）
 Highest air temperature at devices without data (0: not checked)	无数据设备处的最高空气温度（0：不检查）
@@ -311,6 +318,7 @@ Integration profiles and status	集成配置文件和状态
 Interruption points refer to: all (default), star or pairs	中断点引用：all（默认）、star 或 pairs
 Invalid answer of the plugin: {}	插件的应答无效：{}
 Invalid segment name: {}	无效的规划段名称：{}
+Invalid title block elements: {}	无效的标题栏元素：{}
 Item id	元素 ID
 Item ids	元素 ID
 Jumper number	跳线编号
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	编写项目文本所用的�
 Larger round holes are milled, mm	大于此值的圆孔将被铣削，mm
 Largest difference between hole and tool, mm	孔与刀具之间的最大差值，mm
 Left edge from the left end of the wall (seen from inside) in mm	左边缘距墙左端的距离（从内侧看），mm
+Left edge in mm	左边缘（毫米）
 Left edge on the face in mm	面上的左边缘 (mm)
 Left edge on the mounting plate in mm	安装板上的左边缘 (mm)
 Left side bayed (no side panel)	左侧并柜（无侧板）
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	列出可放置的符号及其相对于插入点的连接点
 Lists the terminal strips with their number of terminals and length on the rail	列出端子排及其端子数量和在导轨上的长度
 Lists the terminations chosen for wire ends and the kinds there are	列出为导线端头选择的端接方式及可用类型
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	列出标题栏（内置和项目自有）及其元素、项目默认标题栏和占位符
 Lists the translation dictionary of the project texts (source line and translations)	列出项目文本的翻译词典（源行和翻译）
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	列出页上放置的窗口宏（宏边框）及其宏、变体、占位符值和元素数量
 Load losses of the transformer in W (0: typical)	变压器负载损耗，单位 W（0：典型值）
@@ -438,6 +448,8 @@ Name of the main earthing terminal	总接地端子的名称
 Name of the safety function to remove	要移除的安全功能的名称
 Name of the segment	规划段名称
 Name of the template	模板名称
+Name of the title block	标题栏名称
+Name of the title block (with page_type: empty removes the choice)	标题栏名称（与 page_type 一起使用时：空 = 删除选择）
 Name of the work area	工作区名称
 Name or id; the tag for places	名称或 ID；放置则为标识符
 Name placed by hand: X offset from the insertion point in mm	手动放置的名称：相对于插入点的 X 偏移（mm）
@@ -480,6 +492,7 @@ No terminal strip {}	端子排 {} 不存在
 No terminal {} on strip {}	端子排 {1} 上不存在端子 {0}
 No text with id {}	不存在 ID 为 {} 的文本
 No three wires meet at {} / {} mm: give the direction of the stem	在 {} / {} mm 处没有三条连接线相交：请给出主干方向
+No title block named {}	没有名为 {} 的标题栏
 No transformer: set {} first	无变压器：请先设置 {}
 No wire at {} / {} mm	{} / {} mm 处没有导线
 No wire with id {}	没有 ID 为 {} 的导线
@@ -489,6 +502,7 @@ Node {} exists already	节点 {} 已存在
 Nodes to pass in this order, comma separated	按此顺序经过的节点，以逗号分隔
 Nominal size, e.g. 8 mm or DN25	公称尺寸，例如 8 mm 或 DN25
 None of the items is an interruption point	没有一个元素是中断点
+Not a colour (#RRGGBB): {}	不是颜色（#RRGGBB）：{}
 Not a cross-section: {} (e.g. 1.5 mm²)	不是截面积：{}（例如 1.5 mm²）
 Not a valid safety function: {}	不是有效的安全功能：{}
 Note, e.g. what the problem is	注释，例如问题是什么
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	一端，例如 -K1:A1
 One row per printed label instead of a count	每个打印的标签一行，而不是数量
 Only devices on these pages (names separated by commas)	仅限这些页上的设备（名称以逗号分隔）
 Only doors and windows open	只有门和窗可以开启
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	仅用于此类型的页：schematic、cover、report、mounting、overview、graphic 或 document
 Only lines without a translation into this language	仅限未翻译为此语言的行
 Only list the new tags, change nothing	仅列出新标识符，不做任何更改
 Only shows the package, no job is recorded	仅显示包，不记录作业
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	组的位置数（0 = 不限）
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	将符号连接点的标识放在其左侧、右侧、上方或下方并进行偏移；不指定方位和偏移时重新自动放置
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	将机柜的柜排放置在房间中（所有机柜的 3D 视图）；未指定 x 和 z 时，根据工厂布局放置或放在其他柜排旁边
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	将中断点的名称和交叉引用放置在符号的一侧，或手动放置在相对于插入点的偏移处
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	将项目标志放在封面上（从绘图区域左上角起的毫米数）；无参数时显示位置
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	将方案的属性放置到符号处；未指定 ID 时，在所有使用它的符号处重新放置
 Planned part number	规划的部件编号
 Planned power in kW	规划功率，单位 kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	在原理图之前包含已规划设备的工厂规划段：模板、功率预算、与原理图的状态对比、以 CSV / Excel 交换
 Plinth height in mm, 0 without plinth	底座高度 (mm)，0 表示无底座
 Plot frame (list_frames); empty = the project default	图框 (list_frames)；空 = 项目默认值
-Plot frames and page templates of the project	项目的图框和页模板
+Plot frames, title blocks and page templates of the project	项目的图框、标题栏和页模板
 Plug tag, e.g. -X10	插头标识符，例如 -X10
 Plugin id '{}' is not snake_case	插件 ID '{}' 不是 snake_case
 Plugin {} is loaded twice	插件 {} 被加载了两次
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	设置所有未选择图
 Sets the shield and the outer diameter of a cable	设置电缆的屏蔽和外径
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	设置项目文本的源语言和目标语言（ISO 639-1 代码）
 Sets the spare terminals of a strip and whether its accessories are added automatically	设置端子排的备用端子以及是否自动添加其附件
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	设置按修订流程状态在所有页上绘制的水印（例如“草稿”）；无参数时显示水印
+Sets the title block of all pages that do not choose one, or of the pages of one type	设置所有未选择标题栏的页或某一类型页的标题栏
 Sets the translation of a line of the project texts (empty removes it)	设置项目文本某一行的翻译（空则将其移除）
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	设置没有定义电位的网络的导线颜色和截面积（空 = 无）
 Share of the capacity kept free in percent	保留的容量比例（百分比）
@@ -791,11 +809,16 @@ Terminal designation	端子代号
 Terminal designations in strip order, separated by commas	按端子排顺序排列的端子代号，以逗号分隔
 Terminal order, levels, jumpers, spare terminals and accessories	端子顺序、层、跳线、备用端子和附件
 Text height in mm	文本高度 (mm)
+Text height in mm (0: fitted to the page)	文字高度（毫米）（0：适应页面）
 Text height in mm (default 3.5)	文本高度 (mm)（默认 3.5）
 Text in id, name or order number	ID、名称或订货号中的文本
 Text in the key or name	键或名称中的文本
 Text in the line or a translation	行或翻译中的文本
 Text to find; empty: fill	要查找的文本；空：填充
+Text when everything is released, e.g. AS BUILT	全部发布后的文字，例如“完成”
+Text when the revision is approved but not released	修订已批准但未发布时的文字
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	修订为草稿或尚未发布任何内容时的文字（可用占位符；空 = 无）
+Text while a revision is in review or was rejected	修订审阅中或被拒绝时的文字
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	文本；绘制时将填入占位符，例如 {page} 或 {prop:Name}
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	拐角的分支是一个垂直方向和一个水平方向，例如 down left，而不是 {}
 The cable definition line crosses no wire	电缆定义线未穿过任何导线
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	最厚板材或铜排，mm
 Time per drilling, punching or bending operation, s	每次钻孔、冲孔或折弯操作的时间，s
 Time per tool change, s	每次换刀时间，s
+Title block (list_title_blocks); empty = the project default	标题栏（list_title_blocks）；空 = 项目默认
+Title block of the pages with this frame that do not choose one; empty: the project default	使用此图框且未选择标题栏的页的标题栏；空 = 项目默认
+Title block to start from when it is new (default: Standard)	新建时作为起点的标题栏（默认：Standard）
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	刀具，例如 D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	上边缘（毫米）
 Top edge on the face in mm	面上的上边缘 (mm)
 Top edge on the mounting plate in mm	安装板上的上边缘 (mm)
 Translated line	翻译后的行
@@ -876,6 +903,7 @@ Unknown node: {}	未知节点：{}
 Unknown numbering scheme: {}	未知编号方案：{}
 Unknown object class: {}	未知对象类别：{}
 Unknown order: {}	未知顺序：{}
+Unknown page type: {}	未知的页类型：{}
 Unknown paper format: {}	未知纸张格式：{}
 Unknown path kind: {}	未知路径类型：{}
 Unknown placeholder {}: possible are {}	未知占位符 {}：可用的有 {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	位置所在
 Who accepted it	接受者
 Whole words only	仅全字匹配
 Why the message is accepted	接受该消息的原因
-Width in mm	宽度 (mm)
 Width of the path in mm (default 50)	路径宽度 (mm)（默认 50）
 Width, depth and height of a room are at least {} mm	房间的宽度、深度和高度至少为 {} mm
 Width, height and depth of an enclosure are at least {} mm	机柜的宽度、高度和深度至少为 {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired、problem 或 open
 {} has no enclosure bayed to its right side	{} 的右侧没有并柜的机柜
 {} has no enclosure system; give one	{} 没有机柜系统；请指定一个
 {} is a built-in frame; give the frame a new name	{} 是内置图框；请为图框指定新名称
+{} is a built-in title block; give the title block a new name	{} 是内置标题栏；请为标题栏指定新名称
 {} is a room already	{} 已经是房间
 {} is ambiguous: use #id:pin	{} 不明确：请使用 #id:pin
 {} is an enclosure already	{} 已经是机柜

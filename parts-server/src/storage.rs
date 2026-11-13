@@ -1,4 +1,5 @@
-//! Data of the portal: parts, catalogs, history, accounts, favorites and files.
+//! Data of the portal: parts, catalogs, history, accounts, favorites, files and
+//! libraries (JSON documents shared by all projects, e.g. the company's forms).
 //! [`Store`] holds the rules (revisions, history, attachments); a [`Backend`] only
 //! persists them: SQLite (default) or JSON files.
 
@@ -63,6 +64,8 @@ pub struct Change {
     pub accounts: Vec<Account>,
     pub deleted_accounts: Vec<String>,
     pub favorites: Vec<(String, Vec<String>)>,
+    /// Libraries by name (JSON text).
+    pub libraries: Vec<(String, String)>,
     pub files: Vec<StoredFile>,
     /// Ids of files no part or history entry refers to any more.
     pub deleted_files: Vec<String>,
@@ -84,6 +87,8 @@ pub trait Backend: Send {
     /// History of a part, newest first.
     fn history(&self, number: &str) -> io::Result<Vec<Snapshot>>;
     fn favorites(&self, user: &str) -> io::Result<Vec<String>>;
+    /// A library (JSON text) by name.
+    fn library(&self, name: &str) -> io::Result<Option<String>>;
     fn file(&self, id: &str) -> io::Result<Option<StoredFile>>;
     /// Ids of all stored files.
     fn file_ids(&self) -> io::Result<Vec<String>>;
@@ -412,6 +417,15 @@ impl Store {
 
     pub fn set_favorites(&mut self, user: &str, numbers: Vec<String>) -> io::Result<()> {
         self.commit(Change { favorites: vec![(user.into(), numbers)], ..Default::default() }, false)
+    }
+
+    pub fn library(&self, name: &str) -> io::Result<Option<String>> {
+        self.backend.library(name)
+    }
+
+    /// Stores a library (JSON text), replacing the one of that name.
+    pub fn put_library(&mut self, name: &str, json: String) -> io::Result<()> {
+        self.commit(Change { libraries: vec![(name.into(), json)], ..Default::default() }, false)
     }
 
     /// Stores a file and attaches it to a part (a file of the same name is replaced).

@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = ett enda värde; annars värden [1] … [n]
 0 = all approvers	0 = alla godkännare
 0 = estimated from cores and cross-section	0 = uppskattad från ledare och tvärsnitt
+0 = fitted to the page	0 = anpassad till sidan
 0 = fitted to the rows per page	0 = anpassat till raderna per sida
 0 = from the DC of the devices ({} %)	0 = från apparaternas DC ({} %)
 0 = from the devices	0 = från apparaterna
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	En kabel av busstypen för varje anslutning utan kabel
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Ett urtag av samma storlek på samma ställe i grannens sidovägg: tillsammans bildar de en kabelgenomföring
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	En fil med samma namn i mappen får en ny version (utcheckad och incheckad), annars läggs filen till
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	En stor text över varje sida, t.ex. UTKAST medan en revision förbereds; texterna tar platshållare, tomt: ingen stämpel.
 A level on top of the highest one	En våning ovanför den högsta
 A local file opens locally, a server project is opened on the project server again	En lokal fil öppnas lokalt, ett serverprojekt öppnas igen på projektservern
 A local file or a project on the project server	En lokal fil eller ett projekt på projektservern
@@ -55,6 +57,7 @@ A new project	Ett nytt projekt
 A new release is downloaded in the background and installed when you close OpenECraft.	En ny version laddas ned i bakgrunden och installeras när du stänger OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	En ny version laddas ned i bakgrunden och ersätter den här installationen; den används från nästa start.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Ett numrerat avsnitt som innehåller sidor som en mapp; sidnamnen börjar med dess nummer (2.3.1)
+A picture kept in the form, e.g. the company logo	En bild som sparas i formuläret, t.ex. företagets logotyp
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	En profil mappar de neutrala fälten till kolumnnamnen i ett visst system (t.ex. MATNR för ERP-numret i SAP). Utan mappning identifieras vanliga engelska och tyska namn.
 A project definition based on this one, with its own defaults and scheme	En projektdefinition baserad på den här, med egna standardvärden och schema
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	En projektfil som öppnas från filhanteraren öppnas i stället. Osparade ändringar från senaste sessionen förkastas aldrig utan att fråga.
@@ -66,8 +69,10 @@ A template of this name is replaced.	En mall med det här namnet ersätts.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	En mall anger sidtyp, ritningsram, namnruta, struktur och beskrivning för en ny sida och placerar dess innehåll.
 A way through free air costs this many times the way in a duct or routing path	En väg genom fri luft kostar så här många gånger vägen i en kanal eller dragningsväg
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Ett arbetsområde begränsar sidorna och apparaterna i navigatorn till en del av projektet. Filter: tomt = valfritt, * = valfria tecken; A1 omfattar även A1.2.
+APPROVED	GODKÄND
 About OpenECraft	Om OpenECraft
 Above the floor	Över golvet
+Above the project name	Ovanför projektnamnet
 Accept as checked	Godkänn som kontrollerat
 Accepted messages ({})	Godkända meddelanden ({})
 Active	Aktiv
@@ -144,6 +149,7 @@ Apply to the connection	Tillämpa på förbindelsen
 Apply to {} projects	Tillämpa på {} projekt
 Approval workflow	Godkännandeflöde
 Approvals needed	Godkännanden som krävs
+Approved	Godkänd
 Approving needs an approver; you are \"{}\".	Godkännande kräver en godkännare; du är \"{}\".
 Arc	Båge
 Archive and version	Arkiv och version
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Välj först ett rum: golvstående artiklar ställs på dess golv.
 Choose another project	Välj ett annat projekt
 Choose file…	Välj fil…
+Choose image…	Välj bild…
 Choose pages	Välj sidor
 Chooses the pages whose structure starts with this	Väljer de sidor vars struktur börjar med det här
 Circle	Cirkel
@@ -362,6 +369,7 @@ Comments ({} open)	Kommentarer ({} öppna)
 Comments ({})	Kommentarer ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Kommentarer som en granskare gjort i en PDF-export av projektet (Acrobat eller ett annat PDF-visningsprogram)
 Comments and markup	Kommentarer och markeringar
+Company library	Företagsbibliotek
 Compare and baselines	Jämför och baslinjer
 Compare with	Jämför med
 Compare with a baseline, a revision or another project file and take differences over	Jämför med en baslinje, en revision eller en annan projektfil och överför skillnader
@@ -405,6 +413,7 @@ Core designations separated by blanks	Ledarbeteckningar åtskilda med blanksteg
 Core labels placed by hand	Ledarbeteckningar placerade manuellt
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Ledare 1, 2, 3 … för de korsade ledningarna, plus GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Hörn: två ledare i rät vinkel; med automatisk anslutning på kopplas anslutningspunkter som är vända mot dess armar till det
+Counter-clockwise, e.g. 90 for texts running upwards	Moturs, t.ex. 90 för text som löper uppåt
 Cover sheet, overview, graphics, report, mounting layout or a page template	Försättsblad, översikt, grafik, rapport, monteringslayout eller en sidmall
 Covers	Täcker
 Covers what is behind the text	Täcker det som ligger bakom texten
@@ -431,6 +440,8 @@ Cut length step tubes	Kaplängdssteg slangar
 Cut length step wires	Kaplängdssteg ledningar
 Cutout {} × {} mm	Urtag {} × {} mm
 Cutting allowance per end	Kaptillägg per ände
+DRAFT	UTKAST
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	UTKAST, FÖR GODKÄNNANDE och GODKÄND på det aktuella språket; inget när det har släppts
 DWG import failed: {}	DWG-importen misslyckades: {}
 DWG imported as page {}: {} lines, {} texts	DWG importerad som sida {}: {} linjer, {} texter
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG importerad som sida {}: {} linjer, {} texter (inte importerat: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	{} nedladdad (version {})
 Downloaded {} parts (revision {}): {} new, {} updated	{} artiklar nedladdade (revision {}): {} nya, {} uppdaterade
 Downloading OpenECraft {}	Laddar ned OpenECraft {}
 Downstream part	Underordnad artikel
+Draft	Utkast
 Draft of revision {} created	Utkast till revision {} skapat
 Draft of revision {} discarded	Utkast till revision {} ignorerat
 Drag	Dra
@@ -665,6 +677,7 @@ Exporting {}	Exporterar {}
 Export…	Exportera…
 Extend guides to canvas edges	Dra ut hjälplinjerna till arbetsytans kanter
 Extras	Extra
+FOR APPROVAL	FÖR GODKÄNNANDE
 Facing	Riktning
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Fläktar, filter, kabelförskruvningar, belysning, handtag: välj ett och klicka sedan där det ska sitta
 Fastening hardware in the bill of materials	Fästelement i stycklistan
@@ -700,6 +713,7 @@ First row	Första raden
 Fit	Anpassa
 Fit page	Anpassa sida
 Fits {}	Passar till {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	Anpassas till rektangeln med bibehållet bildförhållande (PNG, JPEG)
 Float	Lossa
 Floor above ground	Golv över mark
 Floor plan	Planritning
@@ -707,8 +721,10 @@ Floor plan with {} walls	Planritning med {} väggar
 Floor-standing part	Golvstående artikel
 Fluid and process	Fluid och process
 Follows its condition: use Apply conditions	Följer sitt villkor: använd Tillämpa villkor
+Font	Teckensnitt
 Foot	Början
 For	För
+For pages that choose none; before the plot frame's title block and the project default.	För sidor som inte väljer någon; före ritningsramens namnruta och projektets standard.
 For parts without Stock length; longer profiles have to be joined	För artiklar utan Stock length; längre profiler måste skarvas
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	För artiklar utan temperaturdata (Max temperature, Operating temperature); 0: kontrolleras inte
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	För import i EPLAN-artikelhanteringen (P_ARTICLE_*-attribut, texter på en_US)
@@ -730,6 +746,7 @@ From a template file…	Från en mallfil…
 From row to row; 0: free of shade in winter	Från rad till rad; 0: skuggfritt på vintern
 From the function definition	Från funktionsdefinitionen
 From the left end	Från vänster ände
+From the top left corner of the drawing area	Från ritytans övre vänstra hörn
 From – to	Från – till
 Fullest stretch	Fullaste sträcka
 Function definitions	Funktionsdefinitioner
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	{} namnrutor och {} rapportschema
 Importing {} from the parts server…	Importerar {} från artikelservern…
 Import…	Importera…
 In every section counting starts again after the section number (2.3.1).	I varje avsnitt börjar räkningen om efter avsnittsnumret (2.3.1).
+In review	Under granskning
 In strip order; PE and other non-numeric terminals keep their designation	I plintradsordning; PE och andra icke-numeriska plintar behåller sin beteckning
 In the filtered rows	I de filtrerade raderna
 In the middle of the first wire	I mitten av den första ledningen
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	Låst av {} på projektservern 
 Locked by {} – read only	Låst av {} – skrivskyddad
 Locking…	Låser…
 Logic	Logik
+Logo	Logotyp
+Logo on the cover page	Logotyp på försättsbladet
 Longer values are drawn smaller (0 = no limit)	Längre värden ritas mindre (0 = ingen gräns)
 Look for updates when OpenECraft starts	Sök efter uppdateringar när OpenECraft startar
 Looking for updates…	Söker efter uppdateringar…
@@ -1135,7 +1155,6 @@ New zone	Ny zon
 New, empty placement scheme	Nytt, tomt placeringsschema
 Next free contact numbers on this device	Nästa lediga kontaktnummer på den här apparaten
 Next item	Nästa objekt
-Next page	Nästa sida
 Next page tab	Nästa sidflik
 Next pane	Nästa panel
 Next row	Nästa rad
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Inga – när du redigerar
 Not a page template file: {}	Inte en sidmallsfil: {}
 Not a point: type x y or @dx dy	Ingen punkt: skriv x y eller @dx dy
 Not a symbol library: {}	Inte ett symbolbibliotek: {}
-Not a title block file: {}	Inte en namnrutefil: {}
 Not changed: {}	Inte ändrad: {}
 Not found: {}	Hittades inte: {}
 Not in the project parts – synchronize in parts management	Inte bland projektets artiklar – synkronisera i artikelhanteringen
@@ -1226,9 +1244,11 @@ One row per label	En rad per etikett
 Only devices on the current page	Endast apparater på den aktuella sidan
 Only frames no page uses can be deleted	Endast ramar som ingen sida använder kan tas bort
 Only messages of the current page	Endast meddelanden för den aktuella sidan
+Only on pages of these types (none ticked: on all)	Endast på sidor av dessa typer (ingen markerad: på alla)
 Only parts whose function template provides the device's main function	Endast artiklar vars funktionsmall tillhandahåller apparatens huvudfunktion
 Only rows that pass all filters are shown	Endast rader som klarar alla filter visas
 Only web and e-mail addresses (http, https, mailto) are links	Endast webb- och e-postadresser (http, https, mailto) är länkar
+Only when filled	Endast om ifylld
 Open a specific project	Öppna ett visst projekt
 Open and save shared projects, lock pages	Öppna och spara delade projekt, lås sidor
 Open archive…	Öppna arkiv…
@@ -1301,6 +1321,8 @@ Overhang	Takutsprång
 Own colour	Egen färg
 Own drawn form	Eget ritat formulär
 Own groups	Egna grupper
+Own picture	Egen bild
+Own place	Egen plats
 PCT loops (pre-planning)	Instrumentslingor (förprojektering)
 PDF with comments	PDF med kommentarer
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Placerade manuellt; att välja
 Placed here: {}	Placerat här: {}
 Placed {}× in the project	Placerad {}× i projektet
 Placeholders	Platshållare
+Placeholders are filled, e.g. a link with {project} and {page}	Platshållare fylls i, t.ex. en länk med {project} och {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Platshållare som {MOTOR} i beteckningar, texter och funktionstexter fylls i vid infogning.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Platshållare: {letter} kodbokstav, {n} räknare, {page} sida, {column} / {row} där huvudfunktionen står
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Platshållare: {n} räknare (räknas per värde av resten), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Utan {n} delar förbindelser med samma text på numret.
@@ -1424,7 +1447,6 @@ Prefix	Prefix
 Press a key…	Tryck på en tangent…
 Preview	Förhandsgranskning
 Previous item	Föregående objekt
-Previous page	Föregående sida
 Previous page tab	Föregående sidflik
 Previous pane	Föregående panel
 Previous wire	Föregående ledning
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Egenskapsgrupper
 Property placement	Egenskapsplacering
 Property removed with {} values	Egenskapen med {} värden borttagen
+Publish	Publicera
 Put a room here	Placera ett rum här
 Put into the vault	Lägg i valvet
 Put the pane back into the workspace	Lägg tillbaka panelen i arbetsytan
@@ -1556,6 +1579,7 @@ Replace with	Ersätt med
 Replaced when the configurator generates again; switch off to keep the page	Ersätts när konfiguratorn genererar igen; stäng av för att behålla sidan
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Ersätter i fria texter, funktionstexter, sid-, apparat- och kabelbeskrivningar; frisläppta sidor lämnas orörda
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Ersätter GEN.*-artiklarna i databasen med den aktuella exempelkatalogen (inklusive modeller)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Ersätter företagsbiblioteket med projektets egna namnrutor, rapportscheman och ritningsramar (redaktörer för artikelservern)
 Replaces the content of the macro boxes whose macro changed in the library	Ersätter innehållet i de makrorutor vars makro har ändrats i biblioteket
 Replaces the pages of this block	Ersätter sidorna i det här blocket
 Reply	Svara
@@ -1745,6 +1769,7 @@ Settings scheme	Inställningsschema
 Settings scheme (JSON)	Inställningsschema (JSON)
 Settings taken over: {}	Inställningar överförda: {}
 Settings…	Inställningar…
+Shade every second row	Skugga varannan rad
 Shafts	Schakt
 Share of the capacity kept free for later additions	Andel av kapaciteten som hålls ledig för senare tillägg
 Shared project {} – revision {}, user {}	Delat projekt {} – revision {}, användare {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	Visa panelen som ett fönster
 Show the ribbon	Visa menyfliksområdet
 Show this wire	Visa den här ledningen
 Show who may use the project	Visa vem som får använda projektet
+Shown	Visas
 Shown as \"Name: value\"	Visas som \"Namn: värde\"
 Shown in title blocks with {prop:Name}	Visas i namnrutor med {prop:Name}
 Shown instead of the measured value	Visas i stället för det uppmätta värdet
+Shown now: {}	Visas nu: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Visas på försättsbladet och av bildelementen i namnrutor som visar projektets logotyp
 Shows	Visar
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Sidoväggar, bakvägg, tak och botten sedda utifrån: fläktar, kabelförskruvningar, urtag
 Sign in in the Project server pane; the project opens afterwards	Logga in i fönstret Projektserver; sedan öppnas projektet
@@ -1812,6 +1840,7 @@ Spare terminals	Reservplintar
 Special text	Specialtext
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Specialtext: projekt- och sidegenskaper som {page} eller {prop:Name} fylls i när sidan ritas
 Stairs	Trappor
+Stamp	Stämpel
 Standard form of the report	Rapportens standardformulär
 Standard size	Standardstorlek
 Standard workspaces	Standardarbetsytor
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Delprojektet s
 Subproject {} inserted: {} pages replaced by {}	Delprojekt {} infogat: {} sidor ersatta av {}
 Subprojects	Delprojekt
 Subsystem {}	Delsystem {}
+Suggested texts	Föreslagna texter
+Sums the column in a row below the last row of the report	Summerar kolumnen i en rad under rapportens sista rad
 Supply and conditions	Matning och förhållanden
 Surge protection	Överspänningsskydd
 Swing the enclosure door open or shut (door devices and their wires move with it)	Sväng upp eller stäng kapslingsdörren (dörrapparater och deras ledningar följer med)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	Apparaterna får inte plats på skenan
 The dictionary is empty: collect the texts from the project.	Ordlistan är tom: samla in texterna från projektet.
 The door seen from the front: door devices and cutouts	Dörren sedd framifrån: dörrapparater och urtag
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Dörren sedd inifrån (gångjärn till höger): kabelkanaler och ledningarna bakom dörren
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Elementet ritas bara när denna text med sina platshållare inte är tom, t.ex. raderna i en revisionstabell
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Kapslingen står med sin vänstra sida mot den valdas högra sida; ledningar går mellan dem genom kabelgenomföringar
 The horizontal wire	Den vågräta ledningen
 The items are selected and moved together	Objekten markeras och flyttas tillsammans
+The logo is fitted into this area keeping its aspect ratio	Logotypen anpassas till detta område med bibehållet bildförhållande
+The logo of the project properties, e.g. the customer's	Logotypen i projektegenskaperna, t.ex. kundens
 The macro library has no page macros (Macros › Save page as macro…).	Makrobiblioteket har inga sidmakron (Makron › Spara sida som makro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Modifieringstangenterna som får hjulet att panorera i sidled eller zooma ställs in under Modifieringstangenter.
 The modules no string takes yet in series, on the first inverter	Modulerna som ingen sträng tar ännu, i serie, på den första växelriktaren
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Trefasig kortslutningsström vid matningspunkten
 Tilt	Lutning
 Title	Rubrik
+Title block by page type	Namnruta per sidtyp
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Namnruta för sidor med denna ram som inte väljer någon, t.ex. en smalare för A4 stående
 Title blocks	Namnrutor
 Title blocks, plot frames and page templates	Namnrutor, ritningsramar och sidmallar
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Namnrutor, rapportscheman och ritningsramar som alla projekt delar på artikelservern (Artiklar › Artikelserver)
 To do	Att göra
 Toggle corner direction while drawing wires	Växla hörnriktning när ledningar ritas
 Toggle routing around symbols (wire tool)	Växla dragning runt symboler (ledningsverktyg)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} har osparade ändringar. Släng dem?
 {} imported into the parts database and placed as {}	{} importerad till artikeldatabasen och placerad som {}
 {} is neither in the parts database nor on the parts server	{} finns varken i artikeldatabasen eller på artikelservern
-{} is not a PNG or JPEG image	{} är inte en PNG- eller JPEG-bild
 {} is not in the disk image	{} finns inte i skivavbilden
 {} is not made for wall mounting: place it on a mounting rail	{} är inte avsedd för väggmontage: placera den på en skena
 {} is used by: {}	{} används av: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ Projektdata är konsekventa.
 ✔ Wired	✔ Inkopplad
 ➕ Default value	➕ Standardvärde
+➕ Image	➕ Bild
 ➕ Insert (click into the page)	➕ Infoga (klicka på sidan)
 ➕ Insert as new page	➕ Infoga som ny sida
 ➕ Label	➕ Etikett
 ➕ Line	➕ Linje
 ➕ Place property	➕ Placera egenskap
 ➕ Property	➕ Egenskap
+➕ QR code	➕ QR-kod
 ➕ Rectangle	➕ Rektangel
 ➕ Text	➕ Text
 ⬉ Select	⬉ Markera

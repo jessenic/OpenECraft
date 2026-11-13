@@ -5,6 +5,8 @@ Access token for changes	Token de acces pentru modificări
 Access token of a Vault session or an Autodesk account instead of user and password	Tokenul de acces al unei sesiuni Vault sau al unui cont Autodesk în locul utilizatorului și parolei
 Address of the Vault server, e.g. https://vault.example.com	Adresa serverului Vault, de ex. https://vault.example.com
 Adds a page	Adaugă o pagină
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	Adaugă o imagine (de ex. sigla firmei) într-un cartuș al proiectului; fără fișier arată sigla proiectului
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	Adaugă în proiect biblioteca de formulare a firmei de pe serverul de piese (cartușe, scheme de rapoarte, chenare)
 Adds the definitions and schemes of a property library file to the project	Adaugă în proiect definițiile și schemele unui fișier de bibliotecă de proprietăți
 All project files of a folder	Toate fișierele de proiect ale unui folder
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	Returnează și fațetele: valorile grupelor, producătorilor, cataloagelor, ciclului de viață și datelor tehnice cu numărul lor
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	ID folder (implicit root)
 Folder with project files	Folder cu fișiere de proiect
 Folder with project files (instead of a database; default: the current folder)	Folder cu fișiere de proiect (în locul unei baze de date; implicit: folderul curent)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	Formular: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (scheme de borne și de cabluri ca desene)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	Formular: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (scheme de borne și de cabluri ca desene), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	Funcția (=) paginilor generate
 Further parameters of the export as name=value, separated by commas	Alți parametri ai exportului ca nume=valoare, separați prin virgule
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	Alți parametri ai exportului ca nume=valoare, separați prin virgulă (vezi list_exports), de ex. harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	Indicați fie template, fie path
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	Acordă unui utilizator sau grup un rol pentru un producător (domeniu) al serverului de articole, cu deny îi retrage drepturile, cu revoke elimină atribuiri (numai administratori)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	Grupe de generat, caractere joker permise (-X*, -W1); gol: toate
+Height in mm; the image keeps its aspect ratio inside	Înălțime în mm; imaginea își păstrează proporțiile în interior
 Id of a file (file_id of vault_browse) that gets a new version	ID-ul unui fișier (file_id din vault_browse) care primește o versiune nouă
 Id of the file version (version_id of vault_browse)	ID-ul versiunii de fișier (version_id din vault_browse)
 Id of the knowledge vault (taken from the session if not given)	ID-ul seifului de cunoștințe (preluat din sesiune dacă nu este indicat)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	Păstrarea fișierului în check-ou
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	Tipul serverului: OpenECraft (server de articole) sau Eplan (EPLAN Data Portal: numai căutare și citire, tokenul este tokenul de acces personal al contului EPLAN)
 Language of the export (a project language)	Limba exportului (o limbă a proiectului)
 Language of the project texts and reports (a project language, default the source language)	Limba textelor și rapoartelor proiectului (o limbă a proiectului, implicit limba sursă)
+Left edge in mm from the left of the title block area	Marginea stângă în mm de la stânga zonei cartușului
 Library file	Fișier bibliotecă
 Lifecycle: Active, PhaseOut or Discontinued	Ciclu de viață: Active, PhaseOut sau Discontinued
 Lists the built-in structure templates	Listează șabloanele de structură integrate
@@ -159,6 +163,8 @@ Output file (JSON)	Fișier de ieșire (JSON)
 Output file; without it the content is returned	Fișier de ieșire; fără el, conținutul este returnat
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	Transmite paginile de raport ca pagini fixe într-un alt fișier de proiect; paginile transmise anterior din acest proiect sunt înlocuite
 PDF file with comments	Fișier PDF cu comentarii
+PNG or JPEG file kept in the title block (default: the project logo)	Fișier PNG sau JPEG păstrat în cartuș (implicit: sigla proiectului)
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	Fișier PNG sau JPEG al siglei proiectului (copertă, cartușe); gol o elimină
 Page (svg: required, dxf, dwg: default all pages)	Pagină (svg: obligatoriu, dxf, dwg: implicit toate paginile)
 Page name (default: next number)	Nume pagină (implicit: următorul număr)
 Page of the export	Pagina exportului
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	Pornește de la un proiect exemplu (nume: list_examples)
 Start from the demo project	Pornire de la proiectul demonstrativ
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	Stochează un fișier (fișă tehnică, imagine, model, macro …) împreună cu un articol pe serverul de articole
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	Salvează cartușele, schemele de rapoarte și chenarele proprii ale proiectului ca bibliotecă de formulare a firmei pe serverul de piese (editori)
 Subproject file (.oec)	Fișier de subproiect (.oec)
 Subproject file to write (.oec)	Fișierul de subproiect de scris (.oec)
 Take the changes over (otherwise only a preview)	Preluarea modificărilor (altfel doar previzualizare)
@@ -247,9 +254,13 @@ The catalog needs a name	Catalogul necesită un nume
 The format xlsx needs a path	Formatul xlsx necesită o cale
 The open project has unsaved changes: save it first or pass discard	Proiectul deschis are modificări nesalvate: salvați-l mai întâi sau transmiteți discard
 The part number must not be empty	Numărul de articol nu poate fi gol
+The parts server has no form library yet	Serverul de piese nu are încă o bibliotecă de formulare
 The project has no file yet: pass a path	Proiectul nu are încă un fișier: indicați o cale
+The project has no title blocks, report schemes or plot frames of its own	Proiectul nu are cartușe, scheme de rapoarte sau chenare proprii
 This command needs a project: --project <file>	Această comandă necesită un proiect: --project <fișier>
 This format needs an output file (path)	Acest format necesită un fișier de ieșire (path)
+Title block of the project (list_title_blocks)	Cartuș al proiectului (list_title_blocks)
+Top edge in mm from the top of the title block area	Marginea de sus în mm de la partea de sus a zonei cartușului
 Undoes the last change	Anulează ultima modificare
 Unexpected argument: {}	Argument neașteptat: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Comandă necunoscută: {}. Rulați openecraft-cli help pentru o listă.
@@ -268,6 +279,7 @@ User name to sign in with	Numele de utilizator pentru conectare
 User or group name (wildcards; directory groups as directory:group)	Nume de utilizator sau de grup (metacaractere; grupurile unui serviciu de director ca director:grup)
 Values to set (name: value; an empty value removes a property)	Valori de setat (nume: valoare; o valoare goală elimină o proprietate)
 Vault user name (signs in)	Nume de utilizator Vault (pentru conectare)
+Width and height must be greater than 0	Lățimea și înălțimea trebuie să fie mai mari decât 0
 Write the table as CSV to this file	Scriere tabel ca CSV în acest fișier
 Writes the check scheme of the project (checks switched off, message levels) to a file	Scrie schema de verificare a proiectului (verificări dezactivate, niveluri de mesaj) într-un fișier
 Writes the embedded file of a document page	Scrie fișierul încorporat al unei pagini de document

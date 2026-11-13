@@ -60,6 +60,7 @@ pub mod parts;
 pub mod nailboard;
 pub mod page_select;
 pub mod pdf;
+pub mod qr;
 pub mod preplanning;
 pub mod settings_scheme;
 pub mod pdf_comments;

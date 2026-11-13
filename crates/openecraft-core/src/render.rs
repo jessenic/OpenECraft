@@ -131,6 +131,7 @@ pub struct Opts {
 pub fn draw_page(d: &mut dyn Draw, prj: &Project, idx: &Index, an: &Analysis, page_i: usize, opts: &Opts) {
     let page = &prj.pages[page_i];
     draw_frame(d, prj, page_i);
+    crate::forms::draw_stamp(d, prj, page_i);
     let frame = crate::frame::of_page(prj, page_i);
     match page.kind {
         PageKind::Cover => draw_cover(d, prj, &frame),
@@ -1327,6 +1328,17 @@ fn draw_title_block(d: &mut dyn Draw, prj: &Project, page_i: usize) {
     crate::forms::draw(d, &form, prj, page_i);
 }
 
+/// Area of the logo on the cover page (relative to the drawing area): the project's
+/// own, otherwise above the project name.
+pub fn cover_logo_place(prj: &Project, frame: &crate::frame::PlotFrame) -> crate::model::CoverLogo {
+    if let Some(place) = prj.info.cover_logo {
+        return place;
+    }
+    let a = frame.area();
+    let k = a.height() / 240.0;
+    crate::model::CoverLogo { x: a.width() / 2.0 - 60.0, y: 15.0 * k, width: 120.0, height: 38.0 * k }
+}
+
 fn draw_cover(d: &mut dyn Draw, prj: &Project, frame: &crate::frame::PlotFrame) {
     let info = &prj.info;
     let a = frame.area();
@@ -1334,6 +1346,11 @@ fn draw_cover(d: &mut dyn Draw, prj: &Project, frame: &crate::frame::PlotFrame) 
     // Laid out for the 240 mm high area of A3; other heights move the blocks.
     let k = a.height() / 240.0;
     let at = |y: f32| a.min.y + (y - 15.0) * k;
+    if let Some(logo) = &info.logo {
+        let place = cover_logo_place(prj, frame);
+        let o = a.min + p(place.x, place.y);
+        d.image(&crate::forms::fitted_image(logo, o, o + p(place.width, place.height)));
+    }
     d.text(p(cx, at(80.0)), &info.name, 10.0, Anchor::Center, VAnchor::Middle, Ink::Text);
     for (i, l) in info.description.lines().enumerate() {
         d.text(p(cx, at(100.0) + i as f32 * 8.0), l, 5.0, Anchor::Center, VAnchor::Middle, Ink::Text);
@@ -1388,10 +1405,7 @@ fn draw_report(d: &mut dyn Draw, t: &crate::report_blocks::PageTable, frame: &cr
     }
     y += 5.0;
     d.line(p(x0, y), p(x1, y), 0.5, Ink::Frame, false);
-    for (ri, row) in t.rows.iter().enumerate() {
-        if let Some(Some((page, _))) = t.targets.get(ri) {
-            d.link(p(x0, y), p(x1, y + row_h), *page);
-        }
+    let cells = |d: &mut dyn Draw, row: &[String], y: f32| {
         for i in 0..t.headers.len() {
             let cell = row.get(i).map(String::as_str).unwrap_or("");
             let maxc = ((xs[i + 1] - xs[i]) / (size * 0.6)) as usize;
@@ -1400,10 +1414,30 @@ fn draw_report(d: &mut dyn Draw, t: &crate::report_blocks::PageTable, frame: &cr
             } else {
                 cell.to_string()
             };
-            d.text(p(xs[i] + 1.2, y + row_h / 2.0), &txt, size, Anchor::Left, VAnchor::Middle, Ink::Text);
+            let align = t.align.get(i).copied().unwrap_or(Anchor::Left);
+            let x = match align {
+                Anchor::Left => xs[i] + 1.2,
+                Anchor::Center => (xs[i] + xs[i + 1]) / 2.0,
+                Anchor::Right => xs[i + 1] - 1.2,
+            };
+            d.text(p(x, y + row_h / 2.0), &txt, size, align, VAnchor::Middle, Ink::Text);
         }
+    };
+    for (ri, row) in t.rows.iter().enumerate() {
+        if let Some(Some((page, _))) = t.targets.get(ri) {
+            d.link(p(x0, y), p(x1, y + row_h), *page);
+        }
+        if t.shade_rows && ri % 2 == 1 {
+            d.rect(p(x0, y), p(x1, y + row_h), 0.0, Ink::Plate, true);
+        }
+        cells(d, row, y);
         y += row_h;
         d.line(p(x0, y), p(x1, y), 0.1, Ink::Frame, false);
+    }
+    if !t.totals.is_empty() {
+        d.line(p(x0, y), p(x1, y), 0.4, Ink::Frame, false);
+        cells(d, &t.totals, y);
+        y += row_h;
     }
     for x in &xs {
         d.line(p(*x, table_top), p(*x, y), 0.15, Ink::Frame, false);

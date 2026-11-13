@@ -47,12 +47,14 @@ Altitude of the site in m	Висота місця встановлення в м
 Ambient temperature of the conductors in °C	Температура навколишнього середовища провідників у °C
 An outline needs {} points at least	Контуру потрібно щонайменше {} точок
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Прив’язка вздовж осі: free, start:<mm>, center:<mm>, end:<mm> або stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Кут у градусах, проти годинникової стрілки
 Aspects separated by commas, e.g. function,location	Аспекти через кому, напр. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Призначає визначення функції розміщеному символу (позначення та схема переносяться)
 Asynchronous motors add to the short-circuit current	Асинхронні двигуни збільшують струм короткого замикання
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Автоматична апаратна конфігурація: станції для CPU і шинних з’єднувачів, шинні системи, плати до станцій, слоти, початкові адреси, адреси точок, IP-адреси та лінійна топологія
 Back to the default rules first	Спочатку повернутися до стандартних правил
 Back to the default strategy first	Спочатку повернутися до стандартної стратегії
+Back to the place above the project name	Повернути на місце над назвою проєкту
 Back-up protection up to this short-circuit current in kA (0: not given)	Резервний захист до цього струму короткого замикання в kA (0: не задано)
 Bar id	Ідентифікатор шини
 Bar thickness, mm (default 5)	Товщина шини, мм (за замовчуванням 5)
@@ -101,6 +103,7 @@ Chosen value	Вибране значення
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Відстані, простір для обслуговування, висоти, класи колізій, теплове моделювання та технологічність компонування шафи
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Тепловий режим корпусів (IEC/TR 60890): втрати потужності, внутрішня температура, потрібний вентилятор або холодильний агрегат і обігрів; за бажанням змінює параметри одного корпусу
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Клас колізій: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, власний клас або * для будь-якого
+Colour as #RRGGBB	Колір у вигляді #RRGGBB
 Column and row strips	Смуги стовпців і рядків
 Column mapping {field code: column name}	Зіставлення стовпців {код поля: назва стовпця}
 Column name, e.g. Description	Назва стовпця, напр. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Створює або змінює па
 Creates or changes a fluid device group	Створює або змінює групу гідропневматичних пристроїв
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Створює або змінює рамку аркуша проєкту (вбудовані рамки копіюються під новою назвою)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Створює або змінює визначення потенціалу; його проводи беруть колір і переріз, якщо їх не задано на проводі
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Створює або змінює основний напис проєкту (вбудовані копіюються під новою назвою)
 Creates or changes a work area: only the pages and devices of its structure are shown	Створює або змінює робочу область: показуються лише сторінки й пристрої її структури
 Cross reference placed by hand: X offset from the insertion point in mm	Перехресне посилання розміщено вручну: зміщення по X від точки вставки в мм
 Cross reference placed by hand: Y offset from the insertion point in mm	Перехресне посилання розміщено вручну: зміщення по Y від точки вставки в мм
@@ -171,6 +175,7 @@ Deletes a page	Видаляє сторінку
 Deletes a page template of the project	Видаляє шаблон сторінки проєкту
 Deletes a plot frame of the project that no page uses	Видаляє рамку аркуша проєкту, яку не використовує жодна сторінка
 Deletes a potential definition	Видаляє визначення потенціалу
+Deletes a title block of the project; pages using it get the project default	Видаляє основний напис проєкту; сторінки, що його використовують, отримують типовий напис проєкту
 Deletes a work area	Видаляє робочу область
 Deletes symbols, wires, texts and shapes	Видаляє символи, проводи, тексти та фігури
 Depth in mm	Глибина в мм
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Довжина ребра сітки прокладання в мм
 Electrical device tags separated by commas or blanks (empty = remove the links)	Позначення електричних пристроїв, розділені комами або пробілами (порожньо = вилучити зв’язки)
 Electrical engineering	Електротехніка
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Елементи (Line, Rect, Text, Image) у мм від лівого верхнього кута області основного напису в масиві items
 Enclosure (location, e.g. +CAB1)	Корпус (розташування, напр. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Корпус (розташування, напр. +CAB1), параметри якого змінюються
 Enclosure climate and electrical sizing	Клімат шафи та електричні розрахунки
@@ -273,6 +279,7 @@ Height above the floor in metres	Висота над підлогою в мет�
 Height above the mounting plate in mm (default 50)	Висота над монтажною панеллю в мм (за замовчуванням 50)
 Height in mm	Висота в мм
 Height in mm without plinth; negative: unknown (wall mounted)	Висота в мм без цоколя; від’ємне значення: невідомо (настінний монтаж)
+Height in mm; the logo keeps its aspect ratio inside	Висота в мм; логотип зберігає всередині свої пропорції
 Higher-level product aspect (-) of the page; the devices on the page move along	Аспект виробу вищого рівня (-) сторінки; пристрої сторінки переміщуються разом із нею
 Highest actuator on the door above the floor (0: not checked)	Найвищий орган керування на дверцятах над підлогою (0: не перевіряється)
 Highest air temperature at devices without data (0: not checked)	Найвища температура повітря біля пристроїв без даних (0: не перевіряється)
@@ -311,6 +318,7 @@ Integration profiles and status	Профілі та стан інтеграці�
 Interruption points refer to: all (default), star or pairs	Точки розриву посилаються на: all (за замовчуванням), star або pairs
 Invalid answer of the plugin: {}	Недійсна відповідь плагіна: {}
 Invalid segment name: {}	Недійсна назва сегмента: {}
+Invalid title block elements: {}	Недійсні елементи основного напису: {}
 Item id	Ідентифікатор елемента
 Item ids	Ідентифікатори елементів
 Jumper number	Номер перемички
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Мова, якою напис
 Larger round holes are milled, mm	Більші круглі отвори фрезеруються, мм
 Largest difference between hole and tool, mm	Найбільша різниця між отвором та інструментом, мм
 Left edge from the left end of the wall (seen from inside) in mm	Лівий край від лівого кінця стіни (вигляд зсередини), мм
+Left edge in mm	Лівий край у мм
 Left edge on the face in mm	Лівий край на грані в мм
 Left edge on the mounting plate in mm	Лівий край на монтажній панелі в мм
 Left side bayed (no side panel)	Ліва сторона приєднана (без бічної стінки)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Перелічує символи, які можна розмістити, з їхніми точками підключення відносно точки вставлення
 Lists the terminal strips with their number of terminals and length on the rail	Перелічує клемні колодки з кількістю клем і довжиною на рейці
 Lists the terminations chosen for wire ends and the kinds there are	Перелічує вибрані оконцювання кінців проводів і наявні види
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Перелічує основні написи (вбудовані та власні проєкту) з їхніми елементами, типовий напис і заповнювачі
 Lists the translation dictionary of the project texts (source line and translations)	Перелічує словник перекладів текстів проєкту (рядок оригіналу та переклади)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Перелічує віконні макроси, розміщені на сторінках (рамки макросів), з макросом, варіантом, значеннями заповнювачів і кількістю елементів
 Load losses of the transformer in W (0: typical)	Втрати короткого замикання трансформатора у W (0: типові)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Назва головної заземлюв�
 Name of the safety function to remove	Назва функції безпеки для вилучення
 Name of the segment	Назва сегмента
 Name of the template	Назва шаблону
+Name of the title block	Назва основного напису
+Name of the title block (with page_type: empty removes the choice)	Назва основного напису (з page_type: порожньо видаляє вибір)
 Name of the work area	Назва робочої області
 Name or id; the tag for places	Назва або ідентифікатор; для розміщень – позначення
 Name placed by hand: X offset from the insertion point in mm	Ім'я розміщено вручну: зміщення по X від точки вставки в мм
@@ -480,6 +492,7 @@ No terminal strip {}	Немає клемної колодки {}
 No terminal {} on strip {}	Немає клеми {} на колодці {}
 No text with id {}	Немає тексту з ідентифікатором {}
 No three wires meet at {} / {} mm: give the direction of the stem	У точці {} / {} мм не сходяться три проводи: вкажіть напрямок ніжки
+No title block named {}	Немає основного напису з назвою {}
 No transformer: set {} first	Немає трансформатора: спочатку задайте {}
 No wire at {} / {} mm	У точці {} / {} мм немає проводу
 No wire with id {}	Немає проводу з ідентифікатором {}
@@ -489,6 +502,7 @@ Node {} exists already	Вузол {} уже існує
 Nodes to pass in this order, comma separated	Вузли для проходження в цьому порядку, через кому
 Nominal size, e.g. 8 mm or DN25	Номінальний розмір, напр. 8 мм або DN25
 None of the items is an interruption point	Жоден з елементів не є точкою розриву
+Not a colour (#RRGGBB): {}	Не колір (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Не є перерізом: {} (напр. 1.5 mm²)
 Not a valid safety function: {}	Недійсна функція безпеки: {}
 Note, e.g. what the problem is	Примітка, напр. у чому полягає проблема
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Один кінець, напр. -K1:A1
 One row per printed label instead of a count	Один рядок на кожну надруковану мітку замість кількості
 Only devices on these pages (names separated by commas)	Лише пристрої на цих сторінках (назви через кому)
 Only doors and windows open	Відчиняються лише двері та вікна
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Лише для сторінок цього типу: schematic, cover, report, mounting, overview, graphic або document
 Only lines without a translation into this language	Лише рядки без перекладу цією мовою
 Only list the new tags, change nothing	Лише перелічити нові позначення, нічого не змінювати
 Only shows the package, no job is recorded	Лише показує пакет, завдання не реєструється
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Місця групи (0 = без обме
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Розміщує позначення точки підключення символу ліворуч, праворуч, зверху або знизу від неї та зсуває його; без сторони та зсуву воно знову розміщується автоматично
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Розміщує ряд корпусу в приміщенні (3D-вигляд усіх корпусів); без x і z ряд розміщується за планом установки або поруч з іншими рядами
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Розміщує ім'я та перехресне посилання точок розриву з одного боку стрілки або вручну зі зміщенням від точки вставки
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Розміщує логотип проєкту на титульній сторінці (мм від лівого верхнього кута області креслення); без параметрів показує місце
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Розміщує властивості схеми на символах; без ідентифікаторів розміщує її знову на всіх символах, що її використовують
 Planned part number	Запланований номер виробу
 Planned power in kW	Запланована потужність у kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Сегменти установки із запланованими пристроями до створення схеми: шаблони, баланс потужності, стан відносно схеми, обмін у CSV / Excel
 Plinth height in mm, 0 without plinth	Висота цоколя в мм, 0 – без цоколя
 Plot frame (list_frames); empty = the project default	Рамка аркуша (list_frames); порожньо = стандарт проєкту
-Plot frames and page templates of the project	Рамки креслень і шаблони сторінок проєкту
+Plot frames, title blocks and page templates of the project	Рамки креслень, основні написи і шаблони сторінок проєкту
 Plug tag, e.g. -X10	Позначення штекера, напр. -X10
 Plugin id '{}' is not snake_case	Ідентифікатор плагіна '{}' не у форматі snake_case
 Plugin {} is loaded twice	Плагін {} завантажено двічі
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Задає рамку а
 Sets the shield and the outer diameter of a cable	Задає екран і зовнішній діаметр кабелю
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Задає мову оригіналу текстів проєкту та цільові мови (коди ISO 639-1)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Задає резервні клеми колодки та те, чи додаються її аксесуари автоматично
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Задає штамп через усі сторінки за станом процесу змін (наприклад, ЧЕРНЕТКА); без параметрів показує штамп
+Sets the title block of all pages that do not choose one, or of the pages of one type	Задає основний напис усіх сторінок, які не вибирають власний, або сторінок одного типу
 Sets the translation of a line of the project texts (empty removes it)	Задає переклад рядка текстів проєкту (порожнє значення вилучає його)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Задає колір проводу й переріз для мереж без визначеного потенціалу (порожньо = немає)
 Share of the capacity kept free in percent	Частка місткості, що залишається вільною, у відсотках
@@ -791,11 +809,16 @@ Terminal designation	Позначення клеми
 Terminal designations in strip order, separated by commas	Позначення клем у порядку колодки через кому
 Terminal order, levels, jumpers, spare terminals and accessories	Порядок клем, яруси, перемички, резервні клеми та аксесуари
 Text height in mm	Висота тексту в мм
+Text height in mm (0: fitted to the page)	Висота тексту в мм (0: за розміром сторінки)
 Text height in mm (default 3.5)	Висота тексту в мм (за замовчуванням 3.5)
 Text in id, name or order number	Текст в ідентифікаторі, назві або номері для замовлення
 Text in the key or name	Текст у ключі або назві
 Text in the line or a translation	Текст у рядку або перекладі
 Text to find; empty: fill	Текст для пошуку; порожньо: заповнити
+Text when everything is released, e.g. AS BUILT	Текст, коли все випущено, наприклад ВИКОНАВЧИЙ
+Text when the revision is approved but not released	Текст, коли зміну затверджено, але не випущено
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Текст, поки зміна — чернетка або ще нічого не випущено (заповнювачі дозволені; порожньо: немає)
+Text while a revision is in review or was rejected	Текст, поки зміна на перевірці або була відхилена
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Текст; заповнювачі, як-от {page} або {prop:Name}, підставляються під час відображення
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	Плечі кута – один вертикальний і один горизонтальний напрямок, наприклад down left, а не {}
 The cable definition line crosses no wire	Лінія визначення кабелю не перетинає жодного проводу
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Найбільша товщина листа або шини, мм
 Time per drilling, punching or bending operation, s	Час на одну операцію свердління, пробивання чи згинання, с
 Time per tool change, s	Час на зміну інструмента, с
+Title block (list_title_blocks); empty = the project default	Основний напис (list_title_blocks); порожньо = типовий напис проєкту
+Title block of the pages with this frame that do not choose one; empty: the project default	Основний напис сторінок із цією рамкою, які не вибирають власний; порожньо: типовий напис проєкту
+Title block to start from when it is new (default: Standard)	Основний напис, з якого почати, якщо він новий (типово: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Інструменти, напр. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Верхній край у мм
 Top edge on the face in mm	Верхній край на грані в мм
 Top edge on the mounting plate in mm	Верхній край на монтажній панелі в мм
 Translated line	Перекладений рядок
@@ -876,6 +903,7 @@ Unknown node: {}	Невідомий вузол: {}
 Unknown numbering scheme: {}	Невідома схема нумерації: {}
 Unknown object class: {}	Невідомий клас об’єкта: {}
 Unknown order: {}	Невідомий порядок: {}
+Unknown page type: {}	Невідомий тип сторінки: {}
 Unknown paper format: {}	Невідомий формат паперу: {}
 Unknown path kind: {}	Невідомий вид траси: {}
 Unknown placeholder {}: possible are {}	Невідомий заповнювач {}: можливі {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	На яко�
 Who accepted it	Хто його прийняв
 Whole words only	Лише цілі слова
 Why the message is accepted	Чому повідомлення прийнято
-Width in mm	Ширина в мм
 Width of the path in mm (default 50)	Ширина траси в мм (за замовчуванням 50)
 Width, depth and height of a room are at least {} mm	Ширина, глибина та висота приміщення — щонайменше {} мм
 Width, height and depth of an enclosure are at least {} mm	Ширина, висота та глибина корпусу — щонайменше {} мм
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem або open
 {} has no enclosure bayed to its right side	До {} праворуч не приєднано жодного корпусу
 {} has no enclosure system; give one	{} не має системи корпусів; укажіть її
 {} is a built-in frame; give the frame a new name	{} – вбудована рамка; дайте рамці нову назву
+{} is a built-in title block; give the title block a new name	{} — вбудований основний напис; дайте напису нову назву
 {} is a room already	{} уже є приміщенням
 {} is ambiguous: use #id:pin	{} неоднозначне: використайте #id:pin
 {} is an enclosure already	{} уже є корпусом

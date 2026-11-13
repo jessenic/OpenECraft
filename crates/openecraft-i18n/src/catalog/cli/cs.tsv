@@ -5,6 +5,8 @@ Access token for changes	Přístupový token pro změny
 Access token of a Vault session or an Autodesk account instead of user and password	Přístupový token relace Vault nebo účtu Autodesk místo uživatele a hesla
 Address of the Vault server, e.g. https://vault.example.com	Adresa serveru Vault, např. https://vault.example.com
 Adds a page	Přidá stránku
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	Přidá obrázek (např. logo firmy) do rohového razítka projektu; bez souboru zobrazí logo projektu
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	Přidá do projektu knihovnu formulářů firmy ze serveru dílů (razítka, schémata sestav, rámečky výkresů)
 Adds the definitions and schemes of a property library file to the project	Přidá do projektu definice a schémata ze souboru knihovny vlastností
 All project files of a folder	Všechny projektové soubory složky
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	Vrátit také fasety: hodnoty skupin, výrobců, katalogů, životního cyklu a technických údajů s jejich počty
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	ID složky (výchozí root)
 Folder with project files	Složka s projektovými soubory
 Folder with project files (instead of a database; default: the current folder)	Složka s projektovými soubory (místo databáze; výchozí: aktuální složka)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	Formulář: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (schémata svorek a kabelů jako výkresy)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	Formulář: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (schémata svorek a kabelů jako výkresy), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	Funkce (=) vytvořených stránek
 Further parameters of the export as name=value, separated by commas	Další parametry exportu jako název=hodnota, oddělené čárkami
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	Další parametry exportu jako název=hodnota, oddělené čárkou (viz list_exports), např. harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	Zadejte buď template, nebo path
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	Přidělí uživateli nebo skupině roli pro výrobce (rozsah) na serveru artiklů, s deny odebere její práva, s revoke odebere přidělení (pouze správci)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	Skupiny k vytvoření, zástupné znaky povoleny (-X*, -W1); prázdné: všechny
+Height in mm; the image keeps its aspect ratio inside	Výška v mm; obrázek si v ní zachová poměr stran
 Id of a file (file_id of vault_browse) that gets a new version	ID souboru (file_id z vault_browse), který dostane novou verzi
 Id of the file version (version_id of vault_browse)	ID verze souboru (version_id z vault_browse)
 Id of the knowledge vault (taken from the session if not given)	ID trezoru (pokud není zadáno, převezme se z relace)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	Ponechat soubor po vrácení se zm�
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	Druh serveru: OpenECraft (server artiklů) nebo Eplan (EPLAN Data Portal: pouze vyhledávání a čtení, token je osobní přístupový token účtu EPLAN)
 Language of the export (a project language)	Jazyk exportu (jazyk projektu)
 Language of the project texts and reports (a project language, default the source language)	Jazyk textů projektu a výkazů (jazyk projektu, výchozí je zdrojový jazyk)
+Left edge in mm from the left of the title block area	Levý okraj v mm od levé strany oblasti razítka
 Library file	Soubor knihovny
 Lifecycle: Active, PhaseOut or Discontinued	Životní cyklus: Active, PhaseOut nebo Discontinued
 Lists the built-in structure templates	Vypíše vestavěné šablony struktury
@@ -159,6 +163,8 @@ Output file (JSON)	Výstupní soubor (JSON)
 Output file; without it the content is returned	Výstupní soubor; bez něj se obsah vrátí
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	Vydá stránky výkazů jako pevné stránky do jiného souboru projektu; stránky dříve vydané z tohoto projektu se nahradí
 PDF file with comments	Soubor PDF s komentáři
+PNG or JPEG file kept in the title block (default: the project logo)	Soubor PNG nebo JPEG uložený v razítku (výchozí: logo projektu)
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	Soubor PNG nebo JPEG s logem projektu (titulní list, razítka); prázdný ho odstraní
 Page (svg: required, dxf, dwg: default all pages)	Stránka (svg: povinné, dxf, dwg: výchozí všechny stránky)
 Page name (default: next number)	Název stránky (výchozí: další číslo)
 Page of the export	Stránka exportu
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	Začít z ukázkového projektu (názvy: list_examples)
 Start from the demo project	Začít z ukázkového projektu
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	Uloží soubor (katalogový list, obrázek, model, makro …) k artiklu na serveru artiklů
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	Uloží vlastní razítka, schémata sestav a rámečky projektu jako knihovnu formulářů firmy na serveru dílů (editoři)
 Subproject file (.oec)	Soubor podprojektu (.oec)
 Subproject file to write (.oec)	Soubor podprojektu k zápisu (.oec)
 Take the changes over (otherwise only a preview)	Převzít změny (jinak pouze náhled)
@@ -247,9 +254,13 @@ The catalog needs a name	Katalog potřebuje název
 The format xlsx needs a path	Formát xlsx vyžaduje cestu
 The open project has unsaved changes: save it first or pass discard	Otevřený projekt obsahuje neuložené změny: nejprve jej uložte nebo zadejte discard
 The part number must not be empty	Číslo artiklu nesmí být prázdné
+The parts server has no form library yet	Server dílů zatím nemá knihovnu formulářů
 The project has no file yet: pass a path	Projekt zatím nemá soubor: zadejte cestu
+The project has no title blocks, report schemes or plot frames of its own	Projekt nemá vlastní razítka, schémata sestav ani rámečky
 This command needs a project: --project <file>	Tento příkaz vyžaduje projekt: --project <soubor>
 This format needs an output file (path)	Tento formát vyžaduje výstupní soubor (path)
+Title block of the project (list_title_blocks)	Rohové razítko projektu (list_title_blocks)
+Top edge in mm from the top of the title block area	Horní okraj v mm od horní strany oblasti razítka
 Undoes the last change	Vrátí zpět poslední změnu
 Unexpected argument: {}	Neočekávaný argument: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Neznámý příkaz: {}. Seznam zobrazí openecraft-cli help.
@@ -268,6 +279,7 @@ User name to sign in with	Uživatelské jméno pro přihlášení
 User or group name (wildcards; directory groups as directory:group)	Název uživatele nebo skupiny (zástupné znaky; skupiny adresářové služby jako adresář:skupina)
 Values to set (name: value; an empty value removes a property)	Hodnoty k nastavení (název: hodnota; prázdná hodnota odebere vlastnost)
 Vault user name (signs in)	Uživatelské jméno Vault (přihlásí se)
+Width and height must be greater than 0	Šířka a výška musí být větší než 0
 Write the table as CSV to this file	Zapsat tabulku jako CSV do tohoto souboru
 Writes the check scheme of the project (checks switched off, message levels) to a file	Zapíše schéma kontroly projektu (vypnuté kontroly, úrovně hlášení) do souboru
 Writes the embedded file of a document page	Zapíše vložený soubor stránky dokumentu

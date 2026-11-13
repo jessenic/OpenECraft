@@ -195,6 +195,7 @@ Light	Chiaro
 Line	Linea
 Link	Link
 Linked	Collegato
+Load	Utenza
 Loaded circuits bunched together	Circuiti caricati raggruppati
 Location	Luogo
 Location (+)	Luogo (+)
@@ -230,6 +231,7 @@ Name of the scheme	Nome dello schema
 Net	Rete
 Never	Mai
 New name	Nuovo nome
+Next page	Pagina successiva
 No	No
 No Vault item matches a part of the project	Nessun elemento di Vault corrisponde a un articolo del progetto
 No cable {}	Nessun cavo {}
@@ -252,10 +254,12 @@ No station {}	Nessuna stazione {}
 No such page	Pagina inesistente
 No such section	Sezione inesistente
 No symbol with id {}	Nessun simbolo con ID {}
+No title block of the project named {}	Nessun cartiglio del progetto di nome {}
 Nominal size	Diametro nominale
 Not a language code: {}	Non è un codice lingua: {}
 Not a macro file: {}	Non è un file di macro: {}
 Not a symbol id: {}	Non è un ID di simbolo: {}
+Not a title block file: {}	Non è un file di cartigli: {}
 Not a valid rule set file: {}	Non è un file di set di regole valido: {}
 Not in the schematic	Non nello schema
 Note	Nota
@@ -298,6 +302,7 @@ Parts	Articoli
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Articoli (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	Importazione articoli non riuscita: {}
 Password	Password
+Picture	Immagine
 Pieces	Pezzi
 Pin	Pin
 Pin layout: {}	Disposizione dei pin: {}
@@ -321,6 +326,7 @@ Power (kW)	Potenza (kW)
 Power loss	Potenza dissipata
 Pre-planning	Preprogettazione
 Press	Pressa
+Previous page	Pagina precedente
 Price	Prezzo
 Price unit	Unità di prezzo
 Process engineering	Ingegneria di processo
@@ -330,6 +336,7 @@ Product top group	Gruppo prodotti principale
 Profile	Profilo
 Project	Progetto
 Project languages	Lingue del progetto
+Project logo	Logo del progetto
 Project management	Gestione progetti
 Project name	Nome progetto
 Project properties	Proprietà progetto
@@ -349,6 +356,7 @@ Rectangular	Rettangolare
 Reject	Rifiuta
 Relative humidity	Umidità relativa
 Relay	Relè
+Released	Rilasciato
 Released pages cannot be moved	Le pagine rilasciate non possono essere spostate
 Remove	Rimuovi
 Remove from favorites	Rimuovi dai preferiti
@@ -441,6 +449,7 @@ Time	Tempo
 Title block	Cartiglio
 To	A
 Tools	Utensili
+Total	Totale
 Transformer	Trasformatore
 Type	Tipo
 Type number	Codice tipo
@@ -471,6 +480,7 @@ Warning	Avviso
 Warnings	Avvisi
 Weight	Peso
 Width	Larghezza
+Width in mm	Larghezza in mm
 Window	Finestra
 Wire	Conduttore
 Wire colours	Colori dei conduttori
@@ -503,6 +513,7 @@ yes	sì
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} non poggia sul pavimento: scegli un articolo contrassegnato per il montaggio a pavimento
 {} exists already	{} esiste già
+{} is not a PNG or JPEG image	{} non è un'immagine PNG o JPEG
 {} parts	{} articoli
 {} wires	{} conduttori
 {}, together with the wire to {}	{}, insieme al conduttore verso {}

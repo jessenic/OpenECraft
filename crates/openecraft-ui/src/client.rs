@@ -5,7 +5,7 @@
 //! `openecraft_client`.
 
 use openecraft_i18n::{tr, tr_fmt};
-use openecraft_client::{check, decode, ehttp, Call, Connection, Endpoint, PortalKind};
+use openecraft_client::{check, decode, decode_found, ehttp, Call, Connection, Endpoint, PortalKind};
 use openecraft_client::credentials::{self, CredentialStore, SystemCredentialStore};
 use openecraft_parts::api::{Accessories, ImportResult, PartList, PartQuery, ServerInfo, Session, UserUpdate};
 use openecraft_parts::portal::{AttachmentKind, Catalog, HistoryEntry, SearchResult, User};
@@ -45,6 +45,9 @@ pub enum Reply {
     UserDeleted(String, Result<(), String>),
     /// File name, purpose given with the request and the content.
     File(String, FileUse, Result<Vec<u8>, String>),
+    /// Name and JSON text of a library; `None` if the server has none of that name.
+    Library(String, Result<Option<String>, String>),
+    LibrarySaved(String, Result<(), String>),
 }
 
 /// A background connection check and its endpoint-specific session credential.
@@ -94,7 +97,9 @@ impl Reply {
             | Reply::Users(Err(e))
             | Reply::UserSaved(Err(e))
             | Reply::UserDeleted(_, Err(e))
-            | Reply::File(_, _, Err(e)) => Some(e),
+            | Reply::File(_, _, Err(e))
+            | Reply::Library(_, Err(e))
+            | Reply::LibrarySaved(_, Err(e)) => Some(e),
             _ => None,
         }
     }
@@ -134,6 +139,9 @@ impl Reply {
             Reply::UserSaved(Ok(u)) => tr_fmt!("Saved user {}", u.name),
             Reply::UserDeleted(name, Ok(())) => tr_fmt!("Deleted user {}", name),
             Reply::File(name, _, Ok(data)) => tr_fmt!("Downloaded {} ({} bytes)", name, data.len()),
+            Reply::Library(name, Ok(Some(_))) => tr_fmt!("Loaded the library {}", name),
+            Reply::Library(name, Ok(None)) => tr_fmt!("The parts server has no library {} yet", name),
+            Reply::LibrarySaved(name, Ok(())) => tr_fmt!("Saved the library {}", name),
             _ => String::new(),
         }
     }
@@ -514,6 +522,19 @@ impl ServerClient {
     pub fn sign_out(&mut self, ctx: &egui::Context) {
         let call = self.server(Endpoint::logout, |_| Ok(()));
         self.send(ctx, call, tr("Signing out…").into(), |_| Reply::SignedOut);
+    }
+
+    /// Loads a library (JSON) shared by all projects, e.g. the company's forms.
+    pub fn library(&mut self, ctx: &egui::Context, name: &str) {
+        let call = self.server(|e| e.library(name), |r| decode_found::<serde_json::Value>(r).map(|v| v.map(|v| v.to_string())));
+        let n = name.to_string();
+        self.send(ctx, call, tr_fmt!("Loading {}…", name), move |r| Reply::Library(n, r));
+    }
+
+    pub fn save_library(&mut self, ctx: &egui::Context, name: &str, json: &str) {
+        let call = self.server(|e| e.save_library(name, json), |r| check(r).map(|_| ()));
+        let n = name.to_string();
+        self.send(ctx, call, tr_fmt!("Saving {}…", name), move |r| Reply::LibrarySaved(n, r));
     }
 
     pub fn favorites(&mut self, ctx: &egui::Context) {

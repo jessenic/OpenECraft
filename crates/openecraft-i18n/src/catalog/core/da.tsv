@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-styrekredse bør være b
 DC/DC converter	DC/DC-konverter
 DWG export failed: {}	DWG-eksport mislykkedes: {}
 Data sheet	Datablad
+Date of the approval of the last revision	Dato for godkendelsen af den seneste revision
 Date of the last revision	Dato for den seneste revision
 Degree of protection	Kapslingsklasse
 Delete projects	Slet projekter
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Endestopkontakt sluttekontakt (NFPA)
 Line reactor	Netdrossel
 Linear motor 3-phase	Lineærmotor 3-faset
 Literal braces	Krøllede parenteser (bogstaveligt)
-Load	Belastning
 Load calculation	Belastningsberegning
 Loads and power supplies	Belastninger og strømforsyninger
 Loads behind it: {}	Efterfølgende belastninger: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Trykknap med nøgle, slutte, låsende
 Pushbutton NC	Trykknap brydekontakt
 Pushbutton NO	Trykknap sluttekontakt
 Pyramid roof	Pyramidetag
+QR code	QR-kode
 Qty	Antal
 RCD {} mA	RCD {} mA
 Radiation	Stråling
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Relæspole, remanent
 Relay coil, resonant	Relæspole, resonans
 Relay coil, thermal	Relæspole, termisk
 Relays, contactors	Relæer, kontaktorer
-Released	Frigivet
 Released pages cannot be deleted	Frigivne sider kan ikke slettes
 Remote I/O	Decentral I/O
 Remote I/O {} has no controller	Den decentrale I/O {} har ingen controller
@@ -1340,6 +1340,10 @@ Result	Resultat
 Return / exhaust line	Retur- / udluftningsledning
 Reviewer	Korrekturlæser
 Revision overview (changes)	Revisionsoversigt (ændringer)
+Revision table: author of the last revision (2: the one before …)	Revisionstabel: forfatter af den seneste revision (2: den før …)
+Revision table: date of the last revision (2: the one before …)	Revisionstabel: dato for den seneste revision (2: den før …)
+Revision table: description of the last revision (2: the one before …)	Revisionstabel: beskrivelse af den seneste revision (2: den før …)
+Revision table: index of the last revision (2: the one before …)	Revisionstabel: indeks for den seneste revision (2: den før …)
 Right side	Højre side
 Right side panel	Højre sideplade
 Ring terminal	Ringkabelsko
@@ -1487,6 +1491,7 @@ Start date	Startdato
 Started	Startet
 Starting current ratio	Startstrømsforhold
 Starting torque	Startmoment
+State of the project: draft, in review, approved, released	Projektets status: udkast, til gennemgang, godkendt, frigivet
 Station name (PROFINET)	Enhedsnavn (PROFINET)
 Station name {} is used {} times	Stationsnavnet {} bruges {} gange
 Station {} is not connected to bus {}	Stationen {} er ikke forbundet med bussen {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Spole til tidsrelæ, frafaldsforsinket
 Timer relay coil, on-delay	Spole til tidsrelæ, tiltrækningsforsinket
 Title blocks and report forms	Tegningshoveder og rapportformularer
 To order	Skal bestilles
-Total	I alt
 Total length (m)	Samlet længde (m)
 Total price	Samlet pris
 Total weight	Samlet vægt
@@ -1781,6 +1785,7 @@ Wavemeter	Bølgelængdemåler
 Wearing part	Sliddel
 Weld stud	Svejsebolt
 Wetted material	Medieberørt materiale
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Hvem der godkendte den seneste revision (gennemgang); {rev.2.approved_by}: den før
 Width (mm)	Bredde (mm)
 Winding connection	Viklingskobling
 Wire assigned to unknown cable {}	Ledning tildelt ukendt kabel {}

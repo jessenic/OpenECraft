@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	Ve dveřích, pokud se liší od 
 Internal values of the EPLAN part exchange (0: undefined)	Interní hodnoty výměny artiklů EPLAN (0: nedefinováno)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Funguje jen připevněné k jednomu z dílů, ke kterým se hodí; kontrola projektu je hlásí u přístroje bez takového dílu
 Largest conductor the clamp takes (0: not known)	Největší vodič, který svorka pojme (0: neznámý)
+Loaded the library {}	Knihovna {} načtena
 Loaded {} parts (revision {})	Načteno artiklů: {} (revize {})
 Loading catalogs…	Načítání katalogů…
 Loading favorites…	Načítání oblíbených…
 Loading the history…	Načítání historie…
 Loading users…	Načítání uživatelů…
+Loading {}…	Načítání {}…
 Mark for adding to the parts database	Označit k přidání do databáze artiklů
 Max. mm²	Max. mm²
 Min. mm²	Min. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Posouvá (touchpad)
 Parts server: {}	Server artiklů: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikly, ze kterých je tento artikl sestaven; kusovník je uvádí pod ním
 Personal access token	Osobní přístupový token
-Picture	Obrázek
 Place by clicking into the view	Umístit kliknutím do pohledu
 Prices / other	Ceny / ostatní
 Remove all	Odebrat vše
@@ -92,6 +93,7 @@ Reset filter	Obnovit filtr
 Rotate 90°:	Otočit o 90°:
 Save the file	Uložit soubor
 Saved part {}	Artikl {} uložen
+Saved the library {}	Knihovna {} uložena
 Saving favorites…	Ukládání oblíbených…
 Saving {}…	Ukládání {}…
 Scale ×	Měřítko ×
@@ -107,6 +109,7 @@ Successor {}	Nástupce {}
 Take {} values from the technical data	Převzít {} hodnot z technických údajů
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	2D čelní pohled se používá v čelním pohledu rozváděče a na stránkách montážního plánu, 3D model ve 3D pohledu rozváděče. Oba se přizpůsobí montážním datům (šířka × výška × hloubka).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Model ({} × {} × {}) se liší od montážních dat ({} × {} × {}); bude roztažen podle montážních dat.
+The parts server has no library {} yet	Server dílů zatím nemá knihovnu {}
 The price refers to this many units	Cena se vztahuje na tento počet jednotek
 The successor is not in this parts list	Nástupce není v tomto seznamu artiklů
 This part is an accessory	Tento díl je příslušenství

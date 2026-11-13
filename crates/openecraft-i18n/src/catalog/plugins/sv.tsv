@@ -47,12 +47,14 @@ Altitude of the site in m	Platsens höjd över havet i m
 Ambient temperature of the conductors in °C	Ledarnas omgivningstemperatur i °C
 An outline needs {} points at least	En kontur behöver minst {} punkter
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Förankring längs axeln: free, start:<mm>, center:<mm>, end:<mm> eller stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Vinkel i grader, moturs
 Aspects separated by commas, e.g. function,location	Aspekter åtskilda med kommatecken, t.ex. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Tilldelar en placerad symbol en funktionsdefinition (beteckningar och schema överförs)
 Asynchronous motors add to the short-circuit current	Asynkronmotorer bidrar till kortslutningsströmmen
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Automatisk hårdvarukonfiguration: stationer för CPU:er och busskopplare, bussystem, kort till stationer, kortplatser, startadresser, punktadresser, IP-adresser och en linjetopologi
 Back to the default rules first	Återställ först till standardreglerna
 Back to the default strategy first	Återställ först till standardstrategin
+Back to the place above the project name	Tillbaka till platsen ovanför projektnamnet
 Back-up protection up to this short-circuit current in kA (0: not given)	Back-up-skydd upp till den här kortslutningsströmmen i kA (0: inte angiven)
 Bar id	Sken-ID
 Bar thickness, mm (default 5)	Skentjocklek, mm (standard 5)
@@ -101,6 +103,7 @@ Chosen value	Valt värde
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Avstånd, serviceutrymme, höjder, kollisionsklasser, termisk simulering och tillverkningsbarhet för skåplayouten
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Kapslingarnas klimat (IEC/TR 60890): effektförlust, innertemperatur, fläkt eller kylaggregat och värme som behövs; ändrar valfritt inställningarna för en av dem
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Kollisionsklass: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, en egen klass eller * för valfri
+Colour as #RRGGBB	Färg som #RRGGBB
 Column and row strips	Kolumn- och radlister
 Column mapping {field code: column name}	Kolumnmappning {fältkod: kolumnnamn}
 Column name, e.g. Description	Kolumnnamn, t.ex. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Skapar eller ändrar ett konfiguratoral
 Creates or changes a fluid device group	Skapar eller ändrar en fluidapparatgrupp
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Skapar eller ändrar en ritningsram i projektet (inbyggda ramar kopieras under ett nytt namn)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Skapar eller ändrar en potentialdefinition; dess ledningar får färgen och tvärsnittet om inget anges på ledningen
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Skapar eller ändrar en namnruta i projektet (inbyggda kopieras under ett nytt namn)
 Creates or changes a work area: only the pages and devices of its structure are shown	Skapar eller ändrar ett arbetsområde: endast sidorna och apparaterna i dess struktur visas
 Cross reference placed by hand: X offset from the insertion point in mm	Korsreferens placerad manuellt: X-förskjutning från insättningspunkten i mm
 Cross reference placed by hand: Y offset from the insertion point in mm	Korsreferens placerad manuellt: Y-förskjutning från insättningspunkten i mm
@@ -171,6 +175,7 @@ Deletes a page	Tar bort en sida
 Deletes a page template of the project	Tar bort en sidmall i projektet
 Deletes a plot frame of the project that no page uses	Tar bort en ritningsram i projektet som ingen sida använder
 Deletes a potential definition	Tar bort en potentialdefinition
+Deletes a title block of the project; pages using it get the project default	Tar bort en namnruta i projektet; sidor som använder den får projektets standard
 Deletes a work area	Tar bort ett arbetsområde
 Deletes symbols, wires, texts and shapes	Tar bort symboler, ledningar, texter och former
 Depth in mm	Djup i mm
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Kantlängd för dragningsrutnätet i mm
 Electrical device tags separated by commas or blanks (empty = remove the links)	Elektriska apparatbeteckningar åtskilda med kommatecken eller blanksteg (tomt = ta bort länkarna)
 Electrical engineering	Elektroteknik
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Element (Line, Rect, Text, Image) i mm från namnrutans övre vänstra hörn i en matris items
 Enclosure (location, e.g. +CAB1)	Kapsling (placering, t.ex. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Kapsling (placering, t.ex. +CAB1) vars inställningar ändras
 Enclosure climate and electrical sizing	Skåpsklimat och elektrisk dimensionering
@@ -273,6 +279,7 @@ Height above the floor in metres	Höjd över golvet i meter
 Height above the mounting plate in mm (default 50)	Höjd över monteringsplåten i mm (standard 50)
 Height in mm	Höjd i mm
 Height in mm without plinth; negative: unknown (wall mounted)	Höjd i mm utan sockel; negativ: okänd (väggmonterad)
+Height in mm; the logo keeps its aspect ratio inside	Höjd i mm; logotypen behåller sitt bildförhållande inuti
 Higher-level product aspect (-) of the page; the devices on the page move along	Sidans aspekt för överordnad produkt (-); apparaterna på sidan följer med
 Highest actuator on the door above the floor (0: not checked)	Högsta manöverdon i dörren över golvet (0: kontrolleras inte)
 Highest air temperature at devices without data (0: not checked)	Högsta lufttemperatur vid apparater utan data (0: kontrolleras inte)
@@ -311,6 +318,7 @@ Integration profiles and status	Integrationsprofiler och status
 Interruption points refer to: all (default), star or pairs	Avbrottspunkter hänvisar till: all (standard), star eller pairs
 Invalid answer of the plugin: {}	Ogiltigt svar från plugin: {}
 Invalid segment name: {}	Ogiltigt segmentnamn: {}
+Invalid title block elements: {}	Ogiltiga element i namnrutan: {}
 Item id	Objekt-ID
 Item ids	Objekt-ID:n
 Jumper number	Bygelnummer
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Språk som projekttexterna ä
 Larger round holes are milled, mm	Större runda hål fräses, mm
 Largest difference between hole and tool, mm	Största skillnad mellan hål och verktyg, mm
 Left edge from the left end of the wall (seen from inside) in mm	Vänster kant från väggens vänstra ände (sett inifrån) i mm
+Left edge in mm	Vänsterkant i mm
 Left edge on the face in mm	Vänsterkant på ytan i mm
 Left edge on the mounting plate in mm	Vänsterkant på monteringsplåten i mm
 Left side bayed (no side panel)	Vänster sida sammanbyggd (ingen sidovägg)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Listar de symboler som kan placeras, med deras anslutningspunkter relativt insättningspunkten
 Lists the terminal strips with their number of terminals and length on the rail	Listar plintraderna med deras antal plintar och längd på skenan
 Lists the terminations chosen for wire ends and the kinds there are	Listar valda avslutningar för ledarändar och vilka typer som finns
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Listar namnrutorna (inbyggda och projektets egna) med deras element, projektets standard och platshållarna
 Lists the translation dictionary of the project texts (source line and translations)	Listar översättningsordlistan för projekttexterna (källrad och översättningar)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Listar de fönstermakron som placerats på sidorna (makrorutor) med makro, variant, platshållarvärden och antal objekt
 Load losses of the transformer in W (0: typical)	Transformatorns belastningsförluster i W (0: typiskt värde)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Huvudjordningsskenans namn
 Name of the safety function to remove	Namn på säkerhetsfunktionen som ska tas bort
 Name of the segment	Segmentets namn
 Name of the template	Mallens namn
+Name of the title block	Namnrutans namn
+Name of the title block (with page_type: empty removes the choice)	Namnrutans namn (med page_type: tomt tar bort valet)
 Name of the work area	Arbetsområdets namn
 Name or id; the tag for places	Namn eller ID; beteckningen för placeringar
 Name placed by hand: X offset from the insertion point in mm	Namn placerat manuellt: X-förskjutning från insättningspunkten i mm
@@ -480,6 +492,7 @@ No terminal strip {}	Ingen plintrad {}
 No terminal {} on strip {}	Ingen plint {} på plintraden {}
 No text with id {}	Ingen text med ID {}
 No three wires meet at {} / {} mm: give the direction of the stem	Inga tre ledare möts vid {} / {} mm: ange stammens riktning
+No title block named {}	Ingen namnruta med namnet {}
 No transformer: set {} first	Ingen transformator: ange {} först
 No wire at {} / {} mm	Ingen ledning vid {} / {} mm
 No wire with id {}	Ingen ledning med ID {}
@@ -489,6 +502,7 @@ Node {} exists already	Noden {} finns redan
 Nodes to pass in this order, comma separated	Noder som ska passeras i den här ordningen, kommaavgränsade
 Nominal size, e.g. 8 mm or DN25	Nominell storlek, t.ex. 8 mm eller DN25
 None of the items is an interruption point	Inget av objekten är en avbrottspunkt
+Not a colour (#RRGGBB): {}	Ingen färg (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Inget tvärsnitt: {} (t.ex. 1.5 mm²)
 Not a valid safety function: {}	Inte en giltig säkerhetsfunktion: {}
 Note, e.g. what the problem is	Anteckning, t.ex. vad problemet är
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	En ände, t.ex. -K1:A1
 One row per printed label instead of a count	En rad per utskriven etikett i stället för ett antal
 Only devices on these pages (names separated by commas)	Endast apparater på de här sidorna (namn åtskilda med kommatecken)
 Only doors and windows open	Endast dörrar och fönster öppnas
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Endast för sidor av denna typ: schematic, cover, report, mounting, overview, graphic eller document
 Only lines without a translation into this language	Endast rader utan översättning till det här språket
 Only list the new tags, change nothing	Lista endast de nya beteckningarna, ändra ingenting
 Only shows the package, no job is recorded	Visar bara paketet, ingen order registreras
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Gruppens platser (0 = obegränsat)
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Placerar beteckningen för en anslutningspunkt på en symbol till vänster, till höger, ovanför eller nedanför den och förskjuter den; utan sida och förskjutning placeras den automatiskt igen
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Placerar skåpsraden för en kapsling i rummet (3D-vy av alla kapslingar); utan x och z placeras den enligt anläggningslayouten eller bredvid de andra skåpsraderna
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Placerar namnet och korsreferensen för avbrottspunkter på en sida av pilen eller manuellt med en förskjutning från insättningspunkten
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Placerar projektets logotyp på försättsbladet (mm från ritytans övre vänstra hörn); utan parametrar visas platsen
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Placerar egenskaperna i ett schema på symboler; utan ID:n placeras det igen på alla symboler som använder det
 Planned part number	Planerat artikelnummer
 Planned power in kW	Planerad effekt i kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Anläggningssegment med planerade apparater före kretsschemat: mallar, effektbudget, status jämfört med kretsschemat, utbyte som CSV / Excel
 Plinth height in mm, 0 without plinth	Sockelhöjd i mm, 0 utan sockel
 Plot frame (list_frames); empty = the project default	Ritningsram (list_frames); tom = projektstandarden
-Plot frames and page templates of the project	Ritningsramar och sidmallar i projektet
+Plot frames, title blocks and page templates of the project	Ritningsramar, namnrutor och sidmallar i projektet
 Plug tag, e.g. -X10	Kontaktdonsbeteckning, t.ex. -X10
 Plugin id '{}' is not snake_case	Plugin-ID '{}' är inte snake_case
 Plugin {} is loaded twice	Plugin {} är inläst två gånger
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Anger ritningsramen för
 Sets the shield and the outer diameter of a cable	Anger skärmen och ytterdiametern för en kabel
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Anger källspråket för projekttexterna och målspråken (ISO 639-1-koder)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Anger reservplintarna för en plintrad och om dess tillbehör läggs till automatiskt
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Anger stämpeln som ritas över alla sidor efter revisionsflödets status (t.ex. UTKAST); utan parametrar visas stämpeln
+Sets the title block of all pages that do not choose one, or of the pages of one type	Anger namnrutan för alla sidor som inte väljer någon, eller för sidorna av en typ
 Sets the translation of a line of the project texts (empty removes it)	Anger översättningen av en rad i projekttexterna (tom tar bort den)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Anger ledarfärg och tvärsnitt för nät utan definierad potential (tomt = ingen)
 Share of the capacity kept free in percent	Andel av kapaciteten som hålls ledig, i procent
@@ -791,11 +809,16 @@ Terminal designation	Plintbeteckning
 Terminal designations in strip order, separated by commas	Plintbeteckningar i plintradsordning, åtskilda med kommatecken
 Terminal order, levels, jumpers, spare terminals and accessories	Plintordning, våningar, byglar, reservplintar och tillbehör
 Text height in mm	Texthöjd i mm
+Text height in mm (0: fitted to the page)	Texthöjd i mm (0: anpassad till sidan)
 Text height in mm (default 3.5)	Texthöjd i mm (standard 3.5)
 Text in id, name or order number	Text i ID, namn eller beställningsnummer
 Text in the key or name	Text i nyckeln eller namnet
 Text in the line or a translation	Text i raden eller i en översättning
 Text to find; empty: fill	Text att söka efter; tom: fyll
+Text when everything is released, e.g. AS BUILT	Text när allt är släppt, t.ex. SOM BYGGD
+Text when the revision is approved but not released	Text när revisionen är godkänd men inte släppt
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Text medan en revision är ett utkast eller inget är släppt ännu (platshållare tillåtna; tomt: ingen)
+Text while a revision is in review or was rejected	Text medan en revision granskas eller har avvisats
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Text; platshållare som {page} eller {prop:Name} fylls i när den ritas
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	Ett hörns armar är en lodrät och en vågrät riktning, t.ex. down left, inte {}
 The cable definition line crosses no wire	Kabeldefinitionslinjen korsar ingen ledning
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Tjockaste plåt eller skena, mm
 Time per drilling, punching or bending operation, s	Tid per borrning, stansning eller bockning, s
 Time per tool change, s	Tid per verktygsbyte, s
+Title block (list_title_blocks); empty = the project default	Namnruta (list_title_blocks); tom = projektets standard
+Title block of the pages with this frame that do not choose one; empty: the project default	Namnruta för sidor med denna ram som inte väljer någon; tom: projektets standard
+Title block to start from when it is new (default: Standard)	Namnruta att utgå från när den är ny (standard: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Verktyg, t.ex. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Överkant i mm
 Top edge on the face in mm	Överkant på ytan i mm
 Top edge on the mounting plate in mm	Överkant på monteringsplåten i mm
 Translated line	Översatt rad
@@ -876,6 +903,7 @@ Unknown node: {}	Okänd nod: {}
 Unknown numbering scheme: {}	Okänt numreringsschema: {}
 Unknown object class: {}	Okänd objektklass: {}
 Unknown order: {}	Okänd ordning: {}
+Unknown page type: {}	Okänd sidtyp: {}
 Unknown paper format: {}	Okänt pappersformat: {}
 Unknown path kind: {}	Okänd vägtyp: {}
 Unknown placeholder {}: possible are {}	Okänd platshållare {}: möjliga är {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	Vilken rad p
 Who accepted it	Vem som godkände det
 Whole words only	Endast hela ord
 Why the message is accepted	Varför meddelandet godkänns
-Width in mm	Bredd i mm
 Width of the path in mm (default 50)	Vägens bredd i mm (standard 50)
 Width, depth and height of a room are at least {} mm	Bredd, djup och höjd för ett rum är minst {} mm
 Width, height and depth of an enclosure are at least {} mm	Bredd, höjd och djup för en kapsling är minst {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem eller open
 {} has no enclosure bayed to its right side	{} har ingen kapsling sammanbyggd på sin högra sida
 {} has no enclosure system; give one	{} har inget kapslingssystem; ange ett
 {} is a built-in frame; give the frame a new name	{} är en inbyggd ram; ge ramen ett nytt namn
+{} is a built-in title block; give the title block a new name	{} är en inbyggd namnruta; ge namnrutan ett nytt namn
 {} is a room already	{} är redan ett rum
 {} is ambiguous: use #id:pin	{} är tvetydig: använd #id:pin
 {} is an enclosure already	{} är redan en kapsling

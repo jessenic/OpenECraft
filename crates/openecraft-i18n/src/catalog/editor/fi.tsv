@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = yksittäinen arvo; muuten arvot [1] … [n]
 0 = all approvers	0 = kaikki hyväksyjät
 0 = estimated from cores and cross-section	0 = arvioitu johtimista ja poikkipinta-alasta
+0 = fitted to the page	0 = sovitettu sivulle
 0 = fitted to the rows per page	0 = sovitettu sivun rivimäärään
 0 = from the DC of the devices ({} %)	0 = laitteiden DC-arvosta ({} %)
 0 = from the devices	0 = laitteista
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Väylätyypin kaapeli jokaiselle yhteydelle, jolla ei ole kaapelia
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Samankokoinen aukko samassa kohdassa naapurin sivuseinässä: yhdessä ne muodostavat kaapelin läpivientiaukon
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Kansiossa oleva samanniminen tiedosto saa uuden version (kirjataan ulos ja sisään), muuten tiedosto lisätään
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Suuri teksti jokaisen sivun poikki, esim. LUONNOS, kun revisiota valmistellaan; teksteissä voi olla paikkamerkkejä, tyhjä: ei leimaa.
 A level on top of the highest one	Kerros ylimmän päälle
 A local file opens locally, a server project is opened on the project server again	Paikallinen tiedosto avautuu paikallisesti, palvelinprojekti avataan uudelleen projektipalvelimella
 A local file or a project on the project server	Paikallinen tiedosto tai projektipalvelimen projekti
@@ -55,6 +57,7 @@ A new project	Uusi projekti
 A new release is downloaded in the background and installed when you close OpenECraft.	Uusi versio ladataan taustalla ja asennetaan, kun suljet OpenECraftin.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Uusi versio ladataan taustalla ja se korvaa tämän asennuksen; sitä käytetään seuraavasta käynnistyksestä alkaen.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Numeroitu osio, joka sisältää sivuja kuin kansio; sivujen nimet alkavat sen numerolla (2.3.1)
+A picture kept in the form, e.g. the company logo	Lomakkeeseen tallennettu kuva, esim. yrityksen logo
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profiili yhdistää neutraalit kentät tietyn järjestelmän sarakkeiden nimiin (esim. MATNR ERP-numerolle SAP:ssa). Ilman määritystä tunnistetaan yleiset englannin- ja saksankieliset nimet.
 A project definition based on this one, with its own defaults and scheme	Tähän perustuva projektimäärittely omine oletusarvoineen ja skeemoineen
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Tiedostonhallinnasta avattu projektitiedosto avautuu sen sijaan. Viime istunnon tallentamattomia muutoksia ei koskaan hylätä kysymättä.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Tämänniminen malli korvataan.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Malli asettaa uuden sivun sivutyypin, piirustuskehyksen, nimiön, rakenteen ja kuvauksen sekä sijoittaa sen sisällön.
 A way through free air costs this many times the way in a duct or routing path	Reitti vapaan tilan kautta maksaa tämän verran kertaa enemmän kuin reitti kourussa tai reitityspolulla
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Työalue rajaa navigaattorin sivut ja laitteet osaan projektia. Suodattimet: tyhjä = mikä tahansa, * = mitkä tahansa merkit; A1 kattaa myös A1.2:n.
+APPROVED	HYVÄKSYTTY
 About OpenECraft	Tietoja OpenECraftista
 Above the floor	Lattian yläpuolella
+Above the project name	Projektin nimen yläpuolella
 Accept as checked	Hyväksy tarkistetuksi
 Accepted messages ({})	Hyväksytyt ilmoitukset ({})
 Active	Aktiivinen
@@ -144,6 +149,7 @@ Apply to the connection	Käytä yhteyteen
 Apply to {} projects	Käytä {} projektiin
 Approval workflow	Hyväksyntätyönkulku
 Approvals needed	Tarvittavat hyväksynnät
+Approved	Hyväksytty
 Approving needs an approver; you are \"{}\".	Hyväksyminen edellyttää hyväksyjää; olet \"{}\".
 Arc	Kaari
 Archive and version	Arkisto ja versio
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Valitse ensin huone: lattialle sijoitettavat osat tulevat sen lattialle.
 Choose another project	Valitse toinen projekti
 Choose file…	Valitse tiedosto…
+Choose image…	Valitse kuva…
 Choose pages	Valitse sivut
 Chooses the pages whose structure starts with this	Valitsee sivut, joiden rakenne alkaa tällä
 Circle	Ympyrä
@@ -362,6 +369,7 @@ Comments ({} open)	Kommentit ({} avoinna)
 Comments ({})	Kommentit ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Tarkastajan projektin PDF-vientiin tekemät kommentit (Acrobat tai muu PDF-katseluohjelma)
 Comments and markup	Kommentit ja merkinnät
+Company library	Yrityksen kirjasto
 Compare and baselines	Vertailu ja lähtötasot
 Compare with	Vertaa kohteeseen
 Compare with a baseline, a revision or another project file and take differences over	Vertaa lähtötasoon, revisioon tai toiseen projektitiedostoon ja ota erot käyttöön
@@ -405,6 +413,7 @@ Core designations separated by blanks	Johdinmerkinnät välilyönneillä erotett
 Core labels placed by hand	Johdinmerkinnät sijoitettu käsin
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Johtimet 1, 2, 3 … ristityille johdoille sekä GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Kulma: kaksi johdinta suorassa kulmassa; automaattisen kytkennän ollessa päällä sen haaroja vastapäätä olevat liitäntäpisteet johdotetaan siihen
+Counter-clockwise, e.g. 90 for texts running upwards	Vastapäivään, esim. 90 ylöspäin kulkeville teksteille
 Cover sheet, overview, graphics, report, mounting layout or a page template	Kansilehti, yleiskuva, grafiikka, raportti, asennuskuva tai sivumalli
 Covers	Kattaa
 Covers what is behind the text	Peittää tekstin takana olevan
@@ -431,6 +440,8 @@ Cut length step tubes	Katkaisupituuden askel putket
 Cut length step wires	Katkaisupituuden askel johdot
 Cutout {} × {} mm	Aukko {} × {} mm
 Cutting allowance per end	Katkaisuvara päätä kohden
+DRAFT	LUONNOS
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	LUONNOS, HYVÄKSYTTÄVÄNÄ ja HYVÄKSYTTY nykyisellä kielellä; ei mitään julkaisun jälkeen
 DWG import failed: {}	DWG-tuonti epäonnistui: {}
 DWG imported as page {}: {} lines, {} texts	DWG tuotiin sivuksi {}: {} viivaa, {} tekstiä
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG tuotiin sivuksi {}: {} viivaa, {} tekstiä (ei tuotu: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	{} ladattiin (versio {})
 Downloaded {} parts (revision {}): {} new, {} updated	Ladattu {} osaa (revisio {}): {} uutta, {} päivitetty
 Downloading OpenECraft {}	Ladataan OpenECraft {}
 Downstream part	Jälkimmäinen osa
+Draft	Luonnos
 Draft of revision {} created	Revision {} luonnos luotu
 Draft of revision {} discarded	Revision {} luonnos hylätty
 Drag	Vedä
@@ -665,6 +677,7 @@ Exporting {}	Viedään {}
 Export…	Vie…
 Extend guides to canvas edges	Jatka apuviivat piirtoalueen reunoihin
 Extras	Lisätoiminnot
+FOR APPROVAL	HYVÄKSYTTÄVÄNÄ
 Facing	Suunta
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Tuulettimet, suodattimet, kaapeliläpiviennit, valaisimet, kahvat: valitse yksi ja napsauta sitten sen paikkaa
 Fastening hardware in the bill of materials	Kiinnitystarvikkeet osaluettelossa
@@ -700,6 +713,7 @@ First row	Ensimmäinen rivi
 Fit	Sovita
 Fit page	Sovita sivu
 Fits {}	Sopii osaan {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	Sovitetaan suorakulmioon kuvasuhde säilyttäen (PNG, JPEG)
 Float	Irrota
 Floor above ground	Lattia maan yläpuolella
 Floor plan	Pohjapiirros
@@ -707,8 +721,10 @@ Floor plan with {} walls	Pohjapiirros, {} seinää
 Floor-standing part	Lattialle sijoitettava osa
 Fluid and process	Fluidi ja prosessi
 Follows its condition: use Apply conditions	Noudattaa ehtoaan: käytä toimintoa Käytä ehtoja
+Font	Fontti
 Foot	Alku
 For	Kohteelle
+For pages that choose none; before the plot frame's title block and the project default.	Sivuille, jotka eivät valitse omaa; ennen piirustuskehyksen nimiötä ja projektin oletusta.
 For parts without Stock length; longer profiles have to be joined	Osille, joilla ei ole arvoa Stock length; pidemmät profiilit on jatkettava
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Osille, joilla ei ole lämpötilatietoja (Max temperature, Operating temperature); 0: ei tarkisteta
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Tuontiin EPLANin osien hallintaan (P_ARTICLE_*-attribuutit, tekstit kielellä en_US)
@@ -730,6 +746,7 @@ From a template file…	Mallitiedostosta…
 From row to row; 0: free of shade in winter	Rivistä riviin; 0: varjoton talvella
 From the function definition	Toimintomäärittelystä
 From the left end	Vasemmasta päästä
+From the top left corner of the drawing area	Piirustusalueen vasemmasta yläkulmasta
 From – to	Mistä – mihin
 Fullest stretch	Eniten täytetty osuus
 Function definitions	Toimintomäärittelyt
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	Tuotu {} nimiötä ja {} raportti
 Importing {} from the parts server…	Tuodaan {} osapalvelimelta…
 Import…	Tuo…
 In every section counting starts again after the section number (2.3.1).	Jokaisessa osiossa laskenta alkaa alusta osion numeron jälkeen (2.3.1).
+In review	Tarkastettavana
 In strip order; PE and other non-numeric terminals keep their designation	Rimajärjestyksessä; PE ja muut ei-numeeriset riviliittimet säilyttävät nimityksensä
 In the filtered rows	Suodatetuissa riveissä
 In the middle of the first wire	Ensimmäisen johdon keskelle
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	{} on lukinnut projektipalvelim
 Locked by {} – read only	Lukinnut {} – vain luku
 Locking…	Lukitaan…
 Logic	Logiikka
+Logo	Logo
+Logo on the cover page	Logo kansilehdellä
 Longer values are drawn smaller (0 = no limit)	Pidemmät arvot piirretään pienempinä (0 = ei rajaa)
 Look for updates when OpenECraft starts	Etsi päivityksiä, kun OpenECraft käynnistyy
 Looking for updates…	Etsitään päivityksiä…
@@ -1135,7 +1155,6 @@ New zone	Uusi vyöhyke
 New, empty placement scheme	Uusi, tyhjä sijoitteluskeema
 Next free contact numbers on this device	Laitteen seuraavat vapaat kosketinnumerot
 Next item	Seuraava kohde
-Next page	Seuraava sivu
 Next page tab	Seuraava sivuvälilehti
 Next pane	Seuraava ruutu
 Next row	Seuraava rivi
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Ei mitään – sivun tai 
 Not a page template file: {}	Ei sivumallitiedosto: {}
 Not a point: type x y or @dx dy	Ei piste: kirjoita x y tai @dx dy
 Not a symbol library: {}	Ei symbolikirjasto: {}
-Not a title block file: {}	Ei nimiötiedosto: {}
 Not changed: {}	Ei muutettu: {}
 Not found: {}	Ei löytynyt: {}
 Not in the project parts – synchronize in parts management	Ei projektin osissa – synkronoi osien hallinnassa
@@ -1226,9 +1244,11 @@ One row per label	Yksi rivi merkintäkilpeä kohden
 Only devices on the current page	Vain nykyisen sivun laitteet
 Only frames no page uses can be deleted	Vain kehykset, joita mikään sivu ei käytä, voi poistaa
 Only messages of the current page	Vain nykyisen sivun ilmoitukset
+Only on pages of these types (none ticked: on all)	Vain näiden tyyppien sivuilla (ei valintaa: kaikilla)
 Only parts whose function template provides the device's main function	Vain osat, joiden toimintomalli tarjoaa laitteen päätoiminnon
 Only rows that pass all filters are shown	Vain rivit, jotka läpäisevät kaikki suodattimet, näytetään
 Only web and e-mail addresses (http, https, mailto) are links	Vain verkko- ja sähköpostiosoitteet (http, https, mailto) ovat linkkejä
+Only when filled	Vain kun täytetty
 Open a specific project	Avaa tietty projekti
 Open and save shared projects, lock pages	Avaa ja tallenna jaettuja projekteja, lukitse sivuja
 Open archive…	Avaa arkisto…
@@ -1301,6 +1321,8 @@ Overhang	Räystään ulkonema
 Own colour	Oma väri
 Own drawn form	Oma piirretty lomake
 Own groups	Omat ryhmät
+Own picture	Oma kuva
+Own place	Oma paikka
 PCT loops (pre-planning)	Instrumentointipiirit (esisuunnittelu)
 PDF with comments	PDF kommentteineen
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Sijoitettu käsin; puolen vali
 Placed here: {}	Sijoitettu tähän: {}
 Placed {}× in the project	Sijoitettu {}× projektissa
 Placeholders	Paikkamerkit
+Placeholders are filled, e.g. a link with {project} and {page}	Paikkamerkit täytetään, esim. linkki, jossa on {project} ja {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Paikkamerkit, kuten {MOTOR}, tunnuksissa, teksteissä ja toimintoteksteissä täytetään lisättäessä.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Paikkamerkit: {letter} tunnuskirjain, {n} laskuri, {page} sivu, {column} / {row} päätoiminnon sijainti
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Paikkamerkit: {n} laskuri (lasketaan muun tekstin kunkin arvon mukaan), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Ilman merkkiä {n} saman tekstin yhteydet jakavat saman numeron.
@@ -1424,7 +1447,6 @@ Prefix	Etuliite
 Press a key…	Paina näppäintä…
 Preview	Esikatselu
 Previous item	Edellinen kohde
-Previous page	Edellinen sivu
 Previous page tab	Edellinen sivuvälilehti
 Previous pane	Edellinen ruutu
 Previous wire	Edellinen johto
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Ominaisuusryhmät
 Property placement	Ominaisuuksien sijoittelu
 Property removed with {} values	Ominaisuus ja sen {} arvoa poistettiin
+Publish	Julkaise
 Put a room here	Sijoita tila tähän
 Put into the vault	Tallenna Vaultiin
 Put the pane back into the workspace	Palauta ruutu työtilaan
@@ -1556,6 +1579,7 @@ Replace with	Korvaa tekstillä
 Replaced when the configurator generates again; switch off to keep the page	Korvataan, kun konfiguraattori luo uudelleen; poista käytöstä säilyttääksesi sivun
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Korvaa vapaissa teksteissä, toimintoteksteissä sekä sivujen, laitteiden ja kaapelien kuvauksissa; vapautetut sivut säilyvät ennallaan
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Korvaa tietokannan GEN.*-osat nykyisellä esimerkkiluettelolla (mallit mukaan lukien)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Korvaa yrityksen kirjaston projektin omilla nimiöillä, raporttimalleilla ja piirustuskehyksillä (osapalvelimen muokkaajat)
 Replaces the content of the macro boxes whose macro changed in the library	Korvaa niiden makrolaatikoiden sisällön, joiden makro on muuttunut kirjastossa
 Replaces the pages of this block	Korvaa tämän lohkon sivut
 Reply	Vastaa
@@ -1745,6 +1769,7 @@ Settings scheme	Asetusskeema
 Settings scheme (JSON)	Asetusskeema (JSON)
 Settings taken over: {}	Asetukset otettiin käyttöön: {}
 Settings…	Asetukset…
+Shade every second row	Varjosta joka toinen rivi
 Shafts	Kuilut
 Share of the capacity kept free for later additions	Kapasiteetin osuus, joka jätetään vapaaksi myöhempiä lisäyksiä varten
 Shared project {} – revision {}, user {}	Jaettu projekti {} – revisio {}, käyttäjä {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	Näytä ruutu ikkunana
 Show the ribbon	Näytä valintanauha
 Show this wire	Näytä tämä johto
 Show who may use the project	Näytä, kuka saa käyttää projektia
+Shown	Näytetään
 Shown as \"Name: value\"	Näytetään muodossa \"Nimi: arvo\"
 Shown in title blocks with {prop:Name}	Näytetään nimiöissä merkinnällä {prop:Name}
 Shown instead of the measured value	Näytetään mitatun arvon sijaan
+Shown now: {}	Näytetään nyt: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Näytetään kansilehdellä ja niiden nimiöiden kuvaelementeissä, jotka näyttävät projektin logon
 Shows	Näyttää
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Sivuseinät, takaseinä, katto ja pohja ulkoa katsottuna: tuulettimet, kaapeliläpiviennit, aukot
 Sign in in the Project server pane; the project opens afterwards	Kirjaudu sisään Projektipalvelin-ruudussa; projekti avautuu sen jälkeen
@@ -1812,6 +1840,7 @@ Spare terminals	Varariviliittimet
 Special text	Erikoisteksti
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Erikoisteksti: projektin ja sivun ominaisuudet, kuten {page} tai {prop:Name}, täytetään, kun sivu piirretään
 Stairs	Portaat
+Stamp	Leima
 Standard form of the report	Raportin vakiolomake
 Standard size	Vakiokoko
 Standard workspaces	Vakiotyötilat
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Aliprojekti ta
 Subproject {} inserted: {} pages replaced by {}	Aliprojekti {} liitettiin: {} sivua korvattiin {} sivulla
 Subprojects	Aliprojektit
 Subsystem {}	Osajärjestelmä {}
+Suggested texts	Ehdotetut tekstit
+Sums the column in a row below the last row of the report	Laskee sarakkeen summan raportin viimeisen rivin alle
 Supply and conditions	Syöttö ja olosuhteet
 Surge protection	Ylijännitesuojaus
 Swing the enclosure door open or shut (door devices and their wires move with it)	Avaa tai sulje kotelon ovi (ovilaitteet ja niiden johdot liikkuvat mukana)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	Laitteet eivät mahdu kiskolle
 The dictionary is empty: collect the texts from the project.	Sanakirja on tyhjä: kerää tekstit projektista.
 The door seen from the front: door devices and cutouts	Ovi edestä katsottuna: ovilaitteet ja aukot
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Ovi sisältä katsottuna (saranat oikealla): johtokourut ja johdotus oven takana
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Elementti piirretään vain, kun tämä teksti paikkamerkkeineen ei ole tyhjä, esim. revisiotaulukon rivit
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Kotelon vasen puoli on valitun kotelon oikeaa puolta vasten; johdot kulkevat niiden välillä kaapelin läpivientiaukkojen kautta
 The horizontal wire	Vaakasuora johdin
 The items are selected and moved together	Kohteet valitaan ja siirretään yhdessä
+The logo is fitted into this area keeping its aspect ratio	Logo sovitetaan tälle alueelle kuvasuhde säilyttäen
+The logo of the project properties, e.g. the customer's	Projektin ominaisuuksien logo, esim. asiakkaan
 The macro library has no page macros (Macros › Save page as macro…).	Makrokirjastossa ei ole sivumakroja (Makrot › Tallenna sivu makrona…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Muokkausnäppäimet, joilla rulla panoroi sivuttain tai zoomaa, asetetaan kohdassa Muokkausnäppäimet.
 The modules no string takes yet in series, on the first inverter	Moduulit, joita mikään merkkijono ei vielä ota, sarjassa, ensimmäiseen vaihtosuuntaajaan
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Kolmivaiheinen oikosulkuvirta syöttöpisteessä
 Tilt	Kallistus
 Title	Otsikko
+Title block by page type	Nimiö sivutyypin mukaan
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Tämän kehyksen sivujen nimiö, kun ne eivät valitse omaa, esim. kapeampi A4-pystylle
 Title blocks	Nimiöt
 Title blocks, plot frames and page templates	Nimiöt, piirustuskehykset ja sivumallit
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Kaikkien projektien jakamat nimiöt, raporttimallit ja piirustuskehykset osapalvelimella (Osat › Osapalvelin)
 To do	Tekemättä
 Toggle corner direction while drawing wires	Vaihda kulman suuntaa johtoja piirrettäessä
 Toggle routing around symbols (wire tool)	Symbolien kiertävä reititys päälle / pois (johtotyökalu)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	Kohteessa {} on tallentamattomia muutoksia. Hylätäänkö ne?
 {} imported into the parts database and placed as {}	{} tuotiin osatietokantaan ja sijoitettiin nimellä {}
 {} is neither in the parts database nor on the parts server	{} ei ole osatietokannassa eikä osapalvelimella
-{} is not a PNG or JPEG image	{} ei ole PNG- tai JPEG-kuva
 {} is not in the disk image	{} ei ole levykuvassa
 {} is not made for wall mounting: place it on a mounting rail	{} ei ole tarkoitettu seinäasennukseen: aseta se asennuskiskoon
 {} is used by: {}	Kohdetta {} käyttää: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ Projektitiedot ovat johdonmukaiset.
 ✔ Wired	✔ Johdotettu
 ➕ Default value	➕ Oletusarvo
+➕ Image	➕ Kuva
 ➕ Insert (click into the page)	➕ Lisää (napsauta sivua)
 ➕ Insert as new page	➕ Lisää uutena sivuna
 ➕ Label	➕ Merkintä
 ➕ Line	➕ Viiva
 ➕ Place property	➕ Sijoita ominaisuus
 ➕ Property	➕ Ominaisuus
+➕ QR code	➕ QR-koodi
 ➕ Rectangle	➕ Suorakulmio
 ➕ Text	➕ Teksti
 ⬉ Select	⬉ Valitse

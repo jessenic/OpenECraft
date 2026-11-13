@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	在柜门上，当与开孔不同
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN 部件交换的内部值（0：未定义）
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	它只有安装在其适配的部件上才能工作；项目检查会在没有此类部件的设备上报告它
 Largest conductor the clamp takes (0: not known)	端子可接的最大导线（0：未知）
+Loaded the library {}	已加载库 {}
 Loaded {} parts (revision {})	已加载 {} 个部件（修订 {}）
 Loading catalogs…	正在加载目录…
 Loading favorites…	正在加载收藏夹…
 Loading the history…	正在加载历史记录…
 Loading users…	正在加载用户…
+Loading {}…	正在加载 {}…
 Mark for adding to the parts database	标记以添加到部件数据库
 Max. mm²	最大 mm²
 Min. mm²	最小 mm²
@@ -80,7 +82,6 @@ Pans (trackpad)	平移（触控板）
 Parts server: {}	部件服务器：{}
 Parts this part is assembled from; the bill of materials lists them under it	组成此部件的部件；物料清单将其列在此部件下
 Personal access token	个人访问令牌
-Picture	图片
 Place by clicking into the view	在视图中单击以放置
 Prices / other	价格 / 其他
 Remove all	全部移除
@@ -91,6 +92,7 @@ Reset filter	重置筛选
 Rotate 90°:	旋转 90°：
 Save the file	保存文件
 Saved part {}	已保存部件 {}
+Saved the library {}	已保存库 {}
 Saving favorites…	正在保存收藏夹…
 Saving {}…	正在保存 {}…
 Scale ×	比例 ×
@@ -106,6 +108,7 @@ Successor {}	后续产品 {}
 Take {} values from the technical data	从技术数据中采用 {} 个值
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	2D 正视图用于安装板正视图和安装布局页，3D 模型用于 3D 机柜视图。两者都会按安装数据（宽 × 高 × 深）调整。
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	模型（{} × {} × {}）与安装数据（{} × {} × {}）不同；它将被拉伸为安装数据的尺寸。
+The parts server has no library {} yet	零件服务器上还没有库 {}
 The price refers to this many units	价格对应的单位数量
 The successor is not in this parts list	后续产品不在此部件列表中
 This part is an accessory	此部件是附件

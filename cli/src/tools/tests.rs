@@ -25,7 +25,7 @@ fn tool_and_parameter_names_are_unique_snake_case() {
     assert!(names.len() > 150, "{}", names.len());
     // Built-in tools are the ones that need the session or the machine (files, parts
     // server, Autodesk Vault, undo); everything else is a plugin command.
-    assert!(all().count() < 90, "the project commands are plugin commands");
+    assert!(all().count() < 95, "the project commands are plugin commands");
 }
 
 #[test]

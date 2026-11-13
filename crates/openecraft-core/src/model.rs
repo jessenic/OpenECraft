@@ -266,6 +266,24 @@ pub struct ProjectInfo {
     /// shown in title blocks as `{prop:Name}`.
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub properties: BTreeMap<String, String>,
+    /// Logo of the project (e.g. the customer's): shown on the cover page and by the
+    /// image elements of title blocks and report forms that have no picture.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub logo: Option<forms::Picture>,
+    /// Where the cover page shows the logo; none: above the project name.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cover_logo: Option<CoverLogo>,
+}
+
+/// Area of the logo on the cover page in mm from the top left corner of the drawing
+/// area; the logo is fitted into it keeping its aspect ratio.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct CoverLogo {
+    pub x: f32,
+    pub y: f32,
+    pub width: f32,
+    pub height: f32,
 }
 
 impl Default for ProjectInfo {
@@ -278,6 +296,8 @@ impl Default for ProjectInfo {
             date: String::new(),
             revision: "A".into(),
             properties: BTreeMap::new(),
+            logo: None,
+            cover_logo: None,
         }
     }
 }

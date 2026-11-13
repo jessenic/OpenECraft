@@ -644,6 +644,28 @@ async fn unknown_names_take_as_long_as_wrong_passwords() {
 }
 
 #[tokio::test]
+async fn libraries_are_read_by_all_and_written_by_editors() {
+    let app = app(Some(TOKEN));
+    let reader = sign_up(&app, "rita", "Reader", "").await;
+    let editor = sign_up(&app, "ed", "Editor", "").await;
+    let acme = sign_up(&app, "max", "Manufacturer", "ACME").await;
+    assert_eq!(call(&app, "GET", "/api/v1/libraries/forms", None, "").await.0, StatusCode::NOT_FOUND);
+    let body = r#"{"title_blocks": [{"name": "Company", "items": []}]}"#;
+    assert_eq!(call(&app, "PUT", "/api/v1/libraries/forms", Some(&reader), body).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "PUT", "/api/v1/libraries/forms", Some(&acme), body).await.0, StatusCode::FORBIDDEN);
+    assert_eq!(call(&app, "PUT", "/api/v1/libraries/forms", None, body).await.0, StatusCode::UNAUTHORIZED);
+    assert_eq!(call(&app, "PUT", "/api/v1/libraries/forms", Some(&editor), "[1, 2]").await.0, StatusCode::BAD_REQUEST);
+    assert_eq!(call(&app, "PUT", "/api/v1/libraries/a%20b", Some(&editor), body).await.0, StatusCode::BAD_REQUEST);
+    assert_eq!(call(&app, "PUT", "/api/v1/libraries/forms", Some(&editor), body).await.0, StatusCode::NO_CONTENT);
+    let (status, headers, bytes) = send(&app, "GET", "/api/v1/libraries/forms", Some(&reader), Vec::new()).await;
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(headers[header::CONTENT_TYPE], "application/json");
+    let v: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+    assert_eq!(v["title_blocks"][0]["name"], "Company");
+    assert_eq!(openecraft_parts::api::library_path(openecraft_parts::api::FORMS_LIBRARY), "/api/v1/libraries/forms");
+}
+
+#[tokio::test]
 async fn administrators_see_sessions_and_sign_users_out() {
     let app = app(Some(TOKEN));
     let eve = sign_up(&app, "eve", "Editor", "").await;

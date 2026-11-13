@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	In de deur, als ze afwijken van d
 Internal values of the EPLAN part exchange (0: undefined)	Interne waarden van de EPLAN-artikeluitwisseling (0: niet gedefinieerd)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Het werkt alleen bevestigd aan een van de artikelen waarop het past; de projectcontrole meldt het bij een apparaat zonder zo'n artikel
 Largest conductor the clamp takes (0: not known)	Grootste geleider die de klem opneemt (0: onbekend)
+Loaded the library {}	Bibliotheek {} geladen
 Loaded {} parts (revision {})	{} artikelen geladen (revisie {})
 Loading catalogs…	Catalogi laden…
 Loading favorites…	Favorieten laden…
 Loading the history…	Geschiedenis laden…
 Loading users…	Gebruikers laden…
+Loading {}…	{} laden…
 Mark for adding to the parts database	Markeren om toe te voegen aan de artikeldatabase
 Max. mm²	Max. mm²
 Min. mm²	Min. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Verschuift (trackpad)
 Parts server: {}	Artikelserver: {}
 Parts this part is assembled from; the bill of materials lists them under it	Artikelen waaruit dit artikel is samengesteld; de stuklijst vermeldt ze eronder
 Personal access token	Persoonlijk toegangstoken
-Picture	Afbeelding
 Place by clicking into the view	Plaatsen door in de weergave te klikken
 Prices / other	Prijzen / overig
 Remove all	Alles verwijderen
@@ -92,6 +93,7 @@ Reset filter	Filter herstellen
 Rotate 90°:	90° draaien:
 Save the file	Het bestand opslaan
 Saved part {}	Artikel {} opgeslagen
+Saved the library {}	Bibliotheek {} opgeslagen
 Saving favorites…	Favorieten opslaan…
 Saving {}…	{} opslaan…
 Scale ×	Schaal ×
@@ -107,6 +109,7 @@ Successor {}	Opvolger {}
 Take {} values from the technical data	{} waarden uit de technische gegevens overnemen
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	Het 2D-vooraanzicht wordt gebruikt in het vooraanzicht van de kast en op montageplanpagina's, het 3D-model in de 3D-kastweergave. Beide worden aangepast aan de montagegegevens (breedte × hoogte × diepte).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Het model ({} × {} × {}) wijkt af van de montagegegevens ({} × {} × {}); het wordt uitgerekt tot de montagegegevens.
+The parts server has no library {} yet	De onderdelenserver heeft nog geen bibliotheek {}
 The price refers to this many units	De prijs geldt voor dit aantal eenheden
 The successor is not in this parts list	De opvolger staat niet in deze artikellijst
 This part is an accessory	Dit artikel is toebehoren

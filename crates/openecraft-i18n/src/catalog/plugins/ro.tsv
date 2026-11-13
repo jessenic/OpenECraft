@@ -47,12 +47,14 @@ Altitude of the site in m	Altitudinea amplasamentului în m
 Ambient temperature of the conductors in °C	Temperatura ambiantă a conductoarelor în °C
 An outline needs {} points at least	Un contur necesită cel puțin {} puncte
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Ancorare de-a lungul axei: free, start:<mm>, center:<mm>, end:<mm> sau stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Unghi în grade, în sens antiorar
 Aspects separated by commas, e.g. function,location	Aspecte separate prin virgule, de ex. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Atribuie o definiție de funcție unui simbol plasat (denumirile și schema sunt preluate)
 Asynchronous motors add to the short-circuit current	Motoarele asincrone contribuie la curentul de scurtcircuit
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Configurare hardware automată: stații pentru CPU-uri și cuploare de magistrală, sisteme de magistrală, carduri la stații, sloturi, adrese de start, adrese de puncte, adrese IP și o topologie liniară
 Back to the default rules first	Mai întâi revenire la regulile implicite
 Back to the default strategy first	Mai întâi revenire la strategia implicită
+Back to the place above the project name	Înapoi la locul de deasupra numelui proiectului
 Back-up protection up to this short-circuit current in kA (0: not given)	Protecție de rezervă până la acest curent de scurtcircuit în kA (0: neindicat)
 Bar id	ID bară
 Bar thickness, mm (default 5)	Grosimea barei, mm (implicit 5)
@@ -101,6 +103,7 @@ Chosen value	Valoare aleasă
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Distanțe, spațiu de service, înălțimi, clase de coliziune, simulare termică și fabricabilitatea amplasării în tablou
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Climatizarea carcaselor (IEC/TR 60890): putere disipată, temperatură interioară, ventilator sau unitate de răcire și încălzire necesare; opțional modifică setările uneia dintre ele
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Clasă de coliziune: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, o clasă proprie sau * pentru oricare
+Colour as #RRGGBB	Culoare ca #RRGGBB
 Column and row strips	Benzi de coloane și rânduri
 Column mapping {field code: column name}	Maparea coloanelor {cod câmp: nume coloană}
 Column name, e.g. Description	Nume coloană, de ex. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Creează sau modifică o opțiune de co
 Creates or changes a fluid device group	Creează sau modifică un grup de dispozitive de fluid
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Creează sau modifică un chenar al proiectului (chenarele integrate se copiază sub un nume nou)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Creează sau modifică o definiție de potențial; conductoarele sale preiau culoarea și secțiunea, dacă nu sunt setate pe conductor
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Creează sau modifică un cartuș al proiectului (cele încorporate se copiază sub un nume nou)
 Creates or changes a work area: only the pages and devices of its structure are shown	Creează sau modifică o zonă de lucru: se afișează doar paginile și dispozitivele structurii sale
 Cross reference placed by hand: X offset from the insertion point in mm	Referință încrucișată plasată manual: decalaj X față de punctul de inserare în mm
 Cross reference placed by hand: Y offset from the insertion point in mm	Referință încrucișată plasată manual: decalaj Y față de punctul de inserare în mm
@@ -171,6 +175,7 @@ Deletes a page	Șterge o pagină
 Deletes a page template of the project	Șterge un șablon de pagină al proiectului
 Deletes a plot frame of the project that no page uses	Șterge un chenar al proiectului pe care nu îl folosește nicio pagină
 Deletes a potential definition	Șterge o definiție de potențial
+Deletes a title block of the project; pages using it get the project default	Șterge un cartuș al proiectului; paginile care îl folosesc primesc cartușul implicit al proiectului
 Deletes a work area	Șterge o zonă de lucru
 Deletes symbols, wires, texts and shapes	Șterge simboluri, conductoare, texte și forme
 Depth in mm	Adâncime în mm
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Lungimea laturii grilei de pozare în mm
 Electrical device tags separated by commas or blanks (empty = remove the links)	Identificatorii dispozitivelor electrice separați prin virgule sau spații (gol = eliminare legături)
 Electrical engineering	Electrotehnică
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Elemente (Line, Rect, Text, Image) în mm de la colțul stânga sus al zonei cartușului într-o matrice items
 Enclosure (location, e.g. +CAB1)	Carcasă (loc de montare, de ex. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Carcasa (loc de montare, de ex. +CAB1) ale cărei setări se modifică
 Enclosure climate and electrical sizing	Climatul carcasei și dimensionarea electrică
@@ -273,6 +279,7 @@ Height above the floor in metres	Înălțime deasupra podelei în metri
 Height above the mounting plate in mm (default 50)	Înălțime deasupra plăcii de montaj în mm (implicit 50)
 Height in mm	Înălțime în mm
 Height in mm without plinth; negative: unknown (wall mounted)	Înălțime în mm fără soclu; negativ: necunoscută (montaj pe perete)
+Height in mm; the logo keeps its aspect ratio inside	Înălțime în mm; sigla își păstrează proporțiile în interior
 Higher-level product aspect (-) of the page; the devices on the page move along	Aspectul de produs de nivel superior (-) al paginii; dispozitivele de pe pagină se mută odată cu ea
 Highest actuator on the door above the floor (0: not checked)	Cel mai înalt element de acționare pe ușă deasupra podelei (0: neverificat)
 Highest air temperature at devices without data (0: not checked)	Cea mai ridicată temperatură a aerului la dispozitive fără date (0: neverificat)
@@ -311,6 +318,7 @@ Integration profiles and status	Profiluri de integrare și stare
 Interruption points refer to: all (default), star or pairs	Punctele de întrerupere fac referire la: all (implicit), star sau pairs
 Invalid answer of the plugin: {}	Răspuns nevalid al pluginului: {}
 Invalid segment name: {}	Nume de segment nevalid: {}
+Invalid title block elements: {}	Elemente de cartuș nevalide: {}
 Item id	ID element
 Item ids	ID-uri elemente
 Jumper number	Număr de punte
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Limba în care sunt scrise te
 Larger round holes are milled, mm	Găurile rotunde mai mari sunt frezate, mm
 Largest difference between hole and tool, mm	Cea mai mare diferență între gaură și sculă, mm
 Left edge from the left end of the wall (seen from inside) in mm	Marginea stângă de la capătul stâng al peretelui (văzut din interior), în mm
+Left edge in mm	Marginea stângă în mm
 Left edge on the face in mm	Marginea stângă pe față în mm
 Left edge on the mounting plate in mm	Marginea stângă pe placa de montaj în mm
 Left side bayed (no side panel)	Partea stângă alăturată (fără perete lateral)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Listează simbolurile care pot fi plasate, cu punctele lor de conexiune relativ la punctul de inserare
 Lists the terminal strips with their number of terminals and length on the rail	Listează șirurile de borne cu numărul de borne și lungimea pe șină
 Lists the terminations chosen for wire ends and the kinds there are	Listează terminațiile alese pentru capetele conductoarelor și tipurile existente
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Listează cartușele (încorporate și ale proiectului) cu elementele lor, cartușul implicit și substituenții
 Lists the translation dictionary of the project texts (source line and translations)	Listează dicționarul de traduceri al textelor proiectului (rândul sursă și traducerile)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Listează macro-urile de fereastră plasate pe pagini (casete macro) cu macro-ul, varianta, valorile substituenților și numărul de elemente
 Load losses of the transformer in W (0: typical)	Pierderile în sarcină ale transformatorului în W (0: tipice)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Numele bornei principale de împământare
 Name of the safety function to remove	Numele funcției de securitate de eliminat
 Name of the segment	Numele segmentului
 Name of the template	Numele șablonului
+Name of the title block	Numele cartușului
+Name of the title block (with page_type: empty removes the choice)	Numele cartușului (cu page_type: gol elimină alegerea)
 Name of the work area	Numele zonei de lucru
 Name or id; the tag for places	Nume sau ID; pentru plasări, identificatorul
 Name placed by hand: X offset from the insertion point in mm	Nume plasat manual: decalaj X față de punctul de inserare în mm
@@ -480,6 +492,7 @@ No terminal strip {}	Nu există șirul de borne {}
 No terminal {} on strip {}	Nu există borna {} pe șirul {}
 No text with id {}	Niciun text cu ID-ul {}
 No three wires meet at {} / {} mm: give the direction of the stem	La {} / {} mm nu se întâlnesc trei fire: indicați direcția tijei
+No title block named {}	Niciun cartuș numit {}
 No transformer: set {} first	Niciun transformator: setați mai întâi {}
 No wire at {} / {} mm	Niciun conductor la {} / {} mm
 No wire with id {}	Niciun conductor cu ID-ul {}
@@ -489,6 +502,7 @@ Node {} exists already	Nodul {} există deja
 Nodes to pass in this order, comma separated	Noduri de parcurs în această ordine, separate prin virgule
 Nominal size, e.g. 8 mm or DN25	Diametru nominal, de ex. 8 mm sau DN25
 None of the items is an interruption point	Niciunul dintre elemente nu este un punct de întrerupere
+Not a colour (#RRGGBB): {}	Nu este o culoare (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Nu este o secțiune: {} (de ex. 1.5 mm²)
 Not a valid safety function: {}	Nu este o funcție de securitate validă: {}
 Note, e.g. what the problem is	Notă, de ex. care este problema
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Un capăt, de ex. -K1:A1
 One row per printed label instead of a count	Un rând per etichetă tipărită în locul unui număr
 Only devices on these pages (names separated by commas)	Numai dispozitivele de pe aceste pagini (nume separate prin virgule)
 Only doors and windows open	Doar ușile și ferestrele se deschid
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Doar pentru paginile de acest tip: schematic, cover, report, mounting, overview, graphic sau document
 Only lines without a translation into this language	Doar rândurile fără traducere în această limbă
 Only list the new tags, change nothing	Numai listează noii identificatori, nu modifică nimic
 Only shows the package, no job is recorded	Afișează numai pachetul, nu se înregistrează nicio comandă de lucru
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Locurile grupului (0 = nelimitat)
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Plasează denumirea unui punct de conexiune al unui simbol la stânga, la dreapta, deasupra sau dedesubtul acestuia și o deplasează; fără latură și deplasare este plasată din nou automat
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Plasează rândul de carcase al unei carcase în încăpere (vedere 3D a tuturor carcaselor); fără x și z, este plasat conform planului de amplasare a instalației sau lângă celelalte rânduri de carcase
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Plasează numele și referința încrucișată ale punctelor de întrerupere pe o latură a săgeții sau manual, cu un decalaj față de punctul de inserare
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Plasează sigla proiectului pe copertă (mm de la colțul stânga sus al zonei de desen); fără parametri afișează locul
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Plasează proprietățile unei scheme la simboluri; fără ID-uri, este replasată la toate simbolurile care o folosesc
 Planned part number	Număr de articol planificat
 Planned power in kW	Putere planificată în kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Segmente de instalație cu dispozitive planificate înainte de schemă: șabloane, bilanț de putere, stare față de schemă, schimb ca CSV / Excel
 Plinth height in mm, 0 without plinth	Înălțimea soclului în mm, 0 fără soclu
 Plot frame (list_frames); empty = the project default	Chenar (list_frames); gol = implicit proiect
-Plot frames and page templates of the project	Chenarele și șabloanele de pagină ale proiectului
+Plot frames, title blocks and page templates of the project	Chenarele, cartușele și șabloanele de pagină ale proiectului
 Plug tag, e.g. -X10	Identificator de conector, de ex. -X10
 Plugin id '{}' is not snake_case	ID-ul pluginului '{}' nu este snake_case
 Plugin {} is loaded twice	Pluginul {} este încărcat de două ori
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Setează chenarul tuturo
 Sets the shield and the outer diameter of a cable	Setează ecranul și diametrul exterior al unui cablu
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Setează limba sursă a textelor proiectului și limbile țintă (coduri ISO 639-1)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Setează bornele de rezervă ale unui șir și dacă accesoriile sale sunt adăugate automat
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Stabilește ștampila desenată pe toate paginile după starea fluxului de revizii (de ex. CIORNĂ); fără parametri o afișează
+Sets the title block of all pages that do not choose one, or of the pages of one type	Stabilește cartușul tuturor paginilor care nu aleg unul sau al paginilor unui tip
 Sets the translation of a line of the project texts (empty removes it)	Setează traducerea unui rând al textelor proiectului (gol o elimină)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Setează culoarea și secțiunea conductoarelor pentru rețelele fără potențial definit (gol = niciuna)
 Share of the capacity kept free in percent	Cota din capacitate păstrată liberă, în procente
@@ -791,11 +809,16 @@ Terminal designation	Denumire bornă
 Terminal designations in strip order, separated by commas	Denumirile bornelor în ordinea din șir, separate prin virgule
 Terminal order, levels, jumpers, spare terminals and accessories	Ordinea bornelor, niveluri, punți, borne de rezervă și accesorii
 Text height in mm	Înălțimea textului în mm
+Text height in mm (0: fitted to the page)	Înălțimea textului în mm (0: potrivită paginii)
 Text height in mm (default 3.5)	Înălțimea textului în mm (implicit 3.5)
 Text in id, name or order number	Text în ID, nume sau număr de comandă
 Text in the key or name	Text în cheie sau nume
 Text in the line or a translation	Text în rând sau într-o traducere
 Text to find; empty: fill	Text de căutat; gol: completare
+Text when everything is released, e.g. AS BUILT	Text când totul este eliberat, de ex. CONFORM EXECUȚIEI
+Text when the revision is approved but not released	Text când revizia este aprobată, dar neeliberată
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Text cât timp o revizie este ciornă sau nimic nu este încă eliberat (substituenți permiși; gol: niciunul)
+Text while a revision is in review or was rejected	Text cât timp o revizie este în verificare sau a fost respinsă
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Text; substituenții precum {page} sau {prop:Name} sunt completați la desenare
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	Brațele unui colț sunt o direcție verticală și una orizontală, de ex. down left, nu {}
 The cable definition line crosses no wire	Linia de definire a cablului nu intersectează niciun conductor
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Cea mai groasă tablă sau bară, mm
 Time per drilling, punching or bending operation, s	Timp per operație de găurire, poansonare sau îndoire, s
 Time per tool change, s	Timp per schimbare de sculă, s
+Title block (list_title_blocks); empty = the project default	Cartuș (list_title_blocks); gol = cartușul implicit al proiectului
+Title block of the pages with this frame that do not choose one; empty: the project default	Cartușul paginilor cu acest chenar care nu aleg unul; gol: cartușul implicit al proiectului
+Title block to start from when it is new (default: Standard)	Cartușul de la care se pornește când este nou (implicit: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Scule, de ex. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Marginea de sus în mm
 Top edge on the face in mm	Marginea de sus pe față în mm
 Top edge on the mounting plate in mm	Marginea de sus pe placa de montaj în mm
 Translated line	Rând tradus
@@ -876,6 +903,7 @@ Unknown node: {}	Nod necunoscut: {}
 Unknown numbering scheme: {}	Schemă de numerotare necunoscută: {}
 Unknown object class: {}	Clasă de obiect necunoscută: {}
 Unknown order: {}	Ordine necunoscută: {}
+Unknown page type: {}	Tip de pagină necunoscut: {}
 Unknown paper format: {}	Format de hârtie necunoscut: {}
 Unknown path kind: {}	Tip de cale necunoscut: {}
 Unknown placeholder {}: possible are {}	Substituent necunoscut {}: posibile sunt {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	Rândul pe c
 Who accepted it	Cine l-a acceptat
 Whole words only	Numai cuvinte întregi
 Why the message is accepted	De ce este acceptat mesajul
-Width in mm	Lățime în mm
 Width of the path in mm (default 50)	Lățimea căii în mm (implicit 50)
 Width, depth and height of a room are at least {} mm	Lățimea, adâncimea și înălțimea unei încăperi sunt de cel puțin {} mm
 Width, height and depth of an enclosure are at least {} mm	Lățimea, înălțimea și adâncimea unei carcase sunt de cel puțin {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem sau open
 {} has no enclosure bayed to its right side	{} nu are nicio carcasă alăturată în partea dreaptă
 {} has no enclosure system; give one	{} nu are sistem de carcase; indicați unul
 {} is a built-in frame; give the frame a new name	{} este un chenar integrat; dați chenarului un nume nou
+{} is a built-in title block; give the title block a new name	{} este un cartuș încorporat; dați cartușului un nume nou
 {} is a room already	{} este deja o încăpere
 {} is ambiguous: use #id:pin	{} este ambiguu: folosiți #id:pin
 {} is an enclosure already	{} este deja o carcasă

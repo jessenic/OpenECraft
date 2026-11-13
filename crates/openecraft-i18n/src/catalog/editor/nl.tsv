@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = één enkele waarde; anders waarden [1] … [n]
 0 = all approvers	0 = alle goedkeurders
 0 = estimated from cores and cross-section	0 = geschat op basis van aders en doorsnede
+0 = fitted to the page	0 = aan de pagina aangepast
 0 = fitted to the rows per page	0 = aangepast aan de rijen per pagina
 0 = from the DC of the devices ({} %)	0 = uit de DC van de apparaten ({} %)
 0 = from the devices	0 = uit de apparaten
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Een kabel van het bustype voor elke verbinding zonder kabel
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Een uitsparing van dezelfde grootte op dezelfde plaats in de zijwand van de buur: samen vormen ze een kabeldoorvoer
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Een bestand met dezelfde naam in de map krijgt een nieuwe versie (uit- en ingecheckt), anders wordt het bestand toegevoegd
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Een grote tekst over elke pagina, bijv. CONCEPT terwijl een revisie wordt voorbereid; teksten nemen plaatshouders, leeg: geen stempel.
 A level on top of the highest one	Een verdieping boven de hoogste
 A local file opens locally, a server project is opened on the project server again	Een lokaal bestand opent lokaal, een serverproject wordt opnieuw op de projectserver geopend
 A local file or a project on the project server	Een lokaal bestand of een project op de projectserver
@@ -55,6 +57,7 @@ A new project	Een nieuw project
 A new release is downloaded in the background and installed when you close OpenECraft.	Een nieuwe versie wordt op de achtergrond gedownload en geïnstalleerd wanneer u OpenECraft sluit.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Een nieuwe versie wordt op de achtergrond gedownload en vervangt deze installatie; ze wordt vanaf de volgende start gebruikt.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Een genummerde sectie die pagina's bevat zoals een map; de paginanamen beginnen met het nummer ervan (2.3.1)
+A picture kept in the form, e.g. the company logo	Een afbeelding die in het formulier wordt bewaard, bijv. het bedrijfslogo
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Een profiel wijst de neutrale velden toe aan de kolomnamen van een bepaald systeem (bijv. MATNR voor het ERP-nummer in SAP). Zonder toewijzing worden gangbare Engelse en Duitse namen herkend.
 A project definition based on this one, with its own defaults and scheme	Een projectdefinitie op basis van deze, met eigen standaardwaarden en schema
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Een projectbestand dat vanuit bestandsbeheer wordt geopend, opent in plaats daarvan. Niet-opgeslagen wijzigingen van de laatste sessie worden nooit zonder te vragen verworpen.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Een sjabloon met deze naam wordt vervangen.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Een sjabloon bepaalt het paginatype, het plotkader, het titelblok, de structuur en de beschrijving van een nieuwe pagina en plaatst de inhoud ervan.
 A way through free air costs this many times the way in a duct or routing path	Een weg vrij door de lucht kost zoveel keer de weg in een goot of routeringspad
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Een werkgebied beperkt de pagina's en apparaten in de navigator tot een deel van het project. Filters: leeg = alles, * = willekeurige tekens; A1 omvat ook A1.2.
+APPROVED	GOEDGEKEURD
 About OpenECraft	Over OpenECraft
 Above the floor	Boven de vloer
+Above the project name	Boven de projectnaam
 Accept as checked	Accepteren als gecontroleerd
 Accepted messages ({})	Geaccepteerde meldingen ({})
 Active	Actief
@@ -144,6 +149,7 @@ Apply to the connection	Toepassen op de verbinding
 Apply to {} projects	Toepassen op {} projecten
 Approval workflow	Goedkeuringsproces
 Approvals needed	Benodigde goedkeuringen
+Approved	Goedgekeurd
 Approving needs an approver; you are \"{}\".	Alleen een goedkeurder kan goedkeuren; jij bent \"{}\".
 Arc	Boog
 Archive and version	Archief en versie
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Kies eerst een ruimte: vloerstaande artikelen komen op de vloer.
 Choose another project	Ander project kiezen
 Choose file…	Bestand kiezen…
+Choose image…	Afbeelding kiezen…
 Choose pages	Pagina's kiezen
 Chooses the pages whose structure starts with this	Kiest de pagina's waarvan de structuur hiermee begint
 Circle	Cirkel
@@ -362,6 +369,7 @@ Comments ({} open)	Opmerkingen ({} open)
 Comments ({})	Opmerkingen ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Opmerkingen die een reviewer in een PDF-export van het project heeft gemaakt (Acrobat of een andere PDF-viewer)
 Comments and markup	Opmerkingen en markeringen
+Company library	Bedrijfsbibliotheek
 Compare and baselines	Vergelijken en baselines
 Compare with	Vergelijken met
 Compare with a baseline, a revision or another project file and take differences over	Vergelijken met een baseline, een revisie of een ander projectbestand en verschillen overnemen
@@ -405,6 +413,7 @@ Core designations separated by blanks	Aderbenamingen, gescheiden door spaties
 Core labels placed by hand	Aderopschriften handmatig geplaatst
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Aders 1, 2, 3 … voor de gekruiste draden, plus GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Hoek: twee draden in een rechte hoek; met Auto-connect aan worden aansluitpunten tegenover zijn armen ermee verbonden
+Counter-clockwise, e.g. 90 for texts running upwards	Tegen de klok in, bijv. 90 voor teksten die omhoog lopen
 Cover sheet, overview, graphics, report, mounting layout or a page template	Voorblad, overzicht, grafiek, rapport, montagelay-out of een paginasjabloon
 Covers	Bedekt
 Covers what is behind the text	Bedekt wat achter de tekst ligt
@@ -431,6 +440,8 @@ Cut length step tubes	Lengtestap slangen
 Cut length step wires	Lengtestap draden
 Cutout {} × {} mm	Uitsparing {} × {} mm
 Cutting allowance per end	Snijtoeslag per uiteinde
+DRAFT	CONCEPT
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	CONCEPT, TER GOEDKEURING en GOEDGEKEURD in de huidige taal; niets na vrijgave
 DWG import failed: {}	DWG-import mislukt: {}
 DWG imported as page {}: {} lines, {} texts	DWG geïmporteerd als pagina {}: {} lijnen, {} teksten
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG geïmporteerd als pagina {}: {} lijnen, {} teksten (niet geïmporteerd: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	{} gedownload (versie {})
 Downloaded {} parts (revision {}): {} new, {} updated	{} artikelen gedownload (revisie {}): {} nieuw, {} bijgewerkt
 Downloading OpenECraft {}	OpenECraft {} wordt gedownload
 Downstream part	Nageschakeld artikel
+Draft	Concept
 Draft of revision {} created	Concept van revisie {} gemaakt
 Draft of revision {} discarded	Concept van revisie {} genegeerd
 Drag	Slepen
@@ -665,6 +677,7 @@ Exporting {}	{} exporteren
 Export…	Exporteren…
 Extend guides to canvas edges	Verleng de hulplijnen tot de randen van het tekengebied
 Extras	Extra
+FOR APPROVAL	TER GOEDKEURING
 Facing	Oriëntatie
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Ventilatoren, filters, kabelwartels, lampen, handgrepen: kies er een en klik waar het moet komen
 Fastening hardware in the bill of materials	Bevestigingsmateriaal in de stuklijst
@@ -700,6 +713,7 @@ First row	Eerste rij
 Fit	Passend maken
 Fit page	Pagina passend maken
 Fits {}	Past op {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	In de rechthoek ingepast met behoud van de beeldverhouding (PNG, JPEG)
 Float	Losmaken
 Floor above ground	Vloer boven maaiveld
 Floor plan	Plattegrond
@@ -707,8 +721,10 @@ Floor plan with {} walls	Plattegrond met {} wanden
 Floor-standing part	Vloerstaand artikel
 Fluid and process	Fluïdum en proces
 Follows its condition: use Apply conditions	Volgt de voorwaarde: gebruik Voorwaarden toepassen
+Font	Lettertype
 Foot	Aantrede begin
 For	Voor
+For pages that choose none; before the plot frame's title block and the project default.	Voor pagina's die er geen kiezen; vóór het titelblok van het plotkader en de projectstandaard.
 For parts without Stock length; longer profiles have to be joined	Voor artikelen zonder Stock length; langere profielen moeten worden samengevoegd
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Voor artikelen zonder temperatuurgegevens (Max temperature, Operating temperature); 0: niet gecontroleerd
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Voor de import in het EPLAN-artikelbeheer (P_ARTICLE_*-attributen, teksten in en_US)
@@ -730,6 +746,7 @@ From a template file…	Uit een sjabloonbestand…
 From row to row; 0: free of shade in winter	Van rij tot rij; 0: schaduwvrij in de winter
 From the function definition	Uit de functiedefinitie
 From the left end	Vanaf het linkeruiteinde
+From the top left corner of the drawing area	Vanaf de linkerbovenhoek van het tekengebied
 From – to	Van – tot
 Fullest stretch	Volste gedeelte
 Function definitions	Functiedefinities
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	{} titelblokken en {} rapportsche
 Importing {} from the parts server…	{} wordt van de artikelserver geïmporteerd…
 Import…	Importeren…
 In every section counting starts again after the section number (2.3.1).	In elke sectie begint de telling opnieuw na het sectienummer (2.3.1).
+In review	In beoordeling
 In strip order; PE and other non-numeric terminals keep their designation	In volgorde van de klemmenstrook; PE en andere niet-numerieke klemmen behouden hun benaming
 In the filtered rows	In de gefilterde rijen
 In the middle of the first wire	In het midden van de eerste draad
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	Vergrendeld door {} op de proje
 Locked by {} – read only	Vergrendeld door {} – alleen-lezen
 Locking…	Vergrendelen…
 Logic	Logica
+Logo	Logo
+Logo on the cover page	Logo op het voorblad
 Longer values are drawn smaller (0 = no limit)	Langere waarden worden kleiner getekend (0 = geen limiet)
 Look for updates when OpenECraft starts	Bij het starten van OpenECraft op updates controleren
 Looking for updates…	Zoeken naar updates…
@@ -1135,7 +1155,6 @@ New zone	Nieuwe zone
 New, empty placement scheme	Nieuw, leeg plaatsingsschema
 Next free contact numbers on this device	Volgende vrije contactnummers op dit apparaat
 Next item	Volgend element
-Next page	Volgende pagina
 Next page tab	Volgend paginatabblad
 Next pane	Volgend paneel
 Next row	Volgende rij
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Geen – als je een pagina
 Not a page template file: {}	Geen paginasjabloonbestand: {}
 Not a point: type x y or @dx dy	Geen punt: typ x y of @dx dy
 Not a symbol library: {}	Geen symboolbibliotheek: {}
-Not a title block file: {}	Geen titelblokbestand: {}
 Not changed: {}	Niet gewijzigd: {}
 Not found: {}	Niet gevonden: {}
 Not in the project parts – synchronize in parts management	Niet in de projectartikelen – synchroniseer in het artikelbeheer
@@ -1226,9 +1244,11 @@ One row per label	Eén rij per label
 Only devices on the current page	Alleen apparaten op de huidige pagina
 Only frames no page uses can be deleted	Alleen kaders die door geen enkele pagina worden gebruikt, kunnen worden verwijderd
 Only messages of the current page	Alleen meldingen van de huidige pagina
+Only on pages of these types (none ticked: on all)	Alleen op pagina's van deze typen (geen aangevinkt: op alle)
 Only parts whose function template provides the device's main function	Alleen artikelen waarvan de functiesjabloon de hoofdfunctie van het apparaat biedt
 Only rows that pass all filters are shown	Alleen rijen die aan alle filters voldoen, worden weergegeven
 Only web and e-mail addresses (http, https, mailto) are links	Alleen web- en e-mailadressen (http, https, mailto) zijn links
+Only when filled	Alleen indien ingevuld
 Open a specific project	Een bepaald project openen
 Open and save shared projects, lock pages	Gedeelde projecten openen en opslaan, pagina's vergrendelen
 Open archive…	Archief openen…
@@ -1301,6 +1321,8 @@ Overhang	Overstek
 Own colour	Eigen kleur
 Own drawn form	Zelf getekend formulier
 Own groups	Eigen groepen
+Own picture	Eigen afbeelding
+Own place	Eigen plaats
 PCT loops (pre-planning)	PCT-lussen (voorplanning)
 PDF with comments	PDF met opmerkingen
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Handmatig geplaatst; een kant 
 Placed here: {}	Hier geplaatst: {}
 Placed {}× in the project	{}× in het project geplaatst
 Placeholders	Tijdelijke aanduidingen
+Placeholders are filled, e.g. a link with {project} and {page}	Plaatshouders worden ingevuld, bijv. een link met {project} en {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Tijdelijke aanduidingen zoals {MOTOR} in aanduidingen, teksten en functieteksten worden bij het invoegen ingevuld.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Tijdelijke aanduidingen: {letter} kenletter, {n} teller, {page} pagina, {column} / {row} positie van de hoofdfunctie
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Tijdelijke aanduidingen: {n} teller (geteld per waarde van de rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Zonder {n} delen verbindingen met dezelfde tekst het nummer.
@@ -1424,7 +1447,6 @@ Prefix	Voorvoegsel
 Press a key…	Druk op een toets…
 Preview	Voorbeeld
 Previous item	Vorig element
-Previous page	Vorige pagina
 Previous page tab	Vorig paginatabblad
 Previous pane	Vorig paneel
 Previous wire	Vorige draad
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Eigenschapsgroepen
 Property placement	Plaatsing van eigenschappen
 Property removed with {} values	Eigenschap met {} waarden verwijderd
+Publish	Publiceren
 Put a room here	Ruimte hier plaatsen
 Put into the vault	In de vault plaatsen
 Put the pane back into the workspace	Het paneel terugzetten in de werkruimte
@@ -1556,6 +1579,7 @@ Replace with	Vervangen door
 Replaced when the configurator generates again; switch off to keep the page	Wordt vervangen wanneer de configurator opnieuw genereert; schakel uit om de pagina te behouden
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Vervangt in vrije teksten, functieteksten, pagina-, apparaat- en kabelbeschrijvingen; vrijgegeven pagina's blijven ongewijzigd
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Vervangt de GEN.*-artikelen in de database door de huidige voorbeeldcatalogus (inclusief modellen)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Vervangt de bedrijfsbibliotheek door de eigen titelblokken, rapportschema's en plotkaders van het project (bewerkers van de onderdelenserver)
 Replaces the content of the macro boxes whose macro changed in the library	Vervangt de inhoud van de macrokaders waarvan de macro in de bibliotheek is gewijzigd
 Replaces the pages of this block	Vervangt de pagina's van dit blok
 Reply	Beantwoorden
@@ -1745,6 +1769,7 @@ Settings scheme	Instellingenschema
 Settings scheme (JSON)	Instellingenschema (JSON)
 Settings taken over: {}	Instellingen overgenomen: {}
 Settings…	Instellingen…
+Shade every second row	Elke tweede rij arceren
 Shafts	Schachten
 Share of the capacity kept free for later additions	Deel van de capaciteit dat vrij blijft voor latere uitbreidingen
 Shared project {} – revision {}, user {}	Gedeeld project {} – revisie {}, gebruiker {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	Het paneel als venster tonen
 Show the ribbon	Het lint tonen
 Show this wire	Deze draad weergeven
 Show who may use the project	Weergeven wie het project mag gebruiken
+Shown	Getoond
 Shown as \"Name: value\"	Weergegeven als \"Naam: waarde\"
 Shown in title blocks with {prop:Name}	Weergegeven in titelblokken met {prop:Name}
 Shown instead of the measured value	Wordt weergegeven in plaats van de gemeten waarde
+Shown now: {}	Nu getoond: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Getoond op het voorblad en door de afbeeldingselementen van titelblokken die het projectlogo tonen
 Shows	Toont
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Zijwanden, achterwand, dak en bodem gezien van buiten: ventilatoren, kabelwartels, uitsparingen
 Sign in in the Project server pane; the project opens afterwards	Meld u aan in het deelvenster Projectserver; daarna opent het project
@@ -1812,6 +1840,7 @@ Spare terminals	Reserveklemmen
 Special text	Speciale tekst
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Speciale tekst: project- en pagina-eigenschappen zoals {page} of {prop:Name} worden ingevuld wanneer de pagina wordt getekend
 Stairs	Trappen
+Stamp	Stempel
 Standard form of the report	Standaardformulier van het rapport
 Standard size	Standaardformaat
 Standard workspaces	Standaardwerkruimten
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Deelproject op
 Subproject {} inserted: {} pages replaced by {}	Deelproject {} ingevoegd: {} pagina's vervangen door {}
 Subprojects	Deelprojecten
 Subsystem {}	Subsysteem {}
+Suggested texts	Voorgestelde teksten
+Sums the column in a row below the last row of the report	Telt de kolom op in een rij onder de laatste rij van het rapport
 Supply and conditions	Voeding en omstandigheden
 Surge protection	Overspanningsbeveiliging
 Swing the enclosure door open or shut (door devices and their wires move with it)	De kastdeur open- of dichtzwaaien (deurapparaten en hun draden zwaaien mee)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	De apparaten passen niet op de rail
 The dictionary is empty: collect the texts from the project.	Het woordenboek is leeg: verzamel de teksten uit het project.
 The door seen from the front: door devices and cutouts	De deur gezien van voren: deurapparaten en uitsparingen
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	De deur gezien van binnen (scharnieren rechts): kabelgoten en de bedrading achter de deur
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Het element wordt alleen getekend als deze tekst met zijn plaatshouders niet leeg is, bijv. de rijen van een revisietabel
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	De behuizing staat met haar linkerzijde tegen de rechterzijde van de gekozen behuizing; draden lopen ertussen door kabeldoorvoeren
 The horizontal wire	De horizontale draad
 The items are selected and moved together	De elementen worden samen geselecteerd en verplaatst
+The logo is fitted into this area keeping its aspect ratio	Het logo wordt met behoud van de beeldverhouding in dit gebied ingepast
+The logo of the project properties, e.g. the customer's	Het logo uit de projecteigenschappen, bijv. dat van de klant
 The macro library has no page macros (Macros › Save page as macro…).	De macrobibliotheek heeft geen paginamacro's (Macro's › Pagina opslaan als macro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	De combinatietoetsen waarmee het wiel zijwaarts verschuift of zoomt, stelt u in onder Combinatietoetsen.
 The modules no string takes yet in series, on the first inverter	De modules die nog geen string neemt, in serie, op de eerste omvormer
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Driefasige kortsluitstroom op het voedingspunt
 Tilt	Hellingshoek
 Title	Titel
+Title block by page type	Titelblok per paginatype
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Titelblok van de pagina's met dit kader die er geen kiezen, bijv. een smaller voor A4 staand
 Title blocks	Titelblokken
 Title blocks, plot frames and page templates	Titelblokken, plotkaders en paginasjablonen
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Titelblokken, rapportschema's en plotkaders die alle projecten op de onderdelenserver delen (Onderdelen › Onderdelenserver)
 To do	Te doen
 Toggle corner direction while drawing wires	Hoekrichting wisselen bij het tekenen van draden
 Toggle routing around symbols (wire tool)	Routering om symbolen aan / uit (draadgereedschap)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} heeft niet-opgeslagen wijzigingen. Verwerpen?
 {} imported into the parts database and placed as {}	{} in de artikeldatabase geïmporteerd en geplaatst als {}
 {} is neither in the parts database nor on the parts server	{} staat niet in de artikeldatabase en niet op de artikelserver
-{} is not a PNG or JPEG image	{} is geen PNG- of JPEG-afbeelding
 {} is not in the disk image	{} staat niet in de schijfkopie
 {} is not made for wall mounting: place it on a mounting rail	{} is niet bedoeld voor wandmontage: plaats het op een rail
 {} is used by: {}	{} wordt gebruikt door: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ De projectgegevens zijn consistent.
 ✔ Wired	✔ Bedraad
 ➕ Default value	➕ Standaardwaarde
+➕ Image	➕ Afbeelding
 ➕ Insert (click into the page)	➕ Invoegen (klik in de pagina)
 ➕ Insert as new page	➕ Invoegen als nieuwe pagina
 ➕ Label	➕ Label
 ➕ Line	➕ Lijn
 ➕ Place property	➕ Eigenschap plaatsen
 ➕ Property	➕ Eigenschap
+➕ QR code	➕ QR-code
 ➕ Rectangle	➕ Rechthoek
 ➕ Text	➕ Tekst
 ⬉ Select	⬉ Selecteren

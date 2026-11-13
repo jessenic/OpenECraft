@@ -213,6 +213,8 @@ pub const PROJECT_FEATURES: &[&str] = &[
     "explicit_panel_rotations",
     "function_cross_references",
     "plot_frame_artwork",
+    "title_block_images",
+    "form_customization",
 ];
 
 /// Sends a request; `{"error": …}` becomes an error.

@@ -22,6 +22,8 @@ struct StoredDb {
     accounts: Vec<Account>,
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     favorites: BTreeMap<String, Vec<String>>,
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    libraries: BTreeMap<String, serde_json::Value>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     history: Vec<Snapshot>,
     /// Names of the stored files by id.
@@ -135,6 +137,9 @@ fn apply(db: &mut StoredDb, change: Change) {
     for (user, numbers) in change.favorites {
         db.favorites.insert(user, numbers);
     }
+    for (name, json) in change.libraries {
+        db.libraries.insert(name, serde_json::from_str(&json).unwrap_or(serde_json::Value::Null));
+    }
     for f in change.files {
         db.files.insert(f.id, f.name);
     }
@@ -196,6 +201,10 @@ impl Backend for JsonBackend {
 
     fn favorites(&self, user: &str) -> io::Result<Vec<String>> {
         Ok(self.db.favorites.get(user).cloned().unwrap_or_default())
+    }
+
+    fn library(&self, name: &str) -> io::Result<Option<String>> {
+        Ok(self.db.libraries.get(name).map(|v| v.to_string()))
     }
 
     fn file(&self, id: &str) -> io::Result<Option<StoredFile>> {

@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = pojedyncza wartość; w przeciwnym razie wartości [1] … [n]
 0 = all approvers	0 = wszyscy zatwierdzający
 0 = estimated from cores and cross-section	0 = szacowana na podstawie żył i przekroju
+0 = fitted to the page	0 = dopasowane do strony
 0 = fitted to the rows per page	0 = dopasowane do liczby wierszy na stronę
 0 = from the DC of the devices ({} %)	0 = z DC urządzeń ({} %)
 0 = from the devices	0 = z urządzeń
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Kabel typu magistrali dla każdego połączenia bez kabla
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Wycięcie tej samej wielkości w tym samym miejscu ściany bocznej sąsiada: razem tworzą przepust kablowy
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Plik o tej samej nazwie w folderze otrzymuje nową wersję (wyewidencjonowanie i zaewidencjonowanie), w przeciwnym razie plik jest dodawany
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Duży tekst na każdej stronie, np. PROJEKT, gdy przygotowywana jest rewizja; teksty przyjmują symbole zastępcze, pusty: brak stempla.
 A level on top of the highest one	Kondygnacja nad najwyższą
 A local file opens locally, a server project is opened on the project server again	Plik lokalny otwiera się lokalnie, projekt z serwera jest ponownie otwierany na serwerze projektów
 A local file or a project on the project server	Plik lokalny lub projekt na serwerze projektów
@@ -55,6 +57,7 @@ A new project	Nowy projekt
 A new release is downloaded in the background and installed when you close OpenECraft.	Nowa wersja jest pobierana w tle i instalowana po zamknięciu OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Nowa wersja jest pobierana w tle i zastępuje tę instalację; jest używana od następnego uruchomienia.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Numerowana sekcja zawierająca strony jak katalog; nazwy stron zaczynają się od jej numeru (2.3.1)
+A picture kept in the form, e.g. the company logo	Obraz zapisany w formularzu, np. logo firmy
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil mapuje neutralne pola na nazwy kolumn konkretnego systemu (np. MATNR dla numeru ERP w SAP). Bez mapowania rozpoznawane są typowe nazwy angielskie i niemieckie.
 A project definition based on this one, with its own defaults and scheme	Definicja projektu oparta na tej, z własnymi wartościami domyślnymi i schematem
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Zamiast tego otwiera się plik projektu otwarty z menedżera plików. Niezapisane zmiany z ostatniej sesji nigdy nie są odrzucane bez pytania.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Szablon o tej nazwie zostanie zastąpiony.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Szablon ustawia typ strony, ramkę rysunku, tabliczkę rysunkową, strukturę i opis nowej strony oraz umieszcza jej zawartość.
 A way through free air costs this many times the way in a duct or routing path	Droga w wolnej przestrzeni kosztuje tyle razy więcej niż droga w kanale lub ścieżce prowadzenia
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Obszar roboczy ogranicza strony i urządzenia w nawigatorze do części projektu. Filtry: puste = dowolne, * = dowolne znaki; A1 obejmuje również A1.2.
+APPROVED	ZATWIERDZONO
 About OpenECraft	O programie OpenECraft
 Above the floor	Nad podłogą
+Above the project name	Nad nazwą projektu
 Accept as checked	Zaakceptuj jako sprawdzone
 Accepted messages ({})	Zaakceptowane komunikaty ({})
 Active	Aktywna
@@ -144,6 +149,7 @@ Apply to the connection	Zastosuj do połączenia
 Apply to {} projects	Zastosuj do projektów: {}
 Approval workflow	Proces zatwierdzania
 Approvals needed	Wymagane zatwierdzenia
+Approved	Zatwierdzono
 Approving needs an approver; you are \"{}\".	Zatwierdzać może tylko zatwierdzający; jesteś \"{}\".
 Arc	Łuk
 Archive and version	Archiwum i wersja
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Najpierw wybierz pomieszczenie: artykuły stojące na podłodze stawia się na jego podłodze.
 Choose another project	Wybierz inny projekt
 Choose file…	Wybierz plik…
+Choose image…	Wybierz obraz…
 Choose pages	Wybierz strony
 Chooses the pages whose structure starts with this	Wybiera strony, których struktura zaczyna się od tego
 Circle	Okrąg
@@ -362,6 +369,7 @@ Comments ({} open)	Komentarze (otwarte: {})
 Comments ({})	Komentarze ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Komentarze recenzenta w eksporcie PDF projektu (Acrobat lub inna przeglądarka PDF)
 Comments and markup	Komentarze i oznaczenia
+Company library	Biblioteka firmy
 Compare and baselines	Porównanie i wersje bazowe
 Compare with	Porównaj z
 Compare with a baseline, a revision or another project file and take differences over	Porównaj z wersją bazową, rewizją lub innym plikiem projektu i przejmij różnice
@@ -405,6 +413,7 @@ Core designations separated by blanks	Oznaczenia żył oddzielone spacjami
 Core labels placed by hand	Opisy żył umieszczone ręcznie
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Żyły 1, 2, 3 … dla przeciętych przewodów oraz GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Narożnik: dwa przewody pod kątem prostym; przy włączonym automatycznym łączeniu punkty przyłączenia naprzeciw jego ramion są z nim łączone
+Counter-clockwise, e.g. 90 for texts running upwards	Przeciwnie do ruchu wskazówek zegara, np. 90 dla tekstów biegnących w górę
 Cover sheet, overview, graphics, report, mounting layout or a page template	Strona tytułowa, przegląd, grafika, raport, zabudowa lub szablon strony
 Covers	Pokrywa
 Covers what is behind the text	Zakrywa to, co znajduje się za tekstem
@@ -431,6 +440,8 @@ Cut length step tubes	Krok długości cięcia węży
 Cut length step wires	Krok długości cięcia przewodów
 Cutout {} × {} mm	Wycięcie {} × {} mm
 Cutting allowance per end	Naddatek cięcia na koniec
+DRAFT	PROJEKT
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	PROJEKT, DO ZATWIERDZENIA i ZATWIERDZONO w bieżącym języku; nic po wydaniu
 DWG import failed: {}	Import DWG nie powiódł się: {}
 DWG imported as page {}: {} lines, {} texts	Zaimportowano DWG jako stronę {}: linie: {}, teksty: {}
 DWG imported as page {}: {} lines, {} texts (not imported: {})	Zaimportowano DWG jako stronę {}: linie: {}, teksty: {} (nie zaimportowano: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	Pobrano {} (wersja {})
 Downloaded {} parts (revision {}): {} new, {} updated	Pobrano artykuły: {} (rewizja {}): nowe: {}, zaktualizowane: {}
 Downloading OpenECraft {}	Pobieranie OpenECraft {}
 Downstream part	Artykuł podrzędny
+Draft	Projekt
 Draft of revision {} created	Utworzono wersję roboczą rewizji {}
 Draft of revision {} discarded	Odrzucono wersję roboczą rewizji {}
 Drag	Przeciąganie
@@ -665,6 +677,7 @@ Exporting {}	Eksportowanie {}
 Export…	Eksportuj…
 Extend guides to canvas edges	Rozciągnij linie pomocnicze do krawędzi obszaru roboczego
 Extras	Dodatki
+FOR APPROVAL	DO ZATWIERDZENIA
 Facing	Orientacja
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Wentylatory, filtry, dławiki kablowe, oświetlenie, uchwyty: wybierz jedno, a następnie kliknij miejsce docelowe
 Fastening hardware in the bill of materials	Elementy mocujące w zestawieniu materiałów
@@ -700,6 +713,7 @@ First row	Pierwszy wiersz
 Fit	Dopasuj
 Fit page	Dopasuj stronę
 Fits {}	Pasuje do {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	Dopasowany do prostokąta z zachowaniem proporcji (PNG, JPEG)
 Float	Odepnij
 Floor above ground	Podłoga nad terenem
 Floor plan	Rzut
@@ -707,8 +721,10 @@ Floor plan with {} walls	Rzut z {} ścianami
 Floor-standing part	Artykuł stojący na podłodze
 Fluid and process	Płyny i procesy
 Follows its condition: use Apply conditions	Zgodnie z warunkiem: użyj polecenia Zastosuj warunki
+Font	Czcionka
 Foot	Początek
 For	Dla
+For pages that choose none; before the plot frame's title block and the project default.	Dla stron, które żadnej nie wybierają; przed tabliczką ramki rysunku i domyślną projektu.
 For parts without Stock length; longer profiles have to be joined	Dla artykułów bez Stock length; dłuższe profile muszą być łączone
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Dla artykułów bez danych temperaturowych (Max temperature, Operating temperature); 0: nie sprawdzane
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Do importu do zarządzania artykułami EPLAN (atrybuty P_ARTICLE_*, teksty w en_US)
@@ -730,6 +746,7 @@ From a template file…	Z pliku szablonu…
 From row to row; 0: free of shade in winter	Od rzędu do rzędu; 0: bez zacienienia zimą
 From the function definition	Z definicji funkcji
 From the left end	Od lewego końca
+From the top left corner of the drawing area	Od lewego górnego rogu obszaru rysunku
 From – to	Od – do
 Fullest stretch	Najbardziej wypełniony odcinek
 Function definitions	Definicje funkcji
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	Zaimportowano tabliczki rysunkowe
 Importing {} from the parts server…	Importowanie {} z serwera artykułów…
 Import…	Importuj…
 In every section counting starts again after the section number (2.3.1).	W każdej sekcji liczenie zaczyna się od nowa po numerze sekcji (2.3.1).
+In review	W przeglądzie
 In strip order; PE and other non-numeric terminals keep their designation	W kolejności listwy; PE i inne nienumeryczne zaciski zachowują swoje oznaczenie
 In the filtered rows	W przefiltrowanych wierszach
 In the middle of the first wire	Na środku pierwszego przewodu
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	Zablokowane przez {} na serwerz
 Locked by {} – read only	Zablokowane przez {} – tylko do odczytu
 Locking…	Blokowanie…
 Logic	Logika
+Logo	Logo
+Logo on the cover page	Logo na stronie tytułowej
 Longer values are drawn smaller (0 = no limit)	Dłuższe wartości są rysowane mniejsze (0 = bez ograniczenia)
 Look for updates when OpenECraft starts	Szukaj aktualizacji przy uruchamianiu OpenECraft
 Looking for updates…	Szukanie aktualizacji…
@@ -1135,7 +1155,6 @@ New zone	Nowa strefa
 New, empty placement scheme	Nowy, pusty schemat rozmieszczenia
 Next free contact numbers on this device	Następne wolne numery styków tego urządzenia
 Next item	Następny element
-Next page	Następna strona
 Next page tab	Następna karta strony
 Next pane	Następny panel
 Next row	Następny wiersz
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Brak – edycja strony lub
 Not a page template file: {}	To nie jest plik szablonów stron: {}
 Not a point: type x y or @dx dy	To nie jest punkt: wpisz x y lub @dx dy
 Not a symbol library: {}	To nie jest biblioteka symboli: {}
-Not a title block file: {}	To nie jest plik tabliczek rysunkowych: {}
 Not changed: {}	Nie zmieniono: {}
 Not found: {}	Nie znaleziono: {}
 Not in the project parts – synchronize in parts management	Brak wśród artykułów projektu – zsynchronizuj w zarządzaniu artykułami
@@ -1226,9 +1244,11 @@ One row per label	Jeden wiersz na etykietę
 Only devices on the current page	Tylko urządzenia na bieżącej stronie
 Only frames no page uses can be deleted	Można usuwać tylko ramki, których nie używa żadna strona
 Only messages of the current page	Tylko komunikaty bieżącej strony
+Only on pages of these types (none ticked: on all)	Tylko na stronach tych typów (żaden nie zaznaczony: na wszystkich)
 Only parts whose function template provides the device's main function	Tylko artykuły, których szablon funkcji zapewnia funkcję główną urządzenia
 Only rows that pass all filters are shown	Wyświetlane są tylko wiersze spełniające wszystkie filtry
 Only web and e-mail addresses (http, https, mailto) are links	Tylko adresy internetowe i e-mail (http, https, mailto) są linkami
+Only when filled	Tylko gdy wypełnione
 Open a specific project	Otwórz określony projekt
 Open and save shared projects, lock pages	Otwieraj i zapisuj projekty współdzielone, blokuj strony
 Open archive…	Otwórz archiwum…
@@ -1301,6 +1321,8 @@ Overhang	Okap wysunięty
 Own colour	Własny kolor
 Own drawn form	Własny rysowany formularz
 Own groups	Własne grupy
+Own picture	Własny obraz
+Own place	Własne miejsce
 PCT loops (pre-planning)	Pętle AKPiA (planowanie wstępne)
 PDF with comments	PDF z komentarzami
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Umieszczone ręcznie; wybór s
 Placed here: {}	Umieszczone tutaj: {}
 Placed {}× in the project	Umieszczono {}× w projekcie
 Placeholders	Symbole zastępcze
+Placeholders are filled, e.g. a link with {project} and {page}	Symbole zastępcze są wypełniane, np. link z {project} i {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Symbole zastępcze, takie jak {MOTOR}, w oznaczeniach, tekstach i tekstach funkcji są wypełniane podczas wstawiania.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Symbole zastępcze: {letter} litera kodu, {n} licznik, {page} strona, {column} / {row} miejsce funkcji głównej
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Symbole zastępcze: {n} licznik (liczony osobno dla każdej wartości reszty), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Bez {n} połączenia o tym samym tekście mają wspólny numer.
@@ -1424,7 +1447,6 @@ Prefix	Prefiks
 Press a key…	Naciśnij klawisz…
 Preview	Podgląd
 Previous item	Poprzedni element
-Previous page	Poprzednia strona
 Previous page tab	Poprzednia karta strony
 Previous pane	Poprzedni panel
 Previous wire	Poprzedni przewód
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Grupy właściwości
 Property placement	Umieszczanie właściwości
 Property removed with {} values	Usunięto właściwość z {} wartościami
+Publish	Opublikuj
 Put a room here	Umieść tu pomieszczenie
 Put into the vault	Umieść w magazynie Vault
 Put the pane back into the workspace	Przywróć panel do obszaru roboczego
@@ -1556,6 +1579,7 @@ Replace with	Zastąp przez
 Replaced when the configurator generates again; switch off to keep the page	Zastępowana przy ponownym generowaniu przez konfigurator; wyłącz, aby zachować stronę
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Zamienia w tekstach swobodnych, tekstach funkcji, opisach stron, urządzeń i kabli; wydane strony pozostają bez zmian
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Zastępuje artykuły GEN.* w bazie danych aktualnym katalogiem przykładowym (łącznie z modelami)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Zastępuje bibliotekę firmy własnymi tabliczkami, schematami raportów i ramkami projektu (edytorzy serwera części)
 Replaces the content of the macro boxes whose macro changed in the library	Zastępuje zawartość ramek makr, których makro zmieniło się w bibliotece
 Replaces the pages of this block	Zastępuje strony tego bloku
 Reply	Odpowiedz
@@ -1745,6 +1769,7 @@ Settings scheme	Schemat ustawień
 Settings scheme (JSON)	Schemat ustawień (JSON)
 Settings taken over: {}	Przejęto ustawienia: {}
 Settings…	Ustawienia…
+Shade every second row	Cieniuj co drugi wiersz
 Shafts	Szyby
 Share of the capacity kept free for later additions	Część pojemności pozostawiona wolna na późniejsze rozbudowy
 Shared project {} – revision {}, user {}	Projekt współdzielony {} – rewizja {}, użytkownik {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	Pokaż panel jako okno
 Show the ribbon	Pokaż wstążkę
 Show this wire	Pokaż ten przewód
 Show who may use the project	Pokaż, kto może korzystać z projektu
+Shown	Pokazywane
 Shown as \"Name: value\"	Wyświetlane jako \"Nazwa: wartość\"
 Shown in title blocks with {prop:Name}	Wyświetlane w tabliczkach rysunkowych za pomocą {prop:Name}
 Shown instead of the measured value	Wyświetlane zamiast zmierzonej wartości
+Shown now: {}	Teraz pokazywane: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Pokazywane na stronie tytułowej i przez elementy obrazu tabliczek, które pokazują logo projektu
 Shows	Pokazuje
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Ściany boczne, ściana tylna, dach i dno widziane z zewnątrz: wentylatory, dławiki kablowe, wycięcia
 Sign in in the Project server pane; the project opens afterwards	Zaloguj się w panelu Serwer projektów; potem projekt się otworzy
@@ -1812,6 +1840,7 @@ Spare terminals	Zaciski rezerwowe
 Special text	Tekst specjalny
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Tekst specjalny: właściwości projektu i strony, takie jak {page} lub {prop:Name}, są wypełniane podczas rysowania strony
 Stairs	Schody
+Stamp	Stempel
 Standard form of the report	Formularz standardowy raportu
 Standard size	Rozmiar standardowy
 Standard workspaces	Standardowe obszary robocze
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Zapisano podpr
 Subproject {} inserted: {} pages replaced by {}	Wstawiono podprojekt {}: {} stron zastąpiono przez {}
 Subprojects	Podprojekty
 Subsystem {}	Podsystem {}
+Suggested texts	Proponowane teksty
+Sums the column in a row below the last row of the report	Sumuje kolumnę w wierszu pod ostatnim wierszem raportu
 Supply and conditions	Zasilanie i warunki
 Surge protection	Ochrona przeciwprzepięciowa
 Swing the enclosure door open or shut (door devices and their wires move with it)	Otwórz lub zamknij drzwi obudowy (urządzenia na drzwiach i ich przewody obracają się razem z nimi)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	Urządzenia nie mieszczą się na szynie
 The dictionary is empty: collect the texts from the project.	Słownik jest pusty: zbierz teksty z projektu.
 The door seen from the front: door devices and cutouts	Drzwi widziane z przodu: urządzenia na drzwiach i wycięcia
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Drzwi widziane od wewnątrz (zawiasy po prawej): kanały kablowe i okablowanie za drzwiami
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Element jest rysowany tylko, gdy ten tekst z symbolami zastępczymi nie jest pusty, np. wiersze tabeli rewizji
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Obudowa przylega lewą stroną do prawej strony wybranej obudowy; przewody przechodzą między nimi przez przepusty kablowe
 The horizontal wire	Przewód poziomy
 The items are selected and moved together	Elementy są zaznaczane i przesuwane razem
+The logo is fitted into this area keeping its aspect ratio	Logo jest dopasowywane do tego obszaru z zachowaniem proporcji
+The logo of the project properties, e.g. the customer's	Logo z właściwości projektu, np. logo klienta
 The macro library has no page macros (Macros › Save page as macro…).	Biblioteka makr nie zawiera makr stron (Makra › Zapisz stronę jako makro…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Klawisze modyfikujące, które sprawiają, że kółko przesuwa w bok lub powiększa, ustawia się w sekcji Klawisze modyfikujące.
 The modules no string takes yet in series, on the first inverter	Moduły, których żaden łańcuch jeszcze nie bierze, szeregowo, na pierwszym falowniku
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Trójfazowy prąd zwarciowy w punkcie zasilania
 Tilt	Nachylenie
 Title	Tytuł
+Title block by page type	Tabliczka według typu strony
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Tabliczka stron z tą ramką, które żadnej nie wybierają, np. węższa dla A4 pionowo
 Title blocks	Tabliczki rysunkowe
 Title blocks, plot frames and page templates	Tabliczki rysunkowe, ramki rysunku i szablony stron
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Tabliczki, schematy raportów i ramki wspólne dla wszystkich projektów na serwerze części (Części › Serwer części)
 To do	Do zrobienia
 Toggle corner direction while drawing wires	Przełącz kierunek narożnika podczas rysowania przewodów
 Toggle routing around symbols (wire tool)	Włącz / wyłącz prowadzenie wokół symboli (narzędzie przewodu)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} ma niezapisane zmiany. Odrzucić je?
 {} imported into the parts database and placed as {}	{} zaimportowano do bazy danych artykułów i umieszczono jako {}
 {} is neither in the parts database nor on the parts server	{} nie ma ani w bazie danych artykułów, ani na serwerze artykułów
-{} is not a PNG or JPEG image	{} nie jest obrazem PNG ani JPEG
 {} is not in the disk image	{} nie ma w obrazie dysku
 {} is not made for wall mounting: place it on a mounting rail	{} nie jest przeznaczony do montażu naściennego: umieść go na szynie
 {} is used by: {}	{} jest używany przez: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ Dane projektu są spójne.
 ✔ Wired	✔ Podłączony
 ➕ Default value	➕ Wartość domyślna
+➕ Image	➕ Obraz
 ➕ Insert (click into the page)	➕ Wstaw (kliknij na stronie)
 ➕ Insert as new page	➕ Wstaw jako nową stronę
 ➕ Label	➕ Etykieta
 ➕ Line	➕ Linia
 ➕ Place property	➕ Umieść właściwość
 ➕ Property	➕ Właściwość
+➕ QR code	➕ Kod QR
 ➕ Rectangle	➕ Prostokąt
 ➕ Text	➕ Tekst
 ⬉ Select	⬉ Zaznacz

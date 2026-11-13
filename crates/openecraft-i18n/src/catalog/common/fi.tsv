@@ -195,6 +195,7 @@ Light	Vaalea
 Line	Viiva
 Link	Linkki
 Linked	Linkitetty
+Load	Kuorma
 Loaded circuits bunched together	Yhteen niputetut kuormitetut piirit
 Location	Sijainti
 Location (+)	Sijainti (+)
@@ -230,6 +231,7 @@ Name of the scheme	Mallin nimi
 Net	Verkko
 Never	Ei koskaan
 New name	Uusi nimi
+Next page	Seuraava sivu
 No	Ei
 No Vault item matches a part of the project	Mikään Vault-nimike ei vastaa projektin osaa
 No cable {}	Ei kaapelia {}
@@ -252,10 +254,12 @@ No station {}	Ei asemaa {}
 No such page	Sivua ei ole
 No such section	Osiota ei ole
 No symbol with id {}	Ei symbolia tunnisteella {}
+No title block of the project named {}	Projektissa ei ole nimiötä {}
 Nominal size	Nimelliskoko
 Not a language code: {}	Ei kielikoodi: {}
 Not a macro file: {}	Ei makrotiedosto: {}
 Not a symbol id: {}	Ei symbolin tunnus: {}
+Not a title block file: {}	Ei nimiötiedosto: {}
 Not a valid rule set file: {}	Ei kelvollinen sääntökokoelmatiedosto: {}
 Not in the schematic	Ei piirikaaviossa
 Note	Huomautus
@@ -298,6 +302,7 @@ Parts	Osat
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Osat (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	Osien tuonti epäonnistui: {}
 Password	Salasana
+Picture	Kuva
 Pieces	Kappaleet
 Pin	Nasta
 Pin layout: {}	Nastajärjestys: {}
@@ -321,6 +326,7 @@ Power (kW)	Teho (kW)
 Power loss	Häviöteho
 Pre-planning	Esisuunnittelu
 Press	Puristin
+Previous page	Edellinen sivu
 Price	Hinta
 Price unit	Hintayksikkö
 Process engineering	Prosessitekniikka
@@ -330,6 +336,7 @@ Product top group	Tuotepääryhmä
 Profile	Profiili
 Project	Projekti
 Project languages	Projektin kielet
+Project logo	Projektin logo
 Project management	Projektinhallinta
 Project name	Projektin nimi
 Project properties	Projektin ominaisuudet
@@ -349,6 +356,7 @@ Rectangular	Suorakulmainen
 Reject	Hylkää
 Relative humidity	Suhteellinen kosteus
 Relay	Rele
+Released	Vapautettu
 Released pages cannot be moved	Vapautettuja sivuja ei voi siirtää
 Remove	Poista
 Remove from favorites	Poista suosikeista
@@ -441,6 +449,7 @@ Time	Aika
 Title block	Nimiö
 To	Mihin
 Tools	Työkalut
+Total	Yhteensä
 Transformer	Muuntaja
 Type	Tyyppi
 Type number	Tyyppinumero
@@ -471,6 +480,7 @@ Warning	Varoitus
 Warnings	Varoitukset
 Weight	Paino
 Width	Leveys
+Width in mm	Leveys millimetreinä
 Window	Ikkuna
 Wire	Johto
 Wire colours	Johtovärit
@@ -503,6 +513,7 @@ yes	kyllä
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} ei seiso lattialla: valitse lattia-asennukseen merkitty osa
 {} exists already	{} on jo olemassa
+{} is not a PNG or JPEG image	{} ei ole PNG- tai JPEG-kuva
 {} parts	{} osaa
 {} wires	{} johtoa
 {}, together with the wire to {}	{}, yhdessä johtimen {} kanssa

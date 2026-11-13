@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	DC-styrkretsar bör vara bl
 DC/DC converter	DC/DC-omvandlare
 DWG export failed: {}	DWG-exporten misslyckades: {}
 Data sheet	Datablad
+Date of the approval of the last revision	Datum för godkännandet av den senaste revisionen
 Date of the last revision	Datum för den senaste revisionen
 Degree of protection	Kapslingsklass
 Delete projects	Ta bort projekt
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Gränslägesbrytare slutande (NFPA)
 Line reactor	Nätreaktor
 Linear motor 3-phase	Linjärmotor 3-fas
 Literal braces	Klammerparenteser (bokstavliga)
-Load	Last
 Load calculation	Lastberäkning
 Loads and power supplies	Laster och strömförsörjning
 Loads behind it: {}	Laster efter den: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Tryckknapp med nyckel, slutande, låsande
 Pushbutton NC	Tryckknapp brytande
 Pushbutton NO	Tryckknapp slutande
 Pyramid roof	Tälttak
+QR code	QR-kod
 Qty	Antal
 RCD {} mA	RCD {} mA
 Radiation	Strålning
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Reläspole, remanent
 Relay coil, resonant	Reläspole, resonans
 Relay coil, thermal	Reläspole, termisk
 Relays, contactors	Reläer, kontaktorer
-Released	Frisläppt
 Released pages cannot be deleted	Frisläppta sidor kan inte tas bort
 Remote I/O	Distribuerad I/O
 Remote I/O {} has no controller	Distribuerad I/O {} har ingen styrenhet
@@ -1340,6 +1340,10 @@ Result	Resultat
 Return / exhaust line	Retur- / avluftsledning
 Reviewer	Granskare
 Revision overview (changes)	Revisionsöversikt (ändringar)
+Revision table: author of the last revision (2: the one before …)	Revisionstabell: författare till den senaste revisionen (2: den före …)
+Revision table: date of the last revision (2: the one before …)	Revisionstabell: datum för den senaste revisionen (2: den före …)
+Revision table: description of the last revision (2: the one before …)	Revisionstabell: beskrivning av den senaste revisionen (2: den före …)
+Revision table: index of the last revision (2: the one before …)	Revisionstabell: index för den senaste revisionen (2: den före …)
 Right side	Höger sida
 Right side panel	Höger sidovägg
 Ring terminal	Ringkabelsko
@@ -1487,6 +1491,7 @@ Start date	Startdatum
 Started	Påbörjad
 Starting current ratio	Startströmsförhållande
 Starting torque	Startmoment
+State of the project: draft, in review, approved, released	Projektets status: utkast, under granskning, godkänd, släppt
 Station name (PROFINET)	Enhetsnamn (PROFINET)
 Station name {} is used {} times	Stationsnamnet {} används {} gånger
 Station {} is not connected to bus {}	Station {} är inte ansluten till buss {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Tidreläspole, frånslagsfördröjd
 Timer relay coil, on-delay	Tidreläspole, tillslagsfördröjd
 Title blocks and report forms	Namnrutor och rapportformulär
 To order	Att beställa
-Total	Totalt
 Total length (m)	Total längd (m)
 Total price	Totalpris
 Total weight	Total vikt
@@ -1781,6 +1785,7 @@ Wavemeter	Våglängdsmätare
 Wearing part	Slitdel
 Weld stud	Svetsbult
 Wetted material	Medieberört material
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Vem som godkände den senaste revisionen (granskning); {rev.2.approved_by}: den före
 Width (mm)	Bredd (mm)
 Winding connection	Lindningskoppling
 Wire assigned to unknown cable {}	Ledning tilldelad okänd kabel {}

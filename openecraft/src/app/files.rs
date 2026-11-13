@@ -63,6 +63,18 @@ impl App {
         self.export_bytes(ctx, name, filter, content.as_bytes());
     }
 
+    /// Adds title blocks, report schemes and plot frames of a form library (file or
+    /// the company library of the parts server).
+    fn import_forms(&mut self, ctx: &egui::Context, text: &str) {
+        match openecraft_core::forms::FormLibrary::from_json(text) {
+            Ok(lib) => {
+                let (blocks, schemes) = openecraft_core::forms::merge(&mut self.session.prj, lib);
+                self.notify(ctx, tr_fmt!("Imported {} title blocks and {} report schemes", blocks, schemes));
+            }
+            Err(e) => self.notify_error(ctx, tr_fmt!("Not a title block file: {}", e)),
+        }
+    }
+
     pub(super) fn parts_actions(&mut self, ctx: &egui::Context, actions: Vec<PartsAction>) {
         for action in actions {
             match action {
@@ -74,6 +86,7 @@ impl App {
                     self.export_bytes(ctx, name.clone(), (tr("File"), &ext), &data);
                 }
                 PartsAction::ImportMacros(text) => self.import_macros(ctx, &text),
+                PartsAction::ImportForms(text) => self.import_forms(ctx, &text),
                 PartsAction::Message(m) => self.notify(ctx, m),
             }
         }
@@ -306,13 +319,7 @@ impl App {
                 }
                 Err(e) => self.notify_error(ctx, tr_fmt!("Not a symbol library: {}", e)),
             },
-            Purpose::Forms => match openecraft_core::forms::FormLibrary::from_json(&loaded.text()) {
-                Ok(lib) => {
-                    let (blocks, schemes) = openecraft_core::forms::merge(&mut self.session.prj, lib);
-                    self.notify(ctx, tr_fmt!("Imported {} title blocks and {} report schemes", blocks, schemes));
-                }
-                Err(e) => self.notify_error(ctx, tr_fmt!("Not a title block file: {}", e)),
-            },
+            Purpose::Forms => self.import_forms(ctx, &loaded.text()),
             Purpose::Drawing => self.import_drawing(ctx, &loaded),
             Purpose::Table(kind) => {
                 let text = if openecraft_core::archive::is_archive(&loaded.bytes) { openecraft_core::xlsx::first_sheet_csv(&loaded.bytes) } else { Ok(loaded.text()) };
@@ -336,6 +343,14 @@ impl App {
             },
             Purpose::Document => self.load_document(ctx, &loaded),
             Purpose::Image => self.load_image(ctx, &loaded),
+            Purpose::FormImage | Purpose::Logo => {
+                let name = crate::io::short_name(&loaded.name).to_string();
+                match openecraft_core::forms::picture(&name, &loaded.bytes) {
+                    Some(pic) if loaded.purpose == Purpose::Logo => self.session.prj.info.logo = Some(pic),
+                    Some(pic) => self.forms_ui.picture_loaded(pic),
+                    None => self.notify(ctx, tr_fmt!("{} is not a PNG or JPEG image", name)),
+                }
+            }
             Purpose::PageTemplates => match openecraft_core::page_templates::Library::from_json(&loaded.text()) {
                 Ok(lib) => {
                     let n = openecraft_core::page_templates::merge(&mut self.session.prj, lib);

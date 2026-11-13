@@ -174,3 +174,48 @@ fn renaming_keeps_blocks_schemes_and_pages_together() {
     generate_all(&mut prj).unwrap();
     assert_eq!(prj.pages.len(), n);
 }
+
+#[test]
+fn report_tables_get_totals_shading_and_alignment() {
+    let mut prj = demo_project();
+    let page = prj.pages.iter().position(|p| p.kind == PageKind::Report(ReportKind::BillOfMaterials.into())).unwrap();
+    let an = Analysis::checked(&prj);
+    let table = an.report(&prj, ReportKind::BillOfMaterials).unwrap();
+    let qty = column(&table, "Qty").unwrap();
+    let sum: f64 = table.rows.iter().filter_map(|r| cell_number(&r[qty]).map(|n| n.0)).sum();
+    let form = ReportForm {
+        totals: vec!["Qty".into()],
+        // All rows on the page: the total row follows the last one.
+        rows: 80,
+        shade_rows: true,
+        align: [("Qty".to_string(), crate::symbols::Anchor::Right)].into(),
+        ..Default::default()
+    };
+    prj.forms.reports.insert(ReportKind::BillOfMaterials.into(), form);
+    let t = page_table(&prj, &an, page).unwrap();
+    assert_eq!(t.more, 0);
+    assert!(t.shade_rows);
+    assert_eq!(t.align[qty], crate::symbols::Anchor::Right);
+    assert_eq!(t.align[0], crate::symbols::Anchor::Left);
+    assert_eq!(t.totals[0], "Total");
+    assert_eq!(t.totals[qty], format!("{sum}"));
+    assert!(crate::svg::page_svg(&prj, page).contains(">Total<"));
+}
+
+#[test]
+fn totals_sum_numbers_with_their_unit() {
+    assert_eq!(cell_number(" 2,5 m"), Some((2.5, "m")));
+    assert_eq!(cell_number("-3"), Some((-3.0, "")));
+    assert_eq!(cell_number("m 2"), None);
+    let table = Table {
+        headers: ["Tag", "Length", "Note"].map(crate::params::Text::Borrowed).to_vec(),
+        widths: vec![1.0; 3],
+        rows: vec![vec!["-W1".into(), "1.5 m".into(), "x".into()], vec!["-W2".into(), "2,25 m".into(), "".into()], vec!["-W3".into(), "".into(), "".into()]],
+        targets: vec![None; 3],
+    };
+    let totals = total_row(&table, &[0, 1, 2], &[0, 1, 2], &["Length".into()]);
+    assert_eq!(totals, vec!["Total", "3.75 m", ""]);
+    // Only the rows given (e.g. those of one group).
+    assert_eq!(total_row(&table, &[1], &[1], &["Length".into()]), vec!["2.25 m"]);
+    assert_eq!(total_row(&table, &[0], &[0], &["Nothing".into()]), vec![""]);
+}

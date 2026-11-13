@@ -47,12 +47,14 @@ Altitude of the site in m	Высота места установки над ур
 Ambient temperature of the conductors in °C	Температура окружающей среды проводников в °C
 An outline needs {} points at least	Для контура требуется не менее {} точек
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Привязка вдоль оси: free, start:<mm>, center:<mm>, end:<mm> или stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Угол в градусах, против часовой стрелки
 Aspects separated by commas, e.g. function,location	Аспекты через запятую, например function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Назначает определение функции размещённому символу (обозначения и схема принимаются)
 Asynchronous motors add to the short-circuit current	Асинхронные двигатели увеличивают ток короткого замыкания
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Автоматическая аппаратная конфигурация: станции для CPU и шинных соединителей, шинные системы, назначение плат станциям, слоты, начальные адреса, адреса точек, IP-адреса и линейная топология
 Back to the default rules first	Сначала вернуться к правилам по умолчанию
 Back to the default strategy first	Сначала вернуться к стратегии по умолчанию
+Back to the place above the project name	Вернуть на место над названием проекта
 Back-up protection up to this short-circuit current in kA (0: not given)	Резервная защита до этого тока короткого замыкания в kA (0: не указано)
 Bar id	ID шины
 Bar thickness, mm (default 5)	Толщина шины, мм (по умолчанию 5)
@@ -101,6 +103,7 @@ Chosen value	Выбранное значение
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Зазоры, зона обслуживания, высоты, классы коллизий, тепловое моделирование и технологичность компоновки шкафа
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Климат корпусов (IEC/TR 60890): потери мощности, внутренняя температура, требуемый вентилятор или холодильный агрегат и обогрев; при необходимости изменяет настройки одного корпуса
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Класс коллизий: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, собственный класс или * для любого
+Colour as #RRGGBB	Цвет в виде #RRGGBB
 Column and row strips	Полосы столбцов и строк
 Column mapping {field code: column name}	Сопоставление столбцов {код поля: имя столбца}
 Column name, e.g. Description	Имя столбца, например Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Создаёт или изменяет 
 Creates or changes a fluid device group	Создаёт или изменяет группу устройств гидропневматики
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Создаёт или изменяет рамку листа проекта (встроенные рамки копируются под новым именем)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Создаёт или изменяет определение потенциала; его провода получают цвет и сечение, если они не заданы на проводе
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Создаёт или изменяет основную надпись проекта (встроенные копируются под новым именем)
 Creates or changes a work area: only the pages and devices of its structure are shown	Создаёт или изменяет рабочую область: показываются только листы и устройства её структуры
 Cross reference placed by hand: X offset from the insertion point in mm	Перекрёстная ссылка размещена вручную: смещение по X от точки вставки в мм
 Cross reference placed by hand: Y offset from the insertion point in mm	Перекрёстная ссылка размещена вручную: смещение по Y от точки вставки в мм
@@ -171,6 +175,7 @@ Deletes a page	Удаляет лист
 Deletes a page template of the project	Удаляет шаблон листа проекта
 Deletes a plot frame of the project that no page uses	Удаляет рамку листа проекта, которая не используется ни одним листом
 Deletes a potential definition	Удаляет определение потенциала
+Deletes a title block of the project; pages using it get the project default	Удаляет основную надпись проекта; листы, которые её используют, получают надпись проекта по умолчанию
 Deletes a work area	Удаляет рабочую область
 Deletes symbols, wires, texts and shapes	Удаляет символы, провода, тексты и графические элементы
 Depth in mm	Глубина в мм
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Длина ребра сетки прокладки в мм
 Electrical device tags separated by commas or blanks (empty = remove the links)	Обозначения электрических устройств через запятую или пробел (пусто = удалить связи)
 Electrical engineering	Электротехника
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Элементы (Line, Rect, Text, Image) в мм от левого верхнего угла области основной надписи в массиве items
 Enclosure (location, e.g. +CAB1)	Корпус (место установки, например +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Корпус (место установки, например +CAB1), настройки которого изменяются
 Enclosure climate and electrical sizing	Климат шкафа и электрический расчёт
@@ -273,6 +279,7 @@ Height above the floor in metres	Высота над полом в метрах
 Height above the mounting plate in mm (default 50)	Высота над монтажной панелью в мм (по умолчанию 50)
 Height in mm	Высота в мм
 Height in mm without plinth; negative: unknown (wall mounted)	Высота в мм без цоколя; отрицательная: неизвестна (настенный монтаж)
+Height in mm; the logo keeps its aspect ratio inside	Высота в мм; логотип сохраняет внутри свои пропорции
 Higher-level product aspect (-) of the page; the devices on the page move along	Аспект вышестоящего продукта (-) листа; устройства на листе перемещаются вместе с ним
 Highest actuator on the door above the floor (0: not checked)	Самый высокий орган управления на двери над полом (0: не проверяется)
 Highest air temperature at devices without data (0: not checked)	Максимальная температура воздуха у устройств без данных (0: не проверяется)
@@ -311,6 +318,7 @@ Integration profiles and status	Профили и состояние интег�
 Interruption points refer to: all (default), star or pairs	Точки разрыва ссылаются на: all (по умолчанию), star или pairs
 Invalid answer of the plugin: {}	Недопустимый ответ плагина: {}
 Invalid segment name: {}	Недопустимое имя сегмента: {}
+Invalid title block elements: {}	Недопустимые элементы основной надписи: {}
 Item id	ID элемента
 Item ids	ID элементов
 Jumper number	Номер перемычки
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Язык, на котором
 Larger round holes are milled, mm	Круглые отверстия большего размера фрезеруются, мм
 Largest difference between hole and tool, mm	Максимальная разница между отверстием и инструментом, мм
 Left edge from the left end of the wall (seen from inside) in mm	Левый край от левого конца стены (вид изнутри), мм
+Left edge in mm	Левый край в мм
 Left edge on the face in mm	Левый край на поверхности в мм
 Left edge on the mounting plate in mm	Левый край на монтажной панели в мм
 Left side bayed (no side panel)	Левая сторона пристыкована (без боковой стенки)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Выводит список символов, которые можно разместить, с их точками подключения относительно точки вставки
 Lists the terminal strips with their number of terminals and length on the rail	Выводит список клеммных колодок с числом клемм и длиной на рейке
 Lists the terminations chosen for wire ends and the kinds there are	Перечисляет выбранные оконцевания концов проводов и доступные виды
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Перечисляет основные надписи (встроенные и собственные проекта) с их элементами, надпись по умолчанию и заполнители
 Lists the translation dictionary of the project texts (source line and translations)	Выводит словарь переводов текстов проекта (исходная строка и переводы)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Выводит список оконных макросов, размещённых на листах (рамки макросов), с макросом, вариантом, значениями заполнителей и числом элементов
 Load losses of the transformer in W (0: typical)	Потери короткого замыкания трансформатора в W (0: типовые)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Имя главной заземляющей 
 Name of the safety function to remove	Имя удаляемой функции безопасности
 Name of the segment	Имя сегмента
 Name of the template	Имя шаблона
+Name of the title block	Имя основной надписи
+Name of the title block (with page_type: empty removes the choice)	Имя основной надписи (с page_type: пусто удаляет выбор)
 Name of the work area	Имя рабочей области
 Name or id; the tag for places	Имя или идентификатор; для размещений – обозначение
 Name placed by hand: X offset from the insertion point in mm	Имя размещено вручную: смещение по X от точки вставки в мм
@@ -480,6 +492,7 @@ No terminal strip {}	Нет клеммной колодки {}
 No terminal {} on strip {}	Нет клеммы {} на колодке {}
 No text with id {}	Нет текста с идентификатором {}
 No three wires meet at {} / {} mm: give the direction of the stem	В точке {} / {} мм не сходятся три провода: укажите направление ножки
+No title block named {}	Нет основной надписи с именем {}
 No transformer: set {} first	Нет трансформатора: сначала задайте {}
 No wire at {} / {} mm	В точке {} / {} мм нет провода
 No wire with id {}	Нет провода с ID {}
@@ -489,6 +502,7 @@ Node {} exists already	Узел {} уже существует
 Nodes to pass in this order, comma separated	Узлы для прохождения в этом порядке, через запятую
 Nominal size, e.g. 8 mm or DN25	Условный проход, например 8 мм или DN25
 None of the items is an interruption point	Ни один из элементов не является точкой разрыва
+Not a colour (#RRGGBB): {}	Не цвет (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Не является сечением: {} (например 1.5 mm²)
 Not a valid safety function: {}	Недопустимая функция безопасности: {}
 Note, e.g. what the problem is	Примечание, например в чём проблема
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Один конец, например -K1:A1
 One row per printed label instead of a count	Одна строка на каждый печатаемый маркер вместо количества
 Only devices on these pages (names separated by commas)	Только устройства на этих листах (имена через запятую)
 Only doors and windows open	Открываются только двери и окна
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Только для листов этого типа: schematic, cover, report, mounting, overview, graphic или document
 Only lines without a translation into this language	Только строки без перевода на этот язык
 Only list the new tags, change nothing	Только вывести новые обозначения, ничего не изменять
 Only shows the package, no job is recorded	Только показывает пакет, задание не создаётся
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Места группы (0 = без огр
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Размещает обозначение точки подключения символа слева, справа, сверху или снизу от неё и сдвигает его; без стороны и сдвига оно снова размещается автоматически
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Размещает ряд корпусов в помещении (3D-вид всех корпусов); без x и z он размещается по плану установки или рядом с другими рядами
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Размещает имя и перекрёстную ссылку точек разрыва с одной стороны стрелки или вручную со смещением от точки вставки
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Размещает логотип проекта на титульном листе (мм от левого верхнего угла области чертежа); без параметров показывает место
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Размещает свойства схемы у символов; без идентификаторов схема заново размещается у всех символов, которые её используют
 Planned part number	Запланированный номер изделия
 Planned power in kW	Запланированная мощность в kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Сегменты установки с запланированными устройствами до создания схемы: шаблоны, баланс мощности, состояние относительно схемы, обмен в виде CSV / Excel
 Plinth height in mm, 0 without plinth	Высота цоколя в мм, 0 – без цоколя
 Plot frame (list_frames); empty = the project default	Рамка листа (list_frames); пусто = по умолчанию для проекта
-Plot frames and page templates of the project	Рамки чертежа и шаблоны листов проекта
+Plot frames, title blocks and page templates of the project	Рамки чертежа, основные надписи и шаблоны листов проекта
 Plug tag, e.g. -X10	Обозначение штекера, например -X10
 Plugin id '{}' is not snake_case	Идентификатор плагина «{}» не в формате snake_case
 Plugin {} is loaded twice	Плагин {} загружен дважды
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Задаёт рамку 
 Sets the shield and the outer diameter of a cable	Задаёт экран и наружный диаметр кабеля
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Задаёт исходный язык текстов проекта и целевые языки (коды ISO 639-1)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Задаёт резервные клеммы колодки и то, добавляются ли её принадлежности автоматически
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Задаёт штамп поперёк всех листов по состоянию процесса изменений (например, ЧЕРНОВИК); без параметров показывает штамп
+Sets the title block of all pages that do not choose one, or of the pages of one type	Задаёт основную надпись всех листов, которые не выбирают свою, или листов одного типа
 Sets the translation of a line of the project texts (empty removes it)	Задаёт перевод строки текстов проекта (пустое значение удаляет его)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Задаёт цвет и сечение проводов цепей без определённого потенциала (пусто = нет)
 Share of the capacity kept free in percent	Доля ёмкости, оставляемая свободной, в процентах
@@ -791,11 +809,16 @@ Terminal designation	Обозначение клеммы
 Terminal designations in strip order, separated by commas	Обозначения клемм в порядке колодки через запятую
 Terminal order, levels, jumpers, spare terminals and accessories	Порядок клемм, ярусы, перемычки, резервные клеммы и принадлежности
 Text height in mm	Высота текста в мм
+Text height in mm (0: fitted to the page)	Высота текста в мм (0: по размеру листа)
 Text height in mm (default 3.5)	Высота текста в мм (по умолчанию 3.5)
 Text in id, name or order number	Текст в ID, имени или номере для заказа
 Text in the key or name	Текст в ключе или имени
 Text in the line or a translation	Текст в строке или в переводе
 Text to find; empty: fill	Искомый текст; пусто: заполнить
+Text when everything is released, e.g. AS BUILT	Текст, когда всё выпущено, например ИСПОЛНИТЕЛЬНЫЙ
+Text when the revision is approved but not released	Текст, когда изменение утверждено, но не выпущено
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Текст, пока изменение — черновик или ещё ничего не выпущено (заполнители разрешены; пусто: нет)
+Text while a revision is in review or was rejected	Текст, пока изменение на проверке или было отклонено
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Текст; заполнители, например {page} или {prop:Name}, подставляются при отрисовке
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	Плечи угла – одно вертикальное и одно горизонтальное направление, например down left, а не {}
 The cable definition line crosses no wire	Линия определения кабеля не пересекает ни одного провода
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Максимальная толщина листа или шины, мм
 Time per drilling, punching or bending operation, s	Время на операцию сверления, пробивки или гибки, s
 Time per tool change, s	Время на смену инструмента, s
+Title block (list_title_blocks); empty = the project default	Основная надпись (list_title_blocks); пусто = надпись проекта по умолчанию
+Title block of the pages with this frame that do not choose one; empty: the project default	Основная надпись листов с этой рамкой, которые не выбирают свою; пусто: надпись проекта по умолчанию
+Title block to start from when it is new (default: Standard)	Основная надпись, с которой начать, если она новая (по умолчанию: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Инструменты, например D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Верхний край в мм
 Top edge on the face in mm	Верхний край на поверхности в мм
 Top edge on the mounting plate in mm	Верхний край на монтажной панели в мм
 Translated line	Переведённая строка
@@ -876,6 +903,7 @@ Unknown node: {}	Неизвестный узел: {}
 Unknown numbering scheme: {}	Неизвестная схема нумерации: {}
 Unknown object class: {}	Неизвестный класс объекта: {}
 Unknown order: {}	Неизвестный порядок: {}
+Unknown page type: {}	Неизвестный тип листа: {}
 Unknown paper format: {}	Неизвестный формат бумаги: {}
 Unknown path kind: {}	Неизвестный вид пути: {}
 Unknown placeholder {}: possible are {}	Неизвестный заполнитель {}: возможны {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	На как�
 Who accepted it	Кто принял сообщение
 Whole words only	Только слова целиком
 Why the message is accepted	Причина принятия сообщения
-Width in mm	Ширина в мм
 Width of the path in mm (default 50)	Ширина пути в мм (по умолчанию 50)
 Width, depth and height of a room are at least {} mm	Ширина, глубина и высота помещения — не менее {} мм
 Width, height and depth of an enclosure are at least {} mm	Ширина, высота и глубина корпуса — не менее {} мм
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem или open
 {} has no enclosure bayed to its right side	К {} справа не пристыкован ни один шкаф
 {} has no enclosure system; give one	У {} нет системы корпусов; укажите её
 {} is a built-in frame; give the frame a new name	{} – встроенная рамка; задайте рамке новое имя
+{} is a built-in title block; give the title block a new name	{} — встроенная основная надпись; дайте надписи новое имя
 {} is a room already	{} уже является помещением
 {} is ambiguous: use #id:pin	{} неоднозначно: используйте #id:pin
 {} is an enclosure already	{} уже является корпусом

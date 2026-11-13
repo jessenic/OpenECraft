@@ -186,6 +186,43 @@ fn full_crosshair_follows_a_connection_definition_point_on_a_wire() {
     );
 }
 
+#[test]
+fn a_window_over_the_canvas_hides_the_crosshair() {
+    let mut prj = Project::default();
+    let idx = Index::build(&prj);
+    let an = Analysis::build(&prj);
+    let mut ed = Editor { tool: Tool::Text, full_crosshair: true, show_grid: false, zoom: 1.0, offset: Vec2::ZERO, fit_pending: false, ..Default::default() };
+    let ctx = egui::Context::default();
+    let title = String::from("covering");
+    let mut run = |covered: bool| {
+        let input = RawInput {
+            screen_rect: Some(Rect::from_min_size(Pos2::ZERO, vec2(1200.0, 800.0))),
+            events: vec![Event::PointerMoved(pos2(101.0, 107.0))],
+            ..Default::default()
+        };
+        let mut output = ctx.run_ui(input, |ui| {
+            if covered {
+                egui::Window::new(title.as_str()).fixed_pos(pos2(40.0, 40.0)).fixed_size(vec2(200.0, 200.0)).show(ui.ctx(), |ui| {
+                    ui.allocate_space(vec2(200.0, 200.0));
+                });
+            }
+            ed.ui(ui, &mut prj, 0, &idx, &an);
+        });
+        output.textures_delta.clear();
+        let guides = output.shapes.iter().filter(|s| matches!(&s.shape, egui::Shape::LineSegment { stroke, .. } if (stroke.width - 0.8).abs() < 0.01)).count();
+        (guides, output.platform_output.cursor_icon)
+    };
+    assert_eq!(run(false).0, 2);
+    // egui hit-tests against the layers of the previous frame: the window counts from
+    // its second frame on.
+    run(true);
+    let (guides, cursor) = run(true);
+    assert_eq!(guides, 0, "no crosshair through the window");
+    assert_ne!(cursor, egui::CursorIcon::None, "the window keeps the normal pointer");
+    run(false);
+    assert_eq!(run(false).0, 2);
+}
+
 /// Runs one editor frame on page `page` with the given input events.
 fn frame(ed: &mut Editor, ctx: &egui::Context, prj: &mut Project, page: usize, events: Vec<Event>) -> CanvasOutput {
     frame_with(ed, ctx, prj, page, events, Modifiers::default())

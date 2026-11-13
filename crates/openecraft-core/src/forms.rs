@@ -14,7 +14,7 @@ use crate::symbols::Anchor;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::collections::BTreeMap;
-pub use crate::model::forms::{FilterOp, Form, FormItem, FormLayout, Forms, ReportForm, ReportScheme, RowFilter, SortKey};
+pub use crate::model::forms::{FilterOp, Form, FormItem, FormLayout, Forms, Picture, ReportForm, ReportScheme, RowFilter, Show, SortKey, Stamp};
 
 /// Size of the title block area (origin at its top left corner).
 pub const AREA_W: f32 = crate::frame::TITLE_W;
@@ -30,6 +30,61 @@ impl FormItem {
             FormItem::Line { .. } => tr("Line"),
             FormItem::Rect { .. } => tr("Rectangle"),
             FormItem::Text { .. } => tr("Text"),
+            FormItem::Image { picture: Some(_), .. } => tr("Image"),
+            FormItem::Image { picture: None, .. } => tr("Project logo"),
+            FormItem::Qr { .. } => tr("QR code"),
+        }
+    }
+
+    pub fn line(a: P, b: P, width: f32) -> FormItem {
+        FormItem::Line { a, b, width, color: None, dashed: false, show: Show::default() }
+    }
+
+    pub fn rect(a: P, b: P, width: f32, fill: bool) -> FormItem {
+        FormItem::Rect { a, b, width, fill, color: None, dashed: false, show: Show::default() }
+    }
+
+    /// A plain text (no label, no limit, not rotated).
+    pub fn text(pos: P, text: &str, size: f32, anchor: Anchor) -> FormItem {
+        FormItem::Text { pos, text: text.into(), size, anchor, label: false, max_width: 0.0, bold: false, italic: false, angle: 0.0, color: None, show: Show::default() }
+    }
+
+    /// A label: a text in the frame colour.
+    pub fn label(pos: P, text: &str, size: f32, max_width: f32) -> FormItem {
+        let mut t = FormItem::text(pos, text, size, Anchor::Left);
+        if let FormItem::Text { label, max_width: m, .. } = &mut t {
+            (*label, *m) = (true, max_width);
+        }
+        t
+    }
+
+    pub fn image(a: P, b: P, picture: Option<Picture>) -> FormItem {
+        FormItem::Image { a, b, picture, show: Show::default() }
+    }
+
+    pub fn qr(a: P, size: f32, text: &str) -> FormItem {
+        FormItem::Qr { a, size, text: text.into(), show: Show::default() }
+    }
+
+    /// Where the element is drawn.
+    pub fn show(&self) -> &Show {
+        match self {
+            FormItem::Line { show, .. } | FormItem::Rect { show, .. } | FormItem::Text { show, .. } | FormItem::Image { show, .. } | FormItem::Qr { show, .. } => show,
+        }
+    }
+
+    pub fn show_mut(&mut self) -> &mut Show {
+        match self {
+            FormItem::Line { show, .. } | FormItem::Rect { show, .. } | FormItem::Text { show, .. } | FormItem::Image { show, .. } | FormItem::Qr { show, .. } => show,
+        }
+    }
+
+    /// Corners of the area of an image or QR code.
+    fn area(&self) -> Option<(P, P)> {
+        match self {
+            FormItem::Image { a, b, .. } => Some((p(a.x.min(b.x), a.y.min(b.y)), p(a.x.max(b.x), a.y.max(b.y)))),
+            FormItem::Qr { a, size, .. } => Some((*a, *a + p(*size, *size))),
+            _ => None,
         }
     }
 
@@ -40,6 +95,12 @@ impl FormItem {
             FormItem::Rect { a, b, .. } => {
                 let c = [*a, p(b.x, a.y), *b, p(a.x, b.y), *a];
                 c.windows(2).map(|s| crate::geom::dist_to_segment(q, s[0], s[1])).fold(f32::INFINITY, f32::min)
+            }
+            FormItem::Image { .. } | FormItem::Qr { .. } => {
+                let (lo, hi) = self.area().unwrap_or_default();
+                let dx = (lo.x - q.x).max(q.x - hi.x).max(0.0);
+                let dy = (lo.y - q.y).max(q.y - hi.y).max(0.0);
+                (dx * dx + dy * dy).sqrt()
             }
             FormItem::Text { pos, text, size, anchor, .. } => {
                 let w = text_width(text, *size);
@@ -57,12 +118,37 @@ impl FormItem {
 
     pub fn translate(&mut self, d: P) {
         match self {
-            FormItem::Line { a, b, .. } | FormItem::Rect { a, b, .. } => {
+            FormItem::Line { a, b, .. } | FormItem::Rect { a, b, .. } | FormItem::Image { a, b, .. } => {
                 *a = *a + d;
                 *b = *b + d;
             }
-            FormItem::Text { pos, .. } => *pos = *pos + d,
+            FormItem::Text { pos, .. } | FormItem::Qr { a: pos, .. } => *pos = *pos + d,
         }
+    }
+}
+
+/// Page types of the conditions of elements and of the title blocks by page type:
+/// (key, title).
+pub const PAGE_TYPES: [(&str, &str); 7] = [
+    ("schematic", tr_const!("Schematic")),
+    ("cover", tr_const!("Cover")),
+    ("report", tr_const!("Report")),
+    ("mounting", tr_const!("Mounting")),
+    ("overview", tr_const!("Overview")),
+    ("graphic", tr_const!("Graphics")),
+    ("document", tr_const!("Document")),
+];
+
+/// Key of the page type of a page kind (`PAGE_TYPES`).
+pub fn page_type(kind: PageKind) -> &'static str {
+    match kind {
+        PageKind::Schematic => "schematic",
+        PageKind::Cover => "cover",
+        PageKind::Report(_) => "report",
+        PageKind::Mounting(_) => "mounting",
+        PageKind::Overview => "overview",
+        PageKind::Graphic => "graphic",
+        PageKind::Document => "document",
     }
 }
 
@@ -109,25 +195,41 @@ impl Default for ReportScheme {
     }
 }
 
-/// File format for exchanging title blocks and report schemes.
+/// File format for exchanging title blocks, report schemes and plot frames (also the
+/// company's form library on the parts server, `openecraft_parts::api::FORMS_LIBRARY`).
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct FormLibrary {
     pub title_blocks: Vec<Form>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub schemes: Vec<ReportScheme>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub frames: Vec<crate::model::frame::PlotFrame>,
 }
 
 impl FormLibrary {
     pub fn from_json(text: &str) -> Result<FormLibrary, String> {
         serde_json::from_str(text).map_err(|e| e.to_string())
     }
+
+    /// The project's own title blocks, report schemes and plot frames.
+    pub fn of(prj: &Project) -> FormLibrary {
+        FormLibrary { title_blocks: prj.forms.title_blocks.clone(), schemes: prj.forms.schemes.clone(), frames: prj.forms.frames.clone() }
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.title_blocks.is_empty() && self.schemes.is_empty() && self.frames.is_empty()
+    }
 }
 
-/// Adds the title blocks and report schemes of a library to the project; ones with
-/// the same name (schemes: of the same report) are replaced. Returns their numbers.
+/// Adds the title blocks, report schemes and plot frames of a library to the
+/// project; ones with the same name (schemes: of the same report) are replaced.
+/// Returns the numbers of title blocks and schemes.
 pub fn merge(prj: &mut Project, lib: FormLibrary) -> (usize, usize) {
     let n = (lib.title_blocks.len(), lib.schemes.len());
+    for f in lib.frames {
+        crate::frame::set(prj, f);
+    }
     for f in lib.title_blocks {
         match prj.forms.title_blocks.iter_mut().find(|x| x.name == f.name) {
             Some(x) => *x = f,
@@ -178,15 +280,19 @@ pub fn scheme_names(prj: &Project, kind: impl Into<ReportId>) -> Vec<String> {
 }
 
 fn label(items: &mut Vec<FormItem>, x: f32, y: f32, text: &'static str) {
-    items.push(FormItem::Text { pos: p(x + 1.0, y + 1.8), text: tr(text).into(), size: 1.6, anchor: Anchor::Left, label: true, max_width: 0.0 });
+    items.push(FormItem::label(p(x + 1.0, y + 1.8), tr(text), 1.6, 0.0));
 }
 
 fn value(items: &mut Vec<FormItem>, x: f32, y: f32, text: &str, size: f32, max_width: f32) {
-    items.push(FormItem::Text { pos: p(x + 2.0, y), text: text.into(), size, anchor: Anchor::Left, label: false, max_width });
+    let mut t = FormItem::text(p(x + 2.0, y), text, size, Anchor::Left);
+    if let FormItem::Text { max_width: m, .. } = &mut t {
+        *m = max_width;
+    }
+    items.push(t);
 }
 
 fn line(items: &mut Vec<FormItem>, a: P, b: P, width: f32) {
-    items.push(FormItem::Line { a, b, width });
+    items.push(FormItem::line(a, b, width));
 }
 
 /// The built-in title blocks.
@@ -268,11 +374,20 @@ pub fn find<'a>(prj: &'a Project, name: &str) -> Cow<'a, Form> {
     Cow::Owned(all.swap_remove(i))
 }
 
+/// Name of the title block used on a page: its own, the one of its page type, the
+/// one of its plot frame, the project default, the standard one.
+pub fn title_block_name(prj: &Project, page_i: usize) -> String {
+    let page = &prj.pages[page_i];
+    let by_type = prj.forms.page_type_title_blocks.get(page_type(page.kind));
+    let frame = crate::frame::of_page(prj, page_i).title_block;
+    let names = [Some(&page.title_block), by_type, Some(&frame), Some(&prj.forms.default_title_block)];
+    let name = names.into_iter().flatten().find(|n| !n.is_empty()).cloned();
+    name.unwrap_or_else(|| STANDARD.into())
+}
+
 /// Title block used on a page.
 pub fn title_block(prj: &Project, page_i: usize) -> Cow<'_, Form> {
-    let own = &prj.pages[page_i].title_block;
-    let name = if !own.is_empty() { own } else { &prj.forms.default_title_block };
-    find(prj, if name.is_empty() { STANDARD } else { name })
+    find(prj, &title_block_name(prj, page_i))
 }
 
 fn structure_description(prj: &Project, aspect: crate::structure::Aspect, id: &str) -> String {
@@ -314,13 +429,97 @@ pub fn placeholder(prj: &Project, page_i: usize, name: &str) -> Option<String> {
         .into(),
         "sheet" => (page_i + 1).to_string(),
         "sheets" => prj.pages.len().to_string(),
+        "page.previous" => page_i.checked_sub(1).map(|i| crate::structure::page_full_name(&prj.pages[i])).unwrap_or_default(),
+        "page.next" => prj.pages.get(page_i + 1).map(crate::structure::page_full_name).unwrap_or_default(),
         "rev.name" => rev.map(|r| r.name.clone()).unwrap_or_default(),
         "rev.date" => rev.map(|r| r.date.clone()).unwrap_or_default(),
         "rev.author" => rev.map(|r| r.author.clone()).unwrap_or_default(),
         "rev.description" => rev.map(|r| r.description.clone()).unwrap_or_default(),
-        _ => prop_placeholder(prj, page, name.strip_prefix("prop:")?),
+        "rev.status" => revision_status(prj),
+        "rev.approved_by" | "rev.approved_date" => revision_placeholder(prj, &format!("1.{}", &name[4..]))?,
+        _ => match name.strip_prefix("prop:") {
+            Some(key) => prop_placeholder(prj, page, key),
+            None => revision_placeholder(prj, name.strip_prefix("rev.")?)?,
+        },
     };
     Some(v)
+}
+
+/// `{rev.N.field}`: a field of the N-th last released revision (1: the last one),
+/// for revision tables in title blocks; empty when there are fewer revisions.
+fn revision_placeholder(prj: &Project, name: &str) -> Option<String> {
+    let (n, field) = name.split_once('.')?;
+    let n: usize = n.parse().ok().filter(|n| *n > 0)?;
+    let released = |r: &&crate::revision::Revision| r.state == crate::revision::State::Released;
+    let i = prj.revisions.iter().enumerate().rev().filter(|(_, r)| released(r)).nth(n - 1).map(|(i, _)| i);
+    let rev = i.map(|i| &prj.revisions[i]);
+    let v = |f: fn(&crate::revision::Revision) -> &String| rev.map(|r| f(r).clone()).unwrap_or_default();
+    Some(match field {
+        "name" => v(|r| &r.name),
+        "date" => v(|r| &r.date),
+        "author" => v(|r| &r.author),
+        "description" => v(|r| &r.description),
+        "approved_by" => i.map(|i| approvals(prj, i).0).unwrap_or_default(),
+        "approved_date" => i.map(|i| approvals(prj, i).1).unwrap_or_default(),
+        _ => return None,
+    })
+}
+
+/// Who approved revision `i` in its last review round (approvers of the project
+/// workflow, in the order they decided) and the date of the last approval.
+pub fn approvals(prj: &Project, i: usize) -> (String, String) {
+    let ok: Vec<_> = crate::revision::decisions(prj, i).into_iter().filter(|a| a.approved).collect();
+    let users: Vec<&str> = ok.iter().map(|a| a.user.as_str()).collect();
+    let date = ok.iter().map(|a| a.date.as_str()).max().unwrap_or("");
+    (users.join(", "), date.to_string())
+}
+
+/// State of the project in the revision workflow: the status of the revision being
+/// prepared, otherwise "released" (or "draft" before the first release).
+fn revision_status(prj: &Project) -> String {
+    let status = match crate::revision::open_revision(prj) {
+        Some(i) => crate::revision::status(prj, i),
+        None if crate::revision::last_released(prj).is_some() => crate::revision::Status::Released,
+        None => crate::revision::Status::Draft,
+    };
+    status.title().into()
+}
+
+/// Text of the stamp across the pages in the current state of the revision
+/// workflow (placeholders not filled yet); `None` when there is none.
+pub fn stamp_text(prj: &Project) -> Option<&str> {
+    use crate::revision::Status;
+    let s = &prj.forms.stamp;
+    let text = match crate::revision::open_revision(prj).map(|i| crate::revision::status(prj, i)) {
+        Some(Status::Draft) => &s.draft,
+        Some(Status::InReview | Status::Rejected) => &s.review,
+        Some(Status::Approved) => &s.approved,
+        Some(Status::Released) => &s.released,
+        None if crate::revision::last_released(prj).is_some() => &s.released,
+        None => &s.draft,
+    };
+    Some(text.as_str()).filter(|t| !t.trim().is_empty())
+}
+
+/// Draws the stamp across the drawing area of a page (below its content).
+pub fn draw_stamp(d: &mut dyn Draw, prj: &Project, page_i: usize) {
+    let Some(text) = stamp_text(prj) else { return };
+    let text = fill(text, prj, page_i);
+    let s = &prj.forms.stamp;
+    let area = crate::frame::of_page(prj, page_i).area();
+    let longest = text.lines().map(|l| l.chars().count()).max().unwrap_or(1).max(1) as f32;
+    let lines = text.lines().count().max(1) as f32;
+    // Fitted: the longest line along 70 % of the page's diagonal at the angle.
+    let (sin, cos) = s.angle.to_radians().sin_cos();
+    let reach = (area.width() / cos.abs().max(0.01)).min(area.height() / sin.abs().max(0.01)) * 0.7;
+    let size = if s.size > 0.0 { s.size } else { (reach / (longest * 0.62)).clamp(5.0, 80.0) };
+    let style = crate::render::TextStyle { angle: s.angle, bold: true, ..crate::render::TextStyle::plain(size, Anchor::Center, VAnchor::Middle) };
+    let c = area.center();
+    for (i, l) in text.lines().enumerate() {
+        // Lines below each other across the text's direction.
+        let off = (i as f32 - (lines - 1.0) / 2.0) * size * 1.3;
+        d.styled_text(c + p(off * sin, off * cos), l, &style, Ink::Color(s.color));
+    }
 }
 
 /// `{prop:key}`: a project or page property of the database (shown with its unit),
@@ -335,7 +534,7 @@ fn prop_placeholder(prj: &Project, page: &crate::model::Page, key: &str) -> Stri
 }
 
 /// Placeholders offered in the title block editor: (placeholder, meaning).
-pub const PLACEHOLDERS: [(&str, &str); 28] = [
+pub const PLACEHOLDERS: [(&str, &str); 37] = [
     ("{project}", tr_const!("Project name")),
     ("{project.description}", tr_const!("Project description")),
     ("{company}", tr_const!("Company")),
@@ -356,10 +555,19 @@ pub const PLACEHOLDERS: [(&str, &str); 28] = [
     ("{page.type}", tr_const!("Page type")),
     ("{sheet}", tr_const!("Sheet number")),
     ("{sheets}", tr_const!("Number of sheets")),
+    ("{page.previous}", tr_const!("Previous page")),
+    ("{page.next}", tr_const!("Next page")),
     ("{rev.name}", tr_const!("Last revision")),
     ("{rev.date}", tr_const!("Date of the last revision")),
     ("{rev.author}", tr_const!("Author of the last revision")),
     ("{rev.description}", tr_const!("Description of the last revision")),
+    ("{rev.1.name}", tr_const!("Revision table: index of the last revision (2: the one before …)")),
+    ("{rev.1.date}", tr_const!("Revision table: date of the last revision (2: the one before …)")),
+    ("{rev.1.author}", tr_const!("Revision table: author of the last revision (2: the one before …)")),
+    ("{rev.1.description}", tr_const!("Revision table: description of the last revision (2: the one before …)")),
+    ("{rev.approved_by}", tr_const!("Who approved the last revision (review); {rev.2.approved_by}: the one before")),
+    ("{rev.approved_date}", tr_const!("Date of the approval of the last revision")),
+    ("{rev.status}", tr_const!("State of the project: draft, in review, approved, released")),
     ("{prop:Name}", "Project property \"Name\""),
     ("{prop:project.customer}", tr_const!("Project property of the property database (by key)")),
     ("{prop:page.drawing_number}", tr_const!("Page property of the property database (by key)")),
@@ -405,31 +613,156 @@ pub fn draw(d: &mut dyn Draw, form: &Form, prj: &Project, page_i: usize) {
 
 /// Draws a title block with its top left corner at `o`, scaled by `k`.
 pub fn draw_at(d: &mut dyn Draw, form: &Form, prj: &Project, page_i: usize, o: P, k: f32) {
-    draw_items(d, &form.items, o, k, &|text| fill(text, prj, page_i));
+    let page_type = Some(page_type(prj.pages[page_i].kind));
+    draw_items(d, &form.items, o, k, &Context { logo: prj.info.logo.as_ref(), page_type, value: &|text| fill(text, prj, page_i) });
 }
 
-/// Draws form items with their origin at `o`, scaled by `k`; `value` fills the
-/// placeholders of the texts.
-pub fn draw_items(d: &mut dyn Draw, items: &[FormItem], o: P, k: f32, value: &dyn Fn(&str) -> String) {
+/// What the elements of a form are drawn with.
+pub struct Context<'a> {
+    /// Drawn by images without a picture.
+    pub logo: Option<&'a Picture>,
+    /// Type of the page (`PAGE_TYPES`) for the conditions of the elements; `None`
+    /// draws every element (editor).
+    pub page_type: Option<&'a str>,
+    /// Fills the placeholders of texts, QR codes and conditions.
+    pub value: &'a dyn Fn(&str) -> String,
+}
+
+/// Whether an element is drawn in a context.
+pub fn shown(show: &Show, ctx: &Context) -> bool {
+    let Some(page_type) = ctx.page_type else { return true };
+    (show.page_types.is_empty() || show.page_types.iter().any(|t| t == page_type)) && (show.filled.trim().is_empty() || !(ctx.value)(&show.filled).trim().is_empty())
+}
+
+/// Draws a QR code of `text` as runs of dark modules, `size` mm wide, top left at `a`.
+pub fn draw_qr(d: &mut dyn Draw, a: P, size: f32, text: &str, ink: Ink) {
+    let Some(qr) = crate::qr::Qr::encode(text) else { return };
+    let m = size / qr.size as f32;
+    for y in 0..qr.size {
+        let mut x = 0;
+        while x < qr.size {
+            if !qr.dark(x, y) {
+                x += 1;
+                continue;
+            }
+            let start = x;
+            while qr.dark(x, y) {
+                x += 1;
+            }
+            d.rect(a + p(start as f32 * m, y as f32 * m), a + p(x as f32 * m, (y + 1) as f32 * m), 0.0, ink, true);
+        }
+    }
+}
+
+/// Texture id of a picture: the same for the same file, apart from the ids of the
+/// images placed on pages (counted up from 1).
+pub fn picture_id(pic: &Picture) -> u64 {
+    // FNV-1a over the length and both ends of the data (cheap for large files).
+    let data = pic.file.data.as_bytes();
+    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
+    let ends = data.iter().take(512).chain(data.iter().rev().take(512));
+    for b in data.len().to_le_bytes().iter().chain(ends) {
+        h = (h ^ u64::from(*b)).wrapping_mul(0x0100_0000_01b3);
+    }
+    h | 1 << 63
+}
+
+/// The picture as an image fitted into `a`..`b` (keeping its aspect ratio, centred).
+pub fn fitted_image(pic: &Picture, a: P, b: P) -> crate::model::ImageItem {
+    let r = crate::geom::R::from_points(a, b);
+    let (w, h) = (r.width(), r.height());
+    let size = if pic.px[0] == 0 || pic.px[1] == 0 {
+        p(w, h)
+    } else {
+        let k = (w / pic.px[0] as f32).min(h / pic.px[1] as f32);
+        p(pic.px[0] as f32 * k, pic.px[1] as f32 * k)
+    };
+    let min = r.center() - size * 0.5;
+    crate::model::ImageItem { id: picture_id(pic), a: min, b: min + size, file: pic.file.clone(), px: pic.px, layer: String::new() }
+}
+
+/// A picture from a PNG or JPEG file; `None` for other files.
+pub fn picture(name: &str, bytes: &[u8]) -> Option<Picture> {
+    let px = crate::graphics::image_pixels(bytes)?;
+    Some(Picture { file: crate::model::document::Document::new(name, bytes), px })
+}
+
+/// The pictures drawn on a page by its title block, its drawn report form and the
+/// cover page, for loading them as textures.
+pub fn page_pictures(prj: &Project, page_i: usize) -> Vec<Picture> {
+    let logo = prj.info.logo.as_ref();
+    let page = &prj.pages[page_i];
+    let mut items: Vec<FormItem> = title_block(prj, page_i).items.clone();
+    if let PageKind::Report(kind) = page.kind {
+        let scheme = page.report.as_ref().map(|r| r.scheme.as_str()).unwrap_or("");
+        if let Some(l) = report_form(prj, kind, scheme).and_then(|f| f.layout.as_ref()) {
+            items.extend(l.header.iter().chain(&l.row).cloned());
+        }
+    }
+    let from_items = items.iter().filter_map(|it| match it {
+        FormItem::Image { picture, .. } => picture.as_ref().or(logo),
+        _ => None,
+    });
+    let cover = logo.filter(|_| page.kind == PageKind::Cover);
+    let mut out: Vec<Picture> = Vec::new();
+    for pic in from_items.chain(cover) {
+        if !out.contains(pic) {
+            out.push(pic.clone());
+        }
+    }
+    out
+}
+
+/// Draws form items with their origin at `o`, scaled by `k`.
+pub fn draw_items(d: &mut dyn Draw, items: &[FormItem], o: P, k: f32, ctx: &Context) {
     let at = |q: P| o + q * k;
-    for item in items {
+    let value = ctx.value;
+    for item in items.iter().filter(|it| shown(it.show(), ctx)) {
         match item {
-            FormItem::Line { a, b, width } => d.line(at(*a), at(*b), width * k, Ink::Frame, false),
-            FormItem::Rect { a, b, width, fill } => {
+            FormItem::Line { a, b, width, color, dashed, .. } => d.line(at(*a), at(*b), width * k, color.map(Ink::Color).unwrap_or(Ink::Frame), *dashed),
+            FormItem::Rect { a, b, width, fill, color, dashed, .. } => {
+                let ink = color.map(Ink::Color).unwrap_or(Ink::Frame);
                 if *fill {
-                    d.rect(at(*a), at(*b), 0.0, Ink::Plate, true);
+                    d.rect(at(*a), at(*b), 0.0, color.map(Ink::Color).unwrap_or(Ink::Plate), true);
                 }
-                if *width > 0.0 {
-                    d.rect(at(*a), at(*b), width * k, Ink::Frame, false);
+                if *width > 0.0 && *dashed {
+                    let (a, b) = (at(*a), at(*b));
+                    let c = [a, p(b.x, a.y), b, p(a.x, b.y), a];
+                    for s in c.windows(2) {
+                        d.line(s[0], s[1], width * k, ink, true);
+                    }
+                } else if *width > 0.0 {
+                    d.rect(at(*a), at(*b), width * k, ink, false);
                 }
             }
-            FormItem::Text { pos, text, size, anchor, label, max_width } => {
-                let ink = if *label { Ink::FrameText } else { Ink::Text };
+            FormItem::Text { pos, text, size, anchor, label, max_width, bold, italic, angle, color, .. } => {
+                let ink = color.map(Ink::Color).unwrap_or(if *label { Ink::FrameText } else { Ink::Text });
                 let value = value(text);
+                // Further lines follow below the first one in the text's direction.
+                let (sin, cos) = angle.to_radians().sin_cos();
                 for (i, l) in value.lines().enumerate() {
                     let w = text_width(l, *size);
                     let size = if *max_width > 0.0 && w > *max_width { (size * max_width / w).max(1.0) } else { *size };
-                    d.text(at(*pos + p(0.0, i as f32 * size * 1.4)), l, size * k, *anchor, VAnchor::Middle, ink);
+                    let dy = i as f32 * size * 1.4;
+                    let pos = at(*pos + p(dy * sin, dy * cos));
+                    if *bold || *italic || *angle != 0.0 {
+                        let plain = crate::render::TextStyle::plain(size * k, *anchor, VAnchor::Middle);
+                        let style = crate::render::TextStyle { angle: *angle, bold: *bold, italic: *italic, ..plain };
+                        d.styled_text(pos, l, &style, ink);
+                    } else {
+                        d.text(pos, l, size * k, *anchor, VAnchor::Middle, ink);
+                    }
+                }
+            }
+            FormItem::Image { a, b, picture, .. } => {
+                if let Some(pic) = picture.as_ref().or(ctx.logo) {
+                    d.image(&fitted_image(pic, at(*a), at(*b)));
+                }
+            }
+            FormItem::Qr { a, size, text, .. } => {
+                let text = value(text);
+                if !text.trim().is_empty() {
+                    draw_qr(d, at(*a), size * k, &text, Ink::Text);
                 }
             }
         }
@@ -471,11 +804,12 @@ pub fn fill_row(text: &str, keys: &[String], headers: &[String], row: &[String])
 /// entry is in the schematic.
 pub fn draw_layout(d: &mut dyn Draw, layout: &FormLayout, t: &crate::model::report_blocks::PageTable, prj: &Project, page_i: usize, o: P) {
     let page_value = |text: &str| fill(&text.replace("{report}", &t.title.replace('{', "{{").replace('}', "}}")), prj, page_i);
-    draw_items(d, &layout.header, o, 1.0, &page_value);
+    let (logo, page_type) = (prj.info.logo.as_ref(), Some(page_type(prj.pages[page_i].kind)));
+    draw_items(d, &layout.header, o, 1.0, &Context { logo, page_type, value: &page_value });
     let bounds = items_bounds(&layout.row);
     for (ri, row) in t.rows.iter().enumerate() {
         let at = o + layout.first_row + layout.step * ri as f32;
-        draw_items(d, &layout.row, at, 1.0, &|text| page_value(&fill_row(text, &t.keys, &t.headers, row)));
+        draw_items(d, &layout.row, at, 1.0, &Context { logo, page_type, value: &|text| page_value(&fill_row(text, &t.keys, &t.headers, row)) });
         if let (Some(Some((page, _))), Some((a, b))) = (t.targets.get(ri), bounds) {
             d.link(at + a, at + b, *page);
         }
@@ -487,7 +821,8 @@ pub fn items_bounds(items: &[FormItem]) -> Option<(P, P)> {
     let mut pts = Vec::new();
     for it in items {
         match it {
-            FormItem::Line { a, b, .. } | FormItem::Rect { a, b, .. } => pts.extend([*a, *b]),
+            FormItem::Line { a, b, .. } | FormItem::Rect { a, b, .. } | FormItem::Image { a, b, .. } => pts.extend([*a, *b]),
+            FormItem::Qr { a, size, .. } => pts.extend([*a, *a + p(*size, *size)]),
             FormItem::Text { pos, text, size, anchor, .. } => {
                 let w = text_width(text, *size);
                 let x = match anchor {
@@ -514,21 +849,25 @@ pub fn starting_layout(keys: &[&str], titles: &[&str], widths: &[f32], width: f3
     }
     let (top, row_h) = (19.0, 6.0);
     let mut header = vec![
-        FormItem::Text { pos: p(0.0, 9.0), text: "{report}".into(), size: 6.0, anchor: Anchor::Left, label: false, max_width: 0.0 },
-        FormItem::Rect { a: p(0.0, top), b: p(width, top + row_h), width: 0.35, fill: false },
+        FormItem::text(p(0.0, 9.0), "{report}", 6.0, Anchor::Left),
+        FormItem::rect(p(0.0, top), p(width, top + row_h), 0.35, false),
     ];
-    let mut row = vec![FormItem::Line { a: p(0.0, row_h), b: p(width, row_h), width: 0.1 }];
+    let mut row = vec![FormItem::line(p(0.0, row_h), p(width, row_h), 0.1)];
     for (i, key) in keys.iter().enumerate() {
         let (x, w) = (xs[i], xs[i + 1] - xs[i]);
         let title = titles.get(i).copied().unwrap_or(key);
-        header.push(FormItem::Text { pos: p(x + 1.2, top + row_h / 2.0), text: title.into(), size: 2.4, anchor: Anchor::Left, label: true, max_width: w - 2.0 });
-        row.push(FormItem::Text { pos: p(x + 1.2, row_h / 2.0), text: format!("{{{key}}}"), size: 2.2, anchor: Anchor::Left, label: false, max_width: w - 2.0 });
+        header.push(FormItem::label(p(x + 1.2, top + row_h / 2.0), title, 2.4, w - 2.0));
+        let mut cell = FormItem::text(p(x + 1.2, row_h / 2.0), &format!("{{{key}}}"), 2.2, Anchor::Left);
+        if let FormItem::Text { max_width, .. } = &mut cell {
+            *max_width = w - 2.0;
+        }
+        row.push(cell);
         if i > 0 {
-            row.push(FormItem::Line { a: p(x, 0.0), b: p(x, row_h), width: 0.15 });
+            row.push(FormItem::line(p(x, 0.0), p(x, row_h), 0.15));
         }
     }
-    row.push(FormItem::Line { a: p(0.0, 0.0), b: p(0.0, row_h), width: 0.3 });
-    row.push(FormItem::Line { a: p(width, 0.0), b: p(width, row_h), width: 0.3 });
+    row.push(FormItem::line(p(0.0, 0.0), p(0.0, row_h), 0.3));
+    row.push(FormItem::line(p(width, 0.0), p(width, row_h), 0.3));
     FormLayout { header, row, first_row: p(0.0, top + row_h), step: p(0.0, row_h) }
 }
 

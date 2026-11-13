@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Obwody sterowania DC powinn
 DC/DC converter	Przetwornica DC/DC
 DWG export failed: {}	Eksport DWG nie powiódł się: {}
 Data sheet	Karta katalogowa
+Date of the approval of the last revision	Data zatwierdzenia ostatniej rewizji
 Date of the last revision	Data ostatniej rewizji
 Degree of protection	Stopień ochrony
 Delete projects	Usuwanie projektów
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Wyłącznik krańcowy NO (NFPA)
 Line reactor	Dławik sieciowy
 Linear motor 3-phase	Silnik liniowy 3-fazowy
 Literal braces	Nawiasy klamrowe (dosłownie)
-Load	Odbiornik
 Load calculation	Obliczenie obciążenia
 Loads and power supplies	Odbiorniki i zasilacze
 Loads behind it: {}	Odbiorniki za nim: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Przycisk z kluczykiem, zwierny, z zatrzaskiem
 Pushbutton NC	Przycisk NC
 Pushbutton NO	Przycisk NO
 Pyramid roof	Dach namiotowy
+QR code	Kod QR
 Qty	Ilość
 RCD {} mA	RCD {} mA
 Radiation	Promieniowanie
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Cewka przekaźnika, remanentna
 Relay coil, resonant	Cewka przekaźnika, rezonansowa
 Relay coil, thermal	Cewka przekaźnika, termiczna
 Relays, contactors	Przekaźniki, styczniki
-Released	Wydane
 Released pages cannot be deleted	Nie można usuwać wydanych stron
 Remote I/O	Rozproszone wejścia/wyjścia
 Remote I/O {} has no controller	Rozproszone wejścia/wyjścia {} nie mają sterownika
@@ -1340,6 +1340,10 @@ Result	Wynik
 Return / exhaust line	Przewód powrotny / odpowietrzający
 Reviewer	Recenzent
 Revision overview (changes)	Przegląd rewizji (zmiany)
+Revision table: author of the last revision (2: the one before …)	Tabela rewizji: autor ostatniej rewizji (2: poprzedniej …)
+Revision table: date of the last revision (2: the one before …)	Tabela rewizji: data ostatniej rewizji (2: poprzedniej …)
+Revision table: description of the last revision (2: the one before …)	Tabela rewizji: opis ostatniej rewizji (2: poprzedniej …)
+Revision table: index of the last revision (2: the one before …)	Tabela rewizji: indeks ostatniej rewizji (2: poprzedniej …)
 Right side	Prawa strona
 Right side panel	Prawa ściana boczna
 Ring terminal	Końcówka oczkowa
@@ -1487,6 +1491,7 @@ Start date	Data rozpoczęcia
 Started	Rozpoczęto
 Starting current ratio	Krotność prądu rozruchowego
 Starting torque	Moment rozruchowy
+State of the project: draft, in review, approved, released	Stan projektu: projekt, w przeglądzie, zatwierdzony, wydany
 Station name (PROFINET)	Nazwa urządzenia (PROFINET)
 Station name {} is used {} times	Nazwa stacji {} jest używana {} razy
 Station {} is not connected to bus {}	Stacja {} nie jest połączona z magistralą {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Cewka przekaźnika czasowego, opóźnione odpadanie
 Timer relay coil, on-delay	Cewka przekaźnika czasowego, opóźnione zadziałanie
 Title blocks and report forms	Tabliczki rysunkowe i formularze raportów
 To order	Do zamówienia
-Total	Razem
 Total length (m)	Długość całkowita (m)
 Total price	Cena całkowita
 Total weight	Masa całkowita
@@ -1781,6 +1785,7 @@ Wavemeter	Falomierz
 Wearing part	Część zużywająca się
 Weld stud	Kołek do przyspawania
 Wetted material	Materiał w kontakcie z medium
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Kto zatwierdził ostatnią rewizję (przegląd); {rev.2.approved_by}: poprzednią
 Width (mm)	Szerokość (mm)
 Winding connection	Układ połączeń uzwojenia
 Wire assigned to unknown cable {}	Przewód przypisany do nieznanego kabla {}

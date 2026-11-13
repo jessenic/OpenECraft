@@ -195,6 +195,7 @@ Light	Claro
 Line	Linha
 Link	Vínculo
 Linked	Vinculado
+Load	Carga
 Loaded circuits bunched together	Circuitos carregados agrupados
 Location	Localização
 Location (+)	Localização (+)
@@ -230,6 +231,7 @@ Name of the scheme	Nome do esquema
 Net	Rede
 Never	Nunca
 New name	Novo nome
+Next page	Próxima página
 No	Não
 No Vault item matches a part of the project	Nenhum item do Vault corresponde a uma peça do projeto
 No cable {}	Nenhum cabo {}
@@ -252,10 +254,12 @@ No station {}	Nenhuma estação {}
 No such page	Página inexistente
 No such section	Seção inexistente
 No symbol with id {}	Nenhum símbolo com o ID {}
+No title block of the project named {}	Nenhum selo do projeto chamado {}
 Nominal size	Diâmetro nominal
 Not a language code: {}	Não é um código de idioma: {}
 Not a macro file: {}	Não é um arquivo de macro: {}
 Not a symbol id: {}	Não é um ID de símbolo: {}
+Not a title block file: {}	Não é um arquivo de selo: {}
 Not a valid rule set file: {}	Não é um arquivo de conjunto de regras válido: {}
 Not in the schematic	Não está no esquema elétrico
 Note	Nota
@@ -298,6 +302,7 @@ Parts	Peças
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Peças (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	Falha na importação de peças: {}
 Password	Senha
+Picture	Imagem
 Pieces	Unidades
 Pin	Pino
 Pin layout: {}	Disposição dos pinos: {}
@@ -321,6 +326,7 @@ Power (kW)	Potência (kW)
 Power loss	Perda de potência
 Pre-planning	Pré-planejamento
 Press	Prensa
+Previous page	Página anterior
 Price	Preço
 Price unit	Unidade de preço
 Process engineering	Engenharia de processos
@@ -330,6 +336,7 @@ Product top group	Grupo principal de produtos
 Profile	Perfil
 Project	Projeto
 Project languages	Idiomas do projeto
+Project logo	Logotipo do projeto
 Project management	Gerenciamento de projetos
 Project name	Nome do projeto
 Project properties	Propriedades do projeto
@@ -349,6 +356,7 @@ Rectangular	Retangular
 Reject	Rejeitar
 Relative humidity	Umidade relativa
 Relay	Relé
+Released	Liberado
 Released pages cannot be moved	Páginas liberadas não podem ser movidas
 Remove	Remover
 Remove from favorites	Remover dos favoritos
@@ -441,6 +449,7 @@ Time	Tempo
 Title block	Selo
 To	Para
 Tools	Ferramentas
+Total	Total
 Transformer	Transformador
 Type	Tipo
 Type number	Número do tipo
@@ -471,6 +480,7 @@ Warning	Aviso
 Warnings	Avisos
 Weight	Peso
 Width	Largura
+Width in mm	Largura em mm
 Window	Janela
 Wire	Fio
 Wire colours	Cores dos fios
@@ -503,6 +513,7 @@ yes	sim
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} não fica no piso: escolha uma peça marcada para montagem no piso
 {} exists already	{} já existe
+{} is not a PNG or JPEG image	{} não é uma imagem PNG ou JPEG
 {} parts	{} peças
 {} wires	{} fios
 {}, together with the wire to {}	{}, junto com o fio para {}

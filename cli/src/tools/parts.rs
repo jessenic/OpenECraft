@@ -111,6 +111,17 @@ pub static TOOLS: &[Tool] = &[
         run: catalog_delete,
     },
     Tool {
+        name: "parts_company_forms",
+        help: tr_const!("Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project"),
+        params: &[optional(
+            "publish",
+            Kind::Bool,
+            tr_const!("Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)"),
+        )],
+        needs_project: true,
+        run: company_forms,
+    },
+    Tool {
         name: "parts_favorites",
         help: tr_const!("Shows the favorites of the signed in user, optionally adding or removing a part"),
         params: &[optional("add", Kind::Str, tr_const!("Part number to add")), optional("remove", Kind::Str, tr_const!("Part number to remove"))],
@@ -366,6 +377,28 @@ fn file(s: &mut Session, a: &Args) -> Result<Value, String> {
     let data = s.server.file(id)?;
     std::fs::write(path, &data).map_err(|e| tr_fmt!("Cannot write {}: {}", path, openecraft_i18n::io_error(&e)))?;
     Ok(json!({ "path": path, "bytes": data.len() }))
+}
+
+fn company_forms(s: &mut Session, a: &Args) -> Result<Value, String> {
+    use openecraft_core::forms::{self, FormLibrary};
+    if a.flag("publish") {
+        return publish_company_forms(s);
+    }
+    let json = s.server.library(openecraft_parts::api::FORMS_LIBRARY)?.ok_or_else(|| tr("The parts server has no form library yet").to_string())?;
+    let lib = FormLibrary::from_json(&json).map_err(|e| tr_fmt!("Not a title block file: {}", e))?;
+    let frames = lib.frames.len();
+    let (title_blocks, schemes) = forms::merge(s.project_mut()?, lib);
+    Ok(json!({ "title_blocks": title_blocks, "schemes": schemes, "frames": frames }))
+}
+
+fn publish_company_forms(s: &mut Session) -> Result<Value, String> {
+    let lib = openecraft_core::forms::FormLibrary::of(s.project()?);
+    if lib.is_empty() {
+        return Err(tr("The project has no title blocks, report schemes or plot frames of its own").into());
+    }
+    let json = serde_json::to_string(&lib).unwrap_or_default();
+    s.server.save_library(openecraft_parts::api::FORMS_LIBRARY, &json)?;
+    Ok(json!({ "title_blocks": lib.title_blocks.len(), "schemes": lib.schemes.len(), "frames": lib.frames.len(), "bytes": json.len() }))
 }
 
 fn catalogs(s: &mut Session, _: &Args) -> Result<Value, String> {

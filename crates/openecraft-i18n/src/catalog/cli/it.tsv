@@ -5,6 +5,8 @@ Access token for changes	Token di accesso per le modifiche
 Access token of a Vault session or an Autodesk account instead of user and password	Token di accesso di una sessione Vault o di un account Autodesk invece di utente e password
 Address of the Vault server, e.g. https://vault.example.com	Indirizzo del server Vault, ad es. https://vault.example.com
 Adds a page	Aggiunge una pagina
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	Aggiunge un'immagine (ad es. il logo dell'azienda) a un cartiglio del progetto; senza file mostra il logo del progetto
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	Aggiunge al progetto la libreria dei moduli dell'azienda del server articoli (cartigli, schemi di report, cornici di stampa)
 Adds the definitions and schemes of a property library file to the project	Aggiunge al progetto le definizioni e gli schemi di un file di libreria di proprietà
 All project files of a folder	Tutti i file di progetto di una cartella
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	Restituisci anche i facet: valori di gruppi, produttori, cataloghi, ciclo di vita e dati tecnici con il relativo conteggio
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	ID cartella (predefinito root)
 Folder with project files	Cartella con i file di progetto
 Folder with project files (instead of a database; default: the current folder)	Cartella con i file di progetto (invece di un database; predefinita: la cartella corrente)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	Modulo: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (schemi di morsettiere e cavi come disegni)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	Modulo: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (schemi di morsettiere e cavi come disegni), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	Funzione (=) delle pagine generate
 Further parameters of the export as name=value, separated by commas	Altri parametri dell'esportazione come nome=valore, separati da virgole
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	Altri parametri dell'esportazione come nome=valore, separati da virgola (vedi list_exports), ad es. harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	Indica template oppure path
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	Assegna a un utente o gruppo un ruolo su un produttore (ambito) del server articoli, con deny ne revoca i diritti, con revoke rimuove le assegnazioni (solo amministratori)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	Gruppi da generare, caratteri jolly consentiti (-X*, -W1); vuoto: tutti
+Height in mm; the image keeps its aspect ratio inside	Altezza in mm; l'immagine vi mantiene le proporzioni
 Id of a file (file_id of vault_browse) that gets a new version	ID di un file (file_id di vault_browse) che riceve una nuova versione
 Id of the file version (version_id of vault_browse)	ID della versione del file (version_id di vault_browse)
 Id of the knowledge vault (taken from the session if not given)	ID del vault (preso dalla sessione se non indicato)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	Mantieni il check-out del file dopo
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	Tipo di server: OpenECraft (server articoli) o Eplan (EPLAN Data Portal: solo ricerca e lettura, il token è il token di accesso personale dell'account EPLAN)
 Language of the export (a project language)	Lingua dell'esportazione (una lingua del progetto)
 Language of the project texts and reports (a project language, default the source language)	Lingua dei testi del progetto e dei report (una lingua del progetto, predefinita la lingua di origine)
+Left edge in mm from the left of the title block area	Bordo sinistro in mm dalla sinistra dell'area del cartiglio
 Library file	File di libreria
 Lifecycle: Active, PhaseOut or Discontinued	Ciclo di vita: Active, PhaseOut o Discontinued
 Lists the built-in structure templates	Elenca i modelli di struttura integrati
@@ -159,6 +163,8 @@ Output file (JSON)	File di output (JSON)
 Output file; without it the content is returned	File di output; se omesso, viene restituito il contenuto
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	Emette le pagine di report come pagine fisse in un altro file di progetto; le pagine emesse in precedenza da questo progetto vengono sostituite
 PDF file with comments	File PDF con commenti
+PNG or JPEG file kept in the title block (default: the project logo)	File PNG o JPEG salvato nel cartiglio (predefinito: il logo del progetto)
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	File PNG o JPEG del logo del progetto (frontespizio, cartigli); vuoto lo rimuove
 Page (svg: required, dxf, dwg: default all pages)	Pagina (svg: obbligatoria, dxf, dwg: predefinito tutte le pagine)
 Page name (default: next number)	Nome pagina (predefinito: numero successivo)
 Page of the export	Pagina dell'esportazione
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	Partire da un progetto di esempio (nomi: list_examples)
 Start from the demo project	Parti dal progetto demo
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	Salva un file (scheda tecnica, immagine, modello, macro …) con un articolo sul server articoli
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	Salva i cartigli, gli schemi di report e le cornici del progetto come libreria dei moduli aziendale sul server articoli (editori)
 Subproject file (.oec)	File di sottoprogetto (.oec)
 Subproject file to write (.oec)	File di sottoprogetto da scrivere (.oec)
 Take the changes over (otherwise only a preview)	Applica le modifiche (altrimenti solo un'anteprima)
@@ -247,9 +254,13 @@ The catalog needs a name	Il catalogo richiede un nome
 The format xlsx needs a path	Il formato xlsx richiede un percorso
 The open project has unsaved changes: save it first or pass discard	Il progetto aperto contiene modifiche non salvate: salvalo prima o indica discard
 The part number must not be empty	Il codice articolo non può essere vuoto
+The parts server has no form library yet	Il server articoli non ha ancora una libreria dei moduli
 The project has no file yet: pass a path	Il progetto non ha ancora un file: indica un percorso
+The project has no title blocks, report schemes or plot frames of its own	Il progetto non ha cartigli, schemi di report o cornici propri
 This command needs a project: --project <file>	Questo comando richiede un progetto: --project <file>
 This format needs an output file (path)	Questo formato richiede un file di output (path)
+Title block of the project (list_title_blocks)	Cartiglio del progetto (list_title_blocks)
+Top edge in mm from the top of the title block area	Bordo superiore in mm dall'alto dell'area del cartiglio
 Undoes the last change	Annulla l'ultima modifica
 Unexpected argument: {}	Argomento imprevisto: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Comando sconosciuto: {}. Esegui openecraft-cli help per un elenco.
@@ -268,6 +279,7 @@ User name to sign in with	Nome utente per l'accesso
 User or group name (wildcards; directory groups as directory:group)	Nome utente o gruppo (caratteri jolly; gruppi di directory come directory:gruppo)
 Values to set (name: value; an empty value removes a property)	Valori da impostare (nome: valore; un valore vuoto rimuove una proprietà)
 Vault user name (signs in)	Nome utente Vault (esegue l'accesso)
+Width and height must be greater than 0	Larghezza e altezza devono essere maggiori di 0
 Write the table as CSV to this file	Scrivi la tabella come CSV in questo file
 Writes the check scheme of the project (checks switched off, message levels) to a file	Scrive lo schema di verifica del progetto (verifiche disattivate, livelli dei messaggi) in un file
 Writes the embedded file of a document page	Scrive il file incorporato di una pagina documento

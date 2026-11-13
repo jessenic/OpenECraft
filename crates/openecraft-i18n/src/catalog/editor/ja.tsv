@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = 単一の値。それ以外は値 [1] … [n]
 0 = all approvers	0 = すべての承認者
 0 = estimated from cores and cross-section	0 = 心線数と断面積から推定
+0 = fitted to the page	0 = ページに合わせる
 0 = fitted to the rows per page	0 = ページあたりの行数に合わせる
 0 = from the DC of the devices ({} %)	0 = デバイスの DC から算出 ({} %)
 0 = from the devices	0 = デバイスから
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	ケーブルのない接続ごとにバスタイプのケーブルを作成
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	隣のエンクロージャーの側板の同じ位置に同じサイズの切り欠きを追加します。両方でケーブル貫通口になります
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	フォルダー内に同名のファイルがある場合は新しいバージョンになり (チェックアウトとチェックイン)、ない場合はファイルが追加されます
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	各ページに大きく表示する文字（例: リビジョン準備中の「ドラフト」）。プレースホルダーを使えます。空 = なし。
 A level on top of the highest one	最上階の上の階
 A local file opens locally, a server project is opened on the project server again	ローカルファイルはローカルで開き、サーバープロジェクトはプロジェクトサーバーで再度開きます
 A local file or a project on the project server	ローカルファイルまたはプロジェクトサーバー上のプロジェクト
@@ -55,6 +57,7 @@ A new project	新しいプロジェクト
 A new release is downloaded in the background and installed when you close OpenECraft.	新しいリリースはバックグラウンドでダウンロードされ、OpenECraft を閉じるとインストールされます。
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	新しいリリースはバックグラウンドでダウンロードされ、このインストールを置き換えます。次回の起動から使われます。
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	フォルダーのようにページを含む番号付きセクション。ページ名はその番号で始まります (2.3.1)
+A picture kept in the form, e.g. the company logo	フォームに保存される画像（例: 会社のロゴ）
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	プロファイルは、ニュートラルフィールドを特定のシステムの列名に対応付けます (例: SAP の ERP 番号には MATNR)。マッピングがない場合は、一般的な英語名とドイツ語名が認識されます。
 A project definition based on this one, with its own defaults and scheme	これを基にした、独自の既定値とスキームを持つプロジェクト定義
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	代わりにファイルマネージャーから開いたプロジェクトファイルが開きます。前回のセッションの未保存の変更は、確認なしに破棄されることはありません。
@@ -66,8 +69,10 @@ A template of this name is replaced.	この名前のテンプレートは置き�
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	テンプレートは、新しいページのページタイプ、図枠、表題欄、構造、説明を設定し、その内容を配置します。
 A way through free air costs this many times the way in a duct or routing path	空中を通る経路のコストは、ダクトまたは配線経路を通る場合のこの倍数になります
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	作業領域は、ナビゲーター内のページとデバイスをプロジェクトの一部に限定します。フィルター: 空 = すべて、* = 任意の文字。A1 は A1.2 も含みます。
+APPROVED	承認済み
 About OpenECraft	OpenECraft について
 Above the floor	床からの高さ
+Above the project name	プロジェクト名の上
 Accept as checked	確認済みとして承認
 Accepted messages ({})	承認済みメッセージ ({})
 Active	有効
@@ -143,6 +148,7 @@ Apply to the connection	接続に適用
 Apply to {} projects	{} 個のプロジェクトに適用
 Approval workflow	承認ワークフロー
 Approvals needed	必要な承認数
+Approved	承認済み
 Approving needs an approver; you are \"{}\".	承認できるのは承認者のみです。あなたは \"{}\" です。
 Arc	円弧
 Archive and version	アーカイブとバージョン
@@ -282,6 +288,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	まず部屋を選択してください: 床置き部品はその床に設置します。
 Choose another project	別のプロジェクトを選択
 Choose file…	ファイルを選択…
+Choose image…	画像を選択…
 Choose pages	ページを選択
 Chooses the pages whose structure starts with this	構造がこれで始まるページを選択します
 Circle	円
@@ -359,6 +366,7 @@ Comments ({} open)	コメント (未解決 {})
 Comments ({})	コメント ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	レビュー担当者がプロジェクトの PDF エクスポートに付けたコメント (Acrobat またはその他の PDF ビューアー)
 Comments and markup	コメントとマークアップ
+Company library	会社ライブラリ
 Compare and baselines	比較とベースライン
 Compare with	比較対象
 Compare with a baseline, a revision or another project file and take differences over	ベースライン、リビジョン、または別のプロジェクトファイルと比較して、相違点を反映します
@@ -402,6 +410,7 @@ Core designations separated by blanks	スペース区切りの心線名称
 Core labels placed by hand	手動で配置した心線ラベル
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	横切った電線に心線 1、2、3 …、さらに GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	コーナー：直角に交わる2本の接続線。自動接続が有効なとき、その側に向き合う接続点がここへ配線されます
+Counter-clockwise, e.g. 90 for texts running upwards	反時計回り。例: 上向きの文字は 90
 Cover sheet, overview, graphics, report, mounting layout or a page template	表紙、概要、グラフィック、レポート、取付レイアウト、またはページテンプレート
 Covers	範囲
 Covers what is behind the text	テキストの背後にあるものを隠します
@@ -428,6 +437,8 @@ Cut length step tubes	チューブの切断長の刻み
 Cut length step wires	電線の切断長の刻み
 Cutout {} × {} mm	切り欠き {} × {} mm
 Cutting allowance per end	端部ごとの切断余長
+DRAFT	ドラフト
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	現在の言語の「ドラフト」「承認前」「承認済み」。リリース後は表示しません
 DWG import failed: {}	DWG のインポートに失敗しました: {}
 DWG imported as page {}: {} lines, {} texts	DWG をページ {} としてインポートしました: 線 {} 本、テキスト {} 件
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG をページ {} としてインポートしました: 線 {} 本、テキスト {} 件 (インポートされなかったもの: {})
@@ -554,6 +565,7 @@ Downloaded {} (version {})	{} をダウンロードしました (バージョン
 Downloaded {} parts (revision {}): {} new, {} updated	{} 個の部品をダウンロードしました (リビジョン {}): 新規 {}、更新 {}
 Downloading OpenECraft {}	OpenECraft {} をダウンロード中
 Downstream part	下位部品
+Draft	ドラフト
 Draft of revision {} created	リビジョン {} のドラフトを作成しました
 Draft of revision {} discarded	リビジョン {} のドラフトを破棄しました
 Drag	ドラッグ
@@ -658,6 +670,7 @@ Exported {}	{} をエクスポートしました
 Export…	エクスポート…
 Extend guides to canvas edges	ガイドをキャンバスの端まで延長
 Extras	その他
+FOR APPROVAL	承認前
 Facing	向き
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	ファン、フィルター、ケーブルグランド、照明、ハンドル: いずれかを選択し、取り付ける位置をクリックします
 Fastening hardware in the bill of materials	部品表に固定用部品を含める
@@ -693,14 +706,17 @@ First row	最初の行
 Fit	全体表示
 Fit page	ページに合わせる
 Fits {}	{} に適合
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	縦横比を保って四角形に収めます（PNG、JPEG）
 Float	フロート
 Floor plan	平面図
 Floor plan with {} walls	壁 {} 面の平面図
 Floor-standing part	床置き部品
 Fluid and process	流体とプロセス
 Follows its condition: use Apply conditions	条件に従います。[条件を適用] を使用してください
+Font	フォント
 Foot	上り口
 For	対象
+For pages that choose none; before the plot frame's title block and the project default.	表題欄を選んでいないページ用。図枠の表題欄とプロジェクトの既定より優先します。
 For parts without Stock length; longer profiles have to be joined	Stock length のない部品用。これより長いプロファイルは継ぎ足す必要があります
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	温度データ (Max temperature, Operating temperature) のない部品用。0: チェックしない
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	EPLAN 部品管理へのインポート用 (P_ARTICLE_* 属性、テキストは en_US)
@@ -722,6 +738,7 @@ From a template file…	テンプレートファイルから…
 From row to row; 0: free of shade in winter	列から列まで。0：冬に影ができない
 From the function definition	機能定義から
 From the left end	左端から
+From the top left corner of the drawing area	図面領域の左上隅から
 From – to	から – まで
 Fullest stretch	最大充填区間
 Function definitions	機能定義
@@ -842,6 +859,7 @@ Imported {} title blocks and {} report schemes	{} 個の表題欄と {} 個の�
 Importing {} from the parts server…	部品サーバーから {} をインポートしています…
 Import…	インポート…
 In every section counting starts again after the section number (2.3.1).	各セクションでは、セクション番号の後から番号付けが再開されます (2.3.1)。
+In review	レビュー中
 In strip order; PE and other non-numeric terminals keep their designation	端子台の順序で番号付けします。PE などの数字以外の端子は名称を保持します
 In the filtered rows	フィルター処理された行内
 In the middle of the first wire	最初の電線の中央
@@ -972,6 +990,8 @@ Locked by {} on the project server – read only	プロジェクトサーバー�
 Locked by {} – read only	{} がロック中 – 読み取り専用
 Locking…	ロックしています…
 Logic	ロジック
+Logo	ロゴ
+Logo on the cover page	表紙のロゴ
 Longer values are drawn smaller (0 = no limit)	長い値は小さく描画されます (0 = 制限なし)
 Look for updates when OpenECraft starts	OpenECraft の起動時に更新を確認する
 Looking for updates…	更新を確認しています…
@@ -1121,7 +1141,6 @@ New zone	新しいゾーン
 New, empty placement scheme	新しい空の配置スキーム
 Next free contact numbers on this device	このデバイスの次の空き接点番号
 Next item	次のアイテム
-Next page	次のページ
 Next page tab	次のページタブ
 Next pane	次のペイン
 Next row	次の行
@@ -1181,7 +1200,6 @@ None – editing a page or the project data locks it.	なし – ページまた
 Not a page template file: {}	ページテンプレートファイルではありません: {}
 Not a point: type x y or @dx dy	点ではありません。x y または @dx dy を入力してください
 Not a symbol library: {}	シンボルライブラリではありません: {}
-Not a title block file: {}	表題欄ファイルではありません: {}
 Not changed: {}	変更されていません: {}
 Not found: {}	見つかりません: {}
 Not in the project parts – synchronize in parts management	プロジェクト部品にありません – 部品管理で同期してください
@@ -1212,9 +1230,11 @@ One row per label	ラベルごとに 1 行
 Only devices on the current page	現在のページのデバイスのみ
 Only frames no page uses can be deleted	削除できるのはどのページでも使用されていない図枠のみです
 Only messages of the current page	現在のページのメッセージのみ
+Only on pages of these types (none ticked: on all)	これらの種類のページのみ（未選択 = すべて）
 Only parts whose function template provides the device's main function	機能テンプレートがデバイスの主機能を提供する部品のみ
 Only rows that pass all filters are shown	すべてのフィルターを満たす行のみが表示されます
 Only web and e-mail addresses (http, https, mailto) are links	リンクにできるのは Web アドレスとメールアドレス（http、https、mailto）だけです
+Only when filled	入力時のみ
 Open a specific project	特定のプロジェクトを開く
 Open and save shared projects, lock pages	共有プロジェクトを開いて保存し、ページをロックします
 Open archive…	アーカイブを開く…
@@ -1287,6 +1307,8 @@ Overhang	軒の出
 Own colour	独自の色
 Own drawn form	独自に描画したフォーム
 Own groups	独自のグループ
+Own picture	独自の画像
+Own place	独自の位置
 PCT loops (pre-planning)	計装ループ (事前計画)
 PDF with comments	コメント付き PDF
 PDF {}	PDF {}
@@ -1366,6 +1388,7 @@ Placed by hand; choosing a side places them anew.	手動で配置済み。側を
 Placed here: {}	ここに配置: {}
 Placed {}× in the project	プロジェクト内に {}× 配置
 Placeholders	プレースホルダー
+Placeholders are filled, e.g. a link with {project} and {page}	プレースホルダーが入ります（例: {project} と {page} を含むリンク）
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	タグ、テキスト、機能テキスト内の {MOTOR} などのプレースホルダーは、挿入時に値が入ります。
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	プレースホルダー: {letter} 識別文字、{n} カウンター、{page} ページ、{column} / {row} 主機能の位置
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	プレースホルダー: {n} カウンター (残りのテキストの値ごとにカウント)、{page}、{column}、{row}、{potential}、{kind}、{color}、{cross_section}。{n} がない場合、同じテキストの接続は同じ番号を共有します。
@@ -1409,7 +1432,6 @@ Prefix	プレフィックス
 Press a key…	キーを押してください…
 Preview	プレビュー
 Previous item	前のアイテム
-Previous page	前のページ
 Previous page tab	前のページタブ
 Previous pane	前のペイン
 Previous wire	前の電線
@@ -1453,6 +1475,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	プロパティグループ
 Property placement	プロパティの配置
 Property removed with {} values	プロパティを削除しました (値 {} 件)
+Publish	公開
 Put into the vault	Vault に格納
 Put the pane back into the workspace	ペインをワークスペースに戻す
 Puts the project into the folder it was opened from	プロジェクトを開いたフォルダーにプロジェクトを格納します
@@ -1538,6 +1561,7 @@ Replace with	置換後の文字列
 Replaced when the configurator generates again; switch off to keep the page	コンフィギュレーターで再生成すると置き換えられます。ページを保持するにはオフにしてください
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	フリーテキスト、機能テキスト、ページ・デバイス・ケーブルの説明を置換します。リリース済みのページは変更されません
 Replaces the GEN.* parts in the database with the current example catalog (including models)	データベース内の GEN.* 部品を現在のサンプルカタログで置換します (モデルを含む)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	会社ライブラリをプロジェクト独自の表題欄、レポートスキーム、図枠で置き換えます（部品サーバーの編集者）
 Replaces the content of the macro boxes whose macro changed in the library	ライブラリ内でマクロが変更されたマクロボックスの内容を置き換えます
 Replaces the pages of this block	このブロックのページを置き換えます
 Reply	返信
@@ -1727,6 +1751,7 @@ Settings scheme	設定スキーム
 Settings scheme (JSON)	設定スキーム (JSON)
 Settings taken over: {}	設定を取り込みました: {}
 Settings…	設定…
+Shade every second row	1 行おきに色を付ける
 Share of the capacity kept free for later additions	将来の追加用に空けておく容量の割合
 Shared project {} – revision {}, user {}	共有プロジェクト {} – リビジョン {}、ユーザー {}
 Shield	シールド
@@ -1760,9 +1785,12 @@ Show the pane as a window	ペインをウィンドウとして表示
 Show the ribbon	リボンを表示
 Show this wire	この電線を表示
 Show who may use the project	プロジェクトを使用できるユーザーを表示
+Shown	表示
 Shown as \"Name: value\"	「名前: 値」として表示
 Shown in title blocks with {prop:Name}	表題欄では {prop:Name} で表示されます
 Shown instead of the measured value	測定値の代わりに表示されます
+Shown now: {}	現在の表示: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	表紙と、プロジェクトのロゴを表示する表題欄の画像要素に表示されます
 Shows	表示
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	外側から見た側板、背板、天板、底板: ファン、ケーブルグランド、切り欠き
 Sign in in the Project server pane; the project opens afterwards	「プロジェクトサーバー」ペインでサインインしてください。その後プロジェクトが開きます
@@ -1792,6 +1820,7 @@ Spare terminals	予備端子
 Special text	特殊テキスト
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	特殊テキスト: {page} や {prop:Name} などのプロジェクトプロパティとページプロパティは、ページの描画時に埋め込まれます
 Stairs	階段
+Stamp	印
 Standard form of the report	レポートの標準フォーム
 Standard size	標準サイズ
 Standard workspaces	標準のワークスペース
@@ -1836,6 +1865,8 @@ Subproject saved as {}: its pages are locked until it is inserted	サブプロ�
 Subproject {} inserted: {} pages replaced by {}	サブプロジェクト {} を挿入しました: {} ページを {} で置き換えました
 Subprojects	サブプロジェクト
 Subsystem {}	サブシステム {}
+Suggested texts	推奨テキスト
+Sums the column in a row below the last row of the report	レポートの最終行の下の行で列を合計します
 Supply and conditions	電源供給と条件
 Surge protection	サージ保護
 Swing the enclosure door open or shut (door devices and their wires move with it)	エンクロージャーの扉を開閉します (扉取付機器とその電線も一緒に動きます)
@@ -1905,9 +1936,12 @@ The devices do not fit onto the rail	デバイスがレールに収まりませ�
 The dictionary is empty: collect the texts from the project.	辞書が空です: プロジェクトからテキストを収集してください。
 The door seen from the front: door devices and cutouts	前面から見た扉: 扉取付機器と切り欠き
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	内側から見た扉 (ヒンジは右): 配線ダクトと扉裏の配線
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	このプレースホルダー付きの文字が空でないときだけ要素を描きます（例: リビジョン表の行）
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	エンクロージャーの左側を選択したエンクロージャーの右側に接して設置します。電線はケーブル貫通口を通って両者の間を通ります
 The horizontal wire	水平の配線
 The items are selected and moved together	アイテムはまとめて選択、移動されます
+The logo is fitted into this area keeping its aspect ratio	ロゴは縦横比を保ってこの領域に収まります
+The logo of the project properties, e.g. the customer's	プロジェクトのプロパティのロゴ（例: 顧客のロゴ）
 The macro library has no page macros (Macros › Save page as macro…).	マクロライブラリにページマクロがありません (マクロ › ページをマクロとして保存…)。
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	ホイールで横にパンまたはズームするモディファイアキーは「モディファイアキー」で設定します。
 The modules no string takes yet in series, on the first inverter	まだどのストリングにも属さないモジュールを直列に、最初のインバーターへ
@@ -1955,8 +1989,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	電源供給点での三相短絡電流
 Tilt	傾斜角
 Title	タイトル
+Title block by page type	ページの種類ごとの表題欄
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	この図枠で表題欄を選んでいないページの表題欄（例: A4 縦用の小さいもの）
 Title blocks	表題欄
 Title blocks, plot frames and page templates	表題欄、図枠、ページテンプレート
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	部品サーバー上ですべてのプロジェクトが共有する表題欄、レポートスキーム、図枠（部品 › 部品サーバー）
 To do	未完了
 Toggle corner direction while drawing wires	電線描画中にコーナーの向きを切り替え
 Toggle routing around symbols (wire tool)	シンボル回避ルーティングの切り替え (電線ツール)
@@ -2279,7 +2316,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} には未保存の変更があります。破棄しますか?
 {} imported into the parts database and placed as {}	{} を部品データベースにインポートし、{} として配置しました
 {} is neither in the parts database nor on the parts server	{} は部品データベースにも部品サーバーにもありません
-{} is not a PNG or JPEG image	{} は PNG または JPEG 画像ではありません
 {} is not in the disk image	ディスクイメージに {} がありません
 {} is not made for wall mounting: place it on a mounting rail	{} は壁取付用ではありません: 取付レールに配置してください
 {} is used by: {}	{} は次で使用されています: {}
@@ -2391,12 +2427,14 @@ x y	x y
 ✔ The project data is consistent.	✔ プロジェクトデータに矛盾はありません。
 ✔ Wired	✔ 配線済み
 ➕ Default value	➕ 既定値
+➕ Image	➕ 画像
 ➕ Insert (click into the page)	➕ 挿入 (ページ内をクリック)
 ➕ Insert as new page	➕ 新しいページとして挿入
 ➕ Label	➕ ラベル
 ➕ Line	➕ 線
 ➕ Place property	➕ プロパティを配置
 ➕ Property	➕ プロパティ
+➕ QR code	➕ QR コード
 ➕ Rectangle	➕ 四角形
 ➕ Text	➕ テキスト
 ⬉ Select	⬉ 選択

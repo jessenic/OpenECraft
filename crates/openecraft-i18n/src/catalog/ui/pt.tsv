@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	Na porta, quando diferem dos reco
 Internal values of the EPLAN part exchange (0: undefined)	Valores internos do intercâmbio de peças EPLAN (0: indefinido)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Só funciona montado em uma das peças em que serve; a verificação do projeto o indica em um dispositivo sem tal peça
 Largest conductor the clamp takes (0: not known)	Maior condutor que o borne aceita (0: desconhecido)
+Loaded the library {}	Biblioteca {} carregada
 Loaded {} parts (revision {})	{} peças carregadas (revisão {})
 Loading catalogs…	Carregando catálogos…
 Loading favorites…	Carregando favoritos…
 Loading the history…	Carregando o histórico…
 Loading users…	Carregando usuários…
+Loading {}…	Carregando {}…
 Mark for adding to the parts database	Marcar para adicionar ao banco de dados de peças
 Max. mm²	Máx. mm²
 Min. mm²	Mín. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Move a vista (trackpad)
 Parts server: {}	Servidor de peças: {}
 Parts this part is assembled from; the bill of materials lists them under it	Peças das quais esta peça é montada; a lista de materiais as lista abaixo dela
 Personal access token	Token de acesso pessoal
-Picture	Imagem
 Place by clicking into the view	Posicionar clicando na vista
 Prices / other	Preços / outros
 Remove all	Remover tudo
@@ -92,6 +93,7 @@ Reset filter	Redefinir filtro
 Rotate 90°:	Girar 90°:
 Save the file	Salvar o arquivo
 Saved part {}	Peça {} salva
+Saved the library {}	Biblioteca {} salva
 Saving favorites…	Salvando favoritos…
 Saving {}…	Salvando {}…
 Scale ×	Escala ×
@@ -107,6 +109,7 @@ Successor {}	Sucessora {}
 Take {} values from the technical data	Adotar {} valores dos dados técnicos
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	A vista frontal 2D é usada na vista frontal do painel e nas páginas de layout de montagem, o modelo 3D na vista 3D do painel. Ambos são ajustados aos dados de montagem (largura × altura × profundidade).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	O modelo ({} × {} × {}) difere dos dados de montagem ({} × {} × {}); ele é esticado até os dados de montagem.
+The parts server has no library {} yet	O servidor de peças ainda não tem a biblioteca {}
 The price refers to this many units	O preço se refere a esta quantidade de unidades
 The successor is not in this parts list	A sucessora não está nesta lista de peças
 This part is an accessory	Esta peça é um acessório

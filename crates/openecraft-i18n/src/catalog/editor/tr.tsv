@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = tek bir değer; aksi halde [1] … [n] değerleri
 0 = all approvers	0 = tüm onaylayıcılar
 0 = estimated from cores and cross-section	0 = damarlar ve kesitten tahmin edilir
+0 = fitted to the page	0 = sayfaya sığdırılır
 0 = fitted to the rows per page	0 = sayfa başına satıra uydurulur
 0 = from the DC of the devices ({} %)	0 = cihazların DC değerinden ({} %)
 0 = from the devices	0 = cihazlardan
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Kablosu olmayan her bağlantı için bus tipinde bir kablo
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Komşunun yan duvarında aynı yerde aynı boyutta bir kesim: birlikte bir kablo geçişi oluştururlar
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Klasörde aynı adlı bir dosya varsa yeni bir sürüm alır (kullanıma alınıp iade edilir), aksi halde dosya eklenir
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Her sayfanın üzerinde büyük bir metin, ör. bir revizyon hazırlanırken TASLAK; metinler yer tutucu alır, boş: damga yok.
 A level on top of the highest one	En üsttekinin üzerine bir kat
 A local file opens locally, a server project is opened on the project server again	Yerel bir dosya yerel olarak açılır, sunucu projesi proje sunucusunda yeniden açılır
 A local file or a project on the project server	Yerel bir dosya veya proje sunucusundaki bir proje
@@ -55,6 +57,7 @@ A new project	Yeni bir proje
 A new release is downloaded in the background and installed when you close OpenECraft.	Yeni bir sürüm arka planda indirilir ve OpenECraft'ı kapattığınızda yüklenir.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Yeni bir sürüm arka planda indirilir ve bu kurulumun yerini alır; bir sonraki başlatmadan itibaren kullanılır.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Sayfaları bir klasör gibi içeren numaralı bir bölüm; sayfa adları onun numarasıyla başlar (2.3.1)
+A picture kept in the form, e.g. the company logo	Formda saklanan bir görüntü, ör. şirket logosu
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Profil, nötr alanları belirli bir sistemin sütun adlarıyla eşler (ör. SAP'de ERP numarası için MATNR). Eşleme yoksa İngilizce ve Almanca yaygın adlar tanınır.
 A project definition based on this one, with its own defaults and scheme	Kendi varsayılanları ve şemasıyla bu tanıma dayanan bir proje tanımı
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Bunun yerine dosya yöneticisinden açılan proje dosyası açılır. Son oturumun kaydedilmemiş değişiklikleri sormadan asla atılmaz.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Bu ada sahip bir şablon değiştirilir.
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Şablon, yeni bir sayfanın sayfa tipini, çizim çerçevesini, antetini, yapısını ve açıklamasını belirler ve içeriğini yerleştirir.
 A way through free air costs this many times the way in a duct or routing path	Serbest havadan geçen bir yol, kanal veya yönlendirme yolundaki yolun bu kadar katı maliyetlidir
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Çalışma alanı, gezgindeki sayfaları ve cihazları projenin bir bölümüyle sınırlar. Filtreler: boş = herhangi, * = herhangi karakterler; A1, A1.2'yi de kapsar.
+APPROVED	ONAYLANDI
 About OpenECraft	OpenECraft hakkında
 Above the floor	Zeminin üstünde
+Above the project name	Proje adının üstünde
 Accept as checked	Kontrol edildi olarak kabul et
 Accepted messages ({})	Kabul edilen mesajlar ({})
 Active	Etkin
@@ -144,6 +149,7 @@ Apply to the connection	Bağlantıya uygula
 Apply to {} projects	{} projeye uygula
 Approval workflow	Onay iş akışı
 Approvals needed	Gereken onay sayısı
+Approved	Onaylandı
 Approving needs an approver; you are \"{}\".	Onaylamak için onaylayıcı olmanız gerekir; siz \"{}\" kullanıcısısınız.
 Arc	Yay
 Archive and version	Arşiv ve sürüm
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Önce bir oda seçin: zemine konan parçalar onun zeminine yerleştirilir.
 Choose another project	Başka bir proje seç
 Choose file…	Dosya seç…
+Choose image…	Görüntü seç…
 Choose pages	Sayfaları seç
 Chooses the pages whose structure starts with this	Yapısı bununla başlayan sayfaları seçer
 Circle	Daire
@@ -362,6 +369,7 @@ Comments ({} open)	Yorumlar ({} açık)
 Comments ({})	Yorumlar ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Bir incelemecinin projenin PDF dışa aktarımına eklediği yorumlar (Acrobat veya başka bir PDF görüntüleyici)
 Comments and markup	Yorumlar ve işaretlemeler
+Company library	Şirket kütüphanesi
 Compare and baselines	Karşılaştırma ve referans sürümler
 Compare with	Karşılaştır
 Compare with a baseline, a revision or another project file and take differences over	Bir referans sürümle, bir revizyonla veya başka bir proje dosyasıyla karşılaştır ve farklılıkları aktar
@@ -405,6 +413,7 @@ Core designations separated by blanks	Boşlukla ayrılmış damar tanımları
 Core labels placed by hand	Damar etiketleri elle yerleştirildi
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Kesişen teller için 1, 2, 3 … damarları, artı GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Köşe: dik açılı iki tel; otomatik bağlama açıkken kollarına bakan bağlantı noktaları ona bağlanır
+Counter-clockwise, e.g. 90 for texts running upwards	Saat yönünün tersine, ör. yukarı doğru giden metinler için 90
 Cover sheet, overview, graphics, report, mounting layout or a page template	Kapak sayfası, genel bakış, grafik, rapor, montaj yerleşimi veya bir sayfa şablonu
 Covers	Kapsar
 Covers what is behind the text	Metnin arkasında kalanı örter
@@ -431,6 +440,8 @@ Cut length step tubes	Kesim uzunluğu adımı tüpler
 Cut length step wires	Kesim uzunluğu adımı teller
 Cutout {} × {} mm	Kesim {} × {} mm
 Cutting allowance per end	Uç başına kesme payı
+DRAFT	TASLAK
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	Geçerli dilde TASLAK, ONAY İÇİN ve ONAYLANDI; yayımlandıktan sonra hiçbir şey
 DWG import failed: {}	DWG içe aktarımı başarısız oldu: {}
 DWG imported as page {}: {} lines, {} texts	DWG, {} sayfası olarak içe aktarıldı: {} çizgi, {} metin
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG, {} sayfası olarak içe aktarıldı: {} çizgi, {} metin (içe aktarılmayan: {})
@@ -560,6 +571,7 @@ Downloaded {} (version {})	{} indirildi (sürüm {})
 Downloaded {} parts (revision {}): {} new, {} updated	{} parça indirildi (revizyon {}): {} yeni, {} güncellendi
 Downloading OpenECraft {}	OpenECraft {} indiriliyor
 Downstream part	Alt taraftaki parça
+Draft	Taslak
 Draft of revision {} created	Revizyon {} taslağı oluşturuldu
 Draft of revision {} discarded	Revizyon {} taslağı atıldı
 Drag	Sürükleme
@@ -665,6 +677,7 @@ Exporting {}	{} dışa aktarılıyor
 Export…	Dışa aktar…
 Extend guides to canvas edges	Kılavuz çizgilerini tuval kenarlarına uzat
 Extras	Ekstralar
+FOR APPROVAL	ONAY İÇİN
 Facing	Yönelim
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Fanlar, filtreler, kablo rakorları, lambalar, kollar: birini seçin, ardından yerleşeceği yere tıklayın
 Fastening hardware in the bill of materials	Malzeme listesinde sabitleme elemanları
@@ -700,6 +713,7 @@ First row	İlk satır
 Fit	Sığdır
 Fit page	Sayfaya sığdır
 Fits {}	{} ile uyumlu
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	En boy oranı korunarak dikdörtgene sığdırılır (PNG, JPEG)
 Float	Ayır
 Floor above ground	Zeminden yükseklik
 Floor plan	Kat planı
@@ -707,8 +721,10 @@ Floor plan with {} walls	{} duvarlı kat planı
 Floor-standing part	Zemine konan parça
 Fluid and process	Akışkan ve proses
 Follows its condition: use Apply conditions	Koşuluna uyar: Koşulları uygula'yı kullanın
+Font	Yazı tipi
 Foot	Başlangıç
 For	Kullanım
+For pages that choose none; before the plot frame's title block and the project default.	Kendi antedini seçmeyen sayfalar için; çizim çerçevesinin antedinden ve projenin varsayılanından önce.
 For parts without Stock length; longer profiles have to be joined	Stock length değeri olmayan parçalar için; daha uzun profillerin eklenmesi gerekir
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Sıcaklık verisi olmayan parçalar için (Max temperature, Operating temperature); 0: kontrol edilmez
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	EPLAN parça yönetimine içe aktarma için (P_ARTICLE_* öznitelikleri, en_US metinler)
@@ -730,6 +746,7 @@ From a template file…	Bir şablon dosyasından…
 From row to row; 0: free of shade in winter	Sıradan sıraya; 0: kışın gölgesiz
 From the function definition	Fonksiyon tanımından
 From the left end	Sol uçtan
+From the top left corner of the drawing area	Çizim alanının sol üst köşesinden
 From – to	Başlangıç – bitiş
 Fullest stretch	En dolu bölüm
 Function definitions	Fonksiyon tanımları
@@ -850,6 +867,7 @@ Imported {} title blocks and {} report schemes	{} antet ve {} rapor düzeni içe
 Importing {} from the parts server…	{} parça sunucusundan içe aktarılıyor…
 Import…	İçe aktar…
 In every section counting starts again after the section number (2.3.1).	Her bölümde sayım, bölüm numarasından sonra yeniden başlar (2.3.1).
+In review	İncelemede
 In strip order; PE and other non-numeric terminals keep their designation	Şerit sırasına göre; PE ve sayısal olmayan diğer klemensler tanımlarını korur
 In the filtered rows	Filtrelenmiş satırlarda
 In the middle of the first wire	İlk telin ortasına
@@ -984,6 +1002,8 @@ Locked by {} on the project server – read only	Proje sunucusunda {} tarafında
 Locked by {} – read only	{} tarafından kilitlendi – salt okunur
 Locking…	Kilitleniyor…
 Logic	Mantık
+Logo	Logo
+Logo on the cover page	Kapak sayfasındaki logo
 Longer values are drawn smaller (0 = no limit)	Daha uzun değerler daha küçük çizilir (0 = sınır yok)
 Look for updates when OpenECraft starts	OpenECraft başlarken güncellemeleri ara
 Looking for updates…	Güncellemeler aranıyor…
@@ -1135,7 +1155,6 @@ New zone	Yeni bölge
 New, empty placement scheme	Yeni, boş yerleştirme şeması
 Next free contact numbers on this device	Bu cihazdaki sonraki boş kontak numaraları
 Next item	Sonraki öğe
-Next page	Sonraki sayfa
 Next page tab	Sonraki sayfa sekmesi
 Next pane	Sonraki panel
 Next row	Sonraki satır
@@ -1195,7 +1214,6 @@ None – editing a page or the project data locks it.	Yok – bir sayfayı veya 
 Not a page template file: {}	Sayfa şablonu dosyası değil: {}
 Not a point: type x y or @dx dy	Nokta değil: x y veya @dx dy yazın
 Not a symbol library: {}	Sembol kütüphanesi değil: {}
-Not a title block file: {}	Antet dosyası değil: {}
 Not changed: {}	Değiştirilmedi: {}
 Not found: {}	Bulunamadı: {}
 Not in the project parts – synchronize in parts management	Proje parçalarında yok – parça yönetiminde eşitleyin
@@ -1226,9 +1244,11 @@ One row per label	Etiket başına bir satır
 Only devices on the current page	Yalnızca geçerli sayfadaki cihazlar
 Only frames no page uses can be deleted	Yalnızca hiçbir sayfanın kullanmadığı çerçeveler silinebilir
 Only messages of the current page	Yalnızca geçerli sayfanın mesajları
+Only on pages of these types (none ticked: on all)	Yalnızca bu türdeki sayfalarda (hiçbiri işaretli değil: tümünde)
 Only parts whose function template provides the device's main function	Yalnızca fonksiyon şablonu cihazın ana fonksiyonunu sağlayan parçalar
 Only rows that pass all filters are shown	Yalnızca tüm filtrelerden geçen satırlar gösterilir
 Only web and e-mail addresses (http, https, mailto) are links	Yalnızca web ve e-posta adresleri (http, https, mailto) bağlantı olabilir
+Only when filled	Yalnızca doluysa
 Open a specific project	Belirli bir proje aç
 Open and save shared projects, lock pages	Paylaşılan projeleri aç ve kaydet, sayfaları kilitle
 Open archive…	Arşiv aç…
@@ -1301,6 +1321,8 @@ Overhang	Taşma
 Own colour	Özel renk
 Own drawn form	Kendi çizilmiş form
 Own groups	Kendi gruplar
+Own picture	Kendi görüntüsü
+Own place	Kendi yeri
 PCT loops (pre-planning)	PCT döngüleri (ön planlama)
 PDF with comments	Yorumlu PDF
 PDF {}	PDF {}
@@ -1381,6 +1403,7 @@ Placed by hand; choosing a side places them anew.	Elle yerleştirildi; bir taraf
 Placed here: {}	Buraya yerleştirildi: {}
 Placed {}× in the project	Projede {}× yerleştirildi
 Placeholders	Yer tutucular
+Placeholders are filled, e.g. a link with {project} and {page}	Yer tutucular doldurulur, ör. {project} ve {page} içeren bir bağlantı
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Etiketlerdeki, metinlerdeki ve fonksiyon metinlerindeki {MOTOR} gibi yer tutucular ekleme sırasında doldurulur.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Yer tutucular: {letter} tanıtıcı harf, {n} sayaç, {page} sayfa, {column} / {row} ana fonksiyonun bulunduğu yer
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Yer tutucular: {n} sayaç (metnin geri kalanının her değeri için ayrı sayılır), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. {n} olmadan aynı metne sahip bağlantılar aynı numarayı paylaşır.
@@ -1424,7 +1447,6 @@ Prefix	Önek
 Press a key…	Bir tuşa basın…
 Preview	Önizleme
 Previous item	Önceki öğe
-Previous page	Önceki sayfa
 Previous page tab	Önceki sayfa sekmesi
 Previous pane	Önceki panel
 Previous wire	Önceki tel
@@ -1468,6 +1490,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Özellik grupları
 Property placement	Özellik yerleşimi
 Property removed with {} values	Özellik {} değeriyle birlikte kaldırıldı
+Publish	Yayımla
 Put a room here	Buraya oda koy
 Put into the vault	Kasaya koy
 Put the pane back into the workspace	Paneli çalışma alanına geri koy
@@ -1556,6 +1579,7 @@ Replace with	Şununla değiştir
 Replaced when the configurator generates again; switch off to keep the page	Yapılandırıcı yeniden oluşturduğunda değiştirilir; sayfayı korumak için kapatın
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Serbest metinlerde, fonksiyon metinlerinde, sayfa, cihaz ve kablo açıklamalarında değiştirir; yayımlanmış sayfalar olduğu gibi kalır
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Veritabanındaki GEN.* parçalarını geçerli örnek katalogla değiştirir (modeller dahil)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Şirket kütüphanesini projenin kendi antetleri, rapor şemaları ve çizim çerçeveleriyle değiştirir (parça sunucusunun düzenleyicileri)
 Replaces the content of the macro boxes whose macro changed in the library	Makrosu kütüphanede değişen makro kutularının içeriğini değiştirir
 Replaces the pages of this block	Bu bloğun sayfalarını değiştirir
 Reply	Yanıtla
@@ -1745,6 +1769,7 @@ Settings scheme	Ayar şeması
 Settings scheme (JSON)	Ayar şeması (JSON)
 Settings taken over: {}	Devralınan ayarlar: {}
 Settings…	Ayarlar…
+Shade every second row	Her ikinci satırı gölgelendir
 Shafts	Şaftlar
 Share of the capacity kept free for later additions	Sonraki eklemeler için boş bırakılan kapasite oranı
 Shared project {} – revision {}, user {}	Paylaşılan proje {} – revizyon {}, kullanıcı {}
@@ -1779,9 +1804,12 @@ Show the pane as a window	Paneli pencere olarak göster
 Show the ribbon	Şeridi göster
 Show this wire	Bu teli göster
 Show who may use the project	Projeyi kimlerin kullanabileceğini göster
+Shown	Gösterilir
 Shown as \"Name: value\"	\"Ad: değer\" olarak gösterilir
 Shown in title blocks with {prop:Name}	Antetlerde {prop:Name} ile gösterilir
 Shown instead of the measured value	Ölçülen değer yerine gösterilir
+Shown now: {}	Şu anda gösterilen: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Kapak sayfasında ve proje logosunu gösteren antetlerin görüntü öğelerinde gösterilir
 Shows	Gösterir
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Dışarıdan görülen yan duvarlar, arka duvar, üst ve taban: fanlar, kablo rakorları, kesimler
 Sign in in the Project server pane; the project opens afterwards	Proje sunucusu bölmesinde oturum açın; proje ardından açılır
@@ -1812,6 +1840,7 @@ Spare terminals	Yedek klemensler
 Special text	Özel metin
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Özel metin: {page} veya {prop:Name} gibi proje ve sayfa özellikleri sayfa çizilirken doldurulur
 Stairs	Merdivenler
+Stamp	Damga
 Standard form of the report	Raporun standart formu
 Standard size	Standart boyut
 Standard workspaces	Standart çalışma alanları
@@ -1856,6 +1885,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Alt proje {} o
 Subproject {} inserted: {} pages replaced by {}	{} alt projesi eklendi: {} sayfa {} ile değiştirildi
 Subprojects	Alt projeler
 Subsystem {}	Alt sistem {}
+Suggested texts	Önerilen metinler
+Sums the column in a row below the last row of the report	Sütunu raporun son satırının altındaki bir satırda toplar
 Supply and conditions	Besleme ve koşullar
 Surge protection	Aşırı gerilim koruması
 Swing the enclosure door open or shut (door devices and their wires move with it)	Pano kapısını aç veya kapat (kapı cihazları ve telleri onunla birlikte döner)
@@ -1925,9 +1956,12 @@ The devices do not fit onto the rail	Cihazlar raya sığmıyor
 The dictionary is empty: collect the texts from the project.	Sözlük boş: metinleri projeden toplayın.
 The door seen from the front: door devices and cutouts	Önden görülen kapı: kapı cihazları ve kesimler
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	İçeriden görülen kapı (menteşeler sağda): kablo kanalları ve kapının arkasındaki kablolama
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Öğe yalnızca yer tutucularıyla bu metin boş değilse çizilir, ör. bir revizyon tablosunun satırları
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Pano sol tarafıyla seçilen panonun sağ tarafına dayanır; teller aralarında kablo geçişlerinden geçer
 The horizontal wire	Yatay tel
 The items are selected and moved together	Öğeler birlikte seçilir ve taşınır
+The logo is fitted into this area keeping its aspect ratio	Logo, en boy oranı korunarak bu alana sığdırılır
+The logo of the project properties, e.g. the customer's	Proje özelliklerindeki logo, ör. müşterinin logosu
 The macro library has no page macros (Macros › Save page as macro…).	Makro kütüphanesinde sayfa makrosu yok (Makrolar › Sayfayı makro olarak kaydet…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Tekerleğin yana kaydırmasını veya yakınlaştırmasını sağlayan değiştiriciler Değiştirici tuşlar altında ayarlanır.
 The modules no string takes yet in series, on the first inverter	Henüz hiçbir dizinin almadığı modüller, seri olarak, ilk invertörde
@@ -1975,8 +2009,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Besleme noktasındaki üç fazlı kısa devre akımı
 Tilt	Eğim
 Title	Başlık
+Title block by page type	Sayfa türüne göre antet
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Bu çerçeveye sahip ve antet seçmeyen sayfaların antedi, ör. A4 dikey için daha dar bir antet
 Title blocks	Antetler
 Title blocks, plot frames and page templates	Antetler, çizim çerçeveleri ve sayfa şablonları
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Parça sunucusunda tüm projelerin paylaştığı antetler, rapor şemaları ve çizim çerçeveleri (Parçalar › Parça sunucusu)
 To do	Yapılacak
 Toggle corner direction while drawing wires	Tel çizerken köşe yönünü değiştir
 Toggle routing around symbols (wire tool)	Sembollerin etrafından yönlendirmeyi aç / kapat (tel aracı)
@@ -2306,7 +2343,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} kaydedilmemiş değişiklikler içeriyor. Atılsın mı?
 {} imported into the parts database and placed as {}	{} parça veritabanına aktarıldı ve {} olarak yerleştirildi
 {} is neither in the parts database nor on the parts server	{} ne parça veritabanında ne de parça sunucusunda var
-{} is not a PNG or JPEG image	{} bir PNG veya JPEG görüntüsü değil
 {} is not in the disk image	{} disk görüntüsünde yok
 {} is not made for wall mounting: place it on a mounting rail	{} duvara montaj için uygun değil: bir montaj rayına yerleştirin
 {} is used by: {}	{} şunlar tarafından kullanılıyor: {}
@@ -2420,12 +2456,14 @@ x y	x y
 ✔ The project data is consistent.	✔ Proje verileri tutarlı.
 ✔ Wired	✔ Kablolandı
 ➕ Default value	➕ Varsayılan değer
+➕ Image	➕ Görüntü
 ➕ Insert (click into the page)	➕ Ekle (sayfaya tıklayın)
 ➕ Insert as new page	➕ Yeni sayfa olarak ekle
 ➕ Label	➕ Yazı
 ➕ Line	➕ Çizgi
 ➕ Place property	➕ Özellik yerleştir
 ➕ Property	➕ Özellik
+➕ QR code	➕ QR kodu
 ➕ Rectangle	➕ Dikdörtgen
 ➕ Text	➕ Metin
 ⬉ Select	⬉ Seç

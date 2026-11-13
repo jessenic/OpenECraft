@@ -5,6 +5,8 @@ Access token for changes	Маркер доступа для изменений
 Access token of a Vault session or an Autodesk account instead of user and password	Маркер доступа сеанса Vault или учётной записи Autodesk вместо пользователя и пароля
 Address of the Vault server, e.g. https://vault.example.com	Адрес сервера Vault, например https://vault.example.com
 Adds a page	Добавляет лист
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	Добавляет изображение (например, логотип компании) в основную надпись проекта; без файла показывается логотип проекта
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	Добавляет в проект библиотеку форм компании с сервера изделий (основные надписи, схемы отчётов, рамки чертежа)
 Adds the definitions and schemes of a property library file to the project	Добавляет в проект определения и схемы из файла библиотеки свойств
 All project files of a folder	Все файлы проектов папки
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	Также вернуть фасеты: значения групп, производителей, каталогов, жизненного цикла и технических данных с их количеством
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	ID папки (по умолчанию root)
 Folder with project files	Папка с файлами проектов
 Folder with project files (instead of a database; default: the current folder)	Папка с файлами проектов (вместо базы данных; по умолчанию: текущая папка)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	Форма: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (схемы клемм и кабелей в виде чертежей)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	Форма: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (схемы клемм и кабелей в виде чертежей), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	Функциональное назначение (=) создаваемых листов
 Further parameters of the export as name=value, separated by commas	Дополнительные параметры экспорта в виде имя=значение через запятую
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	Дополнительные параметры экспорта в виде имя=значение через запятую (см. list_exports), например harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	Укажите либо template, либо path
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	Назначает пользователю или группе роль для производителя (области) сервера изделий, с deny отнимает её права, с revoke удаляет назначения (только администраторы)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	Создаваемые группы, подстановочные знаки разрешены (-X*, -W1); пусто: все
+Height in mm; the image keeps its aspect ratio inside	Высота в мм; изображение сохраняет внутри свои пропорции
 Id of a file (file_id of vault_browse) that gets a new version	ID файла (file_id из vault_browse), который получает новую версию
 Id of the file version (version_id of vault_browse)	ID версии файла (version_id из vault_browse)
 Id of the knowledge vault (taken from the session if not given)	ID хранилища (если не указан, берётся из сеанса)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	Оставить файл извл�
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	Тип сервера: OpenECraft (сервер изделий) или Eplan (EPLAN Data Portal: только поиск и чтение, маркер – персональный маркер доступа учётной записи EPLAN)
 Language of the export (a project language)	Язык экспорта (язык проекта)
 Language of the project texts and reports (a project language, default the source language)	Язык текстов проекта и отчётов (язык проекта, по умолчанию исходный язык)
+Left edge in mm from the left of the title block area	Левый край в мм от левой границы области основной надписи
 Library file	Файл библиотеки
 Lifecycle: Active, PhaseOut or Discontinued	Жизненный цикл: Active, PhaseOut или Discontinued
 Lists the built-in structure templates	Выводит список встроенных шаблонов структуры
@@ -159,6 +163,8 @@ Output file (JSON)	Выходной файл (JSON)
 Output file; without it the content is returned	Выходной файл; без него возвращается содержимое
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	Выводит листы отчётов как постоянные листы в другой файл проекта; листы, ранее выведенные из этого проекта, заменяются
 PDF file with comments	Файл PDF с комментариями
+PNG or JPEG file kept in the title block (default: the project logo)	Файл PNG или JPEG, хранящийся в основной надписи (по умолчанию: логотип проекта)
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	Файл PNG или JPEG логотипа проекта (титульный лист, основные надписи); пустое значение удаляет его
 Page (svg: required, dxf, dwg: default all pages)	Лист (svg: обязательно, dxf, dwg: по умолчанию все листы)
 Page name (default: next number)	Имя листа (по умолчанию: следующий номер)
 Page of the export	Лист экспорта
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	Начать с примера проекта (имена: list_examples)
 Start from the demo project	Начать с демонстрационного проекта
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	Сохраняет файл (техническое описание, изображение, модель, макрос …) с изделием на сервере изделий
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	Сохраняет собственные основные надписи, схемы отчётов и рамки проекта как библиотеку форм компании на сервере изделий (редакторы)
 Subproject file (.oec)	Файл подпроекта (.oec)
 Subproject file to write (.oec)	Записываемый файл подпроекта (.oec)
 Take the changes over (otherwise only a preview)	Принять изменения (иначе только предварительный просмотр)
@@ -247,9 +254,13 @@ The catalog needs a name	Для каталога требуется имя
 The format xlsx needs a path	Для формата xlsx требуется путь
 The open project has unsaved changes: save it first or pass discard	В открытом проекте есть несохранённые изменения: сначала сохраните его или укажите discard
 The part number must not be empty	Номер изделия не может быть пустым
+The parts server has no form library yet	На сервере изделий ещё нет библиотеки форм
 The project has no file yet: pass a path	У проекта ещё нет файла: укажите путь
+The project has no title blocks, report schemes or plot frames of its own	У проекта нет собственных основных надписей, схем отчётов или рамок
 This command needs a project: --project <file>	Этой команде нужен проект: --project <файл>
 This format needs an output file (path)	Для этого формата нужен выходной файл (path)
+Title block of the project (list_title_blocks)	Основная надпись проекта (list_title_blocks)
+Top edge in mm from the top of the title block area	Верхний край в мм от верхней границы области основной надписи
 Undoes the last change	Отменяет последнее изменение
 Unexpected argument: {}	Непредвиденный аргумент: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Неизвестная команда: {}. Список команд: openecraft-cli help.
@@ -268,6 +279,7 @@ User name to sign in with	Имя пользователя для входа
 User or group name (wildcards; directory groups as directory:group)	Имя пользователя или группы (подстановочные знаки; группы службы каталогов в виде каталог:группа)
 Values to set (name: value; an empty value removes a property)	Задаваемые значения (имя: значение; пустое значение удаляет свойство)
 Vault user name (signs in)	Имя пользователя Vault (выполняет вход)
+Width and height must be greater than 0	Ширина и высота должны быть больше 0
 Write the table as CSV to this file	Записать таблицу в этот файл в формате CSV
 Writes the check scheme of the project (checks switched off, message levels) to a file	Записывает схему проверки проекта (отключённые проверки, уровни сообщений) в файл
 Writes the embedded file of a document page	Записывает встроенный файл листа документа

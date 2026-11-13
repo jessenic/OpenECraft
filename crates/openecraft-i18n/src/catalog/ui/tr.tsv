@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	Kapıda, kesimlerden farklı oldu
 Internal values of the EPLAN part exchange (0: undefined)	EPLAN parça değişiminin dahili değerleri (0: tanımsız)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Yalnızca uyduğu parçalardan birine takılıyken çalışır; proje kontrolü böyle bir parçası olmayan cihazda bunu bildirir
 Largest conductor the clamp takes (0: not known)	Klemensin aldığı en büyük iletken (0: bilinmiyor)
+Loaded the library {}	{} kütüphanesi yüklendi
 Loaded {} parts (revision {})	{} parça yüklendi (revizyon {})
 Loading catalogs…	Kataloglar yükleniyor…
 Loading favorites…	Sık kullanılanlar yükleniyor…
 Loading the history…	Geçmiş yükleniyor…
 Loading users…	Kullanıcılar yükleniyor…
+Loading {}…	{} yükleniyor…
 Mark for adding to the parts database	Parça veritabanına eklemek için işaretle
 Max. mm²	Maks. mm²
 Min. mm²	Min. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Kaydırır (dokunmatik yüzey)
 Parts server: {}	Parça sunucusu: {}
 Parts this part is assembled from; the bill of materials lists them under it	Bu parçanın oluşturulduğu parçalar; malzeme listesi bunları altında listeler
 Personal access token	Kişisel erişim belirteci
-Picture	Resim
 Place by clicking into the view	Görünüme tıklayarak yerleştir
 Prices / other	Fiyatlar / diğer
 Remove all	Tümünü kaldır
@@ -92,6 +93,7 @@ Reset filter	Filtreyi sıfırla
 Rotate 90°:	90° döndür:
 Save the file	Dosyayı kaydet
 Saved part {}	{} parçası kaydedildi
+Saved the library {}	{} kütüphanesi kaydedildi
 Saving favorites…	Sık kullanılanlar kaydediliyor…
 Saving {}…	{} kaydediliyor…
 Scale ×	Ölçek ×
@@ -107,6 +109,7 @@ Successor {}	Halef {}
 Take {} values from the technical data	Teknik verilerden {} değeri al
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	2D ön görünüm pano ön görünümünde ve montaj planı sayfalarında, 3D model ise 3D pano görünümünde kullanılır. Her ikisi de montaj verilerine (genişlik × yükseklik × derinlik) uydurulur.
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Model ({} × {} × {}) montaj verilerinden ({} × {} × {}) farklı; montaj verilerine göre esnetilir.
+The parts server has no library {} yet	Parça sunucusunda henüz {} kütüphanesi yok
 The price refers to this many units	Fiyat bu sayıda birim için geçerlidir
 The successor is not in this parts list	Halef bu parça listesinde yok
 This part is an accessory	Bu parça bir aksesuardır

@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	Nella porta, quando differiscono 
 Internal values of the EPLAN part exchange (0: undefined)	Valori interni dello scambio articoli EPLAN (0: non definito)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Funziona solo montato su uno degli articoli con cui è compatibile; la verifica del progetto lo segnala su un dispositivo senza tale articolo
 Largest conductor the clamp takes (0: not known)	Conduttore più grande accettato dal morsetto (0: sconosciuto)
+Loaded the library {}	Libreria {} caricata
 Loaded {} parts (revision {})	{} articoli caricati (revisione {})
 Loading catalogs…	Caricamento dei cataloghi…
 Loading favorites…	Caricamento dei preferiti…
 Loading the history…	Caricamento della cronologia…
 Loading users…	Caricamento degli utenti…
+Loading {}…	Caricamento di {}…
 Mark for adding to the parts database	Contrassegna per l'aggiunta al database articoli
 Max. mm²	Max. mm²
 Min. mm²	Min. mm²
@@ -81,7 +83,6 @@ Pans (trackpad)	Sposta la vista (trackpad)
 Parts server: {}	Server articoli: {}
 Parts this part is assembled from; the bill of materials lists them under it	Articoli che compongono questo articolo; la distinta base li elenca al di sotto
 Personal access token	Token di accesso personale
-Picture	Immagine
 Place by clicking into the view	Posiziona facendo clic nella vista
 Prices / other	Prezzi / altro
 Remove all	Rimuovi tutto
@@ -92,6 +93,7 @@ Reset filter	Reimposta filtro
 Rotate 90°:	Ruota di 90°:
 Save the file	Salva il file
 Saved part {}	Articolo {} salvato
+Saved the library {}	Libreria {} salvata
 Saving favorites…	Salvataggio dei preferiti…
 Saving {}…	Salvataggio di {}…
 Scale ×	Scala ×
@@ -107,6 +109,7 @@ Successor {}	Successore {}
 Take {} values from the technical data	Applica {} valori dai dati tecnici
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	La vista frontale 2D viene usata nella vista frontale del quadro e nelle pagine del layout di montaggio, il modello 3D nella vista 3D del quadro. Entrambi vengono adattati ai dati di montaggio (larghezza × altezza × profondità).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Il modello ({} × {} × {}) differisce dai dati di montaggio ({} × {} × {}); viene adattato ai dati di montaggio.
+The parts server has no library {} yet	Il server articoli non ha ancora la libreria {}
 The price refers to this many units	Il prezzo si riferisce a questo numero di unità
 The successor is not in this parts list	Il successore non è in questo elenco di articoli
 This part is an accessory	Questo articolo è un accessorio

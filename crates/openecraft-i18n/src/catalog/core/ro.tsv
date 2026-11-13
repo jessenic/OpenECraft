@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Circuitele de comandă în 
 DC/DC converter	Convertor c.c./c.c.
 DWG export failed: {}	Exportul DWG nu a reușit: {}
 Data sheet	Fișă tehnică
+Date of the approval of the last revision	Data aprobării ultimei revizii
 Date of the last revision	Data ultimei revizii
 Degree of protection	Grad de protecție
 Delete projects	Ștergere proiecte
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Limitator de cursă ND (NFPA)
 Line reactor	Bobină de rețea
 Linear motor 3-phase	Motor liniar trifazat
 Literal braces	Acolade literale
-Load	Consumator
 Load calculation	Calculul sarcinii
 Loads and power supplies	Consumatori și surse de alimentare
 Loads behind it: {}	Consumatori în aval: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Buton cu cheie ND, cu reținere
 Pushbutton NC	Buton NÎ
 Pushbutton NO	Buton ND
 Pyramid roof	Acoperiș piramidal
+QR code	Cod QR
 Qty	Cant.
 RCD {} mA	RCD {} mA
 Radiation	Radiație
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Bobină de releu, remanentă
 Relay coil, resonant	Bobină de releu, rezonantă
 Relay coil, thermal	Bobină de releu, termică
 Relays, contactors	Relee, contactoare
-Released	Aprobat
 Released pages cannot be deleted	Paginile aprobate nu pot fi șterse
 Remote I/O	I/O descentralizate
 Remote I/O {} has no controller	I/O descentralizate {} nu au controler
@@ -1340,6 +1340,10 @@ Result	Rezultat
 Return / exhaust line	Conductă de retur / evacuare
 Reviewer	Examinator
 Revision overview (changes)	Prezentare revizii (modificări)
+Revision table: author of the last revision (2: the one before …)	Tabel de revizii: autorul ultimei revizii (2: a celei dinainte …)
+Revision table: date of the last revision (2: the one before …)	Tabel de revizii: data ultimei revizii (2: a celei dinainte …)
+Revision table: description of the last revision (2: the one before …)	Tabel de revizii: descrierea ultimei revizii (2: a celei dinainte …)
+Revision table: index of the last revision (2: the one before …)	Tabel de revizii: indicele ultimei revizii (2: a celei dinainte …)
 Right side	Partea dreaptă
 Right side panel	Perete lateral dreapta
 Ring terminal	Papuc inel
@@ -1487,6 +1491,7 @@ Start date	Data de început
 Started	Început
 Starting current ratio	Raportul curentului de pornire
 Starting torque	Cuplu de pornire
+State of the project: draft, in review, approved, released	Starea proiectului: ciornă, în verificare, aprobat, eliberat
 Station name (PROFINET)	Nume stație (PROFINET)
 Station name {} is used {} times	Numele de stație {} este folosit de {} ori
 Station {} is not connected to bus {}	Stația {} nu este conectată la magistrala {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Bobină releu de timp, temporizare la revenire
 Timer relay coil, on-delay	Bobină releu de timp, temporizare la anclanșare
 Title blocks and report forms	Cartușe și formulare de raport
 To order	De comandat
-Total	Total
 Total length (m)	Lungime totală (m)
 Total price	Preț total
 Total weight	Greutate totală
@@ -1781,6 +1785,7 @@ Wavemeter	Undametru
 Wearing part	Piesă de uzură
 Weld stud	Bolț sudat
 Wetted material	Material în contact cu mediul
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Cine a aprobat ultima revizie (verificare); {rev.2.approved_by}: pe cea dinainte
 Width (mm)	Lățime (mm)
 Winding connection	Conexiunea înfășurării
 Wire assigned to unknown cable {}	Conductor atribuit unui cablu necunoscut {}

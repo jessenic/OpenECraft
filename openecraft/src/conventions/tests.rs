@@ -149,6 +149,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("issue", &[]),
     ("ttf", &[]),
     ("parallel", &[]),
+    ("qr", &[]),
     // 2 symbols
     ("symbols", &["geom"]),
     ("symlib", &["geom", "model", "symbols"]),
@@ -221,8 +222,8 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     ("subproject", &["model", "options", "structure", "symlib"]),
     ("graphics", &["document", "geom", "model"]),
     ("document", &["frame", "geom", "model", "ops", "render", "symbols"]),
-    ("forms", &["frame", "geom", "model", "params", "properties", "render", "revision", "structure", "symbols", "table"]),
-    ("report_blocks", &["analysis", "ext", "forms", "model", "ops", "reports", "strips"]),
+    ("forms", &["frame", "geom", "graphics", "model", "params", "properties", "qr", "render", "revision", "structure", "symbols", "table"]),
+    ("report_blocks", &["analysis", "ext", "forms", "model", "ops", "reports", "strips", "symbols", "table"]),
     ("testkit", &["analysis", "geom", "model", "parts", "symbols"]),
     // 6 derived data, checks, reports, registry
     ("analysis", &["ext", "field", "index", "issue", "model", "netlist", "panel", "parallel", "production", "revision", "routing3d", "table"]),

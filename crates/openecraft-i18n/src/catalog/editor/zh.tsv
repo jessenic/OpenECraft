@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = 单个值；否则为值 [1] … [n]
 0 = all approvers	0 = 所有审批人
 0 = estimated from cores and cross-section	0 = 根据芯线和截面积估算
+0 = fitted to the page	0 = 适应页面
 0 = fitted to the rows per page	0 = 适应每页行数
 0 = from the DC of the devices ({} %)	0 = 根据设备的 DC ({} %)
 0 = from the devices	0 = 取自设备
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	为每个没有电缆的连接创建一根总线类型的电缆
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	在相邻机柜侧板的相同位置开一个相同大小的孔：两者共同构成电缆过孔
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	文件夹中的同名文件将获得新版本（签出后签入），否则添加该文件
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	每页上的大号文字，例如准备修订时的“草稿”；文字可含占位符，空 = 无水印。
 A level on top of the highest one	在最高楼层之上添加一层
 A local file opens locally, a server project is opened on the project server again	本地文件在本地打开，服务器项目在项目服务器上重新打开
 A local file or a project on the project server	本地文件或项目服务器上的项目
@@ -55,6 +57,7 @@ A new project	新项目
 A new release is downloaded in the background and installed when you close OpenECraft.	新版本会在后台下载，并在关闭 OpenECraft 时安装。
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	新版本会在后台下载并替换此安装；从下次启动起生效。
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	像目录一样包含页的编号分节；页名称以其编号开头 (2.3.1)
+A picture kept in the form, e.g. the company logo	保存在表单中的图像，例如公司标志
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	配置文件将中性字段映射到特定系统的列名（例如 SAP 中 ERP 编号对应的 MATNR）。没有映射时，可识别常见的英文和德文名称。
 A project definition based on this one, with its own defaults and scheme	基于此定义的项目定义，具有自己的默认值和方案
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	改为打开从文件管理器打开的项目文件。上次会话中未保存的更改绝不会在未询问的情况下被丢弃。
@@ -66,8 +69,10 @@ A template of this name is replaced.	将替换同名模板。
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	模板设置新页的页类型、图框、标题栏、结构和描述，并放置其内容。
 A way through free air costs this many times the way in a duct or routing path	穿过自由空间的路径成本是线槽或布线路径中的这么多倍
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	工作区将导航器中的页和设备限定为项目的一部分。筛选：空 = 任意，* = 任意字符；A1 也包括 A1.2。
+APPROVED	已批准
 About OpenECraft	关于 OpenECraft
 Above the floor	离地高度
+Above the project name	项目名称上方
 Accept as checked	接受为已检查
 Accepted messages ({})	已接受的消息 ({})
 Active	激活
@@ -143,6 +148,7 @@ Apply to the connection	应用到连接
 Apply to {} projects	应用于 {} 个项目
 Approval workflow	审批流程
 Approvals needed	所需审批数
+Approved	已批准
 Approving needs an approver; you are \"{}\".	只有审批人才能批准；你是 \"{}\"。
 Arc	圆弧
 Archive and version	归档和版本
@@ -282,6 +288,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	请先选择房间：落地式部件放在其地面上。
 Choose another project	选择其他项目
 Choose file…	选择文件…
+Choose image…	选择图像…
 Choose pages	选择页
 Chooses the pages whose structure starts with this	选择结构以此开头的页
 Circle	圆
@@ -359,6 +366,7 @@ Comments ({} open)	批注（{} 个未处理）
 Comments ({})	批注（{}）
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	审阅者在项目 PDF 导出中添加的批注（Acrobat 或其他 PDF 查看器）
 Comments and markup	批注和标记
+Company library	公司库
 Compare and baselines	比较和基线
 Compare with	比较对象
 Compare with a baseline, a revision or another project file and take differences over	与基线、修订或其他项目文件进行比较，并采用差异
@@ -402,6 +410,7 @@ Core designations separated by blanks	以空格分隔的芯线标识
 Core labels placed by hand	手动放置的芯线标注
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	穿过的导线使用芯线 1、2、3 …，另加 GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	拐角：两条直角相交的连接线；开启自动连接时，正对其分支的连接点会接到它上
+Counter-clockwise, e.g. 90 for texts running upwards	逆时针，例如 90 表示向上书写的文字
 Cover sheet, overview, graphics, report, mounting layout or a page template	封面、概览、图形、报表、安装布局或页模板
 Covers	覆盖
 Covers what is behind the text	遮盖文本后面的内容
@@ -428,6 +437,8 @@ Cut length step tubes	管子下料步长
 Cut length step wires	导线下料步长
 Cutout {} × {} mm	开孔 {} × {} mm
 Cutting allowance per end	每端下料余量
+DRAFT	草稿
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	当前语言的“草稿”“待批准”“已批准”；发布后不显示
 DWG import failed: {}	DWG 导入失败：{}
 DWG imported as page {}: {} lines, {} texts	已将 DWG 导入为页 {}：{} 条直线，{} 个文本
 DWG imported as page {}: {} lines, {} texts (not imported: {})	已将 DWG 导入为页 {}：{} 条直线，{} 个文本（未导入：{}）
@@ -555,6 +566,7 @@ Downloaded {} (version {})	已下载 {}（版本 {}）
 Downloaded {} parts (revision {}): {} new, {} updated	已下载 {} 个部件（修订 {}）：{} 个新增，{} 个已更新
 Downloading OpenECraft {}	正在下载 OpenECraft {}
 Downstream part	下级部件
+Draft	草稿
 Draft of revision {} created	已创建修订 {} 的草稿
 Draft of revision {} discarded	已放弃修订 {} 的草稿
 Drag	拖动
@@ -659,6 +671,7 @@ Exported {}	已导出 {}
 Export…	导出…
 Extend guides to canvas edges	将辅助线延伸到画布边缘
 Extras	附加功能
+FOR APPROVAL	待批准
 Facing	朝向
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	风扇、过滤器、电缆密封接头、照明灯、把手：选择一个，然后单击其安装位置
 Fastening hardware in the bill of materials	物料清单中的紧固件
@@ -694,14 +707,17 @@ First row	第一行
 Fit	适合窗口
 Fit page	适合页面
 Fits {}	适配 {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	按原比例缩放到矩形中（PNG、JPEG）
 Float	浮动
 Floor plan	平面图
 Floor plan with {} walls	有 {} 面墙的平面图
 Floor-standing part	落地式部件
 Fluid and process	流体和过程
 Follows its condition: use Apply conditions	跟随其条件：请使用“应用条件”
+Font	字体
 Foot	起步
 For	用于
+For pages that choose none; before the plot frame's title block and the project default.	用于未选择标题栏的页；优先于图框的标题栏和项目默认值。
 For parts without Stock length; longer profiles have to be joined	适用于无 Stock length 的部件；更长的型材必须拼接
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	适用于无温度数据的部件 (Max temperature, Operating temperature)；0：不检查
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	用于导入 EPLAN 部件管理（P_ARTICLE_* 属性，文本为 en_US）
@@ -723,6 +739,7 @@ From a template file…	来自模板文件…
 From row to row; 0: free of shade in winter	行与行之间；0：冬季无遮挡
 From the function definition	来自功能定义
 From the left end	距左端
+From the top left corner of the drawing area	从绘图区域左上角起
 From – to	从 – 到
 Fullest stretch	最满段
 Function definitions	功能定义
@@ -843,6 +860,7 @@ Imported {} title blocks and {} report schemes	已导入 {} 个标题栏和 {} �
 Importing {} from the parts server…	正在从部件服务器导入 {}…
 Import…	导入…
 In every section counting starts again after the section number (2.3.1).	在每个分节中，编号在分节号之后重新开始 (2.3.1)。
+In review	审阅中
 In strip order; PE and other non-numeric terminals keep their designation	按端子排顺序；PE 和其他非数字端子保留其标识
 In the filtered rows	在已筛选的行中
 In the middle of the first wire	在第一条导线的中间
@@ -973,6 +991,8 @@ Locked by {} on the project server – read only	已被 {} 在项目服务器上
 Locked by {} – read only	已被 {} 锁定 – 只读
 Locking…	正在锁定…
 Logic	逻辑
+Logo	标志
+Logo on the cover page	封面上的标志
 Longer values are drawn smaller (0 = no limit)	较长的值将以较小字号绘制（0 = 无限制）
 Look for updates when OpenECraft starts	OpenECraft 启动时检查更新
 Looking for updates…	正在检查更新…
@@ -1122,7 +1142,6 @@ New zone	新建安装区
 New, empty placement scheme	新的空放置方案
 Next free contact numbers on this device	此设备上的下一个空闲触点编号
 Next item	下一个元件
-Next page	下一页
 Next page tab	下一个页选项卡
 Next pane	下一个窗格
 Next row	下一行
@@ -1182,7 +1201,6 @@ None – editing a page or the project data locks it.	无 – 编辑页或项目
 Not a page template file: {}	不是页模板文件：{}
 Not a point: type x y or @dx dy	不是点：请输入 x y 或 @dx dy
 Not a symbol library: {}	不是符号库：{}
-Not a title block file: {}	不是标题栏文件：{}
 Not changed: {}	未更改：{}
 Not found: {}	未找到：{}
 Not in the project parts – synchronize in parts management	不在项目部件中 – 请在部件管理中同步
@@ -1213,9 +1231,11 @@ One row per label	每个标签一行
 Only devices on the current page	仅限当前页上的设备
 Only frames no page uses can be deleted	只能删除没有页使用的图框
 Only messages of the current page	仅限当前页的消息
+Only on pages of these types (none ticked: on all)	仅在这些类型的页上（未勾选 = 所有页）
 Only parts whose function template provides the device's main function	仅限功能模板提供设备主功能的部件
 Only rows that pass all filters are shown	仅显示通过所有筛选的行
 Only web and e-mail addresses (http, https, mailto) are links	只有网址和电子邮件地址（http、https、mailto）可作为链接
+Only when filled	仅在填写时
 Open a specific project	打开指定项目
 Open and save shared projects, lock pages	打开和保存共享项目，锁定页
 Open archive…	打开归档…
@@ -1288,6 +1308,8 @@ Overhang	挑檐
 Own colour	自定义颜色
 Own drawn form	自绘表格
 Own groups	自定义组
+Own picture	自有图像
+Own place	自定位置
 PCT loops (pre-planning)	PCT 回路（预规划）
 PDF with comments	带批注的 PDF
 PDF {}	PDF {}
@@ -1367,6 +1389,7 @@ Placed by hand; choosing a side places them anew.	已手动放置；选择一侧
 Placed here: {}	放置在此处：{}
 Placed {}× in the project	在项目中已放置 {}×
 Placeholders	占位符
+Placeholders are filled, e.g. a link with {project} and {page}	会填入占位符，例如含 {project} 和 {page} 的链接
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	标识符、文本和功能文本中的占位符（如 {MOTOR}）将在插入时填充。
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	占位符：{letter} 标识字母，{n} 计数器，{page} 页，{column} / {row} 主功能所在位置
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	占位符：{n} 计数器（按其余文本的每个值分别计数）、{page}、{column}、{row}、{potential}、{kind}、{color}、{cross_section}。不含 {n} 时，文本相同的连接共用同一编号。
@@ -1410,7 +1433,6 @@ Prefix	前缀
 Press a key…	请按键…
 Preview	预览
 Previous item	上一个元件
-Previous page	上一页
 Previous page tab	上一个页选项卡
 Previous pane	上一个窗格
 Previous wire	上一条导线
@@ -1454,6 +1476,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	属性组
 Property placement	属性放置
 Property removed with {} values	已删除属性及其 {} 个值
+Publish	发布
 Put into the vault	放入 Vault
 Put the pane back into the workspace	将窗格放回工作区
 Puts the project into the folder it was opened from	将项目放入打开时所在的文件夹
@@ -1539,6 +1562,7 @@ Replace with	替换为
 Replaced when the configurator generates again; switch off to keep the page	配置器再次生成时将被替换；关闭此选项可保留该页
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	在自由文本、功能文本、页描述、设备描述和电缆描述中替换；已发布页保持不变
 Replaces the GEN.* parts in the database with the current example catalog (including models)	用当前示例目录（包括模型）替换数据库中的 GEN.* 部件
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	用项目自有的标题栏、报表方案和图框替换公司库（零件服务器的编辑者）
 Replaces the content of the macro boxes whose macro changed in the library	替换其宏在库中已更改的宏边框的内容
 Replaces the pages of this block	替换此块的页
 Reply	回复
@@ -1727,6 +1751,7 @@ Settings scheme	设置方案
 Settings scheme (JSON)	设置方案 (JSON)
 Settings taken over: {}	已采用设置：{}
 Settings…	设置…
+Shade every second row	隔行加底色
 Share of the capacity kept free for later additions	为日后扩展保留的容量比例
 Shared project {} – revision {}, user {}	共享项目 {} – 修订 {}，用户 {}
 Shield	屏蔽
@@ -1760,9 +1785,12 @@ Show the pane as a window	将窗格显示为窗口
 Show the ribbon	显示功能区
 Show this wire	显示此导线
 Show who may use the project	显示可以使用该项目的人员
+Shown	显示
 Shown as \"Name: value\"	显示形式为 \"名称：值\"
 Shown in title blocks with {prop:Name}	在标题栏中以 {prop:Name} 显示
 Shown instead of the measured value	代替测量值显示
+Shown now: {}	当前显示：{}
+Shown on the cover page and by the image elements of title blocks that show the project logo	显示在封面上以及显示项目标志的标题栏图像元素中
 Shows	显示
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	从外部看到的侧板、后板、顶板和底板：风扇、电缆密封接头、开孔
 Sign in in the Project server pane; the project opens afterwards	在“项目服务器”窗格中登录；之后项目将打开
@@ -1792,6 +1820,7 @@ Spare terminals	备用端子
 Special text	特殊文本
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	特殊文本：绘制页时将填入项目和页属性，例如 {page} 或 {prop:Name}
 Stairs	楼梯
+Stamp	水印
 Standard form of the report	报表的标准表单
 Standard size	标准尺寸
 Standard workspaces	标准工作区
@@ -1836,6 +1865,8 @@ Subproject saved as {}: its pages are locked until it is inserted	子项目已�
 Subproject {} inserted: {} pages replaced by {}	已插入子项目 {}：{} 页已被 {} 替换
 Subprojects	子项目
 Subsystem {}	子系统 {}
+Suggested texts	建议文字
+Sums the column in a row below the last row of the report	在报表最后一行下方的一行中对该列求和
 Supply and conditions	电源进线和条件
 Surge protection	浪涌保护
 Swing the enclosure door open or shut (door devices and their wires move with it)	打开或关闭机柜柜门（柜门设备及其导线随之摆动）
@@ -1905,9 +1936,12 @@ The devices do not fit onto the rail	设备无法放入导轨
 The dictionary is empty: collect the texts from the project.	词典为空：请从项目中收集文本。
 The door seen from the front: door devices and cutouts	从正面看柜门：柜门设备和开孔
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	从内侧看柜门（铰链在右侧）：线槽和柜门后的接线
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	仅当此文字（含占位符）不为空时才绘制该元素，例如修订表的行
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	该机柜的左侧紧靠所选机柜的右侧；导线通过电缆过孔在它们之间穿过
 The horizontal wire	水平导线
 The items are selected and moved together	这些元素将一起被选择和移动
+The logo is fitted into this area keeping its aspect ratio	标志按原比例缩放到此区域中
+The logo of the project properties, e.g. the customer's	项目属性中的标志，例如客户的标志
 The macro library has no page macros (Macros › Save page as macro…).	宏库没有页宏（宏 › 将页另存为宏…）。
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	使滚轮横向平移或缩放的组合键在“组合键”中设置。
 The modules no string takes yet in series, on the first inverter	尚未分配到组串的组件串联，接到第一台逆变器
@@ -1955,8 +1989,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	电源进线点的三相短路电流
 Tilt	倾角
 Title	标题
+Title block by page type	按页类型的标题栏
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	使用此图框且未选择标题栏的页的标题栏，例如 A4 纵向用较小的标题栏
 Title blocks	标题栏
 Title blocks, plot frames and page templates	标题栏、图框和页模板
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	零件服务器上所有项目共享的标题栏、报表方案和图框（零件 › 零件服务器）
 To do	待完成
 Toggle corner direction while drawing wires	绘制导线时切换拐角方向
 Toggle routing around symbols (wire tool)	切换绕开符号布线（导线工具）
@@ -2278,7 +2315,6 @@ x y	x y
 {} has unsaved changes. Discard them?	{} 有未保存的更改。是否放弃？
 {} imported into the parts database and placed as {}	{} 已导入部件数据库并放置为 {}
 {} is neither in the parts database nor on the parts server	{} 不在部件数据库中，也不在部件服务器上
-{} is not a PNG or JPEG image	{} 不是 PNG 或 JPEG 图像
 {} is not in the disk image	磁盘映像中没有 {}
 {} is not made for wall mounting: place it on a mounting rail	{} 不适合墙面安装：请将其放在安装导轨上
 {} is used by: {}	{} 已被以下项使用：{}
@@ -2390,12 +2426,14 @@ x y	x y
 ✔ The project data is consistent.	✔ 项目数据一致。
 ✔ Wired	✔ 已接线
 ➕ Default value	➕ 默认值
+➕ Image	➕ 图像
 ➕ Insert (click into the page)	➕ 插入（在页中单击）
 ➕ Insert as new page	➕ 作为新页插入
 ➕ Label	➕ 标签
 ➕ Line	➕ 线
 ➕ Place property	➕ 放置属性
 ➕ Property	➕ 属性
+➕ QR code	➕ 二维码
 ➕ Rectangle	➕ 矩形
 ➕ Text	➕ 文本
 ⬉ Select	⬉ 选择

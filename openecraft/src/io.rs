@@ -42,6 +42,10 @@ pub enum Purpose {
     Document,
     /// A bitmap to place on a page.
     Image,
+    /// A bitmap for the selected image element of a title block or report form.
+    FormImage,
+    /// The logo of the project.
+    Logo,
     /// Page templates (JSON) to add to the project.
     PageTemplates,
     /// A project to compare with.
@@ -91,7 +95,7 @@ impl FileKind for Purpose {
             Purpose::PageTemplates => (tr("OpenECraft page templates (JSON)"), &["json"]),
             Purpose::RuleSets => (tr("OpenECraft rule sets (JSON)"), &["json"]),
             Purpose::PropertyLibrary => (tr("OpenECraft property library (JSON)"), &["json"]),
-            Purpose::Image => (tr("Images (PNG, JPEG)"), &["png", "jpg", "jpeg"]),
+            Purpose::Image | Purpose::FormImage | Purpose::Logo => (tr("Images (PNG, JPEG)"), &["png", "jpg", "jpeg"]),
             Purpose::Document => (tr("Documents"), &["pdf", "docx", "doc", "xlsx", "xls", "pptx", "odt", "ods", "png", "jpg", "jpeg", "txt", "*"]),
             Purpose::Table(_) => (tr("CSV or Excel"), &["csv", "txt", "xlsx"]),
             Purpose::Dictionary => ("CSV", &["csv", "txt"]),

@@ -47,12 +47,14 @@ Altitude of the site in m	Hoogte van de opstellingsplaats in m
 Ambient temperature of the conductors in °C	Omgevingstemperatuur van de geleiders in °C
 An outline needs {} points at least	Een contour heeft minimaal {} punten nodig
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Verankering langs de as: free, start:<mm>, center:<mm>, end:<mm> of stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Hoek in graden, tegen de klok in
 Aspects separated by commas, e.g. function,location	Aspecten gescheiden door komma's, bijv. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Wijst een functiedefinitie toe aan een geplaatst symbool (benamingen en schema worden overgenomen)
 Asynchronous motors add to the short-circuit current	Asynchrone motoren dragen bij aan de kortsluitstroom
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Automatische hardwareconfiguratie: stations voor CPU's en buskoppelaars, bussystemen, kaarten naar stations, slots, startadressen, adressen van de punten, IP-adressen en een lijntopologie
 Back to the default rules first	Eerst terugzetten naar de standaardregels
 Back to the default strategy first	Eerst terug naar de standaardstrategie
+Back to the place above the project name	Terug naar de plaats boven de projectnaam
 Back-up protection up to this short-circuit current in kA (0: not given)	Back-upbeveiliging tot deze kortsluitstroom in kA (0: niet opgegeven)
 Bar id	Rail-ID
 Bar thickness, mm (default 5)	Raildikte, mm (standaard 5)
@@ -101,6 +103,7 @@ Chosen value	Gekozen waarde
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Afstanden, serviceruimte, hoogten, botsingsklassen, thermische simulatie en maakbaarheid van de kastlay-out
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Klimaatbeheersing van de behuizingen (IEC/TR 60890): vermogensverlies, binnentemperatuur, benodigde ventilator of koelaggregaat en verwarming; wijzigt desgewenst de instellingen van een behuizing
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Botsingsklasse: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, een eigen klasse of * voor elke
+Colour as #RRGGBB	Kleur als #RRGGBB
 Column and row strips	Kolom- en rijstroken
 Column mapping {field code: column name}	Kolomtoewijzing {veldcode: kolomnaam}
 Column name, e.g. Description	Kolomnaam, bijv. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Maakt of wijzigt een configuratoroptie
 Creates or changes a fluid device group	Maakt of wijzigt een vloeistoftechnische apparaatgroep
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Maakt of wijzigt een plotkader van het project (ingebouwde kaders worden onder een nieuwe naam gekopieerd)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Maakt of wijzigt een potentiaaldefinitie; de draden ervan nemen kleur en doorsnede over, tenzij die op de draad zijn ingesteld
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Maakt of wijzigt een titelblok van het project (ingebouwde worden onder een nieuwe naam gekopieerd)
 Creates or changes a work area: only the pages and devices of its structure are shown	Maakt of wijzigt een werkgebied: alleen de pagina's en apparaten van de structuur ervan worden weergegeven
 Cross reference placed by hand: X offset from the insertion point in mm	Kruisverwijzing handmatig geplaatst: X-afstand tot het invoegpunt in mm
 Cross reference placed by hand: Y offset from the insertion point in mm	Kruisverwijzing handmatig geplaatst: Y-afstand tot het invoegpunt in mm
@@ -171,6 +175,7 @@ Deletes a page	Verwijdert een pagina
 Deletes a page template of the project	Verwijdert een paginasjabloon van het project
 Deletes a plot frame of the project that no page uses	Verwijdert een plotkader van het project dat door geen enkele pagina wordt gebruikt
 Deletes a potential definition	Verwijdert een potentiaaldefinitie
+Deletes a title block of the project; pages using it get the project default	Verwijdert een titelblok van het project; pagina's die het gebruiken krijgen de projectstandaard
 Deletes a work area	Verwijdert een werkgebied
 Deletes symbols, wires, texts and shapes	Verwijdert symbolen, draden, teksten en vormen
 Depth in mm	Diepte in mm
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Randlengte van het routeringsraster in mm
 Electrical device tags separated by commas or blanks (empty = remove the links)	Aanduidingen van elektrische apparaten, gescheiden door komma's of spaties (leeg = koppelingen verwijderen)
 Electrical engineering	Elektrotechniek
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Elementen (Line, Rect, Text, Image) in mm vanaf de linkerbovenhoek van het titelblokgebied in een array items
 Enclosure (location, e.g. +CAB1)	Behuizing (locatie, bijv. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Behuizing (locatie, bijv. +CAB1) waarvan de instellingen worden gewijzigd
 Enclosure climate and electrical sizing	Klimaatbeheersing van de behuizing en elektrische dimensionering
@@ -273,6 +279,7 @@ Height above the floor in metres	Hoogte boven de vloer in meter
 Height above the mounting plate in mm (default 50)	Hoogte boven de montageplaat in mm (standaard 50)
 Height in mm	Hoogte in mm
 Height in mm without plinth; negative: unknown (wall mounted)	Hoogte in mm zonder sokkel; negatief: onbekend (wandmontage)
+Height in mm; the logo keeps its aspect ratio inside	Hoogte in mm; het logo behoudt daarbinnen zijn beeldverhouding
 Higher-level product aspect (-) of the page; the devices on the page move along	Aspect bovenliggend product (-) van de pagina; de apparaten op de pagina gaan mee
 Highest actuator on the door above the floor (0: not checked)	Hoogste bedieningselement in de deur boven de vloer (0: niet gecontroleerd)
 Highest air temperature at devices without data (0: not checked)	Hoogste luchttemperatuur bij apparaten zonder gegevens (0: niet gecontroleerd)
@@ -311,6 +318,7 @@ Integration profiles and status	Integratieprofielen en -status
 Interruption points refer to: all (default), star or pairs	Onderbrekingspunten verwijzen naar: all (standaard), star of pairs
 Invalid answer of the plugin: {}	Ongeldig antwoord van de plugin: {}
 Invalid segment name: {}	Ongeldige segmentnaam: {}
+Invalid title block elements: {}	Ongeldige titelblokelementen: {}
 Item id	Element-id
 Item ids	Element-id's
 Jumper number	Brugnummer
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Taal waarin de projectteksten
 Larger round holes are milled, mm	Grotere ronde gaten worden gefreesd, mm
 Largest difference between hole and tool, mm	Grootste verschil tussen gat en gereedschap, mm
 Left edge from the left end of the wall (seen from inside) in mm	Linkerrand vanaf het linkereinde van de wand (gezien van binnen) in mm
+Left edge in mm	Linkerrand in mm
 Left edge on the face in mm	Linkerrand op het vlak in mm
 Left edge on the mounting plate in mm	Linkerrand op de montageplaat in mm
 Left side bayed (no side panel)	Linkerzijde gekoppeld (geen zijwand)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Geeft een lijst van de symbolen die kunnen worden geplaatst, met hun aansluitpunten ten opzichte van het invoegpunt
 Lists the terminal strips with their number of terminals and length on the rail	Toont de klemmenstroken met hun aantal klemmen en lengte op de rail
 Lists the terminations chosen for wire ends and the kinds there are	Toont de gekozen afwerkingen van draadeinden en de beschikbare soorten
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Toont de titelblokken (ingebouwde en die van het project) met hun elementen, de projectstandaard en de plaatshouders
 Lists the translation dictionary of the project texts (source line and translations)	Geeft een lijst van het vertaalwoordenboek van de projectteksten (bronregel en vertalingen)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Toont de op de pagina's geplaatste venstermacro's (macrokaders) met macro, variant, waarden van tijdelijke aanduidingen en aantal elementen
 Load losses of the transformer in W (0: typical)	Kortsluitverliezen van de transformator in W (0: typisch)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Naam van de hoofdaardrail
 Name of the safety function to remove	Naam van de te verwijderen veiligheidsfunctie
 Name of the segment	Naam van het segment
 Name of the template	Naam van de sjabloon
+Name of the title block	Naam van het titelblok
+Name of the title block (with page_type: empty removes the choice)	Naam van het titelblok (met page_type: leeg verwijdert de keuze)
 Name of the work area	Naam van het werkgebied
 Name or id; the tag for places	Naam of ID; bij plaatsingen de aanduiding
 Name placed by hand: X offset from the insertion point in mm	Naam handmatig geplaatst: X-afstand tot het invoegpunt in mm
@@ -480,6 +492,7 @@ No terminal strip {}	Geen klemmenstrook {}
 No terminal {} on strip {}	Geen klem {} op strook {}
 No text with id {}	Geen tekst met ID {}
 No three wires meet at {} / {} mm: give the direction of the stem	Op {} / {} mm komen geen drie draden samen: geef de richting van de steel op
+No title block named {}	Geen titelblok met de naam {}
 No transformer: set {} first	Geen transformator: stel eerst {} in
 No wire at {} / {} mm	Geen draad op {} / {} mm
 No wire with id {}	Geen draad met id {}
@@ -489,6 +502,7 @@ Node {} exists already	Knooppunt {} bestaat al
 Nodes to pass in this order, comma separated	Te passeren knooppunten in deze volgorde, gescheiden door komma's
 Nominal size, e.g. 8 mm or DN25	Nominale diameter, bijv. 8 mm of DN25
 None of the items is an interruption point	Geen van de elementen is een onderbrekingspunt
+Not a colour (#RRGGBB): {}	Geen kleur (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Geen doorsnede: {} (bijv. 1.5 mm²)
 Not a valid safety function: {}	Geen geldige veiligheidsfunctie: {}
 Note, e.g. what the problem is	Notitie, bijv. wat het probleem is
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Eén uiteinde, bijv. -K1:A1
 One row per printed label instead of a count	Eén rij per afgedrukt label in plaats van een aantal
 Only devices on these pages (names separated by commas)	Alleen apparaten op deze pagina's (namen gescheiden door komma's)
 Only doors and windows open	Alleen deuren en ramen gaan open
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Alleen voor pagina's van dit type: schematic, cover, report, mounting, overview, graphic of document
 Only lines without a translation into this language	Alleen regels zonder vertaling in deze taal
 Only list the new tags, change nothing	Alleen de nieuwe aanduidingen weergeven, niets wijzigen
 Only shows the package, no job is recorded	Toont alleen het pakket, er wordt geen opdracht vastgelegd
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Plaatsen van de groep (0 = onbeperkt)
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Plaatst de benaming van een aansluitpunt van een symbool links, rechts, boven of onder het punt en verschuift deze; zonder zijde en verschuiving wordt deze weer automatisch geplaatst
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Plaatst de kastrij van een behuizing in de ruimte (3D-weergave van alle behuizingen); zonder x en z wordt deze geplaatst volgens de installatielay-out of naast de andere kastrijen
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Plaatst de naam en de kruisverwijzing van onderbrekingspunten aan een kant van de pijl of handmatig op een afstand van het invoegpunt
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Plaatst het projectlogo op het voorblad (mm vanaf de linkerbovenhoek van het tekengebied); zonder parameters toont het de plaats
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Plaatst de eigenschappen van een schema bij symbolen; zonder ID's wordt het opnieuw geplaatst bij alle symbolen die het gebruiken
 Planned part number	Gepland artikelnummer
 Planned power in kW	Gepland vermogen in kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Installatiesegmenten met geplande apparaten vóór het schema: sjablonen, vermogensbalans, status ten opzichte van het schema, uitwisseling als CSV / Excel
 Plinth height in mm, 0 without plinth	Sokkelhoogte in mm, 0 zonder sokkel
 Plot frame (list_frames); empty = the project default	Plotkader (list_frames); leeg = de projectstandaard
-Plot frames and page templates of the project	Plotkaders en paginasjablonen van het project
+Plot frames, title blocks and page templates of the project	Plotkaders, titelblokken en paginasjablonen van het project
 Plug tag, e.g. -X10	Stekkeraanduiding, bijv. -X10
 Plugin id '{}' is not snake_case	Plugin-ID '{}' is geen snake_case
 Plugin {} is loaded twice	Plugin {} is twee keer geladen
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Stelt het plotkader in v
 Sets the shield and the outer diameter of a cable	Stelt de afscherming en de buitendiameter van een kabel in
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Stelt de brontaal van de projectteksten en de doeltalen in (ISO 639-1-codes)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Stelt de reserveklemmen van een strook in en of de toebehoren ervan automatisch worden toegevoegd
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Stelt de stempel in die volgens de status van de revisieworkflow over alle pagina's wordt getekend (bijv. CONCEPT); zonder parameters toont het de stempel
+Sets the title block of all pages that do not choose one, or of the pages of one type	Stelt het titelblok in van alle pagina's die er geen kiezen, of van de pagina's van één type
 Sets the translation of a line of the project texts (empty removes it)	Stelt de vertaling in van een regel van de projectteksten (leeg verwijdert deze)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Stelt draadkleur en doorsnede in van netten zonder gedefinieerde potentiaal (leeg = geen)
 Share of the capacity kept free in percent	Deel van de capaciteit dat vrij blijft, in procent
@@ -791,11 +809,16 @@ Terminal designation	Klemaanduiding
 Terminal designations in strip order, separated by commas	Klemaanduidingen in strookvolgorde, gescheiden door komma's
 Terminal order, levels, jumpers, spare terminals and accessories	Klemvolgorde, etages, bruggen, reserveklemmen en toebehoren
 Text height in mm	Teksthoogte in mm
+Text height in mm (0: fitted to the page)	Teksthoogte in mm (0: aan de pagina aangepast)
 Text height in mm (default 3.5)	Teksthoogte in mm (standaard 3.5)
 Text in id, name or order number	Tekst in id, naam of bestelnummer
 Text in the key or name	Tekst in de sleutel of naam
 Text in the line or a translation	Tekst in de regel of een vertaling
 Text to find; empty: fill	Te zoeken tekst; leeg: vullen
+Text when everything is released, e.g. AS BUILT	Tekst als alles is vrijgegeven, bijv. ZOALS GEBOUWD
+Text when the revision is approved but not released	Tekst als de revisie is goedgekeurd maar niet vrijgegeven
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Tekst zolang een revisie een concept is of nog niets is vrijgegeven (plaatshouders toegestaan; leeg: geen)
+Text while a revision is in review or was rejected	Tekst zolang een revisie in beoordeling is of is afgewezen
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Tekst; tijdelijke aanduidingen zoals {page} of {prop:Name} worden bij het tekenen ingevuld
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	De armen van een hoek zijn een verticale en een horizontale richting, bv. down left, niet {}
 The cable definition line crosses no wire	De kabeldefinitielijn kruist geen draad
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Dikste plaat of rail, mm
 Time per drilling, punching or bending operation, s	Tijd per boor-, pons- of buigbewerking, s
 Time per tool change, s	Tijd per gereedschapswissel, s
+Title block (list_title_blocks); empty = the project default	Titelblok (list_title_blocks); leeg = de projectstandaard
+Title block of the pages with this frame that do not choose one; empty: the project default	Titelblok van de pagina's met dit kader die er geen kiezen; leeg: de projectstandaard
+Title block to start from when it is new (default: Standard)	Titelblok om van uit te gaan als het nieuw is (standaard: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Gereedschappen, bijv. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Bovenrand in mm
 Top edge on the face in mm	Bovenrand op het vlak in mm
 Top edge on the mounting plate in mm	Bovenrand op de montageplaat in mm
 Translated line	Vertaalde regel
@@ -876,6 +903,7 @@ Unknown node: {}	Onbekend knooppunt: {}
 Unknown numbering scheme: {}	Onbekend nummeringsschema: {}
 Unknown object class: {}	Onbekende objectklasse: {}
 Unknown order: {}	Onbekende volgorde: {}
+Unknown page type: {}	Onbekend paginatype: {}
 Unknown paper format: {}	Onbekend papierformaat: {}
 Unknown path kind: {}	Onbekend padtype: {}
 Unknown placeholder {}: possible are {}	Onbekende plaatsaanduiding {}: mogelijk zijn {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	Op welke reg
 Who accepted it	Wie de melding heeft geaccepteerd
 Whole words only	Alleen hele woorden
 Why the message is accepted	Waarom de melding is geaccepteerd
-Width in mm	Breedte in mm
 Width of the path in mm (default 50)	Breedte van het pad in mm (standaard 50)
 Width, depth and height of a room are at least {} mm	Breedte, diepte en hoogte van een ruimte zijn minstens {} mm
 Width, height and depth of an enclosure are at least {} mm	Breedte, hoogte en diepte van een behuizing zijn minstens {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem of open
 {} has no enclosure bayed to its right side	Aan de rechterzijde van {} is geen behuizing gekoppeld
 {} has no enclosure system; give one	{} heeft geen behuizingssysteem; geef er een op
 {} is a built-in frame; give the frame a new name	{} is een ingebouwd kader; geef het kader een nieuwe naam
+{} is a built-in title block; give the title block a new name	{} is een ingebouwd titelblok; geef het titelblok een nieuwe naam
 {} is a room already	{} is al een ruimte
 {} is ambiguous: use #id:pin	{} is dubbelzinnig: gebruik #id:pin
 {} is an enclosure already	{} is al een behuizing

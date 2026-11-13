@@ -711,6 +711,17 @@ fn fingerprint(doc: &openecraft_core::document::Document) -> u64 {
     h.finish()
 }
 
+/// Loads the textures of pictures of title blocks and report forms (by their id).
+pub fn load_pictures(ctx: &egui::Context, textures: &mut Textures, pics: &[openecraft_core::forms::Picture]) {
+    for pic in pics {
+        let id = openecraft_core::forms::picture_id(pic);
+        textures.entry(id).or_insert_with(|| {
+            let tex = decode_image(&pic.file).map(|ci| ctx.load_texture(format!("form-picture-{id}"), ci, egui::TextureOptions::LINEAR));
+            (id, tex)
+        });
+    }
+}
+
 fn decode_image(doc: &openecraft_core::document::Document) -> Option<egui::ColorImage> {
     let bytes = doc.bytes().ok()?;
     let img = image::load_from_memory(&bytes).ok()?.to_rgba8();
@@ -1064,9 +1075,10 @@ impl Editor {
         }
     }
 
-    /// Loads textures of the page's images that are new or changed.
-    fn update_textures(&mut self, ctx: &egui::Context, page: &Page) {
-        for img in &page.images {
+    /// Loads textures of the page's images and of the pictures of its title block
+    /// and report form that are new or changed.
+    fn update_textures(&mut self, ctx: &egui::Context, prj: &Project, page_i: usize) {
+        for img in &prj.pages[page_i].images {
             let fp = fingerprint(&img.file);
             if self.textures.get(&img.id).is_some_and(|t| t.0 == fp) {
                 continue;
@@ -1074,6 +1086,7 @@ impl Editor {
             let tex = decode_image(&img.file).map(|ci| ctx.load_texture(format!("page-image-{}", img.id), ci, egui::TextureOptions::LINEAR));
             self.textures.insert(img.id, (fp, tex));
         }
+        load_pictures(ctx, &mut self.textures, &openecraft_core::forms::page_pictures(prj, page_i));
     }
 
     #[allow(clippy::too_many_lines)]
@@ -1120,7 +1133,10 @@ impl Editor {
 
         let locked = prj.pages[page_i].locked;
         let editable = prj.pages[page_i].is_editable() && !self.read_only;
-        let ptr = ui.input(|i| i.pointer.hover_pos()).filter(|p| rect.contains(*p));
+        // Not where a window, menu or popup lies over the canvas (crosshair, previews,
+        // hits); a press or drag that started on the canvas keeps the pointer.
+        let covered = |p: Pos2| ui.ctx().layer_id_at(p).is_some_and(|l| l != ui.layer_id()) && !resp.is_pointer_button_down_on();
+        let ptr = ui.input(|i| i.pointer.hover_pos()).filter(|p| rect.contains(*p) && !covered(*p));
         let world = ptr.map(|s| self.s2w(rect, s));
         // Connection points and wire ends off the grid are invisible grid lines.
         let placing = match self.tool {
@@ -1203,7 +1219,7 @@ impl Editor {
         self.cursor(ui, world, editable, pointer_hit, (pointer_prop.is_some(), pointer_end));
 
         // ------------------------------------------------------------ drawing
-        self.update_textures(ui.ctx(), &prj.pages[page_i]);
+        self.update_textures(ui.ctx(), prj, page_i);
         painter.rect_filled(rect, 0.0, pal.canvas);
         let page_rect = Rect::from_min_max(self.w2s(rect, p(0.0, 0.0)), self.w2s(rect, p(self.frame.width(), self.frame.height())));
         painter.rect_filled(page_rect.translate(vec2(3.0, 3.0)), 0.0, Color32::from_black_alpha(60));

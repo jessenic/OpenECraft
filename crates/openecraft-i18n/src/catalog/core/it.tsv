@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	I circuiti di comando in DC
 DC/DC converter	Convertitore DC/DC
 DWG export failed: {}	Esportazione DWG non riuscita: {}
 Data sheet	Scheda tecnica
+Date of the approval of the last revision	Data dell'approvazione dell'ultima revisione
 Date of the last revision	Data dell'ultima revisione
 Degree of protection	Grado di protezione
 Delete projects	Elimina progetti
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Finecorsa NA (NFPA)
 Line reactor	Reattanza di rete
 Linear motor 3-phase	Motore lineare trifase
 Literal braces	Parentesi graffe letterali
-Load	Utenza
 Load calculation	Calcolo dei carichi
 Loads and power supplies	Utenze e alimentatori
 Loads behind it: {}	Utenze a valle: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Pulsante con chiave NA, con ritenuta
 Pushbutton NC	Pulsante NC
 Pushbutton NO	Pulsante NA
 Pyramid roof	Tetto a piramide
+QR code	Codice QR
 Qty	Qtà
 RCD {} mA	RCD {} mA
 Radiation	Radiazione
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Bobina relè, a rimanenza
 Relay coil, resonant	Bobina relè, a risonanza
 Relay coil, thermal	Bobina relè, termica
 Relays, contactors	Relè, contattori
-Released	Rilasciato
 Released pages cannot be deleted	Le pagine rilasciate non possono essere eliminate
 Remote I/O	I/O decentrati
 Remote I/O {} has no controller	Gli I/O decentrati {} non hanno un controllore
@@ -1340,6 +1340,10 @@ Result	Risultato
 Return / exhaust line	Linea di ritorno / scarico
 Reviewer	Revisore
 Revision overview (changes)	Panoramica revisioni (modifiche)
+Revision table: author of the last revision (2: the one before …)	Tabella delle revisioni: autore dell'ultima revisione (2: quella precedente …)
+Revision table: date of the last revision (2: the one before …)	Tabella delle revisioni: data dell'ultima revisione (2: quella precedente …)
+Revision table: description of the last revision (2: the one before …)	Tabella delle revisioni: descrizione dell'ultima revisione (2: quella precedente …)
+Revision table: index of the last revision (2: the one before …)	Tabella delle revisioni: indice dell'ultima revisione (2: quella precedente …)
 Right side	Lato destro
 Right side panel	Parete laterale destra
 Ring terminal	Capocorda ad occhiello
@@ -1487,6 +1491,7 @@ Start date	Data di inizio
 Started	Avviato
 Starting current ratio	Rapporto della corrente di avviamento
 Starting torque	Coppia di avviamento
+State of the project: draft, in review, approved, released	Stato del progetto: bozza, in revisione, approvato, rilasciato
 Station name (PROFINET)	Nome dispositivo (PROFINET)
 Station name {} is used {} times	Il nome stazione {} è usato {} volte
 Station {} is not connected to bus {}	La stazione {} non è collegata al bus {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Bobina relè temporizzato, ritardata alla diseccitaz
 Timer relay coil, on-delay	Bobina relè temporizzato, ritardata all'eccitazione
 Title blocks and report forms	Cartigli e moduli di report
 To order	Da ordinare
-Total	Totale
 Total length (m)	Lunghezza totale (m)
 Total price	Prezzo totale
 Total weight	Peso totale
@@ -1781,6 +1785,7 @@ Wavemeter	Ondametro
 Wearing part	Parte soggetta a usura
 Weld stud	Perno a saldare
 Wetted material	Materiale a contatto con il fluido
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Chi ha approvato l'ultima revisione (revisione); {rev.2.approved_by}: quella precedente
 Width (mm)	Larghezza (mm)
 Winding connection	Collegamento degli avvolgimenti
 Wire assigned to unknown cable {}	Conduttore assegnato a un cavo sconosciuto {}

@@ -126,6 +126,7 @@ pub fn router(state: AppState) -> Router {
         .route(&api("/backup"), get(backup))
         .route(&api("/catalogs"), get(catalogs))
         .route(&api("/catalogs/{id}"), get(get_catalog).put(put_catalog).delete(delete_catalog))
+        .route(&api("/libraries/{name}"), get(get_library).put(put_library))
         .route(&api("/login"), post(login).layer(DefaultBodyLimit::max(SMALL_BODY)))
         .route(&api("/logout"), post(logout))
         .route(&api("/register"), post(register).layer(DefaultBodyLimit::max(SMALL_BODY)))
@@ -622,6 +623,26 @@ async fn put_catalog(State(state): State<AppState>, headers: HeaderMap, Path(id)
     }
     log::info!("saved catalog {id} ({})", user.name);
     Ok(Json(store.put_catalog(catalog)?))
+}
+
+async fn get_library(State(state): State<AppState>, headers: HeaderMap, Path(name): Path<String>) -> Result<Response> {
+    reader(&state, &headers)?;
+    let json = store(&state).library(&name)?.ok_or_else(|| not_found(format!("library '{name}' not found")))?;
+    Ok(([(header::CONTENT_TYPE, "application/json")], json).into_response())
+}
+
+/// Stores a library; any JSON object, so that the server need not know its format.
+async fn put_library(State(state): State<AppState>, headers: HeaderMap, Path(name): Path<String>, Json(body): Json<serde_json::Value>) -> Result<StatusCode> {
+    let (user, _) = with_right(&state, &headers, PartsRight::EditCatalogs, SERVER)?;
+    if name.trim().is_empty() || !name.chars().all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-') {
+        return Err(bad("a library name may only contain letters, digits, '_' and '-'"));
+    }
+    if !body.is_object() {
+        return Err(bad("a library must be a JSON object"));
+    }
+    store(&state).put_library(&name, body.to_string())?;
+    log::info!("saved library {name} ({})", user.name);
+    Ok(StatusCode::NO_CONTENT)
 }
 
 async fn delete_catalog(State(state): State<AppState>, headers: HeaderMap, Path(id): Path<String>) -> Result<StatusCode> {

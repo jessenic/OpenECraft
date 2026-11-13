@@ -59,11 +59,13 @@ Internal values of the EPLAN part exchange (0: undefined)	EPLAN-osasiirron sisä
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Se toimii vain kiinnitettynä johonkin osaan, johon se sopii; projektin tarkistus ilmoittaa siitä laitteessa, jossa tällaista osaa ei ole
 Largest conductor the clamp takes (0: not known)	Suurin johdin, jonka liitin ottaa (0: ei tiedossa)
 Leave blank to use the saved token automatically. Saving a replacement requires Remember token.	Jätä tyhjäksi käyttääksesi tallennettua tunnistetta automaattisesti. Korvaavan tunnisteen tallennus edellyttää Muista tunniste -valintaa.
+Loaded the library {}	Kirjasto {} ladattu
 Loaded {} parts (revision {})	Ladattu {} osaa (revisio {})
 Loading catalogs…	Ladataan luetteloita…
 Loading favorites…	Ladataan suosikkeja…
 Loading the history…	Ladataan historiaa…
 Loading users…	Ladataan käyttäjiä…
+Loading {}…	Ladataan {}…
 Mark for adding to the parts database	Merkitse lisättäväksi osatietokantaan
 Max. mm²	Enint. mm²
 Min. mm²	Väh. mm²
@@ -85,7 +87,6 @@ Pans (trackpad)	Panoroi (kosketuslevy)
 Parts server: {}	Osapalvelin: {}
 Parts this part is assembled from; the bill of materials lists them under it	Osat, joista tämä osa on koottu; osaluettelo luettelee ne sen alla
 Personal access token	Henkilökohtainen käyttöoikeustokeni
-Picture	Kuva
 Place by clicking into the view	Sijoita napsauttamalla näkymää
 Prices / other	Hinnat / muut
 Remember token on this computer	Muista tunniste tällä tietokoneella
@@ -98,6 +99,7 @@ Rotate 90°:	Kierrä 90°:
 Save the file	Tallenna tiedosto
 Saved Data Portal token removed	Tallennettu Data Portal -tunniste poistettu
 Saved part {}	Osa {} tallennettu
+Saved the library {}	Kirjasto {} tallennettu
 Saving favorites…	Tallennetaan suosikkeja…
 Saving {}…	Tallennetaan {}…
 Scale ×	Mittakaava ×
@@ -113,6 +115,7 @@ Successor {}	Seuraaja {}
 Take {} values from the technical data	Ota {} arvoa teknisistä tiedoista
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	2D-etunäkymää käytetään kaapin etunäkymässä ja asennuskuvasivuilla, 3D-mallia kaapin 3D-näkymässä. Molemmat sovitetaan asennustietoihin (leveys × korkeus × syvyys).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Malli ({} × {} × {}) poikkeaa asennustiedoista ({} × {} × {}); se venytetään asennustietojen mukaiseksi.
+The parts server has no library {} yet	Osapalvelimella ei ole vielä kirjastoa {}
 The price refers to this many units	Hinta koskee tätä yksikkömäärää
 The successor is not in this parts list	Seuraaja ei ole tässä osaluettelossa
 This part is an accessory	Tämä osa on lisävaruste

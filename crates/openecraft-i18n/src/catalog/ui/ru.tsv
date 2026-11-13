@@ -56,11 +56,13 @@ In the door, when they differ from the cutouts	В двери, если они о
 Internal values of the EPLAN part exchange (0: undefined)	Внутренние значения обмена изделиями EPLAN (0: не определено)
 It only works attached to one of the parts it fits; the project check reports it on a device without such a part	Работает только на одном из изделий, к которым подходит; проверка проекта сообщает о нём в устройстве без такого изделия
 Largest conductor the clamp takes (0: not known)	Наибольший проводник, который принимает клемма (0: неизвестно)
+Loaded the library {}	Библиотека {} загружена
 Loaded {} parts (revision {})	Загружено изделий: {} (ревизия {})
 Loading catalogs…	Загрузка каталогов…
 Loading favorites…	Загрузка избранного…
 Loading the history…	Загрузка истории…
 Loading users…	Загрузка пользователей…
+Loading {}…	Загрузка {}…
 Mark for adding to the parts database	Отметить для добавления в базу данных изделий
 Max. mm²	Макс. мм²
 Min. mm²	Мин. мм²
@@ -81,7 +83,6 @@ Pans (trackpad)	Сдвигает (тачпад)
 Parts server: {}	Сервер изделий: {}
 Parts this part is assembled from; the bill of materials lists them under it	Изделия, из которых собрано это изделие; спецификация перечисляет их под ним
 Personal access token	Персональный маркер доступа
-Picture	Изображение
 Place by clicking into the view	Разместите щелчком в виде
 Prices / other	Цены / прочее
 Remove all	Удалить все
@@ -92,6 +93,7 @@ Reset filter	Сбросить фильтр
 Rotate 90°:	Повернуть на 90°:
 Save the file	Сохранить файл
 Saved part {}	Изделие {} сохранено
+Saved the library {}	Библиотека {} сохранена
 Saving favorites…	Сохранение избранного…
 Saving {}…	Сохранение {}…
 Scale ×	Масштаб ×
@@ -107,6 +109,7 @@ Successor {}	Преемник {}
 Take {} values from the technical data	Взять значения из технических данных ({})
 The 2D front view is used in the panel front view and on mounting layout pages, the 3D model in the 3D panel view. Both are fitted to the mounting data (width × height × depth).	Вид спереди 2D используется в виде спереди шкафа и на листах монтажного плана, 3D-модель – в 3D-виде шкафа. Оба подгоняются под монтажные данные (ширина × высота × глубина).
 The model ({} × {} × {}) differs from the mounting data ({} × {} × {}); it is stretched to the mounting data.	Модель ({} × {} × {}) отличается от монтажных данных ({} × {} × {}); она растягивается до монтажных данных.
+The parts server has no library {} yet	На сервере изделий ещё нет библиотеки {}
 The price refers to this many units	Цена относится к этому количеству единиц
 The successor is not in this parts list	Преемника нет в этом списке изделий
 This part is an accessory	Это изделие — принадлежность

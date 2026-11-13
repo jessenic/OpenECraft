@@ -47,12 +47,14 @@ Altitude of the site in m	Nadmořská výška místa v m
 Ambient temperature of the conductors in °C	Okolní teplota vodičů v °C
 An outline needs {} points at least	Obrys potřebuje alespoň {} bodů
 Anchor along the axis: free, start:<mm>, center:<mm>, end:<mm> or stretch:<mm>,<mm>	Ukotvení podél osy: free, start:<mm>, center:<mm>, end:<mm> nebo stretch:<mm>,<mm>
+Angle in degrees, counter-clockwise	Úhel ve stupních, proti směru hodinových ručiček
 Aspects separated by commas, e.g. function,location	Aspekty oddělené čárkami, např. function,location
 Assigns a function definition to a placed symbol (designations and scheme are taken over)	Přiřadí umístěnému symbolu definici funkce (převezmou se označení a schéma)
 Asynchronous motors add to the short-circuit current	Asynchronní motory přispívají ke zkratovému proudu
 Automatic hardware configuration: stations for CPUs and bus couplers, bus systems, cards to stations, slots, start addresses, point addresses, IP addresses and a line topology	Automatická konfigurace hardwaru: stanice pro CPU a sběrnicové moduly, sběrnicové systémy, karty ke stanicím, sloty, počáteční adresy, adresy bodů, adresy IP a liniová topologie
 Back to the default rules first	Nejprve obnovit výchozí pravidla
 Back to the default strategy first	Nejprve obnovit výchozí strategii
+Back to the place above the project name	Zpět na místo nad názvem projektu
 Back-up protection up to this short-circuit current in kA (0: not given)	Záložní ochrana až do tohoto zkratového proudu v kA (0: neuvedeno)
 Bar id	ID přípojnice
 Bar thickness, mm (default 5)	Tloušťka přípojnice, mm (výchozí 5)
@@ -101,6 +103,7 @@ Chosen value	Zvolená hodnota
 Clearances, service space, heights, collision classes, thermal simulation and manufacturability of the panel layout	Odstupy, servisní prostor, výšky, třídy kolizí, tepelná simulace a vyrobitelnost rozvržení rozváděče
 Climate of the enclosures (IEC/TR 60890): power loss, inside temperature, fan or cooling unit and heating needed; optionally changes the settings of one	Klimatizace skříní (IEC/TR 60890): ztrátový výkon, vnitřní teplota, potřebný ventilátor nebo chladicí jednotka a topení; na přání změní nastavení jedné skříně
 Collision class: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, an own class or * for any	Třída kolize: power, drive, control, signal, terminal, rail, duct, busbar, cutout, accessory, vlastní třída nebo * pro libovolnou
+Colour as #RRGGBB	Barva jako #RRGGBB
 Column and row strips	Pruhy sloupců a řádků
 Column mapping {field code: column name}	Mapování sloupců {kód pole: název sloupce}
 Column name, e.g. Description	Název sloupce, např. Description
@@ -137,6 +140,7 @@ Creates or changes a configurator option	Vytvoří nebo změní volbu konfigurá
 Creates or changes a fluid device group	Vytvoří nebo změní skupinu tekutinových přístrojů
 Creates or changes a plot frame of the project (built-in frames are copied under a new name)	Vytvoří nebo změní rámeček výkresu projektu (vestavěné rámečky se zkopírují pod novým názvem)
 Creates or changes a potential definition; its wires take the colour and cross-section unless set on the wire	Vytvoří nebo změní definici potenciálu; jeho vodiče převezmou barvu a průřez, pokud nejsou nastaveny na vodiči
+Creates or changes a title block of the project (built-in ones are copied under a new name)	Vytvoří nebo změní rohové razítko projektu (vestavěná se zkopírují pod novým názvem)
 Creates or changes a work area: only the pages and devices of its structure are shown	Vytvoří nebo změní pracovní oblast: zobrazí se jen stránky a přístroje její struktury
 Cross reference placed by hand: X offset from the insertion point in mm	Křížový odkaz umístěný ručně: posun X od bodu vložení v mm
 Cross reference placed by hand: Y offset from the insertion point in mm	Křížový odkaz umístěný ručně: posun Y od bodu vložení v mm
@@ -171,6 +175,7 @@ Deletes a page	Odstraní stránku
 Deletes a page template of the project	Odstraní šablonu stránky projektu
 Deletes a plot frame of the project that no page uses	Odstraní rámeček výkresu projektu, který nepoužívá žádná stránka
 Deletes a potential definition	Odstraní definici potenciálu
+Deletes a title block of the project; pages using it get the project default	Odstraní rohové razítko projektu; stránky, které ho používají, dostanou výchozí razítko projektu
 Deletes a work area	Odstraní pracovní oblast
 Deletes symbols, wires, texts and shapes	Odstraní symboly, vodiče, texty a grafiku
 Depth in mm	Hloubka v mm
@@ -220,6 +225,7 @@ EMC classes of the cables (drive output, analogue, power, signal, shield) and th
 Edge length of the routing grid in mm	Délka hrany rastru vedení v mm
 Electrical device tags separated by commas or blanks (empty = remove the links)	Označení elektrických přístrojů oddělená čárkami nebo mezerami (prázdné = odebrat propojení)
 Electrical engineering	Elektrotechnika
+Elements (Line, Rect, Text, Image) in mm from the top left corner of the title block area in an items array	Prvky (Line, Rect, Text, Image) v mm od levého horního rohu oblasti razítka v poli items
 Enclosure (location, e.g. +CAB1)	Skříň (umístění, např. +CAB1)
 Enclosure (location, e.g. +CAB1) whose settings change	Skříň (umístění, např. +CAB1), jejíž nastavení se mění
 Enclosure climate and electrical sizing	Klima skříně a elektrické dimenzování
@@ -273,6 +279,7 @@ Height above the floor in metres	Výška nad podlahou v metrech
 Height above the mounting plate in mm (default 50)	Výška nad montážní deskou v mm (výchozí 50)
 Height in mm	Výška v mm
 Height in mm without plinth; negative: unknown (wall mounted)	Výška v mm bez soklu; záporná: neznámá (montáž na stěnu)
+Height in mm; the logo keeps its aspect ratio inside	Výška v mm; logo si v ní zachová poměr stran
 Higher-level product aspect (-) of the page; the devices on the page move along	Aspekt nadřazeného produktu (-) stránky; přístroje na stránce se přesunou s ním
 Highest actuator on the door above the floor (0: not checked)	Nejvyšší ovládací prvek na dveřích nad podlahou (0: nekontroluje se)
 Highest air temperature at devices without data (0: not checked)	Nejvyšší teplota vzduchu u přístrojů bez údajů (0: nekontroluje se)
@@ -311,6 +318,7 @@ Integration profiles and status	Integrační profily a stav
 Interruption points refer to: all (default), star or pairs	Body přerušení odkazují na: all (výchozí), star nebo pairs
 Invalid answer of the plugin: {}	Neplatná odpověď pluginu: {}
 Invalid segment name: {}	Neplatný název segmentu: {}
+Invalid title block elements: {}	Neplatné prvky rohového razítka: {}
 Item id	ID prvku
 Item ids	ID prvků
 Jumper number	Číslo propojky
@@ -329,6 +337,7 @@ Language the project texts are written in, e.g. en	Jazyk, ve kterém jsou texty 
 Larger round holes are milled, mm	Větší kruhové otvory se frézují, mm
 Largest difference between hole and tool, mm	Největší rozdíl mezi otvorem a nástrojem, mm
 Left edge from the left end of the wall (seen from inside) in mm	Levá hrana od levého konce stěny (při pohledu zevnitř) v mm
+Left edge in mm	Levý okraj v mm
 Left edge on the face in mm	Levý okraj na ploše v mm
 Left edge on the mounting plate in mm	Levý okraj na montážní desce v mm
 Left side bayed (no side panel)	Levá strana spojená do řady (bez boční stěny)
@@ -385,6 +394,7 @@ Lists the subprojects taken out of the project, or the project it was taken from
 Lists the symbols that can be placed, with their connection points relative to the insertion point	Vypíše symboly, které lze umístit, s jejich přípojnými body vzhledem k bodu vložení
 Lists the terminal strips with their number of terminals and length on the rail	Vypíše svorkovnice s počtem svorek a délkou na liště
 Lists the terminations chosen for wire ends and the kinds there are	Vypíše zvolená zakončení konců vodičů a dostupné druhy
+Lists the title blocks (built-in and the project's own) with their elements, the project default and the placeholders	Vypíše rohová razítka (vestavěná i vlastní razítka projektu) s jejich prvky, výchozí razítko projektu a zástupné symboly
 Lists the translation dictionary of the project texts (source line and translations)	Vypíše překladový slovník textů projektu (zdrojový řádek a překlady)
 Lists the window macros placed on the pages (macro boxes) with macro, variant, placeholder values and number of items	Vypíše okenní makra umístěná na stránkách (rámečky maker) s makrem, variantou, hodnotami zástupných symbolů a počtem prvků
 Load losses of the transformer in W (0: typical)	Ztráty nakrátko transformátoru ve W (0: typické)
@@ -438,6 +448,8 @@ Name of the main earthing terminal	Název hlavní uzemňovací svorky
 Name of the safety function to remove	Název bezpečnostní funkce k odebrání
 Name of the segment	Název segmentu
 Name of the template	Název šablony
+Name of the title block	Název rohového razítka
+Name of the title block (with page_type: empty removes the choice)	Název razítka (s page_type: prázdný odstraní volbu)
 Name of the work area	Název pracovní oblasti
 Name or id; the tag for places	Název nebo ID; u umístění označení
 Name placed by hand: X offset from the insertion point in mm	Název umístěný ručně: posun X od bodu vložení v mm
@@ -480,6 +492,7 @@ No terminal strip {}	Žádná svorkovnice {}
 No terminal {} on strip {}	Žádná svorka {} na svorkovnici {}
 No text with id {}	Žádný text s ID {}
 No three wires meet at {} / {} mm: give the direction of the stem	V {} / {} mm se nestýkají tři vodiče: zadejte směr stopky
+No title block named {}	Žádné rohové razítko s názvem {}
 No transformer: set {} first	Žádný transformátor: nejprve nastavte {}
 No wire at {} / {} mm	V místě {} / {} mm není žádný vodič
 No wire with id {}	Žádný vodič s ID {}
@@ -489,6 +502,7 @@ Node {} exists already	Uzel {} již existuje
 Nodes to pass in this order, comma separated	Uzly, kterými se má projít v tomto pořadí, oddělené čárkou
 Nominal size, e.g. 8 mm or DN25	Jmenovitá světlost, např. 8 mm nebo DN25
 None of the items is an interruption point	Žádný z prvků není bod přerušení
+Not a colour (#RRGGBB): {}	Není barva (#RRGGBB): {}
 Not a cross-section: {} (e.g. 1.5 mm²)	Nejde o průřez: {} (např. 1.5 mm²)
 Not a valid safety function: {}	Neplatná bezpečnostní funkce: {}
 Note, e.g. what the problem is	Poznámka, např. v čem je problém
@@ -510,6 +524,7 @@ One end, e.g. -K1:A1	Jeden konec, např. -K1:A1
 One row per printed label instead of a count	Jeden řádek na každý vytištěný štítek místo počtu
 Only devices on these pages (names separated by commas)	Pouze přístroje na těchto stránkách (názvy oddělené čárkami)
 Only doors and windows open	Otevírají se jen dveře a okna
+Only for pages of this type: schematic, cover, report, mounting, overview, graphic or document	Jen pro stránky tohoto typu: schematic, cover, report, mounting, overview, graphic nebo document
 Only lines without a translation into this language	Jen řádky bez překladu do tohoto jazyka
 Only list the new tags, change nothing	Pouze vypsat nová označení, nic neměnit
 Only shows the package, no job is recorded	Pouze zobrazí balíček, zakázka se nezaznamená
@@ -575,6 +590,7 @@ Places of the group (0 = not limited)	Místa skupiny (0 = neomezeno)
 Places the designation of a connection point of a symbol on a side and shifts it; without side and shift it is placed automatically again	Umístí označení přípojného bodu symbolu vlevo, vpravo, nad nebo pod něj a posune je; bez strany a posunu se opět umístí automaticky
 Places the line-up of an enclosure in the room (3D view of all enclosures); without x and z it is placed from the plant layout or next to the other line-ups	Umístí řadu skříní v místnosti (3D zobrazení všech skříní); bez x a z se umístí podle dispozice zařízení nebo vedle ostatních řad skříní
 Places the name and the cross reference of interruption points on a side of the arrow, or by hand at an offset from the insertion point	Umístí název a křížový odkaz bodů přerušení na stranu šipky nebo ručně s posunem od bodu vložení
+Places the project logo on the cover page (mm from the top left corner of the drawing area); without parameters it shows the place	Umístí logo projektu na titulní list (mm od levého horního rohu kreslicí plochy); bez parametrů zobrazí místo
 Places the properties of a scheme at symbols; without ids it is placed again at all symbols using it	Umístí vlastnosti schématu u symbolů; bez ID je znovu umístí u všech symbolů, které ho používají
 Planned part number	Plánované číslo artiklu
 Planned power in kW	Plánovaný výkon v kW
@@ -583,7 +599,7 @@ Plans the machining of a face: operations (drilling, tapping, milling, punching,
 Plant segments with planned devices before the schematic: templates, power budget, state against the schematic, exchange as CSV / Excel	Segmenty zařízení s plánovanými přístroji před schématem zapojení: šablony, výkonová bilance, stav vůči schématu, výměna jako CSV / Excel
 Plinth height in mm, 0 without plinth	Výška soklu v mm, 0 bez soklu
 Plot frame (list_frames); empty = the project default	Rámeček výkresu (list_frames); prázdné = výchozí nastavení projektu
-Plot frames and page templates of the project	Rámečky výkresů a šablony stránek projektu
+Plot frames, title blocks and page templates of the project	Rámečky výkresů, rohová razítka a šablony stránek projektu
 Plug tag, e.g. -X10	Označení konektoru, např. -X10
 Plugin id '{}' is not snake_case	ID pluginu '{}' není snake_case
 Plugin {} is loaded twice	Plugin {} je načten dvakrát
@@ -708,6 +724,8 @@ Sets the plot frame of all pages that do not choose one	Nastaví rámeček výkr
 Sets the shield and the outer diameter of a cable	Nastaví stínění a vnější průměr kabelu
 Sets the source language of the project texts and the target languages (ISO 639-1 codes)	Nastaví zdrojový jazyk textů projektu a cílové jazyky (kódy ISO 639-1)
 Sets the spare terminals of a strip and whether its accessories are added automatically	Nastaví rezervní svorky svorkovnice a zda se její příslušenství doplní automaticky
+Sets the stamp drawn across all pages by the state of the revision workflow (e.g. DRAFT); without parameters it shows the stamp	Nastaví razítko kreslené přes všechny stránky podle stavu revizního procesu (např. NÁVRH); bez parametrů razítko zobrazí
+Sets the title block of all pages that do not choose one, or of the pages of one type	Nastaví razítko všech stránek, které žádné nevybírají, nebo stránek jednoho typu
 Sets the translation of a line of the project texts (empty removes it)	Nastaví překlad řádku textů projektu (prázdný jej odebere)
 Sets the wire colour and cross-section of nets without a defined potential (empty = none)	Nastaví barvu a průřez vodičů pro sítě bez definovaného potenciálu (prázdné = žádné)
 Share of the capacity kept free in percent	Podíl kapacity ponechaný volný v procentech
@@ -791,11 +809,16 @@ Terminal designation	Označení svorky
 Terminal designations in strip order, separated by commas	Označení svorek v pořadí svorkovnice, oddělená čárkami
 Terminal order, levels, jumpers, spare terminals and accessories	Pořadí svorek, patra, propojky, rezervní svorky a příslušenství
 Text height in mm	Výška textu v mm
+Text height in mm (0: fitted to the page)	Výška textu v mm (0: přizpůsobená stránce)
 Text height in mm (default 3.5)	Výška textu v mm (výchozí 3.5)
 Text in id, name or order number	Text v ID, názvu nebo objednacím čísle
 Text in the key or name	Text v klíči nebo názvu
 Text in the line or a translation	Text v řádku nebo v překladu
 Text to find; empty: fill	Hledaný text; prázdné: vyplnit
+Text when everything is released, e.g. AS BUILT	Text, když je vše uvolněno, např. SKUTEČNÉ PROVEDENÍ
+Text when the revision is approved but not released	Text, když je revize schválena, ale neuvolněna
+Text while a revision is a draft or nothing is released yet (placeholders allowed; empty: none)	Text, dokud je revize návrhem nebo ještě nic není uvolněno (zástupné symboly povoleny; prázdné: žádný)
+Text while a revision is in review or was rejected	Text, dokud je revize v kontrole nebo byla zamítnuta
 Text; placeholders such as {page} or {prop:Name} are filled in when drawn	Text; zástupné symboly jako {page} nebo {prop:Name} se doplní při vykreslení
 The arms of a corner are one vertical and one horizontal direction, e.g. down left, not {}	Ramena rohu jsou jeden svislý a jeden vodorovný směr, např. down left, nikoli {}
 The cable definition line crosses no wire	Čára definice kabelu nekříží žádný vodič
@@ -830,7 +853,11 @@ Thermal simulation of the mounting plate: air temperatures, hot spot, heat sourc
 Thickest sheet or bar, mm	Nejsilnější plech nebo přípojnice, mm
 Time per drilling, punching or bending operation, s	Čas na jednu operaci vrtání, děrování nebo ohybu, s
 Time per tool change, s	Čas na jednu výměnu nástroje, s
+Title block (list_title_blocks); empty = the project default	Rohové razítko (list_title_blocks); prázdné = výchozí razítko projektu
+Title block of the pages with this frame that do not choose one; empty: the project default	Razítko stránek s tímto rámečkem, které žádné nevybírají; prázdné: výchozí razítko projektu
+Title block to start from when it is new (default: Standard)	Rohové razítko, ze kterého se vychází, je-li nové (výchozí: Standard)
 Tools, e.g. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120	Nástroje, např. D4.2 T1; M5 T21; F10 T30; R22.5 T101; Q92x92 T120
+Top edge in mm	Horní okraj v mm
 Top edge on the face in mm	Horní okraj na ploše v mm
 Top edge on the mounting plate in mm	Horní okraj na montážní desce v mm
 Translated line	Přeložený řádek
@@ -876,6 +903,7 @@ Unknown node: {}	Neznámý uzel: {}
 Unknown numbering scheme: {}	Neznámé schéma číslování: {}
 Unknown object class: {}	Neznámá třída objektu: {}
 Unknown order: {}	Neznámé pořadí: {}
+Unknown page type: {}	Neznámý typ stránky: {}
 Unknown paper format: {}	Neznámý formát papíru: {}
 Unknown path kind: {}	Neznámý druh trasy: {}
 Unknown placeholder {}: possible are {}	Neznámý zástupný symbol {}: možné jsou {}
@@ -914,7 +942,6 @@ Which line the position is on: top (first), middle or bottom (last)	Na kterém �
 Who accepted it	Kdo jej přijal
 Whole words only	Pouze celá slova
 Why the message is accepted	Proč je hlášení přijato
-Width in mm	Šířka v mm
 Width of the path in mm (default 50)	Šířka trasy v mm (výchozí 50)
 Width, depth and height of a room are at least {} mm	Šířka, hloubka a výška místnosti jsou alespoň {} mm
 Width, height and depth of an enclosure are at least {} mm	Šířka, výška a hloubka skříně jsou alespoň {} mm
@@ -980,6 +1007,7 @@ wired, problem or open	wired, problem nebo open
 {} has no enclosure bayed to its right side	K pravé straně {} není připojena žádná skříň
 {} has no enclosure system; give one	{} nemá systém skříní; zadejte jej
 {} is a built-in frame; give the frame a new name	{} je vestavěný rámeček; dejte rámečku nový název
+{} is a built-in title block; give the title block a new name	{} je vestavěné rohové razítko; dejte razítku nový název
 {} is a room already	{} je již místnost
 {} is ambiguous: use #id:pin	{} je nejednoznačné: použijte #id:pin
 {} is an enclosure already	{} je již skříň

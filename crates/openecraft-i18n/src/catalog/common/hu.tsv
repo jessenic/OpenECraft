@@ -195,6 +195,7 @@ Light	Világos
 Line	Vonal
 Link	Hivatkozás
 Linked	Kapcsolva
+Load	Fogyasztó
 Loaded circuits bunched together	Együtt fektetett terhelt áramkörök
 Location	Szerelési hely
 Location (+)	Szerelési hely (+)
@@ -230,6 +231,7 @@ Name of the scheme	A séma neve
 Net	Hálózat
 Never	Soha
 New name	Új név
+Next page	Következő oldal
 No	Nem
 No Vault item matches a part of the project	Egyik Vault-elem sem felel meg a projekt egyik alkatrészének sem
 No cable {}	Nincs {} kábel
@@ -252,10 +254,12 @@ No station {}	Nincs {} állomás
 No such page	Nincs ilyen oldal
 No such section	Nincs ilyen szakasz
 No symbol with id {}	Nincs {} azonosítójú szimbólum
+No title block of the project named {}	A projektben nincs {} nevű szövegmező
 Nominal size	Névleges méret
 Not a language code: {}	Nem nyelvkód: {}
 Not a macro file: {}	Nem makrófájl: {}
 Not a symbol id: {}	Nem szimbólumazonosító: {}
+Not a title block file: {}	Nem szövegmezőfájl: {}
 Not a valid rule set file: {}	Nem érvényes szabálykészletfájl: {}
 Not in the schematic	Nincs a kapcsolási rajzon
 Note	Megjegyzés
@@ -298,6 +302,7 @@ Parts	Alkatrészek
 Parts (CSV, JSON, BMEcat, EPLAN XML, EDZ)	Alkatrészek (CSV, JSON, BMEcat, EPLAN XML, EDZ)
 Parts import failed: {}	Sikertelen alkatrészimportálás: {}
 Password	Jelszó
+Picture	Kép
 Pieces	Darab
 Pin	Érintkezőtű
 Pin layout: {}	Lábelrendezés: {}
@@ -321,6 +326,7 @@ Power (kW)	Teljesítmény (kW)
 Power loss	Veszteségi teljesítmény
 Pre-planning	Előtervezés
 Press	Prés
+Previous page	Előző oldal
 Price	Ár
 Price unit	Áregység
 Process engineering	Folyamattechnika
@@ -330,6 +336,7 @@ Product top group	Termék-főcsoport
 Profile	Profil
 Project	Projekt
 Project languages	Projektnyelvek
+Project logo	Projektlogó
 Project management	Projektkezelés
 Project name	Projektnév
 Project properties	Projekttulajdonságok
@@ -349,6 +356,7 @@ Rectangular	Téglalap alakú
 Reject	Elutasítás
 Relative humidity	Relatív páratartalom
 Relay	Relé
+Released	Kiadva
 Released pages cannot be moved	A kiadott oldalak nem helyezhetők át
 Remove	Eltávolítás
 Remove from favorites	Eltávolítás a kedvencek közül
@@ -441,6 +449,7 @@ Time	Idő
 Title block	Szövegmező
 To	Cél
 Tools	Szerszámok
+Total	Összesen
 Transformer	Transzformátor
 Type	Típus
 Type number	Típusszám
@@ -471,6 +480,7 @@ Warning	Figyelmeztetés
 Warnings	Figyelmeztetések
 Weight	Tömeg
 Width	Szélesség
+Width in mm	Szélesség mm-ben
 Window	Ablak
 Wire	Vezeték
 Wire colours	Érszínek
@@ -503,6 +513,7 @@ yes	igen
 {} ({})	{} ({})
 {} does not stand on the floor: choose a part marked for floor mounting	{} nem a padlón áll: válasszon padlóra szerelésre jelölt alkatrészt
 {} exists already	{} már létezik
+{} is not a PNG or JPEG image	{} nem PNG- vagy JPEG-kép
 {} parts	{} alkatrész
 {} wires	{} vezeték
 {}, together with the wire to {}	{}, a(z) {} felé menő vezetékkel együtt

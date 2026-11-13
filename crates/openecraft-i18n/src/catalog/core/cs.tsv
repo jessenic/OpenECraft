@@ -340,6 +340,7 @@ DC control circuits should be blue (NFPA 79, 13.2.4)	Stejnosměrné řídicí ob
 DC/DC converter	Měnič DC/DC
 DWG export failed: {}	Export DWG selhal: {}
 Data sheet	Katalogový list
+Date of the approval of the last revision	Datum schválení poslední revize
 Date of the last revision	Datum poslední revize
 Degree of protection	Stupeň krytí
 Delete projects	Odstraňovat projekty
@@ -773,7 +774,6 @@ Limit switch NO (NFPA)	Koncový spínač spínací (NFPA)
 Line reactor	Síťová tlumivka
 Linear motor 3-phase	Lineární motor 3fázový
 Literal braces	Složené závorky (doslovně)
-Load	Spotřebič
 Load calculation	Výpočet zatížení
 Loads and power supplies	Spotřebiče a napájecí zdroje
 Loads behind it: {}	Následné spotřebiče: {}
@@ -1276,6 +1276,7 @@ Push button with key NO, latching	Tlačítko s klíčem, spínací, s aretací
 Pushbutton NC	Tlačítko rozpínací
 Pushbutton NO	Tlačítko spínací
 Pyramid roof	Stanová střecha
+QR code	QR kód
 Qty	Mn.
 RCD {} mA	RCD {} mA
 Radiation	Záření
@@ -1321,7 +1322,6 @@ Relay coil, remanent	Cívka relé, remanentní
 Relay coil, resonant	Cívka relé, rezonanční
 Relay coil, thermal	Cívka relé, tepelná
 Relays, contactors	Relé, stykače
-Released	Uvolněno
 Released pages cannot be deleted	Uvolněné stránky nelze odstranit
 Remote I/O	Decentrální periferie
 Remote I/O {} has no controller	Decentrální periferie {} nemá řídicí systém
@@ -1340,6 +1340,10 @@ Result	Výsledek
 Return / exhaust line	Zpětné / odfukové vedení
 Reviewer	Kontrolor
 Revision overview (changes)	Přehled revizí (změny)
+Revision table: author of the last revision (2: the one before …)	Tabulka revizí: autor poslední revize (2: předchozí …)
+Revision table: date of the last revision (2: the one before …)	Tabulka revizí: datum poslední revize (2: předchozí …)
+Revision table: description of the last revision (2: the one before …)	Tabulka revizí: popis poslední revize (2: předchozí …)
+Revision table: index of the last revision (2: the one before …)	Tabulka revizí: index poslední revize (2: předchozí …)
 Right side	Pravá strana
 Right side panel	Pravá boční stěna
 Ring terminal	Kabelové oko
@@ -1487,6 +1491,7 @@ Start date	Datum zahájení
 Started	Zahájeno
 Starting current ratio	Poměr záběrného proudu
 Starting torque	Záběrný moment
+State of the project: draft, in review, approved, released	Stav projektu: návrh, v kontrole, schváleno, uvolněno
 Station name (PROFINET)	Název stanice (PROFINET)
 Station name {} is used {} times	Název stanice {} je použit {}krát
 Station {} is not connected to bus {}	Stanice {} není připojena ke sběrnici {}
@@ -1660,7 +1665,6 @@ Timer relay coil, off-delay	Cívka časového relé, zpožděný odpad
 Timer relay coil, on-delay	Cívka časového relé, zpožděný přítah
 Title blocks and report forms	Rohová razítka a formuláře výkazů
 To order	K objednání
-Total	Celkem
 Total length (m)	Celková délka (m)
 Total price	Celková cena
 Total weight	Celková hmotnost
@@ -1781,6 +1785,7 @@ Wavemeter	Vlnoměr
 Wearing part	Rychle opotřebitelný díl
 Weld stud	Přivařovací svorník
 Wetted material	Materiál ve styku s médiem
+Who approved the last revision (review); {rev.2.approved_by}: the one before	Kdo schválil poslední revizi (kontrola); {rev.2.approved_by}: předchozí
 Width (mm)	Šířka (mm)
 Winding connection	Zapojení vinutí
 Wire assigned to unknown cable {}	Vodič přiřazen k neznámému kabelu {}

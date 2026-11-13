@@ -561,6 +561,51 @@ The shared `set_frame` command accepts optional JSON `artwork: {"items": [...]}`
 restores the generated frame. `list_frames` includes the artwork. Canvas, frame
 preview and exports use the same renderer. Older project files keep generated frames.
 
+### Title block images and text styles
+
+Hosts advertising `title_block_images` accept `Image` elements in title blocks
+(`forms.title_blocks[].items`) and in drawn report forms (`layout.header`, `layout.row`):
+`{"type": "Image", "a": {…}, "b": {…}, "picture": {"file": {"name", "data"}, "px": [w, h]}}`
+with a base64 PNG or JPEG fitted into the rectangle `a`..`b` keeping its aspect ratio.
+Without `picture` the element shows `info.logo` (same shape as `picture`), the project
+logo that the cover page also shows: above the project name, or fitted into
+`info.cover_logo` (`x`, `y`, `width`, `height` in mm from the top left corner of the
+drawing area; command `set_cover_logo`). `Text` elements take optional `bold`, `italic` and
+`angle` (degrees, counter-clockwise). Placeholders `{page.previous}`, `{page.next}` and
+`{rev.N.name|date|author|description}` (N-th last released revision) are filled like the
+others. The shared commands `list_title_blocks`, `set_title_block` (elements as
+`items: {"items": [...]}`), `delete_title_block`, `set_default_title_block` and
+`set_page` (`title_block`) edit them; the command line adds `add_title_block_image`
+and `set_project_info` (`logo`) for image files.
+
+### Form conditions, styles, QR codes and stamps
+
+Hosts advertising `form_customization` accept these further fields of
+`forms` (all optional, older files and plugins leave them out):
+
+- Every element of a title block or drawn form takes `show: {"filled": "…",
+  "page_types": [...]}`: it is drawn only when `filled` (with placeholders) is not empty
+  and only on pages of the given types (`schematic`, `cover`, `report`, `mounting`,
+  `overview`, `graphic`, `document`). `Line`, `Rect` and `Text` take `color: [r, g, b]`,
+  `Line` and `Rect` `dashed`. `{"type": "Qr", "a": {…}, "size": mm, "text": "…"}` draws a
+  QR code (byte mode, level M) of the filled text.
+- `forms.page_type_title_blocks` maps page types to title block names and
+  `forms.frames[].title_block` names the title block of a plot frame. A page uses its
+  own title block, else the one of its type, of its frame, the project default, Standard.
+- `forms.stamp` (`draft`, `review`, `approved`, `released`, `size`, `angle`, `color`)
+  is a text drawn across every page by the state of the revision workflow; placeholders
+  `{rev.status}`, `{rev.approved_by}`, `{rev.approved_date}` and
+  `{rev.N.approved_by|approved_date}` give the state and who approved a revision.
+- Report forms take `totals` (columns summed below the last row), `shade_rows` and
+  `align` (`{column: "Left" | "Center" | "Right"}`); frozen report pages keep them in
+  `totals`, `shade_rows` and `align` of their table.
+
+Commands: `set_stamp`, `set_default_title_block` (`page_type`), `set_frame`
+(`title_block`); `set_title_block` takes the new element fields. The form library
+(file and the parts server library `forms`, `GET` / `PUT /api/v1/libraries/forms`)
+also carries `frames`; the command line loads and publishes it with
+`parts_company_forms` (with `publish`).
+
 ### Live function reference fields
 
 Hosts advertising `function_cross_references` resolve the read-only

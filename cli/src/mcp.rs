@@ -39,7 +39,7 @@ pub fn root_from_env() -> Option<PathBuf> {
 }
 
 /// Parameters of the tools that name files or folders.
-const PATH_PARAMS: [&str; 7] = ["path", "output", "folder", "database", "target", "template", "macros"];
+const PATH_PARAMS: [&str; 8] = ["path", "output", "folder", "database", "target", "template", "macros", "logo"];
 
 /// Parameters of the tools that name several files, separated by `;`.
 const PATH_LIST_PARAMS: [&str; 1] = ["files"];

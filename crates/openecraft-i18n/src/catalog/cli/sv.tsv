@@ -5,6 +5,8 @@ Access token for changes	Åtkomsttoken för ändringar
 Access token of a Vault session or an Autodesk account instead of user and password	Åtkomsttoken för en Vault-session eller ett Autodesk-konto i stället för användare och lösenord
 Address of the Vault server, e.g. https://vault.example.com	Vault-serverns adress, t.ex. https://vault.example.com
 Adds a page	Lägger till en sida
+Adds an image (e.g. the company logo) to a title block of the project; without a file it shows the project logo	Lägger till en bild (t.ex. företagets logotyp) i en namnruta i projektet; utan fil visas projektets logotyp
+Adds the company's form library of the parts server (title blocks, report schemes, plot frames) to the project	Lägger till företagets formulärbibliotek från artikelservern (namnrutor, rapportscheman, ritningsramar) i projektet
 Adds the definitions and schemes of a property library file to the project	Lägger till definitionerna och schemana från en egenskapsbiblioteksfil i projektet
 All project files of a folder	Alla projektfiler i en mapp
 Also return the facets: values of groups, manufacturers, catalogs, lifecycle and technical data with their counts	Returnera även fasetterna: värden för grupper, tillverkare, kataloger, livscykel och tekniska data med deras antal
@@ -79,7 +81,7 @@ Finds the Vault items of the project parts (by item number or Part Number proper
 Folder id (default root)	Mapp-ID (standard root)
 Folder with project files	Mapp med projektfiler
 Folder with project files (instead of a database; default: the current folder)	Mapp med projektfiler (i stället för en databas; standard: aktuell mapp)
-Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)	Formulär: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (plint- och kabelscheman som ritningar)
+Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}	Formulär: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (plint- och kabelscheman som ritningar), totals [columns], shade_rows, align {column: Left, Center or Right}
 Function (=) of the generated pages	Funktion (=) för de genererade sidorna
 Further parameters of the export as name=value, separated by commas	Ytterligare parametrar för exporten som namn=värde, kommaavgränsade
 Further parameters of the export as name=value, separated by commas (see list_exports), e.g. harness=-WH1	Ytterligare parametrar för exporten som namn=värde, kommaavgränsade (se list_exports), t.ex. harness=-WH1
@@ -90,6 +92,7 @@ Generates the pages of the report blocks again (replacing the pages they generat
 Give either template or path	Ange antingen template eller path
 Gives a user or group a role on a manufacturer (scope) of the parts server, with deny takes its rights away, with revoke removes grants (administrators only)	Ger en användare eller grupp en roll för en tillverkare (omfång) på artikelservern, tar med deny bort dess behörigheter, tar med revoke bort tilldelningar (endast administratörer)
 Groups to generate, wildcards allowed (-X*, -W1); empty: all	Grupper att generera, jokertecken tillåtna (-X*, -W1); tomt: alla
+Height in mm; the image keeps its aspect ratio inside	Höjd i mm; bilden behåller sitt bildförhållande inuti
 Id of a file (file_id of vault_browse) that gets a new version	ID för en fil (file_id från vault_browse) som får en ny version
 Id of the file version (version_id of vault_browse)	Filversionens ID (version_id från vault_browse)
 Id of the knowledge vault (taken from the session if not given)	Kunskapsvalvets ID (hämtas från sessionen om det inte anges)
@@ -109,6 +112,7 @@ Keep the file checked out after the check-in	Behåll filen utcheckad efter inche
 Kind of server: OpenECraft (parts server) or Eplan (EPLAN Data Portal: searching and reading only, the token is the personal access token of the EPLAN account)	Typ av server: OpenECraft (artikelserver) eller Eplan (EPLAN Data Portal: endast sökning och läsning, token är EPLAN-kontots personliga åtkomsttoken)
 Language of the export (a project language)	Språk för exporten (ett projektspråk)
 Language of the project texts and reports (a project language, default the source language)	Språk för projekttexterna och rapporterna (ett projektspråk, standard är källspråket)
+Left edge in mm from the left of the title block area	Vänsterkant i mm från namnrutans vänstra kant
 Library file	Biblioteksfil
 Lifecycle: Active, PhaseOut or Discontinued	Livscykel: Active, PhaseOut eller Discontinued
 Lists the built-in structure templates	Listar de inbyggda strukturmallarna
@@ -159,6 +163,8 @@ Output file (JSON)	Utdatafil (JSON)
 Output file; without it the content is returned	Utdatafil; utan den returneras innehållet
 Outputs report pages as fixed pages into another project file; pages output from this project before are replaced	Matar ut rapportsidor som fasta sidor till en annan projektfil; sidor som tidigare matats ut från det här projektet ersätts
 PDF file with comments	PDF-fil med kommentarer
+PNG or JPEG file kept in the title block (default: the project logo)	PNG- eller JPEG-fil som sparas i namnrutan (standard: projektets logotyp)
+PNG or JPEG file of the project logo (cover page, title blocks); empty removes it	PNG- eller JPEG-fil med projektets logotyp (försättsblad, namnrutor); tomt tar bort den
 Page (svg: required, dxf, dwg: default all pages)	Sida (svg: krävs, dxf, dwg: standard alla sidor)
 Page name (default: next number)	Sidnamn (standard: nästa nummer)
 Page of the export	Sida för exporten
@@ -230,6 +236,7 @@ Start from a project template: a built-in one (Machine, Distribution board (IEC 
 Start from an example project (names: list_examples)	Utgå från ett exempelprojekt (namn: list_examples)
 Start from the demo project	Börja från demoprojektet
 Stores a file (datasheet, image, model, macro …) with a part on the parts server	Lagrar en fil (datablad, bild, modell, makro …) med en artikel på artikelservern
+Stores the project's own title blocks, report schemes and plot frames as the company's form library on the parts server (editors)	Sparar projektets egna namnrutor, rapportscheman och ritningsramar som företagets formulärbibliotek på artikelservern (redaktörer)
 Subproject file (.oec)	Delprojektfil (.oec)
 Subproject file to write (.oec)	Delprojektfil som ska skrivas (.oec)
 Take the changes over (otherwise only a preview)	Överför ändringarna (annars endast förhandsgranskning)
@@ -247,9 +254,13 @@ The catalog needs a name	Katalogen behöver ett namn
 The format xlsx needs a path	Formatet xlsx kräver en sökväg
 The open project has unsaved changes: save it first or pass discard	Det öppna projektet har osparade ändringar: spara det först eller ange discard
 The part number must not be empty	Artikelnumret får inte vara tomt
+The parts server has no form library yet	Artikelservern har inget formulärbibliotek än
 The project has no file yet: pass a path	Projektet har ingen fil ännu: ange en sökväg
+The project has no title blocks, report schemes or plot frames of its own	Projektet har inga egna namnrutor, rapportscheman eller ritningsramar
 This command needs a project: --project <file>	Det här kommandot kräver ett projekt: --project <fil>
 This format needs an output file (path)	Det här formatet kräver en utdatafil (path)
+Title block of the project (list_title_blocks)	Namnruta i projektet (list_title_blocks)
+Top edge in mm from the top of the title block area	Överkant i mm från namnrutans överkant
 Undoes the last change	Ångrar den senaste ändringen
 Unexpected argument: {}	Oväntat argument: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Okänt kommando: {}. Kör openecraft-cli help för att få en lista.
@@ -268,6 +279,7 @@ User name to sign in with	Användarnamn för inloggning
 User or group name (wildcards; directory groups as directory:group)	Användar- eller gruppnamn (jokertecken; grupper i en katalogtjänst som katalogtjänst:grupp)
 Values to set (name: value; an empty value removes a property)	Värden som ska anges (namn: värde; ett tomt värde tar bort en egenskap)
 Vault user name (signs in)	Vault-användarnamn (loggar in)
+Width and height must be greater than 0	Bredd och höjd måste vara större än 0
 Write the table as CSV to this file	Skriv tabellen som CSV till den här filen
 Writes the check scheme of the project (checks switched off, message levels) to a file	Skriver projektets kontrollschema (avstängda kontroller, meddelandenivåer) till en fil
 Writes the embedded file of a document page	Skriver den inbäddade filen för en dokumentsida

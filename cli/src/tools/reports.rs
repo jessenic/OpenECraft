@@ -41,7 +41,7 @@ pub static TOOLS: &[Tool] = &[
         params: &[
             param("name", Kind::Str, tr_const!("Name of the scheme")),
             param("kind", Kind::Str, tr_const!("Report the scheme belongs to")),
-            param("form", Kind::Object, tr_const!("Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings)")),
+            param("form", Kind::Object, tr_const!("Form: title, columns, rows, filters [{column, op, value}], sort [{column, descending}], group, blank_repeats, widths, text_size, graphic (terminal and cable diagrams as drawings), totals [columns], shade_rows, align {column: Left, Center or Right}")),
         ],
         needs_project: true,
         run: set_report_scheme,

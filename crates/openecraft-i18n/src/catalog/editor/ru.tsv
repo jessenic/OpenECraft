@@ -21,6 +21,7 @@
 0 = a single value; otherwise values [1] … [n]	0 = одно значение; иначе значения [1] … [n]
 0 = all approvers	0 = все утверждающие
 0 = estimated from cores and cross-section	0 = оценивается по жилам и сечению
+0 = fitted to the page	0 = по размеру листа
 0 = fitted to the rows per page	0 = по числу строк на листе
 0 = from the DC of the devices ({} %)	0 = по DC устройств ({} %)
 0 = from the devices	0 = из устройств
@@ -48,6 +49,7 @@ A baseline stores the whole project (pages, devices, parts, settings). Releasing
 A cable of the bus type for every connection without cable	Кабель шинного типа для каждого соединения без кабеля
 A cutout of the same size at the same place in the neighbour's side wall: together they are a cable passage	Вырез того же размера в том же месте боковой стенки соседа: вместе они образуют кабельный проход
 A file of the same name in the folder gets a new version (checked out and in), otherwise the file is added	Одноимённый файл в папке получает новую версию (извлекается и возвращается), иначе файл добавляется
+A large text across every page, e.g. DRAFT while a revision is being prepared; texts take placeholders, empty: no stamp.	Крупный текст поперёк каждого листа, например ЧЕРНОВИК, пока готовится изменение; тексты принимают заполнители, пусто: без штампа.
 A level on top of the highest one	Этаж над самым верхним
 A local file opens locally, a server project is opened on the project server again	Локальный файл открывается локально, проект с сервера снова открывается на сервере проектов
 A local file or a project on the project server	Локальный файл или проект на сервере проектов
@@ -55,6 +57,7 @@ A new project	Новый проект
 A new release is downloaded in the background and installed when you close OpenECraft.	Новая версия загружается в фоновом режиме и устанавливается при закрытии OpenECraft.
 A new release is downloaded in the background and replaces this installation; it is used from the next start.	Новая версия загружается в фоновом режиме и заменяет эту установку; она используется со следующего запуска.
 A numbered section that holds pages like a directory; the page names start with its number (2.3.1)	Нумерованный раздел, содержащий листы как папка; имена листов начинаются с его номера (2.3.1)
+A picture kept in the form, e.g. the company logo	Изображение, хранящееся в форме, например логотип компании
 A profile maps the neutral fields to the column names of a particular system (e.g. MATNR for the ERP number in SAP). Without a mapping, common names in English and German are recognized.	Профиль сопоставляет нейтральные поля с именами столбцов конкретной системы (например, MATNR для номера ERP в SAP). Без сопоставления распознаются распространенные английские и немецкие имена.
 A project definition based on this one, with its own defaults and scheme	Определение проекта на основе этого, с собственными значениями по умолчанию и схемой
 A project file opened from the file manager opens instead. Unsaved changes of the last session are never dropped without asking.	Вместо этого открывается файл проекта, открытый из файлового менеджера. Несохранённые изменения последнего сеанса никогда не отбрасываются без вопроса.
@@ -66,8 +69,10 @@ A template of this name is replaced.	Шаблон с этим именем бу�
 A template sets the page type, plot frame, title block, structure and description of a new page and places its content.	Шаблон задаёт тип листа, рамку, основную надпись, структуру и описание нового листа и размещает его содержимое.
 A way through free air costs this many times the way in a duct or routing path	Путь по открытому пространству стоит во столько раз дороже пути в канале или по пути прокладки
 A work area limits the pages and devices in the navigator to a part of the project. Filters: empty = any, * = any characters; A1 also covers A1.2.	Рабочая область ограничивает листы и устройства в навигаторе частью проекта. Фильтры: пусто = любой, * = любые символы; A1 охватывает также A1.2.
+APPROVED	УТВЕРЖДЕНО
 About OpenECraft	О программе OpenECraft
 Above the floor	Над полом
+Above the project name	Над названием проекта
 Accept as checked	Принять как проверенное
 Accepted messages ({})	Принятые сообщения ({})
 Active	Активна
@@ -144,6 +149,7 @@ Apply to the connection	Применить к соединению
 Apply to {} projects	Применить к проектам: {}
 Approval workflow	Процесс утверждения
 Approvals needed	Требуется утверждений
+Approved	Утверждено
 Approving needs an approver; you are \"{}\".	Утверждать может только утверждающий; вы – \"{}\".
 Arc	Дуга
 Archive and version	Архив и версия
@@ -285,6 +291,7 @@ Choose a project on every start: local files and projects of the project server	
 Choose a room first: floor-standing parts go on its floor.	Сначала выберите помещение: напольные изделия ставятся на его пол.
 Choose another project	Выбрать другой проект
 Choose file…	Выбрать файл…
+Choose image…	Выбрать изображение…
 Choose pages	Выбрать листы
 Chooses the pages whose structure starts with this	Выбирает листы, структура которых начинается с этого
 Circle	Окружность
@@ -361,6 +368,7 @@ Comments ({} open)	Комментарии (открыто: {})
 Comments ({})	Комментарии ({})
 Comments a reviewer made in a PDF export of the project (Acrobat or another PDF viewer)	Комментарии рецензента в PDF-экспорте проекта (Acrobat или другое средство просмотра PDF)
 Comments and markup	Комментарии и пометки
+Company library	Библиотека компании
 Compare and baselines	Сравнение и базовые версии
 Compare with	Сравнить с
 Compare with a baseline, a revision or another project file and take differences over	Сравнить с базовой версией, ревизией или другим файлом проекта и принять различия
@@ -404,6 +412,7 @@ Core designations separated by blanks	Обозначения жил через �
 Core labels placed by hand	Надписи жил размещены вручную
 Cores 1, 2, 3 … for the wires crossed, plus GNYE	Жилы 1, 2, 3 … для пересекаемых проводов, плюс GNYE
 Corner: two wires at a right angle; with Auto-connect on, connection points facing its arms are wired to it	Угол: два провода под прямым углом; при включённом автосоединении точки подключения напротив его плеч соединяются с ним
+Counter-clockwise, e.g. 90 for texts running upwards	Против часовой стрелки, например 90 для текстов, идущих вверх
 Cover sheet, overview, graphics, report, mounting layout or a page template	Титульный лист, обзор, графика, отчёт, монтажная компоновка или шаблон листа
 Covers	Покрывает
 Covers what is behind the text	Закрывает то, что находится за текстом
@@ -430,6 +439,8 @@ Cut length step tubes	Шаг длины отрезка трубок
 Cut length step wires	Шаг длины отрезка проводов
 Cutout {} × {} mm	Вырез {} × {} мм
 Cutting allowance per end	Припуск на резку на каждый конец
+DRAFT	ЧЕРНОВИК
+DRAFT, FOR APPROVAL and APPROVED in the current language; nothing once released	ЧЕРНОВИК, НА УТВЕРЖДЕНИЕ и УТВЕРЖДЕНО на текущем языке; после выпуска ничего
 DWG import failed: {}	Сбой импорта DWG: {}
 DWG imported as page {}: {} lines, {} texts	DWG импортирован как лист {}: линий: {}, текстов: {}
 DWG imported as page {}: {} lines, {} texts (not imported: {})	DWG импортирован как лист {}: линий: {}, текстов: {} (не импортировано: {})
@@ -559,6 +570,7 @@ Downloaded {} (version {})	{} скачан (версия {})
 Downloaded {} parts (revision {}): {} new, {} updated	Скачано изделий: {} (ревизия {}): новых – {}, обновлено – {}
 Downloading OpenECraft {}	Загрузка OpenECraft {}
 Downstream part	Нижестоящее изделие
+Draft	Черновик
 Draft of revision {} created	Черновик ревизии {} создан
 Draft of revision {} discarded	Черновик ревизии {} отменён
 Drag	Перетаскивание
@@ -664,6 +676,7 @@ Exporting {}	Экспорт {}
 Export…	Экспортировать…
 Extend guides to canvas edges	Продлить направляющие до краёв холста
 Extras	Дополнительно
+FOR APPROVAL	НА УТВЕРЖДЕНИЕ
 Facing	Ориентация
 Fans, filters, cable glands, lights, handles: choose one, then click where it goes	Вентиляторы, фильтры, кабельные вводы, светильники, ручки: выберите один, затем щёлкните место установки
 Fastening hardware in the bill of materials	Крепёж в спецификации
@@ -699,6 +712,7 @@ First row	Первая строка
 Fit	Вписать
 Fit page	По размеру листа
 Fits {}	Подходит к {}
+Fitted into the rectangle keeping its aspect ratio (PNG, JPEG)	Вписывается в прямоугольник с сохранением пропорций (PNG, JPEG)
 Float	Открепить
 Floor above ground	Пол над землёй
 Floor plan	План помещения
@@ -706,8 +720,10 @@ Floor plan with {} walls	План с {} стенами
 Floor-standing part	Напольное изделие
 Fluid and process	Гидропневматика и технологические процессы
 Follows its condition: use Apply conditions	Зависит от условия: используйте «Применить условия»
+Font	Шрифт
 Foot	Начало
 For	Для
+For pages that choose none; before the plot frame's title block and the project default.	Для листов, которые не выбирают свою; раньше надписи рамки чертежа и надписи проекта по умолчанию.
 For parts without Stock length; longer profiles have to be joined	Для изделий без Stock length; более длинные профили требуют стыковки
 For parts without temperature data (Max temperature, Operating temperature); 0: not checked	Для изделий без температурных данных (Max temperature, Operating temperature); 0: не проверяется
 For the import into EPLAN parts management (P_ARTICLE_* attributes, texts in en_US)	Для импорта в управление изделиями EPLAN (атрибуты P_ARTICLE_*, тексты на en_US)
@@ -729,6 +745,7 @@ From a template file…	Из файла шаблона…
 From row to row; 0: free of shade in winter	От ряда к ряду; 0: без затенения зимой
 From the function definition	Из определения функции
 From the left end	От левого конца
+From the top left corner of the drawing area	От левого верхнего угла области чертежа
 From – to	От – до
 Fullest stretch	Наиболее заполненный участок
 Function definitions	Определения функций
@@ -849,6 +866,7 @@ Imported {} title blocks and {} report schemes	Импортировано осн
 Importing {} from the parts server…	Импорт {} с сервера изделий…
 Import…	Импортировать…
 In every section counting starts again after the section number (2.3.1).	В каждом разделе счёт начинается заново после номера раздела (2.3.1).
+In review	На проверке
 In strip order; PE and other non-numeric terminals keep their designation	В порядке колодки; PE и другие нечисловые клеммы сохраняют своё обозначение
 In the filtered rows	В отфильтрованных строках
 In the middle of the first wire	В середине первого провода
@@ -983,6 +1001,8 @@ Locked by {} on the project server – read only	Заблокировано по
 Locked by {} – read only	Заблокировано пользователем {} – только чтение
 Locking…	Блокировка…
 Logic	Логика
+Logo	Логотип
+Logo on the cover page	Логотип на титульном листе
 Longer values are drawn smaller (0 = no limit)	Более длинные значения рисуются мельче (0 = без ограничения)
 Look for updates when OpenECraft starts	Искать обновления при запуске OpenECraft
 Looking for updates…	Поиск обновлений…
@@ -1134,7 +1154,6 @@ New zone	Новая зона
 New, empty placement scheme	Новая пустая схема размещения
 Next free contact numbers on this device	Следующие свободные номера контактов на этом устройстве
 Next item	Следующий элемент
-Next page	Следующий лист
 Next page tab	Следующая вкладка листа
 Next pane	Следующая панель
 Next row	Следующая строка
@@ -1194,7 +1213,6 @@ None – editing a page or the project data locks it.	Нет – изменен�
 Not a page template file: {}	Не файл шаблонов листов: {}
 Not a point: type x y or @dx dy	Не точка: введите x y или @dx dy
 Not a symbol library: {}	Не библиотека символов: {}
-Not a title block file: {}	Не файл основных надписей: {}
 Not changed: {}	Не изменено: {}
 Not found: {}	Не найдено: {}
 Not in the project parts – synchronize in parts management	Нет в изделиях проекта – синхронизируйте в управлении изделиями
@@ -1225,9 +1243,11 @@ One row per label	Одна строка на каждый маркер
 Only devices on the current page	Только устройства на текущем листе
 Only frames no page uses can be deleted	Удалять можно только рамки, которые не используются ни одним листом
 Only messages of the current page	Только сообщения текущего листа
+Only on pages of these types (none ticked: on all)	Только на листах этих типов (ничего не отмечено: на всех)
 Only parts whose function template provides the device's main function	Только изделия, шаблон функций которых предоставляет главную функцию устройства
 Only rows that pass all filters are shown	Показываются только строки, удовлетворяющие всем фильтрам
 Only web and e-mail addresses (http, https, mailto) are links	Ссылками могут быть только веб- и почтовые адреса (http, https, mailto)
+Only when filled	Только если заполнено
 Open a specific project	Открыть определённый проект
 Open and save shared projects, lock pages	Открытие и сохранение общих проектов, блокировка листов
 Open archive…	Открыть архив…
@@ -1300,6 +1320,8 @@ Overhang	Свес
 Own colour	Собственный цвет
 Own drawn form	Собственная нарисованная форма
 Own groups	Собственные группы
+Own picture	Своё изображение
+Own place	Своё место
 PCT loops (pre-planning)	Контуры КИПиА (предварительное проектирование)
 PDF with comments	PDF с комментариями
 PDF {}	PDF {}
@@ -1380,6 +1402,7 @@ Placed by hand; choosing a side places them anew.	Размещены вручн�
 Placed here: {}	Размещено здесь: {}
 Placed {}× in the project	Размещено в проекте: {}×
 Placeholders	Заполнители
+Placeholders are filled, e.g. a link with {project} and {page}	Заполнители заполняются, например ссылка с {project} и {page}
 Placeholders like {MOTOR} in tags, texts and function texts are filled in when inserting.	Заполнители, например {MOTOR}, в обозначениях, текстах и текстах функций заполняются при вставке.
 Placeholders: {letter} identifying letter, {n} counter, {page} page, {column} / {row} where the main function stands	Заполнители: {letter} буквенный код, {n} счётчик, {page} лист, {column} / {row} место главной функции
 Placeholders: {n} counter (counted per value of the rest), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Without {n}, connections with the same text share the number.	Заполнители: {n} счётчик (отдельно для каждого значения остального текста), {page}, {column}, {row}, {potential}, {kind}, {color}, {cross_section}. Без {n} соединения с одинаковым текстом получают общий номер.
@@ -1423,7 +1446,6 @@ Prefix	Префикс
 Press a key…	Нажмите клавишу…
 Preview	Предпросмотр
 Previous item	Предыдущий элемент
-Previous page	Предыдущий лист
 Previous page tab	Предыдущая вкладка листа
 Previous pane	Предыдущая панель
 Previous wire	Предыдущий провод
@@ -1467,6 +1489,7 @@ Property definitions, function definitions, placement schemes and the values of 
 Property groups	Группы свойств
 Property placement	Размещение свойств
 Property removed with {} values	Свойство удалено, значений: {}
+Publish	Опубликовать
 Put a room here	Поставить сюда помещение
 Put into the vault	Поместить в хранилище
 Put the pane back into the workspace	Вернуть панель в рабочее пространство
@@ -1555,6 +1578,7 @@ Replace with	Заменить на
 Replaced when the configurator generates again; switch off to keep the page	Заменяется при следующем создании конфигуратором; выключите, чтобы сохранить лист
 Replaces in free texts, function texts, page, device and cable descriptions; released pages stay	Заменяет в свободных текстах, текстах функций, описаниях листов, устройств и кабелей; выпущенные листы не изменяются
 Replaces the GEN.* parts in the database with the current example catalog (including models)	Заменяет изделия GEN.* в базе данных текущим примером каталога (включая модели)
+Replaces the company library with the project's own title blocks, report schemes and plot frames (editors of the parts server)	Заменяет библиотеку компании собственными основными надписями, схемами отчётов и рамками проекта (редакторы сервера изделий)
 Replaces the content of the macro boxes whose macro changed in the library	Заменяет содержимое рамок макросов, макрос которых изменился в библиотеке
 Replaces the pages of this block	Заменяет листы этого блока
 Reply	Ответить
@@ -1744,6 +1768,7 @@ Settings scheme	Схема настроек
 Settings scheme (JSON)	Схема настроек (JSON)
 Settings taken over: {}	Приняты настройки: {}
 Settings…	Настройки…
+Shade every second row	Затенять каждую вторую строку
 Shafts	Шахты
 Share of the capacity kept free for later additions	Доля ёмкости, оставляемая свободной для последующих дополнений
 Shared project {} – revision {}, user {}	Общий проект {} – ревизия {}, пользователь {}
@@ -1778,9 +1803,12 @@ Show the pane as a window	Показать панель в отдельном о
 Show the ribbon	Показать ленту
 Show this wire	Показать этот провод
 Show who may use the project	Показать, кто может использовать проект
+Shown	Показывается
 Shown as \"Name: value\"	Отображается как «Имя: значение»
 Shown in title blocks with {prop:Name}	Отображается в основных надписях через {prop:Name}
 Shown instead of the measured value	Отображается вместо измеренного значения
+Shown now: {}	Сейчас показывается: {}
+Shown on the cover page and by the image elements of title blocks that show the project logo	Показывается на титульном листе и в элементах изображения основных надписей, показывающих логотип проекта
 Shows	Показывает
 Side walls, rear wall, roof and bottom seen from the outside: fans, cable glands, cutouts	Боковые стенки, задняя стенка, крыша и дно снаружи: вентиляторы, кабельные вводы, вырезы
 Sign in in the Project server pane; the project opens afterwards	Войдите в панели «Сервер проектов»; затем проект откроется
@@ -1811,6 +1839,7 @@ Spare terminals	Резервные клеммы
 Special text	Специальный текст
 Special text: project and page properties such as {page} or {prop:Name} are filled in when the page is drawn	Специальный текст: свойства проекта и листа, например {page} или {prop:Name}, подставляются при отрисовке листа
 Stairs	Лестницы
+Stamp	Штамп
 Standard form of the report	Стандартная форма отчёта
 Standard size	Стандартный размер
 Standard workspaces	Стандартные рабочие пространства
@@ -1855,6 +1884,8 @@ Subproject saved as {}: its pages are locked until it is inserted	Подпрое
 Subproject {} inserted: {} pages replaced by {}	Подпроект {0} вставлен: листы ({1}) заменены на {2}
 Subprojects	Подпроекты
 Subsystem {}	Подсистема {}
+Suggested texts	Предлагаемые тексты
+Sums the column in a row below the last row of the report	Суммирует столбец в строке под последней строкой отчёта
 Supply and conditions	Питание и условия
 Surge protection	Защита от перенапряжений
 Swing the enclosure door open or shut (door devices and their wires move with it)	Открыть или закрыть дверь корпуса (устройства на двери и их провода поворачиваются вместе с ней)
@@ -1924,9 +1955,12 @@ The devices do not fit onto the rail	Устройства не помещают�
 The dictionary is empty: collect the texts from the project.	Словарь пуст: соберите тексты из проекта.
 The door seen from the front: door devices and cutouts	Дверь спереди: устройства на двери и вырезы
 The door seen from the inside (hinges on the right): cable ducts and the wiring behind the door	Дверь изнутри (петли справа): кабельные каналы и разводка за дверью
+The element is drawn only when this text with its placeholders is not empty, e.g. the rows of a revision table	Элемент рисуется, только если этот текст с заполнителями не пуст, например строки таблицы изменений
 The enclosure stands with its left side against the right side of the chosen one; wires run between them through cable passages	Шкаф стоит левой стороной к правой стороне выбранного; провода проходят между ними через кабельные проходы
 The horizontal wire	Горизонтальный провод
 The items are selected and moved together	Элементы выделяются и перемещаются вместе
+The logo is fitted into this area keeping its aspect ratio	Логотип вписывается в эту область с сохранением пропорций
+The logo of the project properties, e.g. the customer's	Логотип из свойств проекта, например логотип заказчика
 The macro library has no page macros (Macros › Save page as macro…).	В библиотеке макросов нет макросов листов (Макросы › Сохранить лист как макрос…).
 The modifiers that turn the wheel sideways or make it zoom are set under Modifier keys.	Модификаторы, с которыми колесо сдвигает вбок или масштабирует, задаются в разделе «Клавиши-модификаторы».
 The modules no string takes yet in series, on the first inverter	Модули, не занятые ни одной цепочкой, последовательно, на первом инверторе
@@ -1974,8 +2008,11 @@ Three wires must meet here: one in its direction and two across. Until then the 
 Three-phase short-circuit current at the supply point	Ток трёхфазного короткого замыкания в точке питания
 Tilt	Наклон
 Title	Заголовок
+Title block by page type	Основная надпись по типу листа
+Title block of the pages with this frame that choose none, e.g. a narrower one for A4 portrait	Основная надпись листов с этой рамкой, которые не выбирают свою, например более узкая для A4 книжной
 Title blocks	Основные надписи
 Title blocks, plot frames and page templates	Основные надписи, рамки листов и шаблоны листов
+Title blocks, report schemes and plot frames shared by all projects on the parts server (Parts › Parts server)	Основные надписи, схемы отчётов и рамки, общие для всех проектов на сервере изделий (Изделия › Сервер изделий)
 To do	Осталось
 Toggle corner direction while drawing wires	Переключать направление угла при рисовании проводов
 Toggle routing around symbols (wire tool)	Обход символов вкл. / выкл. (инструмент «Соединение»)
@@ -2305,7 +2342,6 @@ x y	x y
 {} has unsaved changes. Discard them?	В {} есть несохранённые изменения. Отменить их?
 {} imported into the parts database and placed as {}	{} импортировано в базу данных изделий и размещено как {}
 {} is neither in the parts database nor on the parts server	{} нет ни в базе данных изделий, ни на сервере изделий
-{} is not a PNG or JPEG image	{} не является изображением PNG или JPEG
 {} is not in the disk image	{} нет в образе диска
 {} is not made for wall mounting: place it on a mounting rail	{} не предназначен для настенного монтажа: установите его на рейку
 {} is used by: {}	{} используется: {}
@@ -2419,12 +2455,14 @@ x y	x y
 ✔ The project data is consistent.	✔ Данные проекта согласованы.
 ✔ Wired	✔ Смонтирован
 ➕ Default value	➕ Значение по умолчанию
+➕ Image	➕ Изображение
 ➕ Insert (click into the page)	➕ Вставить (щёлкните на листе)
 ➕ Insert as new page	➕ Вставить как новый лист
 ➕ Label	➕ Надпись
 ➕ Line	➕ Линия
 ➕ Place property	➕ Разместить свойство
 ➕ Property	➕ Свойство
+➕ QR code	➕ QR-код
 ➕ Rectangle	➕ Прямоугольник
 ➕ Text	➕ Текст
 ⬉ Select	⬉ Выбрать
