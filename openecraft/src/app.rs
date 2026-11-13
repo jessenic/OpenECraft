@@ -229,6 +229,9 @@ struct Message {
 pub struct App {
     /// The open project with its history, analysis and saved state.
     session: Session,
+    /// The files of the split project that was just read, until it becomes the open
+    /// project (`replace_project`).
+    opened: Option<openecraft_core::storage::folder::Tracked>,
     editor: Editor,
     io: FileIo,
     /// Arrangement of the panes of the current workspace.
@@ -510,6 +513,7 @@ impl App {
         let first_start = !shell.started && !stored;
         let mut app = App {
             session: Session::new(prj, file_name),
+            opened: None,
             editor: {
                 let mut editor = Editor::default();
                 editor.shortcuts = shortcuts;
@@ -799,7 +803,9 @@ impl App {
         if let Some(path) = &file_name {
             self.remember_recent(path);
         }
-        self.session.replace(prj, file_name);
+        // The files of a split project as they were just read, if this is that project.
+        let tracked = self.opened.take();
+        self.session.replace(prj, file_name, tracked);
         self.find_ui.clear_results();
         parts::link_unassigned_plc_parts(&mut self.session.prj, &self.parts_db, None);
         self.editor.selection.clear();

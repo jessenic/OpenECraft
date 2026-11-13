@@ -1,5 +1,5 @@
 use super::*;
-use crate::model::forms::{Form, Picture};
+use crate::model::forms::{Form, FormItem, Picture};
 use crate::model::{ImageItem, PageKind};
 use crate::sample::{demo_project, EXAMPLES};
 
@@ -62,7 +62,7 @@ fn pages_and_records_are_files_of_one_line() {
     // One file per device and part; the order of the parts is a file of its own.
     assert_eq!(records(&files, "data/devices").count(), prj.devices.len());
     let tag = prj.devices.keys().next().unwrap();
-    let device = text(&files, &format!("data/devices/{}.json", file_stem(tag)));
+    let device = text(&files, &record_path("data/devices", &file_stem(tag), true));
     assert!(device.starts_with(&format!("{{{}:", serde_json::to_string(tag).unwrap())), "{device}");
     assert_eq!(records(&files, "data/parts").count(), prj.parts.len());
     let order: Vec<String> = serde_json::from_slice(&files["data/parts/order.json"]).unwrap();
@@ -72,6 +72,83 @@ fn pages_and_records_are_files_of_one_line() {
         let content = String::from_utf8(content.clone()).unwrap();
         assert!(content.ends_with('\n') && !content.trim_end_matches('\n').contains('\n'), "{path}");
     }
+}
+
+#[test]
+fn records_are_spread_over_folders() {
+    // By the first digit of the hash in the name, or the last hex digit of an id.
+    let stem = file_stem("-K1");
+    let digit = stem.rsplit_once('~').unwrap().1.chars().next().unwrap();
+    assert_eq!(record_path("data/devices", &stem, true), format!("data/devices/{digit}/{stem}.json"));
+    assert_eq!(record_path("data/cables", "31", true), "data/cables/f/31.json");
+    assert_eq!(record_path("pages", "31", false), "pages/31.json");
+    let mut prj = demo_project();
+    for i in 0..400 {
+        prj.devices.insert(format!("-K{i}"), Default::default());
+    }
+    let files = split(&prj);
+    let folders: BTreeSet<&str> = files.keys().filter_map(|p| p.strip_prefix("data/devices/")).filter_map(|p| p.split_once('/')).map(|(folder, _)| folder).collect();
+    assert_eq!(folders.len(), 16);
+    assert_eq!(records(&files, "data/devices").count(), prj.devices.len());
+    assert!(join(&files).unwrap().0 == prj);
+    // The pages stay in one folder.
+    assert!(files.keys().filter(|p| p.starts_with("pages/")).all(|p| p.matches('/').count() == 1));
+}
+
+#[test]
+fn only_what_changed_since_the_last_project_is_split() {
+    let last = project_with_files();
+    assert_eq!(same_fields(&last, &last), RULES.iter().map(|(field, _)| *field).collect::<Vec<_>>());
+    let whole = split(&last);
+    // Nothing changed: the index alone (it is small and always written), with the
+    // logo it holds.
+    let (files, kept) = split_since(&last, Some(&last));
+    assert_eq!(files.keys().filter(|name| !name.starts_with("files/")).collect::<Vec<_>>(), [INDEX]);
+    assert_eq!(files.len(), 2);
+    assert_eq!(files[INDEX], whole[INDEX]);
+    assert!(whole.keys().all(|name| name == INDEX || kept.covers(name)), "{:?}", whole.keys().filter(|n| !kept.covers(n)).collect::<Vec<_>>());
+    assert!(!kept.covers("data/devices.txt") && !kept.covers("data/devicesx/a.json") && !kept.covers("pages/0.json"));
+
+    // A page, a device and the logo changed: their files, as a whole split has them.
+    let mut prj = last.clone();
+    prj.pages[1].description = "Changed".into();
+    let tag = prj.devices.keys().next().unwrap().clone();
+    prj.devices.get_mut(&tag).unwrap().description = "Changed".into();
+    prj.info.logo = Some(Picture { file: Document::new("new.png", b"new logo"), px: [1, 1] });
+    let whole = split(&prj);
+    let (files, kept) = split_since(&prj, Some(&last));
+    let page = format!("pages/{}.json", prj.pages[1].id);
+    assert!(files.contains_key(&page) && !kept.covers(&page));
+    assert!(kept.covers(&format!("pages/{}.json", prj.pages[0].id)) && kept.covers("data/parts/order.json") && kept.covers("data/layout.json"));
+    assert_eq!(files.keys().filter(|name| name.starts_with("data/devices/")).count(), prj.devices.len());
+    // The new embedded file is there; those of what was left out are not looked at.
+    assert_eq!(files.keys().filter(|name| name.starts_with("files/")).count(), 1);
+    assert!(kept.covers("files/any"));
+    for (name, content) in &files {
+        assert!(whole.get(name) == Some(content), "{name}");
+    }
+    assert!(whole.keys().all(|name| files.contains_key(name) || kept.covers(name)));
+    // Without a project before, nothing is left out.
+    assert_eq!(split_since(&prj, None), (whole, Kept::default()));
+}
+
+#[test]
+fn embedded_files_are_stored_apart_wherever_the_project_holds_them() {
+    // Also in a revision and in a page template, which no list of places names.
+    let mut prj = demo_project();
+    let mut page = Page::new(999, "T", "Template", PageKind::Document);
+    page.document = Some(Document::new("template.pdf", b"template bytes"));
+    prj.revisions.push(crate::model::revision::Revision { pages: crate::model::revision::Snapshot(vec![page].into()), ..Default::default() });
+    let files = split(&prj);
+    let embedded: Vec<&String> = files.keys().filter(|p| p.starts_with("files/")).collect();
+    assert_eq!(embedded.len(), 1);
+    assert!(!text(&files, "data/revisions.json").contains(&base64_encode(b"template bytes")));
+    let (back, _) = join(&files).unwrap();
+    assert!(back == prj);
+    assert_eq!(back.revisions[0].pages.0[0].document.as_ref().unwrap().bytes().unwrap(), b"template bytes");
+    // A project file holds the content, as before.
+    assert!(prj.to_json().contains(&base64_encode(b"template bytes")));
+    assert!(Project::from_json(&prj.to_json()).unwrap() == prj);
 }
 
 #[test]

@@ -34,8 +34,11 @@ its GitHub release ([docs/releasing.md](docs/releasing.md)).
   objects at different random places, so that this is rare. A save writes only the
   files this side changed: what another program changed in the folder meanwhile (a
   `git pull`) is kept and read in, and a file changed by both is not overwritten.
-  A file git merged as text is named when the project is opened. The `.oec` file
-  stays the default (#149).
+  A file git merged as text is named when the project is opened. Large split
+  projects stay fast: the records of a kind are spread over 16 folders, a save
+  writes only the pages and data that changed, the folder is read once on all
+  threads, and a save is one step that a crash either leaves undone or the next
+  access finishes (journal `.oecp-save`). The `.oec` file stays the default (#149).
 - **Parts server: groups, catalog permissions, directories and a dashboard.** Users
   are gathered in **groups** of the server (*Administration › Groups*, `/api/v1/groups`;
   the groups of local accounts become such groups at startup), and grants to a group

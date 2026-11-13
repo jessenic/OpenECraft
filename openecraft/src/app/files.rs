@@ -78,8 +78,9 @@ impl App {
     /// read again: it then holds their changes next to those just saved.
     fn saved(&mut self, ctx: &egui::Context, result: Result<Option<(String, usize)>, String>) {
         let result = match result {
-            Ok(Some((path, foreign))) if foreign > 0 => match openecraft_core::storage::folder::open(std::path::Path::new(&path)) {
-                Ok((prj, _)) => {
+            Ok(Some((path, foreign))) if foreign > 0 => match openecraft_core::storage::folder::open_tracked(std::path::Path::new(&path)) {
+                Ok((prj, _, tracked)) => {
+                    self.opened = Some(tracked);
                     self.replace_project(prj, Some(path.clone()));
                     self.notify_ok(ctx, tr_fmt!("Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes", io::short_name(&path), foreign));
                     return;
@@ -457,8 +458,9 @@ impl App {
 
     /// A project file or archive replaces the open project.
     pub(super) fn open_loaded_project(&mut self, ctx: &egui::Context, loaded: &Loaded) {
-        match io::read_project(&loaded.name, &loaded.bytes) {
-            Ok((prj, conv, is_archive)) => {
+        match io::open_project(&loaded.name, &loaded.bytes) {
+            Ok((prj, conv, is_archive, tracked)) => {
+                self.opened = tracked;
                 // An archive is opened like a new project: saving writes a project file.
                 let file = (!is_archive).then(|| loaded.name.clone());
                 self.replace_project(prj, file);

@@ -123,7 +123,7 @@ fn replacing_the_project_starts_a_new_history() {
     s.prj.info.name = "Changed, then discarded".into();
     s.commit(true);
     let rev = s.history.rev;
-    s.replace(Project::default(), None);
+    s.replace(Project::default(), None, None);
     assert_eq!((s.page, s.file_name.as_deref(), s.dirty()), (0, None, false));
     // Undo would put the discarded project under the new name (and saving would
     // overwrite the new file with it).
@@ -193,7 +193,7 @@ fn an_opened_project_is_analysed_in_the_background() {
     }
     opened(&mut s, &plugins);
     assert!(!s.analysis.index.devices.is_empty());
-    s.replace(demo_project(), Some("demo.oec".into()));
+    s.replace(demo_project(), Some("demo.oec".into()), None);
     s.refresh(&plugins, false);
     if openecraft_core::analysis::threads() > 1 {
         assert!(s.opening().is_some());
@@ -213,9 +213,9 @@ fn an_opened_project_is_analysed_in_the_background() {
 fn a_project_replaced_while_opening_gets_its_own_analysis() {
     let plugins = Plugins::new(Vec::<String>::new());
     let mut s = Session::new(Project::new_default(), None);
-    s.replace(demo_project(), None);
+    s.replace(demo_project(), None, None);
     s.refresh(&plugins, false);
-    s.replace(Project::new_default(), None);
+    s.replace(Project::new_default(), None, None);
     s.refresh(&plugins, false);
     opened(&mut s, &plugins);
     assert_eq!(s.analysis.index.devices.len(), Index::build(&s.prj).devices.len());

@@ -53,7 +53,7 @@ fn projects_round_trip_through_a_folder() {
     std::fs::write(&attributes, "# mine\n").unwrap();
     save(&index, &back).unwrap();
     assert_eq!(std::fs::read_to_string(&attributes).unwrap(), "# mine\n");
-    assert!(!stored(&dir.join("plant")).unwrap().iter().any(|(name, _)| name.ends_with(TMP)));
+    assert!(list(&index).unwrap().1.is_empty() && !dir.join("plant").join(JOURNAL).exists());
 }
 
 #[test]
@@ -156,8 +156,8 @@ fn a_save_keeps_what_another_program_changed() {
         change(&dir.join(&name), &files[&name]);
     }
     change(&index, &files[INDEX]);
-    let device = stored(&dir).unwrap().into_iter().find(|(name, _)| name.starts_with("data/devices/") && !files.contains_key(name)).unwrap();
-    std::fs::remove_file(&device.1).unwrap();
+    let device = list(&index).unwrap().0.into_iter().find(|file| file.name.starts_with("data/devices/") && !files.contains_key(&file.name)).unwrap();
+    std::fs::remove_file(&device.path).unwrap();
 
     // We changed another page and removed the document page with its file.
     let mut ours = base.clone();
@@ -189,6 +189,7 @@ fn a_save_keeps_what_another_program_changed() {
 
     // An embedded file we no longer use stays while files of others are unknown: a
     // page of theirs may use it. Alone we remove it.
+    let mut tracked = Some(track(&index).unwrap());
     let mut alone = merged.clone();
     let doc = alone.pages.iter().position(|p| p.document.is_some()).unwrap();
     alone.pages.remove(doc);
@@ -210,6 +211,87 @@ fn a_save_keeps_what_another_program_changed() {
     let other = dir.join("copy").join("p.oecp");
     assert_eq!(save_tracked(&other, &alone, &mut tracked).unwrap().changed, split(&alone).len());
     assert!(open(&other).unwrap().0 == alone);
+}
+
+#[test]
+fn a_save_stopped_by_a_crash_is_finished_or_never_happened() {
+    let dir = temp_dir("folder-journal");
+    let index = dir.join("p.oecp");
+    let old = with_document();
+    save(&index, &old).unwrap();
+    let mut new = old.clone();
+    new.pages[0].description = "New".into();
+    new.info.name = "New".into();
+    let removed = new.pages.pop().unwrap();
+    let (was, wanted) = (split(&old), split(&new));
+    let changed: Vec<&String> = wanted.iter().filter(|(name, content)| was.get(*name) != Some(*content)).map(|(name, _)| name).collect();
+    let gone: Vec<String> = was.keys().filter(|name| !wanted.contains_key(*name)).cloned().collect();
+    assert!(changed.len() >= 2 && gone.len() == 2, "{changed:?} {gone:?}");
+    let stage = || {
+        for name in &changed {
+            std::fs::write(tmp_path(&file_path(&dir, &index, name)), &wanted[*name]).unwrap();
+        }
+    };
+
+    // Stopped while the files were written: the project is as it was.
+    stage();
+    assert!(open(&index).unwrap().0 == old);
+    // The next save clears what was left.
+    assert_eq!(save(&index, &old).unwrap(), 0);
+    assert!(list(&index).unwrap().1.is_empty());
+
+    // Stopped after the journal: the save is finished by the next access, also
+    // when some files had taken their places already.
+    stage();
+    let journal = Journal { index: "p.oecp".into(), write: changed.iter().map(|name| name.to_string()).collect(), remove: gone.clone() };
+    std::fs::write(dir.join(JOURNAL), serde_json::to_vec(&journal).unwrap()).unwrap();
+    let first = file_path(&dir, &index, changed[0]);
+    std::fs::rename(tmp_path(&first), &first).unwrap();
+    assert!(open(&index).unwrap().0 == new);
+    assert!(!dir.join(JOURNAL).exists() && list(&index).unwrap().1.is_empty());
+    assert!(!dir.join(format!("pages/{}.json", removed.id)).exists());
+    assert!(read(&index).unwrap() == wanted);
+    // A journal that cannot be read is dropped.
+    std::fs::write(dir.join(JOURNAL), "{").unwrap();
+    assert!(open(&index).unwrap().0 == new);
+    assert!(!dir.join(JOURNAL).exists());
+}
+
+#[test]
+fn a_tracked_save_serializes_only_what_changed() {
+    let dir = temp_dir("folder-incremental");
+    let index = dir.join("p.oecp");
+    let mut prj = with_document();
+    let mut tracked = None;
+    save_tracked(&index, &prj, &mut tracked).unwrap();
+    assert!(tracked.as_ref().unwrap().last.as_ref() == Some(&prj));
+    // A project that was read may differ from its files: its first save compares all.
+    let (opened, _, read) = open_tracked(&index).unwrap();
+    assert!(read.last.is_none() && read.files == tracked.as_ref().unwrap().files);
+    let mut tracked = Some(read);
+    assert_eq!(save_tracked(&index, &opened, &mut tracked).unwrap(), Saved::default());
+    assert!(tracked.as_ref().unwrap().last.is_some());
+
+    // Later saves look at what differs from the project saved before.
+    prj.pages[1].description = "Changed".into();
+    let tag = prj.devices.keys().next().unwrap().clone();
+    prj.devices.get_mut(&tag).unwrap().description = "Changed".into();
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 2);
+    let id = prj.new_id();
+    prj.pages.push(Page::new(id, "9", "New", PageKind::Schematic));
+    // The page, the order of the pages in the index and the id counter.
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 3);
+    // A removed page goes; its embedded file stays until the project is saved as a
+    // whole (other pages that were not looked at may use it).
+    let doc = prj.pages.iter().position(|p| p.document.is_some()).unwrap();
+    prj.pages.remove(doc);
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 2);
+    assert_eq!(dir.join("files").read_dir().unwrap().count(), 1);
+    assert!(open(&index).unwrap().0 == prj);
+    let (opened, _, read) = open_tracked(&index).unwrap();
+    assert_eq!(save_tracked(&index, &opened, &mut Some(read)).unwrap().changed, 1);
+    assert!(!dir.join("files").exists());
+    assert!(open(&index).unwrap().0 == prj);
 }
 
 #[test]
@@ -247,4 +329,74 @@ fn missing_and_broken_folders_are_reported() {
     let page = dir.join("pages").join(format!("{}.json", prj.pages[0].id));
     std::fs::remove_file(&page).unwrap();
     assert!(open(&index).unwrap_err().contains(&format!("pages/{}.json", prj.pages[0].id)));
+}
+
+/// A project of 500 pages, 20 000 devices and 2 000 parts made from the demo.
+fn large_project() -> Project {
+    let demo = demo_project();
+    let mut prj = demo.clone();
+    for k in 1..(500 / demo.pages.len() + 1) {
+        for pg in &demo.pages {
+            let mut pg = pg.clone();
+            pg.name = format!("{k}.{}", pg.name);
+            prj.pages.push(pg);
+        }
+    }
+    let _ = crate::verify::repair(&mut prj);
+    let device = demo.devices.values().next().unwrap().clone();
+    for i in 0..20_000 {
+        prj.devices.insert(format!("=A{}+S{}-K{i}", i % 40, i % 7), device.clone());
+    }
+    let part = demo.parts[0].clone();
+    for i in 0..2_000 {
+        prj.parts.push(crate::model::Part { number: format!("GEN.SYNTH-{i}"), ..part.clone() });
+    }
+    prj
+}
+
+/// Timings of a large project: `cargo test -p openecraft-core --release large_project -- --ignored --nocapture`.
+#[test]
+#[ignore]
+fn large_project_timings() {
+    let dir = temp_dir("folder-large");
+    let index = dir.join("large.oecp");
+    let mut prj = large_project();
+    let time = |what: &str, start: std::time::Instant| println!("{what:<44}{:>8.0} ms", start.elapsed().as_secs_f64() * 1000.0);
+    let t = std::time::Instant::now();
+    let files = split(&prj);
+    time("split", t);
+    println!("{} files, {} MB of JSON, project file {} MB", files.len(), files.values().map(Vec::len).sum::<usize>() >> 20, prj.to_json().len() >> 20);
+    let mut tracked = None;
+    let t = std::time::Instant::now();
+    save_tracked(&index, &prj, &mut tracked).unwrap();
+    time("first save (all files written)", t);
+    let t = std::time::Instant::now();
+    let (opened, _, read) = open_tracked(&index).unwrap();
+    time("open", t);
+    assert!(opened == prj);
+    let mut tracked = Some(read);
+    let t = std::time::Instant::now();
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 0);
+    time("save, nothing changed (first after open)", t);
+    let t = std::time::Instant::now();
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 0);
+    time("save, nothing changed", t);
+    prj.pages[3].description = "Changed".into();
+    let t = std::time::Instant::now();
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 1);
+    time("save, one page changed", t);
+    let tag = prj.devices.keys().nth(100).unwrap().clone();
+    prj.devices.get_mut(&tag).unwrap().description = "Changed".into();
+    let t = std::time::Instant::now();
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 1);
+    time("save, one device changed", t);
+    let t = std::time::Instant::now();
+    save(&index, &prj).unwrap();
+    time("save without tracking (reads every file)", t);
+    let id = prj.new_id();
+    prj.pages.push(Page::new(id, "new", "New", PageKind::Schematic));
+    let t = std::time::Instant::now();
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 3);
+    time("save, a page added (3 files, journal)", t);
+    let _ = std::fs::remove_dir_all(&dir);
 }

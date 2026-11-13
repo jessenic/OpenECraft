@@ -34,7 +34,8 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   convert the archive (`convert_project`).
 - A **split project** keeps the project as many small files for version control (git):
   the index `<name>.oecp` with a folder `pages` (one file per page), `data` (one file
-  per device, part, cable … and per area of the project-wide data) and `files` (embedded
+  per device, part, cable … and per area of the project-wide data; the files of a kind
+  are spread over 16 folders, so that none grows too large) and `files` (embedded
   documents and images as plain files) next to it. It holds the same project as the
   `.oec` file: `convert_project --path plant.oec --format oecp` writes
   `plant/plant.oecp`, `--format oec` or `--format oecz` convert back, and `--project
@@ -42,6 +43,12 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   files it concerns. Every file is one line of JSON and depends only on the content of
   the project, so saving an unchanged project changes nothing. A split project needs a
   folder of its own; other files in it (a README, `.gitattributes`) are left alone.
+- Saving a large split project costs what changed, not what the project holds: only
+  the pages and data that differ from the last save are written (a project of 500
+  pages and 20 000 devices saves a changed page in well under a second). A save is
+  one step: the changed files are written next to the old ones, a journal
+  (`.oecp-save`) names them, and only then they take their places; after a crash the
+  project is as it was before the save, or the next access finishes it.
 - **Git** needs two things for a split project. The `.gitattributes` that saving writes
   into the folder (unless there is one) keeps git from converting line ends, which
   would change every file and damage the embedded ones. And the merge driver merges

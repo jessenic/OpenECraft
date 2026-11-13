@@ -119,8 +119,9 @@ impl App {
             };
         });
         match action {
-            Some(Action::Open(path)) => match fs::read_file(&path).and_then(|b| io::read_project(&path, &b)) {
-                Ok((prj, conv, is_archive)) => {
+            Some(Action::Open(path)) => match fs::read_file(&path).and_then(|b| io::open_project(&path, &b)) {
+                Ok((prj, conv, is_archive, tracked)) => {
+                    self.opened = tracked;
                     let r = super::Replace::Project(Box::new(prj), (!is_archive).then(|| path.clone()));
                     if let Some(r) = self.discard.request(self.session.dirty(), r) {
                         self.perform(ctx, r);

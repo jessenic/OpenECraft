@@ -80,7 +80,7 @@ fn values_arriving_after_a_replacement_do_not_replace_it() {
     store.store(PROJECT, openecraft_core::archive::pack(&named("stored")).into_bytes());
     let mut autosave = Autosave::start(store, &ctx, &PartsDb::default());
     let mut session = Session::new(named("start"), None);
-    session.replace(named("opened"), Some("opened.oec".into()));
+    session.replace(named("opened"), Some("opened.oec".into()), None);
     assert!(!autosave.poll(&mut session, &mut PartsDb::default()));
     assert_eq!(session.prj.info.name, "opened");
 }

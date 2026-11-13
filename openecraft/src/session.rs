@@ -112,10 +112,19 @@ impl Session {
     /// Replaces the project; the replacement counts as saved. Its history starts
     /// anew: undo must not bring back the project before (whose changes may have been
     /// discarded) under the file name of this one.
-    pub fn replace(&mut self, prj: Project, file_name: Option<String>) {
+    /// `tracked`: the files of a split project as it was read (none: they are looked
+    /// at now).
+    pub fn replace(&mut self, prj: Project, file_name: Option<String>, tracked: Option<Tracked>) {
         self.prj = prj;
         self.prj.normalize();
-        self.tracked = track(&mut self.prj, file_name.as_deref());
+        let read = tracked.filter(|t| file_name.as_deref().is_some_and(|f| crate::io::is_split(f) && t.is_for(std::path::Path::new(f))));
+        self.tracked = match read {
+            Some(read) => {
+                self.prj.scatter_ids();
+                Some(read)
+            }
+            None => track(&mut self.prj, file_name.as_deref()),
+        };
         self.file_name = file_name;
         self.page = first_schematic(&self.prj);
         // A new revision, so that the analysis and the index are built again.

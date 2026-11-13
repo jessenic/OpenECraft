@@ -61,12 +61,18 @@ impl Session {
     }
 
     /// Replaces the project. `path` is the file it was read from (counts as saved).
-    pub fn replace(&mut self, mut prj: Project, path: Option<PathBuf>) {
+    pub fn replace(&mut self, prj: Project, path: Option<PathBuf>) {
+        let tracked = path.as_deref().filter(|p| folder::is_index(p)).and_then(|p| folder::track(p).ok());
+        self.replace_tracked(prj, path, tracked);
+    }
+
+    /// Like [`Session::replace`], with the files of a split project as they were read.
+    fn replace_tracked(&mut self, mut prj: Project, path: Option<PathBuf>, tracked: Option<folder::Tracked>) {
         prj.normalize();
-        self.tracked = path.as_deref().filter(|p| folder::is_index(p)).and_then(|p| {
+        if path.as_deref().is_some_and(folder::is_index) {
             prj.scatter_ids();
-            folder::track(p).ok()
-        });
+        }
+        self.tracked = tracked;
         self.history = Some(History::new(&prj));
         self.saved = path.is_some().then(|| prj.clone());
         self.path = path;
@@ -76,6 +82,11 @@ impl Session {
 
     /// Opens a project file or archive (converted to the current file format).
     pub fn open(&mut self, path: &str) -> Result<Conversion, String> {
+        if folder::is_index(Path::new(path)) {
+            let (prj, conv, tracked) = folder::open_tracked(Path::new(path))?;
+            self.replace_tracked(prj, Some(PathBuf::from(path)), Some(tracked));
+            return Ok(conv);
+        }
         let (prj, conv, is_archive) = read_project(Path::new(path))?;
         // Saving writes a project file, not the archive.
         let file = (!is_archive).then(|| PathBuf::from(path));
@@ -106,8 +117,8 @@ impl Session {
         if saved.foreign > 0 {
             // Another program changed files of the folder meanwhile (git): they were
             // kept, the project is read again with them.
-            let (prj, _) = folder::open(&path)?;
-            self.replace(prj, Some(path.clone()));
+            let (prj, _, tracked) = folder::open_tracked(&path)?;
+            self.replace_tracked(prj, Some(path.clone()), Some(tracked));
         } else {
             let prj = self.project_mut()?;
             prj.scatter_ids();

@@ -82,6 +82,25 @@ fn a_save_writes_only_the_files_that_changed() {
 }
 
 #[test]
+fn the_project_of_the_server_replaces_files_changed_by_another_program() {
+    let dir = temp_dir("foreign");
+    let mut store = Store::open(&dir).unwrap();
+    store.create("p", openecraft_core::sample::demo_project()).unwrap();
+    let id = store.get("p").unwrap().project.pages[0].id;
+    let page = dir.join("p").join("pages").join(format!("{id}.json"));
+    let mut text = std::fs::read_to_string(&page).unwrap();
+    text.insert(text.len() - 1, ' ');
+    std::fs::write(&page, text).unwrap();
+    // The same page is saved by the server: its content counts.
+    let mut prj = store.get("p").unwrap().project.clone();
+    prj.pages[0].description = "Server".into();
+    assert_eq!(store.save("p", prj.clone()).unwrap(), 2);
+    assert!(Store::open(&dir).unwrap().get("p").unwrap().project == store.get("p").unwrap().project);
+    assert_eq!(store.get("p").unwrap().project.pages[0].description, "Server");
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
 fn project_files_of_earlier_versions_are_converted() {
     let dir = temp_dir("convert");
     std::fs::create_dir_all(&dir).unwrap();

@@ -128,15 +128,21 @@ pub fn is_split(path: &str) -> bool {
 /// The project of a file the user opened: a project file or an archive (`true`)
 /// from its content, a split project from the folder of its index file.
 pub fn read_project(name: &str, bytes: &[u8]) -> Result<(Project, Conversion, bool), String> {
+    open_project(name, bytes).map(|(prj, conv, archive, _)| (prj, conv, archive))
+}
+
+/// Like [`read_project`], for the project to edit: with the files of a split
+/// project as they were read, for saving it.
+pub fn open_project(name: &str, bytes: &[u8]) -> Result<(Project, Conversion, bool, Option<Tracked>), String> {
     if !is_split(name) {
         let (prj, conv) = archive::read_project(bytes)?;
-        return Ok((prj, conv, archive::is_archive(bytes)));
+        return Ok((prj, conv, archive::is_archive(bytes), None));
     }
     if !openecraft_ui::io::has_file_system() {
         return Err(tr("A split project is a folder of files: the browser cannot open it. Convert it to a project file (.oec) or an archive (.oecz) first.").into());
     }
-    let (prj, conv) = folder::open(Path::new(name))?;
-    Ok((prj, conv, false))
+    let (prj, conv, tracked) = folder::open_tracked(Path::new(name))?;
+    Ok((prj, conv, false, Some(tracked)))
 }
 
 /// Writes the project to `path`: a project file, or for an index file the changes
