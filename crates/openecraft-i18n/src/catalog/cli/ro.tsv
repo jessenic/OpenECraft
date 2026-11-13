@@ -26,7 +26,6 @@ CSV file	Fișier CSV
 CSV or Excel file	Fișier CSV sau Excel
 CSV or JSON file	Fișier CSV sau JSON
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	Fișier CSV, JSON, BMEcat, XML EPLAN sau EDZ
-Cannot write {}: {}	{} nu poate fi scris: {}
 Catalog data; without id it is derived from the name	Date de catalog; fără ID, acesta este derivat din nume
 Changes project properties	Modifică proprietățile proiectului
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Modifică proprietățile de proiect în mai multe fișiere de proiect simultan (câmpurile name, description, company, creator, date, revision sau proprietăți de proiect)
@@ -39,7 +38,7 @@ Comment stored in the archive	Comentariu stocat în arhivă
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Compară articolele proiectului cu serverul de articole: versiuni mai noi, articole în curs de retragere, scoase din fabricație și eliminate
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	Export de conector în schimb: erp, pdm, plm, ecad, mcad, procurement, wiring_machine sau exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Se conectează la Autodesk Vault (Vault Data API, Vault Professional 2025.2 sau mai nou): se autentifică cu un cont Vault sau folosește un token de acces și afișează conexiunea
-Converts a project file or archive of an older version to the current file format	Convertește un fișier de proiect sau o arhivă dintr-o versiune mai veche în formatul de fișier curent
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	Convertește un proiect în formatul de fișier curent sau în altă formă de stocare: fișier de proiect, proiect divizat (un dosar pentru controlul versiunilor) sau arhivă
 Creates a new project (optionally the demo project) and saves it if a path is given	Creează un proiect nou (opțional proiectul demonstrativ) și îl salvează dacă se indică o cale
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Creează sau modifică un catalog pe serverul de articole (ID, nume, producător, versiune, descriere)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Creează sau modifică un bloc de raport (pagini de raport generate împreună, de ex. o schemă de borne pentru fiecare șir)
@@ -72,7 +71,7 @@ File content instead of a file	Conținutul fișierului în locul unui fișier
 File id (see the attachments of parts_get)	ID fișier (vezi attachments din parts_get)
 File name in the vault	Numele fișierului în vault
 File to embed	Fișier de încorporat
-File to save the project to (.oec)	Fișierul în care se salvează proiectul (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	Fișierul în care se salvează proiectul (.oec; .oecp: un proiect divizat în dosarul fișierului)
 File to upload	Fișierul de încărcat
 File to write	Fișierul de scris
 File to write (xlsx)	Fișierul de scris (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Grupă principală de
 Profile whose column mapping is used	Profilul a cărui mapare a coloanelor este folosită
 Project database file (JSON)	Fișierul bazei de date de proiecte (JSON)
 Project database file (JSON) to update	Fișierul bazei de date de proiecte (JSON) de actualizat
-Project file (.oec) or archive (.oecz)	Fișier de proiect (.oec) sau arhivă (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Fișier de proiect (.oec), indexul unui proiect divizat (.oecp) sau arhivă (.oecz)
 Project file that gets the pages	Fișierul de proiect care primește paginile
 Project file to write (default: the file itself; archives: next to it as .oec)	Fișierul de proiect de scris (implicit: fișierul însuși; arhive: alături, ca .oec)
 Project files, separated by ';'	Fișiere de proiect, separate prin ';'
@@ -265,6 +264,7 @@ Undoes the last change	Anulează ultima modificare
 Unexpected argument: {}	Argument neașteptat: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Comandă necunoscută: {}. Rulați openecraft-cli help pentru o listă.
 Unknown example {}: see list_examples	Exemplu necunoscut {}: vezi list_examples
+Unknown format {}: give oec, oecp or oecz	Format necunoscut {}: indicați oec, oecp sau oecz
 Unknown language: {}	Limbă necunoscută: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Tip de pagină necunoscut: {} (schematic, overview, graphic, cover sau un raport din list_reports)
 Unknown part {} (parts server: {})	Articol necunoscut {} (server de articole: {})
@@ -279,6 +279,7 @@ User name to sign in with	Numele de utilizator pentru conectare
 User or group name (wildcards; directory groups as directory:group)	Nume de utilizator sau de grup (metacaractere; grupurile unui serviciu de director ca director:grup)
 Values to set (name: value; an empty value removes a property)	Valori de setat (nume: valoare; o valoare goală elimină o proprietate)
 Vault user name (signs in)	Nume de utilizator Vault (pentru conectare)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Ce se scrie: oec (fișier de proiect), oecp (proiect divizat într-un dosar propriu) sau oecz (arhivă); implicit: după extensia ieșirii
 Width and height must be greater than 0	Lățimea și înălțimea trebuie să fie mai mari decât 0
 Write the table as CSV to this file	Scriere tabel ca CSV în acest fișier
 Writes the check scheme of the project (checks switched off, message levels) to a file	Scrie schema de verificare a proiectului (verificări dezactivate, niveluri de mesaj) într-un fișier

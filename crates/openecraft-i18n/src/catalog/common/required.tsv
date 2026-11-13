@@ -45,6 +45,7 @@ Cable tag, e.g. -W20	Kabelkennzeichen, z. B. -W20	Repère du câble, p. ex. -W20
 Cables	Kabel	Câbles	Cables
 Cancel	Abbrechen	Annuler	Cancelar
 Cannot read {}: {}	{} kann nicht gelesen werden: {}	Impossible de lire {} : {}	No se puede leer {}: {}
+Cannot write {}: {}	{} kann nicht geschrieben werden: {}	Impossible d'écrire {} : {}	No se puede escribir {}: {}
 Catalog	Katalog	Catalogue	Catálogo
 Catalog id	Katalog-ID	Identifiant du catalogue	ID del catálogo
 Category	Kategorie	Catégorie	Categoría

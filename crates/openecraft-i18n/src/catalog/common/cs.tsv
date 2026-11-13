@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Označení kabelu, např. -W20
 Cables	Kabely
 Cancel	Zrušit
 Cannot read {}: {}	Nelze číst {}: {}
+Cannot write {}: {}	Nelze zapsat {}: {}
 Catalog	Katalog
 Catalog id	ID katalogu
 Category	Kategorie

@@ -26,7 +26,6 @@ CSV file	CSV-fil
 CSV or Excel file	CSV- eller Excel-fil
 CSV or JSON file	CSV- eller JSON-fil
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	CSV-, JSON-, BMEcat-, EPLAN XML- eller EDZ-fil
-Cannot write {}: {}	{} kan ikke skrives: {}
 Catalog data; without id it is derived from the name	Katalogdata; uden id dannes det ud fra navnet
 Changes project properties	Ændrer projektegenskaber
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Ændrer projektegenskaber i mange projektfiler på én gang (felterne name, description, company, creator, date, revision eller projektegenskaber)
@@ -39,7 +38,7 @@ Comment stored in the archive	Kommentar, der gemmes i arkivet
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Sammenligner projektartiklerne med artikelserveren: nyere versioner, udfasede, udgåede og fjernede artikler
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	I stedet connector-eksport: erp, pdm, plm, ecad, mcad, procurement, wiring_machine eller exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Opretter forbindelse til Autodesk Vault (Vault Data API, Vault Professional 2025.2 eller nyere): logger på med en Vault-konto eller bruger et adgangstoken og viser forbindelsen
-Converts a project file or archive of an older version to the current file format	Konverterer en projektfil eller et arkiv fra en ældre version til det aktuelle filformat
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	Konverterer et projekt til det aktuelle filformat eller til en anden lagringsform: projektfil, opdelt projekt (en mappe til versionsstyring) eller arkiv
 Creates a new project (optionally the demo project) and saves it if a path is given	Opretter et nyt projekt (eventuelt demoprojektet) og gemmer det, hvis der er angivet en sti
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Opretter eller ændrer et katalog på artikelserveren (id, navn, producent, version, beskrivelse)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Opretter eller ændrer en rapportblok (rapportsider, der genereres samlet, f.eks. ét klemdiagram pr. klemrække)
@@ -72,7 +71,7 @@ File content instead of a file	Filindhold i stedet for en fil
 File id (see the attachments of parts_get)	Fil-id (se attachments i parts_get)
 File name in the vault	Filnavn i vaulten
 File to embed	Fil, der skal integreres
-File to save the project to (.oec)	Fil, som projektet gemmes i (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	Fil, som projektet gemmes i (.oec; .oecp: et opdelt projekt i filens mappe)
 File to upload	Fil, der skal uploades
 File to write	Fil, der skal skrives
 File to write (xlsx)	Fil, der skal skrives (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Produkthovedgruppe: E
 Profile whose column mapping is used	Profil, hvis kolonnetilknytning bruges
 Project database file (JSON)	Projektdatabasefil (JSON)
 Project database file (JSON) to update	Projektdatabasefil (JSON), der skal opdateres
-Project file (.oec) or archive (.oecz)	Projektfil (.oec) eller arkiv (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Projektfil (.oec), indeks for et opdelt projekt (.oecp) eller arkiv (.oecz)
 Project file that gets the pages	Projektfil, der får siderne
 Project file to write (default: the file itself; archives: next to it as .oec)	Projektfil, der skal skrives (standard: selve filen; arkiver: ved siden af som .oec)
 Project files, separated by ';'	Projektfiler adskilt af ';'
@@ -265,6 +264,7 @@ Undoes the last change	Fortryder den seneste ændring
 Unexpected argument: {}	Uventet argument: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Ukendt kommando: {}. Kør openecraft-cli help for at få en liste.
 Unknown example {}: see list_examples	Ukendt eksempel {}: se list_examples
+Unknown format {}: give oec, oecp or oecz	Ukendt format {}: angiv oec, oecp eller oecz
 Unknown language: {}	Ukendt sprog: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Ukendt sidetype: {} (schematic, overview, graphic, cover eller en rapport fra list_reports)
 Unknown part {} (parts server: {})	Ukendt artikel {} (artikelserver: {})
@@ -279,6 +279,7 @@ User name to sign in with	Brugernavn til logon
 User or group name (wildcards; directory groups as directory:group)	Bruger- eller gruppenavn (jokertegn; grupper fra en katalogtjeneste som katalogtjeneste:gruppe)
 Values to set (name: value; an empty value removes a property)	Værdier, der skal angives (navn: værdi; en tom værdi fjerner en egenskab)
 Vault user name (signs in)	Vault-brugernavn (logger på)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Hvad der skrives: oec (projektfil), oecp (opdelt projekt i sin egen mappe) eller oecz (arkiv); standard: efter outputfilens filendelse
 Width and height must be greater than 0	Bredde og højde skal være større end 0
 Write the table as CSV to this file	Skriv tabellen som CSV til denne fil
 Writes the check scheme of the project (checks switched off, message levels) to a file	Skriver projektets kontrolskema (kontroller, der er slået fra, meddelelsesniveauer) til en fil

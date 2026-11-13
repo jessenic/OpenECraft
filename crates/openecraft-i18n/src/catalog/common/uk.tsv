@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Позначення кабелю, напр. -W20
 Cables	Кабелі
 Cancel	Скасувати
 Cannot read {}: {}	Не вдалося прочитати {}: {}
+Cannot write {}: {}	Не вдалося записати {}: {}
 Catalog	Каталог
 Catalog id	Ідентифікатор каталогу
 Category	Категорія

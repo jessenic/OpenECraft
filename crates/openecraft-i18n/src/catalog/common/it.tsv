@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Sigla del cavo, ad es. -W20
 Cables	Cavi
 Cancel	Annulla
 Cannot read {}: {}	Impossibile leggere {}: {}
+Cannot write {}: {}	Impossibile scrivere {}: {}
 Catalog	Catalogo
 Catalog id	ID catalogo
 Category	Categoria

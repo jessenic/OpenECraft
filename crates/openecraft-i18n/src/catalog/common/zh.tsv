@@ -40,6 +40,7 @@ Cable tag, e.g. -W20	电缆标识，例如 -W20
 Cables	电缆
 Cancel	取消
 Cannot read {}: {}	无法读取 {}：{}
+Cannot write {}: {}	无法写入 {}：{}
 Catalog	目录
 Catalog id	目录 ID
 Category	类别

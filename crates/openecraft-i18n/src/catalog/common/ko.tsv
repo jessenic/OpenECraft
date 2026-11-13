@@ -40,6 +40,7 @@ Cable tag, e.g. -W20	케이블 태그, 예: -W20
 Cables	케이블
 Cancel	취소
 Cannot read {}: {}	{0}을(를) 읽을 수 없음: {1}
+Cannot write {}: {}	{0}을(를) 쓸 수 없음: {1}
 Catalog	카탈로그
 Catalog id	카탈로그 ID
 Category	범주

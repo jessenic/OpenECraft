@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Kabelcode, bijv. -W20
 Cables	Kabels
 Cancel	Annuleren
 Cannot read {}: {}	Kan {} niet lezen: {}
+Cannot write {}: {}	Kan {} niet schrijven: {}
 Catalog	Catalogus
 Catalog id	Catalogus-ID
 Category	Categorie

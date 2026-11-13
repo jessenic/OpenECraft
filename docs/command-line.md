@@ -32,6 +32,16 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   opens the project anew for every command. An archive given as `--project` stays
   unchanged: save the project as a project file (`save_project --path <file>.oec`) or
   convert the archive (`convert_project`).
+- A **split project** keeps the project as many small files for version control (git):
+  the index `<name>.oecp` with a folder `pages` (one file per page), `data` (one file
+  per device, part, cable … and per area of the project-wide data) and `files` (embedded
+  documents and images as plain files) next to it. It holds the same project as the
+  `.oec` file: `convert_project --path plant.oec --format oecp` writes
+  `plant/plant.oecp`, `--format oec` or `--format oecz` convert back, and `--project
+  plant/plant.oecp` works on it like on a project file – a change rewrites only the
+  files it concerns. Every file is one line of JSON and depends only on the content of
+  the project, so saving an unchanged project changes nothing. A split project needs a
+  folder of its own; other files in it (a README, `.gitattributes`) are left alone.
 - Parameters are `--name value` (also `--name=value`, or all at once with `--json '{…}'`);
   lists as `--ids 3,4` and points as `--points "0,0 40,0"`; lists of codes, tags or
   languages are separated by commas or blanks. Values outside their range are refused

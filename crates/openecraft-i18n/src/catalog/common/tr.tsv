@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Kablo etiketi, ör. -W20
 Cables	Kablolar
 Cancel	İptal
 Cannot read {}: {}	{} okunamıyor: {}
+Cannot write {}: {}	{} yazılamıyor: {}
 Catalog	Katalog
 Catalog id	Katalog kimliği
 Category	Kategori

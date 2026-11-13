@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	O documento incorporado {} está danificado
 The file is empty	O arquivo está vazio
 The file was written by a newer version (format {}): data this version does not know is lost when saving	O arquivo foi gravado por uma versão mais recente (formato {}): os dados que esta versão não conhece serão perdidos ao salvar
 The first column must be Key	A primeira coluna deve ser Key
+The folder {} already holds the project {}: a split project needs a folder of its own	A pasta {} já contém o projeto {}: um projeto dividido precisa de uma pasta própria
 The function definition needs a key and a name	A definição de função precisa de uma chave e de um nome
 The last page cannot be deleted	A última página não pode ser excluída
 The macro box has no items left	A caixa de macro não tem mais itens

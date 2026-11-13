@@ -80,6 +80,52 @@ fn projects_are_archived_converted_and_verified() {
 }
 
 #[test]
+fn projects_are_converted_between_file_split_folder_and_archive() {
+    let dir = temp_dir("mgmt-split");
+    let mut s = session();
+    let demo = openecraft_core::sample::demo_project();
+    let file = dir.join("demo.oec");
+    std::fs::write(&file, demo.to_json()).unwrap();
+
+    // A split project gets a folder of its own next to the file.
+    let c = run(&mut s, "convert_project", json!({ "path": file.display().to_string(), "format": "oecp" })).unwrap();
+    let index = dir.join("demo").join("demo.oecp");
+    assert_eq!(c["output"], index.display().to_string());
+    assert!(dir.join("demo/pages").is_dir());
+    let opened = run(&mut s, "open_project", json!({ "path": index.display().to_string() })).unwrap();
+    assert_eq!(opened["file"], index.display().to_string());
+    assert!(s.project().unwrap() == &demo);
+
+    // Back to a project file and into an archive: by format or by the extension.
+    let c = run(&mut s, "convert_project", json!({ "path": index.display().to_string(), "format": "oec" })).unwrap();
+    let back = dir.join("demo").join("demo.oec");
+    assert_eq!(c["output"], back.display().to_string());
+    assert!(Project::from_json(&std::fs::read_to_string(&back).unwrap()).unwrap() == demo);
+    let archive = dir.join("demo.oecz").display().to_string();
+    run(&mut s, "convert_project", json!({ "path": index.display().to_string(), "output": archive })).unwrap();
+    assert_eq!(run(&mut s, "archive_info", json!({ "path": archive })).unwrap()["name"], demo.info.name.as_str());
+    let other = dir.join("other").join("p.oecp").display().to_string();
+    run(&mut s, "convert_project", json!({ "path": archive, "output": other })).unwrap();
+    assert!(openecraft_core::storage::folder::open(Path::new(&other)).unwrap().0 == demo);
+    assert!(run(&mut s, "convert_project", json!({ "path": file.display().to_string(), "format": "zip" })).unwrap_err().contains("zip"));
+
+    // Split projects are found and changed like project files.
+    std::fs::remove_file(&back).unwrap();
+    let found = run(&mut s, "search_projects", json!({ "folder": dir.join("demo").display().to_string(), "query": "" })).unwrap();
+    assert_eq!(found.as_array().unwrap().len(), 1);
+    assert_eq!((found[0]["path"].as_str(), found[0]["pages"].as_u64()), (index.to_str(), Some(demo.pages.len() as u64)));
+    let out = run(&mut s, "batch_project_properties", json!({ "files": index.display().to_string(), "set": { "creator": "NS" } })).unwrap();
+    assert_eq!(out[0]["written"], true);
+    assert_eq!(openecraft_core::storage::folder::open(&index).unwrap().0.info.creator, "NS");
+    let out = run(&mut s, "batch_project_properties", json!({ "files": index.display().to_string(), "set": { "creator": "NS" } })).unwrap();
+    assert_eq!(out[0]["written"], false);
+
+    // A template may be a split project.
+    run(&mut s, "new_project", json!({ "template": index.display().to_string(), "discard": true })).unwrap();
+    assert_eq!(s.project().unwrap().pages.len(), demo.pages.len());
+}
+
+#[test]
 fn subprojects_are_extracted_and_inserted() {
     let dir = temp_dir("mgmt-sub");
     let mut s = demo_session();

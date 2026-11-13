@@ -26,7 +26,6 @@ CSV file	CSV 파일
 CSV or Excel file	CSV 또는 Excel 파일
 CSV or JSON file	CSV 또는 JSON 파일
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	CSV, JSON, BMEcat, EPLAN XML 또는 EDZ 파일
-Cannot write {}: {}	{0}을(를) 쓸 수 없음: {1}
 Catalog data; without id it is derived from the name	카탈로그 데이터. ID가 없으면 이름에서 생성됩니다
 Changes project properties	프로젝트 속성을 변경합니다
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	여러 프로젝트 파일의 프로젝트 속성을 한 번에 변경합니다(필드 name, description, company, creator, date, revision 또는 프로젝트 속성)
@@ -39,7 +38,7 @@ Comment stored in the archive	아카이브에 저장되는 설명
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	프로젝트 부품을 부품 서버와 비교합니다: 최신 버전, 단종 예정, 단종 및 제거된 부품
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	대신 커넥터 내보내기: erp, pdm, plm, ecad, mcad, procurement, wiring_machine 또는 exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Autodesk Vault(Vault Data API, Vault Professional 2025.2 이상)에 연결합니다. Vault 계정으로 로그인하거나 액세스 토큰을 사용하고 연결을 표시합니다
-Converts a project file or archive of an older version to the current file format	이전 버전의 프로젝트 파일 또는 아카이브를 현재 파일 형식으로 변환합니다
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	프로젝트를 현재 파일 형식 또는 다른 저장 방식으로 변환합니다: 프로젝트 파일, 분할 프로젝트(버전 관리용 폴더) 또는 아카이브
 Creates a new project (optionally the demo project) and saves it if a path is given	새 프로젝트(선택적으로 데모 프로젝트)를 만들고 경로가 지정되면 저장합니다
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	부품 서버에서 카탈로그(ID, 이름, 제조업체, 버전, 설명)를 만들거나 변경합니다
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	보고서 블록(함께 생성되는 보고서 페이지, 예: 단자대별 단자 다이어그램 하나)을 만들거나 변경합니다
@@ -72,7 +71,7 @@ File content instead of a file	파일 대신 파일 내용
 File id (see the attachments of parts_get)	파일 ID(parts_get의 attachments 참조)
 File name in the vault	Vault 내 파일 이름
 File to embed	포함할 파일
-File to save the project to (.oec)	프로젝트를 저장할 파일(.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	프로젝트를 저장할 파일(.oec; .oecp: 파일의 폴더에 있는 분할 프로젝트)
 File to upload	업로드할 파일
 File to write	쓸 파일
 File to write (xlsx)	쓸 파일(xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	제품 상위 그룹:
 Profile whose column mapping is used	열 매핑을 사용할 프로필
 Project database file (JSON)	프로젝트 데이터베이스 파일(JSON)
 Project database file (JSON) to update	업데이트할 프로젝트 데이터베이스 파일(JSON)
-Project file (.oec) or archive (.oecz)	프로젝트 파일(.oec) 또는 아카이브(.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	프로젝트 파일(.oec), 분할 프로젝트의 인덱스(.oecp) 또는 아카이브(.oecz)
 Project file that gets the pages	페이지를 받을 프로젝트 파일
 Project file to write (default: the file itself; archives: next to it as .oec)	쓸 프로젝트 파일(기본값: 파일 자체, 아카이브의 경우 옆에 .oec로)
 Project files, separated by ';'	프로젝트 파일(';'으로 구분)
@@ -265,6 +264,7 @@ Undoes the last change	마지막 변경을 실행 취소합니다
 Unexpected argument: {}	예기치 않은 인수: {}
 Unknown command: {}. Run openecraft-cli help for a list.	알 수 없는 명령: {}. 목록을 보려면 openecraft-cli help를 실행하세요.
 Unknown example {}: see list_examples	알 수 없는 예제 {}: list_examples 참조
+Unknown format {}: give oec, oecp or oecz	알 수 없는 형식 {}: oec, oecp 또는 oecz를 지정하세요
 Unknown language: {}	알 수 없는 언어: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	알 수 없는 페이지 유형: {}(schematic, overview, graphic, cover 또는 list_reports의 보고서)
 Unknown part {} (parts server: {})	알 수 없는 부품 {}(부품 서버: {})
@@ -279,6 +279,7 @@ User name to sign in with	로그인할 사용자 이름
 User or group name (wildcards; directory groups as directory:group)	사용자 또는 그룹 이름(와일드카드, 디렉터리 서비스 그룹은 디렉터리:그룹)
 Values to set (name: value; an empty value removes a property)	설정할 값(이름: 값, 값이 비어 있으면 속성 제거)
 Vault user name (signs in)	Vault 사용자 이름(로그인)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	기록할 형식: oec(프로젝트 파일), oecp(전용 폴더의 분할 프로젝트) 또는 oecz(아카이브). 기본값: 출력의 확장자에 따름
 Width and height must be greater than 0	너비와 높이는 0보다 커야 합니다
 Write the table as CSV to this file	이 파일에 표를 CSV로 쓰기
 Writes the check scheme of the project (checks switched off, message levels) to a file	프로젝트의 검사 스키마(꺼진 검사, 메시지 수준)를 파일에 씁니다

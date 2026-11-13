@@ -16,6 +16,8 @@
 //! unique key is kept in one file, and embedded files that cannot be decoded stay in
 //! the JSON, so every project can be stored.
 
+pub mod folder;
+
 use crate::archive::{self, Conversion};
 use crate::document::{base64_encode, Document};
 use crate::model::forms::{FormItem, FormLayout};

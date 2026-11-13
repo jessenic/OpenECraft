@@ -1584,6 +1584,7 @@ The embedded document {} is damaged	埋め込みドキュメント {} が破損�
 The file is empty	ファイルが空です
 The file was written by a newer version (format {}): data this version does not know is lost when saving	このファイルは新しいバージョン (形式 {}) で書き込まれています。このバージョンが認識しないデータは保存時に失われます
 The first column must be Key	最初の列は Key である必要があります
+The folder {} already holds the project {}: a split project needs a folder of its own	フォルダー {} には既にプロジェクト {} があります。分割プロジェクトには専用のフォルダーが必要です
 The function definition needs a key and a name	機能定義にはキーと名前が必要です
 The last page cannot be deleted	最後のページは削除できません
 The macro box has no items left	マクロボックスにアイテムが残っていません

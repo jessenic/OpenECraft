@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Documentul încorporat {} este deteriorat
 The file is empty	Fișierul este gol
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Fișierul a fost scris de o versiune mai nouă (format {}): datele pe care această versiune nu le cunoaște se pierd la salvare
 The first column must be Key	Prima coloană trebuie să fie Key
+The folder {} already holds the project {}: a split project needs a folder of its own	Dosarul {} conține deja proiectul {}: un proiect divizat are nevoie de un dosar propriu
 The function definition needs a key and a name	Definiția de funcție necesită o cheie și un nume
 The last page cannot be deleted	Ultima pagină nu poate fi ștearsă
 The macro box has no items left	Caseta macro nu mai are elemente

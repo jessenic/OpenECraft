@@ -3,8 +3,9 @@
 
 use super::{optional, param, Args, Kind, Tool};
 use crate::session::Session;
-use openecraft_core::archive::{self, ArchiveOptions};
+use openecraft_core::archive::{self, ArchiveOptions, ARCHIVE_EXT};
 use openecraft_core::projects::{self, Batch, Database, Entry};
+use openecraft_core::storage::{folder, INDEX_EXT};
 use openecraft_core::subproject;
 use openecraft_i18n::{tr, tr_const, tr_fmt};
 use serde_json::{json, Value};
@@ -73,10 +74,11 @@ pub static TOOLS: &[Tool] = &[
     },
     Tool {
         name: "convert_project",
-        help: tr_const!("Converts a project file or archive of an older version to the current file format"),
+        help: tr_const!("Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive"),
         params: &[
-            param("path", Kind::Str, tr_const!("Project file (.oec) or archive (.oecz)")),
+            param("path", Kind::Str, tr_const!("Project file (.oec), index of a split project (.oecp) or archive (.oecz)")),
             optional("output", Kind::Str, tr_const!("Project file to write (default: the file itself; archives: next to it as .oec)")),
+            optional("format", Kind::Str, tr_const!("What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output")),
         ],
         needs_project: false,
         run: convert_project,
@@ -103,6 +105,9 @@ pub static TOOLS: &[Tool] = &[
     },
 ];
 
+/// Ways to store a project (`convert_project`).
+const FORMATS: [&str; 3] = ["oec", INDEX_EXT, ARCHIVE_EXT];
+
 fn today() -> String {
     let secs = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0);
     openecraft_parts::date_from_unix(secs)
@@ -126,7 +131,7 @@ fn project_files(folder: &Path) -> Result<Vec<PathBuf>, String> {
             let path = e.path();
             if path.is_dir() {
                 dirs.push(path);
-            } else if projects::is_project_file(&path.to_string_lossy()) {
+            } else if projects::is_project_file(&path.to_string_lossy()) || folder::is_index(&path) {
                 out.push(path);
             }
         }
@@ -135,8 +140,20 @@ fn project_files(folder: &Path) -> Result<Vec<PathBuf>, String> {
     Ok(out)
 }
 
+/// Index entry of a project file, split project or archive.
+fn entry(path: &Path, verify: bool) -> Result<Entry, String> {
+    let name = path.display().to_string();
+    if !folder::is_index(path) {
+        return Ok(Entry::read(&name, &read(path)?, verify));
+    }
+    Ok(match folder::open(path) {
+        Ok((prj, conv)) => Entry { format: conv.from, ..Entry::of(&name, &prj, verify) },
+        Err(error) => Entry { path: name, error, ..Default::default() },
+    })
+}
+
 fn scan(folder: &str, verify: bool) -> Result<Vec<Entry>, String> {
-    project_files(Path::new(folder))?.iter().map(|p| Ok(Entry::read(&p.display().to_string(), &read(p)?, verify))).collect()
+    project_files(Path::new(folder))?.iter().map(|p| entry(p, verify)).collect()
 }
 
 fn index_projects(_: &mut Session, a: &Args) -> Result<Value, String> {
@@ -196,8 +213,25 @@ fn batch_project_properties(_: &mut Session, a: &Args) -> Result<Value, String> 
     let (query, dry, date) = (a.str("query").unwrap_or_default(), a.flag("dry_run"), today());
     let mut out = Vec::new();
     for path in files {
-        let bytes = read(&path)?;
         let name = path.display().to_string();
+        if folder::is_index(&path) {
+            if !query.is_empty() && !entry(&path, false)?.matches(query) {
+                continue;
+            }
+            let changed = folder::open(&path).and_then(|(mut prj, _)| Ok((b.apply(&mut prj)?, prj)));
+            match changed {
+                Ok((changes, prj)) => {
+                    let written = !dry && !changes.is_empty();
+                    if written {
+                        folder::save(&path, &prj)?;
+                    }
+                    out.push(json!({ "file": name, "changes": changes, "written": written }));
+                }
+                Err(e) => out.push(json!({ "file": name, "error": e })),
+            }
+            continue;
+        }
+        let bytes = read(&path)?;
         if !query.is_empty() && !Entry::read(&name, &bytes, false).matches(query) {
             continue;
         }
@@ -231,14 +265,32 @@ fn archive_info(_: &mut Session, a: &Args) -> Result<Value, String> {
 
 fn convert_project(_: &mut Session, a: &Args) -> Result<Value, String> {
     let path = Path::new(a.req("path"));
-    let bytes = read(path)?;
-    let (prj, conv) = archive::read_project(&bytes)?;
-    let output = match a.str("output") {
-        Some(o) => PathBuf::from(o),
-        None if archive::is_archive(&bytes) => path.with_extension("oec"),
-        None => path.to_path_buf(),
+    let (prj, conv, is_archive) = crate::session::read_project(path)?;
+    let format = a.str("format");
+    if let Some(f) = format.filter(|f| !FORMATS.contains(f)) {
+        return Err(tr_fmt!("Unknown format {}: give oec, oecp or oecz", f));
+    }
+    let output = match (a.str("output"), format) {
+        (Some(o), _) => PathBuf::from(o),
+        // A split project gets a folder of its own, named like the file.
+        (None, Some(INDEX_EXT)) if !folder::is_index(path) => {
+            let stem = path.file_stem().unwrap_or_default();
+            let mut file = stem.to_owned();
+            file.push(format!(".{INDEX_EXT}"));
+            path.with_file_name(stem).join(file)
+        }
+        (None, Some(f)) => path.with_extension(f),
+        (None, None) if is_archive => path.with_extension("oec"),
+        (None, None) => path.to_path_buf(),
     };
-    write(&output, prj.to_json().as_bytes())?;
+    let by_extension = || output.extension().and_then(|e| e.to_str()).map(str::to_lowercase).unwrap_or_default();
+    match format.map(String::from).unwrap_or_else(by_extension).as_str() {
+        INDEX_EXT => {
+            folder::save(&output, &prj)?;
+        }
+        ARCHIVE_EXT => write(&output, &archive::archive(&prj, &ArchiveOptions { date: today(), ..Default::default() }))?,
+        _ => write(&output, prj.to_json().as_bytes())?,
+    }
     Ok(json!({ "from": conv.from, "to": prj.format, "steps": conv.steps, "newer": conv.newer(), "output": output.display().to_string() }))
 }
 
@@ -255,7 +307,7 @@ fn extract_subproject(s: &mut Session, a: &Args) -> Result<Value, String> {
 }
 
 fn insert_subproject(s: &mut Session, a: &Args) -> Result<Value, String> {
-    let (sub, _) = archive::read_project(&read(Path::new(a.req("path")))?)?;
+    let (sub, _, _) = crate::session::read_project(Path::new(a.req("path")))?;
     let r = subproject::insert(s.project_mut()?, &sub, &today())?;
     s.commit();
     Ok(json!({ "name": r.name, "pages_removed": r.pages_removed, "pages_inserted": r.pages_inserted, "devices": r.devices, "parts": r.parts, "renumbered": r.renumbered }))

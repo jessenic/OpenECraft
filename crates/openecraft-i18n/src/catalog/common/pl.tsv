@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Oznaczenie kabla, np. -W20
 Cables	Kable
 Cancel	Anuluj
 Cannot read {}: {}	Nie można odczytać {}: {}
+Cannot write {}: {}	Nie można zapisać {}: {}
 Catalog	Katalog
 Catalog id	Identyfikator katalogu
 Category	Kategoria

@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Det inbäddade dokumentet {} är skadat
 The file is empty	Filen är tom
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Filen skrevs av en nyare version (format {}): data som den här versionen inte känner till går förlorade vid sparande
 The first column must be Key	Den första kolumnen måste vara Key
+The folder {} already holds the project {}: a split project needs a folder of its own	Mappen {} innehåller redan projektet {}: ett delat projekt behöver en egen mapp
 The function definition needs a key and a name	Funktionsdefinitionen behöver en nyckel och ett namn
 The last page cannot be deleted	Den sista sidan kan inte tas bort
 The macro box has no items left	Makrorutan har inga objekt kvar

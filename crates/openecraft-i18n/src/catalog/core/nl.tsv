@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Het ingesloten document {} is beschadigd
 The file is empty	Het bestand is leeg
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Het bestand is geschreven door een nieuwere versie (indeling {}): gegevens die deze versie niet kent, gaan bij het opslaan verloren
 The first column must be Key	De eerste kolom moet Key zijn
+The folder {} already holds the project {}: a split project needs a folder of its own	De map {} bevat al het project {}: een gesplitst project heeft een eigen map nodig
 The function definition needs a key and a name	De functiedefinitie heeft een sleutel en een naam nodig
 The last page cannot be deleted	De laatste pagina kan niet worden verwijderd
 The macro box has no items left	Het macrokader heeft geen elementen meer

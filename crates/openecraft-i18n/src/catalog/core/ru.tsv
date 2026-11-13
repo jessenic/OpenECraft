@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Встроенный документ {} п�
 The file is empty	Файл пуст
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Файл записан более новой версией (формат {}): данные, неизвестные этой версии, будут потеряны при сохранении
 The first column must be Key	Первый столбец должен быть Key
+The folder {} already holds the project {}: a split project needs a folder of its own	Папка {} уже содержит проект {}: разделённому проекту нужна собственная папка
 The function definition needs a key and a name	Для определения функции требуются ключ и имя
 The last page cannot be deleted	Последний лист нельзя удалить
 The macro box has no items left	В рамке макроса не осталось элементов

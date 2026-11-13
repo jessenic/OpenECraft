@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Вбудований документ {} п�
 The file is empty	Файл порожній
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Файл записано новішою версією (формат {}): дані, невідомі цій версії, буде втрачено під час збереження
 The first column must be Key	Перший стовпець має бути Key
+The folder {} already holds the project {}: a split project needs a folder of its own	Папка {} уже містить проєкт {}: розділеному проєкту потрібна власна папка
 The function definition needs a key and a name	Визначенню функції потрібні ключ і назва
 The last page cannot be deleted	Останню сторінку не можна видалити
 The macro box has no items left	У рамці макросу не залишилося елементів

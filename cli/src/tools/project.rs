@@ -17,7 +17,7 @@ pub static TOOLS: &[Tool] = &[
         name: "new_project",
         help: tr_const!("Creates a new project (optionally the demo project) and saves it if a path is given"),
         params: &[
-            optional("path", Kind::Str, tr_const!("File to save the project to (.oec)")),
+            optional("path", Kind::Str, tr_const!("File to save the project to (.oec; .oecp: a split project in the folder of the file)")),
             optional("name", Kind::Str, tr_const!("Project name")),
             optional("demo", Kind::Bool, tr_const!("Start from the demo project")),
             optional("example", Kind::Str, tr_const!("Start from an example project (names: list_examples)")),
@@ -38,7 +38,7 @@ pub static TOOLS: &[Tool] = &[
     Tool {
         name: "open_project",
         help: tr_const!("Opens a project file or archive (files of older versions are converted)"),
-        params: &[param("path", Kind::Str, tr_const!("Project file (.oec) or archive (.oecz)")), DISCARD],
+        params: &[param("path", Kind::Str, tr_const!("Project file (.oec), index of a split project (.oecp) or archive (.oecz)")), DISCARD],
         needs_project: false,
         run: open_project,
     },
@@ -127,8 +127,7 @@ fn new_project(s: &mut Session, a: &Args) -> Result<Value, String> {
                 return Err(tr_fmt!("Unknown template {}: give a built-in one ({}) or a project file", t, names.join(", ")));
             }
             None => {
-                let bytes = std::fs::read(t).map_err(|e| tr_fmt!("Cannot read {}: {}", t, openecraft_i18n::io_error(&e)))?;
-                openecraft_core::archive::read_project(&bytes)?.0
+crate::session::read_project(std::path::Path::new(t))?.0
             }
         };
         openecraft_core::project_templates::from_template(&template, "", "")

@@ -26,7 +26,6 @@ CSV file	CSV-fájl
 CSV or Excel file	CSV- vagy Excel-fájl
 CSV or JSON file	CSV- vagy JSON-fájl
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	CSV-, JSON-, BMEcat-, EPLAN XML- vagy EDZ-fájl
-Cannot write {}: {}	{} nem írható: {}
 Catalog data; without id it is derived from the name	Katalógusadatok; azonosító nélkül a névből képződik
 Changes project properties	Módosítja a projekttulajdonságokat
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Egyszerre sok projektfájlban módosítja a projekttulajdonságokat (name, description, company, creator, date, revision mezők vagy projekttulajdonságok)
@@ -39,7 +38,7 @@ Comment stored in the archive	Az archívumban tárolt megjegyzés
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Összehasonlítja a projektalkatrészeket az alkatrészszerverrel: újabb verziók, kifutó, megszűnt és eltávolított alkatrészek
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	Ehelyett összekötő-export: erp, pdm, plm, ecad, mcad, procurement, wiring_machine vagy exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Csatlakozik az Autodesk Vaulthoz (Vault Data API, Vault Professional 2025.2 vagy újabb): bejelentkezik egy Vault-fiókkal vagy hozzáférési tokent használ, és megjeleníti a kapcsolatot
-Converts a project file or archive of an older version to the current file format	Egy régebbi verziójú projektfájlt vagy archívumot az aktuális fájlformátumra alakít át
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	A projektet az aktuális fájlformátumra vagy más tárolási formára alakítja: projektfájl, felosztott projekt (mappa a verziókezeléshez) vagy archívum
 Creates a new project (optionally the demo project) and saves it if a path is given	Új projektet hoz létre (igény szerint a bemutatóprojektet), és ha meg van adva elérési út, menti
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Katalógust hoz létre vagy módosít az alkatrészszerveren (azonosító, név, gyártó, verzió, leírás)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Kimutatásblokkot (együtt generált kimutatásoldalak, pl. lécenként egy sorkapocsterv) hoz létre vagy módosít
@@ -72,7 +71,7 @@ File content instead of a file	Fájltartalom fájl helyett
 File id (see the attachments of parts_get)	Fájlazonosító (lásd a parts_get attachments mezőjét)
 File name in the vault	Fájlnév a vaultban
 File to embed	Beágyazandó fájl
-File to save the project to (.oec)	A fájl, amelybe a projekt mentésre kerül (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	A fájl, amelybe a projekt mentésre kerül (.oec; .oecp: felosztott projekt a fájl mappájában)
 File to upload	Feltöltendő fájl
 File to write	Írandó fájl
 File to write (xlsx)	Írandó fájl (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Termék-főcsoport: E
 Profile whose column mapping is used	Profil, amelynek oszlop-hozzárendelése használatos
 Project database file (JSON)	Projektadatbázis-fájl (JSON)
 Project database file (JSON) to update	Frissítendő projektadatbázis-fájl (JSON)
-Project file (.oec) or archive (.oecz)	Projektfájl (.oec) vagy archívum (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Projektfájl (.oec), felosztott projekt indexe (.oecp) vagy archívum (.oecz)
 Project file that gets the pages	Az oldalakat fogadó projektfájl
 Project file to write (default: the file itself; archives: next to it as .oec)	Írandó projektfájl (alapértelmezés: maga a fájl; archívumok: mellé .oec néven)
 Project files, separated by ';'	Projektfájlok, ';' karakterrel elválasztva
@@ -265,6 +264,7 @@ Undoes the last change	Visszavonja az utolsó módosítást
 Unexpected argument: {}	Váratlan argumentum: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Ismeretlen parancs: {}. A listát az openecraft-cli help parancs jeleníti meg.
 Unknown example {}: see list_examples	Ismeretlen példa: {}; lásd list_examples
+Unknown format {}: give oec, oecp or oecz	Ismeretlen formátum: {}; adjon meg oec, oecp vagy oecz értéket
 Unknown language: {}	Ismeretlen nyelv: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Ismeretlen oldaltípus: {} (schematic, overview, graphic, cover vagy egy list_reports szerinti kimutatás)
 Unknown part {} (parts server: {})	Ismeretlen alkatrész: {} (alkatrészszerver: {})
@@ -279,6 +279,7 @@ User name to sign in with	Bejelentkezési felhasználónév
 User or group name (wildcards; directory groups as directory:group)	Felhasználó- vagy csoportnév (helyettesítő karakterek; címtárcsoportok címtár:csoport formában)
 Values to set (name: value; an empty value removes a property)	Beállítandó értékek (név: érték; az üres érték eltávolítja a tulajdonságot)
 Vault user name (signs in)	Vault-felhasználónév (bejelentkezik)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Mi kerül kiírásra: oec (projektfájl), oecp (felosztott projekt saját mappában) vagy oecz (archívum); alapértelmezés: a kimenet kiterjesztése szerint
 Width and height must be greater than 0	A szélességnek és a magasságnak 0-nál nagyobbnak kell lennie
 Write the table as CSV to this file	A táblázat írása CSV-ként ebbe a fájlba
 Writes the check scheme of the project (checks switched off, message levels) to a file	Fájlba írja a projekt ellenőrzési sémáját (kikapcsolt ellenőrzések, üzenetszintek)

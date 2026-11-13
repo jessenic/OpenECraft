@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Gömülü belge {} hasarlı
 The file is empty	Dosya boş
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Dosya daha yeni bir sürümle yazılmış (format {}): bu sürümün tanımadığı veriler kaydederken kaybolur
 The first column must be Key	İlk sütun Key olmalıdır
+The folder {} already holds the project {}: a split project needs a folder of its own	{} klasörü zaten {} projesini içeriyor: bölünmüş bir proje kendi klasörüne ihtiyaç duyar
 The function definition needs a key and a name	Fonksiyon tanımı için bir anahtar ve ad gerekli
 The last page cannot be deleted	Son sayfa silinemez
 The macro box has no items left	Makro kutusunda hiç öğe kalmadı

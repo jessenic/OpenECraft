@@ -26,7 +26,6 @@ CSV file	CSV dosyası
 CSV or Excel file	CSV veya Excel dosyası
 CSV or JSON file	CSV veya JSON dosyası
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	CSV, JSON, BMEcat, EPLAN XML veya EDZ dosyası
-Cannot write {}: {}	{} yazılamıyor: {}
 Catalog data; without id it is derived from the name	Katalog verileri; kimlik verilmezse addan türetilir
 Changes project properties	Proje özelliklerini değiştirir
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Birçok proje dosyasındaki proje özelliklerini tek seferde değiştirir (name, description, company, creator, date, revision alanları veya proje özellikleri)
@@ -39,7 +38,7 @@ Comment stored in the archive	Arşivde saklanan yorum
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Proje parçalarını parça sunucusuyla karşılaştırır: daha yeni sürümler, üretimden kalkan, üretimi durdurulan ve kaldırılan parçalar
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	Bunun yerine bağlayıcı dışa aktarımı: erp, pdm, plm, ecad, mcad, procurement, wiring_machine veya exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Autodesk Vault'a bağlanır (Vault Data API, Vault Professional 2025.2 veya daha yeni): bir Vault hesabıyla oturum açar veya bir erişim belirteci kullanır ve bağlantıyı gösterir
-Converts a project file or archive of an older version to the current file format	Eski bir sürümün proje dosyasını veya arşivini güncel dosya formatına dönüştürür
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	Bir projeyi geçerli dosya biçimine veya başka bir saklama biçimine dönüştürür: proje dosyası, bölünmüş proje (sürüm denetimi için bir klasör) veya arşiv
 Creates a new project (optionally the demo project) and saves it if a path is given	Yeni bir proje oluşturur (isteğe bağlı olarak demo projeyi) ve bir yol verilmişse kaydeder
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Parça sunucusunda bir katalog oluşturur veya değiştirir (kimlik, ad, üretici, sürüm, açıklama)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Bir rapor bloğu (birlikte oluşturulan rapor sayfaları, ör. şerit başına bir klemens şeması) oluşturur veya değiştirir
@@ -72,7 +71,7 @@ File content instead of a file	Dosya yerine dosya içeriği
 File id (see the attachments of parts_get)	Dosya kimliği (parts_get attachments öğelerine bakın)
 File name in the vault	Kasadaki dosya adı
 File to embed	Gömülecek dosya
-File to save the project to (.oec)	Projenin kaydedileceği dosya (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	Projenin kaydedileceği dosya (.oec; .oecp: dosyanın klasöründe bölünmüş bir proje)
 File to upload	Karşıya yüklenecek dosya
 File to write	Yazılacak dosya
 File to write (xlsx)	Yazılacak dosya (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Ürün ana grubu: Ele
 Profile whose column mapping is used	Sütun eşlemesi kullanılan profil
 Project database file (JSON)	Proje veritabanı dosyası (JSON)
 Project database file (JSON) to update	Güncellenecek proje veritabanı dosyası (JSON)
-Project file (.oec) or archive (.oecz)	Proje dosyası (.oec) veya arşiv (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Proje dosyası (.oec), bölünmüş bir projenin dizini (.oecp) veya arşiv (.oecz)
 Project file that gets the pages	Sayfaları alacak proje dosyası
 Project file to write (default: the file itself; archives: next to it as .oec)	Yazılacak proje dosyası (varsayılan: dosyanın kendisi; arşivler: yanına .oec olarak)
 Project files, separated by ';'	';' ile ayrılmış proje dosyaları
@@ -265,6 +264,7 @@ Undoes the last change	Son değişikliği geri alır
 Unexpected argument: {}	Beklenmeyen bağımsız değişken: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Bilinmeyen komut: {}. Liste için openecraft-cli help komutunu çalıştırın.
 Unknown example {}: see list_examples	Bilinmeyen örnek {}: bkz. list_examples
+Unknown format {}: give oec, oecp or oecz	Bilinmeyen biçim {}: oec, oecp veya oecz verin
 Unknown language: {}	Bilinmeyen dil: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Bilinmeyen sayfa türü: {} (schematic, overview, graphic, cover veya list_reports içinden bir rapor)
 Unknown part {} (parts server: {})	Bilinmeyen parça {} (parça sunucusu: {})
@@ -279,6 +279,7 @@ User name to sign in with	Oturum açmak için kullanıcı adı
 User or group name (wildcards; directory groups as directory:group)	Kullanıcı veya grup adı (joker karakterler; dizin hizmeti grupları dizin:grup olarak)
 Values to set (name: value; an empty value removes a property)	Ayarlanacak değerler (ad: değer; boş değer bir özelliği kaldırır)
 Vault user name (signs in)	Vault kullanıcı adı (oturum açar)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Ne yazılacağı: oec (proje dosyası), oecp (kendi klasöründe bölünmüş proje) veya oecz (arşiv); varsayılan: çıktının uzantısına göre
 Width and height must be greater than 0	Genişlik ve yükseklik 0'dan büyük olmalıdır
 Write the table as CSV to this file	Tabloyu CSV olarak bu dosyaya yaz
 Writes the check scheme of the project (checks switched off, message levels) to a file	Projenin kontrol şemasını (kapatılan kontroller, mesaj seviyeleri) bir dosyaya yazar

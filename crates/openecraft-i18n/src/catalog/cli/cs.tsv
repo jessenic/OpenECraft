@@ -26,7 +26,6 @@ CSV file	Soubor CSV
 CSV or Excel file	Soubor CSV nebo Excel
 CSV or JSON file	Soubor CSV nebo JSON
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	Soubor CSV, JSON, BMEcat, EPLAN XML nebo EDZ
-Cannot write {}: {}	Nelze zapsat {}: {}
 Catalog data; without id it is derived from the name	Data katalogu; bez ID se odvodí z názvu
 Changes project properties	Změní vlastnosti projektu
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Změní vlastnosti projektu v mnoha projektových souborech najednou (pole name, description, company, creator, date, revision nebo vlastnosti projektu)
@@ -39,7 +38,7 @@ Comment stored in the archive	Komentář uložený v archivu
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Porovná artikly projektu se serverem artiklů: novější verze, dobíhající, s ukončenou výrobou a odebrané artikly
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	Místo toho export konektoru: erp, pdm, plm, ecad, mcad, procurement, wiring_machine nebo exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Připojí se k Autodesk Vault (Vault Data API, Vault Professional 2025.2 nebo novější): přihlásí se účtem Vault nebo použije přístupový token a zobrazí připojení
-Converts a project file or archive of an older version to the current file format	Převede projektový soubor nebo archiv starší verze do aktuálního formátu souboru
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	Převede projekt do aktuálního formátu souboru nebo do jiné formy uložení: soubor projektu, rozdělený projekt (složka pro správu verzí) nebo archiv
 Creates a new project (optionally the demo project) and saves it if a path is given	Vytvoří nový projekt (volitelně ukázkový projekt) a uloží jej, je-li zadána cesta
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Vytvoří nebo změní katalog na serveru artiklů (ID, název, výrobce, verze, popis)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Vytvoří nebo změní blok výkazů (stránky výkazů vytvářené společně, např. jedno schéma svorkovnice na každou svorkovnici)
@@ -72,7 +71,7 @@ File content instead of a file	Obsah souboru místo souboru
 File id (see the attachments of parts_get)	ID souboru (viz attachments z parts_get)
 File name in the vault	Název souboru v trezoru Vault
 File to embed	Soubor k vložení
-File to save the project to (.oec)	Soubor, do kterého se projekt uloží (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	Soubor, do kterého se projekt ukládá (.oec; .oecp: rozdělený projekt ve složce souboru)
 File to upload	Soubor k nahrání
 File to write	Soubor k zápisu
 File to write (xlsx)	Soubor k zápisu (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Hlavní skupina produ
 Profile whose column mapping is used	Profil, jehož mapování sloupců se použije
 Project database file (JSON)	Soubor databáze projektů (JSON)
 Project database file (JSON) to update	Soubor databáze projektů (JSON), který se má aktualizovat
-Project file (.oec) or archive (.oecz)	Projektový soubor (.oec) nebo archiv (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Soubor projektu (.oec), index rozděleného projektu (.oecp) nebo archiv (.oecz)
 Project file that gets the pages	Soubor projektu, který stránky obdrží
 Project file to write (default: the file itself; archives: next to it as .oec)	Projektový soubor k zápisu (výchozí: samotný soubor; archivy: vedle něj jako .oec)
 Project files, separated by ';'	Projektové soubory oddělené ';'
@@ -265,6 +264,7 @@ Undoes the last change	Vrátí zpět poslední změnu
 Unexpected argument: {}	Neočekávaný argument: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Neznámý příkaz: {}. Seznam zobrazí openecraft-cli help.
 Unknown example {}: see list_examples	Neznámý příklad {}: viz list_examples
+Unknown format {}: give oec, oecp or oecz	Neznámý formát {}: zadejte oec, oecp nebo oecz
 Unknown language: {}	Neznámý jazyk: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Neznámý typ stránky: {} (schematic, overview, graphic, cover nebo výkaz z list_reports)
 Unknown part {} (parts server: {})	Neznámý artikl {} (server artiklů: {})
@@ -279,6 +279,7 @@ User name to sign in with	Uživatelské jméno pro přihlášení
 User or group name (wildcards; directory groups as directory:group)	Název uživatele nebo skupiny (zástupné znaky; skupiny adresářové služby jako adresář:skupina)
 Values to set (name: value; an empty value removes a property)	Hodnoty k nastavení (název: hodnota; prázdná hodnota odebere vlastnost)
 Vault user name (signs in)	Uživatelské jméno Vault (přihlásí se)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Co se zapisuje: oec (soubor projektu), oecp (rozdělený projekt ve vlastní složce) nebo oecz (archiv); výchozí: podle přípony výstupu
 Width and height must be greater than 0	Šířka a výška musí být větší než 0
 Write the table as CSV to this file	Zapsat tabulku jako CSV do tohoto souboru
 Writes the check scheme of the project (checks switched off, message levels) to a file	Zapíše schéma kontroly projektu (vypnuté kontroly, úrovně hlášení) do souboru

@@ -33,6 +33,30 @@ fn new_project_is_unsaved_until_written() {
 }
 
 #[test]
+fn split_projects_are_saved_in_place() {
+    let dir = temp_dir("session-split");
+    let mut s = session();
+    s.replace(openecraft_core::sample::demo_project(), None);
+    let index = dir.join("demo.oecp");
+    s.save(Some(index.to_str().unwrap())).unwrap();
+    assert!(!s.unsaved());
+    let page = dir.join("pages").join(format!("{}.json", s.project().unwrap().pages[0].id));
+    assert!(page.is_file());
+
+    let mut other = session();
+    other.open(index.to_str().unwrap()).unwrap();
+    assert!(other.project().unwrap() == s.project().unwrap());
+    assert_eq!((other.path.as_deref(), other.archive.as_deref()), (Some(index.as_path()), None));
+    // The command line writes changes back: only the files that changed.
+    let before = std::fs::read(&page).unwrap();
+    other.project_mut().unwrap().info.name = "Changed".into();
+    other.write_back().unwrap();
+    assert_eq!(std::fs::read(&page).unwrap(), before);
+    assert!(std::fs::read_to_string(&index).unwrap().contains("Changed"));
+    assert!(!other.unsaved());
+}
+
+#[test]
 fn open_reports_unreadable_and_invalid_files() {
     let dir = temp_dir("session-open");
     let mut s = session();
@@ -40,6 +64,7 @@ fn open_reports_unreadable_and_invalid_files() {
     let bad = dir.join("bad.oec");
     std::fs::write(&bad, "not json").unwrap();
     assert!(s.open(bad.to_str().unwrap()).unwrap_err().starts_with("Not a valid project file"));
+    assert!(s.open(dir.join("missing.oecp").to_str().unwrap()).unwrap_err().starts_with("Cannot read"));
 }
 
 #[test]

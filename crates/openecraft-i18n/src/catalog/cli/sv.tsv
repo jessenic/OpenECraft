@@ -26,7 +26,6 @@ CSV file	CSV-fil
 CSV or Excel file	CSV- eller Excel-fil
 CSV or JSON file	CSV- eller JSON-fil
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	CSV-, JSON-, BMEcat-, EPLAN XML- eller EDZ-fil
-Cannot write {}: {}	Det går inte att skriva {}: {}
 Catalog data; without id it is derived from the name	Katalogdata; utan ID härleds det från namnet
 Changes project properties	Ändrar projektegenskaper
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Ändrar projektegenskaper i många projektfiler samtidigt (fälten name, description, company, creator, date, revision eller projektegenskaper)
@@ -39,7 +38,7 @@ Comment stored in the archive	Kommentar som sparas i arkivet
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Jämför projektartiklarna med artikelservern: nyare versioner, artiklar som fasas ut, har utgått eller har tagits bort
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	Anslutningsexport i stället: erp, pdm, plm, ecad, mcad, procurement, wiring_machine eller exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Ansluter till Autodesk Vault (Vault Data API, Vault Professional 2025.2 eller senare): loggar in med ett Vault-konto eller använder en åtkomsttoken och visar anslutningen
-Converts a project file or archive of an older version to the current file format	Konverterar en projektfil eller ett arkiv från en äldre version till det aktuella filformatet
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	Konverterar ett projekt till det aktuella filformatet eller till en annan lagringsform: projektfil, delat projekt (en mapp för versionshantering) eller arkiv
 Creates a new project (optionally the demo project) and saves it if a path is given	Skapar ett nytt projekt (valfritt demoprojektet) och sparar det om en sökväg anges
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Skapar eller ändrar en katalog på artikelservern (ID, namn, tillverkare, version, beskrivning)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Skapar eller ändrar ett rapportblock (rapportsidor som genereras tillsammans, t.ex. ett plintschema per plintrad)
@@ -72,7 +71,7 @@ File content instead of a file	Filinnehåll i stället för en fil
 File id (see the attachments of parts_get)	Fil-ID (se attachments i parts_get)
 File name in the vault	Filnamn i valvet
 File to embed	Fil att bädda in
-File to save the project to (.oec)	Fil som projektet ska sparas i (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	Fil som projektet sparas i (.oec; .oecp: ett delat projekt i filens mapp)
 File to upload	Fil som ska laddas upp
 File to write	Fil som ska skrivas
 File to write (xlsx)	Fil som ska skrivas (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Produkthuvudgrupp: El
 Profile whose column mapping is used	Profil vars kolumnmappning används
 Project database file (JSON)	Projektdatabasfil (JSON)
 Project database file (JSON) to update	Projektdatabasfil (JSON) som ska uppdateras
-Project file (.oec) or archive (.oecz)	Projektfil (.oec) eller arkiv (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Projektfil (.oec), index för ett delat projekt (.oecp) eller arkiv (.oecz)
 Project file that gets the pages	Projektfil som får sidorna
 Project file to write (default: the file itself; archives: next to it as .oec)	Projektfil som ska skrivas (standard: själva filen; arkiv: bredvid som .oec)
 Project files, separated by ';'	Projektfiler, åtskilda med ';'
@@ -265,6 +264,7 @@ Undoes the last change	Ångrar den senaste ändringen
 Unexpected argument: {}	Oväntat argument: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Okänt kommando: {}. Kör openecraft-cli help för att få en lista.
 Unknown example {}: see list_examples	Okänt exempel {}: se list_examples
+Unknown format {}: give oec, oecp or oecz	Okänt format {}: ange oec, oecp eller oecz
 Unknown language: {}	Okänt språk: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Okänd sidtyp: {} (schematic, overview, graphic, cover eller en rapport från list_reports)
 Unknown part {} (parts server: {})	Okänd artikel {} (artikelserver: {})
@@ -279,6 +279,7 @@ User name to sign in with	Användarnamn för inloggning
 User or group name (wildcards; directory groups as directory:group)	Användar- eller gruppnamn (jokertecken; grupper i en katalogtjänst som katalogtjänst:grupp)
 Values to set (name: value; an empty value removes a property)	Värden som ska anges (namn: värde; ett tomt värde tar bort en egenskap)
 Vault user name (signs in)	Vault-användarnamn (loggar in)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Vad som skrivs: oec (projektfil), oecp (delat projekt i en egen mapp) eller oecz (arkiv); standard: enligt utdatafilens filändelse
 Width and height must be greater than 0	Bredd och höjd måste vara större än 0
 Write the table as CSV to this file	Skriv tabellen som CSV till den här filen
 Writes the check scheme of the project (checks switched off, message levels) to a file	Skriver projektets kontrollschema (avstängda kontroller, meddelandenivåer) till en fil

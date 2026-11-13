@@ -8,8 +8,9 @@ use openecraft_core::archive::{self, Conversion};
 use openecraft_api::Plugins;
 use openecraft_core::history::History;
 use openecraft_core::model::Project;
+use openecraft_core::storage::folder;
 use openecraft_i18n::{tr, tr_fmt};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 pub struct Session {
     project: Option<Project>,
@@ -68,10 +69,8 @@ impl Session {
 
     /// Opens a project file or archive (converted to the current file format).
     pub fn open(&mut self, path: &str) -> Result<Conversion, String> {
-        let bytes = std::fs::read(path).map_err(|e| tr_fmt!("Cannot read {}: {}", path, openecraft_i18n::io_error(&e)))?;
-        let (prj, conv) = archive::read_project(&bytes)?;
+        let (prj, conv, is_archive) = read_project(Path::new(path))?;
         // Saving writes a project file, not the archive.
-        let is_archive = archive::is_archive(&bytes);
         let file = (!is_archive).then(|| PathBuf::from(path));
         self.replace(prj, file);
         if is_archive {
@@ -90,7 +89,7 @@ impl Session {
             None => tr("The project has no file yet: pass a path").to_string(),
         };
         let path = path.map(PathBuf::from).or_else(|| self.path.clone()).ok_or_else(no_file)?;
-        std::fs::write(&path, prj.to_json()).map_err(|e| tr_fmt!("Cannot write {}: {}", path.display(), openecraft_i18n::io_error(&e)))?;
+        write_project(&path, prj)?;
         self.saved = Some(prj.clone());
         self.path = Some(path.clone());
         Ok(path)
@@ -156,6 +155,25 @@ impl Session {
         h.redo(prj);
         Ok(can)
     }
+}
+
+/// Reads a project file, the index of a split project or an archive (`true`).
+pub fn read_project(path: &Path) -> Result<(Project, Conversion, bool), String> {
+    if folder::is_index(path) {
+        let (prj, conv) = folder::open(path)?;
+        return Ok((prj, conv, false));
+    }
+    let bytes = std::fs::read(path).map_err(|e| tr_fmt!("Cannot read {}: {}", path.display(), openecraft_i18n::io_error(&e)))?;
+    let (prj, conv) = archive::read_project(&bytes)?;
+    Ok((prj, conv, archive::is_archive(&bytes)))
+}
+
+/// Writes a project file or, for an index (`.oecp`), the folder of a split project.
+pub fn write_project(path: &Path, prj: &Project) -> Result<(), String> {
+    if folder::is_index(path) {
+        return folder::save(path, prj).map(|_| ());
+    }
+    std::fs::write(path, prj.to_json()).map_err(|e| tr_fmt!("Cannot write {}: {}", path.display(), openecraft_i18n::io_error(&e)))
 }
 
 fn no_project() -> String {

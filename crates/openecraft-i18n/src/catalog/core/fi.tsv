@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Upotettu dokumentti {} on vahingoittunut
 The file is empty	Tiedosto on tyhjä
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Tiedoston on kirjoittanut uudempi versio (muoto {}): tiedot, joita tämä versio ei tunne, menetetään tallennettaessa
 The first column must be Key	Ensimmäisen sarakkeen on oltava Key
+The folder {} already holds the project {}: a split project needs a folder of its own	Kansiossa {} on jo projekti {}: jaettu projekti tarvitsee oman kansion
 The function definition needs a key and a name	Toimintomäärittely tarvitsee avaimen ja nimen
 The last page cannot be deleted	Viimeistä sivua ei voi poistaa
 The macro box has no items left	Makrolaatikossa ei ole enää kohteita

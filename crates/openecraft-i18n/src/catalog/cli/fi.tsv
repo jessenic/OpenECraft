@@ -26,7 +26,6 @@ CSV file	CSV-tiedosto
 CSV or Excel file	CSV- tai Excel-tiedosto
 CSV or JSON file	CSV- tai JSON-tiedosto
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	CSV-, JSON-, BMEcat-, EPLAN XML- tai EDZ-tiedosto
-Cannot write {}: {}	Ei voi kirjoittaa kohdetta {}: {}
 Catalog data; without id it is derived from the name	Luettelon tiedot; ilman ID:tä se muodostetaan nimestä
 Changes project properties	Muuttaa projektin ominaisuuksia
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Muuttaa projektin ominaisuuksia monessa projektitiedostossa kerralla (kentät name, description, company, creator, date, revision tai projektiominaisuudet)
@@ -39,7 +38,7 @@ Comment stored in the archive	Arkistoon tallennettava kommentti
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Vertaa projektin osia osapalvelimeen: uudemmat versiot, poistumassa olevat, valikoimasta poistuneet ja poistetut osat
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	Konnektorivienti sen sijaan: erp, pdm, plm, ecad, mcad, procurement, wiring_machine tai exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Muodostaa yhteyden Autodesk Vaultiin (Vault Data API, Vault Professional 2025.2 tai uudempi): kirjautuu Vault-tilillä tai käyttää käyttöoikeustokenia ja näyttää yhteyden
-Converts a project file or archive of an older version to the current file format	Muuntaa vanhemman version projektitiedoston tai arkiston nykyiseen tiedostomuotoon
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	Muuntaa projektin nykyiseen tiedostomuotoon tai toiseen tallennustapaan: projektitiedosto, jaettu projekti (kansio versionhallintaa varten) tai arkisto
 Creates a new project (optionally the demo project) and saves it if a path is given	Luo uuden projektin (valinnaisesti esittelyprojektin) ja tallentaa sen, jos polku on annettu
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Luo tai muuttaa luettelon osapalvelimella (ID, nimi, valmistaja, versio, kuvaus)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Luo tai muuttaa raporttilohkon (yhdessä luodut raporttisivut, esim. yksi riviliitinkaavio rimaa kohden)
@@ -72,7 +71,7 @@ File content instead of a file	Tiedoston sisältö tiedoston sijaan
 File id (see the attachments of parts_get)	Tiedoston ID (katso parts_get-komennon attachments)
 File name in the vault	Tiedostonimi Vaultissa
 File to embed	Upotettava tiedosto
-File to save the project to (.oec)	Tiedosto, johon projekti tallennetaan (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	Tiedosto, johon projekti tallennetaan (.oec; .oecp: jaettu projekti tiedoston kansiossa)
 File to upload	Palvelimelle ladattava tiedosto
 File to write	Kirjoitettava tiedosto
 File to write (xlsx)	Kirjoitettava tiedosto (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Tuotteen pääryhmä:
 Profile whose column mapping is used	Profiili, jonka sarakemääritystä käytetään
 Project database file (JSON)	Projektitietokantatiedosto (JSON)
 Project database file (JSON) to update	Päivitettävä projektitietokantatiedosto (JSON)
-Project file (.oec) or archive (.oecz)	Projektitiedosto (.oec) tai arkisto (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Projektitiedosto (.oec), jaetun projektin hakemisto (.oecp) tai arkisto (.oecz)
 Project file that gets the pages	Projektitiedosto, joka saa sivut
 Project file to write (default: the file itself; archives: next to it as .oec)	Kirjoitettava projektitiedosto (oletus: tiedosto itse; arkistot: sen viereen .oec-tiedostona)
 Project files, separated by ';'	Projektitiedostot merkillä ';' erotettuina
@@ -265,6 +264,7 @@ Undoes the last change	Kumoaa viimeisimmän muutoksen
 Unexpected argument: {}	Odottamaton argumentti: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Tuntematon komento: {}. Saat luettelon komennolla openecraft-cli help.
 Unknown example {}: see list_examples	Tuntematon esimerkki {}: katso list_examples
+Unknown format {}: give oec, oecp or oecz	Tuntematon muoto {}: anna oec, oecp tai oecz
 Unknown language: {}	Tuntematon kieli: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Tuntematon sivutyyppi: {} (schematic, overview, graphic, cover tai list_reports-raportti)
 Unknown part {} (parts server: {})	Tuntematon osa {} (osapalvelin: {})
@@ -279,6 +279,7 @@ User name to sign in with	Kirjautumisessa käytettävä käyttäjänimi
 User or group name (wildcards; directory groups as directory:group)	Käyttäjän tai ryhmän nimi (yleismerkit; hakemistopalvelun ryhmät muodossa hakemisto:ryhmä)
 Values to set (name: value; an empty value removes a property)	Asetettavat arvot (nimi: arvo; tyhjä arvo poistaa ominaisuuden)
 Vault user name (signs in)	Vault-käyttäjänimi (kirjautuu sisään)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Mitä kirjoitetaan: oec (projektitiedosto), oecp (jaettu projekti omassa kansiossaan) tai oecz (arkisto); oletus: tulosteen tiedostopäätteen mukaan
 Width and height must be greater than 0	Leveyden ja korkeuden on oltava suurempia kuin 0
 Write the table as CSV to this file	Kirjoita taulukko CSV-muodossa tähän tiedostoon
 Writes the check scheme of the project (checks switched off, message levels) to a file	Kirjoittaa projektin tarkistusskeeman (käytöstä poistetut tarkistukset, ilmoitustasot) tiedostoon

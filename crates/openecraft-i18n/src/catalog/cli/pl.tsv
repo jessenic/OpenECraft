@@ -26,7 +26,6 @@ CSV file	Plik CSV
 CSV or Excel file	Plik CSV lub Excel
 CSV or JSON file	Plik CSV lub JSON
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	Plik CSV, JSON, BMEcat, EPLAN XML lub EDZ
-Cannot write {}: {}	Nie można zapisać {}: {}
 Catalog data; without id it is derived from the name	Dane katalogu; bez identyfikatora jest on tworzony z nazwy
 Changes project properties	Zmienia właściwości projektu
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	Zmienia właściwości projektu w wielu plikach projektów jednocześnie (pola name, description, company, creator, date, revision lub właściwości projektu)
@@ -39,7 +38,7 @@ Comment stored in the archive	Komentarz zapisany w archiwum
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	Porównuje artykuły projektu z serwerem artykułów: nowsze wersje, artykuły wycofywane, wycofane i usunięte
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	Zamiast tego eksport konektora: erp, pdm, plm, ecad, mcad, procurement, wiring_machine lub exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Łączy z Autodesk Vault (Vault Data API, Vault Professional 2025.2 lub nowszy): loguje się kontem Vault lub używa tokenu dostępu i wyświetla połączenie
-Converts a project file or archive of an older version to the current file format	Konwertuje plik projektu lub archiwum ze starszej wersji do bieżącego formatu pliku
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	Konwertuje projekt do bieżącego formatu pliku lub do innej formy przechowywania: plik projektu, projekt podzielony (folder dla kontroli wersji) lub archiwum
 Creates a new project (optionally the demo project) and saves it if a path is given	Tworzy nowy projekt (opcjonalnie projekt demonstracyjny) i zapisuje go, jeśli podano ścieżkę
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	Tworzy lub zmienia katalog na serwerze artykułów (identyfikator, nazwa, producent, wersja, opis)
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	Tworzy lub zmienia blok raportu (strony raportów generowane razem, np. jeden schemat zacisków na listwę)
@@ -72,7 +71,7 @@ File content instead of a file	Zawartość pliku zamiast pliku
 File id (see the attachments of parts_get)	Identyfikator pliku (zobacz attachments w parts_get)
 File name in the vault	Nazwa pliku w magazynie Vault
 File to embed	Plik do osadzenia
-File to save the project to (.oec)	Plik, do którego zostanie zapisany projekt (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	Plik, w którym zapisywany jest projekt (.oec; .oecp: projekt podzielony w folderze pliku)
 File to upload	Plik do przekazania
 File to write	Plik do zapisania
 File to write (xlsx)	Plik do zapisania (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	Główna grupa produk
 Profile whose column mapping is used	Profil, którego mapowanie kolumn jest używane
 Project database file (JSON)	Plik bazy danych projektów (JSON)
 Project database file (JSON) to update	Plik bazy danych projektów (JSON) do zaktualizowania
-Project file (.oec) or archive (.oecz)	Plik projektu (.oec) lub archiwum (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	Plik projektu (.oec), indeks projektu podzielonego (.oecp) lub archiwum (.oecz)
 Project file that gets the pages	Plik projektu, który otrzyma strony
 Project file to write (default: the file itself; archives: next to it as .oec)	Plik projektu do zapisania (domyślnie: sam plik; archiwa: obok jako .oec)
 Project files, separated by ';'	Pliki projektów, rozdzielone znakiem ';'
@@ -265,6 +264,7 @@ Undoes the last change	Cofa ostatnią zmianę
 Unexpected argument: {}	Nieoczekiwany argument: {}
 Unknown command: {}. Run openecraft-cli help for a list.	Nieznane polecenie: {}. Uruchom openecraft-cli help, aby wyświetlić listę.
 Unknown example {}: see list_examples	Nieznany przykład {}: zobacz list_examples
+Unknown format {}: give oec, oecp or oecz	Nieznany format {}: podaj oec, oecp lub oecz
 Unknown language: {}	Nieznany język: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	Nieznany typ strony: {} (schematic, overview, graphic, cover lub raport z list_reports)
 Unknown part {} (parts server: {})	Nieznany artykuł {} (serwer artykułów: {})
@@ -279,6 +279,7 @@ User name to sign in with	Nazwa użytkownika do logowania
 User or group name (wildcards; directory groups as directory:group)	Nazwa użytkownika lub grupy (symbole wieloznaczne; grupy usługi katalogowej jako katalog:grupa)
 Values to set (name: value; an empty value removes a property)	Wartości do ustawienia (nazwa: wartość; pusta wartość usuwa właściwość)
 Vault user name (signs in)	Nazwa użytkownika Vault (logowanie)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	Co jest zapisywane: oec (plik projektu), oecp (projekt podzielony we własnym folderze) lub oecz (archiwum); domyślnie: według rozszerzenia wyjścia
 Width and height must be greater than 0	Szerokość i wysokość muszą być większe niż 0
 Write the table as CSV to this file	Zapisz tabelę jako CSV w tym pliku
 Writes the check scheme of the project (checks switched off, message levels) to a file	Zapisuje schemat kontroli projektu (wyłączone kontrole, poziomy komunikatów) do pliku

@@ -1582,6 +1582,7 @@ The embedded document {} is damaged	嵌入的文档 {} 已损坏
 The file is empty	文件为空
 The file was written by a newer version (format {}): data this version does not know is lost when saving	该文件由较新版本写入（格式 {}）：保存时将丢失此版本无法识别的数据
 The first column must be Key	第一列必须是 Key
+The folder {} already holds the project {}: a split project needs a folder of its own	文件夹 {} 已包含项目 {}：拆分项目需要单独的文件夹
 The function definition needs a key and a name	功能定义需要键和名称
 The last page cannot be deleted	无法删除最后一页
 The macro box has no items left	宏边框中已没有元素

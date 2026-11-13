@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Kabelbetegnelse, f.eks. -W20
 Cables	Kabler
 Cancel	Annuller
 Cannot read {}: {}	{} kan ikke læses: {}
+Cannot write {}: {}	{} kan ikke skrives: {}
 Catalog	Katalog
 Catalog id	Katalog-id
 Category	Kategori

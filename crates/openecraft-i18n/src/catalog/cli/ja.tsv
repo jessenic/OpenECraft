@@ -26,7 +26,6 @@ CSV file	CSV ファイル
 CSV or Excel file	CSV または Excel ファイル
 CSV or JSON file	CSV または JSON ファイル
 CSV, JSON, BMEcat, EPLAN XML or EDZ file	CSV、JSON、BMEcat、EPLAN XML または EDZ ファイル
-Cannot write {}: {}	{} に書き込めません: {}
 Catalog data; without id it is derived from the name	カタログデータ。ID を省略すると名前から生成されます
 Changes project properties	プロジェクトプロパティを変更します
 Changes project properties in many project files at once (fields name, description, company, creator, date, revision or project properties)	多数のプロジェクトファイルのプロジェクトプロパティを一括で変更します (フィールド name、description、company、creator、date、revision またはプロジェクトプロパティ)
@@ -39,7 +38,7 @@ Comment stored in the archive	アーカイブに保存するコメント
 Compares the project parts with the parts server: newer versions, phase-out, discontinued and removed parts	プロジェクト部品を部品サーバーと比較します: 新しいバージョン、生産終了予定、生産終了、削除された部品
 Connector export instead: erp, pdm, plm, ecad, mcad, procurement, wiring_machine or exchange	代わりにコネクターのエクスポートを使用: erp、pdm、plm、ecad、mcad、procurement、wiring_machine または exchange
 Connects to Autodesk Vault (Vault Data API, Vault Professional 2025.2 or newer): signs in with a Vault account or uses an access token, and shows the connection	Autodesk Vault (Vault Data API、Vault Professional 2025.2 以降) に接続します: Vault アカウントでサインインするかアクセストークンを使用し、接続を表示します
-Converts a project file or archive of an older version to the current file format	旧バージョンのプロジェクトファイルまたはアーカイブを現在のファイル形式に変換します
+Converts a project to the current file format, or to another way of storing it: project file, split project (a folder for version control) or archive	プロジェクトを現在のファイル形式、または別の保存形式に変換します: プロジェクトファイル、分割プロジェクト（バージョン管理用のフォルダー）、アーカイブ
 Creates a new project (optionally the demo project) and saves it if a path is given	新しいプロジェクト (またはデモプロジェクト) を作成し、パスが指定されている場合は保存します
 Creates or changes a catalog on the parts server (id, name, manufacturer, version, description)	部品サーバー上のカタログ (ID、名前、メーカー、バージョン、説明) を作成または変更します
 Creates or changes a report block (report pages generated together, e.g. one terminal diagram per strip)	レポートブロック (まとめて生成されるレポートページ、例: 端子台ごとに 1 つの端子図) を作成または変更します
@@ -72,7 +71,7 @@ File content instead of a file	ファイルの代わりのファイル内容
 File id (see the attachments of parts_get)	ファイル ID (parts_get の attachments を参照)
 File name in the vault	Vault 内のファイル名
 File to embed	埋め込むファイル
-File to save the project to (.oec)	プロジェクトの保存先ファイル (.oec)
+File to save the project to (.oec; .oecp: a split project in the folder of the file)	プロジェクトを保存するファイル（.oec、.oecp: ファイルのフォルダー内の分割プロジェクト）
 File to upload	アップロードするファイル
 File to write	書き込むファイル
 File to write (xlsx)	書き込むファイル (xlsx)
@@ -183,7 +182,7 @@ Product top group: Electrical, Fluid, Mechanics or Process	製品トップグル
 Profile whose column mapping is used	列マッピングを使用するプロファイル
 Project database file (JSON)	プロジェクトデータベースファイル (JSON)
 Project database file (JSON) to update	更新するプロジェクトデータベースファイル (JSON)
-Project file (.oec) or archive (.oecz)	プロジェクトファイル (.oec) またはアーカイブ (.oecz)
+Project file (.oec), index of a split project (.oecp) or archive (.oecz)	プロジェクトファイル（.oec）、分割プロジェクトのインデックス（.oecp）、またはアーカイブ（.oecz）
 Project file that gets the pages	ページを受け取るプロジェクトファイル
 Project file to write (default: the file itself; archives: next to it as .oec)	書き込むプロジェクトファイル (既定: ファイル自体。アーカイブの場合: 隣に .oec として)
 Project files, separated by ';'	プロジェクトファイル (';' 区切り)
@@ -265,6 +264,7 @@ Undoes the last change	最後の変更を元に戻します
 Unexpected argument: {}	予期しない引数: {}
 Unknown command: {}. Run openecraft-cli help for a list.	不明なコマンド: {}。一覧は openecraft-cli help で表示できます。
 Unknown example {}: see list_examples	不明なサンプル {}：list_examples を参照
+Unknown format {}: give oec, oecp or oecz	不明な形式 {}: oec、oecp、oecz のいずれかを指定してください
 Unknown language: {}	不明な言語: {}
 Unknown page type: {} (schematic, overview, graphic, cover or a report of list_reports)	不明なページの種類: {} (schematic、overview、graphic、cover、または list_reports のレポート)
 Unknown part {} (parts server: {})	不明な部品 {} (部品サーバー: {})
@@ -279,6 +279,7 @@ User name to sign in with	サインインに使用するユーザー名
 User or group name (wildcards; directory groups as directory:group)	ユーザー名またはグループ名 (ワイルドカード可。ディレクトリのグループは ディレクトリ:グループ)
 Values to set (name: value; an empty value removes a property)	設定する値 (名前: 値。空の値を指定するとプロパティが削除されます)
 Vault user name (signs in)	Vault のユーザー名 (サインイン)
+What to write: oec (project file), oecp (split project in a folder of its own) or oecz (archive); default: by the extension of the output	書き込む形式: oec（プロジェクトファイル）、oecp（専用フォルダー内の分割プロジェクト）、oecz（アーカイブ）。既定: 出力の拡張子による
 Width and height must be greater than 0	幅と高さは 0 より大きくなければなりません
 Write the table as CSV to this file	表を CSV としてこのファイルに書き込む
 Writes the check scheme of the project (checks switched off, message levels) to a file	プロジェクトのチェックスキーム (オフにしたチェック、メッセージレベル) をファイルに書き込みます

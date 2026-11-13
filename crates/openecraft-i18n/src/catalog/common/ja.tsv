@@ -40,6 +40,7 @@ Cable tag, e.g. -W20	ケーブルのタグ、例: -W20
 Cables	ケーブル
 Cancel	キャンセル
 Cannot read {}: {}	{} を読み取れません: {}
+Cannot write {}: {}	{} に書き込めません: {}
 Catalog	カタログ
 Catalog id	カタログ ID
 Category	カテゴリ

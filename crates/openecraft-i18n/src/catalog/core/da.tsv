@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Det integrerede dokument {} er beskadiget
 The file is empty	Filen er tom
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Filen er skrevet af en nyere version (format {}): data, som denne version ikke kender, går tabt ved lagring
 The first column must be Key	Den første kolonne skal være Key
+The folder {} already holds the project {}: a split project needs a folder of its own	Mappen {} indeholder allerede projektet {}: et opdelt projekt skal have sin egen mappe
 The function definition needs a key and a name	Funktionsdefinitionen skal have en nøgle og et navn
 The last page cannot be deleted	Den sidste side kan ikke slettes
 The macro box has no items left	Makroboksen har ikke flere elementer

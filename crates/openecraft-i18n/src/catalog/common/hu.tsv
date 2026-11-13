@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Kábel jelölése, pl. -W20
 Cables	Kábelek
 Cancel	Mégse
 Cannot read {}: {}	{} nem olvasható: {}
+Cannot write {}: {}	{} nem írható: {}
 Catalog	Katalógus
 Catalog id	Katalógusazonosító
 Category	Kategória

@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	Vložený dokument {} je poškozen
 The file is empty	Soubor je prázdný
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Soubor byl zapsán novější verzí (formát {}): data, která tato verze nezná, se při uložení ztratí
 The first column must be Key	První sloupec musí být Key
+The folder {} already holds the project {}: a split project needs a folder of its own	Složka {} již obsahuje projekt {}: rozdělený projekt potřebuje vlastní složku
 The function definition needs a key and a name	Definice funkce potřebuje klíč a název
 The last page cannot be deleted	Poslední stránku nelze odstranit
 The macro box has no items left	V rámečku makra nezůstaly žádné prvky

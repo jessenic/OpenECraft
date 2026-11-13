@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Identificatorul cablului, de ex. -W20
 Cables	Cabluri
 Cancel	Anulare
 Cannot read {}: {}	{} nu poate fi citit: {}
+Cannot write {}: {}	{} nu poate fi scris: {}
 Catalog	Catalog
 Catalog id	ID catalog
 Category	Categorie

@@ -1596,6 +1596,7 @@ The embedded document {} is damaged	A(z) {} beágyazott dokumentum sérült
 The file is empty	A fájl üres
 The file was written by a newer version (format {}): data this version does not know is lost when saving	A fájlt egy újabb verzió írta ({} formátum): az ebben a verzióban ismeretlen adatok mentéskor elvesznek
 The first column must be Key	Az első oszlopnak Key-nek kell lennie
+The folder {} already holds the project {}: a split project needs a folder of its own	A(z) {} mappa már tartalmazza a(z) {} projektet: a felosztott projektnek saját mappa kell
 The function definition needs a key and a name	A funkciódefinícióhoz kulcs és név szükséges
 The last page cannot be deleted	Az utolsó oldal nem törölhető
 The macro box has no items left	A makródoboznak nem maradt eleme

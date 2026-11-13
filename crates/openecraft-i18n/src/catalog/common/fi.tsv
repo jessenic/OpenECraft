@@ -42,6 +42,7 @@ Cable tag, e.g. -W20	Kaapelin tunnus, esim. -W20
 Cables	Kaapelit
 Cancel	Peruuta
 Cannot read {}: {}	Ei voi lukea kohdetta {}: {}
+Cannot write {}: {}	Ei voi kirjoittaa kohdetta {}: {}
 Catalog	Luettelo
 Catalog id	Luettelon ID
 Category	Luokka
