@@ -189,6 +189,7 @@ Centre horizontally	Центрировать по горизонтали
 Centre vertically	Центрировать по вертикали
 Centrifugal pump	Центробежный насос
 Change	Изменение
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Изменено в папке проекта другой программой, а также в открытом проекте: {}{}. Сохраните проект под другим именем или откройте его заново и повторите изменения
 Changed since mounted	Изменено после монтажа
 Changed since wired	Изменённые после монтажа
 Changeover contact	Переключающий контакт
@@ -1925,7 +1926,6 @@ yellow	жёлтый
 {} cannot be renamed	{} нельзя переименовать
 {} differences taken over	Перенесено различий: {}
 {} duplicate ids renumbered	Перенумеровано повторяющихся идентификаторов: {}
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Файлов, изменённых в папке проекта другой программой и в открытом проекте: {}: {}{}. Сохраните проект под другим именем или откройте его заново и повторите изменения
 {} fits none of the parts of {}	{} не подходит ни к одному изделию {}
 {} frozen routes changed their length	Зафиксированных трасс, изменивших длину: {}
 {} has no MTTFd, B10d, PL or PFHd	У {} нет MTTFd, B10d, PL или PFHd

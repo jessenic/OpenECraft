@@ -1702,7 +1702,7 @@ Save workspace…	Salvare spațiu de lucru…
 Saved to	Salvat în
 Saved to the project server (revision {})	Salvat pe serverul de proiecte (revizia {})
 Saved workspaces	Spații de lucru salvate
-Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	{} salvat. {} fișiere ale proiectului au fost modificate între timp de alt program: proiectul a fost citit din nou cu modificările lor
+Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes	{} salvat. Între timp, alt program a modificat fișiere ale proiectului ({}): proiectul a fost citit din nou cu modificările lor
 Saves the placed properties as a placement scheme of the project	Salvează proprietățile plasate ca schemă de plasare a proiectului
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Salvează proiectul fără revizii, versiuni de referință, examinare și marcaje de cablare ca șablon pentru proiecte noi
 Saves the project's own properties, function definitions and schemes for other projects	Salvează proprietățile, definițiile de funcție și schemele proprii ale proiectului pentru alte proiecte

@@ -189,6 +189,7 @@ Centre horizontally	Centralizar horizontalmente
 Centre vertically	Centralizar verticalmente
 Centrifugal pump	Bomba centrífuga
 Change	Alteração
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Alterado na pasta do projeto por outro programa e também no projeto aberto: {}{}. Salve o projeto com outro nome, ou abra-o novamente e repita as alterações
 Changed since mounted	Alterado desde a montagem
 Changed since wired	Alterado desde a fiação
 Changeover contact	Contato reversor
@@ -1925,7 +1926,6 @@ yellow	amarelo
 {} cannot be renamed	{} não pode ser renomeado
 {} differences taken over	{} diferenças aplicadas
 {} duplicate ids renumbered	{} IDs duplicados renumerados
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} arquivos foram alterados na pasta do projeto por outro programa e no projeto aberto: {}{}. Salve o projeto com outro nome, ou abra-o novamente e repita as alterações
 {} fits none of the parts of {}	{} não serve para nenhuma peça de {}
 {} frozen routes changed their length	{} rotas congeladas alteraram seu comprimento
 {} has no MTTFd, B10d, PL or PFHd	{} não tem MTTFd, B10d, PL nem PFHd

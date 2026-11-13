@@ -1702,7 +1702,7 @@ Save workspace…	Çalışma alanını kaydet…
 Saved to	Kaydedildiği yer
 Saved to the project server (revision {})	Proje sunucusuna kaydedildi (revizyon {})
 Saved workspaces	Kaydedilmiş çalışma alanları
-Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	{} kaydedildi. Projenin {} dosyası bu arada başka bir program tarafından değiştirildi: proje bu değişikliklerle yeniden okundu
+Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes	{} kaydedildi. Bu arada başka bir program projenin dosyalarını değiştirdi ({}): proje bu değişikliklerle yeniden okundu
 Saves the placed properties as a placement scheme of the project	Yerleştirilen özellikleri projenin bir yerleştirme şeması olarak kaydeder
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Projeyi revizyonlar, referans sürümler, inceleme ve kablolama işaretleri olmadan yeni projeler için şablon olarak kaydeder
 Saves the project's own properties, function definitions and schemes for other projects	Projenin kendi özelliklerini, fonksiyon tanımlarını ve şemalarını diğer projeler için kaydeder

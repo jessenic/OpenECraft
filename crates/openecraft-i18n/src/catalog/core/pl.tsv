@@ -189,6 +189,7 @@ Centre horizontally	Wyśrodkuj w poziomie
 Centre vertically	Wyśrodkuj w pionie
 Centrifugal pump	Pompa odśrodkowa
 Change	Zmiana
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Zmienione w folderze projektu przez inny program, a także w otwartym projekcie: {}{}. Zapisz projekt pod inną nazwą albo otwórz go ponownie i powtórz zmiany
 Changed since mounted	Zmienione od montażu
 Changed since wired	Zmienione od podłączenia
 Changeover contact	Styk przełączny
@@ -1925,7 +1926,6 @@ yellow	żółty
 {} cannot be renamed	Nie można zmienić nazwy {}
 {} differences taken over	Przejęte różnice: {}
 {} duplicate ids renumbered	Przenumerowano zduplikowane identyfikatory: {}
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} plików zostało zmienionych w folderze projektu przez inny program i w otwartym projekcie: {}{}. Zapisz projekt pod inną nazwą albo otwórz go ponownie i powtórz zmiany
 {} fits none of the parts of {}	{} nie pasuje do żadnej części {}
 {} frozen routes changed their length	Zamrożone trasy, które zmieniły długość: {}
 {} has no MTTFd, B10d, PL or PFHd	{} nie ma MTTFd, B10d, PL ani PFHd

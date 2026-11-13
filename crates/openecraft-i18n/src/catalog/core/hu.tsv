@@ -189,6 +189,7 @@ Centre horizontally	Vízszintes középre igazítás
 Centre vertically	Függőleges középre igazítás
 Centrifugal pump	Centrifugálszivattyú
 Change	Változás
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	A projektmappában egy másik program és a megnyitott projekt is módosította: {}{}. Mentse a projektet más néven, vagy nyissa meg újra, és ismételje meg a módosításokat
 Changed since mounted	Módosult a szerelés óta
 Changed since wired	Módosult a bekötés óta
 Changeover contact	Váltóérintkező
@@ -1925,7 +1926,6 @@ yellow	sárga
 {} cannot be renamed	{} nem nevezhető át
 {} differences taken over	{} különbség átvéve
 {} duplicate ids renumbered	{} ismétlődő azonosító újraszámozva
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} fájlt a projektmappában egy másik program és a megnyitott projekt is módosított: {}{}. Mentse a projektet más néven, vagy nyissa meg újra, és ismételje meg a módosításokat
 {} fits none of the parts of {}	{0} nem illeszkedik a(z) {1} egyik cikkéhez sem
 {} frozen routes changed their length	{} rögzített nyomvonal hossza megváltozott
 {} has no MTTFd, B10d, PL or PFHd	{} esetén nincs MTTFd, B10d, PL vagy PFHd

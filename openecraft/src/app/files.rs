@@ -82,7 +82,7 @@ impl App {
                 Ok((prj, _, tracked)) => {
                     self.opened = Some(tracked);
                     self.replace_project(prj, Some(path.clone()));
-                    self.notify_ok(ctx, tr_fmt!("Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes", io::short_name(&path), foreign));
+                    self.notify_ok(ctx, tr_fmt!("Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes", io::short_name(&path), foreign));
                     return;
                 }
                 Err(e) => Err(e),

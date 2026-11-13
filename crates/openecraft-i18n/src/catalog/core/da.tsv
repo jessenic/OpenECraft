@@ -189,6 +189,7 @@ Centre horizontally	Centrer vandret
 Centre vertically	Centrer lodret
 Centrifugal pump	Centrifugalpumpe
 Change	Ændring
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Ændret i projektmappen af et andet program og også i det åbne projekt: {}{}. Gem projektet under et andet navn, eller åbn det igen og gentag ændringerne
 Changed since mounted	Ændret siden montering
 Changed since wired	Ændret siden trækning
 Changeover contact	Skiftekontakt
@@ -1925,7 +1926,6 @@ yellow	gul
 {} cannot be renamed	{} kan ikke omdøbes
 {} differences taken over	{} forskelle overtaget
 {} duplicate ids renumbered	{} dublerede id'er omnummereret
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} filer er ændret i projektmappen af et andet program og i det åbne projekt: {}{}. Gem projektet under et andet navn, eller åbn det igen og gentag ændringerne
 {} fits none of the parts of {}	{} passer ikke til nogen artikel i {}
 {} frozen routes changed their length	{} fastlåste føringer har ændret længde
 {} has no MTTFd, B10d, PL or PFHd	{} har hverken MTTFd, B10d, PL eller PFHd

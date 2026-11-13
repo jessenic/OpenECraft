@@ -189,6 +189,7 @@ Centre horizontally	Zarovnat vodorovně na střed
 Centre vertically	Zarovnat svisle na střed
 Centrifugal pump	Odstředivé čerpadlo
 Change	Změna
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Změněno ve složce projektu jiným programem a také v otevřeném projektu: {}{}. Uložte projekt pod jiným názvem, nebo jej otevřete znovu a změny zopakujte
 Changed since mounted	Změněno od montáže
 Changed since wired	Změněno od zapojení
 Changeover contact	Přepínací kontakt
@@ -1925,7 +1926,6 @@ yellow	žlutá
 {} cannot be renamed	{} nelze přejmenovat
 {} differences taken over	Převzato rozdílů: {}
 {} duplicate ids renumbered	Přečíslováno {} duplicitních ID
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} souborů bylo ve složce projektu změněno jiným programem i v otevřeném projektu: {}{}. Uložte projekt pod jiným názvem, nebo jej otevřete znovu a změny zopakujte
 {} fits none of the parts of {}	{} se nehodí k žádnému dílu {}
 {} frozen routes changed their length	Zmrazené trasy se změněnou délkou: {}
 {} has no MTTFd, B10d, PL or PFHd	{} nemá MTTFd, B10d, PL ani PFHd

@@ -219,6 +219,7 @@ Centre horizontally	Horizontal zentrieren	Centrer horizontalement	Centrar horizo
 Centre vertically	Vertikal zentrieren	Centrer verticalement	Centrar verticalmente
 Centrifugal pump	Kreiselpumpe	Pompe centrifuge	Bomba centrífuga
 Change	Änderung	Modification	Cambio
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Im Projektordner von einem anderen Programm und auch im geöffneten Projekt geändert: {}{}. Speichern Sie das Projekt unter einem anderen Namen, oder öffnen Sie es erneut und wiederholen Sie die Änderungen	Modifié dans le dossier du projet par un autre programme et aussi dans le projet ouvert : {}{}. Enregistrez le projet sous un autre nom, ou ouvrez-le à nouveau et répétez les modifications	Modificado en la carpeta del proyecto por otro programa y también en el proyecto abierto: {}{}. Guarde el proyecto con otro nombre, o ábralo de nuevo y repita los cambios
 Changed since mounted	Seit Montage geändert	Modifié depuis le montage	Modificado desde el montaje
 Changed since wired	Seit dem Verdrahten geändert	Modifié depuis le câblage	Modificado desde el cableado
 Changeover contact	Wechslerkontakt	Contact inverseur	Contacto conmutado
@@ -2066,7 +2067,6 @@ yellow	gelb	jaune	amarillo
 {} cannot be renamed	{} kann nicht umbenannt werden	{} ne peut pas être renommé	{} no se puede renombrar
 {} differences taken over	{} Unterschiede übernommen	{} différences reprises	{} diferencias adoptadas
 {} duplicate ids renumbered	{} doppelte IDs neu nummeriert	{} ID en double renumérotés	{} ID duplicados renumerados
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} Dateien wurden im Projektordner von einem anderen Programm und im geöffneten Projekt geändert: {}{}. Speichern Sie das Projekt unter einem anderen Namen, oder öffnen Sie es erneut und wiederholen Sie die Änderungen	{} fichiers ont été modifiés dans le dossier du projet par un autre programme et dans le projet ouvert : {}{}. Enregistrez le projet sous un autre nom, ou ouvrez-le à nouveau et répétez les modifications	{} archivos fueron modificados en la carpeta del proyecto por otro programa y en el proyecto abierto: {}{}. Guarde el proyecto con otro nombre, o ábralo de nuevo y repita los cambios
 {} fits none of the parts of {}	{} passt zu keinem Artikel von {}	{} ne convient à aucun article de {}	{} no es compatible con ningún artículo de {}
 {} frozen routes changed their length	{} eingefrorene Verlegungen haben ihre Länge geändert	{} tracés figés ont changé de longueur	{} recorridos congelados han cambiado de longitud
 {} has no MTTFd, B10d, PL or PFHd	{} hat weder MTTFd, B10d, PL noch PFHd	{} n'a ni MTTFd, ni B10d, ni PL, ni PFHd	{} no tiene MTTFd, B10d, PL ni PFHd

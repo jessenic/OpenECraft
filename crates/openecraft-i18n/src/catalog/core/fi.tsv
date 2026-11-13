@@ -189,6 +189,7 @@ Centre horizontally	Keskitä vaakasuunnassa
 Centre vertically	Keskitä pystysuunnassa
 Centrifugal pump	Keskipakopumppu
 Change	Muutos
+Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	Muutettu projektikansiossa toisella ohjelmalla ja myös avoimessa projektissa: {}{}. Tallenna projekti toisella nimellä tai avaa se uudelleen ja toista muutokset
 Changed since mounted	Muuttunut asennuksen jälkeen
 Changed since wired	Muuttunut johdotuksen jälkeen
 Changeover contact	Vaihtokosketin
@@ -1925,7 +1926,6 @@ yellow	keltainen
 {} cannot be renamed	Kohdetta {} ei voi nimetä uudelleen
 {} differences taken over	{} eroa otettu käyttöön
 {} duplicate ids renumbered	{} päällekkäistä tunnusta numeroitiin uudelleen
-{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes	{} tiedostoa on muutettu projektikansiossa toisella ohjelmalla ja avoimessa projektissa: {}{}. Tallenna projekti toisella nimellä tai avaa se uudelleen ja toista muutokset
 {} fits none of the parts of {}	{} ei sovi mihinkään laitteen {} osaan
 {} frozen routes changed their length	{} lukittua reittiä muutti pituuttaan
 {} has no MTTFd, B10d, PL or PFHd	Kohteella {} ei ole MTTFd-, B10d-, PL- eikä PFHd-arvoa

@@ -1702,7 +1702,7 @@ Save workspace…	Tallenna työtila…
 Saved to	Tallennettu kohteeseen
 Saved to the project server (revision {})	Tallennettu projektipalvelimelle (revisio {})
 Saved workspaces	Tallennetut työtilat
-Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	{} tallennettu. Toinen ohjelma on sillä välin muuttanut {} projektin tiedostoa: projekti luettiin uudelleen niiden muutoksineen
+Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes	{} tallennettu. Toinen ohjelma on sillä välin muuttanut projektin tiedostoja ({}): projekti luettiin uudelleen niiden muutoksineen
 Saves the placed properties as a placement scheme of the project	Tallentaa sijoitetut ominaisuudet projektin sijoitteluskeemaksi
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Tallentaa projektin ilman revisioita, vertailutiloja, tarkastusta ja johdotusmerkintöjä mallina uusia projekteja varten
 Saves the project's own properties, function definitions and schemes for other projects	Tallentaa projektin omat ominaisuudet, toimintomäärittelyt ja skeemat muita projekteja varten

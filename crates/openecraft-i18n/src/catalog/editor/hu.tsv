@@ -1702,7 +1702,7 @@ Save workspace…	Munkaterület mentése…
 Saved to	Mentés helye
 Saved to the project server (revision {})	Mentve a projektszerverre ({}. revízió)
 Saved workspaces	Mentett munkaterületek
-Saved {}. {} files of the project were changed by another program meanwhile: the project was read again with their changes	{} mentve. A projekt {} fájlját időközben egy másik program módosította: a projekt újra be lett olvasva a módosításaikkal
+Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes	{} mentve. Időközben egy másik program módosította a projekt fájljait ({}): a projekt újra be lett olvasva a módosításaikkal
 Saves the placed properties as a placement scheme of the project	Elmenti az elhelyezett tulajdonságokat a projekt elhelyezési sémájaként
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Revíziók, alapállapotok, véleményezés és huzalozási jelölések nélkül menti a projektet sablonként új projektekhez
 Saves the project's own properties, function definitions and schemes for other projects	Elmenti a projekt saját tulajdonságait, funkciódefinícióit és sémáit más projektek számára

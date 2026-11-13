@@ -192,7 +192,7 @@ pub fn save_tracked(index: &Path, prj: &Project, tracked: &mut Option<Tracked>) 
     }
     if !both.is_empty() {
         let more = if both.len() > 5 { ", \u{2026}" } else { "" };
-        return Err(tr_fmt!("{} files were changed in the project folder by another program and in the open project: {}{}. Save the project under another name, or open it again and repeat the changes", both.len(), both.iter().take(5).copied().collect::<Vec<_>>().join(", "), more));
+        return Err(tr_fmt!("Changed in the project folder by another program and also in the open project: {}{}. Save the project under another name, or open it again and repeat the changes", both.iter().take(5).copied().collect::<Vec<_>>().join(", "), more));
     }
     check_folder(dir, index)?;
     let (mut writes, mut removes) = (Vec::new(), Vec::new());
