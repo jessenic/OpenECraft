@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	Sayfalar 
 The plot boundary crosses itself	Arsa sınırı kendisiyle kesişiyor
 The plot boundary encloses no area	Arsa sınırı bir alan çevrelemiyor
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Arsa sınırı bir çokgen değil: kendisiyle kesişiyor veya üçten az köşesi var
+The project file {} is missing	Proje dosyası {} eksik
 The project has no panel layout	Projede pano yerleşimi yok
+The project was written by a newer version (file layout {})	Proje daha yeni bir sürümle yazılmış (dosya düzeni {})
 The property needs a name	Özellik için bir ad gerekli
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	İki yan yana zemin panosuna kurulmuş pompa istasyonu: bara sistemi, raylar ve kablo kanalları, kapı cihazları ve kollar, filtreli fan, aydınlatma, PE barası, kablo rakorları, bir kablo geçişi, iklimlendirme hesabı, kanal doluluğu ve 3D yönlendirme.
 The revision is already released	Revizyon zaten yayımlandı

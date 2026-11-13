@@ -252,6 +252,7 @@ const CORE_RULES: &[(&str, &[&str])] = &[
     // 8 project files, sharing, verification
     ("collab", &["model", "review", "report_blocks"]),
     ("archive", &["document", "model", "pdf", "zip"]),
+    ("storage", &["archive", "document", "model"]),
     ("projects", &["archive", "index", "issue", "model", "properties", "verify"]),
     ("project_templates", &["model", "structure"]),
     ("verify", &["analysis", "issue", "model", "options", "properties", "structure", "symbols"]),

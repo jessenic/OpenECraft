@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	Le pagine
 The plot boundary crosses itself	Il confine del lotto si interseca
 The plot boundary encloses no area	Il confine del lotto non racchiude alcuna superficie
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Il confine del lotto non è un poligono: si interseca o ha meno di tre vertici
+The project file {} is missing	Il file di progetto {} è mancante
 The project has no panel layout	Il progetto non ha un layout del quadro
+The project was written by a newer version (file layout {})	Il progetto è stato scritto da una versione più recente (struttura dei file {})
 The property needs a name	La proprietà richiede un nome
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	La stazione di pompaggio montata in due armadi a pavimento affiancati: sistema di sbarre, guide e canaline, apparecchi sulla porta e maniglie, ventilatore con filtro, lampada, barra di terra, pressacavi, un passaggio cavi, calcolo della climatizzazione, riempimento delle canaline e instradamento 3D.
 The revision is already released	La revisione è già rilasciata

@@ -83,8 +83,8 @@ Layers, bottom up (a module may use its own layer and the layers below):
 7. Output and exchange formats: `render`, `svg`, `pdf`, `dxf`, `dxf_import`, `dwg`,
    `export3d`, `aml`, `integration`, `kbl` (harness data as KBL / VDA 4964),
    `harness_export` (harness interface: JSON, wire processing list, 3D bundle).
-8. Project files, sharing, verification: `archive`, `collab`, `projects`, `verify`,
-   `sample`.
+8. Project files, sharing, verification: `archive`, `storage` (the project as a set of
+   files: the split format for version control), `collab`, `projects`, `verify`, `sample`.
 
 Known upward edges (listed in `CORE_RULES`, to be removed): `structure`, `macros`,
 `page_templates` and `document` use `ops`; `field`, `document` and `review` draw with

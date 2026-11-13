@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	Siderne b
 The plot boundary crosses itself	Grundgrænsen krydser sig selv
 The plot boundary encloses no area	Grundgrænsen omslutter intet areal
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Grundgrænsen er ingen polygon: den krydser sig selv eller har færre end tre hjørner
+The project file {} is missing	Projektfilen {} mangler
 The project has no panel layout	Projektet har intet tavlelayout
+The project was written by a newer version (file layout {})	Projektet er skrevet af en nyere version (fillayout {})
 The property needs a name	Egenskaben skal have et navn
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Pumpestationen bygget ind i to sammenbyggede gulvskabe: skinnesystem, skinner og kabelkanaler, dørkomponenter og greb, filterventilator, lys, PE-skinne, kabelforskruninger, en kabelgennemføring, klimaberegning, kanalfyldning og 3D-føring.
 The revision is already released	Revisionen er allerede frigivet

@@ -92,6 +92,7 @@ pub mod shortcircuit;
 pub mod singleline;
 pub mod sizing;
 pub mod snap_lines;
+pub mod storage;
 pub mod strips;
 pub mod structure;
 pub mod structure_boxes;

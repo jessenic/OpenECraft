@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	Strony zo
 The plot boundary crosses itself	Granica działki przecina samą siebie
 The plot boundary encloses no area	Granica działki nie obejmuje żadnej powierzchni
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Granica działki nie jest wielokątem: przecina samą siebie lub ma mniej niż trzy narożniki
+The project file {} is missing	Brak pliku projektu {}
 The project has no panel layout	Projekt nie ma zabudowy szafy
+The project was written by a newer version (file layout {})	Projekt został zapisany przez nowszą wersję (układ plików {})
 The property needs a name	Właściwość wymaga nazwy
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Przepompownia zabudowana w dwóch szeregowanych szafach stojących: system szyn zbiorczych, szyny i korytka, urządzenia na drzwiach i uchwyty, wentylator z filtrem, oświetlenie, szyna PE, dławnice kablowe, przepust kablowy, obliczenia klimatyzacji, zapełnienie korytek i trasowanie 3D.
 The revision is already released	Rewizja jest już wydana

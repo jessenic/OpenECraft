@@ -7,13 +7,14 @@ license = "MIT OR Apache-2.0"
 
 [dependencies]
 serde = { version = "1", features = ["derive", "rc"] }
-serde_json = "1"
+serde_json = { version = "1", features = ["raw_value"] }
 openecraft-parts = { path = "../openecraft-parts" }
 openecraft-i18n = { path = "../openecraft-i18n" }
 openecraft-fonts = { path = "../openecraft-fonts" }
 openecraft-jt = { path = "../openecraft-jt" }
 openecraft-xt = { path = "../openecraft-xt" }
 miniz_oxide = "0.8"
+sha2 = "0.10"
 png = "0.18"
 # The Ubuntu font of egui (bytes only), embedded in PDF files for text beyond WinAnsi.
 epaint_default_fonts = "0.37"

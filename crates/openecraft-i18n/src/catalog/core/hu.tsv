@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	Az oldala
 The plot boundary crosses itself	A telekhatár önmagát metszi
 The plot boundary encloses no area	A telekhatár nem zár körül területet
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	A telekhatár nem sokszög: önmagát metszi, vagy háromnál kevesebb sarka van
+The project file {} is missing	A(z) {} projektfájl hiányzik
 The project has no panel layout	A projektnek nincs szekrényelrendezése
+The project was written by a newer version (file layout {})	A projektet egy újabb verzió írta (fájlelrendezés {})
 The property needs a name	A tulajdonsághoz név szükséges
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	A szivattyútelep két sorolt álló szekrényben: gyűjtősín-rendszer, sínek és kábelcsatornák, ajtókészülékek és fogantyúk, szűrős ventilátor, lámpa, PE-sín, kábeltömszelencék, kábelátvezetés, klimatizálási számítás, csatornatöltöttség és 3D-útvonaltervezés.
 The revision is already released	A revízió már ki van adva

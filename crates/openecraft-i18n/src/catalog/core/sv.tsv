@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	Sidorna �
 The plot boundary crosses itself	Tomtgränsen korsar sig själv
 The plot boundary encloses no area	Tomtgränsen omsluter ingen yta
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Tomtgränsen är ingen polygon: den korsar sig själv eller har färre än tre hörn
+The project file {} is missing	Projektfilen {} saknas
 The project has no panel layout	Projektet har ingen skåplayout
+The project was written by a newer version (file layout {})	Projektet har skrivits av en nyare version (fillayout {})
 The property needs a name	Egenskapen behöver ett namn
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Pumpstationen inbyggd i två sammanbyggda golvskåp: skensystem, skenor och kabelkanaler, dörrapparater och handtag, filterfläkt, belysning, PE-skena, kabelförskruvningar, en kabelgenomföring, klimatberäkning, kanalfyllnad och 3D-dragning.
 The revision is already released	Revisionen är redan frisläppt

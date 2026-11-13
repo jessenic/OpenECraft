@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	De pagina
 The plot boundary crosses itself	De perceelgrens snijdt zichzelf
 The plot boundary encloses no area	De perceelgrens omsluit geen oppervlak
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	De perceelgrens is geen veelhoek: ze snijdt zichzelf of heeft minder dan drie hoeken
+The project file {} is missing	Het projectbestand {} ontbreekt
 The project has no panel layout	Het project heeft geen kastlay-out
+The project was written by a newer version (file layout {})	Het project is geschreven door een nieuwere versie (bestandsindeling {})
 The property needs a name	De eigenschap heeft een naam nodig
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Het pompstation ingebouwd in twee aaneengeschakelde vloerkasten: railsysteem, montagerails en kabelgoten, deurapparaten en grepen, filterventilator, verlichting, aardrail, kabelwartels, een kabeldoorvoer, klimaatberekening, gootvulling en 3D-routing.
 The revision is already released	De revisie is al vrijgegeven

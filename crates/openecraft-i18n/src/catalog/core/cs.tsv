@@ -1606,7 +1606,9 @@ The pages were changed after the submission; submit the revision again	Stránky 
 The plot boundary crosses itself	Hranice pozemku protíná sama sebe
 The plot boundary encloses no area	Hranice pozemku neohraničuje žádnou plochu
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Hranice pozemku není mnohoúhelník: protíná sama sebe nebo má méně než tři rohy
+The project file {} is missing	Soubor projektu {} chybí
 The project has no panel layout	Projekt nemá rozvržení rozváděče
+The project was written by a newer version (file layout {})	Projekt byl zapsán novější verzí (rozložení souborů {})
 The property needs a name	Vlastnost potřebuje název
 The pump station built into two bayed floor-standing enclosures: busbar system, rails and ducts, door devices and handles, filter fan, light, PE bar, cable glands, a cable passage, climate calculation, duct fill and 3D routing.	Čerpací stanice vestavěná do dvou řazených stojanových skříní: přípojnicový systém, lišty a kabelové žlaby, přístroje ve dveřích a rukojeti, ventilátor s filtrem, osvětlení, přípojnice PE, kabelové vývodky, kabelová průchodka, výpočet klimatizace, zaplnění žlabů a 3D trasování.
 The revision is already released	Revize je již uvolněna
