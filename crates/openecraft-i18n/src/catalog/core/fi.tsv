@@ -1599,7 +1599,9 @@ The file is empty	Tiedosto on tyhjä
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Tiedoston on kirjoittanut uudempi versio (muoto {}): tiedot, joita tämä versio ei tunne, menetetään tallennettaessa
 The first column must be Key	Ensimmäisen sarakkeen on oltava Key
 The folder {} already holds the project {}: a split project needs a folder of its own	Kansiossa {} on jo projekti {}: jaettu projekti tarvitsee oman kansion
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	Kansiossa {} on tiedostoja, jotka eivät kuulu mihinkään projektiin ({}): jaettu projekti tarvitsee oman kansion
 The function definition needs a key and a name	Toimintomäärittely tarvitsee avaimen ja nimen
+The index of the project names no file layout: it was not written by OpenECraft	Projektin hakemisto ei ilmoita tiedostorakennetta: sitä ei ole kirjoittanut OpenECraft
 The last page cannot be deleted	Viimeistä sivua ei voi poistaa
 The macro box has no items left	Makrolaatikossa ei ole enää kohteita
 The next free id is already in use	Seuraava vapaa tunnus on jo käytössä
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Sivuja mu
 The plot boundary crosses itself	Tontin raja leikkaa itsensä
 The plot boundary encloses no area	Tontin raja ei rajaa pinta-alaa
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Tontin raja ei ole monikulmio: se leikkaa itsensä tai sillä on alle kolme kulmaa
+The project cannot be written as files: {}	Projektia ei voi kirjoittaa tiedostoina: {}
 The project file {} is missing	Projektitiedosto {} puuttuu
 The project has no panel layout	Projektissa ei ole kaappiasennusta
 The project was written by a newer version (file layout {})	Projektin on kirjoittanut uudempi versio (tiedostorakenne {})

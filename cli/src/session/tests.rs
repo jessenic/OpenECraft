@@ -70,10 +70,18 @@ fn a_save_keeps_the_changes_another_program_made_to_a_split_project() {
     theirs.save(None).unwrap();
 
     mine.project_mut().unwrap().pages[2].description = "Mine".into();
+    mine.commit();
     mine.save(None).unwrap();
-    // Both changes are in the folder, and in the project that was read again.
+    // Both changes are in the folder and in the project.
     let pages = &mine.project().unwrap().pages;
     assert_eq!((pages[1].description.as_str(), pages[2].description.as_str()), ("Theirs", "Mine"));
+    assert!(!mine.unsaved());
+    // Undo takes back our change, not theirs.
+    assert!(mine.can_undo());
+    mine.undo().unwrap();
+    let pages = &mine.project().unwrap().pages;
+    assert_eq!((pages[1].description.as_str(), pages[2].description == "Mine"), ("Theirs", false));
+    mine.redo().unwrap();
     assert!(!mine.unsaved());
     let mut check = session();
     check.open(index.to_str().unwrap()).unwrap();

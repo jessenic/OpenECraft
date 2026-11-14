@@ -1702,6 +1702,7 @@ Save workspace…	Salva area di lavoro…
 Saved to	Salvato in
 Saved to the project server (revision {})	Salvato sul server di progetto (revisione {})
 Saved workspaces	Aree di lavoro salvate
+Saved {}, but the changes of another program could not be read: {}	{} salvato, ma non è stato possibile leggere le modifiche di un altro programma: {}
 Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes	{} salvato. Nel frattempo un altro programma ha modificato file del progetto ({}): il progetto è stato riletto con le loro modifiche
 Saves the placed properties as a placement scheme of the project	Salva le proprietà posizionate come schema di posizionamento del progetto
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Salva il progetto senza revisioni, baseline, riesame e contrassegni di cablatura come modello per nuovi progetti

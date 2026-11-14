@@ -1599,7 +1599,9 @@ The file is empty	Файл пуст
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Файл записан более новой версией (формат {}): данные, неизвестные этой версии, будут потеряны при сохранении
 The first column must be Key	Первый столбец должен быть Key
 The folder {} already holds the project {}: a split project needs a folder of its own	Папка {} уже содержит проект {}: разделённому проекту нужна собственная папка
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	Папка {} содержит файлы, не относящиеся ни к одному проекту ({}): разделённому проекту нужна собственная папка
 The function definition needs a key and a name	Для определения функции требуются ключ и имя
+The index of the project names no file layout: it was not written by OpenECraft	Индекс проекта не указывает структуру файлов: он записан не OpenECraft
 The last page cannot be deleted	Последний лист нельзя удалить
 The macro box has no items left	В рамке макроса не осталось элементов
 The next free id is already in use	Следующий свободный идентификатор уже занят
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Лист�
 The plot boundary crosses itself	Граница участка пересекает сама себя
 The plot boundary encloses no area	Граница участка не охватывает площади
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Граница участка не является многоугольником: она пересекает сама себя или имеет менее трёх углов
+The project cannot be written as files: {}	Проект нельзя записать в виде файлов: {}
 The project file {} is missing	Файл проекта {} отсутствует
 The project has no panel layout	В проекте нет компоновки шкафа
 The project was written by a newer version (file layout {})	Проект записан более новой версией (структура файлов {})

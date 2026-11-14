@@ -111,6 +111,18 @@ pub fn merge_file(path: &str, base: &[u8], ours: &[u8], theirs: &[u8]) -> Result
     let (ours, theirs) = (parse("ours", ours)?, parse("theirs", theirs)?);
     let name = path.rsplit(['/', '\\']).next().unwrap_or(path);
     let mut m = Merge { order: name == "order.json", index: name.ends_with(&format!(".{}", super::INDEX_EXT)), at: Vec::new(), conflicts: Vec::new() };
+    if m.index {
+        // A side written with a layout this version does not know is not merged
+        // under the rules of this one. (Only the index names the layout: the driver
+        // of an older version cannot tell for the other files.)
+        for side in base.iter().chain([&ours, &theirs]) {
+            if let Node::Map(fields) = side {
+                if let Some((_, Node::Value(Value::Number(layout)))) = fields.iter().find(|(key, _)| key == "layout") {
+                    super::check_layout(layout.as_u64().unwrap_or(0) as u32)?;
+                }
+            }
+        }
+    }
     let merged = match (&ours, &theirs) {
         // The id counter: both sides counted on from the same value.
         (Node::Value(Value::Number(a)), Node::Value(Value::Number(b))) if name == "next_id.json" => Node::Value(a.as_u64().max(b.as_u64()).into()),
@@ -122,7 +134,7 @@ pub fn merge_file(path: &str, base: &[u8], ours: &[u8], theirs: &[u8]) -> Result
         }
         _ => m.merge(base.as_ref(), &ours, &theirs),
     };
-    Ok(Merged { content: super::line(&merged), conflicts: m.conflicts })
+    Ok(Merged { content: super::line(&merged)?, conflicts: m.conflicts })
 }
 
 struct Merge {

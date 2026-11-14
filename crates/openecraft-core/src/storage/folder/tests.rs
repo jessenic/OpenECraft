@@ -36,7 +36,7 @@ fn projects_round_trip_through_a_folder() {
     let index = dir.join("plant").join("Plant.oecp");
     let prj = with_document();
     let written = save(&index, &prj).unwrap();
-    assert_eq!(written, split(&prj).len());
+    assert_eq!(written, split(&prj).unwrap().len());
     assert!(dir.join("plant/pages").join(format!("{}.json", prj.pages[0].id)).is_file());
     assert!(dir.join("plant/data/layout.json").is_file());
     assert_eq!(std::fs::read_dir(dir.join("plant/files")).unwrap().count(), 1);
@@ -44,7 +44,7 @@ fn projects_round_trip_through_a_folder() {
     let (back, conv) = open(&index).unwrap();
     assert!(back == prj);
     assert!(!conv.converted());
-    assert!(read(&index).unwrap() == split(&prj));
+    assert!(read(&index).unwrap() == split(&prj).unwrap());
     // Saving the same project changes no file.
     assert_eq!(save(&index, &back).unwrap(), 0);
     // Git is told to leave the files as they are; a file of the user stays.
@@ -100,16 +100,26 @@ fn copies_of_a_project_give_new_objects_different_ids() {
     let index = dir.join("p.oecp");
     let prj = demo_project();
     save(&index, &prj).unwrap();
-    // Two people open the same state of the project and each add objects.
+    // Reading does not change how ids are given: the comparison, a template or the
+    // project database read projects too.
+    let (mut read, _) = open(&index).unwrap();
+    assert_eq!(read.new_id(), prj.next_id);
+    assert_eq!(crate::project_templates::from_template(&open(&index).unwrap().0, "New", "").id_floor.0, 0);
+    // Two people open the same state of the project to edit it and each add objects.
     let (mut a, _) = open(&index).unwrap();
     let (mut b, _) = open(&index).unwrap();
+    a.scatter_ids();
+    b.scatter_ids();
     assert!(a == prj && a.next_id == prj.next_id, "nothing changes before the first new object");
+    // A project made from one that is edited counts on.
+    assert_eq!(crate::project_templates::from_template(&a, "New", "").id_floor.0, 0);
     let ids = |p: &mut Project| -> Vec<u64> { (0..100).map(|_| p.new_id()).collect() };
     let (ids_a, ids_b) = (ids(&mut a), ids(&mut b));
     assert!(ids_a[0] >= prj.next_id + crate::model::ID_SLOT && ids_a.windows(2).all(|w| w[1] == w[0] + 1));
     assert!(ids_a.iter().all(|id| !ids_b.contains(id)), "{} / {}", ids_a[0], ids_b[0]);
     // The start stays through undo (a clone taken before) and is not stored.
     let mut undone = open(&index).unwrap().0;
+    undone.scatter_ids();
     let before = undone.clone();
     let first = undone.new_id();
     undone = before;
@@ -137,7 +147,7 @@ fn a_save_keeps_what_another_program_changed() {
     let index = dir.join("p.oecp");
     let base = with_document();
     let mut tracked = None;
-    assert_eq!(save_tracked(&index, &base, &mut tracked).unwrap(), Saved { changed: split(&base).len(), foreign: 0 });
+    assert_eq!(save_tracked(&index, &base, &mut tracked).unwrap(), Saved { changed: split(&base).unwrap().len(), foreign: 0 });
     // Nothing changed: nothing is written, and nothing is read but the folder.
     assert_eq!(save_tracked(&index, &base, &mut tracked).unwrap(), Saved::default());
 
@@ -150,7 +160,7 @@ fn a_save_keeps_what_another_program_changed() {
     theirs.next_id = id + 1;
     let gone = theirs.devices.keys().next().unwrap().clone();
     theirs.devices.remove(&gone);
-    let files = split(&theirs);
+    let files = split(&theirs).unwrap();
     let page = |p: &Project, i: usize| format!("pages/{}.json", p.pages[i].id);
     for name in [page(&theirs, 2), format!("pages/{id}.json"), "data/next_id.json".to_string()] {
         change(&dir.join(&name), &files[&name]);
@@ -196,7 +206,7 @@ fn a_save_keeps_what_another_program_changed() {
     change(&dir.join(page(&merged, 3)), &{
         let mut p = merged.clone();
         p.pages[3].description = "Again".into();
-        split(&p)[&page(&merged, 3)].clone()
+        split(&p).unwrap()[&page(&merged, 3)].clone()
     });
     assert_eq!(save_tracked(&index, &alone, &mut tracked).unwrap().foreign, 1);
     assert_eq!(dir.join("files").read_dir().unwrap().count(), 1);
@@ -209,7 +219,7 @@ fn a_save_keeps_what_another_program_changed() {
 
     // Another place is written as a whole.
     let other = dir.join("copy").join("p.oecp");
-    assert_eq!(save_tracked(&other, &alone, &mut tracked).unwrap().changed, split(&alone).len());
+    assert_eq!(save_tracked(&other, &alone, &mut tracked).unwrap().changed, split(&alone).unwrap().len());
     assert!(open(&other).unwrap().0 == alone);
 }
 
@@ -223,7 +233,7 @@ fn a_save_stopped_by_a_crash_is_finished_or_never_happened() {
     new.pages[0].description = "New".into();
     new.info.name = "New".into();
     let removed = new.pages.pop().unwrap();
-    let (was, wanted) = (split(&old), split(&new));
+    let (was, wanted) = (split(&old).unwrap(), split(&new).unwrap());
     let changed: Vec<&String> = wanted.iter().filter(|(name, content)| was.get(*name) != Some(*content)).map(|(name, _)| name).collect();
     let gone: Vec<String> = was.keys().filter(|name| !wanted.contains_key(*name)).cloned().collect();
     assert!(changed.len() >= 2 && gone.len() == 2, "{changed:?} {gone:?}");
@@ -243,7 +253,7 @@ fn a_save_stopped_by_a_crash_is_finished_or_never_happened() {
     // Stopped after the journal: the save is finished by the next access, also
     // when some files had taken their places already.
     stage();
-    let journal = Journal { index: "p.oecp".into(), write: changed.iter().map(|name| name.to_string()).collect(), remove: gone.clone() };
+    let journal = Journal { index: "p.oecp".into(), new: false, write: changed.iter().map(|name| name.to_string()).collect(), remove: gone.clone() };
     std::fs::write(dir.join(JOURNAL), serde_json::to_vec(&journal).unwrap()).unwrap();
     let first = file_path(&dir, &index, changed[0]);
     std::fs::rename(tmp_path(&first), &first).unwrap();
@@ -292,6 +302,161 @@ fn a_tracked_save_serializes_only_what_changed() {
     assert_eq!(save_tracked(&index, &opened, &mut Some(read)).unwrap().changed, 1);
     assert!(!dir.join("files").exists());
     assert!(open(&index).unwrap().0 == prj);
+}
+
+#[test]
+fn an_embedded_file_added_after_a_tracked_save_is_written() {
+    // Regression: with a project saved before, every embedded file counted as left
+    // out, so a new one was never written and the project could not be opened.
+    let dir = temp_dir("folder-new-embedded");
+    let index = dir.join("p.oecp");
+    let mut prj = demo_project();
+    let mut tracked = None;
+    save_tracked(&index, &prj, &mut tracked).unwrap();
+    let id = prj.new_id();
+    let mut doc = Page::new(id, "8", "Data sheet", PageKind::Document);
+    doc.document = Some(Document::new("sheet.pdf", b"%PDF-1.4 added later"));
+    prj.pages.push(doc);
+    // The page, the embedded file, the index and the id counter.
+    assert_eq!(save_tracked(&index, &prj, &mut tracked).unwrap().changed, 4);
+    assert_eq!(dir.join("files").read_dir().unwrap().count(), 1);
+    let (back, _) = open(&index).unwrap();
+    assert!(back == prj);
+    assert_eq!(back.pages.last().unwrap().document.as_ref().unwrap().bytes().unwrap(), b"%PDF-1.4 added later");
+    // An image on a page that was already saved, and a second use of the same file.
+    let (first, second) = (prj.new_id(), prj.new_id());
+    prj.pages[0].images.push(crate::model::ImageItem { id: first, file: Document::new("photo.png", b"png bytes"), ..Default::default() });
+    prj.pages[1].images.push(crate::model::ImageItem { id: second, file: Document::new("copy.pdf", b"%PDF-1.4 added later"), ..Default::default() });
+    save_tracked(&index, &prj, &mut tracked).unwrap();
+    assert_eq!(dir.join("files").read_dir().unwrap().count(), 2);
+    assert!(open(&index).unwrap().0 == prj);
+}
+
+#[test]
+fn files_of_no_project_are_neither_replaced_nor_removed() {
+    let dir = temp_dir("folder-not-free");
+    // A folder someone keeps other JSON files in.
+    for name in ["data/measurements/a.json", "data/config.json", "pages/notes.json"] {
+        std::fs::create_dir_all(dir.join(name).parent().unwrap()).unwrap();
+        std::fs::write(dir.join(name), "mine").unwrap();
+    }
+    let index = dir.join("plant.oecp");
+    for result in [save(&index, &demo_project()).map(|_| ()), save_tracked(&index, &demo_project(), &mut None).map(|_| ())] {
+        let err = result.unwrap_err();
+        assert!(err.contains("belong to no project"), "{err}");
+    }
+    assert!(!index.exists());
+    for name in ["data/measurements/a.json", "data/config.json", "pages/notes.json"] {
+        assert_eq!(std::fs::read_to_string(dir.join(name)).unwrap(), "mine");
+    }
+    // Files of other kinds do not make a folder someone else's.
+    let dir = temp_dir("folder-free");
+    std::fs::create_dir_all(dir.join("data")).unwrap();
+    std::fs::write(dir.join("data/readme.txt"), "mine").unwrap();
+    std::fs::write(dir.join("notes.json"), "mine").unwrap();
+    save(&dir.join("plant.oecp"), &demo_project()).unwrap();
+    assert_eq!(std::fs::read_to_string(dir.join("notes.json")).unwrap(), "mine");
+
+    // A first save that was stopped before its index is finished by the next one.
+    let dir = temp_dir("folder-first-save");
+    let index = dir.join("plant.oecp");
+    let prj = demo_project();
+    let files = split(&prj).unwrap();
+    let page = files.keys().find(|name| name.starts_with("pages/")).unwrap();
+    std::fs::create_dir_all(dir.join("pages")).unwrap();
+    std::fs::write(dir.join(page), &files[page]).unwrap();
+    std::fs::write(dir.join("pages/999999.json"), "{}").unwrap();
+    std::fs::write(dir.join(JOURNAL), serde_json::to_vec(&Journal { index: "plant.oecp".into(), new: true, ..Default::default() }).unwrap()).unwrap();
+    assert!(open(&index).is_err(), "no project yet");
+    assert!(dir.join(JOURNAL).exists());
+    save(&index, &prj).unwrap();
+    assert!(open(&index).unwrap().0 == prj);
+    assert!(!dir.join(JOURNAL).exists() && !dir.join("pages/999999.json").exists());
+}
+
+#[test]
+fn a_journal_touches_only_the_files_of_the_project() {
+    let dir = temp_dir("folder-journal-paths");
+    let project = dir.join("repo").join("plant");
+    let index = project.join("p.oecp");
+    let prj = demo_project();
+    save(&index, &prj).unwrap();
+    // Files outside the project, and one inside that is not a file of the format.
+    let outside = dir.join("secret.json");
+    let sibling = dir.join("repo").join("other.json");
+    let inside = project.join("README.md");
+    for path in [&outside, &sibling, &inside] {
+        std::fs::write(path, "keep").unwrap();
+    }
+    let page = format!("pages/{}.json", prj.pages[0].id);
+    let absolute = outside.display().to_string();
+    let bad: Vec<Journal> = vec![
+        Journal { index: "p.oecp".into(), remove: vec!["../../secret.json".into()], ..Default::default() },
+        Journal { index: "p.oecp".into(), remove: vec!["pages/../../other.json".into()], ..Default::default() },
+        Journal { index: "p.oecp".into(), remove: vec![absolute.clone()], ..Default::default() },
+        Journal { index: "p.oecp".into(), remove: vec!["README.md".into()], ..Default::default() },
+        Journal { index: "p.oecp".into(), write: vec!["data/../../other.json".into()], ..Default::default() },
+        // A good name does not carry a bad one, and the index is a file of this folder.
+        Journal { index: "p.oecp".into(), remove: vec![page.clone(), "../other.json".into()], ..Default::default() },
+        Journal { index: "../other.oecp".into(), remove: vec![page.clone()], ..Default::default() },
+        Journal { index: "README.md".into(), remove: vec![page.clone()], ..Default::default() },
+    ];
+    for journal in bad {
+        std::fs::write(project.join(JOURNAL), serde_json::to_vec(&journal).unwrap()).unwrap();
+        std::fs::write(tmp_path(&sibling), "replaced").unwrap();
+        assert!(open(&index).unwrap().0 == prj, "{:?} {:?}", journal.write, journal.remove);
+        assert!(!project.join(JOURNAL).exists(), "the journal is dropped");
+        for path in [&outside, &sibling, &inside] {
+            assert_eq!(std::fs::read_to_string(path).unwrap(), "keep");
+        }
+    }
+    for (name, good) in [("p.oecp", false), (INDEX, true), (page.as_str(), true), ("data/devices/a/x.json", true), ("files/x.pdf", false), ("pages/a\\b.json", false), ("C:/x/pages/1.json", false), ("/pages/1.json", false), ("pages//1.json", false)] {
+        assert_eq!(confined(name), good, "{name}");
+    }
+    // Git is told to leave the journal and the temporary files out.
+    let ignore = std::fs::read_to_string(project.join(".gitignore")).unwrap();
+    assert!(ignore.contains(".oecp-save") && ignore.contains("*.tmp"));
+}
+
+#[test]
+fn the_files_as_they_were_read_can_be_stored_with_a_session() {
+    let dir = temp_dir("folder-stored");
+    let index = dir.join("p.oecp");
+    let base = demo_project();
+    save(&index, &base).unwrap();
+    // The editor is closed with the project open ...
+    let (mut restored, _, read) = open_tracked(&index).unwrap();
+    let stored = serde_json::to_string(&read).unwrap();
+    assert!(!stored.contains("\"last\"") && !stored.contains("\"foreign\""));
+    restored.pages[0].description = "Unsaved".into();
+    // ... a pull changes the folder meanwhile ...
+    let mut theirs = base.clone();
+    theirs.pages[1].description = "Pulled".into();
+    let name = format!("pages/{}.json", theirs.pages[1].id);
+    change(&dir.join(&name), &split(&theirs).unwrap()[&name]);
+    // ... and the next run saves the restored project: the pulled page stays.
+    let mut tracked: Option<Tracked> = Some(serde_json::from_str(&stored).unwrap());
+    assert!(tracked.as_ref().unwrap().is_for(&index) && tracked.as_ref().unwrap().files == read.files);
+    let saved = save_tracked(&index, &restored, &mut tracked).unwrap();
+    assert_eq!(saved, Saved { changed: 1, foreign: 1 });
+    assert_eq!(tracked.as_ref().unwrap().foreign().iter().collect::<Vec<_>>(), [&name]);
+    let (merged, _) = open(&index).unwrap();
+    assert_eq!((merged.pages[0].description.as_str(), merged.pages[1].description.as_str()), ("Unsaved", "Pulled"));
+    assert!(crate::storage::take_over(&restored, &merged, tracked.as_ref().unwrap().foreign()) == merged);
+
+    // Without the stamps nothing is known: a file that differs is not overwritten.
+    let mut stale = base.clone();
+    stale.pages[2].description = "Stale".into();
+    let mut unknown = Some(Tracked::unknown(&index));
+    let err = save_tracked(&index, &stale, &mut unknown).unwrap_err();
+    assert!(err.contains("pages/"), "{err}");
+    assert!(open(&index).unwrap().0 == merged);
+    // A project that is the same as its files saves, and is known from then on.
+    let mut unknown = Some(Tracked::unknown(&index));
+    assert_eq!(save_tracked(&index, &merged, &mut unknown).unwrap(), Saved::default());
+    let mut next = merged.clone();
+    next.pages[2].description = "Next".into();
+    assert_eq!(save_tracked(&index, &next, &mut unknown).unwrap(), Saved { changed: 1, foreign: 0 });
 }
 
 #[test]
@@ -363,7 +528,7 @@ fn large_project_timings() {
     let mut prj = large_project();
     let time = |what: &str, start: std::time::Instant| println!("{what:<44}{:>8.0} ms", start.elapsed().as_secs_f64() * 1000.0);
     let t = std::time::Instant::now();
-    let files = split(&prj);
+    let files = split(&prj).unwrap();
     time("split", t);
     println!("{} files, {} MB of JSON, project file {} MB", files.len(), files.values().map(Vec::len).sum::<usize>() >> 20, prj.to_json().len() >> 20);
     let mut tracked = None;

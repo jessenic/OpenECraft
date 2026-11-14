@@ -1599,7 +1599,9 @@ The file is empty	Dosya boş
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Dosya daha yeni bir sürümle yazılmış (format {}): bu sürümün tanımadığı veriler kaydederken kaybolur
 The first column must be Key	İlk sütun Key olmalıdır
 The folder {} already holds the project {}: a split project needs a folder of its own	{} klasörü zaten {} projesini içeriyor: bölünmüş bir proje kendi klasörüne ihtiyaç duyar
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	{} klasörü hiçbir projeye ait olmayan dosyalar içeriyor ({}): bölünmüş bir proje kendi klasörüne ihtiyaç duyar
 The function definition needs a key and a name	Fonksiyon tanımı için bir anahtar ve ad gerekli
+The index of the project names no file layout: it was not written by OpenECraft	Projenin dizini bir dosya düzeni belirtmiyor: OpenECraft tarafından yazılmamış
 The last page cannot be deleted	Son sayfa silinemez
 The macro box has no items left	Makro kutusunda hiç öğe kalmadı
 The next free id is already in use	Sonraki boş kimlik zaten kullanımda
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Sayfalar 
 The plot boundary crosses itself	Arsa sınırı kendisiyle kesişiyor
 The plot boundary encloses no area	Arsa sınırı bir alan çevrelemiyor
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Arsa sınırı bir çokgen değil: kendisiyle kesişiyor veya üçten az köşesi var
+The project cannot be written as files: {}	Proje dosyalar olarak yazılamıyor: {}
 The project file {} is missing	Proje dosyası {} eksik
 The project has no panel layout	Projede pano yerleşimi yok
 The project was written by a newer version (file layout {})	Proje daha yeni bir sürümle yazılmış (dosya düzeni {})

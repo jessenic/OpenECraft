@@ -42,6 +42,8 @@ pub fn from_template(template: &Project, name: &str, date: &str) -> Project {
         prj.info.name = name.trim().to_string();
     }
     prj.info.date = date.to_string();
+    // A new project counts its ids on, whatever the template was read from.
+    prj.id_floor = Default::default();
     prj.normalize();
     prj
 }

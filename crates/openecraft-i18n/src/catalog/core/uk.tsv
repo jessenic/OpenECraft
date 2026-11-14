@@ -1599,7 +1599,9 @@ The file is empty	Файл порожній
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Файл записано новішою версією (формат {}): дані, невідомі цій версії, буде втрачено під час збереження
 The first column must be Key	Перший стовпець має бути Key
 The folder {} already holds the project {}: a split project needs a folder of its own	Папка {} уже містить проєкт {}: розділеному проєкту потрібна власна папка
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	Папка {} містить файли, що не належать до жодного проєкту ({}): розділеному проєкту потрібна власна папка
 The function definition needs a key and a name	Визначенню функції потрібні ключ і назва
+The index of the project names no file layout: it was not written by OpenECraft	Індекс проєкту не вказує структуру файлів: його записано не OpenECraft
 The last page cannot be deleted	Останню сторінку не можна видалити
 The macro box has no items left	У рамці макросу не залишилося елементів
 The next free id is already in use	Наступний вільний ідентифікатор уже зайнято
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Стор�
 The plot boundary crosses itself	Межа ділянки перетинає сама себе
 The plot boundary encloses no area	Межа ділянки не охоплює площі
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Межа ділянки не є багатокутником: вона перетинає сама себе або має менше трьох кутів
+The project cannot be written as files: {}	Проєкт не можна записати у вигляді файлів: {}
 The project file {} is missing	Файл проєкту {} відсутній
 The project has no panel layout	Проєкт не має компонування шафи
 The project was written by a newer version (file layout {})	Проєкт записано новішою версією (структура файлів {})

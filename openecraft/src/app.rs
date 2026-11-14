@@ -93,6 +93,8 @@ use crate::dock::{LeftTab, Pane, ToolPane};
 
 /// Storage keys of the shell.
 const RECENT_KEY: &str = "recent_projects";
+/// The files of the open split project as they were read (`Session::tracked`).
+const TRACKED_KEY: &str = "split_project_files";
 const UI_KEY: &str = "shell";
 /// The server project of the last session (open or as a local copy).
 const SERVER_PROJECT_KEY: &str = "project_server_project";
@@ -434,12 +436,14 @@ impl App {
         let mut plugin_cmds = crate::plugin_commands::PluginCommands::default();
         let mut stored = false;
         let mut recovery = None;
+        let mut tracked = None;
         if let Some(storage) = cc.storage {
             stored = storage.get_string("file_name").is_some();
             language = eframe::get_value(storage, openecraft_ui::language::STORAGE_KEY);
             // Packed; stores written before have the plain project.
             prj = storage.get_string("project_packed").and_then(|s| openecraft_core::archive::unpack(&s).ok()).or_else(|| eframe::get_value(storage, "project"));
             file_name = eframe::get_value(storage, "file_name").flatten();
+            tracked = eframe::get_value(storage, TRACKED_KEY).flatten();
             parts_db = eframe::get_value(storage, "parts_db");
             server_url = eframe::get_value(storage, "parts_server_url");
             eplan_url = eframe::get_value(storage, "eplan_portal_url");
@@ -634,8 +638,16 @@ impl App {
         };
         crate::style::apply(&cc.egui_ctx);
         app.remote.attach(&cc.egui_ctx);
+        // A split project: its files as the last run read them tell what another
+        // program changed while the app was closed (a `git pull`). Without unsaved
+        // changes the project is read again, so that it shows them.
+        app.session.restore_tracked(tracked);
         if unsaved {
             app.session.mark_unsaved();
+        } else if let Some(path) = app.session.file_name.clone().filter(|f| io::is_split(f)) {
+            if let Ok((prj, _, read)) = openecraft_core::storage::folder::open_tracked(std::path::Path::new(&path)) {
+                app.session.replace(prj, Some(path), Some(read));
+            }
         }
         app.mounting_ui.active = workspace == Workspace::Mounting;
         app.ribbon.follow_workspace(workspace);
@@ -1230,6 +1242,7 @@ impl eframe::App for App {
         }
         storage.set_string("project", String::new());
         eframe::set_value(storage, "file_name", &self.session.file_name);
+        eframe::set_value(storage, TRACKED_KEY, &self.session.tracked);
         eframe::set_value(storage, "parts_server_url", &self.parts_ui.server.url_of(PortalKind::OpenECraft));
         eframe::set_value(storage, "eplan_portal_url", &self.parts_ui.server.url_of(PortalKind::Eplan));
         eframe::set_value(storage, "parts_server_kind", &self.parts_ui.server.kind);

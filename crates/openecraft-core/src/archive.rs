@@ -140,21 +140,31 @@ pub fn archive(prj: &Project, opts: &ArchiveOptions) -> Vec<u8> {
         prj.wiring_marks.clear();
     }
     let mut zip = ZipWriter::new(&opts.date);
-    let split = storage::split(&prj);
-    // The index first: it says what the other files are.
-    let index = split.get_key_value(storage::INDEX).into_iter();
     let mut files = Vec::new();
-    for (name, content) in index.chain(split.iter().filter(|(name, _)| *name != storage::INDEX)) {
-        zip.add(name, content);
-        files.push(name.clone());
-    }
+    let version = match storage::split(&prj) {
+        Ok(split) => {
+            // The index first: it says what the other files are.
+            let index = split.get_key_value(storage::INDEX).into_iter();
+            for (name, content) in index.chain(split.iter().filter(|(name, _)| *name != storage::INDEX)) {
+                zip.add(name, content);
+                files.push(name.clone());
+            }
+            ARCHIVE_VERSION
+        }
+        // Never an archive without the project: as one project file (version 1).
+        Err(_) => {
+            zip.add(PROJECT_FILE, prj.to_json().as_bytes());
+            files.push(PROJECT_FILE.to_string());
+            1
+        }
+    };
     if opts.pdf {
         zip.add(PDF_FILE, crate::pdf::document(&prj).as_bytes());
         files.push(PDF_FILE.to_string());
     }
     let manifest = Manifest {
         generator: format!("OpenECraft {}", env!("CARGO_PKG_VERSION")),
-        version: ARCHIVE_VERSION,
+        version,
         format: FORMAT,
         name: prj.info.name.clone(),
         description: prj.info.description.clone(),

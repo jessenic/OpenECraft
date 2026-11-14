@@ -1599,7 +1599,9 @@ The file is empty	A fájl üres
 The file was written by a newer version (format {}): data this version does not know is lost when saving	A fájlt egy újabb verzió írta ({} formátum): az ebben a verzióban ismeretlen adatok mentéskor elvesznek
 The first column must be Key	Az első oszlopnak Key-nek kell lennie
 The folder {} already holds the project {}: a split project needs a folder of its own	A(z) {} mappa már tartalmazza a(z) {} projektet: a felosztott projektnek saját mappa kell
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	A(z) {} mappa olyan fájlokat tartalmaz, amelyek egyik projekthez sem tartoznak ({}): a felosztott projektnek saját mappa kell
 The function definition needs a key and a name	A funkciódefinícióhoz kulcs és név szükséges
+The index of the project names no file layout: it was not written by OpenECraft	A projekt indexe nem nevez meg fájlelrendezést: nem az OpenECraft írta
 The last page cannot be deleted	Az utolsó oldal nem törölhető
 The macro box has no items left	A makródoboznak nem maradt eleme
 The next free id is already in use	A következő szabad azonosító már foglalt
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Az oldala
 The plot boundary crosses itself	A telekhatár önmagát metszi
 The plot boundary encloses no area	A telekhatár nem zár körül területet
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	A telekhatár nem sokszög: önmagát metszi, vagy háromnál kevesebb sarka van
+The project cannot be written as files: {}	A projekt nem írható ki fájlokként: {}
 The project file {} is missing	A(z) {} projektfájl hiányzik
 The project has no panel layout	A projektnek nincs szekrényelrendezése
 The project was written by a newer version (file layout {})	A projektet egy újabb verzió írta (fájlelrendezés {})

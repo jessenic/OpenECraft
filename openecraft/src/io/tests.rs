@@ -39,7 +39,7 @@ fn projects_are_read_and_written_by_the_kind_of_their_file() {
     let page = dir.join("split").join("pages").join(format!("{}.json", prj.pages[0].id));
     let mut theirs = prj.clone();
     theirs.pages[0].description = "Theirs".into();
-    std::fs::write(&page, &openecraft_core::storage::split(&theirs)[&format!("pages/{}.json", prj.pages[0].id)]).unwrap();
+    std::fs::write(&page, &openecraft_core::storage::split(&theirs).unwrap()[&format!("pages/{}.json", prj.pages[0].id)]).unwrap();
     let mut ours = prj.clone();
     ours.info.name = "Ours".into();
     assert_eq!(write_project(&io, &index, &ours, &mut tracked), Ok(1));

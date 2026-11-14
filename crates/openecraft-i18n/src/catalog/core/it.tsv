@@ -1599,7 +1599,9 @@ The file is empty	Il file è vuoto
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Il file è stato scritto da una versione più recente (formato {}): i dati che questa versione non conosce vanno persi al salvataggio
 The first column must be Key	La prima colonna deve essere Key
 The folder {} already holds the project {}: a split project needs a folder of its own	La cartella {} contiene già il progetto {}: un progetto suddiviso richiede una cartella propria
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	La cartella {} contiene file che non appartengono a nessun progetto ({}): un progetto suddiviso richiede una cartella propria
 The function definition needs a key and a name	La definizione di funzione richiede una chiave e un nome
+The index of the project names no file layout: it was not written by OpenECraft	L'indice del progetto non indica alcuna struttura dei file: non è stato scritto da OpenECraft
 The last page cannot be deleted	L'ultima pagina non può essere eliminata
 The macro box has no items left	Il riquadro macro non ha più elementi
 The next free id is already in use	Il prossimo ID libero è già in uso
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Le pagine
 The plot boundary crosses itself	Il confine del lotto si interseca
 The plot boundary encloses no area	Il confine del lotto non racchiude alcuna superficie
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Il confine del lotto non è un poligono: si interseca o ha meno di tre vertici
+The project cannot be written as files: {}	Il progetto non può essere scritto come file: {}
 The project file {} is missing	Il file di progetto {} è mancante
 The project has no panel layout	Il progetto non ha un layout del quadro
 The project was written by a newer version (file layout {})	Il progetto è stato scritto da una versione più recente (struttura dei file {})

@@ -77,31 +77,33 @@ impl App {
     /// split project that another program changed meanwhile (git), the project is
     /// read again: it then holds their changes next to those just saved.
     fn saved(&mut self, ctx: &egui::Context, result: Result<Option<(String, usize)>, String>) {
-        let result = match result {
-            Ok(Some((path, foreign))) if foreign > 0 => match openecraft_core::storage::folder::open_tracked(std::path::Path::new(&path)) {
-                Ok((prj, _, tracked)) => {
-                    self.opened = Some(tracked);
-                    self.replace_project(prj, Some(path.clone()));
-                    self.notify_ok(ctx, tr_fmt!("Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes", io::short_name(&path), foreign));
-                    return;
-                }
-                Err(e) => Err(e),
-            },
-            Ok(saved) => Ok(saved.map(|(path, _)| path)),
-            Err(e) => Err(e),
-        };
         match result {
-            Ok(Some(path)) => {
-                self.notify_ok(ctx, tr_fmt!("Saved {}", io::short_name(&path)));
+            Ok(Some((path, foreign))) => {
                 self.remember_recent(&path);
                 if io::is_split(&path) {
                     // Other copies of the folder may be edited from now on.
                     self.session.prj.scatter_ids();
                 }
-                self.session.file_name = Some(path);
+                self.session.file_name = Some(path.clone());
                 self.session.mark_saved();
                 // Saved locally: no longer a copy of the server project.
                 self.recovery = None;
+                if foreign == 0 {
+                    self.notify_ok(ctx, tr_fmt!("Saved {}", io::short_name(&path)));
+                    return;
+                }
+                // The files of others are read in; the undo steps keep them.
+                let names = self.session.tracked.as_ref().map(|t| t.foreign().clone()).unwrap_or_default();
+                match openecraft_core::storage::folder::open_tracked(std::path::Path::new(&path)) {
+                    Ok((disk, _, tracked)) => {
+                        self.session.take_over(&disk, &names, tracked);
+                        self.editor.selection.clear();
+                        self.editor.cancel();
+                        self.find_ui.clear_results();
+                        self.notify_ok(ctx, tr_fmt!("Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes", io::short_name(&path), foreign));
+                    }
+                    Err(e) => self.notify_error(ctx, tr_fmt!("Saved {}, but the changes of another program could not be read: {}", io::short_name(&path), e)),
+                }
             }
             Ok(None) => {}
             Err(e) => self.notify_error(ctx, tr_fmt!("Saving failed: {}", e)),

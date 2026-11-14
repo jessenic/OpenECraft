@@ -1702,6 +1702,7 @@ Save workspace…	Uložit pracovní prostor…
 Saved to	Uloženo do
 Saved to the project server (revision {})	Uloženo na projektový server (revize {})
 Saved workspaces	Uložené pracovní prostory
+Saved {}, but the changes of another program could not be read: {}	Uloženo {}, ale změny jiného programu se nepodařilo načíst: {}
 Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes	Uloženo {}. Jiný program mezitím změnil soubory projektu ({}): projekt byl znovu načten s jejich změnami
 Saves the placed properties as a placement scheme of the project	Uloží umístěné vlastnosti jako schéma umístění projektu
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Uloží projekt bez revizí, základních verzí, komentářů a značek zapojení jako šablonu pro nové projekty

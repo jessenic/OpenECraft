@@ -11,7 +11,7 @@ fn merged(path: &str, base: &str, ours: &str, theirs: &str) -> (String, Vec<Stri
 /// Merges every file of two projects that come from `base`, like git with the merge
 /// driver: files only one side changed are taken from it.
 fn merge_projects(base: &Project, ours: &Project, theirs: &Project) -> (Project, Vec<String>) {
-    let (b, o, t) = (split(base), split(ours), split(theirs));
+    let (b, o, t) = (split(base).unwrap(), split(ours).unwrap(), split(theirs).unwrap());
     let mut out = Files::new();
     let mut conflicts = Vec::new();
     let names: BTreeSet<&String> = o.keys().chain(t.keys()).collect();
@@ -40,7 +40,7 @@ fn merge_projects(base: &Project, ours: &Project, theirs: &Project) -> (Project,
 fn an_unchanged_file_is_written_as_it_was_saved() {
     let mut prj = demo_project();
     prj.pages[1].symbols[0].pos.x = 0.1;
-    for (path, content) in split(&prj) {
+    for (path, content) in split(&prj).unwrap() {
         let m = merge_file(&path, &content, &content, &content).unwrap();
         assert!(m.content == content && m.conflicts.is_empty(), "{path}");
         // Also when both sides made the same change to an older file.
@@ -132,6 +132,20 @@ fn orders_and_the_id_counter_merge_without_conflicts() {
 }
 
 #[test]
+fn an_index_of_a_newer_layout_is_not_merged() {
+    let index = |layout: u32, name: &str| format!(r#"{{"layout":{layout},"pages":["1"],"project":{{"format":2,"info":{{"name":"{name}"}}}}}}"#);
+    let (base, ours) = (index(crate::storage::LAYOUT, "A"), index(crate::storage::LAYOUT, "B"));
+    assert!(merge_file("p.oecp", base.as_bytes(), ours.as_bytes(), ours.as_bytes()).is_ok());
+    let newer = index(crate::storage::LAYOUT + 1, "C");
+    for (o, t) in [(&ours, &newer), (&newer, &ours)] {
+        let err = merge_file("p.oecp", base.as_bytes(), o.as_bytes(), t.as_bytes()).unwrap_err();
+        assert!(err.contains("newer version"), "{err}");
+    }
+    // The other files do not name a layout.
+    assert!(merge_file("pages/1.json", b"{}", br#"{"layout":9}"#, br#"{"layout":9,"a":1}"#).is_ok());
+}
+
+#[test]
 fn projects_edited_on_two_branches_merge_file_by_file() {
     let base = demo_project();
     let (mut ours, mut theirs) = (base.clone(), base.clone());
@@ -169,7 +183,7 @@ fn projects_edited_on_two_branches_merge_file_by_file() {
     assert_eq!(conflicts.len(), 1, "{conflicts:?}");
     assert!(conflicts[0].starts_with(&format!("pages/{id}.json")));
     assert_eq!(merged.pages.len(), ours.pages.len());
-    assert!(split(&merged).contains_key(INDEX));
+    assert!(split(&merged).unwrap().contains_key(INDEX));
     let _ = crate::verify::repair(&mut merged);
     assert!(crate::verify::verify(&merged).findings.iter().all(|f| !f.repairable));
 }

@@ -265,8 +265,6 @@ impl Batch {
         Ok(changes)
     }
 
-    /// Applies the changes to a project file. Returns the changes and the new file
-    /// content (none if nothing changed). Archives are written as archives again.
     /// Applies the batch to a file on disk (a project file, an archive or the index
     /// of a split project) and writes it back if something changed (`write`).
     /// Returns the changes and the new index entry of a file that was written.
@@ -291,6 +289,8 @@ impl Batch {
         }
     }
 
+    /// Applies the changes to a project file. Returns the changes and the new file
+    /// content (none if nothing changed). Archives are written as archives again.
     pub fn apply_to_file(&self, bytes: &[u8], date: &str) -> Result<(Vec<Change>, Option<Vec<u8>>), String> {
         let (mut prj, _) = archive::read_project(bytes)?;
         let changes = self.apply(&mut prj)?;

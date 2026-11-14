@@ -2,7 +2,7 @@
 //! device index, saved state and file name. No UI code, so the rules (dirty, first
 //! page, when the analysis is rebuilt) are unit tested; `App` adds the windows.
 
-use openecraft_core::storage::folder::{self, Tracked};
+use openecraft_core::storage::folder::Tracked;
 use openecraft_api::{Check, Plugins, Report};
 use openecraft_core::analysis::{self, Analysis, Cache, Issue, Progress, Step};
 use openecraft_core::history::History;
@@ -74,7 +74,10 @@ struct Built {
 fn track(prj: &mut Project, file_name: Option<&str>) -> Option<Tracked> {
     let index = std::path::Path::new(file_name.filter(|f| crate::io::is_split(f))?);
     prj.scatter_ids();
-    folder::track(index).ok()
+    // The project was not read from the folder just now (it is restored, or came
+    // from elsewhere): nothing is known of the files, so a save replaces none that
+    // differs from the project. The app puts the stamps of the last run in place.
+    Some(Tracked::unknown(index))
 }
 
 impl Session {
@@ -136,6 +139,25 @@ impl Session {
         self.opening = None;
         self.waiting = None;
         self.routing = None;
+    }
+
+    /// Puts the files of the split project in place as an earlier run of the app
+    /// read them (stored with the project that is restored at the start).
+    pub fn restore_tracked(&mut self, tracked: Option<Tracked>) {
+        let index = self.file_name.as_deref().filter(|f| crate::io::is_split(f)).map(std::path::Path::new);
+        if let Some(tracked) = tracked.filter(|t| index.is_some_and(|index| t.is_for(index))) {
+            self.tracked = Some(tracked);
+        }
+    }
+
+    /// Takes over the files another program changed in the folder (`names`) from
+    /// the project read again, into the project and its undo and redo steps: undo
+    /// must not take back the changes of others. The result counts as saved.
+    pub fn take_over(&mut self, from: &Project, names: &std::collections::BTreeSet<String>, tracked: Tracked) {
+        self.history.rebase(&mut self.prj, |p| openecraft_core::storage::take_over(p, from, names));
+        self.tracked = Some(tracked);
+        self.page = self.page.min(self.prj.pages.len().saturating_sub(1));
+        self.mark_saved();
     }
 
     /// Changes since the last save (undo back to the saved state leaves none).

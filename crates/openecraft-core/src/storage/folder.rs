@@ -37,6 +37,11 @@ const JOURNAL: &str = ".oecp-save";
 const ATTRIBUTES_FILE: &str = ".gitattributes";
 const ATTRIBUTES: &str = "# OpenECraft split project: no conversion of line ends, merged record by record\n# (git config merge.openecraft.driver, see docs/command-line.md).\n*.oecp -text merge=openecraft\npages/*.json -text merge=openecraft\ndata/**/*.json -text merge=openecraft\nfiles/** binary\n";
 
+/// Written with it: the journal and the temporary files of a save are no part of
+/// the project.
+const IGNORE_FILE: &str = ".gitignore";
+const IGNORE: &str = "# OpenECraft: files of a save in progress\n.oecp-save\n.oecp-save.tmp\n*.tmp\n";
+
 /// The path names the index of a split project.
 pub fn is_index(path: &Path) -> bool {
     path.extension().and_then(|e| e.to_str()).is_some_and(|e| e.eq_ignore_ascii_case(INDEX_EXT))
@@ -61,24 +66,47 @@ pub fn place(chosen: &Path) -> PathBuf {
 /// The files of a project folder as a working copy knows them: as they were when it
 /// read the project or last saved it, and the project it saved. A save compares the
 /// folder and the project with them.
-#[derive(Clone, Debug, Default, PartialEq)]
+///
+/// It can be stored with a session that is restored later (the editor keeps the
+/// project between runs): the files may change while the program is closed, and
+/// only the stamps of the time the project was read tell that.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
 pub struct Tracked {
     index: PathBuf,
     files: BTreeMap<String, Stamp>,
     /// The project of the last save: what equals it needs no writing. None after
     /// reading, as a project that was read may differ from its files (conversions).
+    #[serde(skip)]
     last: Option<Project>,
+    /// The files another program had changed at the last save.
+    #[serde(skip)]
+    foreign: BTreeSet<String>,
 }
 
 impl Tracked {
+    /// For a project whose files were not seen when it was read (a session restored
+    /// without its stamps): nothing is known, so a save overwrites no file that
+    /// differs from the project, and names those files.
+    pub fn unknown(index: &Path) -> Tracked {
+        Tracked { index: index.to_path_buf(), ..Default::default() }
+    }
+
     /// The files are those of the project of this index file.
     pub fn is_for(&self, index: &Path) -> bool {
         self.index == index
     }
+
+    /// The files another program had changed at the last save ([`Saved::foreign`]):
+    /// what [`super::take_over`] takes from the project read again.
+    pub fn foreign(&self) -> &BTreeSet<String> {
+        &self.foreign
+    }
 }
 
 /// A file as it was seen: unchanged while size and time are the same.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
 struct Stamp {
     len: u64,
     modified: Option<SystemTime>,
@@ -116,16 +144,14 @@ pub fn open_tracked(index: &Path) -> Result<(Project, Conversion, Tracked), Stri
         // Missing or unreadable: say why.
         read_file(index)?;
     }
-    let (mut prj, conv) = join(&files)?;
-    // Another copy of the folder may be edited at the same time.
-    prj.scatter_ids();
-    Ok((prj, conv, Tracked { index: index.to_path_buf(), files: stamps, last: None }))
+    let (prj, conv) = join(&files)?;
+    Ok((prj, conv, Tracked { index: index.to_path_buf(), files: stamps, last: None, foreign: BTreeSet::new() }))
 }
 
 /// Writes the project into the folder of the index file. Returns the number of
 /// files written or removed (0: the project on disk was the same).
 pub fn save(index: &Path, prj: &Project) -> Result<usize, String> {
-    write(index, &split(prj))
+    write(index, &split(prj)?)
 }
 
 /// The files of the project of an index file.
@@ -146,7 +172,7 @@ pub fn read(index: &Path) -> Result<Files, String> {
 /// The files of the project folder as they are now.
 pub fn track(index: &Path) -> Result<Tracked, String> {
     recover(index)?;
-    Ok(Tracked { index: index.to_path_buf(), files: on_disk(index, None)?, last: None })
+    Ok(Tracked { index: index.to_path_buf(), files: on_disk(index, None)?, last: None, foreign: BTreeSet::new() })
 }
 
 /// Writes the changes of the project into the folder of the index file: the files
@@ -157,31 +183,39 @@ pub fn track(index: &Path) -> Result<Tracked, String> {
 pub fn save_tracked(index: &Path, prj: &Project, tracked: &mut Option<Tracked>) -> Result<Saved, String> {
     recover(index)?;
     let Some(base) = tracked.as_ref().filter(|t| t.index == index) else {
-        let files = split(prj);
+        let files = split(prj)?;
         let changed = write(index, &files)?;
         let (listed, _) = list(index)?;
         let stamps = listed.into_iter().filter_map(|file| Some((file.name.clone(), Stamp { len: file.len, modified: file.modified, hash: hash(&file.name, files.get(&file.name)?) }))).collect();
-        *tracked = Some(Tracked { index: index.to_path_buf(), files: stamps, last: Some(prj.clone()) });
+        *tracked = Some(Tracked { index: index.to_path_buf(), files: stamps, last: Some(prj.clone()), foreign: BTreeSet::new() });
         return Ok(Saved { changed, foreign: 0 });
     };
     let dir = folder(index);
     // Only what differs from the project saved before is serialized.
-    let (new, kept) = split_since(prj, base.last.as_ref());
+    let (new, kept) = split_since(prj, base.last.as_ref())?;
     let disk = on_disk(index, Some(base))?;
     let names: BTreeSet<&String> = base.files.keys().chain(disk.keys()).chain(new.keys()).collect();
     // What to write (content) or remove (none), files of others, files of both.
-    let (mut ours, mut foreign, mut both) = (Vec::new(), 0, Vec::new());
+    let (mut ours, mut foreign, mut both) = (Vec::new(), BTreeSet::new(), Vec::new());
     let mut files = BTreeMap::new();
     for name in names {
         let was = base.files.get(name).map(|s| &s.hash);
         let is = disk.get(name).map(|s| &s.hash);
-        let wanted = if kept.covers(name) { was.cloned() } else { new.get(name).map(|content| hash(name, content)) };
+        // What was left out is as it was. An embedded file that is new is in the
+        // split, although those of the pages left out are not.
+        let wanted = match new.get(name) {
+            Some(content) => Some(hash(name, content)),
+            None if kept.covers(name) => was.cloned(),
+            None => None,
+        };
         match (wanted.as_ref() != was, is != was) {
             (true, false) => ours.push((name, new.get(name), wanted.clone())),
-            (false, true) => foreign += 1,
+            (false, true) => {
+                foreign.insert(name.clone());
+            }
             // Both made the same change.
             (true, true) if wanted.as_ref() == is => {}
-            (true, true) => both.push(name.as_str()),
+            (true, true) => both.push(&name[..]),
             (false, false) => {}
         }
         // Files of others stay unknown, so that the next save leaves them again.
@@ -200,7 +234,7 @@ pub fn save_tracked(index: &Path, prj: &Project, tracked: &mut Option<Tracked>) 
         match content {
             Some(content) => writes.push((name.clone(), content.as_slice(), hash.unwrap_or_default())),
             // An embedded file may be used by a page another program added.
-            None if foreign > 0 && embedded(name) => {}
+            None if !foreign.is_empty() && embedded(name) => {}
             None => removes.push(name.clone()),
         }
     }
@@ -218,8 +252,9 @@ pub fn save_tracked(index: &Path, prj: &Project, tracked: &mut Option<Tracked>) 
     }
     write_attributes(dir)?;
     let changed = writes.len() + removes.len();
-    *tracked = Some(Tracked { index: index.to_path_buf(), files, last: Some(prj.clone()) });
-    Ok(Saved { changed, foreign })
+    let saved = Saved { changed, foreign: foreign.len() };
+    *tracked = Some(Tracked { index: index.to_path_buf(), files, last: Some(prj.clone()), foreign });
+    Ok(saved)
 }
 
 /// Makes the folder of the index file hold exactly `files`. Returns the number of
@@ -229,6 +264,13 @@ pub fn write(index: &Path, files: &Files) -> Result<usize, String> {
     check_folder(dir, index)?;
     recover(index)?;
     let (listed, left) = list(index)?;
+    // Without an index the folder holds no project: files in `pages`, `data` and
+    // `files` are someone else's and must neither be replaced nor removed. (Unless
+    // a first save of this project was stopped: its journal says so.)
+    if !index.exists() && !listed.is_empty() && !first_save_stopped(dir, index) {
+        let names: Vec<&str> = listed.iter().take(3).map(|file| file.name.as_str()).collect();
+        return Err(tr_fmt!("The folder {} holds files that belong to no project ({}): a split project needs a folder of its own", dir.display(), names.join(", ")));
+    }
     for path in left {
         let _ = std::fs::remove_file(path);
     }
@@ -369,6 +411,9 @@ fn on_disk(index: &Path, known: Option<&Tracked>) -> Result<BTreeMap<String, Sta
 struct Journal {
     /// File name of the index.
     index: String,
+    /// The first save into a folder: files are written to their places, there is
+    /// no project yet until the index is written.
+    new: bool,
     write: Vec<String>,
     remove: Vec<String>,
 }
@@ -386,13 +431,17 @@ fn commit(dir: &Path, index: &Path, writes: &[(&str, &[u8])], removes: &[String]
     // A folder without an index holds no project yet: there is nothing to keep
     // whole, the files are written to their places and the index last.
     if !index.exists() && removes.is_empty() {
+        let started = Journal { index: index.file_name().unwrap_or_default().to_string_lossy().into_owned(), new: true, ..Default::default() };
+        let journal = dir.join(JOURNAL);
+        std::fs::write(&journal, serde_json::to_vec(&started).unwrap_or_default()).map_err(|e| cannot_write(&journal, &e))?;
         let (last, first): (Vec<_>, Vec<_>) = writes.iter().partition(|(name, _)| *name == INDEX);
         let put = |(name, content): &&(&str, &[u8])| {
             let path = file_path(dir, index, name);
             std::fs::write(&path, content).map_err(|e| cannot_write(&path, &e))
         };
         par_map(&first, put).into_iter().collect::<Result<Vec<()>, String>>()?;
-        return last.iter().try_for_each(put);
+        last.iter().try_for_each(put)?;
+        return std::fs::remove_file(&journal).map_err(|e| cannot_write(&journal, &e));
     }
     // Next to their places first: the project stays as it was until all are written.
     let staged = par_map(writes, |(name, content)| {
@@ -408,7 +457,7 @@ fn commit(dir: &Path, index: &Path, writes: &[(&str, &[u8])], removes: &[String]
     // One file needs no journal: it takes its place in one step.
     let journal = (writes.len() + removes.len() > 1).then(|| dir.join(JOURNAL));
     if let Some(path) = &journal {
-        let entry = Journal { index: index.file_name().unwrap_or_default().to_string_lossy().into_owned(), write: writes.iter().map(|(name, _)| name.to_string()).collect(), remove: removes.to_vec() };
+        let entry = Journal { index: index.file_name().unwrap_or_default().to_string_lossy().into_owned(), new: false, write: writes.iter().map(|(name, _)| name.to_string()).collect(), remove: removes.to_vec() };
         let tmp = tmp_path(path);
         std::fs::write(&tmp, serde_json::to_vec(&entry).unwrap_or_default()).and_then(|()| std::fs::rename(&tmp, path)).map_err(|e| cannot_write(path, &e))?;
     }
@@ -443,15 +492,43 @@ fn apply(dir: &Path, index: &Path, writes: &[&str], removes: &[String]) -> Resul
 }
 
 /// Finishes a save that a crash stopped after its files were written.
+///
+/// A journal is a file like any other: it can come with a repository. Only the
+/// files of the format in this folder are touched, whatever it names; a journal
+/// that names anything else is dropped.
 fn recover(index: &Path) -> Result<(), String> {
     let dir = folder(index);
     let path = dir.join(JOURNAL);
     let Ok(bytes) = std::fs::read(&path) else { return Ok(()) };
     if let Ok(journal) = serde_json::from_slice::<Journal>(&bytes) {
-        let index = dir.join(&journal.index);
-        apply(dir, &index, &journal.write.iter().map(String::as_str).collect::<Vec<_>>(), &journal.remove)?;
+        let named = dir.join(&journal.index);
+        let index_name = Path::new(&journal.index).file_name().is_some_and(|name| name == journal.index.as_str()) && is_index(&named);
+        if journal.new {
+            // A first save that was stopped: the next save finishes it (`write`).
+            if !index_name || !named.exists() {
+                return Ok(());
+            }
+        } else if index_name && journal.write.iter().chain(&journal.remove).all(|name| confined(name)) {
+            apply(dir, &named, &journal.write.iter().map(String::as_str).collect::<Vec<_>>(), &journal.remove)?;
+        }
     }
     std::fs::remove_file(&path).map_err(|e| cannot_write(&path, &e))
+}
+
+/// The name is the index or a file of the format inside the project folder: a
+/// relative path through `pages`, `data` or `files` without `..`.
+fn confined(name: &str) -> bool {
+    let inside = || {
+        let mut parts = name.split('/');
+        FOLDERS.contains(&parts.next().unwrap_or_default()) && parts.all(|part| !part.is_empty() && part != "." && part != ".." && !part.contains(['\\', ':']))
+    };
+    name == INDEX || (owned(name) && inside())
+}
+
+/// The journal of a first save of this project that did not reach its index.
+fn first_save_stopped(dir: &Path, index: &Path) -> bool {
+    let journal = std::fs::read(dir.join(JOURNAL)).ok().and_then(|bytes| serde_json::from_slice::<Journal>(&bytes).ok());
+    journal.is_some_and(|journal| journal.new && index.file_name().is_some_and(|name| name == journal.index.as_str()))
 }
 
 /// Creates the folder; it must not hold another project.
@@ -481,9 +558,11 @@ fn tidy(dir: &Path) {
 }
 
 fn write_attributes(dir: &Path) -> Result<(), String> {
-    let attributes = dir.join(ATTRIBUTES_FILE);
-    if !attributes.exists() {
-        std::fs::write(&attributes, ATTRIBUTES).map_err(|e| cannot_write(&attributes, &e))?;
+    for (name, content) in [(ATTRIBUTES_FILE, ATTRIBUTES), (IGNORE_FILE, IGNORE)] {
+        let path = dir.join(name);
+        if !path.exists() {
+            std::fs::write(&path, content).map_err(|e| cannot_write(&path, &e))?;
+        }
     }
     Ok(())
 }

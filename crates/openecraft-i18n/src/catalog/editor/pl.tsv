@@ -1702,6 +1702,7 @@ Save workspace…	Zapisz obszar roboczy…
 Saved to	Zapisano w
 Saved to the project server (revision {})	Zapisano na serwerze projektów (rewizja {})
 Saved workspaces	Zapisane obszary robocze
+Saved {}, but the changes of another program could not be read: {}	Zapisano {}, ale nie udało się odczytać zmian innego programu: {}
 Saved {}. Another program changed files of the project meanwhile ({}): the project was read again with their changes	Zapisano {}. Inny program zmienił w międzyczasie pliki projektu ({}): projekt został ponownie wczytany z tymi zmianami
 Saves the placed properties as a placement scheme of the project	Zapisuje umieszczone właściwości jako schemat rozmieszczenia projektu
 Saves the project without revisions, baselines, review and wiring marks as a template for new projects	Zapisuje projekt bez rewizji, wersji bazowych, przeglądu i znaczników okablowania jako szablon dla nowych projektów

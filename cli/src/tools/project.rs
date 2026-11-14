@@ -126,9 +126,7 @@ fn new_project(s: &mut Session, a: &Args) -> Result<Value, String> {
                 let names: Vec<&str> = openecraft_core::project_templates::BUILTIN.iter().map(|(n, _)| tr(n)).collect();
                 return Err(tr_fmt!("Unknown template {}: give a built-in one ({}) or a project file", t, names.join(", ")));
             }
-            None => {
-crate::session::read_project(std::path::Path::new(t))?.0
-            }
+            None => crate::session::read_project(std::path::Path::new(t))?.0,
         };
         openecraft_core::project_templates::from_template(&template, "", "")
     } else {

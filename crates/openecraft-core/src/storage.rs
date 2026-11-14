@@ -58,6 +58,7 @@ type Raw = Box<RawValue>;
 type Fields = BTreeMap<String, Raw>;
 
 /// How a field of the project is stored; fields without a rule stay in the index.
+#[derive(Debug, PartialEq)]
 enum Rule {
     /// A map: one file per entry.
     Map,
@@ -67,6 +68,10 @@ enum Rule {
     Whole,
 }
 
+/// The rules are part of the layout: a version that does not know a rule reads the
+/// project without that field and removes its files with the next save. Whoever
+/// changes them (a field gets files of its own, or loses them) raises [`LAYOUT`];
+/// a test holds the rules of each layout.
 const RULES: &[(&str, Rule)] = &[
     ("baselines", Rule::List("name")),
     ("cables", Rule::List("id")),
@@ -146,14 +151,20 @@ impl Kept {
 }
 
 /// The files of the project.
-pub fn split(prj: &Project) -> Files {
-    split_since(prj, None).0
+pub fn split(prj: &Project) -> Result<Files, String> {
+    split_since(prj, None).map(|(files, _)| files)
+}
+
+/// The project cannot be written as files (nothing is written then: an empty set
+/// of files would take the place of the project).
+fn unwritable(e: serde_json::Error) -> String {
+    tr_fmt!("The project cannot be written as files: {}", e)
 }
 
 /// The files of the project that differ from those of `last` (the project as it
 /// was saved before), and which were left out. The pages and each field stored on
 /// its own are compared, so the cost follows what changed. Without `last`: all files.
-pub fn split_since(prj: &Project, last: Option<&Project>) -> (Files, Kept) {
+pub fn split_since(prj: &Project, last: Option<&Project>) -> Result<(Files, Kept), String> {
     let mut kept = Kept { embedded: last.is_some(), fields: last.map(|last| same_fields(prj, last)).unwrap_or_default(), ..Default::default() };
     let embedded = Rc::new(RefCell::new(Files::new()));
     let sink = embedded.clone();
@@ -170,39 +181,42 @@ pub fn split_since(prj: &Project, last: Option<&Project>) -> (Files, Kept) {
                 if before.get(&pg.id) == Some(&pg) {
                     kept.pages.insert(name);
                 } else {
-                    files.insert(name, line(pg));
+                    files.insert(name, line(pg)?);
                 }
                 index.pages.push(pg.id.to_string());
             }
         }
         let skip = |field: &str| (own_pages && field == PAGES) || kept.fields.contains(&field);
-        prj.serialize(Capture { skip: &skip }).unwrap_or_default()
-    });
+        prj.serialize(Capture { skip: &skip }).map_err(unwritable)
+    })?;
     project.insert("format".into(), raw(&FORMAT));
     for (field, rule) in RULES {
         let Some(raw) = project.remove(*field) else { continue };
         let folder = format!("data/{field}");
         let records = match rule {
             Rule::Map => split_map(&raw, &folder),
-            Rule::List(key) => split_list(&raw, key, &folder).map(|(mut records, order)| {
-                if !order.is_empty() {
-                    records.insert(format!("{folder}/{ORDER}.json"), line(&order));
+            Rule::List(key) => match split_list(&raw, key, &folder) {
+                Some((mut records, order)) => {
+                    if !order.is_empty() {
+                        records.insert(format!("{folder}/{ORDER}.json"), line(&order)?);
+                    }
+                    Some(records)
                 }
-                records
-            }),
+                None => None,
+            },
             Rule::Whole => None,
         };
         match records {
             Some(records) => files.extend(records),
             None => {
-                files.insert(format!("{folder}.json"), line(&raw));
+                files.insert(format!("{folder}.json"), line(&raw)?);
             }
         }
     }
     index.project = project;
-    files.insert(INDEX.into(), line(&index));
+    files.insert(INDEX.into(), line(&index)?);
     files.append(&mut embedded.borrow_mut());
-    (files, kept)
+    Ok((files, kept))
 }
 
 /// Takes the fields of the project as they are serialized, without serializing
@@ -299,9 +313,7 @@ impl<'a> Serializer for Capture<'a> {
 /// The project of the files written by [`split`].
 pub fn join(files: &Files) -> Result<(Project, Conversion), String> {
     let index: Index = parse(files, INDEX)?;
-    if index.layout > LAYOUT {
-        return Err(tr_fmt!("The project was written by a newer version (file layout {})", index.layout));
-    }
+    check_layout(index.layout)?;
     let mut project = index.project;
     if !project.contains_key(PAGES) {
         project.insert(PAGES.into(), raw(&join_list(files, PAGES, &index.pages, false)?));
@@ -338,15 +350,18 @@ pub fn join(files: &Files) -> Result<(Project, Conversion), String> {
     let embedded: Rc<RefCell<BTreeMap<String, Shared<String>>>> = Rc::default();
     let missing = Rc::new(RefCell::new(None::<String>));
     // The reader must own what it reads from: the files the project names are
-    // encoded before, found by their names in the JSON.
-    let text = serde_json::to_string(&project).unwrap_or_default();
+    // encoded before, found by their names in the JSON files.
     let named = format!("\"{FILE_REF}{EMBEDDED}");
-    for (at, _) in text.match_indices(&named) {
-        let path = text[at + 1 + FILE_REF.len()..].split('"').next().unwrap_or_default();
-        if let Some(bytes) = files.get(path).filter(|_| !embedded.borrow().contains_key(path)) {
-            embedded.borrow_mut().insert(path.to_string(), base64_encode(bytes).into());
+    for (_, content) in files.iter().filter(|(name, _)| !name.starts_with(EMBEDDED)) {
+        let Ok(text) = std::str::from_utf8(content) else { continue };
+        for (at, _) in text.match_indices(&named) {
+            let path = text[at + 1 + FILE_REF.len()..].split('"').next().unwrap_or_default();
+            if let Some(bytes) = files.get(path).filter(|_| !embedded.borrow().contains_key(path)) {
+                embedded.borrow_mut().insert(path.to_string(), base64_encode(bytes).into());
+            }
         }
     }
+    let text = serde_json::to_string(&project).map_err(unwritable)?;
     let (content, noted) = (embedded.clone(), missing.clone());
     let reader = move |stored: &str| {
         let path = stored.strip_prefix(FILE_REF)?;
@@ -362,6 +377,59 @@ pub fn join(files: &Files) -> Result<(Project, Conversion), String> {
         Some(path) => Err(missing_file(&path)),
         None => Ok((prj, conv)),
     }
+}
+
+/// The layout version of an index must be one this version knows. An index that
+/// names none was not written by [`split`].
+fn check_layout(layout: u32) -> Result<(), String> {
+    match layout {
+        0 => Err(tr_fmt!("The index of the project names no file layout: it was not written by OpenECraft")),
+        layout if layout > LAYOUT => Err(tr_fmt!("The project was written by a newer version (file layout {})", layout)),
+        _ => Ok(()),
+    }
+}
+
+/// `prj` with the content of the files `names` taken from `from`: the pages, the
+/// data of the fields stored apart and, for the index, the order of the pages and
+/// all other data. A working copy takes over what another program changed in the
+/// folder this way, also in its undo steps (`crate::history::History::rebase`).
+pub fn take_over(prj: &Project, from: &Project, names: &BTreeSet<String>) -> Project {
+    let index = names.contains(INDEX);
+    // The data without files of its own comes with the index.
+    let mut out = if index { from.clone() } else { prj.clone() };
+    let theirs = |field: &str| names.iter().any(|n| n.strip_prefix("data/").and_then(|rest| rest.strip_prefix(field)).is_some_and(|end| end == ".json" || end.starts_with('/')));
+    macro_rules! fields {
+        ($($field:ident),*) => {
+            $(match (theirs(stringify!($field)), index) {
+                (true, false) => out.$field = from.$field.clone(),
+                (false, true) => out.$field = prj.$field.clone(),
+                _ => {}
+            })*
+        };
+    }
+    fields!(
+        baselines, cables, configuration, devices, electrical, field, forms, harnesses, import_sources, languages, layout, mounting_marks, next_id, page_templates, parts, pct_loops, plc, plc_cards, plugs,
+        preplanning, property_db, report_blocks, review, revisions, strips, structures, symbols, wiring_marks
+    );
+    // The pages in the order of the side the index is from; each page from the side
+    // its file is from. A page whose file they removed is gone.
+    let foreign = |id: u64| names.contains(&format!("{PAGES}/{id}.json"));
+    let of = |side: &Project, id: u64| side.pages.iter().find(|pg| pg.id == id).cloned();
+    let mut pages: Vec<Page> = Vec::new();
+    for pg in if index { &from.pages } else { &prj.pages } {
+        let found = if foreign(pg.id) { of(from, pg.id) } else { of(prj, pg.id).or_else(|| of(from, pg.id)) };
+        pages.extend(found);
+    }
+    for (side, theirs) in [(prj, false), (from, true)] {
+        for pg in &side.pages {
+            if foreign(pg.id) == theirs && !pages.iter().any(|p| p.id == pg.id) {
+                pages.push(pg.clone());
+            }
+        }
+    }
+    out.pages = pages;
+    out.id_floor = prj.id_floor;
+    out
 }
 
 fn missing_file(path: &str) -> String {
@@ -390,10 +458,10 @@ fn raw<T: Serialize>(value: &T) -> Raw {
 }
 
 /// Content of a JSON file: one line.
-fn line<T: Serialize>(value: &T) -> Vec<u8> {
-    let mut text = serde_json::to_string(value).unwrap_or_default();
+fn line<T: Serialize>(value: &T) -> Result<Vec<u8>, String> {
+    let mut text = serde_json::to_string(value).map_err(unwritable)?;
     text.push('\n');
-    text.into_bytes()
+    Ok(text.into_bytes())
 }
 
 /// Record files of `folder` (sorted): directly in it or in one of its subfolders,
@@ -440,7 +508,7 @@ fn split_map(raw: &RawValue, folder: &str) -> Option<Files> {
     let mut files = Files::new();
     for (key, value) in entries {
         let path = record_path(folder, &file_stem(&key), true);
-        if files.insert(path, line(&BTreeMap::from([(key, value)]))).is_some() {
+        if files.insert(path, line(&BTreeMap::from([(key, value)])).ok()?).is_some() {
             return None;
         }
     }
@@ -461,7 +529,7 @@ fn split_list(raw: &RawValue, key: &str, folder: &str) -> Option<(Files, Vec<Str
             Err(_) if !value.is_empty() && value.bytes().all(|b| b.is_ascii_digit()) => value.to_string(),
             Err(_) => return None,
         };
-        if files.insert(record_path(folder, &stem, true), line(&record)).is_some() {
+        if files.insert(record_path(folder, &stem, true), line(&record).ok()?).is_some() {
             return None;
         }
         order.push(stem);

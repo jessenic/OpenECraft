@@ -1599,7 +1599,9 @@ The file is empty	Het bestand is leeg
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Het bestand is geschreven door een nieuwere versie (indeling {}): gegevens die deze versie niet kent, gaan bij het opslaan verloren
 The first column must be Key	De eerste kolom moet Key zijn
 The folder {} already holds the project {}: a split project needs a folder of its own	De map {} bevat al het project {}: een gesplitst project heeft een eigen map nodig
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	De map {} bevat bestanden die bij geen project horen ({}): een gesplitst project heeft een eigen map nodig
 The function definition needs a key and a name	De functiedefinitie heeft een sleutel en een naam nodig
+The index of the project names no file layout: it was not written by OpenECraft	De index van het project noemt geen bestandsindeling: hij is niet door OpenECraft geschreven
 The last page cannot be deleted	De laatste pagina kan niet worden verwijderd
 The macro box has no items left	Het macrokader heeft geen elementen meer
 The next free id is already in use	De volgende vrije ID is al in gebruik
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	De pagina
 The plot boundary crosses itself	De perceelgrens snijdt zichzelf
 The plot boundary encloses no area	De perceelgrens omsluit geen oppervlak
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	De perceelgrens is geen veelhoek: ze snijdt zichzelf of heeft minder dan drie hoeken
+The project cannot be written as files: {}	Het project kan niet als bestanden worden geschreven: {}
 The project file {} is missing	Het projectbestand {} ontbreekt
 The project has no panel layout	Het project heeft geen kastlay-out
 The project was written by a newer version (file layout {})	Het project is geschreven door een nieuwere versie (bestandsindeling {})

@@ -1599,7 +1599,9 @@ The file is empty	Filen er tom
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Filen er skrevet af en nyere version (format {}): data, som denne version ikke kender, går tabt ved lagring
 The first column must be Key	Den første kolonne skal være Key
 The folder {} already holds the project {}: a split project needs a folder of its own	Mappen {} indeholder allerede projektet {}: et opdelt projekt skal have sin egen mappe
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	Mappen {} indeholder filer, der ikke hører til noget projekt ({}): et opdelt projekt skal have sin egen mappe
 The function definition needs a key and a name	Funktionsdefinitionen skal have en nøgle og et navn
+The index of the project names no file layout: it was not written by OpenECraft	Projektets indeks angiver intet fillayout: det er ikke skrevet af OpenECraft
 The last page cannot be deleted	Den sidste side kan ikke slettes
 The macro box has no items left	Makroboksen har ikke flere elementer
 The next free id is already in use	Det næste ledige id er allerede i brug
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Siderne b
 The plot boundary crosses itself	Grundgrænsen krydser sig selv
 The plot boundary encloses no area	Grundgrænsen omslutter intet areal
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Grundgrænsen er ingen polygon: den krydser sig selv eller har færre end tre hjørner
+The project cannot be written as files: {}	Projektet kan ikke skrives som filer: {}
 The project file {} is missing	Projektfilen {} mangler
 The project has no panel layout	Projektet har intet tavlelayout
 The project was written by a newer version (file layout {})	Projektet er skrevet af en nyere version (fillayout {})

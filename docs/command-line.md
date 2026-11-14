@@ -42,7 +42,9 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   plant/plant.oecp` works on it like on a project file – a change rewrites only the
   files it concerns. Every file is one line of JSON and depends only on the content of
   the project, so saving an unchanged project changes nothing. A split project needs a
-  folder of its own; other files in it (a README, `.gitattributes`) are left alone.
+  folder of its own; other files in it (a README, `.gitattributes`) are left alone. A
+  folder that has no index but already holds JSON files in `pages`, `data` or `files`
+  is refused: they are someone else's and would be replaced or removed.
 - Saving a large split project costs what changed, not what the project holds: only
   the pages and data that differ from the last save are written (a project of 500
   pages and 20 000 devices saves a changed page in well under a second). A save is
@@ -51,7 +53,8 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   project is as it was before the save, or the next access finishes it.
 - **Git** needs two things for a split project. The `.gitattributes` that saving writes
   into the folder (unless there is one) keeps git from converting line ends, which
-  would change every file and damage the embedded ones. And the merge driver merges
+  would change every file and damage the embedded ones; a `.gitignore` written with it
+  leaves out the journal and the temporary files of a save in progress. And the merge driver merges
   the JSON files record by record, so that changes to different symbols of a page, or
   to different fields of one, do not conflict; set it up once per clone:
 
@@ -68,15 +71,28 @@ openecraft-cli --project drawing.oec import_eplan_symbols --path Beckhoff --part
   up the driver.
 - **Ids of new objects.** Every copy of a split project starts the ids of its new
   objects at a random place above the ids in use, so that two people who add objects
-  on their branches do not give them the same ids (the chance is about 1 in 30 000
-  for two copies edited at the same time; ids therefore grow in steps). Should it
-  happen, `openecraft-cli -p plant/plant.oecp check_project_data` reports ids used
-  more than once and `--repair` renumbers them: run it after a merge.
+  on their branches do not give them the same ids (ids therefore grow in steps, by up
+  to 67 million per editing session that adds objects). This is a safeguard with
+  limits, not a guarantee:
+  - The chance of about 1 in 30 000 for two copies edited at the same time holds while
+    each adds fewer than 1 024 objects. A session that imports a large macro or copies
+    many pages spans many of the places ids start at: two copies that each add about
+    50 000 objects meet roughly 1 time in 650.
+  - `openecraft-cli -p plant/plant.oecp check_project_data` reports ids used more than
+    once and `--repair` renumbers them: run it after a merge. A reference to such an id
+    (a connection to an object) cannot tell which of the two objects it meant and may
+    end up on the wrong one, so look at what the repair names.
+  - Only the session that edits a project starts its ids anew; reading one (the
+    comparison, a template, the project database) does not, and a project made from a
+    template counts on.
 - **Changes of another program while the project is open** (a `git pull`, a second
   editor): saving writes only the files this side changed and keeps the others; the
   editor and an MCP session then read the project again, so that it shows both. A
   file changed on both sides is not overwritten: the save fails and names the files.
-  Save under another name, or open the project again and repeat the changes.
+  Save under another name, or open the project again and repeat the changes. The
+  editor keeps the undo steps (undo does not take back what the other program
+  changed) and remembers the files between runs, so a pull made while it was closed
+  is treated the same way.
 - Parameters are `--name value` (also `--name=value`, or all at once with `--json '{…}'`);
   lists as `--ids 3,4` and points as `--points "0,0 40,0"`; lists of codes, tags or
   languages are separated by commas or blanks. Values outside their range are refused

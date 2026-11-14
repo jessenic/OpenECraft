@@ -1599,7 +1599,9 @@ The file is empty	Fișierul este gol
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Fișierul a fost scris de o versiune mai nouă (format {}): datele pe care această versiune nu le cunoaște se pierd la salvare
 The first column must be Key	Prima coloană trebuie să fie Key
 The folder {} already holds the project {}: a split project needs a folder of its own	Dosarul {} conține deja proiectul {}: un proiect divizat are nevoie de un dosar propriu
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	Dosarul {} conține fișiere care nu aparțin niciunui proiect ({}): un proiect divizat are nevoie de un dosar propriu
 The function definition needs a key and a name	Definiția de funcție necesită o cheie și un nume
+The index of the project names no file layout: it was not written by OpenECraft	Indexul proiectului nu indică nicio structură a fișierelor: nu a fost scris de OpenECraft
 The last page cannot be deleted	Ultima pagină nu poate fi ștearsă
 The macro box has no items left	Caseta macro nu mai are elemente
 The next free id is already in use	Următorul ID liber este deja utilizat
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Paginile 
 The plot boundary crosses itself	Limita terenului se intersectează cu ea însăși
 The plot boundary encloses no area	Limita terenului nu înconjoară nicio suprafață
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Limita terenului nu este un poligon: se intersectează sau are mai puțin de trei colțuri
+The project cannot be written as files: {}	Proiectul nu poate fi scris ca fișiere: {}
 The project file {} is missing	Fișierul de proiect {} lipsește
 The project has no panel layout	Proiectul nu are amplasare în tablou
 The project was written by a newer version (file layout {})	Proiectul a fost scris de o versiune mai nouă (structura fișierelor {})

@@ -62,7 +62,9 @@ impl Session {
 
     /// Replaces the project. `path` is the file it was read from (counts as saved).
     pub fn replace(&mut self, prj: Project, path: Option<PathBuf>) {
-        let tracked = path.as_deref().filter(|p| folder::is_index(p)).and_then(|p| folder::track(p).ok());
+        // Not read from that folder: nothing is known of its files, so a save
+        // replaces none that differs from the project.
+        let tracked = path.as_deref().filter(|p| folder::is_index(p)).map(folder::Tracked::unknown);
         self.replace_tracked(prj, path, tracked);
     }
 
@@ -116,15 +118,18 @@ impl Session {
         let saved = folder::save_tracked(&path, prj, &mut self.tracked)?;
         if saved.foreign > 0 {
             // Another program changed files of the folder meanwhile (git): they were
-            // kept, the project is read again with them.
-            let (prj, _, tracked) = folder::open_tracked(&path)?;
-            self.replace_tracked(prj, Some(path.clone()), Some(tracked));
-        } else {
-            let prj = self.project_mut()?;
-            prj.scatter_ids();
-            self.saved = self.project.clone();
-            self.path = Some(path.clone());
+            // kept and are taken over into the project and its undo steps, which
+            // must not take back the changes of others.
+            let names = self.tracked.as_ref().map(|t| t.foreign().clone()).unwrap_or_default();
+            let (disk, _, tracked) = folder::open_tracked(&path)?;
+            if let (Some(history), Some(prj)) = (&mut self.history, &mut self.project) {
+                history.rebase(prj, |p| openecraft_core::storage::take_over(p, &disk, &names));
+            }
+            self.tracked = Some(tracked);
         }
+        self.project_mut()?.scatter_ids();
+        self.saved = self.project.clone();
+        self.path = Some(path.clone());
         Ok(path)
     }
 

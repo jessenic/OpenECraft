@@ -1599,7 +1599,9 @@ The file is empty	Soubor je prázdný
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Soubor byl zapsán novější verzí (formát {}): data, která tato verze nezná, se při uložení ztratí
 The first column must be Key	První sloupec musí být Key
 The folder {} already holds the project {}: a split project needs a folder of its own	Složka {} již obsahuje projekt {}: rozdělený projekt potřebuje vlastní složku
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	Složka {} obsahuje soubory, které nepatří k žádnému projektu ({}): rozdělený projekt potřebuje vlastní složku
 The function definition needs a key and a name	Definice funkce potřebuje klíč a název
+The index of the project names no file layout: it was not written by OpenECraft	Index projektu neuvádí rozložení souborů: nebyl zapsán aplikací OpenECraft
 The last page cannot be deleted	Poslední stránku nelze odstranit
 The macro box has no items left	V rámečku makra nezůstaly žádné prvky
 The next free id is already in use	Další volné ID je již použito
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Stránky 
 The plot boundary crosses itself	Hranice pozemku protíná sama sebe
 The plot boundary encloses no area	Hranice pozemku neohraničuje žádnou plochu
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Hranice pozemku není mnohoúhelník: protíná sama sebe nebo má méně než tři rohy
+The project cannot be written as files: {}	Projekt nelze zapsat jako soubory: {}
 The project file {} is missing	Soubor projektu {} chybí
 The project has no panel layout	Projekt nemá rozvržení rozváděče
 The project was written by a newer version (file layout {})	Projekt byl zapsán novější verzí (rozložení souborů {})

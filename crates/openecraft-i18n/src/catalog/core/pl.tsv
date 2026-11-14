@@ -1599,7 +1599,9 @@ The file is empty	Plik jest pusty
 The file was written by a newer version (format {}): data this version does not know is lost when saving	Plik został zapisany przez nowszą wersję (format {}): dane nieznane tej wersji zostaną utracone podczas zapisywania
 The first column must be Key	Pierwsza kolumna musi być Key
 The folder {} already holds the project {}: a split project needs a folder of its own	Folder {} zawiera już projekt {}: projekt podzielony wymaga własnego folderu
+The folder {} holds files that belong to no project ({}): a split project needs a folder of its own	Folder {} zawiera pliki, które nie należą do żadnego projektu ({}): projekt podzielony wymaga własnego folderu
 The function definition needs a key and a name	Definicja funkcji wymaga klucza i nazwy
+The index of the project names no file layout: it was not written by OpenECraft	Indeks projektu nie podaje układu plików: nie został zapisany przez OpenECraft
 The last page cannot be deleted	Nie można usunąć ostatniej strony
 The macro box has no items left	Ramka makra nie zawiera już żadnych elementów
 The next free id is already in use	Następny wolny identyfikator jest już zajęty
@@ -1609,6 +1611,7 @@ The pages were changed after the submission; submit the revision again	Strony zo
 The plot boundary crosses itself	Granica działki przecina samą siebie
 The plot boundary encloses no area	Granica działki nie obejmuje żadnej powierzchni
 The plot boundary is no polygon: it crosses itself or has fewer than three corners	Granica działki nie jest wielokątem: przecina samą siebie lub ma mniej niż trzy narożniki
+The project cannot be written as files: {}	Projektu nie można zapisać jako plików: {}
 The project file {} is missing	Brak pliku projektu {}
 The project has no panel layout	Projekt nie ma zabudowy szafy
 The project was written by a newer version (file layout {})	Projekt został zapisany przez nowszą wersję (układ plików {})
